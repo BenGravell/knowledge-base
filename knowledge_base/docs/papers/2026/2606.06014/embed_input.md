@@ -1,7 +1,335 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 PLAN-S: Bridging Planning with Latent Style Dynamics for Autonomous Driving World Models
 
 Topics include Autonomous driving, World models, Motion planning, Latent dynamics, Driving style, Cost maps, Trajectory planning, End-to-end driving.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Adds a planner-facing bridge between latent autonomous-driving world models and trajectory selection by decoding style-conditioned semantic cost maps. PLAN-S is useful because it makes risk, drivability, and driving-style preferences explicit enough to inspect and modulate, while still plugging into frozen learned planning hosts.
 
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 Latent world models (LWMs) have strengthened end-to-end autonomous driving by forecasting compact scene dynamics for downstream planning. However, existing LWM-based planners usually generate trajectories directly from entangled latent representations. This compact latent-to-planner pathway lacks explicit modeling of risk, drivability, and diverse style preferences, making driving-style dynamics difficult to supervise, inspect, or modulate before a final trajectory is selected. We propose PLAN-S (PLANning with latent Style dynamics), a planner-facing bridge that addresses this compactness-controllability dilemma by decoding a style-conditioned, four-channel semantic cost map from the latent representation. The cost map is conditioned on ego state and driving style and is consumed up-stream of the planning decision through two host-side interfaces: attention-level fusion for regression planners and reward-level fusion for anchor-score planners. We validate PLAN-S on two architecturally distinct hosts, ResWorld on nuScenes and WoTE on NAVSIM, while keeping the host backbones frozen to isolate the contribution of the proposed bridge.
+
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+On nuScenes, PLAN-S reduces L2 at every horizon over the baseline, with 0.55 m average L2 and a 42% relative reduction in the 3 s collision rate. On NAVSIM, the rule-cost variant reaches 89.4 Predictive Driver Model Score (PDMS), while the learned cost variant provides complementary gains on baseline-challenging scenes. Ablations show that the cost pathway contributes most directly to safer trajectory selection. Qualitative results further show that PLAN-S can produce diverse cost maps, with spatially consistent variations aligned to different driving styles.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Recent advances in end-to-end (E2E) autonomous driving have demonstrated the potential of learning unified representations that directly connect sensor observations with driving decisions. Along this line, latent world models (LWMs) further extend this paradigm from direct decision learning to latent dynamics modeling, where compact latent representations are forecast to capture future scene evolution. By learning planning policies directly on these latent representations, LWM-based planners have demonstrated strong planning capabilities in autonomous driving.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Despite providing a compact and effective pathway, the latent-to-planner paradigm still lacks explicit modeling of key driving properties, including risk, drivability, and diverse style preferences. Existing LWM-based planners, including regression-based methods and anchor-score-based methods, usually generate continuous or discrete trajectories directly from entangled latent representations, where scene dynamics and driving-style dynamics are implicitly coupled. This implicit coupling makes driving-style dynamics difficult to supervise, inspect, or modulate before committing to a final trajectory.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this paper, we aim to address the compactness-controllability dilemma by explicitly modeling style dynamics on latent representations. We argue that effective latent style dynamics should satisfy three key properties. First, the latent space should be explicitly controllable, allowing risk-, drivability-, and route-related preferences to be supervised, visualized, and ablated. Second, the latent style dynamics should be planning-oriented, where latent representations are organized as spatial costs rather than optimized for scene reconstruction. Third, it should be portable across different families of LWM-based planners, as decoding heads from different paradigms, such as regression-based and anchor-score-based approaches, introduce distinct decision policies through different head couplings.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We therefore propose PLAN-S (PLANning with latent Style dynamics), a planner-facing bridge between the latent representation and the planning head, as illustrated in Fig. 1. PLAN-S explicitly models latent style dynamics as a four-channel semantic cost map, covering dynamic obstacles, off-road regions, static obstacles, and drivability. The cost map is conditioned on the instantaneous ego state and a driving-style code through a dual adaptive feature-wise linear modulation (dual AdaFiLM) mechanism inspired by feature-wise linear modulation (FiLM). This design couples scene-level risk with driver-level intent before the final planning decision. It also keeps the intermediate representation inspectable and planning-oriented, rather than treating style as a post hoc adjustment to the output trajectory.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To support different LWM-based planners, PLAN-S exposes two host-side interfaces over the same cost-map contract. For regression planners, the cost map is injected through attention-level fusion, where it biases waypoint queries and guides spatial refinement. For anchor-score planners, the same cost map is injected through reward-level fusion, where sampled costs along candidate anchors adjust the native anchor scores. Both interfaces use the cost map before the final trajectory is selected, but they respect the decision form of each planner family. This makes the proposed latent style dynamics portable across regression-based and anchor-score-based planners.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We validate this design on two architecturally distinct hosts: ResWorld with nuScenes for the regression case and WoTE with NAVSIM for the anchor-score case. Both instantiations leave the host backbone unchanged and use no weight sharing across hosts. This isolates the effect of the proposed latent style dynamics.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We introduce a four-channel semantic cost map that explicitly models risk, drivability, and route-related preferences as planning-oriented latent style dynamics.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We instantiate the same cost-map contract in regression-based and anchor-score-based LWM planners through attention-level fusion and reward-level fusion, without modifying the host backbone.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We condition the planner-facing intermediate on ego state and driving style through separate AdaFiLM pathways, enabling style-dependent cost-map modulation before final trajectory selection.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "II-A Latent World Models in E2E Autonomous Driving", "weight": 1.0} -->
+
+Latent world models compress the driving scene into a compact feature space for predicting future scene evolution and supporting downstream planning. In E2E autonomous driving, this latent feature can be organized in different forms, including tokenized visual latents, occupancy latents, and bird's-eye-view (BEV) latents. MILE learns a discrete latent dynamics model via a vector-quantized variational autoencoder (VQ-VAE) for imagination-based planning, establishing that world-model rollouts in a compact latent can replace explicit perception-then-prediction pipelines. OccWorld autoregresses 3D occupancy tokens via a generative pre-trained transformer (GPT)-style generator. DriveWorld couples a state-space memory with a dynamic memory bank to forecast 4D scene state. BEVWorld predicts future BEV latents via a latent sequence diffusion model conditioned on action tokens, avoiding autoregressive error accumulation. ResWorld models the residual between successive BEV states and refines candidate trajectories against the predicted future BEV using a transformer over sparse scene queries.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "II-A Latent World Models in E2E Autonomous Driving", "weight": 1.0} -->
+
+WoTE rolls anchor-conditioned future BEV latents for each candidate trajectory and scores them with a learned reward model combining imitation and simulation rewards. Beyond BEV-anchored models, GAIA-1 generates future driving scenes autoregressively in a tokenized video latent space, and DriveWM forecasts multiview images and uses the predicted futures to guide planning.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "II-A Latent World Models in E2E Autonomous Driving", "weight": 1.0} -->
+
+Among these latent forms, BEV has become a common choice for E2E autonomous driving models because it preserves metric spatial layout in a top-down view. The lift-splat formulation of LSS, followed by BEVFormer and BEVDepth, shows how multi-camera observations can be transformed into a spatial grid where lanes, agents, and drivable regions are geometrically aligned. These spatial latents provide a suitable basis for further planning-oriented modeling, especially when the goal is to preserve spatial awareness while keeping the representation compact.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-A Latent World Models in E2E Autonomous Driving", "weight": 1.0} -->
+
+However, existing BEV-latent planners usually consume the latent as an implicit feature tensor, so the spatial information is not explicitly represented as planner-facing risk, drivability, or preference semantics. They also rarely model driving style within this spatial intermediate, leaving style-dependent planning preferences difficult to supervise, inspect, or modulate before trajectory selection.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "II-B Planning-Oriented Autonomous Driving and Cost/Reward-Guided Planning", "weight": 1.0} -->
+
+Modern E2E planners can be broadly divided into regression-based planners and anchor-score planners according to the form of the planning output. Regression-based planners directly generate continuous trajectories from BEV-conditioned queries or latent features, whereas anchor-score planners restrict the action space to a discrete set of trajectory anchors and select among them by scoring candidates. Representative regression-based methods include UniAD and VAD, which use transformer decoders with command-conditioned planning queries; TCP, which combines trajectory prediction with direct control prediction; GenAD and GoalFlow, which formulate trajectory generation through generative modeling and flow matching; SparseDrive, which uses sparse scene representations with parallel task heads; and ResWorld, which refines waypoint queries against predicted future BEV features. Representative anchor-score methods include Hydra-MDP, which learns multi-head trajectory scoring with rule-based rewards; DiffusionDrive, which refines anchor-initialized trajectories through truncated diffusion; and WoTE, which scores anchors by rolling future BEV latents and evaluating them with a learned reward model.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "II-B Planning-Oriented Autonomous Driving and Cost/Reward-Guided Planning", "weight": 1.0} -->
+
+This anchor-score paradigm is also well aligned with closed-loop benchmarks such as NAVSIM and the Predictive Driver Model (PDM) family of planners.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "II-B Planning-Oriented Autonomous Driving and Cost/Reward-Guided Planning", "weight": 1.0} -->
+
+Cost and reward signals have been introduced into both planning paradigms to make trajectory selection more planning-aware. Occupancy prediction provides spatial cues by forecasting where agents or obstacles may appear, as in UniAD and OccWorld, but it remains primarily a perception-side prediction target. Planning-side cost and reward formulations more directly assign desirability to candidate actions. MP3 plans over a learned cost function derived from predicted occupancy and flow, NMP predicts a learned cost volume and scores trajectories with a max-margin objective, and ST-P3 combines hand-crafted costs from BEV segmentation with a learned cost for candidate trajectory selection. In anchor-score frameworks, rule-based rewards and learned score functions play a similar role by mapping scene features to per-anchor desirability.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "II-B Planning-Oriented Autonomous Driving and Cost/Reward-Guided Planning", "weight": 1.0} -->
+
+These methods demonstrate that cost and reward cues are useful for planning, but their spatial representations are usually co-designed with a specific planner family and a specific consumption mechanism. As a result, existing planning-oriented methods still lack a cross-family, explicit spatial representation that can serve as a common interface for both regression-based and anchor-score LWM planners.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "II-C Style-Aware and Personalized Driving", "weight": 1.0} -->
+
+Driving style and personalization in autonomous driving have received growing attention. StyleDrive contributes a large-scale real-world dataset with aggressive, normal, and conservative labels and proposes the style-matching Predictive Driver Model Score (SM-PDMS) metric; rather than introducing a new architecture, it evaluates simple style-conditioned variants of existing E2E autonomous driving models. *Driving with a Thousand Faces* introduces a personalized E2E autonomous driving benchmark together with a style-reward-model-based lightweight fine-tuning framework that adapts a base planner to individual driving preferences. *Drive My Way* conditions a vision-language-action policy on learned user embeddings derived from a personalized driving dataset and applies reinforcement fine-tuning with weighted safety/comfort/efficiency rewards to adapt to natural-language style instructions. Earlier variational autoencoder (VAE)-based methods infer latent style vectors of surrounding drivers from observed trajectories in an unsupervised manner and feed these vectors into the state representation of the reinforcement learning (RL) policy, enabling the ego vehicle to condition decisions on the inferred styles of other traffic participants.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "II-C Style-Aware and Personalized Driving", "weight": 1.0} -->
+
+Anchor-based planners such as *DiffusionDrive* and VADv2 partition the trajectory space via pre-clustered anchors, but anchor membership is learned from aggregated demonstrations without an explicit style-control channel. Diversity therefore emerges from the anchor distribution rather than from user-specified intent.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "II-C Style-Aware and Personalized Driving", "weight": 1.0} -->
+
+Across this body of work, style information is mainly applied at the output stage through trajectory selection, reward weighting, or final policy conditioning. This makes it difficult to inspect how style changes planning-relevant spatial semantics before the final decision is made.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Methodology", "weight": 1.0} -->
+
+As illustrated in Fig. 1, our framework inserts a style-conditioned cost-map interface between the BEV latent representation and the planning head. The shared decoder converts the implicit BEV latent into a four-channel semantic cost map that explicitly represents dynamic obstacles, off-road regions, static obstacles, and drivability. This cost map is conditioned on ego state and driving style, so style-dependent planning preferences are encoded before trajectory selection. To support different planner families, the same cost-map representation is coupled to regression planners through attention-level fusion and to anchor-score planners through reward-level fusion, while the host backbone remains unchanged.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-A Problem Formulation and Interface Design", "weight": 1.0} -->
+
+Let $F \in {\mathbb{R}}^{C \times H \times W}$ denote the BEV latent feature produced by an LWM backbone at a given timestep, where $C$ is the channel dimension and $H \times W$ is the spatial extent of the BEV grid. Let $\tau = {\{{(x_{t},y_{t})}\}}_{t = 1}^{T}$ denote the ego trajectory over a planning horizon of $T$ waypoints, $e \in {\mathbb{R}}^{d_{e}}$ the instantaneous ego state (velocity, yaw rate, acceleration), $s \in {\mathbb{R}}^{d_{s}}$ the driving-style code, and $cmd$ the high-level navigation command.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-A Problem Formulation and Interface Design", "weight": 1.0} -->
+
+where $K$ denotes the number of semantic cost channels, set to $K = 4$ in our implementation. A host-specific interface ${\overset{\sim}{\pi}}_{\theta}$ then consumes both $F$ and $M$: $\tau = {{\overset{\sim}{\pi}}_{\theta}{(F,M,e,{cmd})}}$. In this work, "pluggability" means that the same cost-map module $\mathcal{C}$ exposes a shared input--output contract across hosts and can be coupled to different planner families without altering the host perception backbone. The wrapper ${\overset{\sim}{\pi}}_{\theta}$ may remain host-specific, and different instantiations may use independent training, different spatial resolutions, and different auxiliary supervision, provided that the cost-map representation retains the same channel semantics.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-A Problem Formulation and Interface Design", "weight": 1.0} -->
+
+The module exposes a minimal interface to each host. The input consists of a BEV feature map $F$, an ego state vector $e$, and a driving-style code $s$. The output is a four-channel cost map $M \in {\mathbb{R}}^{K \times H \times W}$ aligned to the BEV grid of the host, together with a per-channel logit map $\hat{M}$ for supervision. The supervised loss $\mathcal{L}_{cost}$ is an optional training signal that can be warmed up independently of the planning loss of the host. Hosts may differ in BEV resolution, auxiliary target construction, and consumption mechanism; the invariant component is the four-channel semantic contract of $M$.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "III-B Style-Conditioned Cost-Map Decoder", "weight": 1.0} -->
+
+The shared module comprises three components: a driving-style encoder, a dual AdaFiLM modulation stage, and a four-channel cost decoder. The same module design is used for both regression-planner and anchor-score-planner instantiations, while feature dimensions and grid size are matched to the native BEV representation of each host.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "III-B1 Driving Style Encoder", "weight": 1.0} -->
+
+The interface only requires a driving-style code $s$; its encoder can be matched to the data protocol and host planner without changing the subsequent cost-map decoder. For the regression-planner instantiation, $s$ is derived from an ego kinematic history ${\{ u_{t - l}\}}_{l = 0}^{L - 1}$ by a compact recurrent encoder, where $u_{t - l} = {(x_{t - l},y_{t - l},\psi_{t - l},v_{t - l},a_{t - l})}$ contains position, heading, speed, and acceleration: $s = {{GRU}{({\{ u_{t - l}\}}_{l = 0}^{L - 1})}} \in {\mathbb{R}}^{d_{s}}$, with GRU denoting gated recurrent unit. We use a 64-dimensional continuous embedding to preserve richer temporal preference information for trajectory regression.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "III-B1 Driving Style Encoder", "weight": 1.0} -->
+
+For the anchor-score-planner instantiation, we use a deterministic two-dimensional style score $s \in {\lbrack 0,1\rbrack}^{2}$ derived from ego kinematics, with the two dimensions corresponding to longitudinal and lateral aggressiveness. Both representations are mapped to the same subsequent modulation stage, so the instantiation-specific encoder affects only how the style code is obtained, not the semantic contract of the cost map.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "III-B2 Dual AdaFiLM Modulation", "weight": 1.0} -->
+
+Classical FiLM modulates feature maps via an affine transformation $(\gamma,\beta)$ predicted from a conditioning signal. Dual AdaFiLM extends this with a channel-split design. The motivation is that the two conditioning signals differ in nature: the style code $s$ is internal and preference-like, whereas the ego state $e$ is an observed vehicle state. Mixing them under a single affine map can entangle the two effects and make style-specific behavior harder to inspect.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "III-B2 Dual AdaFiLM Modulation", "weight": 1.0} -->
+
+where $F_{c}$ and ${\overset{\sim}{F}}_{c}$ are the $c$-th input and modulated BEV feature channels. The per-channel affine parameters $(\gamma_{s},\beta_{s})$ and $(\gamma_{e},\beta_{e})$ are produced by two independent two-layer multilayer perceptrons (MLPs) and broadcast over the spatial dimensions. The partition is fixed and non-learned; all channel mixing occurs in the subsequent decoder, which is free to recombine the two groups. This design encourages separation between style-driven and ego-state-driven modulation at the point of conditioning while still permitting flexible downstream fusion.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "III-B3 Four-Channel Semantic Cost Decoder", "weight": 1.0} -->
+
+The modulated BEV feature $\overset{\sim}{F}$ is decoded by a lightweight convolutional head into a four-channel cost map $M$. The four channels decompose planning-relevant information per cell: a *dynamic* channel for moving agents (vehicles, pedestrians, cyclists), an *off-road* channel for regions outside the legal drivable surface, a *static* channel for stationary obstacles (barriers, curbs, cones), and a *drivability* channel that encodes a positive (inverse-cost) signal for preferred lanes and route-aligned cells. This channel design separates hazards that should generally be avoided from route-aligned cells that should be rewarded, making the downstream fusion weights physically interpretable.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "III-B3 Four-Channel Semantic Cost Decoder", "weight": 1.0} -->
+
+where $\sigma{( \cdot )}$ is the sigmoid function, $\hat{M}$ denotes the pre-sigmoid logits of the cost map, $M^{gt}$ is the channel-wise supervision target, and ${BCE}{( \cdot, \cdot )}$ is averaged over BEV cells. The construction of $M^{gt}$ is host-dependent because different planners expose different map annotations, semantic outputs, and BEV resolutions. This loss is therefore used as an auxiliary interface for learning a spatially coherent cost map, while the planning objective remains responsible for optimizing the final trajectory decision.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "III-C1 Attention-Level Coupling with Regression Planners", "weight": 1.0} -->
+
+Regression-based planners refine a set of waypoint queries $Q \in {\mathbb{R}}^{T \times d}$ through iterative attention over the BEV latent. Our coupling introduces two insertion points for this planner family.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "III-C1 Attention-Level Coupling with Regression Planners", "weight": 1.0} -->
+
+The *upstream* interface performs cost-conditioned prior fusion.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "III-C1 Attention-Level Coupling with Regression Planners", "weight": 1.0} -->
+
+where $\phi_{M}$ is a linear projection that maps flattened cost-map tokens to the query dimension and $PE$ denotes positional encoding on the BEV grid. The resulting cost-conditioned prior $Q^{\prime}$ initializes the deformable refinement stack. This ensures that the initial trajectory hypothesis is already informed by the spatial structure of the cost map, so the cost map serves not merely as a re-scoring mechanism but directly shapes the prior that the planner will subsequently refine.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "III-C1 Attention-Level Coupling with Regression Planners", "weight": 1.0} -->
+
+The *downstream* interface performs cost-guided deformable attention. The deformable attention operator is augmented with a per-head gate $g \in {\lbrack 0,1\rbrack}^{H_{a}}$, where $H_{a}$ is the number of attention heads. Each head $h$ is assigned a primary cost channel $k{(h)}$, and the contribution to the residual update is scaled by ${g_{h} \cdot \sigma}{({\hat{M}}_{k{(h)}})}$ at the sampled location, turning the cost map into a spatial attenuator for the refinement signal.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "III-C2 Reward-Level Coupling with Anchor-Score Planners", "weight": 1.0} -->
+
+Anchor-score planners evaluate a discrete anchor set $\mathcal{A}$ by assigning a reward or score to each candidate trajectory $\tau^{(a)} \in \mathcal{A}$. This is the native decision mechanism of this planner family, and we use it without modifying the host planner.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "III-C2 Reward-Level Coupling with Anchor-Score Planners", "weight": 1.0} -->
+
+where ${\hat{M}}_{k}{(\tau_{t}^{(a)})}$ is obtained by bilinear sampling at waypoint $\tau_{t}^{(a)}$, $w_{k} = {+ 1}$ for the three obstacle channels (dynamic, off-road, static), and $w_{k} = {- 1}$ for the drivability channel, so that high drivability reduces the anchor penalty. This produces a scalar per-anchor cost $c^{(a)}$ for all ${|\mathcal{A}|} = 256$ anchors through batched bilinear sampling.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "III-C2 Reward-Level Coupling with Anchor-Score Planners", "weight": 1.0} -->
+
+where $\lambda_{cost}$ is a scalar fusion weight. The added term is non-positive and monotonically decreases as the sampled cost increases, so it acts as a cost-dependent penalty on the native anchor reward. In implementation, the logarithm is evaluated with a small numerical clamp to avoid the singular point when $\sigma{(c^{(a)})}$ approaches one. This formulation is compatible with the probabilistic composition of the existing reward and remains stable in the low-cost regime. It provides a conservative way to insert a spatial prior into an existing anchor scorer. The future latent decoder, semantic head, and anchor vocabulary of the host remain unmodified; PLAN-S contributes only the shared cost-map decoder and the scoring and fusion interfaces described above.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "III-C3 Analysis of the Two Interfaces", "weight": 1.0} -->
+
+The two interfaces target different planner families but follow the same design principle: the cost map is introduced before the planner finalizes its decision variable and is then used again to refine that decision with spatial evidence. In regression planners, the decision variable is the waypoint query; in anchor-score planners, it is the score assigned to each trajectory anchor. This correspondence yields a consistent prior-plus-refinement pattern across both families. The explicit four-channel cost map also makes the inserted spatial evidence inspectable: each channel has a defined semantic role, and each fusion step can be traced to locations and channels on the BEV grid. The design therefore turns an otherwise compact latent-to-planner pathway into a planner-facing representation that is more explicit, reusable, and easier to interpret across different planning heads.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+This section evaluates PLAN-S on two standard autonomous driving benchmarks and examines its planning performance. We begin by summarizing the datasets, metrics, baselines, and implementation details in Sec. IV-A. We then report the main results and ablation studies for the regression-planner instantiation on nuScenes in Sec. IV-B, followed by the anchor-score instantiation on NAVSIM in Sec. IV-C. The section concludes with qualitative analysis of the learned cost maps and style-conditioned behavior in Sec. IV-D.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "IV-A Experimental Setup", "weight": 1.0} -->
+
+Datasets and metrics. We evaluate PLAN-S on two benchmarks matched to the two planner families studied in this paper. The ResWorld instantiation is evaluated on nuScenes, the standard open-loop benchmark for E2E autonomous driving planning with camera and multi-modal inputs, to validate the regression-planner interface. We follow the official training and validation splits (700 and 150 scenes) and report L2 displacement error and collision rate at 1 s, 2 s, and 3 s horizons. The WoTE instantiation is evaluated on NAVSIM, a closed-loop reactive-simulation benchmark built on nuPlan scenes, to validate the anchor-score interface. We use navtrain for training and navtest for evaluation, and report the Predictive Driver Model Score (PDMS), which multiplicatively aggregates No-Collision (NC), Drivable-Area Compliance (DAC), Time-to-Collision (TTC), Comfort (Cmf), and Ego-Progress (EP).
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "IV-A Experimental Setup", "weight": 1.0} -->
+
+We do not force both hosts into both open-loop and closed-loop protocols because the two benchmarks expose different native planner interfaces, annotations, and evaluation contracts; using each host in its standard protocol provides the cleanest controlled test of the corresponding coupling interface.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "IV-A Experimental Setup", "weight": 1.0} -->
+
+Det&amp;Track&amp;Map&amp;Motion&amp;Occ
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "IV-A Experimental Setup", "weight": 1.0} -->
+
+Det&amp;Map&amp;Occ
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "IV-A Experimental Setup", "weight": 1.0} -->
+
+Det&amp;Track&amp;Map&amp;Motion&amp;Occ
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "IV-A Experimental Setup", "weight": 1.0} -->
+
+Det&amp;Map&amp;Motion
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "IV-A Experimental Setup", "weight": 1.0} -->
+
+Baselines. On nuScenes, we compare with explicit-intermediate methods (ST-P3, UniAD, OccNet, PARA-Drive ), structured or generative regression planners (GenAD, SSR ), and the LWM regression host ResWorld. On NAVSIM, we compare with representative E2E planners (VADv2, UniAD, LTF, PARA-Drive, LAW, TransFuser, DRAMA ) and anchor-score or reward-guided planners (DiffusionDrive, Hydra-MDP, WoTE ). ResWorld and WoTE are the direct hosts and are reproduced for controlled comparisons; the other methods provide benchmark context.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "IV-A Experimental Setup", "weight": 1.0} -->
+
+Implementation. Both instantiations are implemented in PyTorch, trained on $8 \times$ NVIDIA H100 graphics processing units (GPUs), and keep the host backbones frozen. The cost-map grids follow the native BEV resolutions of the hosts, namely $200 \times 200$ for ResWorld and $64 \times 64$ for WoTE. During training, style dropout replaces $s$ with the corresponding neutral style code with probability $p_{drop} = 0.1$. The two instantiations are trained independently without weight transfer.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "IV-A Experimental Setup", "weight": 1.0} -->
+
+For the regression-planner instantiation, we use the GeoBEV backbone of ResWorld and train the added modules for 18 epochs with a batch size of 16. We use AdamW with an initial learning rate of $1 \times 10^{- 4}$ and a weight decay of $0.01$. The optimization combines the cost-map loss $\mathcal{L}_{cost}$ and the planning loss $\mathcal{L}_{plan}$. The cost-map target $M^{gt}$ is pre-computed offline from nuScenes high-definition (HD) map and annotation data. The dynamic and static channels are rasterized from agent bounding boxes partitioned by motion status, the off-road channel is derived from the complement of the annotated drivable area, and the drivability channel is derived from route-aligned lane polygons. All targets are projected into the host BEV coordinate frame before training.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "IV-A Experimental Setup", "weight": 1.0} -->
+
+For the anchor-score instantiation, we use the TransFuser backbone and train the added modules for 30 epochs with a batch size of 64. We use AdamW with an initial learning rate of $1 \times 10^{- 4}$ and a weight decay of $1 \times 10^{- 4}$. The optimization combines the cost-map BCE loss and the anchor-planning loss over the fused reward. Since dense cost-map ground truth is unavailable at the target resolution, $M^{gt}$ is constructed online from the semantic mask predicted by the frozen WoTE semantic head through Gaussian smoothing. This auxiliary target regularizes the learned cost map toward the spatial semantics of the host, and its empirical effect is analyzed in Sec. IV-C.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "IV-B Regression-Planner Results on nuScenes", "weight": 1.0} -->
+
+\(1\) Main results. Table I reports the main regression-planner results on the nuScenes val split. Compared with the ResWorld$\diamondsuit$ baseline, PLAN-S reduces L2 at all horizons and lowers the average L2 from $0.59$ m to $0.55$ m. The larger change appears in collision rate (CR). CR@3s decreases from $0.43\%$ to $0.25\%$, and CR Avg decreases from $0.17\%$ to $0.11\%$. This pattern is consistent with the role of the cost map. L2 mainly rewards proximity to the logged ego trajectory, so it is less sensitive to spatial risk when the predicted trajectory remains close to the human-driven path. CR is more sensitive to risky tail cases. The explicit cost map gives the planner a spatial penalty in these cases before the final trajectory is selected.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "IV-B Regression-Planner Results on nuScenes", "weight": 1.0} -->
+
+\(2\) Ablation study. The ablation study separates the cost-map module from the planner-coupling interface. Table II tests the cost-map module and dual AdaFiLM conditioning. Table III tests upstream prior-cost fusion and downstream cost-gated refinement. All variants follow the same evaluation protocol as the main results.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "IV-B Regression-Planner Results on nuScenes", "weight": 1.0} -->
+
+Module ablation (part a). Table II shows the effect of each added component. Without the cost-map module, $M_{1}$ obtains $0.551$ m L2 Avg and $0.157\%$ CR Avg. Adding the cost map without AdaFiLM reduces CR Avg to $0.137\%$. The full model further reduces it to $0.111\%$. The L2 changes are much smaller, from $0.551$ m to $0.545$ m. Thus, the cost-map module mainly affects collision reduction rather than average trajectory displacement. AdaFiLM gives an additional CR gain in this table, and its main role is to make the cost map style-conditioned, which is examined qualitatively in Sec. IV-D.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "IV-B Regression-Planner Results on nuScenes", "weight": 1.0} -->
+
+Coupling-interface ablation (part b). Table III shows that neither interface alone matches the full design. Downstream-only refinement gives the best L2 Avg ($0.541$ m), but its CR Avg remains $0.137\%$. Upstream-only fusion gives $0.144\%$ CR Avg. Using both interfaces lowers CR Avg to $0.111\%$ while keeping L2 close to the best variant. This supports the prior-plus-refinement design. The upstream interface biases the initial waypoint prior toward lower-cost regions, while the downstream interface applies the same cost evidence during trajectory refinement. The two stages are most useful for collision reduction when they are used together.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "IV-B Regression-Planner Results on nuScenes", "weight": 1.0} -->
+
+\(3\) Inference time. Table IV reports inference latency on a single NVIDIA H100 80 GB GPU. The cost-map decoder adds only $0.25$ million parameters ($+ {0.3\%}$) to the ResWorld host. PLAN-S runs at $59.0$ ms, corresponding to $17.0$ frames per second (FPS), while the ResWorld baseline runs at $64.8$ ms and $15.4$ FPS. These results show that the proposed bridge improves planning behavior without reducing inference efficiency.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "IV-C Anchor-Score Results on NAVSIM", "weight": 1.0} -->
+
+\(1\) Main results. Table V reports the main anchor-score results on NAVSIM navtest, including the baseline set from the WoTE evaluation. PLAN-S (rule) uses a hand-designed cost for log-additive reward fusion. PLAN-S (learned) uses the learned style-conditioned cost-map bridge.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "IV-C Anchor-Score Results on NAVSIM", "weight": 1.0} -->
+
+Both variants improve over WoTE. The rule variant reaches $89.4$ PDMS, and the learned variant reaches $89.1$ PDMS. The gain is mainly from TTC, which increases from $94.9$ to $97.7$ and $97.5$, respectively. Other sub-metrics are nearly unchanged or slightly lower. This pattern is consistent with anchor-score fusion: the cost term mainly changes the ranking of anchors that pass close to high-cost regions, so its clearest effect appears in TTC. The rule cost is the best aggregate variant on navtest. The learned cost is slightly weaker overall, so we further examine where it helps through the scene-level analysis.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "IV-C Anchor-Score Results on NAVSIM", "weight": 1.0} -->
+
+\(2\) Ablation study. We organize the anchor-score ablation in two parts. Table VI compares cost-map sources (no module, rule, residual, learned), and Table VII ablates two training signals within the full learned configuration. Both follow the same evaluation protocol as the main results.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "IV-C Anchor-Score Results on NAVSIM", "weight": 1.0} -->
+
+Cost-map source ablation (part a). Table VI shows that the cost pathway drives the NAVSIM gain. All cost-map variants improve over $N_{1}$ on PDMS and TTC. The TTC gain is consistent across the three variants, from $+ 2.6$ to $+ 2.8$ points. This suggests that the reward-level coupling is effective once a reasonable spatial cost is available. It down-weights anchors that pass through high-cost cells, especially near dynamic obstacles.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "IV-C Anchor-Score Results on NAVSIM", "weight": 1.0} -->
+
+Among the cost-map sources, the rule cost obtains the highest aggregate PDMS ($89.36$). The learned cost also improves over WoTE, reaching $89.07$. The residual form is weaker ($88.88$). This indicates that rule and learned costs should not be merged by a simple pointwise addition. The two costs encode different preferences, and their sum can disturb the anchor ranking instead of producing a clearer reward.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "IV-C Anchor-Score Results on NAVSIM", "weight": 1.0} -->
+
+Training-signal ablation (part b). Table VII shows that removing cost-map supervision or style conditioning does not hurt aggregate PDMS. Both variants are slightly above the full learned model. All rows still keep the cost-map decoder and receive planning gradients through the fused reward, so the result mainly indicates that $\mathcal{L}_{cost}$ and style conditioning are weakly reflected by the NAVSIM aggregate score. We therefore interpret the learned cost map beyond aggregate PDMS: Sec. IV-C examines where it helps across scene difficulty, and Sec. IV-D examines whether style conditioning changes the intermediate cost map as intended.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "IV-C Anchor-Score Results on NAVSIM", "weight": 1.0} -->
+
+\(3\) Scene-level analysis. Throughout this section, *Rule* and *Learned* refer to $N_{2}$ and $N_{4}$ in Table VI. The difficulty split is used only for analysis, not for training or model selection.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "IV-C Anchor-Score Results on NAVSIM", "weight": 1.0} -->
+
+Since easy scenes dominate navtest, aggregate PDMS can hide where the learned cost map helps. The 4 316 scenes on which WoTE passes every sub-metric contribute $35.5\%$ of the benchmark weight, with a cross-variant PDMS spread below $2.1$. We therefore use two baseline-anchored diagnostics: the WoTE-PDMS difficulty bands in Table VIII and the compositional difficulty count defined as
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "IV-C Anchor-Score Results on NAVSIM", "weight": 1.0} -->
+
+where $\mathcal{S} = {\{{NC},{DAC},{EP},{TTC},{Cmf}\}}$ and $m_{k}^{WoTE}{({scene})}$ is the normalized per-scene value of metric $k$ produced by the reproduced WoTE baseline. Both diagnostics depend only on the baseline evaluation.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "IV-C Anchor-Score Results on NAVSIM", "weight": 1.0} -->
+
+Table VIII and Fig. 2 show that the relative performance of the learned and rule-based cost maps depends on scene difficulty. The learned cost map is stronger on hard scenes, with a $+ 17.20$ PDMS gain over the rule, while the rule remains stronger on medium and easy scenes. Since easy scenes are more than eight times more frequent than hard scenes, the aggregate score still favors the rule. This split indicates different operating points rather than universal superiority of either cost.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "IV-C Anchor-Score Results on NAVSIM", "weight": 1.0} -->
+
+Table IX explains the hard-scene gain. The learned cost map improves drivable-area compliance, ego progress, and TTC by $+ 25.8$, $+ 27.3$, and $+ 13.8$, respectively. The ego-progress gain shows that the learned variant does not improve hard scenes by simply braking. It maintains progress while also improving safety-related metrics, which is difficult for a uniform rule cost with fixed penalties across scene contexts. The PDMS row is recomputed from the displayed sub-metric averages and is used only to summarize this subset.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "IV-C Anchor-Score Results on NAVSIM", "weight": 1.0} -->
+
+The scene-level win rate across challenge counts further supports this difficulty-dependent interpretation. With ties excluded, the learned variant wins over the rule in $30.5\%$, $55.4\%$, $71.0\%$, $87.9\%$, and $100\%$ of decided cases as $n_{chal}$ increases from 0 to 4. The learned cost map is therefore most useful when several PDMS requirements fail at the same time. Its lower aggregate score is mainly a weighting effect caused by the easy-scene majority.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "IV-C Anchor-Score Results on NAVSIM", "weight": 1.0} -->
+
+Oracle complementarity. Table X reports an oracle diagnostic that selects, for each scene, whichever variant obtains the higher PDMS. The oracle reaches $91.78$ PDMS, which is $+ 2.42$ above the best single variant. A coarse difficulty-band diagnostic using Learned on hard scenes and Rule otherwise would reach about $90.76$ PDMS, or $+ 1.40$ over the rule alone. These evaluation-time diagnostics further show that the learned and rule-based costs are useful in different parts of the scene distribution.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "IV-C Anchor-Score Results on NAVSIM", "weight": 1.0} -->
+
+Summary across planner families. The NAVSIM results complement the nuScenes results. Together, they show that the same cost-map abstraction can be coupled with both a regression planner and an anchor-score planner. This supports the portability of the proposed bridge across representative planner families. The two instantiations still use host-specific adapters, resolutions, auxiliary targets, and independently trained weights, so the results support representative portability rather than universal host-agnostic deployment.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "IV-D Qualitative Analysis", "weight": 1.0} -->
+
+Fig. 3 shows a representative NAVSIM navtest scene at a curved urban intersection. The top row provides the multi-view camera inputs and the front-view trajectory overlay, where green denotes the model prediction and red denotes the GT trajectory. The bottom row compares BEV planning outputs. Compared with DiffusionDrive, PLAN-S keeps a smoother predicted trajectory with larger clearance from nearby agents. The rightmost panel overlays the learned four-channel cost map, where blue regions appear around dynamic obstacles and off-road boundaries, while red regions remain along the lower-cost drivable corridor.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "IV-D Qualitative Analysis", "weight": 1.0} -->
+
+This visual pattern is consistent with the quantitative results. The learned cost map does not simply shift the route. Instead, it marks local regions where the planner should be more cautious. This explains why the main gains appear in safety-related metrics, including the TTC gains in Table VI and the CR reduction in Table I. It also supports the role of the cost map as an explicit spatial representation that can be inspected before the final trajectory is selected.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "IV-D Qualitative Analysis", "weight": 1.0} -->
+
+Style-conditioned cost maps. Fig. 4 illustrates style-conditioned cost maps on a straight urban road with parked vehicles and a truck in the adjacent lane. For this controlled visualization, conservative, neutral, and aggressive correspond to three preset two-dimensional style codes, $(0.0,0.0)$, $(0.5,0.5)$, and $(1.0,1.0)$, respectively, rather than external human labels. The top row provides the front-view scene context. The bottom row shows the BEV cost maps generated under the three style settings. Conservative intent expands the blue high-cost regions near surrounding vehicles. Aggressive intent contracts these regions, and the neutral setting lies between them.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "IV-D Qualitative Analysis", "weight": 1.0} -->
+
+The cost-map changes are concentrated around nearby vehicles and lane-adjacent regions, while the lower-cost drivable corridor remains aligned with the ego lane across all three styles. PLAN-S therefore produces diverse cost maps, with spatially consistent variations aligned to different driving styles, while the route semantics remain unchanged. Together with Table VII, this result suggests that style conditioning is better understood as a controllability mechanism for the intermediate cost representation, not as a direct way to maximize aggregate PDMS.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "IV-D Qualitative Analysis", "weight": 1.0} -->
+
+Aggregate PDMS is therefore insufficient for evaluating this aspect of PLAN-S. It measures general closed-loop driving quality, but it does not assess whether the cost map follows the requested driving style or whether the intermediate representation is interpretable. A complete style evaluation should combine aggregate driving metrics with style-aware preference metrics, such as SM-PDMS, and direct checks of the intermediate cost map.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Evidence boundary and empirical interpretation. The present experiments support representative architectural portability rather than universal host-agnostic deployment. PLAN-S reuses the same cost-map abstraction, channel semantics, and prior-plus-refinement principle across one regression host and one anchor-score host, while host-side adapters, resolutions, auxiliary targets, and learned weights remain instantiation-specific. On nuScenes, the cost pathway contributes most clearly to collision reduction, while the L2 change is comparatively modest and is best viewed as a secondary effect. On NAVSIM, the rule variant attains the highest aggregate score ($89.4$ PDMS), confirming that a fixed hand-designed cost remains a strong default on routine scenes. The learned variant is better characterized as a context-sensitive, style-conditioned bridge whose hard-scene benefit is partly obscured by aggregate scoring.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Hard-scene behavior and complementarity. The hard-band gain of the learned variant over the rule ($+ 17.2$ PDMS) reflects an imbalance present in driving datasets: routine scenes dominate, while hard situations such as tight gaps, dense pedestrian crossings, and interacting agents are rarer. A rule cost applies the same penalty structure regardless of scene complexity, whereas a learned head captures context-dependent regularities such as the spatial co-occurrence of dynamic agents and narrow drivable corridors that no fixed rule can express. The oracle result uses evaluation-time PDMS and is therefore an analysis tool rather than a deployable model; it quantifies the complementarity between the two cost designs.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Style conditioning, metric limitations, and remaining gaps. Dual AdaFiLM produces spatially consistent cost-map variations across driving intents (Sec. IV-D), changing the cost distribution around nearby vehicles while preserving the lower-cost drivable corridor. The benchmarks used in this paper do not directly evaluate style matching: NAVSIM PDMS measures general driving quality, and StyleDrive-style metrics score final trajectory behavior against discrete human style categories, whereas PLAN-S modulates the upstream spatial cost representation. Such metrics evaluate final trajectory behavior and require a clear mapping between the style input, the target style label, and human driving behavior. They do not directly assess whether the intermediate cost map changes consistently with the requested style. A complete style evaluation should combine general driving-quality scores, style-aware preference metrics, human preference labels, and intermediate-representation checks. Future work will extend the evaluation to additional hosts and multi-seed statistics, while further reducing host-specific auxiliary supervision.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+We presented PLAN-S, a planner-facing bridge that explicitly models latent style dynamics for LWM-based autonomous driving. PLAN-S decodes a style-conditioned, four-channel semantic cost map from the latent representation and consumes it before final trajectory selection. The same cost-map contract is instantiated through attention-level fusion for regression planning and reward-level fusion for anchor scoring. On the regression host (nuScenes), PLAN-S reduces L2 at every horizon over the baseline (with $0.55$ m average L2) and yields a $42\%$ relative reduction in the 3 s collision rate. The ablation study further shows that the cost pathway is most directly reflected in collision reduction. On the anchor-score host (NAVSIM), the rule-based cost obtains the highest aggregate score ($89.4$ PDMS), while the learned style-conditioned cost provides complementary benefits on baseline-challenging scenes. Qualitative results further show that PLAN-S can produce diverse cost maps, with spatially consistent variations aligned to different driving styles.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+These results support explicit latent style dynamics as a practical way to improve controllability and interpretability in LWM-based planning. Extending the evaluation to additional hosts, multi-seed statistics, and quantitative style metrics remains the principal direction for future work.

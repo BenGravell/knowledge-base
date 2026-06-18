@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Studies on the Chemical Nature of the Substance Inducing Transformation of Pneumococcal Types
 
 Topics include Molecular genetics, DNA, Heredity, Transformation, Pneumococcus, Genotype, Genetic information.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Identifies DNA-rich material as the transforming substance that can transmit a heritable bacterial phenotype, overturning protein-centered expectations about heredity.
 
-1. From Type III pneumococci a biologically active fraction has been isolated in highly purified form which in exceedingly minute amounts is capable under appropriate cultural conditions of inducing the transformation of unencapsulated R variants of Pneumococcus Type II into fully encapsulated cells of the same specific type as that of the heat-killed microorganisms from which the inducing material was recovered. 2. Methods for the isolation and purification of the active transforming material are described. 3. The data obtained by chemical, enzymatic, and serological analyses together with the results of preliminary studies by electrophoresis, ultracentrifugation, and ultraviolet spectroscopy indicate that, within the limits of the methods, the active fraction contains no demonstrable protein, unbound lipid, or serologically reactive polysaccharide and consists principally, if not solely, of a highly polymerized, viscous form of desoxyribonucleic acid. 4. Evidence is presented that the chemically induced alterations in cellular structure and function are predictable, type-specific, and transmissible in series.
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+1. From Type III pneumococci a biologically active fraction has been isolated in highly purified form which in exceedingly minute amounts is capable under appropriate cultural conditions of inducing the transformation of unencapsulated R variants of Pneumococcus Type II into fully encapsulated cells of the same specific type as that of the heat-killed microorganisms from which the inducing material was recovered. 2. Methods for the isolation and purification of the active transforming material are described. 3. The data obtained by chemical, enzymatic, and serological analyses together with the results of preliminary studies by electrophoresis, ultracentrifugation, and ultraviolet spectroscopy indicate that, within the limits of the methods, the active fraction contains no demonstrable protein, unbound lipid, or serologically reactive polysaccharide and consists principally, if not solely, of a highly polymerized, viscous form of desoxyribonucleic acid. 4. Evidence is presented that the chemically induced alterations in cellular structure and function are predictable, type-specific, and transmissible in series. The various hypotheses that have been advanced concerning the nature of these changes are reviewed.

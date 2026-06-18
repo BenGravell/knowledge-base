@@ -1,17 +1,179 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Reconciling Modern Machine Learning Practice and the Bias-variance Trade-off
 
 Topics include Neural networks, Datasets, Accuracy, Learning, Machine learning.
 
-Breakthroughs in machine learning are rapidly changing science and society, yet our fundamental understanding of this technology has lagged far behind. Indeed, one of the central tenets of the field, the bias-variance trade-off, appears to be at odds with the observed behavior of methods used in the modern machine learning practice. The bias-variance trade-off implies that a model should balance under-fitting and over-fitting: rich enough to express underlying structure in data, simple enough to avoid fitting spurious patterns. However, in the modern practice, very rich models such as neural networks are trained to exactly fit (i.e., interpolate) the data. Classically, such models would be considered over-fit, and yet they often obtain high accuracy on test data. This apparent contradiction has raised questions about the mathematical foundations of machine learning and their relevance to practitioners. In this paper, we reconcile the classical understanding and the modern practice within a unified performance curve.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction
+Breakthroughs in machine learning are rapidly changing science and society, yet our fundamental understanding of this technology has lagged far behind. Indeed, one of the central tenets of the field, the bias-variance trade-off, appears to be at odds with the observed behavior of methods used in the modern machine learning practice. The bias-variance trade-off implies that a model should balance under-fitting and over-fitting: rich enough to express underlying structure in data, simple enough to avoid fitting spurious patterns. However, in the modern practice, very rich models such as neural networks are trained to exactly fit (i.e., interpolate) the data. Classically, such models would be considered over-fit, and yet they often obtain high accuracy on test data. This apparent contradiction has raised questions about the mathematical foundations of machine learning and their relevance to practitioners. In this paper, we reconcile the classical understanding and the modern practice within a unified performance curve. This "double descent" curve subsumes the textbook U-shaped bias-variance trade-off curve by showing how increasing model capacity beyond the point of interpolation results in improved performance.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+We provide evidence for the existence and ubiquity of double descent for a wide spectrum of models and datasets, and we posit a mechanism for its emergence. This connection between the performance and the structure of machine learning models delineates the limits of classical analyses, and has implications for both the theory and practice of machine learning.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Machine learning has become key to important applications in science, technology and commerce. The focus of machine learning is on the problem of prediction: given a sample of training examples ${(x_{1},y_{1})},\ldots,{(x_{n},y_{n})}$ from ${\mathbb{R}}^{d} \times {\mathbb{R}}$, we learn a predictor $h_{n}:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$ that is used to predict the label $y$ of a new point $x$, unseen in training.
 
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 The predictor $h_{n}$ is commonly chosen from some function class $\mathcal{H}$, such as neural networks with a certain architecture, using *empirical risk minimization (ERM)* and its variants. In ERM, the predictor is taken to be a function $h \in \mathcal{H}$ that minimizes the *empirical (or training) risk* $\frac{1}{n}{\sum_{i = 1}^{n}{\ell{({h{(x_{i})}},y_{i})}}}$, where $\ell$ is a loss function, such as the squared loss ${\ell{(y^{\prime},y)}} = {({y^{\prime} - y})}^{2}$ for regression or zero-one loss ${\ell{(y^{\prime},y)}} = \mathbb{1}_{\{{y^{\prime} \neq y}\}}$ for classification.
 
-The goal of machine learning is to find $h_{n}$ that performs well on new data, unseen in training. To study performance on new data (known as generalization) we typically assume the training examples are sampled randomly from a probability distribution $P$ over ${\mathbb{R}}^{d} \times {\mathbb{R}}$, and evaluate $h_{n}$ on a new test example $(x,y)$ drawn independently from $P$.
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The goal of machine learning is to find $h_{n}$ that performs well on new data, unseen in training. To study performance on new data (known as generalization) we typically assume the training examples are sampled randomly from a probability distribution $P$ over ${\mathbb{R}}^{d} \times {\mathbb{R}}$, and evaluate $h_{n}$ on a new test example $(x,y)$ drawn independently from $P$. The challenge stems from the mismatch between the goals of minimizing the empirical risk (the explicit goal of ERM algorithms, optimization) and minimizing the *true (or test) risk* ${\mathbb{E}}_{{(x,y)} \sim P}{\lbrack{\ell{({h{(x)}},y)}}\rbrack}$ (the goal of machine learning).
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Conventional wisdom in machine learning suggests controlling the capacity of the function class $\mathcal{H}$ based on the bias-variance trade-off by balancing *under-fitting* and *over-fitting* (cf.,
 
-When function class capacity is below the "interpolation threshold", learned predictors exhibit the classical U-shaped curve from Figure 1(a). (In this paper, function class capacity is identified with the number of parameters needed to specify a function within the class.) The bottom of the U is achieved at the sweet spot which balances the fit to the training data and the susceptibility to over-fitting: to the left of the sweet spot, predictors are under-fit, and immediately to the right, predictors are over-fit.
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+If $\mathcal{H}$ is too small, all predictors in $\mathcal{H}$ may *under-fit* the training data (i.e., have large empirical risk) and hence predict poorly on new data.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+If $\mathcal{H}$ is too large, the empirical risk minimizer may *over-fit* spurious patterns in the training data resulting in poor accuracy on new examples (small empirical risk but large true risk).
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The classical thinking is concerned with finding the "sweet spot" between under-fitting and over-fitting. The control of the function class capacity may be explicit, via the choice of $\mathcal{H}$ (e.g., picking the neural network architecture), or it may be implicit, using regularization (e.g., early stopping). When a suitable balance is achieved, the performance of $h_{n}$ on the training data is said to *generalize* to the population $P$. This is summarized in the classical U-shaped risk curve, shown in Figure 1(a) that has been widely used to guide model selection and is even thought to describe aspects of human decision making. The textbook corollary of this curve is that "a model with zero training error is overfit to the training data and will typically generalize poorly" \[21, page 221\], a view still widely accepted.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Yet, practitioners routinely use modern machine learning methods, such as large neural networks and other non-linear predictors that have very low or zero training risk. In spite of the high function class capacity and near-perfect fit to training data, these predictors often give very accurate predictions on new data. Indeed, this behavior has guided a best practice in deep learning for choosing neural network architectures, specifically that the network should be large enough to permit effortless zero loss training (called interpolation) of the training data. Moreover, in direct challenge to the bias-variance trade-off philosophy, recent empirical evidence indicates that neural networks and kernel machines trained to interpolate the training data obtain near-optimal test results even when the training data are corrupted with high levels of noise.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The main finding of this work is a pattern for how performance on unseen data depends on model capacity and the mechanism underlying its emergence. This dependence, empirically witnessed with important model classes including neural networks and a range of datasets, is summarized in the "double descent" risk curve shown in Figure 1(b). The curve subsumes the classical U-shaped risk curve from Figure 1(a) by extending it beyond the point of interpolation.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+When function class capacity is below the "interpolation threshold", learned predictors exhibit the classical U-shaped curve from Figure 1(a). (In this paper, function class capacity is identified with the number of parameters needed to specify a function within the class.) The bottom of the U is achieved at the sweet spot which balances the fit to the training data and the susceptibility to over-fitting: to the left of the sweet spot, predictors are under-fit, and immediately to the right, predictors are over-fit. When we increase the function class capacity high enough (e.g., by increasing the number of features or the size of the neural network architecture), the learned predictors achieve (near) perfect fits to the training data---i.e., interpolation. Although the learned predictors obtained at the interpolation threshold typically have high risk, we show that increasing the function class capacity beyond this point leads to decreasing risk, typically going below the risk achieved at the sweet spot in the "classical" regime.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+All of the learned predictors to the right of the interpolation threshold fit the training data perfectly and have zero empirical risk. So why should some---in particular, those from richer functions classes---have lower test risk than others? The answer is that the capacity of the function class does not necessarily reflect how well the predictor matches the *inductive bias* appropriate for the problem at hand. For the learning problems we consider (a range of real-world datasets as well as synthetic data), the inductive bias that seems appropriate is the regularity or smoothness of a function as measured by a certain function space norm. Choosing the smoothest function that perfectly fits observed data is a form of Occam's razor: the simplest explanation compatible with the observations should be preferred (cf. ). By considering larger function classes, which contain more candidate predictors compatible with the data, we are able to find interpolating functions that have smaller norm and are thus "simpler". Thus increasing function class capacity improves performance of classifiers.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Related ideas have been considered in the context of margins theory, where a larger function class $\mathcal{H}$ may permit the discovery of a classifier with a larger margin. While the margins theory can be used to study classification, it does not apply to regression, and also does not predict the second descent beyond the interpolation threshold. Recently, there has been an emerging recognition that certain interpolating predictors (not based on ERM) can indeed be provably statistically optimal or near-optimal, which is compatible with our empirical observations in the interpolating regime.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In the remainder of this article, we discuss empirical evidence for the double descent curve, the mechanism for its emergence and conclude with some final observations and parting thoughts.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Neural networks", "weight": 1.0} -->
+
+In this section, we discuss the double descent risk curve in the context of neural networks.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Random Fourier features", "weight": 1.0} -->
+
+We first consider a popular class of non-linear parametric models called *Random Fourier Features* (*RFF*), which can be viewed as a class of two-layer neural networks with fixed weights in the first layer. The RFF model family $\mathcal{H}_{N}$ with $N$ (complex-valued) parameters consists of functions $h:{{\mathbb{R}}^{d}\rightarrow{\mathbb{C}}}$ of the form
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Random Fourier features", "weight": 1.0} -->
+
+and the vectors $v_{1},\ldots,v_{N}$ are sampled independently from the standard normal distribution in ${\mathbb{R}}^{d}$. (We consider $\mathcal{H}_{N}$ as a class of real-valued functions with $2N$ real-valued parameters by taking real and imaginary parts separately.) Note that $\mathcal{H}_{N}$ is a randomized function class, but as $N\rightarrow\infty$, the function class becomes a closer and closer approximation to the Reproducing Kernel Hilbert Space (RKHS) corresponding to the Gaussian kernel, denoted by $\mathcal{H}_{\infty}$. While it is possible to directly use $\mathcal{H}_{\infty}$ (e.g., as is done with kernel machines ), the random classes $\mathcal{H}_{N}$ are computationally attractive to use when the sample size $n$ is large but the number of parameters $N$ is small compared to $n$.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Random Fourier features", "weight": 1.0} -->
+
+When the minimizer is not unique (as is always the case when $N > n$), we choose the minimizer whose coefficients $(a_{1},\ldots,a_{N})$ have the minimum $\ell_{2}$ norm. This choice of norm is intended as an approximation to the RKHS norm ${\| h\|}_{\mathcal{H}_{\infty}}$, which is generally difficult to compute for arbitrary functions in $\mathcal{H}_{N}$. For problems with multiple outputs (e.g., multi-class classification), we use functions with vector-valued outputs and sum of the squared losses for each output.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Random Fourier features", "weight": 1.0} -->
+
+In Figure 2, we show the test risk of the predictors learned using $\mathcal{H}_{N}$ on a subset of the popular data set of handwritten digits called MNIST. The same figure also shows the $\ell_{2}$ norm of the function coefficients, as well as the training risk. We see that for small values of $N$, the test risk shows the classical U-shaped curve consistent with the bias-variance trade-off, with a peak occurring at the interpolation threshold $N = n$. Some statistical analyses of RFF suggest choosing $N \propto {\sqrt{n}{\log n}}$ to obtain good test risk guarantees.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Random Fourier features", "weight": 1.0} -->
+
+The interpolation regime connected with modern practice is shown to the right of the interpolation threshold, with $N \geq n$. The model class that achieves interpolation with fewest parameters ($N = n$ random features) yields the least accurate predictor. (In fact, it has no predictive ability for classification.) But as the number of features increases beyond $n$, the accuracy improves dramatically, exceeding that of the predictor corresponding to the bottom of the U-shaped curve. The plot also shows that the predictor $h_{n,\infty}$ obtained from $\mathcal{H}_{\infty}$ (the kernel machine) out-performs the predictors from $\mathcal{H}_{N}$ for any finite $N$.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Random Fourier features", "weight": 1.0} -->
+
+What structural mechanisms account for the double descent shape? When the number of features is much smaller then the sample size, $N \ll n$, classical statistical arguments imply that the training risk is close to the test risk. Thus, for small $N$, adding more features yields improvements in both the training and test risks. However, as the number of features approaches $n$ (the interpolation threshold), features not present or only weakly present in the data are forced to fit the training data nearly perfectly. This results in classical over-fitting as predicted by the bias-variance trade-off and prominently manifested at the peak of the curve, where the fit becomes exact.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Random Fourier features", "weight": 1.0} -->
+
+To the right of the interpolation threshold, all function classes are rich enough to achieve zero training risk. For the classes $\mathcal{H}_{N}$ that we consider, there is no guarantee that the most regular, smallest norm predictor consistent with training data (namely $h_{n,\infty}$, which is in $\mathcal{H}_{\infty}$) is contained in the class $\mathcal{H}_{N}$ for any finite $N$. But increasing $N$ allows us to construct progressively better approximations to that smallest norm function. Thus we expect to have learned predictors with largest norm at the interpolation threshold and for the norm of $h_{n,N}$ to decrease monotonically as $N$ increases thus explaining the second descent segment of the curve. This is what we observe in Figure 2, and indeed $h_{n,\infty}$ has better accuracy than all $h_{n,N}$ for any finite $N$.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Random Fourier features", "weight": 1.0} -->
+
+Favoring small norm interpolating predictors turns out to be a powerful inductive bias on MNIST and other real and synthetic data sets. For noiseless data, we make this claim mathematically precise in Appendix A.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Random Fourier features", "weight": 1.0} -->
+
+Additional empirical evidence for the same double descent behavior using other data sets is presented in Appendix C.1. For instance, we demonstrate double descent for rectified linear unit (ReLU) random feature models, a class of ReLU neural networks with a setting similar to that of RFF. The inductive bias corresponding to the larger number of features can be readily observed in a one-dimensional example in Figure 3. Although the fitted function is non-smooth (piecewise linear) for any number of Random ReLU features, it appears smoother---with smaller norm---as the number of features is increased.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Random Fourier features", "weight": 1.0} -->
+
+Finally, in Appendix C.4, we also describe a simple synthetic model, which can be regarded as a one-dimensional version of the RFF model, where we observe the same double descent behavior.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Neural networks and backpropagation", "weight": 1.0} -->
+
+In general multilayer neural networks (beyond RFF or ReLU random feature models), a learning algorithm will tune all of the weights to fit the training data, typically using versions of stochastic gradient descent (SGD), with backpropagation to compute partial derivatives. This flexibility increases the representational power of neural networks, but also makes ERM generally more difficult to implement. Nevertheless, as shown in Figure 4, we observe that increasing the number of parameters in fully connected two-layer neural networks leads to a risk curve qualitatively similar to that observed with RFF models. That the test risk improves beyond the interpolation threshold is compatible with the conjectured "small norm" inductive biases of the common training algorithms for neural networks. We note that this transition from under- to over-parameterized regimes for neural networks was also previously observed. In particular, draws a connection to the physical phenomenon of "jamming" in particle systems.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Neural networks and backpropagation", "weight": 1.0} -->
+
+The computational complexity of ERM with neural networks makes the double descent risk curve difficult to observe. Indeed, in the classical under-parametrized regime ($N \ll n$), the non-convexity of the ERM optimization problem causes the behavior of local search-based heuristics, like SGD, to be highly sensitive to their initialization. Thus, if only suboptimal solutions are found for the ERM optimization problems, increasing the size of a neural network architecture may not always lead to a corresponding decrease in the training risk. This suboptimal behavior can lead to high variability in both the training and test risks that masks the double descent curve.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Neural networks and backpropagation", "weight": 1.0} -->
+
+It is common to use neural networks with extremely large number of parameters. But to achieve interpolation for a single output (regression or two class classification) one expects to need at least as many parameters as there are data points. Moreover, if the prediction problem has more than one output (as in multi-class classification), then the number of parameters needed should be multiplied by the number of outputs. This is indeed the case empirically for neural networks shown in Figure 4. Thus, for instance, data sets as large as ImageNet, which has $\sim 10^{6}$ examples and $\sim 10^{3}$ classes, may require networks with $\sim 10^{9}$ parameters to achieve interpolation; this is larger than many neural network models for ImageNet. In such cases, the classical regime of the U-shaped risk curve is more appropriate to understand generalization. For smaller data sets, these large neural networks would be firmly in the over-parametrized regime, and simply training to obtain zero training risk often results in good test performance.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Neural networks and backpropagation", "weight": 1.0} -->
+
+Additional results with neural networks are given in Appendix C.3.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Decision trees and ensemble methods", "weight": 1.0} -->
+
+Does the double descent risk curve manifest with other prediction methods besides neural networks? We give empirical evidence that the families of functions explored by boosting with decision trees and Random Forests also show similar generalization behavior as neural nets, both before and after the interpolation threshold.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Decision trees and ensemble methods", "weight": 1.0} -->
+
+AdaBoost and Random Forests have recently been investigated in the interpolation regime by for classification. In particular, they give empirical evidence that, when AdaBoost and Random Forests are used with maximally large (interpolating) decision trees, the flexibility of the fitting methods yield interpolating predictors that are more robust to noise in the training data than the predictors produced by rigid, non-interpolating methods (e.g., AdaBoost or Random Forests with shallow trees). This in turn is said to yield better generalization. The averaging of the (near) interpolating trees ensures that the resulting function is substantially smoother than any individual tree, which aligns with an inductive bias that is compatible with many real world problems.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Decision trees and ensemble methods", "weight": 1.0} -->
+
+We can understand these flexible fitting methods in the context of the double descent risk curve. Observe that the size of a decision tree (controlled by the number of leaves) is a natural way to parametrize the function class capacity: trees with only two leaves correspond to two-piecewise constant functions with axis-aligned boundary, while trees with $n$ leaves can interpolate $n$ training examples. It is a classical observation that the U-shaped bias-variance trade-off curve manifests in many problems when the class capacity is considered this way. (The interpolation threshold may be reached with fewer than $n$ leaves in many cases, but $n$ is clearly an upper bound.) To further enlarge the function class, we consider ensembles (averages) of several interpolating trees.^11^1These trees are trained in the way proposed in Random Forest except without bootstrap re-sampling. This is similar to the PERT method of. So, beyond the interpolation threshold, we use the number of such trees to index the class capacity.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Decision trees and ensemble methods", "weight": 1.0} -->
+
+When we view the risk curve as a function of class capacity defined in this hybrid fashion, we see the double descent curve appear just as with neural networks; see Figure 5 and Appendix D. We observe a similar phenomenon using $L_{2}$-boosting, another popular ensemble method; the results are reported in Appendix E.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Concluding thoughts", "weight": 1.0} -->
+
+The double descent risk curve introduced in this paper reconciles the U-shaped curve predicted by the bias-variance trade-off and the observed behavior of rich models used in modern machine learning practice. The posited mechanism that underlies its emergence is based on common inductive biases, and hence can explain its appearance (and, we argue, ubiquity) in machine learning applications.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Concluding thoughts", "weight": 1.0} -->
+
+We conclude with some final remarks.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Historical absence", "weight": 1.0} -->
+
+The double descent behavior may have been historically overlooked on account of several cultural and practical barriers. Observing the double descent curve requires a parametric family of spaces with functions of arbitrary complexity. The linear settings studied extensively in classical statistics usually assume a small, fixed set of features and hence fixed fitting capacity. Richer families of function classes are typically used in the context of non-parametric statistics, where smoothing and regularization are almost always employed. Regularization, of all forms, can both prevent interpolation and change the effective capacity of the function class, thus attenuating or masking the interpolation peak.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Historical absence", "weight": 1.0} -->
+
+The RFF model is a popular and flexible parametric family. However, these models were originally proposed as computationally favorable alternative to kernel machines. This computational advantage over traditional kernel methods holds only for $N \ll n$, and hence models at or beyond the interpolation threshold are typically not considered.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Historical absence", "weight": 1.0} -->
+
+The situation with general multilayer neural networks, is slightly different and more involved. Due to the non-convexity of the ERM optimization problem, solutions in the classical under-parametrized regime are highly sensitive to initialization. Moreover, as we have seen, the peak at the interpolation threshold is observed within a narrow range of parameters. Sampling of the parameter space that misses that range may lead to the misleading impression that increasing the size of the network simply improves performance. Finally, in practice, training of neural networks is typically stopped as soon as (an estimate of) the test risk fails to improve. This early stopping has a strong regularizing effect that, as discussed above, makes it difficult to observe the interpolation peak.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Inductive bias", "weight": 1.0} -->
+
+In this paper, we have dealt with several types of methods for choosing interpolating solutions. For Random Fourier and Random ReLU features, solutions are constructed explicitly by minimum norm linear regression in the feature space. As the number of features tends to infinity they approach the minimum functional norm solution in the Reproducing Kernel Hilbert Space, a solution which maximizes functional smoothness subject to the interpolation constraints. For neural networks, the inductive bias owes to the specific training procedure used, which is typically SGD. When all but the final layer of the network are fixed (as in RFF models), SGD initialized at zero also converges to the minimum norm solution. While the behavior of SGD for more general neural networks is not fully understood, there is significant empirical and some theoretical evidence (e.g., ) that a similar minimum norm inductive bias is present. Yet another type of inductive bias related to averaging is used in random forests. Averaging potentially non-smooth interpolating trees leads to an interpolating solution with a higher degree of smoothness; this averaged solution performs better than any individual interpolating tree.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Inductive bias", "weight": 1.0} -->
+
+Remarkably, for kernel machines all three methods lead to the same minimum norm solution. Indeed, the minimum norm interpolating classifier, $h_{n,\infty}$, can be obtained directly by explicit norm minimization (solving an explicit system of linear equations), through SGD or by averaging trajectories of Gaussian processes (computing the posterior mean ).
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Optimization and practical considerations", "weight": 1.0} -->
+
+In our experiments, appropriately chosen "modern" models usually outperform the optimal "classical" model on the test set. But another important practical advantage of over-parametrized models is in optimization. There is a growing understanding that larger models are "easy" to optimize as local methods, such as SGD, converge to global minima of the training risk in over-parametrized regimes (e.g., ). Thus, large interpolating models can have low test risk and be easy to optimize at the same time, in particular with SGD. It is likely that the models to the left of the interpolation peak have optimization properties qualitatively different from those to the right, a distinction of significant practical import.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Outlook", "weight": 1.0} -->
+
+The classical U-shaped bias-variance trade-off curve has shaped our view of model selection and directed applications of learning algorithms in practice. The understanding of model performance developed in this work delineates the limits of classical analyses and opens new lines of enquiry to study and compare computational, statistical, and mathematical properties of the classical and modern regimes in machine learning. We hope that this perspective, in turn, will help practitioners choose models and algorithms for optimal performance.

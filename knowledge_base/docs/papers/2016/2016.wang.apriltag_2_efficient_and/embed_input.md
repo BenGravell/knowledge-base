@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 AprilTag 2: Efficient and Robust Fiducial Detection
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 AprilTags and other passive fiducial markers require specialized algorithms to detect markers among other features in a natural scene. The vision processing steps generally dominate the computation time of a tag detection pipeline, so even small improvements in marker detection can translate to a faster tag detection system. We incorporated lessons learned from implementing and supporting the AprilTag system into this improved system. This work describes AprilTag 2, a completely redesigned tag detector that improves robustness and efficiency compared to the original AprilTag system. The tag coding scheme is unchanged, retaining the same robustness to false positives inherent to the coding system. The new detector improves performance with higher detection rates, fewer false positives, and lower computational time. Improved performance on small images allows the use of decimated input images, resulting in dramatic gains in detection speed.

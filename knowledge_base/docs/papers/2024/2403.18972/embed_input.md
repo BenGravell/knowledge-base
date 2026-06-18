@@ -1,5 +1,11 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Risk-Aware Robotics: Tail Risk Measures in Planning, Control, and Verification
 
 Topics include Survey, Safety, Risk, Tail risk, Planning, Control, Verification.
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Often, control theorists and roboticists expect systems to function as reliably and predictably as the equations we use to represent them. Sadly, reality is often more random than our equations. For example, take a robot navigating in two similar but unstructured environments. Random perturbations in terrain and scenery could cause the robot to take wildly different paths. In another example, take a perfectly orchestrated robotic swarm that finds itself in dissonance moments later due to network connectivity going down and package loss. Such randomness arises because our equations are imperfect models of reality. So, perhaps we should find a way to account for such randomness in our equations themselves. This article delves into how tail risk measures — formal mathematical concepts of risk traditionally used in the financial community — facilitate accounting for this randomness in planning, control, and verification. The exposition to follow both defines these measures and includes multiple examples of their use in prescribing risk-aware control across all levels of the modern control stack. Finally, we end with a brief survey of existing and open problems in the field.

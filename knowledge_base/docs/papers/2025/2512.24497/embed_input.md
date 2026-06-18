@@ -1,7 +1,276 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 What Drives Success in Physical Planning with Joint-Embedding Predictive World Models?
 
 Topics include World models, JEPA, Representation-space planning, Physical planning, Model-based reinforcement learning, Generalization.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Examines when joint-embedding predictive world models help physical planning, especially planning in learned representation spaces. The paper is valuable as an empirical and conceptual stress test of JEPA-style world models against input-space planning and other baseline choices.
 
-A long-standing challenge in AI is to develop agents capable of solving a wide range of physical tasks and generalizing to new, unseen tasks and environments. A popular recent approach involves training a world model from state-action trajectories and subsequently use it with a planning algorithm to solve new tasks. Planning is commonly performed in the input space, but a recent family of methods has introduced planning algorithms that optimize in the learned representation space of the world model, with the promise that abstracting irrelevant details yields more efficient planning. In this work, we characterize models from this family as JEPA-WMs and investigate the technical choices that make algorithms from this class work. We propose a comprehensive study of several key components with the objective of finding the optimal approach within the family. We conducted experiments using both simulated environments and real-world robotic data, and studied how the model architecture, the training objective, and the planning algorithm affect planning success.
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+A long-standing challenge in AI is to develop agents capable of solving a wide range of physical tasks and generalizing to new, unseen tasks and environments. A popular recent approach involves training a world model from state-action trajectories and subsequently use it with a planning algorithm to solve new tasks. Planning is commonly performed in the input space, but a recent family of methods has introduced planning algorithms that optimize in the learned representation space of the world model, with the promise that abstracting irrelevant details yields more efficient planning. In this work, we characterize models from this family as JEPA-WMs and investigate the technical choices that make algorithms from this class work. We propose a comprehensive study of several key components with the objective of finding the optimal approach within the family. We conducted experiments using both simulated environments and real-world robotic data, and studied how the model architecture, the training objective, and the planning algorithm affect planning success. We combine our findings to propose a model that outperforms two established baselines, DINO-WM and V-JEPA-2-AC, in both navigation and manipulation tasks. Code, data and checkpoints are available at
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In order to build capable physical agents, Ha & Schmidhuber proposed the idea of a world model, that is, a model predicting the future state of the world, given a context of past observations and actions. Such a world model should perform predictions at a level of abstraction that allows training policies on top of it or perform planning in a sample efficient manner. While model-free RL requires a considerable number of samples, model-based RL (MBRL), combined with self-supervised pretraining, has led to powerful world modeling algorithms. More recently, large-scale world models have flourished, achieving impressive simulation accuracy in specific domains such as driving or egocentric video games.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this presentation, we model a world in which some (robotic) agent equipped with a (visual) sensor operates as a dynamical system where the states, observations and actions are all embedded in feature spaces by parametric encoders, and the dynamics itself is also learned, in the form of a parametric predictor depending on these features. The encoder/predictor pair is what we will call a world model. We will focus on action-conditioned Joint-Embedding Predictive World Models (or JEPA-WMs) learned from videos. These models adapt to the planning problem the Joint-Embedding Predictive Architectures (JEPAs) proposed by LeCun, where a representation of some data is constructed by learning an encoder/predictor pair such that the embedding of one view of some data sample predicts well the embedding of a second view. We use the term JEPA-WM to refer to this family of methods, that we formalize in equations˜1, 2, 3 and 4 as a unified implementation recipe rather than a novel algorithm.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The term JEPA-WM designates a specific recipe in which the dynamics model is trained solely through a predictive loss in embedding space, with no reconstruction, reward prediction, or value/policy heads, unlike methods such as MuZero, PlaNet or the Dreamer series (see appendix˜B for a per-method comparison). Note that JEPA-WMs are not restricted to frozen encoders: PLDM and EB-JEPA learn the encoder and predictor jointly. In practice, we optimize to find an action sequence without theoretical guarantees on the feasibility of the plan, which is closer to trajectory optimization, but we stick to the widely-used term planning.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Among these JEPA-WMs, PLDM shows that, on 2D navigation tasks, world models learned in a latent space, trained as JEPAs, generalize better than the GCRL baselines considered in that work, especially on suboptimal training trajectories. DINO-WM shows that, in absence of reward, when comparing latent world models on goal-conditioned planning tasks, a JEPA model trained on a frozen DINOv2 encoder outperforms DreamerV3 and TD-MPC2, when we deprive these of reward annotation. DINO-World shows the capabilities in dense prediction and intuitive physics of a JEPA-WM trained on top of DINOv2 are superior to COSMOS. The V-JEPA-2-AC model is able to beat Vision Language Action (VLA) baselines like Octo in greedy planning for object manipulation using image subgoals.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this paper, we focus on the learning of the dynamics (predictor) rather than of the representation (encoder), as in DINO-WM and V-JEPA-2-AC. Given the increasing importance of such models, we aim at filling what we see as a gap in the literature, i.e., a thorough study answering: how to efficiently learn a dynamics model in the embedding space of a pretrained visual encoder for manipulation and navigation planning tasks ?
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our contributions can be summarized as follows: (i) We study several key components of training and planning with JEPA-WMs: multistep rollout, predictor architecture, training context length, using or not proprioception, encoder type, model size, data augmentation; and the planning optimizer. (ii) We use these insights to propose an optimum in the class of JEPA-WMs, outperforming DINO-WM and V-JEPA-2-AC.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "World modeling and planning", "weight": 1.0} -->
+
+'A path towards machine intelligence' presents planning with Model Predictive Control (MPC) as the core component of Autonomous Machine Intelligence (AMI). World Models learned via Self-Supervised Learning (SSL) have been used in many reinforcement learning works to control exploration using information gain estimation or curiosity, to transfer to robotic tasks with rare data by first learning a world model or to improve sample efficiency. In addition, world models have been used in planning, to find sub-goals by using the inverse problem of reconstructing previous frames to reach the objective represented as the last frame, or by imagining goals in unseen environments. World models can be generative, using diffusion-based backbones to model multi-modal transition distributions, or deterministic and trained in a latent space via a JEPA loss, trading stochastic expressiveness for computational efficiency and latent abstraction. They can be used to plan in the latent space, to maximize a sum of discounted rewards, or to learn a policy. Other approaches for latent-space planning include locally-linear dynamics models, gradient-based trajectory optimization, and diffusion-based planners, details in appendix˜B.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "World modeling and planning", "weight": 1.0} -->
+
+While the present study focuses on the predictor given a frozen encoder, concurrent works explore lightweight adaptation of frozen VFM encoders for control, e.g. by training a bisimulation-based encoder on top of the frozen backbone, by learning sparse autoencoders on frozen features, or by decoupling dynamics-relevant from dynamics-irrelevant representations. These directions are complementary to our predictor-focused investigation.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Explicit and implicit world models", "weight": 1.0} -->
+
+Our study focuses on *explicit* world models with autoregressive dynamics in latent space. *Implicit* alternatives such as TD-JEPA fold temporal abstraction into the representation via successor features; we compare both paradigms in appendix˜B.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Goal-conditioned RL", "weight": 1.0} -->
+
+Goal-conditioned RL (GCRL) offers a self-supervised approach to leverage large-scale pretraining on unlabeled (reward-free) data. Foundational methods show that goal-conditioned policies can be incorporated into planning, decomposed hierarchically with sub-goal generators, or combined with offline RL. More recent methods learn geometrically grounded distances, and the OGBench benchmark provides a systematic evaluation of offline GCRL across locomotion and manipulation.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Robotics", "weight": 1.0} -->
+
+Classical approaches rely on MPC loops leveraging analytical models of the robot Chignoli et al.; Meduri et al.. For exteroception, our study relies on a camera, akin to the visual servoing problem Hutchinson et al.. The current state-of-the-art in manipulation has been reached by Vision-Language-Action (VLA) models such as RT-X, RT-1, and RT-2. Physical Intelligence's $\pi$ series uses flow matching on the Open-X embodiment dataset to generate action trajectories.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Robotics", "weight": 1.0} -->
+
+Open and Move Up Close and Move Up
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Training method", "weight": 1.0} -->
+
+In a JEPA-WM, we embed the observations with a frozen visual encoder $E_{\phi}^{vis}$, and an (optional) shallow proprioceptive encoder $E_{\theta}^{prop}$. Applying each encoder to the corresponding modality constitutes the global state encoder, which we denote $E_{\phi,\theta} = {(E_{\phi}^{vis},E_{\theta}^{prop})}$. An action encoder $A_{\theta}$ embeds the robotic actions. On top of these, a predictor $P_{\theta}$ takes both the state and action embeddings as input. $E_{\theta}^{prop}$, $A_{\theta}$ and $P_{\theta}$ are jointly trained, while $E_{\phi}^{vis}$ remains frozen.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Training method", "weight": 1.0} -->
+
+For a past window of $w$ observations $o_{{t - w}:t}:={(o_{t - w},\ldots,o_{t})}$ including visual and (optional) proprioceptive input and past actions $a_{{t - w}:t}$, their common training prediction objective on $B$ elements of the batch is
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Training method", "weight": 1.0} -->
+
+where $L$ is a loss, computed pairwise between visual prediction and target, and proprioceptive prediction and target. In our experiments, we chose $L$ as the Mean Squared Error (MSE). The architecture chosen for the encoder and predictor in this study is ViT, as in our baselines. In DINO-WM, the action and proprioceptive encoder are just linear layers, and their output is concatenated to the visual encoder output along the embedding dimension, which is known as feature conditioning, as opposed to sequence conditioning, where the action and proprioception are encoded as tokens, concatenated to the visual tokens sequence, which is adopted in V-JEPA-2. We stress that $P_{\theta}$ is trained with a frame-causal attention mask, thus, it is simultaneously trained to predict from all context lengths from $w = 0$ to $w = {W - 1}$, where $W$ is a training hyperparameter, set to $W = 3$. The causal predictor is trained to predict the outcome of several actions instead of one action only.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Training method", "weight": 1.0} -->
+
+To do so, one can skip $f$ observations and concatenate the $f$ corresponding actions to form an action of higher dimension $f \times A$, as in DINO-WM. More details on the training procedure in appendix˜C.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Planning", "weight": 1.0} -->
+
+Planning at horizon $H$ is an optimization problem over the product action space ${\mathbb{R}}^{H \times A}$, where each action is of dimension $A$, which can be taken to be $f \times A$ when using frameskip at training time. Given an initial and goal observation pair $o_{t},o_{g}$, each action trajectory $a_{t:{{t + H} - 1}}:={(a_{t},\ldots,a_{{t + H} - 1})}$ should be evaluated with a planning objective $L^{p}$. Like at training time, consider a dissimilarity metric $L$, (e.g. the $L_{1}$, $L_{2}$ distance or minus the cosine similarity), applied pairwise on each modality, denoted $L_{vis}$ between two visual embeddings and $L_{prop}$ for proprioceptive embeddings.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Planning", "weight": 1.0} -->
+
+When planning with a model trained with both proprioception and visual input, given $\alpha \geq 0$, the planning objective $L_{\alpha}^{p}$ we aim to minimize is
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Planning", "weight": 1.0} -->
+
+with a function $G_{\phi,\theta}$ depending on our world model. We define recursively $F_{\phi,\theta}$ as the unrolling of the predictor from $z_{t} = {E_{\phi,\theta}{(o_{t})}}$ on the actions, with a maximum context length of $w$, (fixed to $W^{t}$ at train time and to $W^{p}$ at test time table˜10)
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Planning", "weight": 1.0} -->
+
+In our case, we take $G_{\phi,\theta}$ to be the unrolling function $F_{\phi,\theta}$, but could choose $G_{\phi,\theta}$ to be a function of all the intermediate unrolling steps, instead of just the last one. We provide details about the planning optimizers in appendix˜F.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Planning", "weight": 1.0} -->
+
+Best: [1pt] Simu. Nav.
+Best: [1pt] Real Manip.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Planning", "weight": 1.0} -->
+
+DINOv2 (ViT-S/B/L), DINOv3 (L), V-JEPA (L), V-JEPA-2 (L)
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Planning", "weight": 1.0} -->
+
+Feat. cond. + sincos, Seq. cond. + RoPE, Feat. cond. + RoPE,
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Planning", "weight": 1.0} -->
+
+1-step (teacher forcing), 2-step, 3-step, 6-step
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Studied design choices", "weight": 1.0} -->
+
+Our base configuration is DINO-WM without proprioception, with a ViT-S encoder and depth-6 predictor of same embedding dimension. A summary of all candidate design choices is provided in table˜1. We prioritize design choices based on their scope of impact: planning-time choices affect all evaluations, so we optimize these first and fix the best planner for each environment for the subsequent experiments; training and architecture choices follow; scaling experiments validate our findings. Each component is independently varied from the base configuration to isolate its effect.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Planner", "weight": 1.0} -->
+
+Various optimization algorithms can be relevant to solve the problem of minimizing equation 2, which is differentiable. Zhou et al.; Hansen et al.; Sobal et al.; Assran et al.; Bar et al. use the Cross-Entropy Method (CEM) (or a variant called Model Predictive Path Integral (MPPI) ), depicted in appendix˜F. Since this is a population-based optimization method which does not rely on the gradient of the cost function, we introduce a planner that can make use of any of the optimization methods from NeverGrad. For our experiments, we choose the default NGOpt optimizer, which is designated as a "meta"-optimizer. We do not tune any of the parameters of this optimizer. We denote this planner NG in the remainder of this paper, see details in appendix˜F. We also experiment with gradient-based planners (GD and Adam) that directly optimize the action sequence through backpropagation, see details in appendices˜F and F.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Planner", "weight": 1.0} -->
+
+The planning hyperparameters common to the four considered optimizers are those which define the predictor-dependent cost function $G_{\theta}$, the planning horizon $H$, the number of actions of the plan that are stepped in the environment $m \leq H$, the maximum sliding context window size of past predictions fed to the predictor, denoted $W^{p}$. The ones common to either CEM and NG or to Adam and GD are the number of candidate action trajectories of which we evaluate the cost in parallel, denoted $N$, and the number of iterations $J$ of parallel cost evaluations. After some exploration of the impact of planning hyperparameters common to both CEM and NG on success, we fix them to identical values for both, as summarized in table˜10 in appendix. We plan using either the $L_{1}$ or $L_{2}$ embedding space distance as dissimilarity metric $L$ in the cost $L_{\alpha}^{p}$. The results in figure˜3 (left) are an average across the models considered in this study.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Multistep rollout training", "weight": 1.0} -->
+
+At each training iteration, in addition to the frame-wise teacher forcing loss of equation 1, we compute additional loss terms as the $k$-step rollout losses $\mathcal{L}_{k}$, for $k \geq 1$, defined as
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Multistep rollout training", "weight": 1.0} -->
+
+where ${\hat{z}}_{{t + k} - 1}^{b} = {F_{\phi,\theta}{(o_{t},a_{{t - w}:{{t + k} - 2}})}}$, see equation 3. We note that $\mathcal{L}_{1} = \mathcal{L}$. In practice, we perform truncated backpropagation over time (TBPTT), which means that we discard the accumulated gradient to compute ${\hat{z}}_{t + H}$ and only backpropagate the error in the last prediction. We study variants of this loss, as detailed in appendix˜C, including the one used in V-JEPA-2-AC. We denote the model trained with a sum of loss terms up to the $\mathcal{L}_{k}$ loss as $k$-step.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Multistep rollout training", "weight": 1.0} -->
+
+We train models with up to a 6-step loss, which requires more than the default $W = 3$ maximum context size, hence we set $W = 7$ to train them, similarly to the models with increased $W$ introduced afterwards.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Proprioception", "weight": 1.0} -->
+
+We compare the standard setup of DINO-WM, where we train a proprioceptive encoder jointly with the predictor and the action encoder to a setup with visual input only. We stress that, contrary to V-JEPA-2-AC, we use both the visual and proprioceptive loss terms to train the predictor, proprioceptive encoder and action encoder.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Training context size", "weight": 1.0} -->
+
+We aim to test whether allowing the predictor to see a longer context at train time allows to better unroll longer sequences of actions. We test values from $W = 1$ to $W = 14$.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Encoder type", "weight": 1.0} -->
+
+As posited by Zhou et al., local features preserve spatial details that are crucial to solve the tasks at hand. Hence we use the local features of DINOv2 and the recently proposed DINOv3, even stronger on dense tasks. We train a predictor on top of video encoders, namely V-JEPA and V-JEPA-2. We consider their ViT-L version. After exploration of the frame encoding strategy to adopt appendix˜C, we settle on the highest performing one, which consists in duplicating each of the $o_{{t - W} + 1},\ldots,o_{t + 1}$ frames and encoding each pair independently as a 2-frame video. Details comparing the encoding methods for all encoders considered are in appendix˜C. The frame preprocessing and encoding is equalized to have the same number of visual embedding tokens per timestep, so the main difference lies in the weights of these encoders that we use out-of-the-box.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Predictor architecture", "weight": 1.0} -->
+
+The main difference between the predictor architecture of Zhou et al., and the one of Assran et al., is that the first uses feature conditioning, with sincos positional embedding, whereas the latter performs sequence conditioning with RoPE. In the first, action embeddings $A_{\theta}{(a)}$ are concatenated with visual features $E_{\theta}{(o)}$ along the embedding dimension, and the hidden dimension of the predictor is increased from $D$ to $D + f_{a}$, with $f_{a}$ the embedding dimension of actions. The features are then processed with 3D sincos positional embeddings. In the second, actions are encoded as separate tokens and concatenated with visual tokens along the sequence dimension, keeping the predictor's hidden dimension to $D$ (as in the encoder). Rotary Position Embeddings (RoPE) is used at each block of the predictor. We also test an architecture mixing feature conditioning with RoPE.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Predictor architecture", "weight": 1.0} -->
+
+Another efficient conditioning technique is Adaptive Layer Normalization (AdaLN), as adopted by Bar et al., which we also put to the test, using RoPE in this case. This approach allows action information to influence all layers of the predictor rather than only at input, potentially preventing vanishing of action information through the network. We also study the AdaLN-zero variant, which initializes the conditioning MLP to output the zero-vector, so that the predictor behaves like an unconditional ViT block at the beginning of training. Details are provided in appendix˜C.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Model and data scaling", "weight": 1.0} -->
+
+We increase the encoder size to ViT-B and ViT-L, using DINOv2 ViT-B and ViT-L with registers. When increasing encoder size, we expect the prediction task to be harder and thus require a larger predictor. Hence, we increase accordingly the predictor embedding dimension to match the encoder. We also study the effect of predictor depth, varying it from 3 to 12. Regarding data scaling, we ablate the impact of these design choices on the sample-efficiency of JEPA-WMs, by training on 2%, 10%, 50% or 100% of the available training data. We compare our optimal JEPA-WM, detailed in section˜5.3 below, to the DINO-WM and V-JEPA-2-AC baselines for each of the data scale regimes considered.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Datasets", "weight": 1.0} -->
+
+For Metaworld, we gather a dataset by training TD-MPC2 online agents and evaluate two tasks, "Reach\" and "Reach-Wall\", denoted MW-R and MW-RW, respectively. We use the offline trajectory datasets released by Zhou et al., namely Push-T, Wall and PointMaze. The train split represents 90% of each dataset. We train on DROID and evaluate zero-shot on Robocasa by defining custom pick-and-place tasks from teleoperated trajectories, namely "Place\" and "Reach\", denoted Rc-Pl and Rc-R. We do not finetune the DROID models on Robocasa trajectories. We also evaluate on a set of 16 videos of a real Franka arm filmed in our lab, closer to the DROID distribution, and denote this task DROID. On DROID, we track the $L_{1}$ error between the actions outputted by the planner and the groundtruth actions of the trajectory from the dataset that defines initial and goal state.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Datasets", "weight": 1.0} -->
+
+We then rescale the opposite of this Action Error, to constitute the Action Score, a metric to maximize. We provide details about our datasets and environments in appendix˜E.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Goal definition", "weight": 1.0} -->
+
+We sample the goal frame from an expert policy provided with Metaworld, from the dataset for Push-T, DROID and Robocasa, and from a random 2D state sampler for Wall and Maze, more details in appendix˜E. For the models with proprioception, we plan using proprioceptive embedding distance, by setting $\alpha = 0.1$ in equation 2, except for DROID and Robocasa, where we set $\alpha = 0$, to be comparable to V-JEPA-2-AC.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Metrics", "weight": 1.0} -->
+
+The main metric we seek to maximize is success rate, but track several other metrics, that track the world model quality, independently of the planning procedure, and are less noisy than success rate. These metrics are embedding space error throughout predictor unrolling, proprioceptive decoding error throughout unrolling, visual decoding of open-loop rollouts (and the Learned Perceptual Image Patch Similarity (LPIPS) between these decodings and the groundtruth future frames). More details in section˜G.2.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Statistical significance", "weight": 1.0} -->
+
+To account for training variability, we train with 3 seeds per model for our final models in table˜2. We evaluate on $e$ episodes per epoch ($e = 96$ for most environments, $e = 64$ for DROID, $e = 32$ for Robocasa) and average success over the last $n$ training epochs to obtain aggregate scores; full details on aggregation and error bars are provided in section˜G.2.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Results", "weight": 1.0} -->
+
+One important fact to note is that, even with models which are able to faithfully unroll a large number of actions, success at the planning task is not an immediate consequence. We develop this claim in section˜G.1, and provide visualizations of rollouts of studied models and planning episodes.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Comparing planning optimizers", "weight": 1.0} -->
+
+We compare four planning optimizers: Cross-Entropy Method (CEM), Nevergrad (NG), Adam, and Gradient Descent (GD). CEM is a variant of the Covariance Matrix Adaptation Evolution Strategy (CMA-ES) family with diagonal covariance and simplified update rules. NG uses the NGOpt wizard, which selects diagonal CMA-ES based on optimization space parametrization and budget, see algorithm˜2. We observe in figure˜3 that the CEM $L_{2}$ planner performs best overall.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Comparing planning optimizers", "weight": 1.0} -->
+
+*(i) Gradient-based methods:* Adam $L_{2}$ achieves the best overall performance on Metaworld, outperforming all other optimizers, and GD is also competitive with CEM. This can be explained by the nature of Metaworld tasks: they have relatively smooth cost landscapes where the goal is greedily reachable, allowing gradient-based methods to excel. In contrast, on 2D navigation tasks (Wall, Push-T, Maze) that require non-greedy planning, gradient-based methods perform very poorly compared to sampling-based ones, as GD gets stuck in local minima. On DROID, gradient-based methods also perform significantly worse than sampling-based approaches: these tasks require rich and precise understanding of complex real-world object manipulation, leading to multi-modal cost landscapes. Robocasa tasks, being simulated but closer in nature to Metaworld, allow gradient-based methods to perform reasonably well again.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Comparing planning optimizers", "weight": 1.0} -->
+
+*(ii) Sampling-based methods:* On 2D navigation tasks, CEM clearly outperforms NG, as these tasks require precise action sequences where CEM's faster convergence to tight action distributions is beneficial, while NG's slower, more exploratory optimization is detrimental. To compare both methods, we plot the convergence of the optimization procedure at each planning step in figure˜9, and observe that NG converges more slowly, indicating more exploration in the space of action trajectories. On DROID and Robocasa, CEM and NG perform similarly. When using NG, we have fewer planning hyperparameters than with CEM, which requires specifying the top-$K_{e}$ trajectories parameter and the initialization of the proposal Gaussian distribution $\mu^{0},\sigma^{0}$---parameters that heavily impact performance. Crucially, on real-world manipulation data (DROID and Robocasa), NG performs on par with CEM while requiring no hyperparameter tuning, making it a practical alternative when transitioning to new tasks or datasets where CEM tuning would be costly.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Comparing planning optimizers", "weight": 1.0} -->
+
+On all planning setups and models, $L_{2}$ cost consistently outperforms $L_{1}$ cost. To minimize the number of moving parts in the subsequent study, we fix the planning setup for each dataset to CEM $L_{2}$, which is either best or competitive on all environments.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Multistep rollout predictor training", "weight": 1.0} -->
+
+At planning time, the predictor is required to faithfully roll out an action sequence by predicting future embeddings from its previous predictions. We observe in figure˜3 that the performance increases when going from pure teacher-forcing models to 2-step rollout loss models, but then decreases for models trained in simulated environments. At train time, during the predictor rollout, the context window for rollout steps $k > 1$ is set to a maximum of $W^{t} = 3$ timesteps. At test time, we start the predictor unrolling from one groundtruth (visual and optionally proprioceptive) embedding and unroll the predictor for $H$ steps, with a predictor sliding context window of length $W^{p} = 2$, as explained in equation 4 and appendix˜C. Because the predictor $P_{\theta}$ is a neural network with Lipschitz constant $\Lambda \geq 1$ in general, compounding prediction errors in continuous embedding space grow exponentially with the horizon $H$ (we formalize this in appendix˜D).
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Multistep rollout predictor training", "weight": 1.0} -->
+
+This creates an *accuracy-robustness tradeoff* when choosing the number of rollout steps $K$ for training: increasing $K$ raises $\delta_{K}$ (the one-step error on groundtruth inputs) but reduces the effective Lipschitz constant $\Lambda_{K}$ (see remark˜1. ‣ Appendix D Error propagation in autoregressive latent prediction ‣ What Drives Success in Physical Planning with Joint-Embedding Predictive World Models?") for a detailed analysis). The multi-step rollout loss thus acts as data augmentation against compounding error: the model learns to remain on the data manifold after several autoregressive steps, analogous to scheduled sampling. In simulated environments, the accuracy term dominates and the optimum is at small $K$; on DROID, reducing $\Lambda_{K}$ more than compensates the increase in $\delta_{K}$, and the optimal tradeoff point shifts to $K = 6$.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Impact of proprioception", "weight": 1.0} -->
+
+We observe in figure˜4 that models trained with proprioceptive input are consistently better than without. Visual embeddings from a frozen encoder capture appearance and coarse spatial layout, but precise metric quantities (joint positions, end-effector coordinates) are only implicitly encoded and subject to quantization by the patch-based architecture. Proprioception provides a metrically precise complement, particularly near goal states where small physical displacements yield negligible changes in embedding distance. On Metaworld, this explains the observed failure mode: without proprioception, the arm reaches the vicinity of the goal but oscillates, unable to resolve the remaining distance from vision alone. We do not display the results on Robocasa as the proprioceptive space is not aligned between DROID and Robocasa, making models using proprioception irrelevant for zero-shot transfer.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Maximum context size", "weight": 1.0} -->
+
+\(i\) A first experiment confirms a well-known but fundamental property: the training maximum context $W$ and planning maximum context $W^{p}$ must be chosen so that $W^{p} \leq W$. Otherwise, we ask the model to perform a prediction task it has not seen at train time, and we see the predictions degrading rapidly throughout unrolling if $W^{p} > W$. To account for this, the $W = 1$ model performance displayed in figure˜5 is from planning with $W^{p} = 1$. (ii) We recall that we chose to plan with $W^{p} = 2$ in all our experiments, since it yields the maximal success rate while being more computationally efficient. The predictor needs two frames of context to infer velocity and use it for the prediction task. It requires 3 frames to infer acceleration. We indeed see in figure˜5 a big performance gap between models trained with $W = 1$ and $W = 2$, which indicates that the predictor benefits from using this context to perform its prediction.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Maximum context size", "weight": 1.0} -->
+
+Interestingly, we observe that models trained on DROID have their optimal $W$ at 5, higher than on simulated datasets, for which it is 3. It is likely due to the more complex dynamics of DROID, requiring longer context to notably infer real-world arm and object dynamics. While longer context could in principle help capture phenomena such as object permanence or long-term momentum, occlusions are rare on DROID and Robocasa, as they can mostly occur between the arm the manipulated objects. Moreover, we sample the DROID dataset (natively at 30 fps) at 4 fps, so a training slice of ${W + 1} = 8$ frames already spans over 2 seconds of video, covering most occlusion events in the dataset. (iii) Increasing $W$ also reduces the number of unique training slices, which, even with a fixed number of training iterations, can harm performance on small datasets (e.g. on DROID, $W = 14$ retains only 86% of videos); see appendix˜E for details.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Maximum context size", "weight": 1.0} -->
+
+This is in line with the observation made by Sobal et al., that world models are good at \"stitching suboptimal trajectories\", compared to GCRL.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Encoder type", "weight": 1.0} -->
+
+In figure˜4, we see a clear advantage of DINO encoders compared to V-JEPA encoders. We posit this is due to the well-known fact that DINO has better fine-grained object segmentation capabilities, which is crucial in tasks requiring a precise perception of the location of the agent and objects. For a frozen-encoder JEPA-WM, the predictor must learn dynamics entirely in the encoder's representation space. DINO's finer object segmentation means that distinct objects occupy distinct spatial tokens with sharp boundaries, so that object motion translates into localized, sparse token changes that the predictor can learn efficiently. Coarser segmentation, as exhibited by V-JEPA even in image mode (appendix˜C), spreads object information across overlapping sets of tokens, making it harder for the predictor to isolate per-object dynamics. Interestingly, DINOv3 clearly outperforms DINOv2 only on the more photorealistic environments, Robocasa and DROID, likely due to the pretraining dataset of DINOv3 being more adapted to such images.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Encoder type", "weight": 1.0} -->
+
+On synthetic environments, DINOv2 already captures the simpler visual appearance; DINOv3's additional capacity may produce representations unnecessarily complex for the predictor, explaining why on Maze and Wall, models trained on DINOv3 take longer to converge to a lower success rate.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Predictor architecture", "weight": 1.0} -->
+
+In figure˜5, we observe that, while AdaLN with RoPE achieves the best average performance across environments, the advantage is slight, and results are task-dependent: on Metaworld, sincos+ftcond actually performs best. We do not see a substantial improvement when using RoPE instead of sincos positional embedding. As discussed when introducing AdaLN, its per-block conditioning may help avoid vanishing of the action information through the predictor's layers, while being more compute-efficient than other conditioning schemes. We also study AdaLN-zero, following Peebles & Xie 's naming. Although Peebles & Xie find AdaLN-zero to outperform AdaLN in their setup, we observe that, despite a higher average performance, AdaLN-zero underperforms AdaLN on the environments that provide the most reliable signal (DROID, PushT, Maze), which are less prone to noise in success rate and yield more consistent results across our other design choice experiments. Hence, we will consider, for our final JEPA-WMs optimum, the AdaLN variant.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Predictor architecture", "weight": 1.0} -->
+
+One important consideration when scaling predictor embedding dimension is maintaining the ratio of action to visual dimensions, which requires increasing the action embedding dimension in the feature conditioning case. To isolate the effect of the conditioning scheme from capacity differences due to different action ratios, we conduct additional experiments with equalized action ratios (see section˜G.1), which reveal task-dependent preferences between conditioning schemes that cannot be attributed to action ratio alone.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Model scaling", "weight": 1.0} -->
+
+We show in figures˜6 and 6 that increasing encoder size (with predictor width) or predictor depth does not improve performance on simulated environments. We identify three complementary hypotheses for this behavior: (a) simulated tasks are simple enough to saturate at small model sizes, so additional capacity brings no benefit; (b) larger embedding spaces make the planning optimization landscape harder to navigate, as the planner must distinguish nearby states in a higher-dimensional space (see figure˜18); (c) with fixed training compute, larger models see fewer gradient updates per parameter, potentially leading to underfitting. Notably, the optimal predictor depth appears to be 6 for most simulated environments, and possibly as low as 3 for the simplest 2D navigation tasks (Wall, Maze). However, on DROID, we observe a clear and consistent positive correlation between both encoder size and predictor depth with planning performance. This indicates that real-world data with complex visual dynamics benefits from higher-capacity models. This contrast provides a practical guideline for practitioners: scaling model capacity is most beneficial when the environment exhibits complex, high-dimensional dynamics (as in real-world robotics), while simulated environments with simple dynamics saturate at small model sizes.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Data scaling", "weight": 1.0} -->
+
+The results in figure˜7 provide three insights. (i) For all datasets and methods considered, performance clearly increases when scaling data, as the world model captures more diverse dynamics and nuances of the environment, allowing for more accurate predictions and better-informed planner optimization. This is expected, as the three methods rely on the same main learning signal, which is the one-step teacher-forcing loss in state embedding space. (ii) Our method outperforms baselines especially on DROID and Wall, where the data scaling seems less saturated. On the Push-T and Metaworld tasks, it also seems like increasing data diversity would increase performance by a large margin, yet our method's advantage is less clear. (iii) The results for models trained on DROID are in figure˜7. When evaluating these on offline planning on Franka videos (denoted DROID), we clearly see performance scaling with data quantity. Yet, for Robocasa Place and Reach, scaling is less clear, due to the domain gap between DROID and Robocasa.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Our proposed optimum in the class of JEPA-WMs", "weight": 1.0} -->
+
+We combine the findings of our study and propose optimal models for each of our robotic environments, that we compare to concurrent JEPA-WM approaches: DINO-WM and V-JEPA-2-AC. For simulated environments, we use a ViT-S encoder and a ViT-S predictor with depth 6, AdaLN conditioning, and RoPE positional embeddings. We train our models with proprioception and a 2-steps rollout loss, with a maximum context of $W = 3$. For DROID and Robocasa, following our model size findings, we use a ViT-L encoder with a ViT-L predictor of depth 12, without proprioception. We plan with CEM $L_{2}$ for all environments. We use DINOv2 on all environments, except on the photorealistic DROID and Robocasa, where we use DINOv3. We summarize the recommended recipe per task type in table˜1. As presented in table˜2, we outperform DINO-WM and V-JEPA-2-AC in most environments. We provide a full comparison across all planner configurations in table˜11.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Our proposed optimum in the class of JEPA-WMs", "weight": 1.0} -->
+
+We propose in figure˜2 a qualitative comparison of the object interaction abilities of our model against DINO-WM and V-JEPA-2-AC, in a simple counterfactual experiment, where we unroll two different action sequences from the same initial state, one where the robot lifts a cup, and one where it does not. Our model demonstrates a better prediction of the effect of its actions on the environment.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+In this paper, we studied the effect of several training and planning design choices of JEPA-WMs on planning in robotic environments. We found that several components play an important role, such as the use of proprioceptive input, the multistep rollout loss, or the choice of visual encoder. We found that image encoders with fine object segmentation capabilities are better suited for the manipulation and navigation tasks that we considered compared to video encoders. We found that having enough context to infer velocity is important, but that too long context harms performance, obviously due to seeing less unique trajectories during training and likely also having less useful gradient from predicting from long context. On the architecture side, we found that the action conditioning technique matters, with AdaLN being a strong choice on average, compared to sequence and feature conditioning, though results are task-dependent. We found that scaling model size (encoder size with predictor width, and predictor depth) does not improve performance on simulated environments. However, on real-world data (DROID and Robocasa), both larger encoders and deeper predictors yield consistent improvements, suggesting that scaling benefits depend on task complexity.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+We introduced an interface for planning with Nevergrad optimizers, leaving room for exploration of optimizers and hyperparameters. On the planning side, we found that CEM $L_{2}$ performs best overall. The NG planner performs similarly to CEM on real-world manipulation data (DROID and Robocasa) while requiring less hyperparameter tuning, making it a practical alternative when transitioning to new tasks or datasets. Gradient-based planners (GD and Adam) excel on tasks with smooth cost landscapes like Metaworld, but fail on 2D navigation or contact-rich manipulation tasks due to local minima. Finally, we applied our learnings and proposed models outperforming concurrent JEPA-WM approaches, DINO-WM and V-JEPA-2-AC. A limitation of this class of approaches is the deterministic predictor: the MSE loss learns the conditional mean of potentially genuinely multi-modal futures. This is mitigated in our benchmarks by their deterministic dynamics, by the latent abstraction of task-irrelevant variability and closed-loop MPC providing robustness to prediction errors.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+For environments with aleatoric uncertainty, JEPA-WMs would require stochastic extensions such as latent variable injection or diffusion in latent space.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Broader Impact Statement", "weight": 1.0} -->
+
+This work focuses on learning world models for physical agents, with the aim of enabling more autonomous and intelligent robots. We do not anticipate particular risk of this work, but acknowledge that further work building on it could have impact on the field of robotics, which is not exempt of risks of misuse. We also acknowledge the environmental impact of training large models, and we advocate for efficient training procedures and sharing of pretrained models to reduce redundant computation.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Author Contributions", "weight": 1.0} -->
+
+Basile Terver led the project, implemented the code, managed the experiments and wrote the paper. Tsung-Yen Yang helped with setting a custom robocasa evaluation pipeline. Quentin Garrido proposed the AdaLN conditioning implementation. Adrien Bardes, Jean Ponce and Yann Le Cun provided research directions guidance on the project and supervised the framing of the paper. All authors discussed the results and commented on the paper.

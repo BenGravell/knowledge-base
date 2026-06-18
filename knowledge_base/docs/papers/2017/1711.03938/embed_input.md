@@ -1,19 +1,215 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 CARLA: An Open Urban Driving Simulator
 
 Topics include Reinforcement learning, Imitation learning, Autonomous driving, Vehicles, Control, Learning, CARLA, Open source, Driving simulator, Source code.
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 We introduce CARLA, an open-source simulator for autonomous driving research. CARLA has been developed from the ground up to support development, training, and validation of autonomous urban driving systems. In addition to open-source code and protocols, CARLA provides open digital assets (urban layouts, buildings, vehicles) that were created for this purpose and can be used freely. The simulation platform supports flexible specification of sensor suites and environmental conditions. We use CARLA to study the performance of three approaches to autonomous driving: a classic modular pipeline, an end-to-end model trained via imitation learning, and an end-to-end model trained via reinforcement learning. The approaches are evaluated in controlled scenarios of increasing difficulty, and their performance is examined via metrics provided by CARLA, illustrating the platform's utility for autonomous driving research. The supplementary video can be viewed at
 
-## Introduction
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Sensorimotor control in three-dimensional environments remains a major challenge in machine learning and robotics. The development of autonomous ground vehicles is a long-studied instantiation of this problem. Its most difficult form is navigation in densely populated urban environments.
+Sensorimotor control in three-dimensional environments remains a major challenge in machine learning and robotics. The development of autonomous ground vehicles is a long-studied instantiation of this problem. Its most difficult form is navigation in densely populated urban environments. This setting is particularly challenging due to complex multi-agent dynamics at traffic intersections; the necessity to track and respond to the motion of tens or hundreds of other actors that may be in view at any given time; prescriptive traffic rules that necessitate recognizing street signs, street lights, and road markings and distinguishing between multiple types of other vehicles; the long tail of rare events -- road construction, a child running onto the road, an accident ahead, a rogue driver barreling on the wrong side; and the necessity to rapidly reconcile conflicting objectives, such as applying appropriate deceleration when an absent-minded pedestrian strays onto the road ahead but another car is rapidly approaching from behind and may rear-end if one brakes too hard.
 
-Research in autonomous urban driving is hindered by infrastructure costs and the logistical difficulties of training and testing systems in the physical world. Instrumenting and operating even one robotic car requires significant funds and manpower. And a single vehicle is far from sufficient for collecting the requisite data that cover the multitude of corner cases that must be processed for both training and validation. This is true for classic modular pipelines and even more so for data-hungry deep learning techniques.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-While ad-hoc use of simulation in autonomous driving research is widespread, existing simulation platforms are limited. Open-source racing simulators such as TORCS do not present the complexity of urban driving: they lack pedestrians, intersections, cross traffic, traffic rules, and other complications that distinguish urban driving from track racing.
+Research in autonomous urban driving is hindered by infrastructure costs and the logistical difficulties of training and testing systems in the physical world. Instrumenting and operating even one robotic car requires significant funds and manpower. And a single vehicle is far from sufficient for collecting the requisite data that cover the multitude of corner cases that must be processed for both training and validation. This is true for classic modular pipelines and even more so for data-hungry deep learning techniques. Training and validation of sensorimotor control models for urban driving in the physical world is beyond the reach of most research groups.
 
-In this paper, we introduce CARLA (Car Learning to Act) -- an open simulator for urban driving. CARLA has been developed from the ground up to support training, prototyping, and validation of autonomous driving models, including both perception and control. CARLA is an open platform. Uniquely, the content of urban environments provided with CARLA is also free. The content was created from scratch by a dedicated team of digital artists employed for this purpose. It includes urban layouts, a multitude of vehicle models, buildings, pedestrians, street signs, etc.
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Conclusion
+An alternative is to train and validate driving strategies in simulation. Simulation can democratize research in autonomous urban driving. It is also necessary for system verification, since some scenarios are too dangerous to be staged in the physical world (e.g., a child running onto the road ahead of the car). Simulation has been used for training driving models since the early days of autonomous driving research. More recently, racing simulators have been used to evaluate new approaches to autonomous driving. Custom simulation setups are commonly used to train and benchmark robotic vision systems. And commercial games have been used to acquire high-fidelity data for training and benchmarking visual perception systems.
 
-We have presented CARLA, an open simulator for autonomous driving. In addition to open-source code and protocols, CARLA provides digital assets that were created specifically for this purpose and can be reused freely. We leverage CARLA's simulation engine and content to test three approaches to autonomous driving: a classic modular pipeline, a deep network trained end-to-end via imitation learning, and a deep network trained via reinforcement learning. We challenged these systems to navigate urban environments in the presence of other vehicles and pedestrians.
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+While ad-hoc use of simulation in autonomous driving research is widespread, existing simulation platforms are limited. Open-source racing simulators such as TORCS do not present the complexity of urban driving: they lack pedestrians, intersections, cross traffic, traffic rules, and other complications that distinguish urban driving from track racing. And commercial games that simulate urban environments at high fidelity, such as Grand Theft Auto V, do not support detailed benchmarking of driving policies: they have little customization and control over the environment, limited scripting and scenario specification, severely limited sensor suite specification, no detailed feedback upon violation of traffic rules, and other limitations due to their closed-source commercial nature and fundamentally different objectives during their development.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this paper, we introduce CARLA (Car Learning to Act) -- an open simulator for urban driving. CARLA has been developed from the ground up to support training, prototyping, and validation of autonomous driving models, including both perception and control. CARLA is an open platform. Uniquely, the content of urban environments provided with CARLA is also free. The content was created from scratch by a dedicated team of digital artists employed for this purpose. It includes urban layouts, a multitude of vehicle models, buildings, pedestrians, street signs, etc. The simulation platform supports flexible setup of sensor suites and provides signals that can be used to train driving strategies, such as GPS coordinates, speed, acceleration, and detailed data on collisions and other infractions. A wide range of environmental conditions can be specified, including weather and time of day. A number of such environmental conditions are illustrated in Figure 1.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We use CARLA to study the performance of three approaches to autonomous driving. The first is a classic modular pipeline that comprises a vision-based perception module, a rule-based planner, and a maneuver controller. The second is a deep network that maps sensory input to driving commands, trained end-to-end via imitation learning. The third is also a deep network, trained end-to-end via reinforcement learning. We use CARLA to stage controlled goal-directed navigation scenarios of increasing difficulty. We manipulate the complexity of the route that must be traversed, the presence of traffic, and the environmental conditions. The experimental results shed light on the performance characteristics of the three approaches.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Simulation Engine", "weight": 1.0} -->
+
+CARLA has been built for flexibility and realism in the rendering and physics simulation. It is implemented as an open-source layer over Unreal Engine 4 (UE4), enabling future extensions by the community. The engine provides state-of-the-art rendering quality, realistic physics, basic NPC logic, and an ecosystem of interoperable plugins. The engine itself is free for non-commercial use.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Simulation Engine", "weight": 1.0} -->
+
+CARLA simulates a dynamic world and provides a simple interface between the world and an agent that interacts with the world. To support this functionality, CARLA is designed as a server-client system, where the server runs the simulation and renders the scene. The client API is implemented in Python and is responsible for the interaction between the autonomous agent and the server via sockets. The client sends commands and meta-commands to the server and receives sensor readings in return. Commands control the vehicle and include steering, accelerating, and braking. Meta-commands control the behavior of the server and are used for resetting the simulation, changing the properties of the environment, and modifying the sensor suite. Environmental properties include weather conditions, illumination, and density of cars and pedestrians. When the server is reset, the agent is re-initialized at a new location specified by the client.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Simulation Engine", "weight": 1.0} -->
+
+Environment. The environment is composed of 3D models of static objects such as buildings, vegetation, traffic signs, and infrastructure, as well as dynamic objects such as vehicles and pedestrians. All models are carefully designed to reconcile visual quality and rendering speed: we use low-weight geometric models and textures, but maintain visual realism by carefully crafting the materials and making use of variable level of detail. All 3D models share a common scale, and their sizes reflect those of real objects. At the time of writing, our asset library includes $40$ different buildings, $16$ animated vehicle models, and $50$ animated pedestrian models.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Simulation Engine", "weight": 1.0} -->
+
+We used these assets to build urban environments via the following steps: (a) laying out roads and sidewalks; (b) manually placing houses, vegetation, terrain, and traffic infrastructure; and (c) specifying locations where dynamic objects can appear (spawn). This way we have designed two towns: Town 1 with a total of $2.9$ km of drivable roads, used for training, and Town 2 with $1.4$ km of drivable roads, used for testing. The two towns are shown in the supplement.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Simulation Engine", "weight": 1.0} -->
+
+One of the challenges in the development of CARLA was the configuration of the behavior of non-player characters, which is important for realism. We based the non-player vehicles on the standard UE4 vehicle model (PhysXVehicles). Kinematic parameters were adjusted for realism. We also implemented a basic controller that governs non-player vehicle behavior: lane following, respecting traffic lights, speed limits, and decision making at intersections. Vehicles and pedestrians can detect and avoid each other. More advanced non-player vehicle controllers can be integrated in the future.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Simulation Engine", "weight": 1.0} -->
+
+Pedestrians navigate the streets according to a town-specific navigation map, which conveys a location-based cost. This cost is designed to encourage pedestrians to walk along sidewalks and marked road crossings, but allows them to cross roads at any point. Pedestrians wander around town in accordance with this map, avoiding each other and trying to avoid vehicles. If a car collides with a pedestrian, the pedestrian is deleted from the simulation and a new pedestrian is spawned at a different location after a brief time interval.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Simulation Engine", "weight": 1.0} -->
+
+To increase visual diversity, we randomize the appearance of non-player characters when they are added to the simulation. Each pedestrian is clothed in a random outfit sampled from a pre-specified wardrobe and is optionally equipped with one or more of the following: a smartphone, shopping bags, a guitar case, a suitcase, a rolling bag, or an umbrella. Each vehicle is painted at random according to a model-specific set of materials.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Simulation Engine", "weight": 1.0} -->
+
+We have also implemented a variety of atmospheric conditions and illumination regimes. These differ in the position and color of the sun, the intensity and color of diffuse sky radiation, as well as ambient occlusion, atmospheric fog, cloudiness, and precipitation. Currently, the simulator supports two lighting conditions -- midday and sunset -- as well as nine weather conditions, differing in cloud cover, level of precipitation, and the presence of puddles in the streets. This results in a total of $18$ illumination-weather combinations. (In what follows we refer to these as weather, for brevity.) Four of these are illustrated in Figure 1.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Simulation Engine", "weight": 1.0} -->
+
+Sensors. CARLA allows for flexible configuration of the agent's sensor suite. At the time of writing, sensors are limited to RGB cameras and to pseudo-sensors that provide ground-truth depth and semantic segmentation. These are illustrated in Figure 2. The number of cameras and their type and position can be specified by the client. Camera parameters include 3D location, 3D orientation with respect to the car's coordinate system, field of view, and depth of field. Our semantic segmentation pseudo-sensor provides 12 semantic classes: road, lane-marking, traffic sign, sidewalk, fence, pole, wall, building, vegetation, vehicle, pedestrian, and other.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Simulation Engine", "weight": 1.0} -->
+
+In addition to sensor and pseudo-sensor readings, CARLA provides a range of measurements associated with the state of the agent and compliance with traffic rules. Measurements of the agent's state include vehicle location and orientation with respect to the world coordinate system (akin to GPS and compass), speed, acceleration vector, and accumulated impact from collisions. Measurements concerning traffic rules include the percentage of the vehicle's footprint that impinges on wrong-way lanes or sidewalks, as well as states of the traffic lights and the speed limit at the current location of the vehicle. Finally, CARLA provides access to exact locations and bounding boxes of all dynamic objects in the environment. These signals play an important role in training and evaluating driving policies.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Autonomous Driving", "weight": 1.0} -->
+
+CARLA supports development, training, and detailed performance analysis of autonomous driving systems. We have used CARLA to evaluate three approaches to autonomous driving. The first is a modular pipeline that relies on dedicated subsystems for visual perception, planning, and control. This architecture is in line with most existing autonomous driving systems. The second approach is based on a deep network trained end-to-end via imitation learning. This approach represents a long line of investigation that has recently attracted renewed interest. The third approach is based on a deep network trained end-to-end via reinforcement learning.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Autonomous Driving", "weight": 1.0} -->
+
+We begin by introducing notation that is common to all methods and then proceed to describe each in turn. Consider an agent that interacts with the environment over discrete time steps. At each time step, the agent gets an observation $\mathbf{o}_{t}$ and must produce an action $\mathbf{a}_{t}$. The action is a three-dimensional vector that represents the steering, throttle, and brake. The observation $\mathbf{o}_{t}$ is a tuple of sensory inputs. This can include high-dimensional sensory observations, such as color images and depth maps, and lower-dimensional measurements, such as speed and GPS readings.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Autonomous Driving", "weight": 1.0} -->
+
+In addition to momentary observations, all approaches also make use of a plan provided by a high-level topological planner. This planner takes the current position of the agent and the location of the goal as input, and uses the $A^{\ast}$ algorithm to provide a high-level plan that the agent needs to follow in order to reach the goal. This plan advises the agent to turn left, turn right, or keep straight at intersections. The plan does not provide a trajectory and does not contain geometric information. It is thus a weaker form of the plan that is given by common GPS navigation applications which guide human drivers and autonomous vehicles in the physical world. We do not use metric maps.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Modular pipeline", "weight": 1.0} -->
+
+Our first method is a modular pipeline that decomposes the driving task among the following subsystems: (i) perception, (ii) planning, and (iii) continuous control. Since no metric map is provided as input, visual perception becomes a critical task. Local planning is completely dependent on the scene layout estimated by the perception module.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Modular pipeline", "weight": 1.0} -->
+
+The perception stack uses semantic segmentation to estimate lanes, road limits, and dynamic objects and other hazards. In addition, a classification model is used to determine proximity to intersections. The local planner uses a rule-based state machine that implements simple predefined polices tuned for urban environments. Continuous control is performed by a PID controller that actuates the steering, throttle, and brake. We now describe the modules in more detail.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Modular pipeline", "weight": 1.0} -->
+
+Perception. The perception stack we describe here is built upon a semantic segmentation network based on RefineNet. The network is trained to classify each pixel in the image into one of the following semantic categories: $\mathcal{C} =$ {road, sidewalk, lane marking, dynamic object, miscellaneous static}. The network is trained on $2,500$ labelled images produced in the training environment using CARLA. The probability distributions provided by the network are used to estimate the ego-lane based on the road area and the lane markings. The network output is also used to compute an obstacle mask that aims to encompass pedestrians, vehicles, and other hazards.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Modular pipeline", "weight": 1.0} -->
+
+In addition, we estimate the likelihood of being at an intersection by using a binary scene classifier (intersection/no intersection) based on AlexNet. This network is trained on $500$ images balanced between the two classes.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Modular pipeline", "weight": 1.0} -->
+
+Local planner. The local planner coordinates low-level navigation by generating a set of waypoints: near-term goal states that represent the desired position and orientation of the car in the near future. The goal of the planner is to synthesize waypoints that keep the car on the road and prevent collisions. The local planner is based on a state machine with the following states: (i) road-following, (ii) left-turn, (iii) right-turn, (iv) intersection-forward, and (v) hazard-stop. Transitions between states are performed based on estimates provided by the perception module and on topological information provided by the global planner. Further details can be found in the supplement. The local plan in the form of waypoints is delivered to the controller, along with the vehicle's current pose and speed.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Modular pipeline", "weight": 1.0} -->
+
+Continuous controller. We use a proportional-integral-derivative (PID) controller due to its simplicity, flexibility, and relative robustness to slow response times. Each controller receives the current pose, speed, and a list of waypoints, and actuates the steering, throttle and brake, respectively. We target a cruise speed of 20 km/h. Controller parameters were tuned in the training town.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Imitation learning", "weight": 1.0} -->
+
+Our second method is conditional imitation learning, a form of imitation learning that uses high-level commands in addition to perceptual input. This method utilizes a dataset of driving traces recorded by human drivers in the training town. The dataset $\mathcal{D} = {\{\left\langle \mathbf{o}_{i},\mathbf{c}_{i},\mathbf{a}_{i} \right\rangle\}}$ consists of tuples, each of which contains an observation $\mathbf{o}_{i}$, a command $\mathbf{c}_{i}$, and an action $\mathbf{a}_{i}$. The commands are provided by drivers during data collection and indicate their intentions, akin to turn signals. We use a set of four commands: follow the lane (default), drive straight at the next intersection, turn left at the next intersection, and turn right at the next intersection. The observations are images from a forward-facing camera. To increase the robustness of the learned policies, we inject noise during data collection.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Imitation learning", "weight": 1.0} -->
+
+The dataset is used to train a deep network to predict the expert's action $\mathbf{a}$ given an observation $\mathbf{o}$ and a control command $\mathbf{c}$. Further details are provided by Codevilla et al..
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Imitation learning", "weight": 1.0} -->
+
+We have collected around $14$ hours of driving data for training. The network was trained using the Adam optimizer. To improve generalization, we performed data augmentation and dropout. Further details are provided in the supplement.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Reinforcement learning", "weight": 1.0} -->
+
+Our third method is deep reinforcement learning, which trains a deep network based on a reward signal provided by the environment, with no human driving traces. We use the asynchronous advantage actor-critic (A3C) algorithm. This algorithm has been shown to perform well in simulated three-dimensional environments on tasks such as racing and navigation in three-dimensional mazes. The asynchronous nature of the method enables running multiple simulation threads in parallel, which is important given the high sample complexity of deep reinforcement learning.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Reinforcement learning", "weight": 1.0} -->
+
+We train A3C on goal-directed navigation. In each training episode the vehicle has to reach a goal, guided by high-level commands from the topological planner. The episode is terminated when the vehicle reaches the goal, when the vehicle collides with an obstacle, or when a time budget is exhausted. The reward is a weighted sum of five terms: positively weighted speed and distance traveled towards the goal, and negatively weighted collision damage, overlap with the sidewalk, and overlap with the opposite lane. Further details are provided in the supplement.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Reinforcement learning", "weight": 1.0} -->
+
+The network was trained with $10$ parallel actor threads, for a total of $10$ million simulation steps. We limit training to $10$ million simulation steps because of computational costs imposed by the realistic simulation. This correspond to roughly $12$ days of non-stop driving at $10$ frames per second. This is considered limited training data by deep reinforcement learning standards, where it is common to train for hundreds of millions of steps, corresponding to months of subjective experience. To ensure that our setup is fair and that $10$ million simulation steps are sufficient for learning to act in a complex environment, we trained a copy of our A3C agent to navigate in a three-dimensional maze (task D2 from Dosovitskiy and Koltun ). The agent reached a score of $65$ out of $100$ after $10$ million simulation steps -- a good result compared to $60$ out of $100$ reported by Dosovitskiy and Koltun after $50$ million simulation steps for A3C with less optimized hyperparameters.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+We evaluate the three methods -- modular pipeline (MP), imitation learning (IL), and reinforcement learning (RL) -- on four increasingly difficult driving tasks, in each of the two available towns, in six weather conditions. Note that for each of the three approaches we use the same agent on all four tasks and do not fine-tune separately for each scenario. The tasks are set up as goal-directed navigation: an agent is initialized somewhere in town and has to reach a destination point. In these experiments, the agent is allowed to ignore speed limits and traffic lights.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Straight: Destination is straight ahead of the starting point, and there are no dynamic objects in the environment. Average driving distance to the goal is 200 m in Town 1 and 100 m in Town 2.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+One turn: Destination is one turn away from the starting point; no dynamic objects. Average driving distance to the goal is 400 m in Town 1 and 170 m in Town 2.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Navigation: No restriction on the location of the destination point relative to the starting point, no dynamic objects. Average driving distance to the goal is 770 m in Town 1 and 360 m in Town 2.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Navigation with dynamic obstacles: Same as the previous task, but with dynamic objects (cars and pedestrians).
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Experiments are conducted in two towns. Town 1 is used for training, Town 2 for testing. We consider six weather conditions for the experiments, organized in two groups. Training Weather Set was used for training and includes clear day, clear sunset, daytime rain, and daytime after rain. Test Weather Set was never used during training and includes cloudy daytime and soft rain at sunset.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+For each combination of a task, a town, and a weather set, testing is carried out over $25$ episodes. In each episode, the objective is to reach a given goal location. An episode is considered successful if the agent reaches the goal within a time budget. The time budget is set to the time needed to reach the goal along the optimal path at a speed of $10$ km/h. Infractions, such as driving on the sidewalk or collisions, do not lead to termination of an episode, but are logged and reported.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Table 1 reports the percentage of successfully completed episodes under four different conditions. The first is the training condition: Town 1, Training Weather Set. Note that start and goal locations are different from those used during training: only the general environment and ambient conditions are the same. The other three experimental conditions test more aggressive generalization: to the previously unseen Town 2 and to previously unencountered weather from the Test Weather Set.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Results presented in Table 1 suggest several general conclusions. Overall, the performance of all methods is not perfect even on the simplest task of driving in a straight line, and the success rate further declines for more difficult tasks. Generalization to new weather is easier than generalization to a new town. The modular pipeline and the agent trained with imitation learning perform on par on most tasks and conditions. Reinforcement learning underperforms relative to the other two approaches. We now discuss these four key findings in more detail.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Performance on the four tasks. Surprisingly, none of the methods performs perfectly even on the simplest task of driving straight on an empty street in the training conditions. We believe the fundamental reason for this is variability in the sensory inputs encountered by the agents. Training conditions include four different weather conditions. The exact trajectories driven during training are not repeated during testing. Therefore performing perfectly on this task requires robust generalization, which is challenging for existing deep learning methods.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Results", "weight": 1.0} -->
+
+On more advanced tasks the performance of all methods declines. On the most difficult task of navigation in a populated urban environment, the two best methods -- modular pipeline and imitation learning -- are below $90\%$ success in all conditions and are below $45\%$ in the test town. These results clearly indicate that performance is far from saturated even in the training conditions, and that generalization to new environments poses a serious challenge.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Generalization. We study two types of generalization: to previously unseen weather conditions and to a previously unseen environment. Interestingly, the results are dramatically different for these two. For the modular pipeline and for imitation learning, the performance in the "New weather" condition is very close to performance in the training condition, and sometimes even better. However, generalization to a new town presents a challenge for all three approaches. On the two most challenging navigation tasks, the performance of all methods falls by at least a factor of $2$ when switching to the test town. This phenomenon can be explained by the fact that the models have been trained in multiple weather conditions, but in a single town. Training with diverse weather supports generalization to previously unseen weather, but not to a new town, which uses different textures and 3D models. The problem can likely be ameliorated by training in diverse environments. Overall, our results highlight the importance of generalization for learning-based approaches to sensorimotor control.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Modular pipeline vs end-to-end learning. It is instructive to analyze the relative performance of the modular pipeline and the imitation learning approach. These systems represent two general approaches to designing intelligent agents, and CARLA enables a direct controlled comparison between them.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Surprisingly, the performance of both systems is very close under most testing conditions: the performance of the two methods typically differs by less than $10\%$. There are two notable exceptions to this general rule. One is that the modular pipeline performs better under the "New weather" condition than under the training conditions. This is due to the specific selection of training and test weathers: the perception system happens to perform better on the test weathers. Another difference between the two approaches is that MP underperforms on navigation in the "New town" condition and on going straight in "New town & weather". This is because the perception stack fails systematically under complex weather conditions in the context of a new environment. If the perception stack is not able to reliably find a drivable path, the rules-based planner and the classic controller are unable to navigate to the destination in a consistent way. The performance is therefore bimodal: if the perception stack works, the whole system works well; otherwise it fails completely. In this sense, MP is more fragile than the end-to-end method.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Imitation learning vs reinforcement learning. We now contrast the performance of the two end-to-end trained systems: imitation learning and reinforcement learning. On all tasks, the agent trained with reinforcement learning performs significantly worse than the one trained with imitation learning. This is despite the fact that RL was trained using a significantly larger amount of data: $12$ days of driving, compared to $14$ hours used by imitation learning. Why does RL underperform, despite strong results on tasks such as Atari games and maze navigation ? One reason is that RL is known to be brittle, and it is common to perform extensive task-specific hyperparameter search, such as $50$ trials per environment as reported by Mnih et al.. When using a realistic simulator, such extensive hyperparameter search becomes infeasible. We selected hyperparameters based on evidence from the literature and exploratory experiments with maze navigation. Another explanation is that urban driving is more difficult than most tasks previously addressed with RL. For instance, compared to maze navigation, in a driving scenario the agent has to deal with vehicle dynamics and more complex visual perception in a cluttered dynamic environment.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Finally, the poor generalization of reinforcement learning may be explained by the fact that in contrast with imitation learning, RL has been trained without data augmentation or regularization such as dropout.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Infraction analysis. CARLA supports fine-grained analysis of driving policies. We now examine the behavior of the three systems on the hardest task: navigation in the presence of dynamic objects. We characterize the approaches by average distance traveled between infractions of the following five types: driving on the opposite lane, driving on the sidewalk, colliding with other vehicles, colliding with pedestrians, and hitting static objects. Details are provided in the supplement.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Table 2 reports the average distance (in kilometers) driven between two infractions. All approaches perform better in the training town. For all conditions, IL strays onto the opposite lane least frequently, and RL is the worst in this metric. A similar pattern is observed with regards to veering onto the sidewalk. Surprisingly, RL collides with pedestrians least often, which could be explained by the large negative reward incurred by such collisions. However, the reinforcement learning agent is not successful at avoiding collisions with cars and static objects, while the modular pipeline generally performs best according to this measure.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Results", "weight": 1.0} -->
+
+These results highlight the susceptibility of end-to-end approaches to rare events: breaking or swerving to avoid a pedestrian is a rare occurrence during training. While CARLA can be used to increase the frequency of such events during training to support end-to-end approaches, deeper advances in learning algorithms and model architectures may be necessary for significant improvements in robustness.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+We have presented CARLA, an open simulator for autonomous driving. In addition to open-source code and protocols, CARLA provides digital assets that were created specifically for this purpose and can be reused freely. We leverage CARLA's simulation engine and content to test three approaches to autonomous driving: a classic modular pipeline, a deep network trained end-to-end via imitation learning, and a deep network trained via reinforcement learning. We challenged these systems to navigate urban environments in the presence of other vehicles and pedestrians. CARLA provided us with the tools to develop and train the systems and then evaluate them in controlled scenarios. The feedback provided by the simulator enables detailed analyses that highlight particular failure modes and opportunities for future work. We hope that CARLA will enable a broad community to actively engage in autonomous driving research. The simulator and accompanying assets will be released open-source at

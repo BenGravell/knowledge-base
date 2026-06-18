@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise
 
 Topics include DBSCAN, Density-based clustering, Clustering, Spatial databases, Noise handling, Outlier detection, Arbitrary-shape clusters, Unsupervised learning, Data mining, Region query.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 This paper introduces DBSCAN, a density-based clustering algorithm that grows clusters from core points with sufficiently many neighbors inside an epsilon radius and labels sparse points as noise. Its central contribution is a practical alternative to centroid-based clustering for spatial data: it can recover arbitrary-shaped clusters, does not require the number of clusters in advance, and scales efficiently when neighborhood queries are supported by spatial indexes.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Clustering algorithms are attractive for the task of class identification in spatial databases. However, the application to large spatial databases rises the following requirements for clustering algorithms: minimal requirements of domain knowledge to determine the input parameters, discovery of clusters with arbitrary shape and good efficiency on large databases. The well-known clustering algorithms offer no solution to the combination of these requirements. In this paper, we present the new clustering algorithm DBSCAN relying on a density-based notion of clusters which is designed to discover clusters of arbitrary shape. DBSCAN requires only one input parameter and supports the user in determining an appropriate value for it. We performed an experimental evaluation of the effectiveness and efficiency of DBSCAN using synthetic data and real data of the SEQUOIA 2000 benchmark. The results of our experiments demonstrate that DBSCAN is significantly more effective in discovering clusters of arbitrary shape than the well-known algorithm CLARANS, and that DBSCAN outperforms CLARANS by a factor of more than 100 in terms of efficiency.

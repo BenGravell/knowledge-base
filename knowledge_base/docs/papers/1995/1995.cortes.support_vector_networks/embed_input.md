@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Support-Vector Networks
 
 Topics include Support vector machine, Kernel methods, Large-margin classification, Statistical learning theory, Optical character recognition, Machine learning.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Introduces support-vector networks for nonseparable two-class classification, extending maximum-margin ideas through nonlinear feature maps and slack for errors. The paper is the canonical source for soft-margin SVMs and helped establish kernel methods as a practical, high-generalization learning framework.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 The support-vector network is a new learning machine for two-group classification problems. The machine conceptually implements the following idea: input vectors are non-linearly mapped to a very high-dimension feature space. In this feature space a linear decision surface is constructed. Special properties of the decision surface ensures high generalization ability of the learning machine. The idea behind the support-vector network was previously implemented for the restricted case where the training data can be separated without errors. We here extend this result to non-separable training data. High generalization ability of support-vector networks utilizing polynomial input transformations is demonstrated. We also compare the performance of the support-vector network to various classical learning algorithms that all took part in a benchmark study of Optical Character Recognition.

@@ -1,23 +1,388 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Low-Complexity Learning of Linear Quadratic Regulators from Noisy Data
 
 Topics include Data-driven control, Linear quadratic regulator, Noisy data, Semidefinite programming, Direct linear quadratic regulator, Robust control, Reinforcement learning, Sample complexity.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Designs LQR controllers directly from noisy trajectory data with finite-sample, relative-error guarantees and an SDP implementation. It is a concise data-driven LQR counterpart to the noiseless LMI formulas, emphasizing robustness without a probabilistic noise model.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This paper considers the Linear Quadratic Regulator problem for linear systems with unknown dynamics, a central problem in data-driven control and reinforcement learning. We propose a method that uses data to directly return a controller without estimating a model of the system. Sufficient conditions are given under which this method returns a stabilizing controller with guaranteed relative error when the data used to design the controller are affected by noise. This method has low complexity as it only requires a finite number of samples of the system response to a sufficiently exciting input, and can be efficiently implemented as a semi-definite program. Further, the method does not require assumptions on the noise statistics, and the relative error nicely scales with the noise magnitude.
 
-## Introduction
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Control theory is witnessing an increasing renewed interest towards *data-driven* (*data-based*) control. This terminology refers to all those cases where the dynamics of the system are unknown and the control law must be designed using data alone. This can be done either by identifying a model of the system from data and then use the model for control design, or by directly designing the control law bypassing the system identification (ID) step.
+Control theory is witnessing an increasing renewed interest towards *data-driven* (*data-based*) control. This terminology refers to all those cases where the dynamics of the system are unknown and the control law must be designed using data alone. This can be done either by identifying a model of the system from data and then use the model for control design, or by directly designing the control law bypassing the system identification (ID) step. Methods in the first category are usually called *indirect* (sequential system ID and control design), while methods in the second category are usually called *direct* or *model-free*.\
+The interest for data-driven control has several motivations. As systems become more complex, first-principle models may be difficult to obtain or may be too complex for control design. Fully automated (end-to-end) procedures may also facilitate the online tuning or re-design of controllers, which is needed in all those applications where the system to be controlled or the environment are subject to changes that are difficult to predict. Dozens of publications on data-driven control have appeared in the last few years. We mention works on predictive control, optimal control, robust and nonlinear control.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This list is by no means exhaustive. We refer the interested reader to for a survey on earlier contributions.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 *The Linear Quadratic Regulator problem*
 
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 This paper considers the *infinite horizon* Linear Quadratic Regulator (LQR) problem for linear time-invariant systems, which is one of the problems more studied in the control literature. Besides its practical relevance, this problem is a prime example of the challenges encountered in data-driven control. Specifically, we consider the problem of computing the solution to the LQR problem from a finite set of (noisy) data collected from the system.\
-Early data-driven methods for LQR can be traced back to the theory of adaptive control systems, and include the popular *self-tuning regulators* and *policy iteration* schemes.
+Early data-driven methods for LQR can be traced back to the theory of adaptive control systems, and include the popular *self-tuning regulators* and *policy iteration* schemes. While the specific techniques are different, the common idea is to study the convergence of an adaptive control law to the optimal one as time goes to infinity. Starting, a tremendous effort has been made for establishing *non-asymptotic* properties of data-driven methods. This term refers to all those methods that aim at providing closed-loop stability and performance guarantees using only a *finite* number of data points. The interest towards *non-asymptotic* properties is both theoretical and practical.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Non-asymptotic properties help to derive performance guarantees of iterative (online) methods, and are at the basis of non-iterative (offline) methods.^11^1Here, by *iterative* we refer to all those methods where the control law is modified online.\
+It turns out that non-asymptotic properties are very difficult to derive if one departs from the assumption that data are noise-free. Most of the works dealing with noisy data are of indirect type and come from the area of *reinforcement learning* (RL). The common approach is to learn a model of the system along with non-asymptotic *probabilistic* bounds on the estimation error, and then design or update the control law depending on the specific method adopted (non-iterative or iterative). Among iterative methods we mention, where the latter is one of the few model-free methods that appeared in the literature. Among non-iterative methods we mention.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Our contribution is a new approach to design LQ controllers from noisy data with guaranteed performance.
 
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+*Low complexity*. The proposed method requires a finite (pre-computable) number of data points obtained from a single or multiple system's trajectories, and it can be implemented as a convex program.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 *Stability and performance guarantees*. As long as the noise satisfies suitable inequalities our method returns a stabilizing controller with quantitative *relative error* (gap between the computed solution and the unknown optimal controller) and the error nicely scales with the noise magnitude.
 
-As , we focus on non-iterative methods which do not require an initial stabilizing controller, as instead typically assumed in iterative methods. The main difference with respect to is that our method is direct and assumes no noise model.\
-The advantage of not relying on noise statistics is twofold. Although the solution to LQR can be interpreted as the one minimizing the variance of the system's output in response to white noise, experimental data need not comply with such setting, and show correlation and dependence (dependence breaks the *i.i.d.* assumption used in ).
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+*No assumptions on statistical properties of noise*. We do not make assumptions regarding the noise statistics such as the noise being a martingale or white.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+As, we focus on non-iterative methods which do not require an initial stabilizing controller, as instead typically assumed in iterative methods. The main difference with respect to is that our method is direct and assumes no noise model.\
+The advantage of not relying on noise statistics is twofold. Although the solution to LQR can be interpreted as the one minimizing the variance of the system's output in response to white noise, experimental data need not comply with such setting, and show correlation and dependence (dependence breaks the *i.i.d.* assumption used in ). Our method is free from this issue, while it also allows for simple noise-reduction strategies for random noise. Not relying on noise statistics also enables us to directly extend the analysis to the stabilization of nonlinear systems around an equilibrium since, around an equilibrium point, a nonlinear system can be expressed via its first-order approximation plus a remainder which acts as a noise source. We will elaborate on these point in the paper.\
+Our method is direct (model-free). There is currently a great debate regarding the effectiveness of direct methods versus indirect ones.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Here, we will not enter this debate partly because existing methods for LQR give probabilistic results while our method is *non-probabilistic*, and since the question of what is the "best" approach to take remains a question on the *priors*. A strength of our method (of direct methods in general) is a parsimonious use of such priors, which allows us to cope with situations where the noise has no convenient statistics. In such situations indirect methods (at least those proposed for LQR) are instead much more difficult to pursue since the ID step is strongly reliant on such statistics. On a similar vein, direct methods can be directly applied in settings such as with nonlinear or time-varying dynamics where system ID is typically more involved. Finally, by skipping the ID step, direct methods are often much more handy than indirect methods. For instance, regarding the LQR problem, our method does not require any *bootstrap* method or *reset* of the system's state, as needed.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our method rests on a fundamental result by Willems and co-authors recalled in Section 2. Roughly, this result states that a (noise-free) system trajectory generated by a *persistently exciting* input is a data-based non-parametric system model. We exploit this result to develop our model-free method. In Section 3, we formulate the LQR as an $\mathcal{H}_{2}$ problem and derive a data-based solution based on convex programming for the ideal case of noise-free data (Theorem 3.2). The main results are given through Sections 4 and 5. The first one (Theorem 4.3) provides stability properties and error bounds of the baseline solution in case of noisy data. Two variants to the baseline solution are discussed in Theorems 5.4 and 5.5. These variants guarantee more tolerance to noise at the cost of possibly reduced performance bounds. This matches what has been observed in indirect methods for noise-robust solutions. Practical aspects and extensions are discussed in Section 6, including nonlinear systems and de-noising strategies. Section 7.1 provides numerical simulations while Section 8 gives concluding remarks.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Problem definition and data-driven formulation", "weight": 1.0} -->
+
+In this section, we introduce the problem of interest and our baseline direct (model-free) data-driven method, which rests on condition above.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "The Linear Quadratic Regulator problem", "weight": 1.0} -->
+
+where $x \in {\mathbb{R}}^{n}$ is the state, $u \in {\mathbb{R}}^{m}$ is the control input, and where $d$ is a disturbance term; $z$ is a performance signal of interest; $(A,B)$ is controllable; $W_{x} \succeq 0$ and $W_{u} \succ 0$ are weighting matrices with $(W_{x},A)$ observable. In the sequel, to simplify the notation we set $W_{x} = W_{u} = I$, although all the results easily extend to the general case.\
+We consider the problem of designing a state-feedback controller $K$ that renders $A + {BK}$ Hurwitz and minimizes the $\mathcal{H}_{2}$-norm of the transfer function ${\mathcal{T}{(K)}}:{d\rightarrow z}$ of the closed-loop system
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "The Linear Quadratic Regulator problem", "weight": 1.0} -->
+
+where $P$ is the controllability Gramian of the closed-loop system, which is the unique solution to
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "The Linear Quadratic Regulator problem", "weight": 1.0} -->
+
+This corresponds in the time domain to the $2$-norm of the output $z$ when impulses are applied to the input channels, and can be interpreted as the mean-square deviation of $z$ when $d$ is a white process with unit covariance, which is the classic stochastic LQR formulation. Here, we view the LQR problem as a $\mathcal{H}_{2}$-norm minimization problem as our method is based on the minimization of.\
+It is known that the state-feedback controller which minimizes the $\mathcal{H}_{2}$-norm of $\mathcal{T}{(K)}$ is unique and can be computed as
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "The Linear Quadratic Regulator problem", "weight": 1.0} -->
+
+where $X$ is the unique positive definite solution to the classic discrete-time algebraic Riccati (DARE) equation
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "The Linear Quadratic Regulator problem", "weight": 1.0} -->
+
+We are interested in computing $K_{opt}$ when a model of the system is not available, and we only have access to a $T$-long stream of (nosy) data $u_{\lbrack 0,{T - 1}\rbrack}$ and $x_{\lbrack 0,{T - 1}\rbrack}$ collected during some experiment on system. By *noisy* we mean that the data collected from might have been generated with *nonzero* disturbance $d$. In particular, we aim at establishing properties of the data-driven solution with respect to the one that we can compute under exact model knowledge.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "A data-driven SDP formulation", "weight": 1.0} -->
+
+The problem of finding $K_{opt}$ can be equivalently formulated as a *semi-definite program* (SDP):^22^2With some abuse of terminology, we refer to and subsequent derivations as an SDP, with the understanding that they can be written as SDP using standard manipulations.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "A data-driven SDP formulation", "weight": 1.0} -->
+
+This formulation is the natural discrete-time counterpart of the formulation proposed in for continuous-time systems. We will not discuss the properties associated to. Rather, we will discuss the properties associated to an *equivalent data-based* version of.\
+Consider system along with data sequences $d_{\lbrack 0,{T - 1}\rbrack}$, $u_{\lbrack 0,{T - 1}\rbrack}$ and $x_{\lbrack 0,T\rbrack}$ resulting from an experiment of length $T$. Define corresponding matrices $D_{0}$, $U_{0}$, $X_{0}$ and $X_{1}$, which satisfy the relation
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "A data-driven SDP formulation", "weight": 1.0} -->
+
+It turns out that the controller $K_{opt}$ can be parametrized directly in terms of the data matrices $D_{0}$, $U_{0}$, $X_{0}$ and $X_{1}$. Specifically, under condition the controller $K_{opt}$ can be expressed as
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "A data-driven SDP formulation", "weight": 1.0} -->
+
+which only depends on data.\
+The idea behind this formulation is that, under condition, any feedback interconnection $A + {BK}$ can be rewritten in a form which does not involve the matrices $A$ and $B$. In fact, under condition, for any $K$ there exists a matrix $G$ that solves the system of equations
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "A data-driven SDP formulation", "weight": 1.0} -->
+
+Thus the formulation coincides with the one in with $Q = {GP}$. In particular, $K = {U_{0}QP^{- 1}}$ and ${X_{0}Q} = P$ provide an equivalent characterization of the two constraints.\
+Formulation first appeared in under the assumption that the collected data are noise-free, that is with $D_{0} = 0$, in which case $K_{opt}$ can be directly computed from data. Here, we revisit this result providing some additional properties related to this formulation.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Data-driven solution with noisy data", "weight": 1.0} -->
+
+From previous analysis, when data are noise-free, $K_{opt}$ can be computed directly using. When $D_{0} \neq 0$, cannot be solved unless we know $D_{0}$. In this section, we provide a first solution to the case when $D_{0}$ is nonzero and is not measured. This solution offers a quantitative *relative error* (the gap between the computed solution and $K_{opt}$) without making assumptions regarding the noise statistics.\
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Data-driven solution with noisy data", "weight": 1.0} -->
+
+If a solution is found then the corresponding controller is computed as $K = {U_{0}QP^{- 1}}$.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Data-driven solution with noisy data", "weight": 1.0} -->
+
+Even if a solution is found, the corresponding controller $K$ need to be stabilising.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Data-driven solution with noisy data", "weight": 1.0} -->
+
+Even if a solution is found and $K$ is stabilising, the performance achieved by $K$ might still substantially differ from the performance achieved by $K_{opt}$.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Data-driven solution with noisy data", "weight": 1.0} -->
+
+In the sequel, we will focus on items 2 and 3 above. Item 1 is implicitly addressed in the analysis. Suppose that a solution $(\overline{\gamma},\overline{Q},\overline{P},\overline{L})$ to is found, and denote by $\overline{K} = U_{0}\overline{Q}\overline{P}^{- 1}$ the corresponding controller. Further, let $(\gamma_{o},Q_{o},P_{o},L_{o})$ be any solution to with $K_{opt} = {U_{0}Q_{o}P_{o}^{- 1}}$.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Data-driven solution with noisy data", "weight": 1.0} -->
+
+for some real constants ${\eta_{1},\eta_{2}} \geq 1$. Note in particular that the first inequality ensures that $\overline{K}$ is stabilising.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Stability and performance analysis", "weight": 1.0} -->
+
+We will focus on the two inequalities in as the equality follows from Theorem 3.2. Consider the first inequality. The idea is to find conditions under which there exists a constant $\eta_{1}$ such that $\eta_{1}{(\overline{\gamma},\overline{Q},\overline{P},\overline{L})}$ is a feasible solution to. Then the inequality follows from Lemma 2. For brevity, we introduce some additional notation. Define
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Stability and performance analysis", "weight": 1.0} -->
+
+With this notation the first constraint in reads ${\Theta + I} \preceq 0$ while the first constraint in reads ${\Theta + \Psi + I} \preceq 0$. In the sequel, it is understood that all the solutions of interest inherit the same notation. In particular, we will use $\overline{M}$, $\overline{\Theta}$ and $\overline{\Psi}$ to denote the matrices corresponding to $(\overline{\gamma},\overline{Q},\overline{P},\overline{L})$ and $M_{o}$, $\Theta_{o}$ and $\Psi_{o}$ to denote the matrices corresponding to $(\gamma_{o},Q_{o},P_{o},L_{o})$.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Preliminary discussion", "weight": 1.0} -->
+
+The bound in (ii) of the above theorem defines the relative error with respect to the optimal solution. In our setting, this bound holds with no prior assumptions on the noise statistics, for instance the noise being a martingale or white. We note in particular that this error nicely scales with $\eta_{1}$ and $\eta_{2}$, and converges to zero as $D_{0}$ goes to zero since, in this case, both $\eta_{1}$ and $\eta_{2}$ converge to one.\
+Conditions and play a different role. The first one ensures that *any* solution to problem returns a stabilizing controller. This condition can be checked from data alone whenever some prior information on $d$ is available. Instead, condition makes it possible to explicitly quantify the performance gap between the solution and $K_{opt}$. Different, condition cannot be checked from data as it depends on the (unknown) optimal controller $K_{opt}$. In the next section, we will nonetheless discuss an interesting fact related to, namely that this condition is actually easier to satisfy in practice than.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Preliminary discussion", "weight": 1.0} -->
+
+We postpone a discussion on this point to Section 5 and first consider a variant of with the goal of rendering easier to fulfil.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Noise robustness through soft constraints", "weight": 1.0} -->
+
+Condition may be difficult to satisfy unless $d$ has very small magnitude. In fact, in order to satisfy one needs $\overline{\Psi} \prec I$, where
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Noise robustness through soft constraints", "weight": 1.0} -->
+
+with $\overline{M} = {\overline{Q}\overline{P}{{}_{}^{- 1}\left. Q \right.¯_{}^{}}}$. However, there is no constraint on the magnitude of $\overline{M}$ in with the consequence that a small level of noise may generate non-stabilizing controllers. This observation hints at modifying by adding a constraint on the magnitude of $M = {QP^{- 1}Q^{\top}}$.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Noise robustness through soft constraints", "weight": 1.0} -->
+
+Compared, we now search for solutions that lead to matrices $M = {QP^{- 1}Q^{\top}}$ having small trace, equivalently such that $QP^{- \frac{1}{2}}$ has small singular values. A *soft* constraint favours small values of $M$ while preserving all the logical steps of the baseline solution.\
+We proceed as before. Assume that a solution $(\overline{\gamma},\overline{Q},\overline{P},\overline{L},\overline{V})$ to is found and let $\overline{K} = U_{0}\overline{Q}\overline{P}^{- 1}$ be the corresponding controller. Let $(\gamma_{o},Q_{o},P_{o},L_{o})$ be any optimal solution to with $K_{opt} = {U_{0}Q_{o}P_{o}^{- 1}}$.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Stability and performance analysis", "weight": 1.0} -->
+
+The first inequality follows as in Lemma 4.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Alternative based on the $S$-procedure", "weight": 1.0} -->
+
+The key to overcome the lack of knowledge about $D_{0}$ in the problem is to completely disregard such a term to obtain the implementable form, from which a robust version with soft constraints on $M$ is eventually derived. An alternative to this approach is to explicitly impose conditions on $D_{0}$ with the perspective of obtaining a potentially more robust version of and. We discuss advantages and drawbacks of the approach.\
+As, we initially consider a condition on $D_{0}$ in the form
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Alternative based on the $S$-procedure", "weight": 1.0} -->
+
+where $R$ is a full-row rank matrix and $\mu$ is a positive real. In the remainder of this subsection, we revisit this condition with the purpose of providing a variant of. We let the constraint be *regular*, assuming that there exists a vector $\overline{x}$ such that ${{\overline{x}}^{\top}D_{0}D_{0}^{\top}\overline{x}} < {\mu^{2}{\overline{x}}^{\top}RR^{\top}\overline{x}}$. This condition is only introduced to motivate the formulation of the more robust variant of and will be not be required in the main result of the section.\
+Under, by the $S$-procedure, a necessary and sufficient condition to ensure the robust stabilizability condition, namely to ensure that
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Alternative based on the $S$-procedure", "weight": 1.0} -->
+
+is the existence of a parameter $\tau \geq 0$ such that
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Alternative based on the $S$-procedure", "weight": 1.0} -->
+
+To get rid of the dependence on the unknown matrix $D_{0}$, instead of the equivalent condition above, one can consider the sufficient condition
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Alternative based on the $S$-procedure", "weight": 1.0} -->
+
+for some $\tau \geq 0$, with $M$ as in (4.1),
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Alternative based on the $S$-procedure", "weight": 1.0} -->
+
+where the role of the factor $\eta_{1} \geq 1$ will be explained later. We have previously discussed on the benefits of including a soft constraint on $M = {QP^{- 1}Q^{\top}}$. We would like to have these benefits also in the robust variant of the SDP problem that we are studying here. We recall that the idea consists of bounding $M$ via a matrix decision variable $V$, whose trace is made as small as possible in the optimization process.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Alternative based on the $S$-procedure", "weight": 1.0} -->
+
+This is achieved by introducing the new constraint ${V - {QP^{- 1}Q^{\top}}} \succeq 0$ and by modifying the existing constraint ${{{trace}(P)} + {{trace}(L)}} \leq \gamma$ into ${{{trace}(P)} + {{trace}(L)} + {{trace}(V)}} \leq \gamma$.\
+Let us observe now that a constraint on $M$ is already present in the first constraint of in the form ${M - {\tauI}} \preceq 0$. Thus, it is natural to modify block $$ in that constraint as ${M - V} \preceq 0$. However, the matrix $- {\tauI}$ in ${M - {\tauI}} \preceq 0$ derived from imposing the condition and the latter also motivated the introduction of the term $\mu^{2}\tauRR^{\top}$ in block $$ in the first constraint of, which must be changed accordingly.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Alternative based on the $S$-procedure", "weight": 1.0} -->
+
+We now establish the main properties of.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Remark 9", "weight": 1.0} -->
+
+(Implementation of ) Since ${X_{0}Q} = P$ and $M = {QP^{- 1}Q^{\top}}$, by Schur complement the first inequality in becomes
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Remark 9", "weight": 1.0} -->
+
+which gives rise to an SDP analogous to. Problem can be then implemented through a line search on $\eta_{1}$ as we will illustrate in the numerical simulations. $\blacksquare$
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Stability and performance verification, nonlinear systems and de-noising", "weight": 1.0} -->
+
+We devote this section to discuss some practical aspects of the proposed method as well as possible extensions of the previous analysis.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Stability and performance verification", "weight": 1.0} -->
+
+Sections 5 and 6 give stability and performance properties of our data-driven approach to the LQR problem. We now discuss how to infer these properties by only looking at the data.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Stability and $\\mathcal{H}_{2}$-norm bounds", "weight": 1.0} -->
+
+Inferring stability and performance of $\overline{K}$ inevitably requires some prior assumptions on the quality of data, hence on the noise. Our method makes a parsimonious use of such priors (*i.e.* no noise statistics are needed), much in the spirit of robust control design.\
+To ensure stability with an $\mathcal{H}_{2}$-norm bound, Theorem 4.3 and 5.4 require the fulfilment of the condition which involves the noise-dependent matrix
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Stability and $\\mathcal{H}_{2}$-norm bounds", "weight": 1.0} -->
+
+If one knows that ${\| D_{0}\|} \leq \delta$ for some $\delta > 0$ then condition is satisfied if
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Stability and $\\mathcal{H}_{2}$-norm bounds", "weight": 1.0} -->
+
+for some $\eta_{1} \geq 1$, which can be checked from data alone. A bound on $\| D_{0}\|$ can be obtained from prior information on the noise magnitude, and is representative of the noise energy content. Condition has the same features of the original condition in the sense that is becomes easier to satisfy for small values of $\overline{M}$.\
+Similar considerations apply to Theorem 5.5 where, under the bound ${\| D_{0}\|} \leq \delta$, condition is satisfied if
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Stability and $\\mathcal{H}_{2}$-norm bounds", "weight": 1.0} -->
+
+which can be checked from data alone. We note that for both and there is an evident tradeoff between priors and conservativeness: the larger the value of $\delta$ is the higher is the chance that the assumption on the noise is satisfied, but the lower is the chance that and hold. We also note that approaches other than the one discussed can be used. In particular, if $D_{0}$ is known to belong to some compact set $\mathcal{D}$ then one can check through a finite set of linear matrix inequalities computed at the vertices of a convex embedding of $\mathcal{D}$ as done, albeit this approach is computationally demanding.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Bounds on the relative error", "weight": 1.0} -->
+
+To achieve bounds on the error also conditions and are used. Condition states that the data are sufficiently rich in content. As noted in this condition is not restrictive for the LQR problem. In fact, in the noiseless case, this condition is necessary for reconstructing $A$ and $B$ from data (hence for any model-based solution and indirect data-driven method) and is also generically necessary for any direct data-driven method.^33^3Condition is instead not needed in general to find a stabilizing controller (*cf.* Theorems 4.3, 5.4 and 5.5). This matches the observations made.\
+Condition can be checked from data. In the noise-free case it can be enforced at the experiment stage (Lemma 1). In the noisy case may or may not hold depending on the noise level (although it always remains checkable from data). Nonetheless, it is simple to see that continues to hold in the presence of noise when $d$ is sufficiently small. In fact, by linearity, $W_{0}$ can be decomposed as
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Bounds on the relative error", "weight": 1.0} -->
+
+where $X_{0}^{u}$ and $X_{0}^{d}$ represent the state data generated by $u$ and $d$, respectively. Since by Lemma 1 the matrix involving $U_{0}$ and $X_{0}^{u}$ has full row rank then also $W_{0}$ has full row rank whenever $d$ has sufficiently low magnitude.\
+We next focus on the condition. The structure of is analogous to, with the difference that it involves the matrix $\Psi_{o} = {{D_{0}M_{o}D_{0}^{\top}} - {X_{1}M_{o}D_{0}^{\top}} - {D_{0}M_{o}X_{1}^{\top}}}$ instead of $\overline{\Psi}$. Like condition, also is automatically satisfied for $D_{0} = 0$, in which case $\eta_{2} = 1$.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Bounds on the relative error", "weight": 1.0} -->
+
+Different, cannot be checked from data as it depends on the (unknown) optimal controller $K_{opt}$ via $M_{o}$. Nonetheless, an interesting fact related to is that this condition is actually easier to satisfy than. This indicates in particular that the robust solution in Theorem 5.4 does not introduce much conservatism with respect to the baseline solution in Theorem 4.3.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Bounds on the relative error", "weight": 1.0} -->
+
+We now elaborate on this point.\
+In both Theorems 4.3 and 5.4, the performance gap between $\overline{K}$ and $K_{opt}$ holds for *any* optimal solution $(\gamma_{o},Q_{o},P_{o},L_{o})$ to problem, and this is possible since by Theorem 3.2 all the solutions are such that $K_{opt} = {U_{0}Q_{o}P_{o}^{- 1}}$ with $\mathcal{H}_{2}$-norm ${\|{\mathcal{T}{(K_{opt})}}\|}_{2}^{2} = {{{trace}{(P_{o})}} + {{trace}{(L_{o})}}}$. We now derive a particular (optimal) solution, the derivation being analogous to the one in Lemma 3.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Bounds on the relative error", "weight": 1.0} -->
+
+This particular solution is optimal as it achieves the same cost of any other optimal solution (Theorem 3.2). The special feature of this solution is that $G_{o}$ is the *minimum norm* least-squares solution to with $K = K_{opt}$, and so is $Q_{o} = {G_{o}P_{o}}$. Since $M_{o} = {Q_{o}P_{o}^{- 1}Q_{o}^{\top}}$, condition turns out to be satisfied more easily than since the matrix $\overline{M}$ appearing in is instead not necessarily associated to any minimum norm solution. We note that $Q_{o}$ (thus $M_{o}$) decreases as the norm of $W_{0}$ increases, which happens for instance when the number $T$ of collected data increases. This implies in particular that $V_{o}$ approaches $0$ as $W_{0}$ increases.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Bounds on the relative error", "weight": 1.0} -->
+
+In turn, this means that the formulation does not introduce much conservatism with respect to the formulation since the performance bound
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Nonlinear systems", "weight": 1.0} -->
+
+The previous analysis extends to the problem of finding the LQR law for a nonlinear system around an equilibrium using data collected from the nonlinear system. In fact, around an equilibrium a nonlinear system can be expressed via its first order approximation plus a reminder, which acts as a process disturbance for the linearized dynamics.\
+Consider a smooth nonlinear system
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Nonlinear systems", "weight": 1.0} -->
+
+where $\xi$ is a process disturbance, and let $(\overline{x},\overline{u})$ be a *known* equilibrium pair, that is such that $\overline{x} = {f{(\overline{x},\overline{u})}}$. Thus, we can rewrite the dynamics as
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Nonlinear systems", "weight": 1.0} -->
+
+and with $d:={\xi + r}$, where $r$ accounts for higher-order terms and it has the property that is goes to zero faster than $\deltax$ and $\deltau$, namely we have
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Nonlinear systems", "weight": 1.0} -->
+
+where $R{({\deltax},{\deltau})}$ ia a matrix of smooth functions with the property that $R{({\deltax},{\deltau})}$ goes to zero as ${\lbrack{\deltax^{\top}\deltau^{\top}}\rbrack}^{\top}$ goes to zero. Now, if the pair $(A,B)$ defining the linearized system is stabilizable then a controller $K$ rendering $A + {BK}$ stable also exponentially stabilizes the equilibrium $(\overline{x},\overline{u})$ for the original nonlinear system. Thus, the analysis in Theorem 5.4 carries over directly to this case (similar conclusions apply to Theorem 5.5).
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
+
+Several de-noising strategies can be adopted when the noise features are known, popular methods being the Singular Spectrum Analysis, the Cadzow algorithm, and structured low-rank approximation. Here, we discuss a simple de-noising strategy based on averaging of *ensembles*.\
+Roughly, the idea is that for signals affected by random noise the components due to noise can be filtered out by taking an average of several signal "cycles". This can be done by considering a single trajectory of length $T_{\ast}$ and cutting it into $N$ pieces of length $T$ (single trajectory ensemble) or by taking $N$ measurements of length $T$ (multiple trajectory ensemble). We now elaborate on this idea considering the case of multiple trajectory ensembles.\
+Given $N$ matrices $S^{(n)}$ with $n = {1,\ldots,N}$, let
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
+
+denote their average. For a given $N$, let
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
+
+be the dynamics of over a generic experiment (cycle) $n$ with $n = {1,\ldots,N}$. Thus, $x^{(n)}$, $u^{(n)}$ and $d^{(n)}$ are the state, input, and disturbance signals associated with the experiment $n$. By linearity, if we collect $T$ samples in each experiment the resulting tuples
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
+
+Hence, the average signals still provide a valid input-output system trajectory, meaning that all previous results apply to this case without any modifications.\
+For random noise, however, using can be advantageous with respect to using, that is one single experiment. To see this, consider the case of $N$ (repeated) experiments carried out with persistently exciting input signals $u^{(n)} = u$ for all $n = {1,\ldots,N}$ and arbitrary initial states, and suppose that the noise realizations $d^{(n)}$ are *i.i.d.* with zero mean and covariance matrix $\sigma^{2}I$. Under these conditions holds with ${\overline{U}}_{0} = U_{0}$, *i.e.* ${\overline{X}}_{1} = {{A{\overline{X}}_{0}} + {BU_{0}} + {\overline{D}}_{0}}$.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
+
+This ensures that the average trajectory arises from a persistently exciting input, which is needed for having fulfilled (the average of persistently exciting signals need not result in a persistently exciting signal). With this appraoch, and (thus and ) become easier to satisfy. In fact,
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
+
+where the accuracy of the approximation increases with $T$ (the relation being exact in terms of *expectation*). Hence,
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
+
+showing an approximate reduction by a factor of $N$ (indeed, this is nothing but a consequence of the fact that averaging $N$ *i.i.d* realizations reduces the variance by a factor of $N$). This procedure is illustrated in the numerical simulations which follow.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Monte Carlo simulations", "weight": 1.0} -->
+
+In this section, we support our theoretical findings through simulations on linear and nonlinear systems.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+
+We consider $100$ systems as in with $n = 3$ and $m = 1$, under three types of noise: *white Gaussian noise* (WGN), constant bias and sinusoidal disturbances. In all the cases, we also consider different levels of noise. For every type (and level) of noise we test and in all the systems. Numerical simulations have been carried out in Matlab. For each experiment, we choose the entries of the matrices $A$ and $B$ and of the initial state from a normal distribution with zero mean and unit variance, abbreviated by $\mathcal{N}{}$ (command randn). For each experiment, the controller was designed using $T = 20$ samples generated by applying an input signal $u \sim {\mathcal{N}{}}$ (by Lemma 1 condition requires a minimum of $7$ samples).\
+WGN has been generated taking $d \sim {\mathcal{N}{(0,{\sigma^{2}I})}}$, where $\sigma$ represents the standard deviation.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+
+We varied $\sigma$ considering different scenarios of the signal-to-noise (SNR), computed (command snr) by comparing the variables $Bu$ (signal) and $d$ (noise). This SNR measures how much noise enters the system relatively to the intended input signal. Constant bias was chosen by applying to each input channel a value $\kappa$ taken from a uniform distribution in $({- \overline{\kappa}},\overline{\kappa})$. Finally, sinusoidal disturbance was chosen by applying to each input channel a signal $\kappa{\sin{(k)}}$ with $\kappa$ given as above.\
+We denote by $\mathcal{S}$ the percentage of times we get a stabilizing controller. We also compute the performance gap between the controller found via and and the optimal one.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+
+Specifically, for each type (and level) of noise, we let $\overline{K}^{(k)}$ and $K_{opt}^{(k)}$ with $k = {1,\ldots,100}$ denote the controller found via or and the optimal one for the $k$-th experiment, and let
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+
+represent the relative performance error. We denote by $\mathcal{M}$ the median of $\mathcal{E}_{k}$ through all the experiments that return a stabilizing controller. Each type (and level) of noise was tested with the same set of plant matrices and inputs. Finally, we denote by $\mathcal{V}$ the percentage of times we infer stability via and assuming some prior knowledge on $d$. As for WGN, we selected $\delta$ in and by taking $\hat{\sigma} = {1.5\sigma}$ ($50\%$ overestimate of $\sigma$) and by setting $\delta = {\sqrt{T}\hat{\sigma}}$ (*cf.* ).
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+
+As for constant and sinusoidal disturbances, we consider a worst-case estimate ${\hat{D}}_{0} = {\overline{\kappa}\mathbf{1}_{n \times T}}$ where $\mathbf{1}_{n \times T}$ is the $n \times T$ matrix of all ones, yielding $\delta = {\sqrt{Tn}\overline{\kappa}}$. These values of $\delta$ give a correct over-approximation of the norm of $D_{0}$ in all the experiments. These values of $\delta$ are also used to implement. Specifically, we implemented by first computing the smallest $\mu^{2}$ such that ${\delta^{2}I} \preceq {\mu^{2}RR^{\top}}$ with the choice $R = X_{1}$ and then by performing a line search on $\eta_{1}$. The choice $R = X_{1}$ has robust stability interpretations and proved effective in the simulations.\
+For solving and we used CVX.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+
+In all experiments, both methods and perform well for reasonable values of the SNR ($\geq 25$dB) as well as for low-medium SNR values in the range $$dB. The method performs better in terms of relative error but is slightly less robust, in line with the discussion in Section 5.2. For very low SNR ($\leq 5$dB) the performance of both methods drop. We note (not reported in Table 1) that both methods settle to $\mathcal{S} = {76\%}$ for SNR $\leq {- 5}$dB regardless of $\sigma$. This happens since $76\%$ of systems are open-loop stable, and $K = 0$ is feasible for both methods when $U_{0}$, $X_{0}$ and $X_{1}$ have full-row rank.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+
+For both and, robustness to noise can be further enhanced by adding a weight $\alpha > 1$ to the term ${trace}{(V)}$, so as to favour robustness over accuracy relative to $K_{opt}$ (*cf.* Section 5). For instance, for WGN with $\sigma = 0.1$ the program achieves $\mathcal{S} = {96\%}$ with $\alpha = 10$, but at the expense of a reduced performance $\mathcal{M} = 0.0380$. Using a weight $\alpha > 1$ can be beneficial also for stability inference (quantity $\mathcal{V}$) since smaller $V$ render and easier to fulfil. For instance, under the same conditions as above $\mathcal{V}$ increases from $11\%$ to $46\%$.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+
+For WGN, robustness can be increased also by averaging trajectories from multiple experiments (*cf.* Section 6.3) This is advantageous with respect to adding a penalty on ${trace}{(V)}$ because no performance losses are introduced. To emphasize this point, the last three rows of Table 1 report the results with $N = 100$ repeated experiments for each system, although $N = 10$ suffices to get $\mathcal{S} = {96\%}$ with median relative error $\mathcal{M} = 0.0034$ for $\sigma = 0.1$, and $\mathcal{S} = {90\%}$ with $\mathcal{M} = 0.0296$ for $\sigma = 0.5$.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+
+With stable dynamics increasing $T$ is usually beneficial for performance. From a theoretical viewpoint, this is due the fact that increasing $T$ reduces the term ${trace}{(V_{0})}$, thus the relative error (*cf.* Section 6.1.2). With unstable dynamics this advantage is offset by the fact that the noise effect amplifies, and this renders stability more difficult to achieve. In fact, we observed that decreasing $T$ actually gives an increase of $\mathcal{S}$ in almost all scenarios since in this case stabilization of the unstable systems becomes easier. (for instance, with $T = 10$ we obtain $\mathcal{S} = {82\%}$ for WGN with $\sigma = 0.5$).
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+
+We have also tested our methods on the Laplacian system considered. With, under the same setting (input and noise in $\mathcal{N}{})$, an average of $N = 10$ trajectories of length $T = 20$ is sufficient to get $\mathcal{S} = {100\%}$ with $\mathcal{M} = 0.6569$ over $100$ experiments made by randomly changing input and noise patterns. To further decrease $\mathcal{M}$ one needs to increase $T$ (and $N$). In this case, increasing $T$ does not bring issues since the dynamics are mildly unstable and the input signals have zero mean.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Nonlinear inverted pendulum", "weight": 1.0} -->
+
+Consider the Euler discretization of an inverted pendulum. The system is as in with
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Nonlinear inverted pendulum", "weight": 1.0} -->
+
+where $\Delta$ is the sampling time, $m$ is the mass, $\ell$ is the distance from the base to the center of mass of the balanced body, $\mu$ is the coefficient of rotational friction, and $g$ is the acceleration due to gravity. The states $x_{1},x_{2}$ are the angular position and velocity, respectively, $u$ is the applied torque. The system has an unstable equilibrium in ${(\overline{x},\overline{u})} = {}$ corresponding to the pendulum upright position so that ${\deltax} = x$ and ${\deltau} = u$.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Nonlinear inverted pendulum", "weight": 1.0} -->
+
+We assume that the parameters are $\Delta = 0.01$, $m = \ell = 1$, $\mu = 0.01$, and $g = 9.8$.\
+We made $100$ experiments by considering initial conditions in $\mathcal{N}{(0,0.1)}$, corresponding to an initial displacement from the equilibrium of about $\pm 10^{\circ}$, and $u \sim {\mathcal{N}{}}$. The results are in line with the previous ones. In particular, when $\xi = 0$ (the only disturbance source is the nonlinearity) we obtain $\mathcal{S} = {100\%}$ with $\mathcal{M} = 0.0356$ using with trajectories of length $T = 20$. We also considered the case of WGN noise affecting the velocity dynamics, *i.e.* with $u$ replaced by $u + \xi$ with $\xi \sim {\mathcal{N}{(0,\sigma)}}$.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Nonlinear inverted pendulum", "weight": 1.0} -->
+
+In this case, we obtain $\mathcal{S} = {100\%}$ for $\sigma \leq 0.1$ (SNR $\geq 20$dB) up to $\mathcal{S} = {12\%}$ for $\sigma = 1$ (SNR $\approx 0$dB). Similar results are obtained with and under different settings, that is with different types of noise and samples $T$. Since the equilibrium is unstable, reducing $T$ can be beneficial for values of $u$ and $\xi$ that steer the system far from the equilibrium (for instance, using $T = 10$ we get $\mathcal{S} = {36\%}$ for WGN $\sigma = 1$). As for linear systems, at the expense of reduced performance, robustness can be enhanced by adding a weight $\alpha > 1$ to the term ${trace}{(V)}$ (for instance, setting $\alpha = 10$ we obtain $\mathcal{S} = {64\%}$ for WGN with $\sigma = 1$).
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Concluding remarks", "weight": 1.0} -->
+
+The design of (optimal) controllers from noisy data is a very challenging and largely unsolved problem. In this paper we took some steps in this direction for the LQR problem. By resorting to a convex SDP formulation of the LQR problem, we proposed two novel methods that explicitly account for noise through an augmented cost function which favours noise-robust solutions. Both method provides finite sample stability guarantees, and do not require specific noise models such as the noise being white.\
+A great leap forward would come from extending the ideas of this paper to incorporate state and input *safety* constraints. At the moment of writing, we aim at tackling this challenge using concepts and tools from *set-invariance* control. For stabilization problems with no optimality requirements, recent results have shown that data-based formulations of set-invariance properties can be efficiently cast as linear programs, and they can handle noisy data.

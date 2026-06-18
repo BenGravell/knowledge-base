@@ -1,7 +1,19 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 The SR-tree
 
 Topics include Multidimensional indexing, Nearest neighbor search, SR-tree, Similarity search, Image retrieval, Bounding spheres, Bounding rectangles.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Introduces the SR-tree, a multidimensional index that combines bounding spheres and bounding rectangles to improve nearest-neighbor search for high-dimensional feature vectors. The design responds to SS-tree volume blow-up by improving region partitioning and disjointness, especially for image and video similarity retrieval.
 
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 Recently, similarity queries on feature vectors have been widely used to perform content-based retrieval of images. To apply this technique to large databases, it is required to develop multidimensional index structures supporting nearest neighbor queries efficiently. The SS-tree had been proposed for this purpose and is known to outperform other index structures such as the R*-tree and the K-D-B-tree. One of its most important features is that it employs bounding spheres rather than bounding rectangles for the shape of regions. However, we demonstrate in this paper that bounding spheres occupy much larger volume than bounding rectangles with high-dimensional data and that this reduces search efficiency. To overcome this drawback, we propose a new index structure called the SR-tree (Sphere/Rectangle-tree) which integrates bounding spheres and bounding rectangles. A region of the SR-tree is specified by the intersection of a bounding sphere and a bounding rectangle. Incorporating bounding rectangles permits neighborhoods to be partitioned into smaller regions than the SS-tree and improves the disjointness among regions.
+
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+This enhances the performance on nearest neighbor queries especially for high-dimensional and non-uniform data which can be practical in actual image/video similarity indexing. We include the performance test results the verify this advantage of the SR-tree and show that the SR-tree outperforms both the SS-tree and the R*-tree.

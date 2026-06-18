@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Sampling-Based Motion Planning: A Comparative Review
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Sampling-based motion planning is one of the fundamental paradigms to generate robot motions, and a cornerstone of robotics research. This comparative review provides an up-to-date guide and reference manual for the use of sampling-based motion planning algorithms. It includes a history of motion planning, an overview of the most successful planners, and a discussion of their properties. It also shows how planners can handle special cases and how extensions of motion planning can be accommodated. To put sampling-based motion planning into a larger context, a discussion of alternative motion generation frameworks highlights their respective differences from sampling-based motion planning. Finally, a set of sampling-based motion planners are compared on 24 challenging planning problems in order to provide insights into which planners perform well in which situations and where future research would be required. This comparative review thereby provides not only a useful reference manual for researchers in the field but also a guide for practitioners to make informed algorithmic decisions.

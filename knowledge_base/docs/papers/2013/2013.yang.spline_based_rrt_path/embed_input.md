@@ -1,5 +1,11 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Spline-Based RRT Path Planner for Non-Holonomic Robots
 
 Topics include Path planning, Rapidly-exploring random tree, Splines, Non-holonomic robots, Smooth paths, Curvature.
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Planning in a cluttered environment under differential constraints is a difficult problem because the planner must satisfy the external constraints that arise from obstacles in the environment and the internal constraints due to the kinematic/dynamic limitations of the robot. This paper proposes a novel Spline-based Rapidly-exploring Random Tree (SRRT) algorithm which treats both the external and internal constraints simultaneously and efficiently. The computationally expensive numerical integration of the system dynamics is replaced by an efficient spline curve parameterization. In addition, the SRRT guarantees continuity of curvature along the path satisfying any upper-bounded curvature constraints. This paper presents the underlying theory to the SRRT algorithm and presents simulation and experiment results of a mobile robot efficiently navigating through cluttered environments.

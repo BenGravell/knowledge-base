@@ -1,15 +1,447 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation
 
-The ability to leverage heterogeneous robotic experience from different robots and tasks to quickly master novel skills and embodiments has the potential to transform robot learning. Inspired by recent advances in foundation models for vision and language, we propose a multi-embodiment, multi-task generalist agent for robotic manipulation. This agent, named RoboCat, is a visual goal-conditioned decision transformer capable of consuming action-labelled visual experience. This data spans a large repertoire of motor control skills from simulated and real robotic arms with varying sets of observations and actions. With RoboCat, we demonstrate the ability to generalise to new tasks and robots, both zero-shot as well as through adaptation using only 100-1000 examples for the target task. We also show how a trained model itself can be used to generate data for subsequent training iterations, thus providing a basic building block for an autonomous improvement loop. We investigate the agent's capabilities, with large-scale evaluations both in simulation and on three different real robot embodiments.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction
+The ability to leverage heterogeneous robotic experience from different robots and tasks to quickly master novel skills and embodiments has the potential to transform robot learning. Inspired by recent advances in foundation models for vision and language, we propose a multi-embodiment, multi-task generalist agent for robotic manipulation. This agent, named RoboCat, is a visual goal-conditioned decision transformer capable of consuming action-labelled visual experience. This data spans a large repertoire of motor control skills from simulated and real robotic arms with varying sets of observations and actions. With RoboCat, we demonstrate the ability to generalise to new tasks and robots, both zero-shot as well as through adaptation using only 100-1000 examples for the target task. We also show how a trained model itself can be used to generate data for subsequent training iterations, thus providing a basic building block for an autonomous improvement loop. We investigate the agent's capabilities, with large-scale evaluations both in simulation and on three different real robot embodiments. We find that as we grow and diversify its training data, RoboCat not only shows signs of cross-task transfer, but also becomes more efficient at adapting to new tasks.
+
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Much of real-world robot learning research has focused on developing agents for one task at a time. This is because, even though the cost of task design and robot experience generation is very high, leveraging heterogeneous robot data at scale has remained a challenging problem in the field of robotics.
 
-The advent of high-capacity models, such as the transformer model \Vaswani et al. has enabled recent successes for multi-task learning in language and vision. These developments have led to progress in modelling multi-modal behaviour and predicting actions with a generalist agent, Gato \Reed et al. being able to play Atari, caption images, chat, and show some, albeit limited, robotic manipulation capabilities.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In this work, we propose RoboCat, a self-improving generalist agent for vision-based robotic manipulation, instantiated as a large transformer sequence model. Inspired by foundation models in other domains \Bommasani et al. we ultimately aim for a foundation agent for manipulation to be a multi-embodiment agent trained on a large set of robotic episodic experience that enables it to quickly adapt, via fine-tuning, to a broad set of new downstream tasks.
+The advent of high-capacity models, such as the transformer model \Vaswani et al. has enabled recent successes for multi-task learning in language and vision. These developments have led to progress in modelling multi-modal behaviour and predicting actions with a generalist agent, Gato \Reed et al. being able to play Atari, caption images, chat, and show some, albeit limited, robotic manipulation capabilities. Specifically in robotics, recent works \Brohan et al., [2022, Driess et al., 2023\] have focused on bridging the gap between large pretrained language models and vision-based manipulation by training language-conditioned transformer policies to solve multiple simple, visually-diverse tasks that have the same observation and action spaces.
 
-RoboCat is based on the Gato architecture with a VQ-GAN encoder \Esser et al., pretrained on a broad set of images; this choice of encoder enables fast training and iteration. We specify tasks via visual goal-conditioning, which has the desirable property that any image in a trajectory can be labelled as a valid "hindsight goal" \Andrychowicz et al., for all time steps leading up to it. This means that hindsight goals in existing data can be extracted without additional human supervision and that even suboptimal data collected by the agent can be incorporated back into the training set for self-improvement.
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this work, we propose RoboCat, a self-improving generalist agent for vision-based robotic manipulation, instantiated as a large transformer sequence model. Inspired by foundation models in other domains \Bommasani et al. we ultimately aim for a foundation agent for manipulation to be a multi-embodiment agent trained on a large set of robotic episodic experience that enables it to quickly adapt, via fine-tuning, to a broad set of new downstream tasks. As a step towards this goal, we trained RoboCat on a very large dataset of diverse manipulation behaviours: precise and dexterous vision-based tasks, performed with embodiments with different degrees of freedom, various observation and action specifications, and operating at different control frequencies. Our agent handles these variations natively without requiring common action or observation representations, by leveraging the transformer's ability to input and output variable-length sequences based on context.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+It is able to successfully adapt to multiple new tasks -- including new robot embodiments, unseen behaviours, objects and perceptual variants, and sim-to-real -- via fine-tuning on a small dataset of new episodic experience of between 100 to 1000 demonstrations. This significantly reduces the cost of acquiring new skills and onboarding new embodiments. We further use the fine-tuned RoboCat models to gather additional data that is later added to train new iterations of our agent. This self-improvement process, illustrated in Figure 1, makes for a more capable agent, improving its cross-task transfer and fine-tuning capabilities to even more tasks, and demonstrating better performance on existing tasks. We therefore demonstrate fine-tuning to a large range of unseen tasks at multiple stages of this self-improvement process, in addition to generalist capabilities on training tasks.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+RoboCat is based on the Gato architecture with a VQ-GAN encoder \Esser et al., pretrained on a broad set of images; this choice of encoder enables fast training and iteration. We specify tasks via visual goal-conditioning, which has the desirable property that any image in a trajectory can be labelled as a valid "hindsight goal" \Andrychowicz et al., for all time steps leading up to it. This means that hindsight goals in existing data can be extracted without additional human supervision and that even suboptimal data collected by the agent can be incorporated back into the training set for self-improvement. Additionally, visual goals provide an intuitive interface to indicate to the robot which task it should perform.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our main contributions in this work are outlined below: we demonstrate, for the first time, that a large transformer sequence model can solve a large set of dexterous tasks on multiple *real* robotic embodiments with differing observation and action specifications; we investigate RoboCat's capabilities in adapting to unseen tasks, with just a small dataset of expert demonstrations, lowering the bar of learning a new skill, compared to baselines; we show that it is possible to incorporate these skills back to the generalist with a simple but effective self-improvement process; and we show that by scaling and broadening the training data, RoboCat performs better on training tasks and is more efficient at fine-tuning.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 The rest of the paper is structured as follows. We first describe RoboCat and the self-improvement loop in Section 2. We introduce the embodiments, tasks, and object sets that we have used in this work in Section 3. We describe our experimental setup for both training and evaluation in Section 4, before we present our extensive experiments to support our claims in Section 5. We finally discuss our work in the context of related work in Section 6, and discuss RoboCat's potential avenues for future work in Section 7.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "RoboCat", "weight": 1.0} -->
+
+We introduce RoboCat, a self-improving generalist agent for robotic manipulation that can perform multiple tasks and control multiple embodiments in simulation and the real world. In this section, we describe each phase of the RoboCat training process, summarised in Figure 1. In the training phase, the VQ-GAN tokeniser is pre-trained, and then the RoboCat generalist agent is trained on a wide dataset covering multiple domains and embodiments, specifying tasks via visual goals. The generalist is then finetuned on a small set of human-teleoperated demonstrations to specialise to a new task, and deployed to collect on-policy data autonomously. This data is finally added to the original data to train the next, *self-improved* RoboCat.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Training and task specification", "weight": 1.0} -->
+
+We consider vision-based tabletop object manipulation tasks. Each task is defined by its (uncountably infinite) set of valid start and end states, and an episode is evaluated for task success by checking if the last state is in the set of valid end states. For example, for the task "Insert the apple into the bowl", the set of valid start states is all states with an apple outside a bowl, and the set of valid end states is all states with the apple inside the bowl. We exclusively consider tasks where success can be determined from only the end state.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Training and task specification", "weight": 1.0} -->
+
+We want to train an agent that performs a task when conditioned on an image of a valid end state of that task. Our goal-conditioned agent is represented by a policy $\pi{(\left. a_{t} \middle| {o_{t},g_{t}} \right.)}$, where $a_{t}$ denotes the action vector, $o_{t} = {(x_{t},I_{t})}$ are the proprioceptive observation (e.g. robot joint positions and velocities) and image observation, respectively, and $g_{t}$ is an image of the desired task. Note that the goal image is an example of the task being solved and it does not indicate a specific state that the agent should reach. The goal image effectively indicates the task that the agent should do and the agent is only evaluated for task success.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Training and task specification", "weight": 1.0} -->
+
+We model $\pi{(\left. a_{t} \middle| {o_{t},g_{t}} \right.)}$ via an autoregressive transformer model \Vaswani et al.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Training and task specification", "weight": 1.0} -->
+
+where the subscript $< t$ denotes observations and goal images prior to time step $t$. Note that the dimensionality of the actions and proprioception observations vary across embodiments. Internally, the autoregressive model operates with tokenised inputs and outputs.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Training and task specification", "weight": 1.0} -->
+
+For training, we assume access to a dataset $\mathcal{D} = {\{\tau^{i}\}}_{i = 1}^{|\mathcal{D}|}$ of trajectories that are transformed into a dataset of tokenised trajectories $\hat{\mathcal{D}} = {\{{\hat{\tau}}^{i}\}}_{i = 1}^{|\mathcal{D}|}$. In addition, during tokenisation, the trajectories are augmented with goal images. Concretely, a tokenised trajectory $\hat{\tau} \in \hat{\mathcal{D}}$ is represented as
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Training and task specification", "weight": 1.0} -->
+
+where $L,M,N,Q$ denote the number of tokens required to encode proprioceptive inputs, images, goals, and actions, respectively, and $T$ is the number of transitions in the trajectory. Note that $L$ and $Q$ vary by embodiment. The goal observations $g_{t}$ are fixed within a trajectory and repeated for each time step.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Training and task specification", "weight": 1.0} -->
+
+A natural choice for a goal image is a hindsight goal. Since, by definition, a trajectory always "succeeds" at reaching its own last image, we can use the last image of the same episode as the goal image, $g_{t}^{i} = I_{T + 1}^{i}$, for any trajectory $\tau^{i}$. Alternatively, we can also consider goal selection using a semantically-equivalent goal. That is, for any successful episode $\tau^{i}$, we can select the last image of a different episode that succeeded at the same task, $g_{t}^{i} = I_{T + 1}^{j}$, where $\tau^{j}$ is another successful episode from the dataset $\mathcal{D}$, as measured by a success detector or reward function for a given task. We train with both sources of goals for successful episodes, and use only hindsight goals for unsuccessful episodes. Details on how we weight the different tasks and goal sources are available in Section E.2.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Architecture and pretraining", "weight": 1.0} -->
+
+Our model is based on the transformer architecture described in Gato \Reed et al.,. For tokenisation of proprioceptive observations and agent actions, we follow the same procedure as in Reed et al.. For image tokenisation, however, we instead use a pretrained and frozen VQ-GAN \Esser et al. which allows for faster training of the generalist, as the image can be tokenised once in advance. The VQ-GAN, similarly to a VQ-VAE \van den Oord et al. consists of an encoder that encodes an input image into a series of latent vectors and a decoder (which we do not use after training). The encoded vectors are discretised via a nearest neighbour lookup in a codebook of quantised embeddings. Each image is tokenised into an $8 \times 8$ grid of tokens.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Architecture and pretraining", "weight": 1.0} -->
+
+We pretrain our VQ-GAN encoder on a diverse collection of images as we find this improves generalisation. Specifically, the encoder is trained on a dataset that consists of images from ImageNet \Deng et al. images from the control tasks in Reed et al. including Atari and MuJoCo \Todorov et al., locomotion tasks, as well as images from our visual robotic manipulation dataset. These datasets, training details, as well as extensive ablations that informed our design choices can be found in Appendix D.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Architecture and pretraining", "weight": 1.0} -->
+
+To train the agent model we use a dataset $\hat{\mathcal{D}}$ containing the joint collection of data from all training tasks (see Section 3) and utilise a standard token prediction loss. While Gato only predicted actions, we find that, when a VQ-GAN is used, performance is improved by additionally training for predicting future image tokens as produced by the VQ-GAN encoder (Section D.3). Specifically, we predict image tokens $k = 5$ time steps into the future as images one step apart can look very similar.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Architecture and pretraining", "weight": 1.0} -->
+
+Note that, in practice, instead of conditioning on the full history of observations (as indicated by the subscript $< t$), we use a fixed total token length of $1024$ for the model (which corresponds to roughly 3 time steps of history).
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Fine-tuning and self-improvement", "weight": 1.0} -->
+
+A key contribution of our work is our study into how RoboCat agents can be fine-tuned and self-improved given a relatively small number of demonstrations. This capability is especially crucial in a real robotics context---unlike in simulation, data is bottlenecked by real-time operation per robot, and high-quality supervision is scarce.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Fine-tuning", "weight": 1.0} -->
+
+To perform fine-tuning and self-improvement we first collect 100--1000 demonstrations per task via teleoperation. The generalist RoboCat agent is fine-tuned on these demonstrations, which are tokenised and augmented with goal images in the same way as for the generalist training. Formally, we perform the optimisation $\theta_{\text{ft}}^{y} = {{\arg{\max_{\theta}\mathcal{L}}}{(\theta;\mathcal{D}_{\text{demo}}^{y})}}$ where $\mathcal{D}_{\text{demo}}^{y}$ is the demonstration data for the task $y$ that we want to fine-tune, and $\theta$ is initialised with the weights from pretraining (Section 2.1.1). At the end of this fine-tuning step, we obtain an agent that is specialised to the new task but that may lose performance on the original training tasks.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Self-improvement", "weight": 1.0} -->
+
+In order to integrate new tasks into a new generalist, we deploy the fine-tuned policies $P_{\theta_{\text{ft}}^{y}}$ to autonomously collect a large dataset of additional trajectories for each of the self-improvement tasks $y \in \mathcal{Y}$. After data collection, we perform hindsight goal relabelling as described in Section 2.1. Note that, when using semantically-equivalent goals, we require a reward function to determine the successful trajectories for a given task. For this purpose, we employ learned reward models as described in the next section. The resulting relabelled trajectories form a self-improvement dataset $\mathcal{D}_{\text{imp}}^{y}$ for the task we want to improve. Finally, using this data, we can construct a new training dataset for training the next iteration of our generalist RoboCat agent. We combine all trajectories with the previous data to form the next dataset,
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Self-improvement", "weight": 1.0} -->
+
+which is then used to train a new VQ-GAN model, after which we continue with the next iteration of training a new generalist $\theta_{\text{next}} = {{\arg{\max_{\theta}\mathcal{L}}}{(\theta;\mathcal{D}_{\text{next}})}}$.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Real-world deployment", "weight": 1.0} -->
+
+In order to integrate the new task into a new generalist, we deploy the fine-tuned policy on a real robot to collect a large dataset on the new task using images from the demonstrations as goal images. Collecting real-world data autonomously presents two challenges: success classification and task resets.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Success detection via reward models", "weight": 1.0} -->
+
+While final evaluation numbers are counted manually for accuracy, automated success detection is necessary for the hindsight goal relabelling of semantically-equivalent goals described above during training. In addition, success detection is necessary for determining when a reset is needed. To this end, we train vision-based reward models to detect when a task has succeeded. We first collect human demonstrations and data from policies trained to perform the task (e.g. evaluation episodes of a RoboCat policy). These episodes are annotated via a crowd-sourcing interface, where annotators mark the time step after which the task is solved in each episode (if at all), resulting in binary annotations. These are then used to train a binary classifier that can be used to detect task success from image observations at any given time step.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Autonomous resets with policy pools", "weight": 1.0} -->
+
+Resetting the environment for a single task requires bringing the state from the end state back into the set of valid start states for that task. However, manually programming such reset routines is a highly non-trivial endeavour (in many cases performing a reset is almost as complicated as solving the task itself) leaving us with a problem for autonomous data collection. We solve this issue by observing that the set of end states for some tasks overlap with the set of start states of other tasks. Thus we can "re-use" tasks trained for a given task as reset mechanisms for tasks whose end states overlap with the valid start states for another task. We implement an autonomous reset mechanism based on this observation that we refer to as a policy pool. A policy pool is simply a collection of policies (or policies implicitly defined by a pool of goal images) with overlapping start and end states. In each episode, we then pick a policy from this pool to be run next and record its trajectory and success. By pooling multiple policies in this way, we can get automated resets, increase the robot utilisation (by reducing the need for explicit human resets) and increase the diversity of initial conditions for evaluation and data collection.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Autonomous resets with policy pools", "weight": 1.0} -->
+
+We utilise two types of policy pools in our evaluations: stateless policy pools, in which the policies are executed in some order regardless of the state of the environment (e.g. for lifting tasks); and a state-based policy pool, which samples the next policy to execute based on the state of the environment (e.g. performing a remove task when the initial state corresponds to a successful insertion). In the latter case, the trained reward models are used to evaluate the state of the tabletop and determine which policies are eligible for next execution. More details are provided in Section F.2.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Tasks and Data", "weight": 1.0} -->
+
+(c) YCB fruit, YCB-i vegetables, bowl
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Tasks and Data", "weight": 1.0} -->
+
+One of the main contributions of this work is to demonstrate that RoboCat can learn diverse and dexterous behaviours to solve a large set of tasks. The tasks we use require fine motor skills and hand-eye coordination, and the understanding of complex affordances and multi-object interactions. Additional diversity in the data is obtained through the use of multiple simulated and real embodiments and different approaches to data generation: RL-trained expert trajectories, human-teleoperated demonstrations, as well as self-generated data from RoboCat (see Section 2.1.2). In this section, we provide an overview of the embodiments, object sets, tasks, and datasets that we refer to in this paper.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Embodiments", "weight": 1.0} -->
+
+The embodiments used in this work, shown in Figure 2, are all in a standardised cage (see Lee et al. ), which contains a "basket" that defines the robot arm's workspace. RoboCat was trained with data from Rethink Sawyer arms controlled with 7-DoF (simulation) and 5-DoF (real), and Franka Panda robot arms controlled with 7-DoF (simulation and real), all fitted with a Robotiq parallel gripper. These action spaces comprise 6-DoF and 4-DoF Cartesian end-effector control with an additional dimension for the gripper action. The proprioception observations for Panda and Sawyer have different dimensionalities, and even for the common 7-DoF case, the physical and kinematic characteristics between the embodiments means that the action distributions are different. RoboCat is also able to control KUKA 14-DoF arms, which are fitted with a new, custom-made, three-finger robot hand^11^1Details of this robot hand will be released in the near future.---an embodiment that was only seen during the fine-tuning phase.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Embodiments", "weight": 1.0} -->
+
+In total, we used 36 real robots in this work: 15 Panda, 17 Sawyer, and 4 KUKA arms.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Embodiments", "weight": 1.0} -->
+
+The simulated Panda and Sawyer embodiments are analogous to the real ones, though they are only coarsely aligned. We did not perform any careful system identification and the images rendered from the simulation were not visually realistic. We randomised the physics parameters in simulation but we did not randomise the visual appearance of the scene. More details about embodiments are available in Appendix C.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Object sets", "weight": 1.0} -->
+
+We use different object sets and a total of $134$ real objects to enable a variety of complex behaviours and affordances (see Figure 3). The first two sets of objects are 3D-printed and have been designed to systematically study types of robotic manipulation that involve multi-object interaction, specifically, structure-building (RGB objects) and insertion (NIST-i gears). We use a subset of these ($123$ objects) in simulation. The other real-world sets include store-bought objects.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "RGB objects", "weight": 1.0} -->
+
+These 116 objects with parametrically defined shapes (only a subset shown in 2(a) ‣ Figure 3 ‣ 3 Tasks and Data ‣ RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation")) were introduced as a benchmark \Lee et al., to systematically study the physical understanding of multi-object interactions in the context of stacking: To solve the benchmark an agent needs to understand which shapes in which poses can be reliably stacked on top of each other. We use them here to additionally study related structure-building tasks. The basket always contains a triplet of these objects, with respective colours red, green, and blue.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "NIST-i gears and 3-peg base", "weight": 1.0} -->
+
+This set of objects is first introduced in this work to aid a systematic study of the insertion affordance. Inspired by the NIST benchmark for robotic manipulation \Kimble et al. we designed three gears, different in sizes (small, medium, large), which are to be used in conjunction with a 3-peg base. The pegs are spaced such that successful meshing requires a specific allocation of the gears to the pegs (see 2(b) ‣ Figure 3 ‣ 3 Tasks and Data ‣ RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation")). In the real world, the shafts are metallic and the base is not fixed to the basket, which significantly increases the difficulty of the task. In simulation, the base is fixed. In both cases, there is a $1\ {{mm}\text{/}}$ tolerance when inserting a gear. See Section B.1.4 for more details.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "YCB fruits, YCB-i vegetables, and bowl", "weight": 1.0} -->
+
+In this work, we use a subset of the YCB object set \Calli et al. namely the fruit (apple, banana, peach, lemon, strawberry), shown in 2(c) ‣ Figure 3 ‣ 3 Tasks and Data ‣ RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation"). The YCB-i vegetables (carrot, cucumber, pepper, potato) and bowl, also shown in 2(c) ‣ Figure 3 ‣ 3 Tasks and Data ‣ RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation"), are inspired, but not part of, the official YCB benchmark. This collection of textured and geometrically different objects introduces additional visual diversity and allows us to benchmark RoboCat on tasks with everyday objects.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Shape-matching objects and base", "weight": 1.0} -->
+
+These wooden objects are parts of a real shape-matching cube, used by toddlers to practice fine-motor control skills and 3D shape understanding. We used three shapes (circle, pentagon, square) and the shape-matching cube lid, shown in 2(d) ‣ Figure 3 ‣ 3 Tasks and Data ‣ RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation"). The lid is used as a base with matching holes that can be used for insertion and removal tasks. These objects are used to further study the insertion affordance. Unlike the NIST-i gears, this toy often requires difficult reorientations to get the objects in the correct orientation for insertion.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Task families", "weight": 1.0} -->
+
+We consider a total of 253 different task variations which we group into task families. We define a task family to be a group of tasks that utilise the same skill or sequence of skills. For example, lifting the large NIST-i gear and lifting the YCB apple are two different task variations from the same task family. We provide a complete list of the task families in Table 1.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Task families", "weight": 1.0} -->
+
+The task families stacking, tower building, pyramid building, and inverted pyramid building consist of building structures with either RGB objects or gears. They differ in difficulty, but in all cases require dexterous and precise movements to ensure that the structure remains stable after completion. The lifting task family consists of picking up a specific object in a basket with multiple objects. The objects are either fruits, vegetables, or gears. The motivation behind the lifting tasks is to study goal understanding and generalisation to new embodiments and objects. The insertion and removal task families come in three flavours, either involving fruits and a bowl, gears and a 3-peg base, or shape-matching objects and a base. We treat them as separate task families since they require different skills. The latter two require precise positioning into low-tolerance pegs or base, and shape-matching requires shape understanding and often reorientation. The bowl and bases can freely move in the real world, which substantially increases the complexity of those tasks. For all insertion and removal tasks, we use no resets other than the learnt respective removal and insertion tasks.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Task families", "weight": 1.0} -->
+
+Each task variation refers to the combination of a specific embodiment (e.g. simulated Sawyer vs real-world Panda), task family, object set (e.g. RGB triplet 1 vs NIST-i gears), and perceptual variation (e.g. stacking red on blue vs green on red objects). Example goal images corresponding to specific task variations are shown in Figure 4.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Data sources", "weight": 1.0} -->
+
+RoboCat is trained on both expert and non-expert data. Different subsets of the data are collected in different ways. We use three types of data generation: (i) data produced by specialist RL agents, particularly employed in simulation; (ii) human teleoperated expert data, mostly used for the physical world tasks; and (iii) self-generated data. The primary difference between the two expert types of trajectories is that agent data provides fairly smooth and efficient trajectories due to the way the RL agent acts in the world, while teleoperated data often includes pauses as teleoperators employ behaviours similar to a bang-bang controller. The self-generated data is obtained by running extensive evaluations whenever a new version of RoboCat is available: the data collected this way is saved and then reused for the next RoboCat training. This data is collected from RoboCat agents fine-tuned on teleoperated expert data. Therefore, the self-generated data resemble the teleoperation behaviours. See Section B.2 for further details about the nature of the data.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Data sources", "weight": 1.0} -->
+
+Training Task Variations
+Evaluation Task Variations
+Average Task Success
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Data sources", "weight": 1.0} -->
+
+RGB objects &amp; NIST-i gears
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Data sources", "weight": 1.0} -->
+
+RGB objects &amp; NIST-i gears
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Data sources", "weight": 1.0} -->
+
+RGB objects &amp; NIST-i gears
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Data sources", "weight": 1.0} -->
+
+YCB fruits and YCB-i bowl
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Data sources", "weight": 1.0} -->
+
+YCB fruits and YCB-i bowl
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "RoboCat training tasks", "weight": 1.0} -->
+
+The full RoboCat agent is trained on 240 tasks and fine-tuned on a further 13 tasks, for a total of 253 tasks. This includes data from 2 simulated and 3 real-world embodiments, 5 simulated and 11 real task families, and 123 simulated and 134 real objects. Table 1 summarises the tasks, organised separately for training and fine-tuning tasks. An important contribution is the fact that the RoboCat generalist agent can self-improve, by fine-tuning the previous iteration of the generalist to new tasks, and self-generating additional data for the next round of generalist training. These self-improvement tasks (unseen in the previous RoboCat iteration) are indicated in Table 1, and more detailed experiments are presented in Section 5.3.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Training and fine-tuning", "weight": 1.0} -->
+
+We train our generalists following the procedure outlined in Reed et al. except for differences in the encoder where applicable. The majority of the experimental results are based on models with a 1.18B-parameter decoder-only transformer \Vaswani et al., with 24 layers, an embedding size of 2048, and a post-attention feedforward hidden size of 8196. To allow for more extensive experimentation, we use smaller models with 364M parameters for a few ablations (4(a) ‣ Figure 5 ‣ 5.1 Overall RoboCat performance ‣ 5 Experiments ‣ RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation"), Figure 11, Section G.2, and Section G.4).
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Training and fine-tuning", "weight": 1.0} -->
+
+We fine-tune our generalists on a set of diverse real tasks using a limited number of human teleoperation demonstrations, between 100 and 1000 demonstrations for each task.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+For each of the simulated and real tasks, we evaluate each model by averaging over 100 episodes (or more, if specified), using a different goal image for each episode as well as randomised initial states of the environment. The episode length and control frequency varies from task to task, always matching the length of the expert data used for training. The control frequency of training data is not provided to the agent during training, since it may not be known or readily available. Table 14 in Appendix F reports the episode length and control frequency used for each task family in simulation and real.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+When fine-tuning a generalist to a specific real-world task, it can be difficult to determine the optimal number of fine-tuning steps, since there is no reliable offline measure of success. To address this in a systematic and reproducible way, we employ the following evaluation protocol for each task: we first evaluate the checkpoint every 5000 steps for 25 episodes each to assess the best performing checkpoint, and then evaluate that checkpoint for 100 episodes to measure the final performance.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+In order to contextualise the difficulty of the tasks, we compare RoboCat to high capacity, pretrained vision foundation models (VFMs). These present an alternative approach to training robot policies: instead of training a single agent on a diverse set of robotics tasks, we can take a readily-available powerful vision model and fine-tune it on each task separately. This comparison also demonstrates the utility of robotics data in the case of RoboCat, versus vision datasets for the VFM baselines, when adapting to robotics tasks.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+We trained and evaluated 59 different VFM baselines (see Section G.3 for the complete list) on a subset of tasks in simulation and selected the best two as the main baselines for these experiments: the 438M parameter NFNet-f6 model \Brock et al., and the 197M parameter Swin-L model \Liu et al. both pretrained with CLIP \Radford et al.,. These models are smaller in size than the main RoboCat models because (i) they only need to deal with a single task (versus hundreds); and (ii) they were obtained by fine-tuning existing VFM architectures, limiting flexibility in size. For each comparison, the VFM models are trained with the same behavioural cloning loss and the same successful episodes that the RoboCat model uses for a given task variant.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+We also utilise other baselines for a subset of the tasks. To isolate the impact of a diverse, robotics dataset, we use a Gato baseline \Reed et al. which employs a similar transformer architecture but with the majority of data from diverse non-robotics domains. We compare RoboCat with Gato on the robotics tasks used in their work, namely the RGB-Stacking Benchmark \Lee et al. and fine-tuning to blue-on-green stacking \Reed et al.,. For the former, we also use the BC-IMP specialist agents from \Lee et al.,.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Can RoboCat learn from heterogeneous data and solve a large set of tasks, specified with visual goals and requiring dexterity on multiple physical and simulated embodiments? (Section 5.1)
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Can RoboCat adapt, with a small number of demonstrations, to challenging new scenarios such as unseen tasks, new objects, and new embodiments with unseen morphology and action spaces? (Sections 5.1, 5.2, and 5.3)
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Does RoboCat exhibit cross-task transfer and generalisation to held-out tasks? (Section 5.2)
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Can RoboCat self-improve by autonomously collecting data and integrating that new data into the next RoboCat iteration? (Section 5.3)
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+We evaluated RoboCat over all the training tasks and we report task success rates averaged within each embodiment, task family, and object set, in Table 1 (see Section G.1 for per-task success rates). The tasks are broadly categorised into training (which include the tasks from the self-improvement process) and fine-tuning tasks. The RoboCat generalist agent was trained on all of these training tasks and then evaluated on a total of 141 training task variations. We demonstrate that a single RoboCat agent is able to perform all of these tasks, which involve multiple embodiments---in simulation and the real world---and multiple task families and objects sets.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+For the fine-tuning tasks, the RoboCat generalist agent was fine-tuned to individual task variations and then each fine-tuned agent was evaluated on its respective task. We fine-tuned on either 500 or 1000 demonstrations and report results for both cases also in Table 1. RoboCat is able to fine-tune to tasks that not only include previously unseen task families (e.g. fruit insertion into a bowl), but also new object sets (e.g. shape-matching set) and a previously unseen embodiment (real KUKA 14-DoF robot).
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+(a) Simulation training tasks (single variants)
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+(b) Real-world training tasks (averages per task family grouping)
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+In Figure 5, we compare RoboCat to visual foundation model (VFM) baselines trained on each task independently. In simulation, we only ran these baselines for one task from each task family due to the large number of task variations in simulation, whereas for the real-world tasks, we ran them on all of the task variations. The simulation results in 4(a) ‣ Figure 5 ‣ 5.1 Overall RoboCat performance ‣ 5 Experiments ‣ RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation") show that the VFM agents are competitive on the Panda stacking task, but are outperformed by RoboCat on the other simulated building tasks. As shown in 4(b) ‣ Figure 5 ‣ 5.1 Overall RoboCat performance ‣ 5 Experiments ‣ RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation"), this is even more apparent in the real-world lifting, insertion, and removal tasks, where the VFM baselines are significantly outperformed by RoboCat.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+We also evaluate a much smaller (364M) RoboCat generalist agent on the simulation tasks; this model is slightly smaller than the NFNet baseline but still has to jointly learn all training tasks. We see from 4(a) ‣ Figure 5 ‣ 5.1 Overall RoboCat performance ‣ 5 Experiments ‣ RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation") that the performance of this smaller model is comparable to RoboCat on the stacking tasks, but significantly lower for the harder cases: the success rate at least matches single-task baselines for pyramid building, but is poorer for tower building. Thus, the generalist does require sufficient capacity to perform well in the multi-task regime, at least for the harder sim tasks. Indeed, the full 1.18B RoboCat model can outperform the single-task baselines with only 3-6 times the capacity, despite being trained on 250 tasks.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+For fine-tuning experiments, where only up to 1000 demonstrations are available per task, we compare fine-tuned RoboCat agents to VFM agents that are trained with only 1000 demonstrations. The results in Figure 6 show that the VFM baselines perform very poorly whereas the fine-tuned RoboCat agents perform well even when only using 500 demonstrations. Since the VFM agents are trained for single tasks, they are unable to leverage the large amounts of existing training data as done by RoboCat.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+Lastly, in Table 2, we compare to previously reported performance on the real Sawyer 5-DoF stacking tasks, which are part of the RGB-Stacking Benchmark \Lee et al.,. This allows us to compare RoboCat performance on these tasks with vision-based BC-IMP specialists \Lee et al. as well as the Gato generalist \Reed et al.,. The latter allows us to compare the benefit of training on diverse robotic manipulation data rather than training on tasks from vastly different domains such as Atari or VQA. Although the relative success rates vary per object triplet, RoboCat is comparable to prior methods on average on this benchmark, despite being able to solve many other manipulation tasks.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+We demonstrate that RoboCat, by using visual goals, is able to learn from heterogeneous data and perform a large set of tasks on multiple embodiments, and can quickly adapt---using a limited number of demonstrations---to unseen tasks, new object sets, and new embodiments.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+Training Task Variations
+Held-out Task Variations
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+(a) Training tasks used by RoboCat-lim, with specific objects and task variations explicitly held out
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+Perceptual variation (Stacking blue on green)
+Sim Sawyer 7-DoF
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+Objects (Sawyer Stacking triplet 5)
+Sim Sawyer 7-DoF
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+Behaviour source (Demonstration data)
+Real Sawyer 5-DoF
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+Sim-to-real (Tasks seen in simulation)
+Real Panda 7-DoF
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+Real Sawyer 5-DoF
+Inverted pyramid building
+RGB custom triplet
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+Real KUKA 14-DoF
+NIST-i large gear
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+(b) Unseen fine-tuning tasks used by RoboCat-lim, grouped by generalisation axis
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Overall RoboCat performance", "weight": 1.0} -->
+
+(a) RoboCat-lim 0-shot and k-shot fine-tuning performance by generalisation axis
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Generalisation and adaptation", "weight": 1.0} -->
+
+In order to analyse how RoboCat agents generalise and adapt, we trained a separate model of the same size but on only a subset of structure-building tasks (stacking, tower, and pyramid) with specific objects and task variations explicitly held out. The training and held-out tasks are listed in 2(a) ‣ Figure 7 ‣ 5.1 Overall RoboCat performance ‣ 5 Experiments ‣ RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation"). We refer to this limited-dataset model as RoboCat-lim. This enables us to investigate generalisation and adaptation of this agent along specific axes (see 2(b) ‣ Figure 7 ‣ 5.1 Overall RoboCat performance ‣ 5 Experiments ‣ RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation")). Furthermore, since the training tasks for RoboCat-lim are a subset of those used by the final RoboCat model, we can evaluate the effect of training on more tasks.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Generalisation and adaptation", "weight": 1.0} -->
+
+First, we measure how RoboCat-lim generalises to the 23 held-out tasks, both 0-shot and with k-shot finetuning (6(a) ‣ Figure 7 ‣ 5.1 Overall RoboCat performance ‣ 5 Experiments ‣ RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation")). In simulation, RoboCat-lim generalises 0-shot to a held-out object set on the Sawyer (third plot from the left) and the blue-on-green stacking task variant on the Panda (second plot), but does not generalise to that same task variant on the Sawyer embodiment (first plot). However, the model is effective at fine-tuning to this task variant with as little as 100 demonstrations. On the real-world blue-on-green stacking variant (fourth plot), RoboCat-lim achieves 88% when fine-tuning on 500 demonstrations, compared to the 60% success reported for Gato on the same data^22^2The Gato model was fine-tuned with additional simulation episodes of the task, but was not originally trained with the object set in this task..
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Generalisation and adaptation", "weight": 1.0} -->
+
+The remaining cases show RoboCat's ability to adapt to real-world variants of previously seen simulation tasks (both stacking and tower building), the challenging inverted pyramid building task family (for which even teleoperator success is only 52%), and to the real-world dexterous KUKA embodiment with nearly 80% success.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Generalisation and adaptation", "weight": 1.0} -->
+
+Overall, we show that RoboCat-lim adapts with only 100--500 episodes to a broad set of downstream tasks, including unseen variations and objects, different data sources (agent vs demonstrations; see Table 3), and an unseen task on an entirely unseen embodiment with twice as many degrees of freedom than seen in training. In addition, the results demonstrate the importance and potential of multi-embodiment training. The zero-shot performance on the unseen KUKA embodiment is zero (given it has entirely different action and observation spaces), but fine-tuning to a relatively small amount of data from this embodiment yields 69% success. The sim Panda and sim Sawyer also have different proprioception observations, but given that some Sawyer stacking data is used during RoboCat-lim training, the agent can generalise zero-shot to held-out Sawyer tasks that have been trained only for the Panda (object triplet 5).
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Generalisation and adaptation", "weight": 1.0} -->
+
+We also compare RoboCat-lim to the VFM-based agents for few-shot fine-tuning on a couple of individual tasks in simulation. The results in Figure 8 show that our model can learn the tasks with significantly less data than the baselines.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Generalisation and adaptation", "weight": 1.0} -->
+
+Finally, we measure how much RoboCat benefits from its diverse training set, which includes all the tasks used for RoboCat-lim, the simulated structure building tasks held out from RoboCat-lim, all of the additional real-world data for the self-improvement tasks, and both simulated and real-world NIST-i gears tasks (lifting, insertion, and removal). In 8(a) ‣ Figure 9 ‣ 5.2 Generalisation and adaptation ‣ 5 Experiments ‣ RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation"), we compare RoboCat with RoboCat-lim specifically on the tasks that the limited model was trained. Rather than its performance being negatively impacted due to the additional training tasks, RoboCat exhibits positive transfer across its training tasks and outperforms the more specialised RoboCat-lim.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Generalisation and adaptation", "weight": 1.0} -->
+
+This trend of positive transfer also holds when adapting to new real-world tasks, e.g. as RoboCat was trained on real-world fruit and vegetable lifting data, it adapts better to the insertion and removal tasks with the fruits and bowl (8(b) ‣ Figure 9 ‣ 5.2 Generalisation and adaptation ‣ 5 Experiments ‣ RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation")).
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Generalisation and adaptation", "weight": 1.0} -->
+
+(a) Training tasks used by RoboCat-lim (subset of tasks used by RoboCat)
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Self-improvement via RoboCat fine-tuning and self-generation of data", "weight": 1.0} -->
+
+In this section, we demonstrate the key ability of RoboCat to perform self-improvement. That is, to fine-tune to a new task with a limited number of demonstrations, self-generate a larger amount of experience, and retrain a more capable generalist with this additional data. This represents a first step towards a foundation agent which can iteratively learn new tasks.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Self-improvement via RoboCat fine-tuning and self-generation of data", "weight": 1.0} -->
+
+To perform self-improvement, we fine-tuned older RoboCat-lim equivalent models to a number of unseen real-world tasks using human-teleoperated data. These included the real blue-on-green stacking and inverted pyramid building task already mentioned in Section 5.2, as well as a tower-building task and 8 vegetable and fruit lifting tasks). We then used these policies to generate large amounts of data autonomously. All of this data was part of the dataset used to train the main generalist shown in Section 5.1.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Self-improvement via RoboCat fine-tuning and self-generation of data", "weight": 1.0} -->
+
+We first perform a smaller experiment with a subset of the tasks, to provide a proof-of-concept of self-improvement, and carefully isolate and evaluate the contribution of self-generated data alone. We train a smaller 364M model on the structure-building tasks (i.e. those used for RoboCat-lim) and 500 demonstrations from only a few self-improvement tasks: fruit lifting (apple, banana, and peach) and blue-on-green Sawyer stacking. This represents a baseline of directly incorporating the few available demonstrations into the training data for the generalist. We also train a 364M "self-improved" model that additionally sees the self-generated data for these tasks. The results in Figure 11 show that the self-improved agent outperforms the baseline agent in all four of these tasks. In other words, given demonstrations of a task, the self-improvement procedure (fine-tuning and self-generating additional data) is significantly better than using the demonstrations directly in training the generalist.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Self-improvement via RoboCat fine-tuning and self-generation of data", "weight": 1.0} -->
+
+Next, we demonstrate self-improvement at scale: we incorporate self-generated data from numerous task-specific RoboCat-lim fine-tuned agents to yield a stronger generalist. This is the process by which we obtained the main RoboCat generalist presented in Section 5.1.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Further ablations", "weight": 1.0} -->
+
+We report a number of additional ablations and evaluations in the appendix. These include ablating the choices for VQ-GAN tokeniser and observation prediction (Section D.3), a comparison of different RoboCat model sizes (Section G.2), evaluations over many different vision model baselines (Section G.3), and ablations of the NIST-i environment (Section G.4).
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Transformers for decision making", "weight": 1.0} -->
+
+Transformers \Vaswani et al., have shown impressive results at scale in domains like vision \Dosovitskiy et al., [2020, He et al., 2022\], language \Vaswani et al., [2017, Devlin et al., 2018, Brown et al., 2020\] and speech \Radford et al. and can be fine-tuned to many different downstream tasks and modalities \Lu et al.,. Inspired by these successes, earlier efforts to leverage transformers for decision making focused on improving their training stability for RL \Parisotto et al. using self-attention for improving relational reasoning \Zambaldi et al. one-shot imitation learning \Dasari and Gupta fast adaptation to novel tasks \Ritter et al. on the fly adaptation in 3D environments \Team et al. 3D reasoning \Shridhar et al. and multi-embodiment continuous control \Kurin et al., [2020, Gupta et al., 2022\]. However, these works leverage the transformer architecture within the framework of standard RL and imitation algorithms.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Transformers for decision making", "weight": 1.0} -->
+
+Recently, generative pretraining for sequence modeling has been extended to offline RL \Janner et al., [2021, Chen et al., 2021\], where a transformer model is trained to autoregressively maximise the likelihood of trajectories in the offline dataset for specialist agents with low-dimensional states. Building on this, Reed et al., Lee et al., Jiang et al. train multi-task generalist agents with high-dimensional image observations. VIMA \Jiang et al., shows the power of multi-modal prompting for accomplishing many tasks with a single model. Unlike our work, VIMA uses high level observation and action spaces, by assuming accurate object detection and pre-defined action primitives. Our work is closely related to Gato \Reed et al., but differs in the variety and scale of robotic tasks mastered by a single agent. We show positive transfer between tasks and fast adaptations to many real-world robot tasks.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Visual pretraining for control", "weight": 1.0} -->
+
+The use of pretrained visual representations presents a promising approach for efficient robot policy learning, requiring less robot-specific data. Early efforts focused on using supervised pretraining for navigation \Zhou et al., [2019, Chen et al., 2020a, Sax et al., 2018\] and manipulation \Zhou et al., [2019, Chen et al., 2020a, Yen-Chen et al., 2020\] domains. Building on the progress in self-supervised representation learning, multiple recent works have shown that frozen visual encoders, trained through self-supervision on internet-scale datasets, can enable sample-efficient behaviour cloning \Nair et al., [2022, Parisi et al., 2022, Radosavovic et al., 2023, Majumdar et al., 2023, Sharma et al., 2023\], on-policy reinforcement learning \Xiao et al., [2022, Khandelwal et al., 2022, Majumdar et al., 2023\].
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Visual pretraining for control", "weight": 1.0} -->
+
+Robot-agnostic visual dynamics models also show skill transfer between robots when deployed with a visual model-predictive control (MPC) policy \Hu et al.,. Our work differs in that we directly learn the action prediction for all embodiments jointly rather than using video prediction for planning. In this work we use a frozen pretrained VQ-GAN \van den Oord et al., [2017, Esser et al., 2021\] trained on a diverse collection of images to speed up training time significantly, and combine the VQ-GAN tokens with future frame prediction \Gupta et al., for sample-efficient transfer learning. Concurrently, Kotar et al. also find similar generalisation benefits of using the combination of VQ-GAN tokens and future frame prediction during policy learning for the navigation domain.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Goal-conditioned policies", "weight": 1.0} -->
+
+Goal-conditioned agents have long been of interest in policy learning \Kaelbling, [1993, Schaul et al., 2015\]. Hindsight goal relabelling is a popular method for annotating arbitrary trajectories with goals \Andrychowicz et al.,. Learning from visual goals is challenging as images contain a lot of information that may be unrelated to the desired goal-conditioned behaviour, such as lighting or positions of distractors \Pinto et al.,. As we are primarily concerned with goal images as task specification in a behaviour cloning setting, this work does not address the question of goal distance, goal generation, or exploration. Unlike Nair et al., we assume a dataset of goal images is available during evaluation and data collection, as we only deploy our goal-conditioned agent for data collections on tasks for which we had teleoperated episodes to learn. Davchev et al. also utilised a dataset of goals, bootstrapped from demonstrations. However, they do not work with images.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Goal-conditioned policies", "weight": 1.0} -->
+
+Similar to RoboCat, Groth et al. also instruct a behaviour-cloned policy with goal images but rely on explicit inductive biases in the network architecture to infer the task. Ghosh et al. propose iterated goal-conditioned learning as a form of reinforcement learning, which is similar to our self-improvement step.
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Generalist robotic agents", "weight": 1.0} -->
+
+Recent works have looked at the problem of training generalist robot agents. RT-1 takes language instructions to perform a variety of object manipulation tasks \Brohan et al.,. While RT-1 trains on data from two different robots, they have the same action specification. PaLM-E demonstrates that large visual-question-answering can serve as planners for robotics tasks. Rather than directly controlling different robots, PaLM-E outputs language instructions (such as "Pick the green rice chip bag from the drawer.\") to pretrained lower-level controllers \Driess et al.,. Dasari et al. introduce a large-scale dataset of robotic interactions produced by pre-trained random policies acting on a range of pick-and-place-based manipulation tasks. They show that learned robotic agents with shared observation and action space can operate across a range of environments and hardware, and also demonstrate fine-tuning capabilities.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Generalist robotic agents", "weight": 1.0} -->
+
+In this work, we look to solve tasks in both simulation and the real-world, covering a wide set of behaviours and affordances, incorporating precision and dexterity, and embracing high-dimensional low-level control over multiple simulated and real embodiments. To our knowledge, RoboCat is the first work to natively support multiple real-world robotic embodiments with different observation and action specifications. We also demonstrate the ability to self-improve by fine-tuning to new tasks and self-generating data for use in retraining---a unique capability over all of the methods we surveyed. Finally, we focus on visual goal-conditioning in this work, but could also enable more flexible task specification in the future, such as language conditioning or full demonstrations; this is already facilitated by some of the other methods.
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Summary and Future Work", "weight": 1.0} -->
+
+In this report, we have presented RoboCat, a generalist agent capable of solving a large and diverse set of tasks specified via goal images; across different task families, embodiments, control modes, and objects; in both simulation and the real world, and from different sources of data. RoboCat is additionally able to quickly adapt, via fine-tuning on 100--1000 demonstrations, to a wide set of downstream tasks and across many different axes of generalisation. More importantly, we can use such adapted agents to generate data that can be added to RoboCat's training dataset for future iterations of the agent, a process we call self-improvement. We have thoroughly investigated our agent's capabilities both in simulation and the real world with tens of thousands of real evaluations on 36 real robots of 3 different types. We have shown that the cost of acquisition of new skills is dramatically lower compared to single-task baselines, even when those are based on visual foundation models. Finally, we have observed that by scaling and diversifying its training data we get a RoboCat agent that performs better on training tasks and adapts better to unseen ones.
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Summary and Future Work", "weight": 1.0} -->
+
+Throughout our experiments, we demonstrate that RoboCat can be adapted to a broad set of unseen downstream tasks (13 with the final agent, 22 more during a thorough generalisation study, and a further 9 tasks in the self-improvement process). These tasks include unseen embodiments (KUKA with a dexterous hand), new task families (eg. lifting, insertion/removal, inverted pyramid building), held-out perceptual variations, real versions of previously-seen sim tasks, and many unseen objects (eg. printed fruits and vegetables, shape-matching objects).
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Summary and Future Work", "weight": 1.0} -->
+
+Future work could look into enabling flexible and multi-modal task specification. Incorporating relevant existing, freely-available datasets with language annotations would be a first good step. Task specification via language offers complementary benefits to visual goals, and different tasks may be better specified by either modality. In addition, while this work focused on visual goal-conditioning and VFM baselines, which may be able to reason well over images; language-conditioning and LLM/VLM baselines may offer better temporal reasoning capabilities.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Summary and Future Work", "weight": 1.0} -->
+
+Another research avenue could explore improving both training and fine-tuning capabilities of such a model with reinforcement learning (RL), since RoboCat in its current form only employs behaviour cloning. While visual goal specification already allows the agent to learn from failures and sub-optimal data, incorporating RL would enable both learning with rewards and learning online with real-world interaction. Finally, while RoboCat aims to tackle behavioural diversity in manipulation tasks, the different embodiments are all in a controlled lab setting with visually-similar backgrounds. We hope that next-generation foundation agents will demonstrate robustness to different basket textures and operate in more visually-diverse environments in the wild.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
+
+This work presents progress on training generalist agents for robotic manipulation. Our work presents a recipe, and first steps, in an emerging area, with experiments in a controlled lab environment demonstrating promising but imperfect performance. Nonetheless, the potential impact on society from generalist robotic agents calls for increased interdisciplinary research into their risks and benefits. Thus, we discuss the broader impact of this line of research, beyond the specific contributions of this paper. To provide an easily accessible reference for RoboCat's intended use-case and potential shortcomings we include a model card in Appendix A. We emphasise that the model is for research use only and not currently deployed in any production scenario to any users, and thus expect no immediate societal impact.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
+
+In general, RoboCat inherits many of the safety concerns discussed in Gato \Reed et al. on which it is based. In addition, since RoboCat takes actions in the physical world---and on multiple embodiments---it may pose new challenges with respect to safety. For example, physical embodiments and imitation from human data can cause humans to anthropomorphise the agent; leading to a potentially misplaced trust and underappreciation for inherent dangers that come from interacting with robots^33^3We note that we utilise a force-torque compliant controller with built in safety mechanisms.. Additionally, cross-embodiment transfer from one robot to another can lead to undesired movements (such as high gain motor actuation). Considerations with respect to general AGI safety \Bostrom, may also require updating when considering agents with multiple embodiments.
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
+
+We consider that value alignment \Russell, with human preferences (as e.g. expressed via reward labelling in this work) is crucial for a safe evolution of this technology. While our reward labelling process to determine successful and desired behaviours is a starting point for this, future work should consider adapting alignment techniques successfully used for language models to our setting \Ouyang et al., [2022, Kenton et al., 2021, Bai et al., 2022\].
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Broader Impact", "weight": 1.0} -->
+
+Finally, the self-improvement loop we designed for RoboCat allows us to improve the model over time by retraining on data collected from deploying a previous version to our robots. Such a self-improvement loop poses additional challenges with respect to AGI safety since it, partially, implements a reinforcement learning loop; which comes with its own safety concerns (see e.g. Omohundro, Turner et al. ). While further work is needed into AGI safety for reinforcement learning robotic systems, it is important to note that unlike in a reinforcement learning scenario, the self-improvement capabilities of RoboCat are *not* autonomous and *no learning* takes place while interacting with the physical world. That is, data collection is started and stopped by humans and uses frozen versions of RoboCat. Learning an improved version is implemented as a supervised learning problem from a fixed data source and is entirely decoupled from data collection.

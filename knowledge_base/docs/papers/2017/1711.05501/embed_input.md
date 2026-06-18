@@ -1,15 +1,369 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Sparse Identification of Nonlinear Dynamics for Model Predictive Control in the Low-data Limit
 
 Topics include Model predictive control, Predictive control, Robustness, Neural networks, Online algorithms, Control, Learning, SINDy, Lorenz system.
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 The data-driven discovery of dynamics via machine learning is currently pushing the frontiers of modeling and control efforts, and it provides a tremendous opportunity to extend the reach of model predictive control. However, many leading methods in machine learning, such as neural networks, require large volumes of training data, may not be interpretable, do not easily include known constraints and symmetries, and often do not generalize beyond the attractor where models are trained. These factors limit the use of these techniques for the online identification of a model in the low-data limit, for example following an abrupt change to the system dynamics. In this work, we extend the recent sparse identification of nonlinear dynamics (SINDY) modeling procedure to include the effects of actuation and demonstrate the ability of these models to enhance the performance of model predictive control (MPC), based on limited, noisy data. SINDY models are parsimonious, identifying the fewest terms in the model needed to explain the data, making them interpretable, generalizable, and reducing the burden of training data.
 
-## Introduction
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-Data-fueled modeling and control of complex systems is currently undergoing a revolution, driven by the confluence of big data, advanced algorithms in machine learning, and modern computational hardware. Model-based control strategies, such as model predictive control, are ubiquitous, relying on accurate and efficient models that capture the relevant dynamics for a given objective. Increasingly, first principles models are giving way to data-driven approaches, for example in turbulence, epidemiology, neuroscience, and finance.
+We show that the resulting SINDY-MPC framework has higher performance, requires significantly less data, and is more computationally efficient and robust to noise than neural network models, making it viable for online training and execution in response to rapid changes to the system. SINDY-MPC also shows improved performance over linear data-driven models, although linear models may provide a stopgap until enough data is available for SINDY. SINDY-MPC is demonstrated on a variety of dynamical systems with different challenges, including the chaotic Lorenz system, a simple model for flight control of an F8 aircraft, and an HIV model incorporating drug treatment.
 
-Model-based control techniques, such as MPC and optimal control, are cornerstones of advanced process control, and are well-positioned to take advantage of the data-driven revolution. Model predictive control is particularly ubiquitous in industrial applications, as it enables the control of strongly nonlinear systems with constraints, which are difficult to handle using traditional linear control approaches. MPC benefits from simple and intuitive tuning and the ability to control a range of simple and complex phenomena, including systems with time delays, non-minimum phase dynamics, and instability.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Nearly all industrial applications of MPC rely on empirical models, and increasing plant complexity and tighter performance specifications require models with higher accuracy. There are many techniques to obtain data-driven models, including state-space models from the eigensystem realization algorithm (ERA) and other subspace identification methods, Volterra series, autoregressive models (e.g., ARX, ARMA, NARX, and NARMAX models), and neural network models, to name only a few. These procedures all tend to yield black-box models, with limited interpretability, physical insights, and ability to generalize.
+Data-fueled modeling and control of complex systems is currently undergoing a revolution, driven by the confluence of big data, advanced algorithms in machine learning, and modern computational hardware. Model-based control strategies, such as model predictive control, are ubiquitous, relying on accurate and efficient models that capture the relevant dynamics for a given objective. Increasingly, first principles models are giving way to data-driven approaches, for example in turbulence, epidemiology, neuroscience, and finance. Although these methods offer tremendous promise, there has been slow progress in distilling physical models of dynamic processes from data. Despite their undeniable success, many modern techniques in machine learning (e.g., neural networks) rely on access to massive data sets, have limited ability to generalize beyond the attractor where data is collected, and do not readily incorporate known physical constraints. The current challenges associated with data-driven discovery limit its use for real-time control of strongly nonlinear, high-dimensional, multi-scale systems, and prevent online recovery in response to abrupt changes in the dynamics. Fortunately, a new paradigm of sparse and parsimonious modeling is enabling interpretable models in the low-data limit.
 
-In this work, we combine SINDY with MPC for enhanced data-driven control of nonlinear systems in the low-data limit. First, we extend the SINDY architecture to identify interpretable models that include nonlinear dynamics and the effect of actuation. Next, we show the enhanced performance of SINDY-MPC compared with linear data-driven models and with neural network models. The linear models are identified using dynamic mode decomposition with control (DMDc), which is closely related to SINDY and traditional state-space modeling techniques such as ERA.
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this work, we extend the recent sparse identification of nonlinear dynamics (SINDy) framework to identify models with actuation, and combine it with model predictive control (MPC) for effective and interpretable data-driven, model-based control. We apply the proposed SINDY-MPC architecture to control several nonlinear systems and demonstrate improved control performance in the low-data limit, compared with other leading data-driven methods, including linear response models and neural networks.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Model-based control techniques, such as MPC and optimal control, are cornerstones of advanced process control, and are well-positioned to take advantage of the data-driven revolution. Model predictive control is particularly ubiquitous in industrial applications, as it enables the control of strongly nonlinear systems with constraints, which are difficult to handle using traditional linear control approaches. MPC benefits from simple and intuitive tuning and the ability to control a range of simple and complex phenomena, including systems with time delays, non-minimum phase dynamics, and instability. In addition, it is straightforward to incorporate known constraints and multiple operating conditions, it exhibits an intrinsic compensation for dead time, and it provides the flexibility to formulate and tailor a control objective. The major drawback of model-based control, such as MPC, lies in the development of a suitable model via existing system identification or model reduction techniques, which may require expensive and time-consuming data collection and computations.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Nearly all industrial applications of MPC rely on empirical models, and increasing plant complexity and tighter performance specifications require models with higher accuracy. There are many techniques to obtain data-driven models, including state-space models from the eigensystem realization algorithm (ERA) and other subspace identification methods, Volterra series, autoregressive models (e.g., ARX, ARMA, NARX, and NARMAX models), and neural network models, to name only a few. These procedures all tend to yield black-box models, with limited interpretability, physical insights, and ability to generalize. More recently, linear representations of nonlinear systems using extended dynamic mode decomposition have been successfully paired with MPC. Nonlinear models based on machine learning, such as neural networks, are increasingly used due to advances in computing power, and recently deep reinforcement learning has been combined with MPC, yielding impressive results in the large-data limit. However, large volumes of data are often a luxury, and many systems must be identified and controlled with limited data, for example in response to abrupt changes. Current efforts are focused on *rapid* learning based on minimal data.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+\begin{overpic}[width=433.62pt]{} \put(10.0,44.0){(Sec.~{}\ref{Sec:Lotka-Volterra})} \put(37.0,44.0){(Sec.~{}\ref{Sec:Lorenz})} \put(43.0,19.0){(Sec.~{}\ref{Sec:F8-Aircraft})} \put(74.0,40.0){(Sec.~{}\ref{Sec:HIV})} \end{overpic}
+Figure 1: Applications of SINDY-MPC investigated in this work.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+When abrupt changes occur in the system, an effective controller must rapidly characterize and compensate for the new dynamics, leaving little time for discovery based on limited data. A second challenge is the ability of models to generalize beyond the training data, which is related to the ability to incorporate new information and quickly modify the model. Machine learning algorithms often suffer from overfitting and a lack of interpretability, although the application of these algorithms to physical systems offers a unique opportunity to incorporate known symmetries and constraints. These challenges point to the need for *parsimonious* and interpretable models that may be characterized from limited data and in response to abrupt changes. Whereas traditional methods require unrealistic amounts of training data, the recently proposed SINDY framework relies on sparsity-promoting optimization to identify parsimonious models from limited data, resulting in interpretable models that avoid overfitting. It has also been shown recently that it is possible to enforce known physics (e.g., constraints, conservation laws, and symmetries) in the SINDY algorithm, improving stability and performance of models.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this work, we combine SINDY with MPC for enhanced data-driven control of nonlinear systems in the low-data limit. First, we extend the SINDY architecture to identify interpretable models that include nonlinear dynamics and the effect of actuation. Next, we show the enhanced performance of SINDY-MPC compared with linear data-driven models and with neural network models. The linear models are identified using dynamic mode decomposition with control (DMDc), which is closely related to SINDY and traditional state-space modeling techniques such as ERA. SINDY-MPC is shown to have better prediction accuracy and control performance than neural network models, especially for small and moderate amounts of noisy data. In addition, SINDY models are less expensive to train and execute than neural network models, enabling real-time applications. SINDY-MPC also outperforms linear models for moderate amounts of data, although DMDc provides a working model in the extremely low-data limit for simple problems. Thus, in response to abrupt changes, a linear DMDc model may be used until a more accurate SINDY model is trained. We demonstrate the SINDY-MPC architecture on several systems of increasing complexity as illustrated in Fig. 1.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "SINDY-MPC framework", "weight": 1.0} -->
+
+\begin{overpic}[width=433.62pt]{} \end{overpic}
+Figure 2: Schematic of the proposed SINDY-MPC framework, using sparse nonlinear models for predictive control.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "SINDY-MPC framework", "weight": 1.0} -->
+
+The SINDY-MPC architecture combines the systematic data-driven discovery of dynamics with advanced model-based control to facilitate rapid model learning and control of strongly nonlinear systems. The overarching SINDY-MPC framework is illustrated in Fig. 2. In the following sections, we will describe the sparse identification of nonlinear dynamics with control and model predictive control algorithms. We consider the nonlinear dynamical system
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
+
+Advanced machine learning algorithms provide new opportunities for nonlinear system identification. In particular, sparsity-promoting methods are playing an increasingly important role by recognizing the importance of parsimony in models, i.e. the tradeoff between model complexity and data fit. Recent work based on compressed sensing has been used to handle noise and outliers for linear system identification and large libraries of candidate functions. Sparse regularization, which has been demonstrated for parameter and structure identification, is a particularly promising direction as this can promote robustness and generalizability in models. We refer the reader to an extensive review on nonlinear system identification methods and a recent review in the context of machine learning.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
+
+Here, we generalize the sparse identification of nonlinear dynamics (SINDY) method to include inputs and control as illustrated in Fig. 3. SINDY identifies nonlinear dynamical systems from measurement data, relying on the fact that many systems have relatively few terms in the governing equations. Thus, sparsity-promoting techniques may be used to find models that automatically balance sparsity in the number of model terms with accuracy, resulting in parsimonious models. In particular, a library of candidate nonlinear terms $\mathbf{\Theta}{(\mathbf{x})}$ is constructed, and sparse regression is used to identify the few active terms in $\mathbf{\Theta}$ to approximate the function $\mathbf{f}$.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
+
+\put(84.5,24.0){\scriptsize\cite[cite]{[\@@bibref{}{Mangan2017prsa}{}{}]}} \end{overpic} Figure 3: Schematic of the SINDYc algorithm and extensions.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
+
+Active terms in a library of candidate nonlinearities are selected via sparse regression. Illustration of the modular nature of the SINDY with control framework (bottom row) and its ability to handle high-dimensional systems, limited measurements, known physical constraints, and model selection.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
+
+SINDY with control (SINDYc) is based on the same assumption, that Eq. only has a few active terms in the dynamics. SINDY is readily generalized to include actuation, as this merely requires a larger library $\mathbf{\Theta}{(\mathbf{x},\mathbf{u})}$ of candidate functions that include $\mathbf{u}$; these functions can include nonlinear cross terms in $\mathbf{x}$ and $\mathbf{u}$.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
+
+where $\mathbf{x} \otimes \mathbf{y}$ defines the vector of all product combinations of the components in $\mathbf{x}$ and $\mathbf{u}$. Although this definition includes repeated rows in $\mathbf{\Theta}$, in practice, the implementation is restricted to unique combinations. A suitable library of candidate terms is crucial in the SINDYc algorithm. One strategy is to start with a basic choice, such as polynomials, and increase the complexity of the library by including other terms (trigonometric functions, etc.). It is also possible to incorporate partial knowledge of the physics (e.g. fluids vs. quantum mechanics) to decide on a library.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
+
+The time derivatives $\overset{˙}{\mathbf{X}} = \begin{bmatrix}
+{\overset{˙}{\mathbf{x}}}_{1} & {\overset{˙}{\mathbf{x}}}_{2} & \cdots & {\overset{˙}{\mathbf{x}}}_{m}
+\end{bmatrix}$, if not measured directly, are computed by numerical differentiation or approximated using the total variation regularized derivative if the data is noise-corrupted. The coefficients $\mathbf{\Xi}$ are *sparse* for many dynamical systems.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
+
+Input: Time derivative $\overset{˙}{\mathbf{X}}$, library of candidate functions ΘT (X,U), thresholding parameter ε
+Output: Matrix of sparse coefficient vectors Ξ
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
+
+The $\parallel \cdot \parallel_{1}$ term promotes sparsity in the coefficient vector ${\mathbf{ξ}}_{k}$. This optimization may be solved using the LASSO or the sequentially thresholded least squares procedure (see Alg. 1). General conditions for the uniqueness of the $l_{1}$ relaxed solution have been provided. In practice, these conditions may not be readily met, and false discoveries may occur, although they may be avoided under certain conditions. Specific conditions under which the sequentially thresholded least-squares algorithm in SINDy converges are provided. More recently, convergence and recovery has been explored in a generalized framework for sparse relaxed regularized regression, for which SINDy constitutes a special case. Conditions under which a model structure can be recovered from input--output data have also been examined in the context of identifiability.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
+
+The parameter $\lambda$ (or equivalently $\varepsilon$ in Alg. 1) is selected to identify the Pareto optimal model that best balances model complexity with accuracy. A coarse sweep of $\lambda$ is performed to identify the rough order of magnitude where terms are eliminated and where error begins to increase. Then this parameter sweep may be refined, and the models on the Pareto front are evaluated using information criteria. It is interesting to note, that a similar idea, identifying active components in $\mathbf{f}$ from a library of candidate functions using sparse regularization, was discarded in favor of a Bayesian formulation, as the non-orthogonality of the columns in the library was seen as problematic. However, as, we will demonstrate here the effectiveness of the approach.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Sparse identification of nonlinear dynamics with control", "weight": 1.0} -->
+
+Since the original SINDY paper, it has been extended to include constraints and known physics, for example to enforce energy preserving constraints in an incompressible fluid flow. SINDY has also been extended to high-dimensional systems, by identifying dynamics on principal components, learning partial differential equations, and extracting dynamics on delay coordinates. Robust variants of SINDY have been formulated to identify models despite large outliers and noise.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Discovering discrete-time dynamics", "weight": 1.0} -->
+
+In the original SINDY algorithm, it was shown that it is possible to identify discrete-time models of the form $\mathbf{x}_{k + 1} = {\mathbf{F}{(\mathbf{x}_{k})}}$.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Discovering discrete-time dynamics", "weight": 1.0} -->
+
+Instead of computing derivatives, we collect a matrix $\mathbf{X}^{\prime}$ with the columns of $\mathbf{X}$ advanced one timestep: $\mathbf{X}^{\prime} = \begin{bmatrix}
+\mathbf{x}_{2} & \mathbf{x}_{3} & \cdots & \mathbf{x}_{m + 1}
+\end{bmatrix}$. Then, the dynamics may be written as
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Discovering discrete-time dynamics", "weight": 1.0} -->
+
+and the regression problem becomes
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Relationship to dynamic mode decomposition", "weight": 1.0} -->
+
+The SINDY regression is related to the dynamic mode decomposition (DMD), which originated in the fluids community to extract spatiotemporal coherent structures from large fluid data sets. DMD modes are spatially coherent and oscillate at a fixed frequency and/or growth or decay rate. Since fluids data is typically high-dimensional, DMD is built on the proper orthogonal decomposition (POD), effectively recombining POD modes in a linear combination to enforce the temporal coherence. The dynamic mode decomposition has been applied to a wide range of problems including fluid mechanics, epidemiology, neuroscience, robotics, finance, and video processing. Many of these applications have the ultimate goal of closed-loop feedback control.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Relationship to dynamic mode decomposition", "weight": 1.0} -->
+
+Thus, SINDY reduces to DMD if formulated in discrete-time, with linear library elements in $\mathbf{\Theta}$, and without a sparsity-promoting $L_{1}$ penalty term, i.e. $\lambda = 0$.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Relationship to dynamic mode decomposition", "weight": 1.0} -->
+
+DMD was recently extended to include actuation inputs by Proctor et al, to disambiguate the effect of internal dynamics and control.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Relationship to dynamic mode decomposition", "weight": 1.0} -->
+
+Thus, SINDY with control similarly reduces to DMDc under certain conditions. In this work, we will use DMDc and SINDYc to discover dynamics for model predictive control. The DMDc algorithm has also been shown to be related to other subspace identification methods, such as the eigensystem realization algorithm, but designed for high-dimensional input--output data.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Relationship to dynamic mode decomposition", "weight": 1.0} -->
+
+It is interesting to note that the extended DMD (eDMD) regression is performed on the nonlinear library ${\mathbf{\Theta}{(\mathbf{X}^{\prime})}} = {\mathbf{A}\mathbf{\Theta}{(\mathbf{X})}}$, and an $L_{1}$ penalty may also be added. Extended DMD may also be modified to incorporate actuation inputs, and these models have recently been used effectively for model predictive control.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Identification of dynamics with feedback control", "weight": 1.0} -->
+
+If the input $\mathbf{u}$ corresponds to feedback control, so that $\mathbf{u} = {\mathbf{K}{(\mathbf{x})}}$, then it is impossible to disambiguate the effect of the feedback control $\mathbf{u}$ with internal feedback terms $\mathbf{K}{(\mathbf{x})}$ within the dynamical system; namely, the SINDYc regression becomes ill-conditioned.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Identification of dynamics with feedback control", "weight": 1.0} -->
+
+To identify the coefficients $\mathbf{\Xi}$ in Eq., we perturb the signal $\mathbf{u}$ to allow it to be distinguished from $\mathbf{K}{(\mathbf{x})}$ terms. This may be done by injecting a sufficiently large white noise signal, or occasionally kicking the system with a large impulse or step in $\mathbf{u}$. An interesting future direction would be to design input signals that *aid* in the identification of the dynamical system in Eq. by perturbing the system in directions that yield high-value information.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Identification of dynamics with feedback control", "weight": 1.0} -->
+
+\begin{overpic}[width=433.62pt]{Fig034} \put(0.0,2.0){(a)} \put(60.0,2.0){(b)} \end{overpic}
+Figure 4: Schematics for (a) the control loop and (b) the receding horizon of MPC. Full state measurements y = x, and $\hat{\mathbf{y}} = \hat{\mathbf{x}}$ are considered as the output in the examples. Starting from the most recent measurement, the control input sequence (light blue solid) is optimized over the control horizon based on predicted future outputs (red solid) to drive the system to the set point (green dashed). The first input (blue star) in the sequence is enacted.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Model predictive control", "weight": 1.0} -->
+
+In this section, we outline the control problem and summarize key results in MPC, which is shown schematically in Fig. 4. Model predictive control solves an optimal control problem over a receding horizon, subject to system constraints, to determine the next control action. This optimization is repeated at each new timestep, and the control law is updated, as shown in Fig. 4(b).
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Model predictive control", "weight": 1.0} -->
+
+The receding horizon control problem can generally be formulated as an open-loop optimization at each step, which determines the optimal sequence of control inputs $\mathbf{u}{( \cdot |\mathbf{x}_{j})}:={\{\mathbf{u}_{j + 1},\ldots,\mathbf{u}_{j + k},\ldots,\mathbf{u}_{j + m_{c}}\}}$ over the control horizon $T_{c} = {m_{c}\Deltat}$ given the current measurement $\mathbf{x}_{j}$ that minimizes a cost $J$ over the prediction horizon $T_{p} = {m_{p}\Deltat}$; $\Deltat$ is the timestep of the model, which may be different from the sampling time of measurements.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Model predictive control", "weight": 1.0} -->
+
+The control horizon is generally less than or equal to the prediction horizon, so that $T_{c} \leq T_{p}$; if $T_{c} < T_{p}$, then the input $\mathbf{u}$ is assumed constant thereafter. The first control value $\mathbf{u}_{j + 1}$ is then applied, and the optimization is reinitialized and repeated at each subsequent timestep to solve for the unknown sequence $\mathbf{u}{( \cdot |\mathbf{x}_{j})}$. This results in an implicit feedback control law
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Model predictive control", "weight": 1.0} -->
+
+where $\mathbf{u}_{j + 1}$ is the first in the optimized actuation sequence starting at the initial condition $\mathbf{x}_{j}$.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Model predictive control", "weight": 1.0} -->
+
+and possibly additional equality or inequality constraints on the state and input. Here, we assume the availability of full-state measurements $\mathbf{y} = \mathbf{x}$. The cost functional $J$ penalizes deviations of the predicted state ${\hat{\mathbf{x}}}_{k}$ along the trajectory $\mathbf{x}_{k}^{\ast}$ and also includes a terminal cost at ${\hat{\mathbf{x}}}_{m_{p}}$. Expenditures of the input $\mathbf{u}_{k}$ and input rate ${\Delta\mathbf{u}_{k}} = {\mathbf{u}_{k} - \mathbf{u}_{k - 1}}$ are also penalized.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Model predictive control", "weight": 1.0} -->
+
+The dynamics are given by the identified SINDYc model, e.g. $\overset{˙}{\mathbf{x}} = {\mathbf{F}{(\mathbf{x},\mathbf{u})}} = {\mathbf{\Xi}\mathbf{\Theta}^{T}{(\mathbf{x},\mathbf{u})}}$; $\hat{\mathbf{F}}$ represents a discrete-time or discretized SINDYc model. While the model and the control law may be learned simultaneously, we adopt a two-stage process, where the model is first learned from data and then used in the control optimization with MPC. A joint optimization of the model and the control law may be challenging, as the particular control action depends on the model. However, it may be possible to develop a streaming algorithm to adapt the model to abrupt system changes, iterating between model identification and control optimization.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Model predictive control", "weight": 1.0} -->
+
+MPC is one of the most powerful model-based control techniques due to the flexibility in the formulation of the objective functional, the ability to add constraints, and extensions to nonlinear systems. The most challenging aspect of MPC involves the identification of a dynamical model that accurately and efficiently represents the system behavior when control is applied. If the model is linear, minimization of a quadratic cost functional subject to linear constraints results in a tractable convex problem. Nonlinear models may yield significant improvements; however, they render MPC a nonlinear program, which can be expensive to solve, making it particularly challenging for real-time control. Conditions on the well-posedness of the problem and existence and uniqueness of the solution of the nonlinear optimization problem are, e.g., provided. Fortunately, improvements in computing power and advanced algorithms are increasingly enabling nonlinear MPC for real-time applications.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "A simple model for population dynamics", "weight": 1.0} -->
+
+We first demonstrate the SINDY-MPC architecture on the Lotka-Volterra system, a two-dimensional, weakly nonlinear dynamical system, describing the interaction between two competing populations. These dynamics may represent two species in biological systems, competition in stock markets, and can be modified to study the spread of infectious diseases. We will consider more sophisticated examples in the following sections.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "A simple model for population dynamics", "weight": 1.0} -->
+
+The dynamics of the prey and predator populations, $x_{1}$ and $x_{2}$, respectively, are given by
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "A simple model for population dynamics", "weight": 1.0} -->
+
+where the constant parameters $a = 0.5$, $b = 0.025$, $c = 0.5$, and $d = 0.005$ represent the growth/death rates, the effect of predation on the prey population, and the growth of predators based on the size of the prey population. The unforced system exhibits a limit cycle behavior, where the predator lags the prey, and a critical point $\mathbf{x}^{crit} = {({{{g/d}a}/b})}^{T}$, where the population sizes of both species are in balance. The control objective is to stabilize this fixed point. Here, the timestep ${\Deltat} = 0.1$ of the system and the model are equal, the weight matrices are $\mathbf{Q} = {(\begin{matrix}
+\end{matrix})}$ and $R_{u} = R_{\Deltau} = 0.5$, and the actuation input is limited to $u \in {\lbrack{- 20},20\rbrack}$.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "A simple model for population dynamics", "weight": 1.0} -->
+
+The control and prediction horizons are $m_{p} = m_{c} = 10$ unless otherwise noted. We apply an additional constraint on $u$, so that $x_{2}$ does not decrease below $10$, to enforce a minimum population size required for recovery.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "A simple model for population dynamics", "weight": 1.0} -->
+
+To assess the performance and capabilities of the SINDY-MPC architecture, SINDYc is compared with two representative data-driven models: dynamic mode decomposition with control (DMDc) and a multilayer neural network (NN), which can represent any continuous function under mild conditions. The results are displayed in Fig. 5. The first $100$ time units are used to train the models with a phase-shifted sum of sinusoids as input, a so-called Schroeder sweep, after which the predictive capabilities of these models are validated using sinusoidal forcing with ${u{(t)}} = {({2{\sin{(t)}}{\sin{({t/10})}}})}^{2}$ on the next $100$ time units. Different actuation inputs are used during the training and validation stages to assess the models' ability to generalize. Thereafter, MPC is applied for $100$ time units using a prediction and control horizon of $m_{p} = m_{c} = 5$.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "A simple model for population dynamics", "weight": 1.0} -->
+
+SINDYc shows the best prediction and control performance, followed by DMDc and the neural network (due to its steady-state error). The neural network has $1$ hidden layer with $10$ neurons, which is the best trade-off between model complexity and accuracy; increasing the number of neurons or layers has little impact on the prediction performance. Further, hyperbolic tangent sigmoid activation functions are employed. It is first trained as a feedforward network using the Levenberg-Marquardt algorithm and then closed. If the data is corrupted by noise, a Bayesian regularization is employed, which requires more training time but improves robustness. While the neural network exhibits a similar control performance, the execution time of SINDYc is $37$ times faster, which is particularly critical in real-time applications. For a fair comparison, all methods are compared using the same optimization routine based on interior-point methods via Matlab's fmincon. Thus, it would be possible to reduce the time for the linear system further.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "A simple model for population dynamics", "weight": 1.0} -->
+
+In practice, measurements are generally affected by noise. We examine the robustness of these models for increasing noise corruption of the state measurements, i.e. $\mathbf{y} = {\mathbf{x} + \mathbf{n}}$ where $\mathbf{n} \in {\mathcal{N}{(0,\sigma^{2})}}$ with standard deviation $\sigma$. Crossvalidated prediction performance for different noise magnitudes $\eta = {\sigma/{\max{({{std}{(x_{i})}})}}} \in {(0.01,0.5)}$, where $std$ denotes standard deviation, is displayed in Fig. 7(a-b). As expected, the performance of all models decreases with increasing noise magnitude. SINDYc generally outperforms DMDc and neural network models, exhibiting a slower decline in performance for low and moderate noise levels. Sparse regression is known to improve robustness to noise and prevent overfitting. The large fluctuation in the neural network performance are due to its strong dependency on the initial network weights.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "A simple model for population dynamics", "weight": 1.0} -->
+
+The amount of data required to train an accurate model is particularly crucial in real-time applications, where abrupt changes or actuation may render the model invalid and rapid model updates are necessary. Figure 6(a-c) shows the average relative prediction error on $100$ time units used for validation, and the training time for increasing lengths of training data. The effect of the training length on the control performance (evaluated over 20 time units) is shown in Fig. 6(d-e). For small amounts of data, the sparsity-promoting parameter $\lambda$ in SINDYc is reduced by a factor of $10$ until a non-zero entry appears. In the low-data limit, a highly predictive SINDYc model can be learned, discovering the true governing equations within machine precision. Significantly larger amounts of data are required to train an accurate neural network model, although with enough data it outperforms DMDc. DMDc models may be useful in the extremely low-data limit, before enough data is available to characterize a SINDYc model.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "A simple model for population dynamics", "weight": 1.0} -->
+
+The training times of SINDYc and DMDc models increase slightly with the amount of data, but they require about two orders of magnitude less time than neural network models. SINDYc's intrinsic robustness to overfitting renders all models from $m_{train} = 14$ on as having the best control performance compared with the overall best performing DMDc and neural network models. In contrast, DMDc shows a slight decrease in performance due to overfitting and the neural network's dependency on the initial network weights detrimentally affects its performance. It is interesting to note that the control performance is generally less sensitive than the long-term prediction performance shown in Fig. 6(b-c). Even a model with moderately low predictive accuracy may perform well in MPC.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "A simple model for population dynamics", "weight": 1.0} -->
+
+In Fig. 7(c-d) we show the same analysis but with noise-corrupted training data. We assume no noise corruption during the control stage. For each training length, the best model out of $50$ noise realizations is tested for control. DMDc and SINDYc models both require slightly more data to achieve a similar performance as without noise. Note that neural network models perform significantly worse when trained on noise-corrupted data.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Chaotic Lorenz system", "weight": 1.0} -->
+
+In this section, we demonstrate the SINDY-MPC architecture on the chaotic Lorenz system, a prototypical example of chaos in dynamical systems. The Lorenz system represents the Rayleigh-Bénard convection in fluid dynamics as proposed by Lorenz, but has also been associated with lasers, dynamos, and chemical reaction systems. The Lorenz dynamics are given by
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Chaotic Lorenz system", "weight": 1.0} -->
+
+with system parameters $\sigma = 10$, $\beta = {8/3}$, $\rho = 28$, and control input $u$ affecting only the first state. A typical trajectory oscillates alternately around the two weakly unstable fixed points ${({\pm \sqrt{72}},{\pm \sqrt{72}},27)}^{T}$. The chaotic motion of the system implies a strong sensitivity to initial conditions, i.e. small uncertainties in the state will grow exponentially with time. This represents a particularly challenging problem for model identification and subsequent control, as measurement and model uncertainty both lead to long-time forecast error.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Chaotic Lorenz system", "weight": 1.0} -->
+
+The control objective is to stabilize one of these fixed points. In general, the timestep of the model is chosen to balance the control horizon, the length of the sequence of control inputs to be optimized, and prediction accuracy. Here, the system timestep is ${\Deltat^{sys}} = 0.001$ and the model timestep is ${\Deltat^{model}} = 0.01$. The control input is determined every $10$ system timesteps and then held constant. The weight matrices are $\mathbf{Q} = \mathbf{I}_{3}$, where $\mathbf{I}_{n}$ denotes a $n \times n$ identity matrix, $R_{u} = R_{\Deltau} = 0.001$, and the actuation input is limited to $u \in {\lbrack{- 50},50\rbrack}$.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Chaotic Lorenz system", "weight": 1.0} -->
+
+The control and prediction horizon is $m_{p} = m_{c} = 10$ and the sparsity-promoting parameter in SINDYc is $\lambda = 0.1$, unless otherwise noted. For all cases we assume access to full-state information.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Chaotic Lorenz system", "weight": 1.0} -->
+
+We compare the prediction and control performance of the SINDYc model with DMDc and neural network models. DMDc is trained to model the deviation from the goal state by constructing the regression model based on data from which the goal state has been subtracted. A less naïve approach would partition the trajectory into two bins, e.g. based on negative and positive values of $x_{1}$, and estimate two models for each goal state separately. The neural network consists of $1$ hidden layer with $10$ neurons and employs hyperbolic tangent sigmoid activation functions. Cross-validated prediction and control performance for the Lorenz system are displayed in Fig. 8. The first $10$ time units are used to train with a Schroeder sweep, after which the models are validated on the next $10$ time units using a sinusoidally-based high-frequency forcing, ${u{(t)}} = {({5{\sin{({30t})}}})}^{3}$. MPC is then applied for the last $5$ time units. SINDYc exhibits the best prediction and control performance.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Chaotic Lorenz system", "weight": 1.0} -->
+
+The neural network exhibits comparable control performance, although the prediction horizon is considerably shorter. Surprisingly, DMDc is able to stabilize the fixed point, despite poor predictions based on a linear model. As the predictive capability of DMDc is poor, we will not present DMDc results in the following, but instead compare SINDYc and the neural network. As in the previous example, while the neural network exhibits similar control performance, the control execution of SINDYc is $21$ times faster.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Chaotic Lorenz system", "weight": 1.0} -->
+
+The effect of the amount of training data on the prediction and control performance is examined in Figs. 10, respectively. In Fig. 10(a-d), we show the average relative error evaluated on the prediction over the next $10$ time units, the prediction horizon, and the required training time in seconds for increasing length of noise-free training data. For a relatively small amount of data, SINDYc rapidly outperforms the neural network model with a prediction horizon of $2.5$ time units and a significantly smaller error. For a sufficiently large amount of data, SINDYc and the neural network result in comparable predictions. However, SINDYc yields highly predictive models that can be rapidly trained in the low and moderate data regimes. Models trained on weakly noise-corrupted measurements, $\eta = 0.05$, are tested in MPC. For each length of training data, 50 noise realizations are performed and the most predictive model is selected for evaluation in MPC (Fig. 10(e-f)). Outside the shaded regions, models are generally not predictive or might even diverge.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Chaotic Lorenz system", "weight": 1.0} -->
+
+In the noise-corrupted case, it is clear that SINDYc models generally have better control performance than neural network models. For a sufficiently large amount of training data, neural networks can have comparable performance to SINDYc models, although they show a sensitive dependence on the initial choice of the network weights. The control results of the neural network are significantly better here than for the Lotka-Volterra model due to the intrinsic system properties. In chaotic systems, a long enough trajectory will come arbitrarily close to every point on the attractor; thus, measurements of the Lorenz system are in some sense richer than those of the Lotka-Volterra system. A surprising result is that a nearly optimal SINDYc model can be trained on just $8$ noisy measurements (compare Fig. 10(e-f)).
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Tracking for the F-8 crusader", "weight": 1.0} -->
+
+In this section we consider an automatic flight control system of the F-8 aircraft at an altitude of 30 000 ft (9000 m) and Mach=0.85. The control objective is to track a specific trajectory of the angle of attack. The aircraft dynamics are given by
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Tracking for the F-8 crusader", "weight": 1.0} -->
+
+where $x_{1}$ is the angle of attack (rad), $x_{2}$ is the pitch angle (rad), $x_{3}$ is the pitch rate (rad s^-1^), and $u$ is the control input representing the tail deflection angle (rad). The system is nonaffine in the states and the control input rendering it strongly nonlinear.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Tracking for the F-8 crusader", "weight": 1.0} -->
+
+with $\hat{t} = {t/0.1}$. We assume that the output, over which the performance is optimized, is $y = x_{1}$. The timestep of the system is ${\Deltat} = 0.001$ and the timestep of the model is ${\Deltat^{M}} = 0.01$. The control input is determined using SINDY-MPC every $10$ system timesteps over which the applied control is then kept constant. The weight matrices are $Q = 25$, $R_{u} = R_{\Deltau} = 0.05$, the actuation input rate is limited to ${\Deltau} \in {\lbrack{- 0.3},0.5\rbrack}$, and the constraint for the angle of attack is $y \in {\lbrack{- 0.2},0.4\rbrack}$.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Tracking for the F-8 crusader", "weight": 1.0} -->
+
+The control and prediction horizon is $m_{p} = m_{c} = 13$ and the sparsity-promoting parameter in SINDYc is ${\mathbf{λ}} = {(10^{- 4},10^{- 2},10^{- 2})}$, where $\lambda_{i}$ is used to identify the terms for $x_{i}$. The neural network has two hidden layers each with 15 neurons. Access to full-state information is assumed for these models.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Tracking for the F-8 crusader", "weight": 1.0} -->
+
+Results assessing prediction and control performance of SINDYc compared with DMDc and a neural network model are displayed in Fig. 11. Similar to the Lotka-Volterra system, the neural network requires more and richer training data, i.e. a better exploration of the system behavior, to perform sufficiently well. Thus, 250 short trajectories each consisting of $1000$ snapshots ($25 \cdot 10^{4}$ instances in total) with varying input signals are used to train the neural network; a subset of 20 trajectories is displayed in Fig. 11(a,bottom). In contrast, SINDYc and DMDc perform similarly well if trained on much less data ($10^{4}$ instances of a single trajectory). Moreover, SINDYc learns from few measurements the true relationship between the variables, even though only limited system behavior has been observed, resulting in increased performance.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Optimal therapy for pathogenic attacks", "weight": 1.0} -->
+
+Optimizing drug therapy is critical for inhibiting diseases such as cancer and viral infections. Here, we consider treatment of infections with the human immunodeficiency virus (HIV), a pathogen that infects T-helper CD4+ cells of the immune system and can cause Acquired Immune Deficiency Syndrome (AIDS). Identifying the underlying infection mechanism, the response of the immune system, and the interactions with drugs targeting different components in this system is critical for developing and optimizing therapeutic strategies. Various models have been proposed to study the interaction between HIV and CD4+ cells; we refer to a recent review.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Optimal therapy for pathogenic attacks", "weight": 1.0} -->
+
+Optimal treatment aims to decrease virus mutations, complications from administered drugs, medical costs, and to strengthen the immune system. We consider a system that incorporates infections with HIV, the cytotoxic lymphocyte (CTL) response of the immune system, and therapeutic interventions via a highly active anti-retroviral therapy (HAART), i.e. a combination of drugs that affect the replication rate of HIV and support the immune system.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Optimal therapy for pathogenic attacks", "weight": 1.0} -->
+
+with parameters $\lambda = 1$, $d = 0.1$, $\beta = 1$, $a = 0.2$, $p_{1} = 1$, $p_{2} = 1$, $c_{1} = 0.03$, $c_{2} = 0.06$, $b_{1} = 0.1$, $b_{2} = 0.01$, $q = 0.5$, $h = 0.1$ and $\eta = 0.9799$ (units typically in mm^-3^/day). Here, the states describe concentrations of healthy CD4+ T-cells, $x_{1}$, HIV-infected CD4+ T-cells, $x_{2}$, CTL precursors (memory CTL), $x_{3}$, helper-independent CTL, $x_{4}$, and helper-dependent CTL, $x_{5}$. For a detailed discussion of the system we refer to.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Optimal therapy for pathogenic attacks", "weight": 1.0} -->
+
+The parameter $\eta$ represents the effectiveness of the HAART therapy applied via $u$. For the considered parameters and in the absence of control ($u \equiv 0$), the system exhibits two stable fixed points: a progressive infection leading to AIDS, $\mathbf{x}^{A}$, and the recovery from a successful immune response, $\mathbf{x}^{B}$. The later steady-state is given by
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Optimal therapy for pathogenic attacks", "weight": 1.0} -->
+
+This state moves as a function of $\beta_{eff} = {\beta{({1 - {\etau}})}}$ when $u > 0$ and its ROA changes and does not necessarily overlap with the ROA in the absence of drug treatment ($u = 0$), i.e. dependent on the initial condition and the applied control the system will converge to a different steady-state. A non-trivial control strategy is required that switches between treatment and no treatment to establish a successful immune response, and hence to approach $\mathbf{x}_{0}^{B}$. In contrast, when treatment is applied continuously for a sufficiently long amount of time such the fixed points are approached and then terminated, the system will converge to a progressive infection, $\mathbf{x}^{A}$, even if a successful immune response had been established.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Optimal therapy for pathogenic attacks", "weight": 1.0} -->
+
+The cost functional to be optimized is given by
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Optimal therapy for pathogenic attacks", "weight": 1.0} -->
+
+where ${\hat{x}}_{1} = x_{1}^{B}$ and ${\hat{x}}_{3} = x_{3}^{B}$ taking into account the healthy cells, the immune system, and the cost of treatment. The control input $u$ is bounded by $0 \leq u \leq 1$ with efficacy of $\eta = 0.9799$. An additional constraint is added to the control that renders all cell concentrations nonnegative, i.e. $x_{i} \geq {0{\forall i}}$. The time step is ${\Deltat^{M}} = {2{hrs}}$ for the model and is ${\Deltat} = {{1/24}{day}} = {1{hr}}$ for the simulated system. The control performance is evaluated over $50$ weeks.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Optimal therapy for pathogenic attacks", "weight": 1.0} -->
+
+The prediction and control horizon for the MPC optimization are both $m_{p} = m_{c} = 24$, i.e. over 2 days (from $m_{p}\Deltat^{M}$). We assume a more realistic situation, where the state is measured once a week, and the treatment is then kept constant over the following week. The training data consists of samples collected over $200$ days ($\approx 30$ weeks) with a discrete control input, as was applied for the validation data in Fig. 12 (bottom). In contrast, the training data for the neural network consists of ensemble data of $32$ different trajectories. In both cases, the control is a random sequence of values that are kept constant over random durations of time ${\DeltaT} \in {\lbrack{5{hrs}},{10{days}}\rbrack}$.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+Deviation from reference state, 10 time delay coordinates of the full-state and of the control input
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+order r = 3 of polynomial basis (without constant term)
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+1 hidden layer with 5 neurons and linear activation functions, data is l o g-transformed and mapped to [−1, 1] to compensate for skewness and different range
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+We consider a SINDYc model with full-state information (SINDYc) and partial information based on a subset of the variables (PI-SINDYc). The latter case demonstrates the situation when only a few states can be measured, which is generally more realistic. For the identification of the SINDYc models it is important to normalize first the features in the library, as the coefficients of the active terms spread over several orders of magnitude. In both cases a polynomial order of three is used for the library. The results are compared with various linear models: DMDc on the full state (DMDc), DMDc on delay coordinates of the full state (Delay-DMDc), and DMDc on a set of nonlinear observables (extended DMD with control, eDMDc). In addition, a neural network model on the full state (NN) is trained. An overview of these models and their parameters is provided in Tab. 1.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+Only the non-zero parameters are shown, and their error is ${\mathcal{O}{(10^{- 3})}} - {\mathcal{O}{(10^{- 6})}}$ for SINDYc. The error in the parameters decreases with increased time resolution. Here, a coarse time step is chosen to reduce the computational cost of MPC for the chosen prediction horizon. In PI-SINDYc, the parameters for $x_{1}$ and $x_{3}$ are estimated well as these only depend on $x_{1}$, $x_{2}$ and $x_{3}$. In contrast, $x_{2}$ has a larger error in the estimated parameters and consists of erroneous parameters to compensate for the missing information. Different selections of variables have been tested, which generally resulted in poor models, except for the selected combination. The resulting models are generally not sparse, except where a direct relationship exists between variables. This suggests that SINDY indicates direct causal relationships, which can be measured in terms of the sparsity.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+Prediction accuracy based on data differing from the training set, but with a similar type of actuation signal, and control results are displayed in Fig. 12. Both start from an early infection given by $\mathbf{x}_{0} = {({\lambda/d},0.1,0.1,0.1,0.1)}^{T}$. While a SINDYc model can be identified with near-perfect prediction accuracy, all other models display an error several orders of magnitude larger (see Fig. 12(a)). In particular, linear DMDc-based models diverge significantly from the true trajectory for some variables, while capturing the right trend in other variables. The neural network and the PI-SINDYc model based on partial state information generally stay closer to, and even temporarily match, the true trajectory. Interestingly, while MPC using PI-SINDYc successfully drives the system to the desired steady-state behavior, with a slightly larger cost than SINDYc, the neural network controller is unable to establish the successful immune response by applying constant treatment (see Fig. 12(b)).
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+Note that the actuation depends strongly on the prediction and control horizon chosen for the optimization; further analysis has shown that a smaller horizon for the NN controller yields a time-varying, however still unsuccessful, treatment. We varied the number of hidden layers (up to 3), the number of neurons (up to 100), the type of activation function, the number of delays (up t0 100) in the state and input variables and the amount of training data ($\approx 600$ different initial conditions). However, these did not significantly change the performance of the model. The type of data (not just the amount) is particularly critical for training a neural network. Designing experiments, i.e. a good forcing signal that explores the system behavior and yields dynamically rich training data, is a challenge of its own. The linear DMDc and eDMDc models fail too. While the eDMDc model starts with the correct frequency, detrimental treatment is administered thereafter close to the desired state, which gives rise to new growth of infected cells, $x_{2}$.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+Interestingly, augmenting the state vector with delay coordinates results in a successful treatment (with performance close to the SINDYc models), in contrast to the strategy to augment the state with nonlinear measurements of the state as in eDMDc.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+All models but the neural network, which has been trained on a significantly larger amount of data, have been trained on the same amount of data, a single trajectory starting from an initial condition which is relatively far from the desired behavior. Thus, these models are required to generalize well, i.e. perform well far from the region in which they have been initially trained. Using more data would certainly help to improve the prediction accuracy of some of these models, in particular, if these require a large number of parameters to be estimated. However, this would pose additional challenges in real-time applications with abrupt system changes, as this requires robust model formation and adaptation from few measurements.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+7 Discussion and Conclusions
+In conclusion, we have demonstrated the effective integration of data-driven sparse model discovery for model predictive control in the low-data limit. The sparse identification of nonlinear dynamics (SINDY) algorithm has been extended to discover nonlinear models with actuation and control, resulting in interpretable and parsimonious models. Moreover, because SINDY only identifies the few active terms in the dynamics, it requires less data than many other leading machine learning techniques, such as neural networks, and prevents overfitting. When integrated with model predictive control, SINDY provides computationally tractable and accurate models that can be trained on very little data. The resulting SINDY-MPC framework is capable of controlling strongly nonlinear systems, purely from measurement data, and the model identification is fast enough to discover models in real-time, even in response to abrupt changes to the model.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+The SINDY-MPC approach is compared with MPC based on data-driven linear models and neural network models on four nonlinear dynamical systems of different complexities and challenges: the weakly nonlinear Lotka-Volterra system, the chaotic Lorenz system, the nonaffine F8 crusador model, and the HIV/immune response system, which variables are of different order of magnitudes and where only partial state information is available. The relative strengths and weaknesses of each method are summarized in Tab. LABEL:Tab:Summary. By nearly every metric, linear DMDc models and nonlinear SINDYc models outperform neural network models (NN). In fact, DMDc may be seen as the limit of SINDYc when the library of candidate terms is restricted to linear terms. SINDY-MPC provides the highest performance control and requires significantly less training data and execution time compared with NN. However, for very low amounts of training data, DMDc provides a useful model until the SINDYc algorithm has enough data to characterize the dynamics.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+Thus, we advocate the SINDY-MPC framework for effective and efficient nonlinear control, with DMDc as a stopgap after abrupt changes until a new SINDYc model can be identified. Note that a crucial step in SINDY is the choice of library functions, which is often informed by expert knowledge about what category of nonlinearities to include. A poor choice of the library will generally yield a non-sparse model. Without any prior knowledge about the system type, a sweep through different classes of candidate functions is required. However, once a model is learned from a sufficiently rich library, the model is often able to generalize beyond the training data. If the model structure is not fixed, but varies heterogeneously in state space, neural networks may provide a more flexible and generalizable architecture to represent the dynamics. A heterogeneous model structure can potentially be incorporated into SINDy by additionally learning a library of models. This work motivates a number of future extensions and investigations. Although the preliminary application of SINDYc for MPC is encouraging, this study does not leverage many of the powerful new techniques in sparse model identification.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+Figure 3 provides a schematic of the modularity and demonstrated extensions that are possible within the SINDy framework. In realistic applications, the system may be extremely high-dimensional, and the SINDy library does not scale well with the size of the data. Fortunately, many high-dimensional systems evolve on a low-dimensional attractor, and it is often possible to identify a model on this attractor, for example by identifying a SINDy model on low-dimensional coordinates obtained through a singular value decomposition or manifold learning. In other applications, full-state measurements are unavailable, and the system must be characterized by limited measurements. It has recently been shown that delay coordinates provide a useful embedding to identify simple models of chaotic systems, building on the celebrated Takens embedding theorem. Delay coordinates also define intrinsic coordinates for the Koopman operator, which provides a simple linear embedding of nonlinear systems. Koopman models have recently been used for MPC and have been identified using SINDy regression and subsequently used for optimal control. Recently, SINDY has been extended to modify an existing model based on new incoming measurements to enable rapid model recovery from abrupt changes to the system.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+Learning quickly from limited measurements is an important task, which may be viewed in terms of design of experiments; specifically, optimizing the actuation input to collect the most informative measurements to learn a more predictive model faster. This would require the formulation of a different cost function, which measures the predictive power of the model, to determine future actuation inputs. Rapid learning is also related to the question of quantity versus quality of data and identifiability; more data is usually better, although it is possible to work with less data if it is representative of the system. Further, similar methods could be used to optimize sensors and exploit partial measurements within the SINDY-MPC framework. All of these innovations suggest a shift from the perspective of big data to the control-oriented perspective of smart data. Figure 3 also demonstrates innovations to the SINDy regression to include physical constraints, known model structure, and model selection, which may all benefit the goal of real-time identification and control. Known symmetries, conservation laws, and constraints may be readily included in both the SINDYc and DMDc modeling frameworks, as they are both based on least-squares regression, possibly with sequential thresholding.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+It is thus possible to use a constrained least-squares algorithm, for example to enforce energy conserving constraints in a fluid system, which manifest as anti-symmetric quadratic terms. Enforcing constraints has the potential to further reduce the amount of data required to identify models, as there are less free parameters to estimate, and the resulting systems have been shown to have improved stability in some cases. It is also possible to extend the SINDy algorithm to identify models in libraries that encode richer dynamics, such as rational function nonlinearities. Finally, incorporating information criteria provides an objective metric for model selection among various candidate SINDy models with a range of complexity. The SINDY-MPC framework has significant potential for the real-time control of strongly nonlinear systems. Moreover, the rapid training and execution times indicate that SINDy models may be useful for rapid model identification in response to abrupt model changes, and this warrants further investigation. The ability to identify accurate and efficient models with small amounts of training data may be a key enabler of recovery in time-critical scenarios, such as model changes that lead to instability.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+In addition, for broad applicability and adoption, the SINDy modeling framework must be further investigated to characterize the effect of noise, derive error estimates, and provide conditions and guarantees of convergence. These future theoretical and analytical extensions are necessary to certify the model-based control performance. No ethical considerations apply. The code used in this work is made available: The data can be generated using the code. We declare we have no competing interests. All authors conceived of the work, designed the study and drafted the manuscript. EK carried out the computations. The authors gratefully acknowledge many valuable discussions with Josh Proctor. EK gratefully acknowledges support by the Washington Research Foundation, the Gordon and Betty Moore Foundation, the Alfred P. Sloan Foundation (Award #3835), and the University of Washington eScience Institute. SLB and JNK acknowledge support from the Defense Advanced Research Projects Agency (DARPA contract HR011-16-C-0016 and PA-18-01-FP-125). SLB acknowledges support from the Army Research Office (W911NF-17-1-0306 and W911NF-17-1-0422).
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Unknowns", "weight": 1.0} -->
+
+JNK acknowledges support from the Air Force Office of Scientific Research (FA9550-17-1-0329).

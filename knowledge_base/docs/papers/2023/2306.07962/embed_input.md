@@ -1,17 +1,159 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Parting with Misconceptions about Learning-based Vehicle Motion Planning
 
 Topics include Motion planning, Vehicles, Graphs, Datasets, Planning, Learning.
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 The release of nuPlan marks a new era in vehicle motion planning research, offering the first large-scale real-world dataset and evaluation schemes requiring both precise short-term planning and long-horizon ego-forecasting. Existing systems struggle to simultaneously meet both requirements. Indeed, we find that these tasks are fundamentally misaligned and should be addressed independently. We further assess the current state of closed-loop planning in the field, revealing the limitations of learning-based methods in complex real-world scenarios and the value of simple rule-based priors such as centerline selection through lane graph search algorithms. More surprisingly, for the open-loop sub-task, we observe that the best results are achieved when using only this centerline as scene context (i.e., ignoring all information regarding the map and other agents). Combining these insights, we propose an extremely simple and efficient planner which outperforms an extensive set of competitors, winning the nuPlan planning challenge 2023.
 
-## Introduction
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Despite learning-based systems' success in vehicle motion planning research, a lack of standardized large-scale datasets for benchmarking holds back their transfer from research to applications. The recent release of the nuPlan dataset and simulator, a collection of 1300 hours of real-world vehicle motion data, has changed this, enabling the development of a new generation of learned motion planners, which promise reduced manual design effort and improved scalability.
+Despite learning-based systems' success in vehicle motion planning research, a lack of standardized large-scale datasets for benchmarking holds back their transfer from research to applications. The recent release of the nuPlan dataset and simulator, a collection of 1300 hours of real-world vehicle motion data, has changed this, enabling the development of a new generation of learned motion planners, which promise reduced manual design effort and improved scalability. Equipped with this new benchmark, we perform the first rigorous empirical analysis on a large-scale, open-source, and data-driven simulator for vehicle motion planning, including a comprehensive set of state-of-the-art (SoTA) planners using the official metrics.
 
-Our contributions are as follows: We demonstrate and analyze the misalignment between open- and closed-loop evaluation schemes in planning. We propose a lightweight extension of IDM with real-time capability that achieves state-of-the-art closed-loop performance. We conduct experiments with an open-loop planner, which is only conditioned on the current dynamic state and a centerline, showing that it outperforms sophisticated models with complex input representations.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Discussion
+Open- and closed-loop evaluation are misaligned. Most learned planners are trained through the supervised learning task of forecasting the ego vehicle's future motion conditioned on a desired goal location. We refer to this setting as ego-forecasting. In nuPlan, planners can be evaluated in two ways: in open-loop evaluation, which measures ego-forecasting accuracy using distance-based metrics or in closed-loop evaluation, which assesses the actual driving performance in simulation with metrics such as progress or collision rates. Open-loop evaluation lacks dynamic feedback and can have little correlation with closed-loop driving, as previously shown on the simplistic CARLA simulator. Our primary contribution lies in uncovering a negative correlation between both evaluation schemes. Learned planners excel at ego-forecasting but struggle to make safe closed-loop plans, whereas rule-based planners exhibit the opposite trend.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Rule-based planning generalizes. We surprisingly find that an established rule-based planning baseline from over twenty years ago surpasses all SoTA learning-based methods in terms of closed-loop evaluation metrics on our benchmark. This contradicts the prevalent motivating claim used in most research on learned planners that rule-based planning faces difficulties in generalization. This was previously only verified on simpler benchmarks. As a result, most current work on learned planning only compares to other learned methods, ignoring rule-based baselines.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+A centerline is all you need for ego-forecasting. We implement a naïve learned planning baseline which does not incorporate any input about other agents in the scene and merely extrapolates the ego state given a centerline representation of the desired route. This baseline sets the new SoTA for open-loop evaluation on our benchmark. It does not require intricate scene representations (e.g. lane graphs, vectorized maps, rasterized maps, tokenized objects), which have been the central subject of inquiry in previous work. None of these prior studies considered a simple centerline-only representation as a baseline, perhaps due to its extraordinary simplicity.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our contributions are as follows: We demonstrate and analyze the misalignment between open- and closed-loop evaluation schemes in planning. We propose a lightweight extension of IDM with real-time capability that achieves state-of-the-art closed-loop performance. We conduct experiments with an open-loop planner, which is only conditioned on the current dynamic state and a centerline, showing that it outperforms sophisticated models with complex input representations. By combining both models into a hybrid planner, we establish a simple baseline that outperformed 24 other, often learning-based, competing approaches and claimed victory in the nuPlan challenge 2023.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Ego-forecasting and Planning are Misaligned", "weight": 1.0} -->
+
+In this section, we provide the relevant background regarding the data-driven simulator nuPlan. We describe two baselines for a preliminary experiment to demonstrate that although ego-forecasting and planning are often considered related tasks, they are not well-aligned given their definitions on nuPlan. Improvements in one task can often lead to degradation in the other.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Misalignment", "weight": 1.0} -->
+
+Centerline-conditioned ego-forecasting. We now propose the Predictive Driver Model (Open), i.e., PDM-Open, which is a straightforward multi-layer perceptron (MLP) designed to predict future waypoints. The inputs to this MLP are the centerline ($\mathbf{c}$) extracted by IDM and the ego history ($\mathbf{h}$). To accommodate the high speeds (reaching up to 15 m/s) and ego-forecasting horizons (extending to 8 seconds) observed in nuPlan, the centerline is sampled with a resolution of 1 meter up to a length of 120 meters. Meanwhile, the ego history incorporates the positions, velocities, and accelerations of the vehicle over the previous two seconds, sampled at a rate of 5Hz. Both $\mathbf{c}$ and $\mathbf{h}$ are linearly projected to feature vectors of size 512, concatenated, and input to the MLP $\phi_{\text{Open}}$ which has two 512-dimensional hidden layers.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Misalignment", "weight": 1.0} -->
+
+The output are the future waypoints for an 8-second horizon, spaced 0.5 seconds apart, expressed as $\mathbf{w}_{\text{Open}} = {\phi_{\text{Open}}{(\mathbf{c},\mathbf{h})}}$. The model is trained using an $L_{1}$ loss on our training dataset of 177k samples (described in Section 4). By design, PDM-Open is considerably simpler than existing learned planners.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Misalignment", "weight": 1.0} -->
+
+OLS vs. CLS. In Table 1, we benchmark the IDM and PDM-Open baselines using the nuPlan metrics. We present two IDM variants with different maximum acceleration values (the default $a = {1.0{\text{m}\text{s}}^{- 2}}$ and $a = {0.1{\text{m}\text{s}}^{- 2}}$) and four PDM-Open variants based on different inputs. We observe that reducing IDM's acceleration improves OLS but negatively impacts CLS. While IDM demonstrates strong closed-loop performance, PDM-Open outperforms IDM in open-loop even if it only uses the current ego state as input (first row). The past ego states (History) only yield little improvement and lead to a drop in CLS. Most importantly, adding the centerline significantly contributes to ego-forecasting performance. A clear trade-off between CLS and OLS indicates a misalignment between the goals of ego-forecasting and planning.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Misalignment", "weight": 1.0} -->
+
+This sort of inverse correlation on nuPlan is unanticipated, considering the increasing use of ego-forecasting in current planning literature. While ego-forecasting is not necessary for driving performance, the nuPlan challenge requires both a high OLS and CLS.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Misalignment", "weight": 1.0} -->
+
+In Fig. 1, we illustrate the misalignment between the OLS and CLS metrics. In the depicted scenario, the rule-based IDM selects a different lane in comparison to the human driver. However, it maintains its position on the road throughout the simulation. This results in a high CLS yet a low OLS. Conversely, the learned PDM-Open generates predictions along the lane chosen by the human driver, thereby obtaining a high OLS. Nonetheless, as errors accumulate in its short-term predictions during the simulation, the model's trajectory veers off the drivable area, culminating in a subpar CLS.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Methods", "weight": 1.0} -->
+
+We now extend IDM by incorporating several concepts from model predictive control, including forecasting, proposals, simulation, scoring, and selection, as illustrated in Fig. 2 (top). We call this model PDM-Closed. Note that as a first step, we still require a graph search to find a sequence of lanes along the route and extract their centerline, as in the IDM planner.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Methods", "weight": 1.0} -->
+
+Forecasting. In nuPlan, the simulator provides an orientation vector and speed for each dynamic agent such as a vehicle or pedestrian. We leverage a simple yet effective constant velocity forecasting over the horizon $F$ of 8 seconds at 10Hz.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Methods", "weight": 1.0} -->
+
+Proposals. In the process of calibrating the IDM planner, we observed a trade-off when selecting a single value for the target speed hyperparameter ($v_{0}$), which either yielded aggressive driving behavior or insufficient progress across various scenarios. Consequently, we generate a set of trajectory proposals by implementing IDM policies at five distinct target speeds, namely, $\{{20\%},{40\%},{60\%},{80\%},{100\%}\}$ of the designated speed limit. For each target speed, we also incorporate proposals with three lateral centerline offsets ($\pm$`<!-- -->`{=html}1m and 0m), thereby producing $N = 15$ proposals in total. To circumvent computational demands in subsequent stages, the proposals have a reduced horizon of $H$ steps, which corresponds to 4 seconds at a 10Hz.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Methods", "weight": 1.0} -->
+
+Simulation. Trajectories in nuPlan are simulated by iteratively retrieving actions from an LQR controller and propagating the ego vehicle with a kinematic bicycle model. We simulate the proposals with the same parameters and a faster re-implementation of this two-stage pipeline. Thereby, the proposals are evaluated based on the expected movement in closed-loop.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Methods", "weight": 1.0} -->
+
+Scoring. Each simulated proposal is scored to favor traffic-rule compliance, progress, and comfort. By considering proposals with lateral and longitudinal variety, the planner can avoid collisions with agent forecasts and correct drift that may arise when the controller fails to accurately track the intended trajectory. Furthermore, our scoring function closely resembles the nuPlan evaluation metrics. We direct the reader to the supplementary material for additional details.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Methods", "weight": 1.0} -->
+
+Trajectory selection. Finally, PDM-Closed selects the highest-scoring proposal which is extended to the complete forecasting horizon $F$ with the corresponding IDM policy. If the best trajectory is expected to collide within 2 seconds, the output is overwritten with an emergency brake maneuver.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Methods", "weight": 1.0} -->
+
+Enhancing long-horizon accuracy. To integrate the accurate ego-forecasting capabilities of PDM-Open with the precise short-term actions of PDM-Closed, we now propose a hybrid version of PDM, i.e., PDM-Hybrid. Specifically, PDM-Hybrid uses a learned module PDM-Offset to predict offsets to waypoints from PDM-Closed, as shown in Fig. 2 (bottom).
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Methods", "weight": 1.0} -->
+
+In practice, the LQR controller used in nuPlan relies exclusively on the first 2 seconds of the trajectory when determining actions in closed-loop. Therefore, applying the correction only to long-term waypoints (i.e., beyond 2 seconds by default, which we refer to as the correction horizon $C$) allows PDM-Hybrid to maintain closed-loop planning performance.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Methods", "weight": 1.0} -->
+
+Where $\mathbf{c}$ and $\mathbf{h}$ are the centerline and history (identical to the inputs of PDM-Open). ${\{\mathbf{w}_{\text{Closed}}^{t}\}}_{t = 0}^{F}$ are the PDM-Closed waypoints added to the hybrid approach, and $\phi_{\text{Offset}}$ is an MLP. Its architecture is identical to $\phi_{\text{Open}}$ except for an extra linear projection to accommodate $\mathbf{w}_{\text{Closed}}$ as an additional input.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Methods", "weight": 1.0} -->
+
+It is important to note that PDM-Hybrid is designed with high modularity, enabling the substitution of individual components with alternative options when diverse requirements emerge. For example, we show results with a different open-loop module in the supplementary material. Given its overall simplicity, one interesting approach to explore involves incorporating modular yet differentiable algorithms as components, as seen. Exploring the integration of these modules within unified multi-task architectures is another interesting direction. We reserve such exploration for future work.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+We now outline our proposed benchmark and highlight the driving performance of our approach.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+benchmark. We offer standardized data splits for training and evaluation. Training uses all 70 scenario types from nuPlan, restricted to a maximum of 4k scenarios per type, resulting in $\sim$`<!-- -->`{=html}177k training scenarios. For evaluation, we use 100 scenarios of the 14 scenario types considered by the leaderboard, totaling 1,118 scenarios. Despite minor imbalance (all 14 types do not have 100 available scenarios), our validation split aligns with the online leaderboard evaluation (Table 2 and Table 3), confirming the suitability of our benchmark as a proxy for the online test set.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Baselines. We include several additional SoTA approaches adopting ego-forecasting for planning in our study. Urban Driver encodes polygons with PointNet layers and predicts trajectories with a linear layer after a multi-head attention block. Our study uses an implementation of Urban Driver trained in the open-loop setting. GC-PGP clusters trajectory proposals based on route-constrained lane-graph traversals before returning the most likely cluster center. PlanCNN predicts waypoints using a CNN from rasterized grid features without an ego state input. It shares several similarities to ChauffeurNet, a seminal work in the field. A preliminary version of PDM-Hybrid, which won the nuPlan competition, used GC-PGP as its ego-forecasting component, and we include this as a baseline. We provide a complete description of this version in the supplementary.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Results. Our results are presented in Table 2. PlanCNN achieves the best CLS among learned planners, possibly due to its design choice of removing ego state from input, trading OLS for enhanced CLS. Contrary to the community's growing preference for graph- and vector-based scene representations in prediction and planning, these results show no clear disadvantage of raster representations for the closed-loop task, with PlanCNN also offering a lower runtime. Surprisingly, the simplest rule-based approach in our study, IDM, outperforms the best learned planner, PlanCNN. Moreover, we observe PDM-Closed's advantages over IDM in terms of CLS: an improvement from 76-77 to 92-93 as a result of the ideas from Section 3. Surprisingly, PDM-Open achieves the highest OLS of 86 with a runtime of only 7ms using only a centerline and the ego state as input. We observe that PDM-Open improves on other methods in accurate long-horizon lane-following, as detailed further in our supplementary material.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Next, despite PDM-Closed's unsatisfactory 42 OLS, PDM-Hybrid successfully combines PDM-Closed with PDM-Open. Both the centerline and graph versions of PDM-Hybrid achieve identical scores in our evaluation. However, the final centerline version, using PDM-Open instead of GC-PGP, is more efficient during inference. Finally, the privileged approach of outputting the ground-truth ego future trajectory (log replay) fails to achieve a perfect CLS, in part due to the nuPlan framework's LQR controller occasionally drifting from the provided trajectory. PDM-Hybrid compensates for this by evaluating proposals based on the expected controller outcome, causing it to match/outperform log replay in closed-loop evaluation.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Challenge. The 2023 nuPlan challenge saw the preliminary (graph) version of PDM-Hybrid rank first out of 25 participating teams. The leaderboard considers the mean of CLS-R, CLS-NR, and OLS. While open-loop performance lagged slightly, closed-loop performance excelled, resulting in an overall SoTA score. Unfortunately, due to the closure of the leaderboard, our final (centerline) version of PDM-Hybrid that replaces GC-PGP with the simpler PDM-Open module could not be benchmarked. All top contenders combined learned ego-forecasting with rule-based post-solvers or post-processing to boost CLS performance for the challenge. Thus, we expect to see more hybrid approaches in the future.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Importantly, near identical scores were recorded for our submission on both our benchmark (Table 2) and the official leaderboard (Table 3). Note that the Urban Driver and IDM results on the leaderboard are provided by the nuPlan team, so they likely use different training data and hyper-parameters than our implementations from Table 2.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Ablation Study. We delve into our design choices through an ablation study in Table 4. Table LABEL:tab:ablation_pdmh displays PDM-Hybrid's closed-loop score reactive (CLS-R) and open-loop score (OLS) with varied correction horizons ($C$) from 0s to 3s. Applying the waypoint correction to all waypoints (i.e., $C = 0$), outperforms PDM-Open in OLS (87 vs. 86, see Table 2) but leads to a substantial drop in CLS-R compared to the default value of $C = 2$. On the other hand, a noticeable OLS decline occurs when initiating corrections deeper into the trajectory (e.g., $C = 3$), with minimal impact on CLS-R.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+For PDM-Closed (Table LABEL:tab:ablation_pdmc), we compare CLS-R and runtime (ms) with the base planner across three scenarios: removing lateral centerline offsets (\"lat.\"), longitudinal IDM proposals (\"lon.\"), and environment forecasting (\"cast.\"). Our analysis reveals that eliminating proposals diminishes CLS-R effectiveness but accelerates runtimes. Performance significantly drops when excluding the forecasting used for creating and evaluating proposals. However, the runtime remains nearly identical, showing the effectiveness of the simple forecasting mechanism.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+As for PDM-Open (Table LABEL:tab:ablation_pdmo), we test three variations: a shorter centerline (30m vs. 120m), a coarser centerline (every 10m vs. 1m), and a smaller MLP with a reduced hidden dimension (from 512 to 256). Both a smaller MLP and a reduced centerline length lead to performance degradation, but the impact remains relatively minor compared to disregarding the centerline altogether (Table 1, OLS=72). Meanwhile, the impact of a coarser centerline is negligible.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Although rule-based planning is often criticized for its limited generalization, our results demonstrate strong performance in the closed-loop nuPlan task which best resembles real-world evaluation. Notably, open-loop success in part requires a trade-off in closed-loop performance. Consequently, imitation-trained ego-forecasting methods fare poorly in closed-loop. This suggests that rule-based planners remain promising and warrant further exploration. At the same time, given their poor performance out-of-the-box, there is room for improvement in imitation-based methods on nuPlan.
 
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
 Integrating the strengths of closed-loop planning and open-loop ego-forecasting, we present a hybrid model. However, this does not enhance closed-loop driving performance; instead, it boosts open-loop performance while executing identical driving maneuvers. We conclude that considering precise open-loop ego-forecasting as a prerequisite for achieving long-term planning goals is misleading.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Acknowledging the potential importance of ego-forecasting for interpretability and assessing human-like behavior, we propose focusing this evaluation on the short horizon (e.g., 2 seconds) relevant for closed-loop driving. The current nuPlan OLS definition, requiring a unimodal 8-second ego-forecast, may only be useful for alternate applications, like setting goals for background agents in data-driven traffic simulations or allocating computational resources better, e.g. to prioritize perception or prediction in areas the ego-vehicle is expected to traverse. We discourage the use of open-loop metrics as a primary indicator of planning performance.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Limitations. While we significantly improve upon the established IDM model, PDM still does not execute lane-change maneuvers. Lane change attempts often lead to collisions when the ego-vehicle is between two lanes, resulting in a high penalty as per the nuPlan metrics. PDM relies on HD maps and precise offboard perception that may be unavailable in real-world driving situations. While real-world deployment was demonstrated for learning-based methods, it remains a significant challenge for rule-based approaches. Moreover, our experiments, aside from the held-out test set, have not specifically evaluated the model's generalization capabilities when encountering distributional shifts, such as unseen towns or novel scenario types. They were all conducted on a single simulator, nuPlan. Therefore, it is important to recognize the limitations inherent in nuPlan's data-driven simulation approach. When a planner advances more rapidly than the human driving log, objects materialize abruptly in front of the ego-vehicle during simulation. For CLS-NR, vehicles move independently as observed in reality, disregarding the ego agent, leading to excessively aggressive behavior.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Conversely, CLS-R background agents rely on IDM and adhere strictly to the centerline, leading to unrealistically passive behavior. We see high value in developing a more refined reactive environment for future work.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Conclusion. In this paper, we identify prevalent misconceptions in learning-based vehicle motion planning. Based on our insights, we introduce PDM-Hybrid, which builds upon IDM and combines it with a learned ego-forecasting component. It surpassed a comprehensive set of competitors and claimed victory in the 2023 nuPlan competition.

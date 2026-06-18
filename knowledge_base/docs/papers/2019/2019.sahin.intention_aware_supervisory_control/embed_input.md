@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Intention-Aware Supervisory Control with Driving Safety Applications
 
 Topics include Supervisory control, Robust controlled invariant sets, Intention estimation, Autonomous driving, Safety, Human-robot interaction.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Builds a driving-safety supervisor that switches among intention-specific robust controlled invariant sets based on online estimates of other drivers. The key idea is to reduce conservatism by pairing safety supervision with behavior-model discrimination while retaining a fallback intention-agnostic invariant set.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This paper proposes a guardian architecture, consisting of an estimation and a supervisor module providing a set of inputs that guarantees safety, in driving scenarios. The main idea is to offline compute a library of robust controlled invariant sets (RCIS), for each possible driver intention model of the other vehicles, together with an intention-agnostic albeit conservative RCIS. At runtime, when the intention estimation module determines which driver model the other vehicles are following, the appropriate RCIS is chosen to provide the safe and less conservative input set for supervision. We show that the composition of the intention estimation module with the proposed intention-aware supervisor module is safe. Moreover, we show how to compute intention-agnostic and intention-specific RCIS by growing an analytically found simple invariant safe set. The results are demonstrated on a case study on how to safely interact with a human-driven car on a highway scenario, using data collected from a driving simulator.

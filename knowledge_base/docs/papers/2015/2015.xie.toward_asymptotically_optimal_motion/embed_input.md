@@ -1,3 +1,13 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Toward Asymptotically Optimal Motion Planning for Kinodynamic Systems Using a Two-point Boundary Value Problem Solver
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 We present an approach for asymptotically optimal motion planning for kinodynamic systems with arbitrary nonlinear dynamics amid obstacles. Optimal sampling-based planners like RRT*, FMT*, and BIT* when applied to kinodynamic systems require solving a two-point boundary value problem (BVP) to perform exact connections between nodes in the tree. Two-point BVPs are non-trivial to solve, hence the prevalence of alternative approaches that focus on specific instances of kinodynamic systems, use approximate solutions to the two-point BVP, or use random propagation of controls. In this work, we explore the feasibility of exploiting recent advances in numerical optimal control and optimization to solve these two-point BVPs for arbitrary kinodynamic systems and how they can be integrated with existing optimal planning algorithms. We combine BIT* with a two-point BVP solver that uses sequential quadratic programming (SQP). We consider the problem of computing minimum-time trajectories.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Since the duration of trajectories is not known a-priori, we include the time-step as part of the optimization to allow SQP to optimize over the duration of the trajectory while keeping the number of discrete steps fixed for every connection attempted. Our experiments indicate that using a two-point BVP solver in the inner-loop of BIT* is competitive with the state-of-the-art in sampling-based optimal planning that explicitly avoids the use of two-point BVP solvers.

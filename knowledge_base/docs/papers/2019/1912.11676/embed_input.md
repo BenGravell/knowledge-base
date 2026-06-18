@@ -1,21 +1,713 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Deep Learning-based Vehicle Behaviour Prediction for Autonomous Driving Applications: A Review
 
 Topics include Motion prediction, Vehicle behavior prediction, Trajectory prediction, Intention prediction, Deep learning, Autonomous driving, Review, Survey.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Reviews deep learning approaches for vehicle behavior prediction in autonomous driving, categorizing methods by architecture and prediction output type, with discussion of datasets and evaluation metrics.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Behaviour prediction function of an autonomous vehicle predicts the future states of the nearby vehicles based on the current and past observations of the surrounding environment. This helps enhance their awareness of the imminent hazards. However, conventional behaviour prediction solutions are applicable in simple driving scenarios that require short prediction horizons. Most recently, deep learning-based approaches have become popular due to their superior performance in more complex environments compared to the conventional approaches. Motivated by this increased popularity, we provide a comprehensive review of the state-of-the-art of deep learning-based approaches for vehicle behaviour prediction in this paper. We firstly give an overview of the generic problem of vehicle behaviour prediction and discuss its challenges, followed by classification and review of the most recent deep learning-based solutions based on three criteria: input representation, output type, and prediction method. The paper also discusses the performance of several well-known solutions, identifies the research gaps in the literature and outlines potential new research directions.
 
-## Introduction
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Adoption of autonomous vehicles in the near future is expected to reduce the number of road accidents and improve road safety. However, for safe and efficient operation on roads, an autonomous vehicle should not only understand the current state of the nearby road-users, but also proactively anticipate their future behaviour. One part of this general problem is to predict the behaviour of pedestrians (or generally speaking, the vulnerable road-users), which is well-studied in computer vision literature. There are also several review papers on pedestrian behaviour prediction such as.
+Adoption of autonomous vehicles in the near future is expected to reduce the number of road accidents and improve road safety. However, for safe and efficient operation on roads, an autonomous vehicle should not only understand the current state of the nearby road-users, but also proactively anticipate their future behaviour. One part of this general problem is to predict the behaviour of pedestrians (or generally speaking, the vulnerable road-users), which is well-studied in computer vision literature. There are also several review papers on pedestrian behaviour prediction such as. Another equally important part of the problem is prediction of the intended behaviour of other vehicles on the road. In contrast to pedestrians, vehicles' behaviour is constrained by their higher inertia, driving rules and road geometry, which could help reduce the complexity of the problem, compared to aforementioned problem. Nonetheless, new challenges arise from interdependency among vehicles behaviour, influence of traffic rules and driving environment, and multimodality of vehicles behaviour. Practical limitations in observing the surrounding environment and the required computational resources to execute prediction algorithms also add to the difficulty of the problem, as explained in the later sections of this paper.
 
-There are several published survey papers on vehicle behaviour analysis. For example, Shirazi and Morris provide a review of vehicle monitoring, behaviour and safety analysis at intersections. A review of unsupervised approaches for vehicle behaviour analysis with a focus on trajectory clustering and topic modelling methods is provided . Anomaly detection techniques using visual surveillance are reviewed . In a joint review is provided on tracking, prediction and decision making for autonomous driving. None of these studies specifically focus on vehicle behaviour prediction.
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Basics and Challenges of Vehicle Behaviour Prediction
+There are several published survey papers on vehicle behaviour analysis. For example, Shirazi and Morris provide a review of vehicle monitoring, behaviour and safety analysis at intersections. A review of unsupervised approaches for vehicle behaviour analysis with a focus on trajectory clustering and topic modelling methods is provided. Anomaly detection techniques using visual surveillance are reviewed. In a joint review is provided on tracking, prediction and decision making for autonomous driving. None of these studies specifically focus on vehicle behaviour prediction. In the most related paper to our work, Lefevre et al. provide a survey on vehicle behaviour prediction and risk assessment in the context of autonomous vehicles. The authors review various conventional approaches that applied physics-based models and/or traditional machine learning algorithms such as Hidden Markov Models, Support Vector Machines, and Dynamic Bayesian Networks. Recent advances in machine learning techniques (e.g., deep learning) have provided new and powerful tools for solving the problem of vehicle behaviour prediction. Such approaches have become increasingly important due to their promising performance in complex and realistic scenarios. However, to the best of our knowledge, there is no systematic and comparative review of the latter deep learning-based approaches.
 
-Object detection and behaviour prediction can be considered as two main functions of the perception system of an autonomous vehicle. While both of them rely on on- and off-board sensory data, the former aims to localize and classify the objects in the surrounding environment of the autonomous vehicle and the latter provides an understanding of the dynamics of surrounding objects and predicts their future behaviour. Behaviour prediction plays a pivotal role in autonomous driving applications as it supports efficient decision making and enables risk assessment.
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Conclusion
+We thus present a review of such studies using a new classification method which is based on three criteria: input representation, output type, and prediction method. In addition, we report the practical limitations of implementing recent solutions in autonomous vehicles. To make the paper self-contained, we also provide a generic problem definition for vehicle behaviour prediction.
 
-Although deep learning-based behaviour prediction solutions have shown promising performance, especially in complex driving scenarios, by utilizing sophisticated input representation and output type, there are several open challenges that need to be addressed to enable their adoption in autonomous driving applications. Particularly, while most of existing solutions considered the interaction among vehicles, factors such as environment conditions and set of traffic rules are not directly inputted to the prediction model.
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Basics and Challenges of Vehicle Behaviour Prediction", "weight": 1.0} -->
+
+Object detection and behaviour prediction can be considered as two main functions of the perception system of an autonomous vehicle. While both of them rely on on- and off-board sensory data, the former aims to localize and classify the objects in the surrounding environment of the autonomous vehicle and the latter provides an understanding of the dynamics of surrounding objects and predicts their future behaviour. Behaviour prediction plays a pivotal role in autonomous driving applications as it supports efficient decision making and enables risk assessment. In this section, we firstly discuss the challenges of vehicle behaviour prediction, then we provide a terminology for vehicle behaviour prediction, and finally we present a generic probabilistic formulation of the problem.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "II-A Challenges", "weight": 1.0} -->
+
+Vehicles (e.g., cars and trucks) have well-structured motions which are governed by driving rules and environment conditions. In addition, vehicles, as non-holonomic systems, cannot change their trajectories instantly to desired ones. However, vehicle behaviour prediction is not a trivial task due to several challenges. First, there is an interdependency among vehicles behaviour where the behaviour of a vehicle affects the behaviour of other vehicles and vice versa. Therefore, predicting the behaviour of a vehicle requires observing the behaviour of surrounding vehicles. Second, road geometry and traffic rules can reshape the behaviour of vehicles. For example, placing a give-way sign in an intersection can completely change the behaviour of vehicles approaching it. Therefore, without considering traffic rules and road geometry, a model trained in a specific driving environment would have limited performance in other driving environments. Third, the future behaviour of vehicles is multimodal, meaning that given history of motion of a vehicle, there may exist more than one possible future behaviour for it. For example, when a vehicle is slowing down at an intersection without changing its heading direction, both turning right and turning left motions could be expected.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "II-A Challenges", "weight": 1.0} -->
+
+A comprehensive behaviour prediction module in an autonomous vehicle should identify all possible future motions to allow the vehicle to act reliably.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "II-A Challenges", "weight": 1.0} -->
+
+In addition to the intrinsic challenges of the vehicle behaviour prediction problem, implementing a behaviour prediction module in autonomous vehicles comes with several practical limitations. For example, there are restricted computational resources for on-board implementation in autonomous vehicles. In addition, autonomous vehicles can partially observe the surrounding environment using their on-board sensors due to their limitations (e.g., object occlusion, limited sensor range, and sensor noise). Most of existing studies assume having access to a wide unobstructed top-down view of the driving environment which can be obtained by infrastructure sensors (e.g. an infrastructure surveillance camera). Nonetheless, such data can be available if there exists a communication channel with sufficient capacity between the infrastructure and the autonomous vehicle. In addition, it is not cost-effective to cover all road sections with such sensors. Therefore, a behaviour prediction module cannot always rely on unobstructed vision from an infrastructure sensor.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "II-B Terminology", "weight": 1.0} -->
+
+Target Vehicles (TVs) are the vehicles whose behaviour we are interested in predicting.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "II-B Terminology", "weight": 1.0} -->
+
+Ego Vehicle (EV) is the autonomous vehicle which observes the surrounding environment to predict the behaviour of TVs.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "II-B Terminology", "weight": 1.0} -->
+
+Surrounding Vehicles (SVs) are the vehicles whose behaviour is explored by the prediction model as it can potentially impact TV's future behaviour. Different studies may adopt different criteria for selecting SVs based on their modelling assumptions.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "II-B Terminology", "weight": 1.0} -->
+
+Non Effective Vehicles (NVs) are the remaining vehicles in driving environment that are assumed to have no impact on the TV's behaviour.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "II-C Generic Problem Formulation", "weight": 1.0} -->
+
+We use a probabilistic formulation for vehicle behaviour prediction to cope with the uncertain nature of the problem. The word "behaviour" and "manoeuvre" are sometimes used in the literature interchangeably; however, we consider "vehicle behaviour" as a general term that can imply vehicle manoeuvre or trajectory depending on how it is represented in the problem formulation.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "II-C Generic Problem Formulation", "weight": 1.0} -->
+
+Where $x_{t}^{i}$ represents the states (e.g., position) of vehicle $i$ at time step $t$, $N$ is the number of TVs, and $m$ is the length of the prediction window.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-C Generic Problem Formulation", "weight": 1.0} -->
+
+The generic problem is formulated as computing the conditional distribution $P{(\left. X_{TVs} \middle| O_{EV} \right.)}$, where $O_{EV}$ are the available observations to the EV. This distribution is a mutual distribution over series of states of several interdependent vehicles, which can be intractable. To reduce the computational requirement of estimating $P{(\left. X_{TVs} \middle| O_{EV} \right.)}$, many of existing works dropped the interdependency among vehicles future behaviour. As such, the behaviour of each TV can be predicted separately with an affordable computational requirement. At each step, one vehicle is selected as the TV and its $P{(\left. X_{TV} \middle| O_{EV} \right.)}$
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Classifications of Existing Works", "weight": 1.0} -->
+
+Lefevre et al. classifies vehicle behaviour prediction models to physics-based, manoeuvre-based, and interaction-aware models. The simplest approaches that assume the behaviour of vehicles only depends on laws of physics are classified in physics-based models. The models that predict vehicles' behaviour based on their intended manoeuvre are called maneuvre-based approaches. Finally, the more advanced models that consider interaction among vehicles are called interaction-aware models. At the time of writing their paper, in 2014, there has been only a few examples of such interaction-aware model. However, several advanced approaches, mostly deep learning-based has been proposed in the literature since 2014 that requires more detailed classification. Thus, we present three classifications based on three different criteria: input representation, output type, and prediction method. First, we classify existing studies based on how they represent the input data. In this classification, the interaction-aware models are divided into three classes. In second classification, different approaches are classified based on their prediction output. We do not include physics-based approaches as they are no longer state-of-the-art, but different deep learning methods used in behaviour prediction are discussed and classified in the last classification.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Classifications of Existing Works", "weight": 1.0} -->
+
+Figure 2 provides the classes and sub-classes for each aforementioned classification criterion. The following subsections address the classification based on each criterion individually.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "III-A Input Representation", "weight": 1.0} -->
+
+In this subsection, we provide a classification of existing studies based on the type of input data and how it is represented. We divide them into four classes: track history of the TV, track history of the TV and SVs, simplified bird's eye view, and raw sensor data. The last three classes can be considered as sub-classes of interaction-aware approaches which was introduced. We also discuss the availability of these input data in autonomous driving applications.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "III-A1 Track history of the TV", "weight": 1.0} -->
+
+The conventional approach for predicting behaviour of the TV is to only use its current state (e.g. position, velocity, acceleration, heading) or track history of its states over time. This feature can be estimated if the TV is observable by the EV's sensors.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "III-A1 Track history of the TV", "weight": 1.0} -->
+
+In, the track history of x-y position, speed, and heading of the TV are used to predict its behaviour at different road junctions. All these works study the behaviour of the TV in an environment without any SVs. Few deep learning-based methods use this input set to predict the vehicle behaviour in a driving environment with presence of other vehicles. Xin et al. argue that the information of SVs is not available due to EV's sensor limitations and object occlusion; however, some of the SVs can usually be observed by EV's sensor (see Figure 1). Excluding the observable SV's state from the input set may result in inaccurate prediction of the TV's behaviour due to interdependencies of vehicles' behaviour.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-A1 Track history of the TV", "weight": 1.0} -->
+
+Although the track history of the TV has highly informative features about its short-term future motion, relying only on the TV's track history can lead to erroneous results particularly in long-term prediction in crowded driving environments.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-A2 Track history of the TV and SVs", "weight": 1.0} -->
+
+One approach to consider the interaction among vehicles is to explicitly feed the track history of the TV and SVs to the prediction model. The SVs' states, similar to the TV's states, can be estimated in the object detection module of the EV; however, some of the SVs can be outside of the EV's sensor range or they might be occluded by other vehicles on the road.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-A2 Track history of the TV and SVs", "weight": 1.0} -->
+
+The existing studies vary in how to divide the vehicles in the scene into surrounding vehicles (SVs) and non-effective vehicles (NVs). In, history of states of the TV and six of its closest neighbours are exploited to predict the TV's behaviour. In, the three closest vehicles in the TV's current lane and two adjacent lanes are chosen as reference vehicles. The reference vehicles and the vehicles in front and behind of the two reference vehicles in adjacent lanes are selected as the SVs. The authors in consider nine vehicles in three lanes surrounding the target vehicle including two vehicles in front of the TV. They indicate that considering more vehicles in the input data can improve the performance of behaviour prediction. For example, in a traffic jam, knowing that the second vehicle ahead of the TV is accelerating can enable early prediction of speed increase for the TV. Instead of considering a fixed number of vehicles as the SVs, a distance threshold is defined to divide vehicle into the SVs and NVs. It means that only the interactions of vehicles within this threshold are considered in the prediction model.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-A2 Track history of the TV and SVs", "weight": 1.0} -->
+
+In, the states of all the observable agents (e.g. vehicles, pedestrian, and cyclist) are used with different weights, obtained by soft attention mechanism, corresponding to their impacts on TV's behaviour.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-A2 Track history of the TV and SVs", "weight": 1.0} -->
+
+One drawback of most of these studies is that they assume that the states of all SVs are always observable, which is not a practical assumption in autonomous driving applications. A more realistic approach should always consider sensor impairments like occlusion and noise. In addition, relying only on the track history of the TV and SVs is not sufficient for behaviour prediction, because other factors like environment conditions and traffic rules can also modify the behaviour of vehicles.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+An alternative way to consider the interaction among vehicles is by exploiting a simplified Bird's Eye View (BEV) of the environment. In this approach, static and dynamic objects, road lane, and other elements of the environment are usually depicted with a collection of polygons and lines in a BEV image. The result is a map-like image which preserves the size and location of objects (e.g. vehicles) and the road geometry while ignoring their texture.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+Lee et al. fuse front-facing radar and camera data to form a binary two-channel BEV image covering the frontal area of the EV. One of the image channels specifies whether the pixel is occupied by a vehicle or not, and the other depicts the existence of lane marks. For $n$ past frames, the images are produced and stacked together to form a 2n-channel image as the input to the prediction model. Instead of using a sequence of binary images, indicating the existence of objects over time, a single BEV image is used. In this image, each element of the scene (e.g., road, cross-walks) loses its actual texture and instead is colour coded according to its semantics. The vehicles are depicted by colour-coded bounding boxes and the location history of vehicles are plotted using bounding boxes with same colour and reduced level of brightness.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+To enrich the temporal information within the BEV image, Deo and Trivedi use a social tensor which was first introduced in (known as social pooling layer). A social tensor is a spatial grid around the target vehicle that the occupied cells are filled with the processed temporal data (e.g., LSTM hidden state value) of the corresponding vehicle. Therefore, a social tensor contains both the temporal dynamic of vehicles and spatial inter-dependencies among them. The authors in add scene context encoding channels to the input representation used. These channels are produced by encoding the static context of the scene (i.e., top-down view image of the scene) using a convolutional neural network. Lee et al. use social pooling layer as an additional input to another BEV representation created by performing semantic segmentation on front-facing camera of the EV and transforming it to the BEV.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+The aforementioned works do not consider sensor impairment in the input representation. To overcome this drawback, a dynamic occupancy grid map (DOGMa ) is exploited. DOGMa is created from the data fusion of a variety of sensors and provides a BEV image of the environment. The channels of this image contain the probability of occupancy and velocity estimate for each pixel. The velocity information helps distinguish between static and dynamic objects in the environment; however, it does not provide complete knowledge about the history of dynamic objects.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+The advantages of simplified BEV is that first it is flexible in terms of complexity of representation. Thus, it can match applications with different computational resource constraints. Second, it enables data fusion from different type of sensors into a single BEV representation.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+One drawback of this input representation, that applies to the previously discussed input representations as well, is that it inherits the limitations of the perception module(e.g., object detection and tracking) used for estimating the states of static and dynamic objects (e.g., vehicles) in the driving environment. Therefore, an error in estimating the states, or under-representing the environment in the perception module will be cascaded to the prediction module. For example, if the object detection module use same label for an ambulance and a normal car, the influence of the ambulance on future behaviour of surrounding vehicles cannot be modelled.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+(e.g., position, velocity, heading, and etc.).
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+Track History of the TV and SVs
+- Considers the impact of interaction among vehicles on the TV’s behaviour.
+- Does not consider the impact of environment on the TV’s behaviour. - The States of SVs are not always observable to the EV. - Inherits the limitation of the perception module of the EV
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+History of states for the TV and six SVs.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+History of states for the TV and three reference
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+vehicles and four adjacent vehicles to them.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+History of states for the TV and nine SVs.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+vehicles into the SVs and NVs.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+weight the impact of each observed vehicle.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+Simplified Bird’s Eye View
+- Considers the impact of environment and interaction among vehicles on the TV’s behaviour. - Facilitates fusing the data gathered from different sensors on the EV. - Flexible in terms of complexity of representation. - It can comply with limited observability of the EV.
+- Inherits the limitation of the perception module of the EV.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+covering the environment in front of the TV.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+It indicates the existence of vehicles and
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+the road elements and vehicles are represented
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+with color-coded polygons and lines.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+A top-down grid representation. Each occupied
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+cell is filled with the corresponding vehicle’s
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+is augmented with CNN encoded image of the
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+static context of the driving scene.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+A top-down grid representation. Each cell
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+contains the probability of the cell occupation,
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+Raw Sensor Data
+- Complies with limited observability of the EV. - No information loss.
+- High computational cost.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+3D point clouds data over several time steps.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "III-A3 Simplified Bird's Eye View", "weight": 1.0} -->
+
+Lidar data and rasterized map (i.e., the
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "III-A4 Raw sensor data", "weight": 1.0} -->
+
+In this approach, raw sensor data is fed to the prediction model. Thus, the input data contains all available knowledge about the surrounding environment. This allows the model to learn extracting useful features from all available sensory data.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "III-A4 Raw sensor data", "weight": 1.0} -->
+
+Raw sensor data, compared to previous input representations, has larger dimension. Therefore, more computational resources are required to process the input data, which can make it impractical for on-board implementation in autonomous vehicles. One solution to this problem is to share the computational resources among different functions of autonomous vehicle. In deep learning literature, it is common to train a model for multiple tasks. In an autonomous vehicle, the object detection module exploits raw sensor data, and it usually relies on a model with millions of parameters. Thus, it can be a good candidate for parameter sharing with the behaviour prediction module.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "III-A4 Raw sensor data", "weight": 1.0} -->
+
+Leo et al. use a deep neural network to jointly solve the problems of 3D detection, tracking, and motion forecasting for autonomous vehicles. They exploit 3D point clouds data over several time frames. The data is represented in BEV images, and the height is considered as the channel dimension. To exploit the lidar data, the same approach is used; however, they feed the 3D point cloud data in addition to a simplified BEV to their deep model.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "III-A4 Raw sensor data", "weight": 1.0} -->
+
+Table I provides a summary of classification of existing studies based on input representation. It also summarizes the advantages and disadvantages of each class.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "III-B Output Type", "weight": 1.0} -->
+
+In this subsection, we classify existing studies based on how they represent a vehicle future behaviour as the output of their prediction model. We consider four classes: manoeuvre intention, unimodal trajectory, multimodal trajectory, and occupancy map.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "III-B1 Manoeuvre Intention", "weight": 1.0} -->
+
+Manoeuvre intention prediction (we shortly refer it as intention prediction) is the task of estimating what manoeuvre the vehicle intends to do in upcoming time-steps. For example, in highway driving, the set of manoeuvres could be left lane change, right lane change, and keeping the lane; while in an intersection, it could be: go straight, turn left, and turn right.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "III-B1 Manoeuvre Intention", "weight": 1.0} -->
+
+To predict the intention of a vehicle approaching a T-junction, Zyner et al. define three classes based on the destination of the vehicle, namely "east", "west", or "south". In, the same set of classes are used to predict the intention of a vehicle at an un-signalized roundabout. Phillips et al. design a generalizable intention prediction model that can predict the direction of travel of a vehicle up to 150m before reaching three- and four-way intersections. Ding et al. and Lee et al. apply intention prediction to highway driving scenario. The former proposes an intention prediction model to predict lane change and lane keeping behaviour for the TV; while, the latter designs a model to predict the cut-in intention of right/left preceding TVs w.r.t. the EV.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "III-B1 Manoeuvre Intention", "weight": 1.0} -->
+
+Existing studies predict the intention of vehicles using a set of few classes. One drawback of these works is that they can only provide a high-level understanding of the vehicle behaviour. This problem can be solved by subdividing high-level manoeuvres into sub-classes that describe the behaviour more precisely. For example, in a highway driving scenario, we can subdivide lane change classes into sharp lane change and normal lane change. Another drawback is the specificity of manoeuvre set to single driving environment, which can be resolved by defining a set that contains the manoeuvres in all desired driving scenarios. However, to predict a vehicle behaviour using large and in depth set of classes, a larger and more diverse training dataset that includes sufficient samples in each class is required. In addition, larger model capacity is needed to learn the mapping of the input data to the intention set.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+Trajectory prediction models describe the future behaviour of a vehicle by predicting series of future locations of the TV over a time window. Dealing with continuous output of trajectory prediction models can add more complexity to the problem compared to discrete output of intention prediction models. However, predicting trajectory instead of intention, provides more precise information about future behaviour of vehicles. Given a specific driving situation and history of motion for a vehicle, it might be possible for it to traverse multiple different trajectories. Therefore, the corresponding distribution has multiple modes. Unimodal trajectory predictors are the models that only predict one of these possible trajectories (usually the one with highest likelihood).
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+Independent of intended manoeuvre: These approaches predict a unimodal trajectory without explicitly considering the effect of possible manoeuvres on it. The straightforward approach to predict the trajectory of the TV is to estimate the position of it over time. The predictor model can also estimate the displacement of the TV relative to its last position at each step. The other approach used in is to predict lateral position and longitudinal velocity separately. This approach can be specially useful when the region of interest is longitudinally large, therefore longitudinal position can be a quite large figure. In addition to the position and velocity, the heading angle of the vehicle is predicted. To cope with uncertainty of the trajectory prediction problem, Djuric et al. propose a trajectory prediction model that estimates standard deviation for the predicted x- and y-positions. In, the mean, standard deviation, and correlation coefficient of a bivariate Gaussian distribution corresponding to x- and y- positions are predicted for each time step.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+The main disadvantage of unimodal trajectory prediction models which are independent of intended manoeuvre is that they may converge to the average of all the possible modes because the average can minimize the displacement error of unimodal trajectory prediction; however, the average of modes is not necessarily a valid future behaviour. Figure 3 illustrates this problem.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+Conditioned on intended manoeuvre: The other unimodal trajectory prediction approaches estimate the likelihood of each member of a predefined manoeuvre intention set and predict the trajectory that corresponds to the most probable intention. Xin et al. propose an intention-aware model to predict trajectory based on estimated lane change intention for the TV in highway driving. In, the intention set is extended from only lane change intentions to turning right, turning left, stopping, and so. This allows using the prediction model in urban driving. Unimodal trajectory prediction approaches conditioned on intended manoeuvre are unlikely to converge to the mean of modes, as in these approaches the predicted trajectory corresponds to one of predefined behaviour modes. However, there are two main drawbacks in these approaches. First, they cannot accurately predict a vehicle trajectory if the vehicle's intention does not exist in the predefined intention set. This problem can commonly occur in complex driving scenarios, as it is hard to predetermine all possible driving intentions in such environments. Second, unlike previous sub-class, we need to manually label the intention of vehicles in the training dataset, which is time-consuming, expensive and error-prone.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+- Usually has low computational cost.
+- Only provides a high-level understanding of the vehicle behaviour. - Usually covers manoeuvres that are specifically defined for a single driving scenario.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+The destination of travel at a roundabout and
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+The probabilities of turning right, left, and
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+Right/left cut-in of left/right preceding TVs.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+General: - Less computational cost compared to multimodal models. Conditioned on intended manoeuvre: - Fixes the problem of convergence to the mean of behaviour modes.
+General: - Does not fully represent the vehicle behaviour prediction space which is multimodal. Independent from intended manoeuvre: - Is prone to convergence to the mean of behaviour modes. Conditioned on intended manoeuvre: - Is prone to trajectory prediction error if the vehicle’s intention is not among pre-defined intentions. - Manual labelling is required.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+The displacement of the TV relative to its
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+last position for each step.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+The x-y position and the standard deviation.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+The mean and variance of a bivariate
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+The bounding box (e.g. location and
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+The TV’s trajectory (based on lane change
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+General: Potentially can fully represent the vehicle behaviour prediction multimodal space. Dynamic modes: - No manual labelling for behaviour modes is required. - Potentially can adopt to different driving situations.
+General: - High computational cost. Dynamic modes: - Is prone to convergence to one behaviour mode or not to explore all the modes. Static modes: Same drawbacks of unimodal models conditioned on intention.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+The trajectory distribution per each of six
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+A number of samples from the estimated
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+The probability of occupancy for each
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "III-B2 Unimodal trajectory", "weight": 1.0} -->
+
+pixel of BEV grid map of the driving
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "III-B3 Multimodal trajectory", "weight": 1.0} -->
+
+Multimodal trajectory prediction models predict one trajectory per behaviour modes (a.k.a. policy/manoeuvre/intention) alongside the mode probability.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "III-B3 Multimodal trajectory", "weight": 1.0} -->
+
+Static modes: In this sub-class, a set of behaviour modes is explicitly defined and the trajectories are predicted for each member of this set. In, a set of six manoeuvre classes for highway driving is defined and the trajectory distribution for each manoeuvre class is predicted. Predicting the distribution allows them to model the uncertainty of trajectory prediction for each manoeuvre separately. Their models also predict the likelihood of each manoeuvre.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "III-B3 Multimodal trajectory", "weight": 1.0} -->
+
+Dynamic modes: In these approaches, the modes can be dynamically learnt based on the driving scenario. Cui et al. develop a model that predicts a fixed number of deterministic trajectory sequences and their probabilities. Each of these sequences can correspond to a possible manoeuvre in the driving environment. In, the distribution of vehicles' trajectory is modelled. Then, a fixed number of trajectory sequences are sampled from the modelled distribution and ranked based on their likelihoods.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "III-B3 Multimodal trajectory", "weight": 1.0} -->
+
+The first sub-category of multimodal approaches can be considered as a multimodal extension to unimodal trajectory prediction approaches conditioned on intended manoeuvre as they predict the trajectories for all the behaviour modes rather than the mode with highest likelihood. Therefore, the drawbacks we mentioned for unimodal models conditioned on intended manoeuvre, namely difficulties in defining a comprehensive intention set and manual labelling of intentions in the training dataset, are not solved here. In contrast, the approaches in the second sub-category are exempted from these two problems as they do not require a pre-defined intention set. However, due to dynamic definition of modes, they are prone to converge to a single mode or not being able to explore all the existing modes.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "III-B4 Occupancy map", "weight": 1.0} -->
+
+In these approaches, instead of predicting vehicles trajectories, the occupancy of each cell in a BEV map of the driving environment is estimated for future time-steps. In, the trajectory is predicted by estimating the vehicles occupancy likelihood for each cell in the dynamic occupancy grid map (DOGMa ) and each time-step in prediction horizon. They create DOGMa by assigning a grid map to a bird's eye view of the environment around the EV. Their model can dynamically predict multiple trajectory modes by assigning high probability to separate groups of cells in front of a TV. The drawback of such approaches is that their prediction accuracy is limited by the size of the cells in the map. Increasing the number of cells in the grid will reduce the cells' size; however, it results in higher computational costs.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "III-B4 Occupancy map", "weight": 1.0} -->
+
+Table II provides a summary of classification of existing studies based on output type. It also summarizes the advantages and disadvantages of each class.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+In this subsection, we classify existing studies based on the prediction model used into three classes, namely recurrent neural networks, convolutional neural networks, and other methods.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Recurrent Neural Networks
+- Good at processing temporal dependencies. Single RNN: - Requires additional mechanism to model interaction and contextual features.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Single RNN: Multi-layer LSTM network is used as a sequence classifier.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Single RNN: Two-layer LSTM is used to predict the parameters of acceleration distribution.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Single RNN: Single-layer LSTM is used to predict future x-y position of the TV.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Single RNN: An encoder-decoder LSTM is used to predict the probability of the occupancy
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Multiple RNNs: A group of GRUs is used to model the pairwise interaction between the TV
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Multiple RNNs: One group of LSTMs is used to model individual vehicles’ trajectory, another
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+group is used to model pairwise interaction.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Multiple RNNs: One LSTM is used to estimate the target lane, another LSTM is used to
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+predict the trajectory based on estimated target lane.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Multiple RNNs: Multi-layer LSTM are used to predict mixtures of Gaussian distribution.
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Multiple RNNs: One LSTM encoder is applied to the input sequence. The hidden state is fed
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+to six LSTM decoders (one per manoeuvre). Another LSTM encoder is used to predict the
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Multiple RNNs: multiple LSTMs are grouped as two layers: instance layer and category layer.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+The former learns instance movement and their interactions, while the latter reason about the
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+similarities of the instance in the same category.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Convolutional Neural Networks
+- Good at processing spatial dependencies. - 2D CNNs lack a mechanism to model data series.
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Six layer CNN with convolution and fully connected layers are used to predict the intention
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+A convolution-deconvolution architecture, introduced, is used to predict
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+First, 3D convolutions are applied to the temporal dimension of input data. Then, a series of
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+2D convolution is used to capture spatial features. Finally, two branches of convolution
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+layers are used to find the probability of being a vehicle and predict the bounding box over
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+First, two backbone CNNs are used to extract the features of lidar data and rasterized map
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+separately. Then three different networks are applied to the concatenation of extracted
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+features to detect vehicles and predict their future intention and trajectory.
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Parameters of vehicle behaviour distribution are estimated using multi-layer fully-connected
+
+<!-- chunk {"id": "body-0117", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Combination of RNNs and CNNs: - Can take advantage of capabilities of both RNNs and CNNs.
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+An LSTM is applied to each vehicle trajectory. The result is represented in a BEV grid structure
+
+<!-- chunk {"id": "body-0119", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+and then is fed to a CNN. The output is fed to six LSTM decoders (one per manoeuvre).
+
+<!-- chunk {"id": "body-0120", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+A convolution network extracts spatial features from the input image. These features are fed to
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+encoder-decoder LSTM. The result is fed to deconvolution network to map to output image with
+
+<!-- chunk {"id": "body-0122", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+CVAE-based encoder-decoder GRU generates trajectory distribution. A number of samples from
+
+<!-- chunk {"id": "body-0123", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+this distribution are ranked and refined based on contextual features.
+
+<!-- chunk {"id": "body-0124", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+A concatenated vector of agents’ movement and static scene encoded by LSTMs and CNNs,
+
+<!-- chunk {"id": "body-0125", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+respectively are fed to a U-net like network. The encoded movement in the input and output of
+
+<!-- chunk {"id": "body-0126", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+the mentioned network is fed to LSTM decoders to predict future trajectory for the agents.
+
+<!-- chunk {"id": "body-0127", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Graph Neural Networks: - Comply with graph structure of traffic. - Static scene context is usually neglected.
+
+<!-- chunk {"id": "body-0128", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Graph Convolutional Network (GCN) and Graph Attention Network (GAT) are
+
+<!-- chunk {"id": "body-0129", "role": "body", "section": "III-C Prediction Method", "weight": 1.0} -->
+
+Graph Convolutional Model is used which consists of several convolutional and graph operation
+
+<!-- chunk {"id": "body-0130", "role": "body", "section": "III-C1 Recurrent neural networks", "weight": 1.0} -->
+
+The simplest recurrent neural network (a.k.a. Vanilla RNN) can be considered as an extension to two-layer fully-connected neural network where the hidden layer has a feedback. This small change allows to model sequential data more efficiently. At each sequence step, the Vanilla RNN processes the input data from current step alongside the memory of past steps, which is carried in the previous hidden neurons. A Vanilla RNN with sufficient number of hidden units can, in principle, learn to approximate any sequence to sequence mapping. However, it is difficult to train this network to learn long sequences in practice due to gradient vanishing or exploding, which is why gated RNNs are introduced. In each cell of these networks, instead of a simple fully connected hidden layer, a gated architecture is deployed. Long short-term memory (LSTM) and Gated recurrent unit (GRU) are the most commonly used gated RNNs. In vehicle behaviour prediction, LSTMs are the most used deep models.
+
+<!-- chunk {"id": "body-0131", "role": "body", "section": "III-C1 Recurrent neural networks", "weight": 1.0} -->
+
+Single RNN: In these models, either a single recurrent neural network is used in the simplest form of behaviour prediction (e.g., intention prediction or unimodal trajectory prediction) or a secondary model is used alongside a single RNN to support more sophisticated features like interaction-awareness and/or multimodal prediction. To predict the intention of vehicles, an LSTM is used by as a sequence classifier. In this task a sequence of features is fed to successive cells of an LSTM. Then, the hidden state of the last cell in the sequence is mapped to output dimension (i.e., the number of defined classes). In, the input is embedded using a fully-connected layer and is fed to a three-layer LSTM; while, a two-layer LSTM without embedding is used. Altché and de La Fortelle use a single layer LSTM to predict the future x-y position of the TV as a regression task. Despite having less parameters and complexity, single layer LSTMs are reported to achieve competitive results compared to the multilayer counterpart in some tasks.
+
+<!-- chunk {"id": "body-0132", "role": "body", "section": "III-C1 Recurrent neural networks", "weight": 1.0} -->
+
+To predict an intention-based trajectory, Ding and Shen use an LSTM encoder to predict the intention of the TV using its states. Then, the predicted intention and map information are used to generate an initial future trajectory for the TV. Finally, a nonlinear optimization method is used to refine the initial future trajectory based on the vehicles interaction, traffic rules (e.g. red lights), and road geometry. To predict multimodal behaviour, Zyner et al. first use an encoder-decoder three-layer LSTM to predict the parameters of a weighted Gaussian Mixture Model (GMM) for each step of the future trajectory. Then, a clustering approach is used to extract the trajectories that correspond to the modes with highest probabilities. Park et al. use an encoder decoder LSTM to predict the probability of occupancy on a grid map and apply a beam search algorithm to select $k$ most probable future trajectory candidates.
+
+<!-- chunk {"id": "body-0133", "role": "body", "section": "III-C1 Recurrent neural networks", "weight": 1.0} -->
+
+Multiple RNNs: To deal with multimodality and/or interaction awareness within recurrent neural networks, usually an architecture of several RNNs are used in existing studies. Ding et al. use a group of GRU encoders to model the pairwise interaction between the TV and each of SVs, based on which the intention of the TV is predicted for a longer horizon. Dai et al. use two groups of LSTM networks for the TV's trajectory prediction, one group for modelling the TV and each of SVs individual trajectory and the other for modelling the interaction between the TV and each of the SVs. Xin et al. exploit one LSTM to predict the target lane of the TV and another LSTM to predict the trajectory based on the TV's states and the predicted target lane. To predict multimodal trajectories, the authors in use six different decoder LSTMs which correlate with six specific manoeuvres of highway driving. An encoder LSTM is applied to the past trajectory of vehicles.
+
+<!-- chunk {"id": "body-0134", "role": "body", "section": "III-C1 Recurrent neural networks", "weight": 1.0} -->
+
+The hidden state of each decoder LSTM is initialized with the concatenation of the last hidden state of the encoder LSTM and a one-hot vector representing the manoeuvre specific to each decoder. The decoder LSTMs predict the parameters of manoeuvre-conditioned bivariate Gaussian distribution of future locations of the TV. Another encoder LSTM is also used to predict the probability of each of six manoeuvres. Multiple LSTMs are structured in as two main layers, named as instance layer and category layer. The former learns the instance (i.e. agents) movement and their interactions and the latter reason about the similarities among the instances of same category. This network is applied to a graph representation of input data containing 4 dimensions for the instances, their interactions, time, and high-level categorization of instances.
+
+<!-- chunk {"id": "body-0135", "role": "body", "section": "III-C1 Recurrent neural networks", "weight": 1.0} -->
+
+Although RNNs are one of the main neural networks associated with data series analysis and prediction such as trajectory prediction, they have deficiency in modelling spatial relationship such as vehicles spatial interaction and image-like data such as driving scene context. This explains why sophisticated solutions using RNNs usually exploit additional methods to compensate the weakness of single RNN.
+
+<!-- chunk {"id": "body-0136", "role": "body", "section": "III-C2 Convolutional neural networks", "weight": 1.0} -->
+
+Convolutional neural networks (CNNs) include convolution layers, where a filter with learnable weights is convolved over the input, pooling layers, which reduce the spatial size of input by sub-sampling, and fully-connected layers, which map their input to desired output dimension. CNNs are commonly used to extract features from image data. They have achieved successful results in the computer vision domain. This success motivates researchers in other domains to represent their data as an image to be able to apply CNNs on them. However, recently one-dimensional CNNs are also widely used to extract features from one-dimensional signals.
+
+<!-- chunk {"id": "body-0137", "role": "body", "section": "III-C2 Convolutional neural networks", "weight": 1.0} -->
+
+Lee et al. use a six-layer CNN to predict the intention of surrounding vehicles using a binary BEV representation. MobileNetV2, which is a memory-efficient CNN designed for mobile applications, is used in to extract relevant features from a relatively complex BEV representation. Hoermann et al. use a convolution-deconvolution architecture, which was previously introduced in for image segmentation task, to output the probability of occupancy for future time steps in a BEV image. This model first generates a feature vector using a convolutional network. Then, a deconvolutional network is used to upscale this vector to the output image. A more complex architecture is used in to deal with the tasks of object detection and behaviour prediction simultaneously. In, 3D convolution is performed on the temporal dimension of 4D representation of voxelized lidar data to capture temporal features, then a series of 2D convolutions are applied to extract spatial features. Finally, two branches of convolution layers are added to predict the bounding boxes over the detected objects for current and future frames and estimate the probability of being a vehicle for the detected objects, respectively.
+
+<!-- chunk {"id": "body-0138", "role": "body", "section": "III-C2 Convolutional neural networks", "weight": 1.0} -->
+
+In, two backbone CNNs are used to separately process the BEV lidar input data and the rasterized map. The extracted features are concatenated and fed to three different networks to detect the vehicles, estimate their intention, and predict their trajectories.
+
+<!-- chunk {"id": "body-0139", "role": "body", "section": "III-C2 Convolutional neural networks", "weight": 1.0} -->
+
+Convolutional neural network are valued in vehicle behaviour prediction for their capabilities in taking image-like data, generating image-like output, and keeping spatial relationship of the input data while processing it. These capabilities enables modelling vehicles' interaction and driving scene context and producing occupancy map output. However, 2D CNNs lack a mechanism to model data series which is required in vehicle behaviour prediction for modelling temporal dependencies among vehicles' states over time.
+
+<!-- chunk {"id": "body-0140", "role": "body", "section": "III-C3 Other Methods", "weight": 1.0} -->
+
+Fully-connected Neural Networks: A simplistic approach for vehicle behaviour modelling is to rely only on the current state of the vehicles, which might be inevitable due to unavailability of states history of vehicles or first-order Markov assumption. In this case, the input data is not a sequence and any feed-forward neural networks (e.g. fully-connected neural network) can be used instead of RNNs. In, it is shown that in some driving scenarios, feed-forward neural networks can have competitive results with faster processing time compared to recurrent neural networks. Hu et al. use a multi-layer fully connected network to predict the parameters of a Gaussian Mixture Model (GMM). The GMM models the multimodal distribution of arriving time and final location for the TV.
+
+<!-- chunk {"id": "body-0141", "role": "body", "section": "III-C3 Other Methods", "weight": 1.0} -->
+
+Combination of RNNs and CNNs: In existing works, recurrent neural networks are used because of their temporal feature extracting power, and convolutional neural networks are used for their spatial feature extracting ability. This inspires some researchers to use both in their models to process both the temporal and spatial dimensions of the data. Nachiket et al. use one encoder-LSTM per vehicle to extract the temporal dynamics of the vehicle. The internal states of these LSTMs form a social tensor which is fed to a convolutional neural network to learn the spatial interdependencies. Finally, six decoder LSTMs are used to produce the manoeuvre-conditioned distribution of the future trajectory of the TV. In, a CNN is applied on simplified BEV images each representing the environment around the TV at different time frame. Then, the sequence of extracted features is fed to an Encoder-Decoder LSTM to learn the temporal dynamics of the input data. The decoder LSTM outputs are fed to a deconvolutional neural network to produce output images which represent how the environment around the TV will evolve in the following time steps.
+
+<!-- chunk {"id": "body-0142", "role": "body", "section": "III-C3 Other Methods", "weight": 1.0} -->
+
+In, an encoder-decoder GRU is used to generate the distribution of trajectories, then multiple samples of this distribution are fed to decoder GRU to refine and rank them. The latter module also receives the contextual features which are extracted by a CNN model applied on the scene representation. Multi-Agent Tensor Fusion (MATF) encoding and decoding is introduced. In the encoding part, a social tensor, augmented with convolutional encoded scene context channels, is fed to a U-net like fully convolutional network to fuse interaction among agents and between agents and scene context while keeping spatial locality. Finally, the fused vectors for each vehicle are extracted from the output layer of the U-net like network and are added to the LSTM encoded vectors of the vehicles dynamics and then are fed to LSTM decoders to predict future trajectory per vehicle.
+
+<!-- chunk {"id": "body-0143", "role": "body", "section": "III-C3 Other Methods", "weight": 1.0} -->
+
+Graph Neural Networks: The vehicles in a driving scenario and their interaction can be considered as a graph in which the nodes are the vehicles and the edges represent the interaction among them. Using this representation, Graph Neural Networks (GNNs) can be used to predict TV's behaviour. Diehl et al. compare the trajectory prediction performance of two state-of-the-art graph neural networks, namely, Graph Convolutional Network(GCN) and Graph Attention Network (GAT). They also propose some adaptations to improve the performance of these networks for the vehicle behaviour prediction problem. Li et al. propose a graph-based interaction-aware trajectory prediction (GRIP) model. They use a graph convolutional model, which consists of several convolutional layers as well as graph operations, to model the interaction among the vehicles. The output of the graph convolutional model is fed to an LSTM encoder-decoder to predict the trajectory for multiple TVs. One drawback of current graph-based approach is that static scene context is usually neglected in the modelling procedure.
+
+<!-- chunk {"id": "body-0144", "role": "body", "section": "III-C3 Other Methods", "weight": 1.0} -->
+
+Table III provides a summary of classification of existing studies based on the prediction method.
+
+<!-- chunk {"id": "body-0145", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+In this section, first we present evaluation metrics that are commonly used for vehicle behaviour prediction in existing studies. Then, the performance of some of existing works is discussed. Finally, we identify and discuss the main research gaps and opportunities.
+
+<!-- chunk {"id": "body-0146", "role": "body", "section": "IV-A Evaluation Metrics", "weight": 1.0} -->
+
+We discuss the evaluation metrics for intention prediction models and trajectory prediction models separately, as the former is a classification problem and the latter is a regression problem and each problem has a separate set of metrics.
+
+<!-- chunk {"id": "body-0147", "role": "body", "section": "IV-A Evaluation Metrics", "weight": 1.0} -->
+
+Track history of the TV and SVs
+RNN (Single RNN)
+
+<!-- chunk {"id": "body-0148", "role": "body", "section": "IV-A Evaluation Metrics", "weight": 1.0} -->
+
+Track history of the TV
+RNN (Multiple RNNs)
+
+<!-- chunk {"id": "body-0149", "role": "body", "section": "IV-A Evaluation Metrics", "weight": 1.0} -->
+
+Simplified Bird’s Eye View
+Combination of RNNs and CNNs
+
+<!-- chunk {"id": "body-0150", "role": "body", "section": "IV-A Evaluation Metrics", "weight": 1.0} -->
+
+Track history of the TV and SVs
+RNN (Multiple RNNs)
+
+<!-- chunk {"id": "body-0151", "role": "body", "section": "IV-A Evaluation Metrics", "weight": 1.0} -->
+
+Simplified Bird’s Eye View
+Combination of RNNs and CNNs
+
+<!-- chunk {"id": "body-0152", "role": "body", "section": "IV-A Evaluation Metrics", "weight": 1.0} -->
+
+Track history of the TV and SVs
+RNN (Multiple RNNs)
+
+<!-- chunk {"id": "body-0153", "role": "body", "section": "IV-A Evaluation Metrics", "weight": 1.0} -->
+
+Track history of the TV and SVs
+Graph Neural Networks
+
+<!-- chunk {"id": "body-0154", "role": "body", "section": "IV-A1 Intention Prediction Metrics", "weight": 1.0} -->
+
+Accuracy: One of the most common classification metrics is accuracy which is defined as total number of correctly classified data samples divided by total number of data samples. However, relying only on the accuracy can be misleading for an imbalanced dataset. For example, the number of lane changes in a highway driving dataset is usually much less than lane keeping. Thus, an intention predictor that regardless of input data always output lane keeping gains high accuracy score. Therefore, other metrics like precision, recall, and F1 score are also used in existing studies.
+
+<!-- chunk {"id": "body-0155", "role": "body", "section": "IV-A1 Intention Prediction Metrics", "weight": 1.0} -->
+
+Precision: For a given class, precision is defined as the ratio of total number of data samples which are correctly classified in that class to the total number of samples classified as the given class. A low precision indicates a large number of incorrectly classified data as the given class.
+
+<!-- chunk {"id": "body-0156", "role": "body", "section": "IV-A1 Intention Prediction Metrics", "weight": 1.0} -->
+
+Recall: For a given class, recall is defined as the ratio of total number of data samples which are correctly classified in that class to the total number of samples in the given class. A low Recall indicates a large number of data in the given class that are incorrectly classified in other classes.
+
+<!-- chunk {"id": "body-0157", "role": "body", "section": "IV-A1 Intention Prediction Metrics", "weight": 1.0} -->
+
+Where $y_{c}$ is a binary indicator of correctness of predicting the data sample in class $c$, ${\hat{y}}_{c}$ is the predicted probability of the data sample belonging to class $c$, and $M$ is the number of classes. Although NLL values are not as interpretable as previously discussed metrics, it can be used to compare the uncertainty of different intention prediction models.
+
+<!-- chunk {"id": "body-0158", "role": "body", "section": "IV-A1 Intention Prediction Metrics", "weight": 1.0} -->
+
+Average Prediction Time: This metric is used in intention prediction approaches, such as lane change prediction, where the approach is applied on a sliding window of the input data series to predict the occurrence of a positive class(e.g., lane change). The metric is obtained by taking the average of the time of the first correct positive class prediction for all samples, considering the time of lane change occurrence as the origin. In, they considered the time when a consistent correct lane change prediction starts to increase robustness of the metric.
+
+<!-- chunk {"id": "body-0159", "role": "body", "section": "IV-A2 Trajectory Prediction Metrics", "weight": 1.0} -->
+
+The following metrics are the commonly used metrics in the literature. A detailed discussion on other trajectory prediction metrics can be found.
+
+<!-- chunk {"id": "body-0160", "role": "body", "section": "IV-A2 Trajectory Prediction Metrics", "weight": 1.0} -->
+
+Final Displacement Error (FDE): This error measures the distance between predicted final location ${\hat{y}}_{t_{final}}$ and true final location of the TV $y_{t_{final}}$ at the end of prediction horizon $t_{final}$, while it does not consider the prediction error occurred in other time steps in the prediction horizon.
+
+<!-- chunk {"id": "body-0161", "role": "body", "section": "IV-A2 Trajectory Prediction Metrics", "weight": 1.0} -->
+
+Where $n$ is number of data samples and $e_{t}$ can be defined as the displacement error between the predicted trajectory and the ground truth. MAE and RMSE are two of the most common metrics for regression problems and act roughly similar. However, RMSE is more sensitive to large errors due to usage of squared error in its definition.
+
+<!-- chunk {"id": "body-0162", "role": "body", "section": "IV-A2 Trajectory Prediction Metrics", "weight": 1.0} -->
+
+Minimum of K Metric: In some of existing multimodal trajectory prediction studies, where $K$ trajectories are predicted for different modes, the metric (e.g., MSE, FDE) is calculated using one of the $K$ trajectories that minimize the metric (i.e., best predicted trajectory). The main shortcoming of this evaluation method, also discussed, is that the quality of ignored $K - 1$ trajectories is not examined. Therefore, a model, reported to have high performance using this metric, can have mostly poor predictions.
+
+<!-- chunk {"id": "body-0163", "role": "body", "section": "IV-A2 Trajectory Prediction Metrics", "weight": 1.0} -->
+
+Cross entropy (a.k.a. Negative Log Likelihood) can be reported as a metric in both intention prediction and trajectory prediction; however, in multimodal trajectory prediction this metric can be more important as both MAE and RMSE are biased in favour of models that predict the average of modes which is not necessarily a good prediction, as discussed before. Although cross entropy penalises a multimodal prediction model for not covering all the modes of ground truth data distribution, it will assign relatively low penalty for a model that predict other modes in addition to ground truth modes. Therefore, Rhinehart et al.
+
+<!-- chunk {"id": "body-0164", "role": "body", "section": "IV-A2 Trajectory Prediction Metrics", "weight": 1.0} -->
+
+where $\overline{p}$ is an approximate to $p$, as it is not possible to evaluate the ground truth data distribution $p^{\prime}$s PDF.
+
+<!-- chunk {"id": "body-0165", "role": "body", "section": "IV-A2 Trajectory Prediction Metrics", "weight": 1.0} -->
+
+Computation Time: The trajectory prediction models are usually more complex compared to intention prediction models. Therefore, they can take more computation time which might make them impractical for on-board implementation in autonomous vehicles. Thus, it is crucial to report and compare computation time in trajectory prediction models.
+
+<!-- chunk {"id": "body-0166", "role": "body", "section": "IV-B Performance of Existing Methods", "weight": 1.0} -->
+
+In this part we compare the performance of some of reviewed trajectory prediction methods. The selected studies for comparison are the ones that used common publicly available datasets and common metrics. These studies report RMSE errors for prediction horizons of 1.0 to 5.0s on NGSIM I-80 and US-101 highway driving datasets. Table IV provides the reported error for each model which is obtained from the original paper (except the RMSE calculation of which has been modified by to match the position error in SI units). Note that the RMSE error is reported for longitudinal and lateral position separately; however, we calculated the total RMSE error to be consistent with other studies. Furthermore, in the error is calculated for US-101 and I-80 separately; while, we report the average of them. We also report the prediction result of a constant velocity Kalman Filter(CV) model as a simple baseline which is obtained.
+
+<!-- chunk {"id": "body-0167", "role": "body", "section": "IV-B Performance of Existing Methods", "weight": 1.0} -->
+
+To compare the performance of selected works, Table IV states the category each work belongs to. According to the table IV, most of deep learning-based methods surpass the simple baseline constant velocity model (CV) with a high margin. Among reviewed deep learning-based models, complex models (e.g., Multiple RNNs or Combination of RNNs and CNNs) achieve better performance compared to simple models like single RNN. Nonetheless, increasing the complexity of output, by predicting multimodal trajectory instead of unimodal trajectory, does not always result in lower RMSE. For example, the models named GRIP and ST-LSTM achieve better performance compared to M-LSTM and CS-LSTM, while the former studies predict unimodal trajectories and the latter ones predict multimodal trajectories. This can be due to limited model capacity or limited data used in training the discussed multimodal trajectory prediction models.
+
+<!-- chunk {"id": "body-0168", "role": "body", "section": "IV-C Research Gaps and New Opportunities", "weight": 1.0} -->
+
+Unlike object detection which has unified way of evaluation, there is no benchmark for evaluating existing studies on vehicle behaviour prediction. This prevents a fair comparison among different deep learning-based approaches and between deep learning-based and other methods. For example, among the reviewed deep learning-based papers, there are only seven works that use unified evaluation method (the works that we compare their performance in this paper). In addition, only a few works report the computation time of their algorithms, while this metric is highly important in autonomous driving applications. As a future work, a benchmark can be defined and used in vehicle behaviour prediction to be able to thoroughly compare the performance of different studies.
+
+<!-- chunk {"id": "body-0169", "role": "body", "section": "IV-C Research Gaps and New Opportunities", "weight": 1.0} -->
+
+Most of the existing works consider full observability of the surrounding environment and vehicles' states which is not feasible in practice. Infrastructure sensors can provide non-occluded top-down view of the environment; however, it is impractical to cover all road sections with such sensors. Therefore, a realistic solution for behaviour prediction should always consider sensor impairments (e.g. occlusion, noise) which can limit the number of observable vehicles around the TV and in turn may reduce the accuracy of behaviour predictors in autonomous vehicles. One possible solution is the utilization of connected autonomous vehicles. In this case, the connected vehicle can exploit the information gained by sensors implemented in other vehicles or infrastructure through V2V and V2I communication (see Figure 4).
+
+<!-- chunk {"id": "body-0170", "role": "body", "section": "IV-C Research Gaps and New Opportunities", "weight": 1.0} -->
+
+In recent studies, traffic rules are rarely considered as an explicit input to the model; while, they can reshape the behaviour of a vehicle in a driving scenario. Some of the existing studies include road direction or traffic light as an input to the prediction model which are only a small part of traffic signs and rules.
+
+<!-- chunk {"id": "body-0171", "role": "body", "section": "IV-C Research Gaps and New Opportunities", "weight": 1.0} -->
+
+In addition to the vehicle's states and scene information which both are usually considered in recent works, other visual and auditory data of vehicles, like vehicle's signalling lights and vehicle horn can also be used to infer about its future behaviour.
+
+<!-- chunk {"id": "body-0172", "role": "body", "section": "IV-C Research Gaps and New Opportunities", "weight": 1.0} -->
+
+Most of the existing works are limited to a specific driving scenario such as roundabout, intersection, and T-junction. However, a vehicle behaviour prediction module in fully autonomous vehicle should be able to predict the behaviour in any driving scenario. Developing a model which can be applied to a variety of driving environment can be a direction for future research.
+
+<!-- chunk {"id": "body-0173", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Although deep learning-based behaviour prediction solutions have shown promising performance, especially in complex driving scenarios, by utilizing sophisticated input representation and output type, there are several open challenges that need to be addressed to enable their adoption in autonomous driving applications. Particularly, while most of existing solutions considered the interaction among vehicles, factors such as environment conditions and set of traffic rules are not directly inputted to the prediction model. In addition, practical limitations such as sensor impairments and limited computational resources have not been fully taken into account.

@@ -1,21 +1,223 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Global Structure-from-Motion Revisited
 
 Topics include Structure from motion, Global structure from motion, GLOMAP, Rotation averaging, Camera position averaging, COLMAP, Open source.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Revisits global SfM with a practical GLOMAP pipeline that makes global reconstruction competitive with incremental COLMAP-level accuracy while retaining much higher speed. The system emphasizes robust global estimation and open-source interoperability with COLMAP data.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Recovering 3D structure and camera motion from images has been a long-standing focus of computer vision research and is known as Structure-from-Motion (SfM). Solutions to this problem are categorized into incremental and global approaches. Until now, the most popular systems follow the incremental paradigm due to its superior accuracy and robustness, while global approaches are drastically more scalable and efficient. With this work, we revisit the problem of global SfM and propose GLOMAP as a new general-purpose system that outperforms the state of the art in global SfM. In terms of accuracy and robustness, we achieve results on-par or superior to COLMAP, the most widely used incremental SfM, while being orders of magnitude faster. We share our system as an open-source implementation at
 
-## Introduction
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Recovering 3D structure and camera motion from a collection of images remains a fundamental problem in computer vision that is highly relevant for a variety of downstream tasks, such as novel-view-synthesis or cloud-based mapping and localization. The literature commonly refers to this problem as Structure-from-Motion (SfM) and, over the years, two main paradigms for solving it have emerged: incremental and global approaches. Both of them start with image-based feature extraction and matching followed by two-view geometry estimation to construct the initial view graph of the input images.
+Recovering 3D structure and camera motion from a collection of images remains a fundamental problem in computer vision that is highly relevant for a variety of downstream tasks, such as novel-view-synthesis or cloud-based mapping and localization. The literature commonly refers to this problem as Structure-from-Motion (SfM) and, over the years, two main paradigms for solving it have emerged: incremental and global approaches. Both of them start with image-based feature extraction and matching followed by two-view geometry estimation to construct the initial view graph of the input images. Incremental methods then seed the reconstruction from two views and sequentially expand it by registering additional camera images and associated 3D structure. This sequential process interleaves absolute camera pose estimation, triangulation, and bundle adjustment, which, despite achieving high accuracy and robustness, limits scalability due to the costly repeated bundle adjustments. In contrast, global methods recover the camera geometry for all input images at once in separate rotation and translation averaging steps by jointly considering all two-view geometries in the view graph. Typically, the globally estimated camera geometry is then used as an initialization for triangulation of the 3D structure before a final global bundle adjustment step.
 
-The main reason for the accuracy and robustness gap between incremental and global SfM lies in the global translation averaging step. Translation averaging describes the problem of estimating global camera positions from the set of relative poses in the view graph with the camera orientations recovered before by rotation averaging. This process faces three major challenges in practice. The first being scale ambiguity: relative translation from estimated two-view geometry can only be determined up to scale. As such, to accurately estimate global camera positions, triplets of relative directions are required.
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Limitations
+While state-of-the-art incremental approaches are considered more accurate and robust, the reconstruction process of global approaches is more scalable and, in practice, orders of magnitude faster. In this paper, we revisit the problem of global SfM and propose a comprehensive system achieving a similar level of accuracy and robustness as state-of-the-art incremental SfM (*e.g*. Fig. 1(a) ‣ Figure 1 ‣ 1 Introduction ‣ Global Structure-from-Motion Revisited")) while maintaining the efficiency and scalability of global approaches.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The main reason for the accuracy and robustness gap between incremental and global SfM lies in the global translation averaging step. Translation averaging describes the problem of estimating global camera positions from the set of relative poses in the view graph with the camera orientations recovered before by rotation averaging. This process faces three major challenges in practice. The first being scale ambiguity: relative translation from estimated two-view geometry can only be determined up to scale. As such, to accurately estimate global camera positions, triplets of relative directions are required. However, when these triplets form skewed triangles, the estimated scales are especially prone to noise in the observations. Second, accurately decomposing relative two-view geometry into rotation and translation components requires prior knowledge of accurate camera intrinsics. Without this information, the estimated translation direction is often subject to large errors. The third challenge arises for nearly co-linear motion that leads to a degenerate reconstruction problem. Such motion patterns are common, especially in sequential datasets. These issues collectively contribute to the instability of camera position estimation, severely affecting the overall accuracy and robustness of existing global SfM systems. Motivated by the difficulties in translation averaging, significant research efforts have been dedicated to this problem.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Many of the recent approaches share a common characteristic with incremental SfM as they incorporate image points into the problem formulation. Building on this insight, we propose a global SfM system that directly combines the estimation of camera positions and 3D structure in a single global positioning step.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The main contribution of this work is the introduction of a general-purpose global SfM system, termed GLOMAP. The core difference to previous global SfM systems lies in the step of global positioning. Instead of first performing ill-posed translation averaging followed by global triangulation, our proposed method performs joint camera and point position estimation. GLOMAP achieves a similar level of robustness and accuracy as state-of-the-art incremental SfM systems while maintaining the efficiency of global SfM pipelines. Unlike most previous global SfM systems, ours can deal with unknown camera intrinsics (*e.g*., as found in internet photos) and robustly handles sequential image data (*e.g*., handheld videos or self-driving car scenarios). We share our system as an open-source implementation at
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Review of Global Structure-from-Motion", "weight": 1.0} -->
+
+Global SfM pipelines generally consist of three main steps: correspondence search, camera pose estimation, and joint camera and structure refinement. The next sections provide a detailed review of state-of-the-art algorithms and frameworks.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Correspondence Search", "weight": 1.0} -->
+
+Both incremental and global SfM begin with salient image feature extraction from the input images $\mathcal{I} = {\{ I_{1},\cdots,I_{N}\}}$. Traditionally, feature points are detected and then described with compact signatures derived from the local context around the detection. This is followed by the search for feature correspondences between pairs of images $(I_{i},I_{j})$, which starts by efficiently identifying subsets of images with overlapping fields of view and subsequently matching them in a more costly procedure. The matching is usually first done purely based on compact visual signatures producing a relatively large fraction of outliers initially. These are then verified by robustly recovering the two-view geometry for overlapping pairs.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Correspondence Search", "weight": 1.0} -->
+
+Based on the geometric configuration of the cameras, this yields either a homography ${\mathbf{H}}_{ij}$ for planar scenes with general motion and pure camera rotation with general scenes, or a fundamental matrix ${\mathbf{F}}_{ij}$ (uncalibrated) and essential matrix ${\mathbf{E}}_{ij}$ (calibrated) for general scenes and general motion. When the camera intrinsics are approximately known, these can be decomposed into relative rotation ${\mathbf{R}}_{ij} \in {\text{SO}{}}$ and translation ${\mathbf{t}}_{ij} \in {\mathbb{R}}^{3}$.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Correspondence Search", "weight": 1.0} -->
+
+The computed two-view geometries with associated inlier correspondences define the view graph $\mathcal{G}$ that serves as the input to the global reconstruction steps. In our pipeline, we rely on COLMAP's correspondence search implementation with RootSIFT features and scalable bag-of-words image retrieval to find candidate overlapping pairs for brute-force feature matching.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Global Camera Pose Estimation", "weight": 1.0} -->
+
+Global camera pose estimation is the key step distinguishing global from incremental SfM. Instead of sequentially registering cameras with repeated triangulation and bundle adjustment, global SfM seeks to estimate all the camera poses ${\mathbf{P}}_{i} = {({\mathbf{R}}_{i},{\mathbf{c}}_{i})} \in {\text{SE}{}}$ at once using the view graph $\mathcal{G}$ as input. To make the problem tractable, it is typically decomposed into separate rotation and translation averaging steps with some works also refining the view graph before, or directly estimating camera poses from the view-graph of two-view geometries. The main challenge lies in dealing with noise and outliers in the view graph by careful modeling and solving of the optimization problems.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Global Camera Pose Estimation", "weight": 1.0} -->
+
+Rotation Averaging, sometimes also referred to as rotation synchronization, has been studied for several decades and is related to pose graph optimization (PGO) algorithms. It is typically formulated as a non-linear optimization, penalizing the deviation of the global rotation from estimated relative poses. Specifically, absolute rotations ${\mathbf{R}}_{i}$ and relative rotations ${\mathbf{R}}_{ij}$ should ideally satisfy the constraint ${\mathbf{R}}_{ij} = {{\mathbf{R}}_{j}{\mathbf{R}}_{i}^{\top}}$. However, in practice, this does not hold exactly due to noise and outliers.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Global Camera Pose Estimation", "weight": 1.0} -->
+
+Hartley *et al*. provide a comprehensive overview of various choices of robustifiers $\rho$ (*e.g*., Huber), rotation parameterizations (*e.g*., quaternion or axis-angle), and distance metrics $d$ (*e.g*., chordal distance or geodesic distance).
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Global Camera Pose Estimation", "weight": 1.0} -->
+
+Based on these principles, a multitude of methods have been proposed. Govindu linearizes the problem via quaternions, while Martinec and Pajdla relax the problem by omitting certain constraints on rotation matrices. Eriksson *et al*. leverage strong duality. The tractability condition of the problem is examined by Wilson *et al*.. Approaches utilizing semidefinite programming-based (SDP) relaxations ensure optimality guarantees by minimizing chordal distances. Dellaert *et al*. sequentially elevate the problem into higher-dimensional rotations within $\text{SO}{(n)}$ to circumvent local minima where standard numerical optimization techniques might fail. Various robust loss functions have been explored to handle outliers. Recently, learning-based methodologies have emerged. NeuRoRa, MSP, and PoGO-Net leverage Graph Neural Networks to eliminate outliers and to estimate absolute camera poses. DMF-synch relies on matrix factorization techniques for pose extraction. In this work, we use our own implementation of Chatterjee *et al*.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Global Camera Pose Estimation", "weight": 1.0} -->
+
+as a scalable approach that provides accurate results in presence of noisy as well as outlier-contaminated input rotations.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Global Camera Pose Estimation", "weight": 1.0} -->
+
+Translation Averaging. After rotation averaging, the rotations ${\mathbf{R}}_{i}$ can be factored out from the camera poses. What remains to be determined are the camera positions ${\mathbf{c}}_{i}$. Translation averaging describes the problem of estimating global camera positions that are maximally consistent with the pairwise relative translations ${\mathbf{t}}_{ij}$ based on the constraint ${\mathbf{t}}_{ij} = \frac{{\mathbf{c}}_{j} - {\mathbf{c}}_{i}}{\|{{\mathbf{c}}_{j} - {\mathbf{c}}_{i}}\|}$. However, due to noise and outliers as well as the unknown scale of the relative translations, the task is especially challenging. In principle, the camera pose can be uniquely determined if the view graph has the property of parallel rigidity.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Global Camera Pose Estimation", "weight": 1.0} -->
+
+Parallel rigidity, also known as bearing rigidity, has been researched in different fields of computer vision, robotics, decision and control as well as computer-aided design. Arrigoni *et al*. offers a unified review of this topic.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Global Camera Pose Estimation", "weight": 1.0} -->
+
+Different translation averaging methods have been proposed over the past years. The pioneering work by Govindu minimizes the cross-product between the relative camera locations and the observed directions. Jiang *et al*. linearizes the problem in units of triplets. Wilson *et al*. optimizes the difference of directions directly and designs a dedicated outlier filtering mechanism. Ozyesil *et al*. proposes a convex relaxation to the original problem and solves the Least Unsquared Deviations (LUD) problem with an $L_{1}$ loss for robustness. Zhuang *et al*. realizes the sensitivity of the LUD method in terms of camera baseline and proposes the Bilinear Angle-based Translation Averaging (BATA) error for optimization. While significant improvements have been made in these works, translation averaging generally only works reliably when the view graph is well connected. The problem is also inherently ill-posed and sensitive to noisy measurements when cameras are subject to or close to co-linear motion. Furthermore, extraction of relative translation from two-view geometry is only possible with known camera intrinsics. When such information is inaccurate, the extracted translations are not reliable.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Global Camera Pose Estimation", "weight": 1.0} -->
+
+Inspired by the observation that point tracks generally help in translation averaging, in our proposed system, we skip the step of translation averaging. Instead, we directly perform a joint estimation of the camera and point positions. We refer to this step as global positioning with details introduced in Section 3.2.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Global Camera Pose Estimation", "weight": 1.0} -->
+
+Structure for Camera Pose Estimation. Several works have explored incorporating 3D structure into camera position estimation. Ariel *et al*. directly use the correspondences in two-view geometry for estimating global translation. Wilson *et al*. discovered that 3D points can be treated in a similar manner as the camera centers and, thus, can be easily incorporated into the optimization. Cui *et al*. extends by including point tracks into the optimization problem with linear relations. To reduce scale drifting, Holynski *et al*. integrates line and plane features into the optimization problem. Manam *et al*. incorporates the correspondences by reweighing the relative translation in the optimization. LiGT proposes a "pose only" method for solving the camera positions with a linear global translation constraint imposed by points. The common theme of these works is that incorporating constraints on the 3D scene structure aids the robustness and accuracy of camera position estimation, which we take as an inspiration for our work.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Global Structure and Pose Refinement", "weight": 1.0} -->
+
+After recovering the cameras, the global 3D structure can be obtained via triangulation. Together with the camera extrinsics and intrinsics, the 3D structure is then typically refined using global bundle adjustment.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Global Structure and Pose Refinement", "weight": 1.0} -->
+
+Global Triangulation. Given two-view matches, transitive correspondences can be leveraged for boosting completeness and accuracy. Moulon *et al*. presents an efficient way for concatenating tracks. Triangulating multi-view points has a long research history. Common practices for such a task are the direct linear transformation (DLT) and midpoint methods. Recently, LOST was proposed as an uncertainty-based triangulation. Yet, the above triangulation mechanisms often break in the presence of arbitrary levels of outliers. In this regard, Schönberger *et al*. proposes a RANSAC-based triangulation scheme, seeking to establish multiple point tracks in the presence of mismatches. Instead, our approach directly estimates 3D points by a single, joint global optimization method together with the camera positions (see Section 3.2).
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Global Structure and Pose Refinement", "weight": 1.0} -->
+
+Global Bundle Adjustment is essential in obtaining accurate final 3D structure ${\mathbf{X}}_{k} \in {\mathbb{R}}^{3}$, camera extrinsics ${\mathbf{P}}_{i}$ and camera intrinsics $\pi_{i}$. It is formulated as a joint robust optimization by minimizing reprojection errors as
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Global Structure and Pose Refinement", "weight": 1.0} -->
+
+Please refer to Triggs *et al*. for a comprehensive review of bundle adjustment.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Hybrid Structure-from-Motion", "weight": 1.0} -->
+
+To combine the robustness of incremental and efficiency of global SfM, previous works have formulated hybrid systems. HSfM proposes to incrementally estimate camera positions with rotations. Liu *et al*. proposes a graph partitioning method by first dividing the whole set of images into overlapping clusters. Within each cluster, camera poses are estimated via a global SfM method. However, such methods are still not applicable when camera intrinsics are inaccurate according to their formulation. Our method overcomes this limitation by different modeling of the objective in the global positioning step.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Frameworks for Structure-from-Motion", "weight": 1.0} -->
+
+Multiple open-source SfM pipelines are available. The incremental SfM paradigm is currently the most widely used due to its robustness and accuracy in real-world scenarios. Bundler and VisualSfM are systems dating back a decade ago. Building upon these, Schönberger *et al*. developed COLMAP, a general-purpose SfM and multi-view stereo system. COLMAP is versatile and has demonstrated robust performance across many datasets, making it the standard tool for image-based 3D reconstruction in recent years.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Frameworks for Structure-from-Motion", "weight": 1.0} -->
+
+Several open-source pipelines are available for global SfM as well. OpenMVG stands out as a prominent framework in this category. Starting with geometrically verified matches, it estimates the relative pose using a contrario RANSAC. Following this, OpenMVG assesses rotation consistency through adjusted cycle length weighting to eliminate outlier edges and solves for global rotation using the remaining edges with a sparse eigenvalue solver. Global translations are refined through the trifocal tensor and then subjected to translation averaging using the $L_{\infty}$ method. Finally, OpenMVG performs global triangulation via per-point optimization and a global bundle adjustment.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Frameworks for Structure-from-Motion", "weight": 1.0} -->
+
+Theia is another well-established global SfM pipeline. It adopts a similar approach to OpenMVG by initially estimating global rotations via averaging and then estimating camera positions through translation averaging. For rotation averaging, Theia employs a robust scheme. For translation averaging, it defaults to using the LUD method. The pipeline concludes with global triangulation and bundle adjustment, similar to OpenMVG.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Frameworks for Structure-from-Motion", "weight": 1.0} -->
+
+Several learning-based pipelines are available. PixSfM proposes a joint refinement mechanism over features and structure to achieve sub-pixel accurate reconstruction and can be combined with our system. VGGSfM proposes an end-to-end learning framework for the SfM task, and Zhuang *et al*. proposes to operate on pixel-wise correspondences to regress camera position directly. However, these two methods are limited to handling tens of images.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Frameworks for Structure-from-Motion", "weight": 1.0} -->
+
+In this paper, we propose a new end-to-end global SfM pipeline and release it to the community as an open-source contribution to facilitate downstream applications and further research.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Technical Contributions", "weight": 1.0} -->
+
+This section presents our key technical contributions to improve upon the state of the art in global SfM and close the gap to incremental SfM in terms of robustness and accuracy.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Feature Track Construction", "weight": 1.0} -->
+
+Feature tracks must be carefully constructed as to achieve accurate reconstruction. We start by only considering inlier feature correspondences produced by two-view geometry verification. In this step, we distinguish between the initial classification of the two-view-geometry: if homography $\mathbf{H}$ best describes the two-view geometry, we use $\mathbf{H}$ for the verification of inliers. The same principle is applied to essential matrix $\mathbf{E}$ and fundamental matrix $\mathbf{F}$. We further filter outliers by performing a cheirality test. Matches that are close to any of the epipoles or have small triangulation angles are also removed to avoid singularities due to large uncertainties. After pairwise filtering of all view graph edges, we form feature tracks by concatenating all remaining matches.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Global Positioning of Cameras and Points", "weight": 1.0} -->
+
+This step aims to jointly recover point and camera positions. Instead of performing translation averaging followed by global triangulation, we directly perform a joint global triangulation and camera position estimation. Different from most previous works, our objective function is initialization-free and consistently converges to a good solution in practice. In standard incremental and global SfM systems, feature tracks are verified and optimized by reprojection errors to ensure reliable and accurate triangulations. However, the reprojection error across multiple views is highly non-convex, thus requiring careful initialization. Moreover, the error is unbounded, so it is not robust to outliers. To overcome these challenges, we build upon the objective function proposed and use normalized direction differences as an error measure. The original formulation was proposed in terms of the relative translations, whereas, in our formulation, we discard the relative translation constraints and only include camera ray constraints.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Global Positioning of Cameras and Points", "weight": 1.0} -->
+
+where the ${\mathbf{v}}_{ik}$ is the globally rotated camera ray observing point ${\mathbf{X}}_{k}$ from camera ${\mathbf{c}}_{i}$, while $d_{ik}$ is a normalizing factor. We use Huber as a robustifier $\rho$ and Levenberg--Marquardt from Ceres as the optimizer. All point and camera variables are initialized by a uniform random distribution in the range $\lbrack{- 1},1\rbrack$ while the normalization factors are initialized as $d_{ik} = 1$. We down-weight terms involving cameras with unknown intrinsics by factor 2 to reduce their influence.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Global Positioning of Cameras and Points", "weight": 1.0} -->
+
+Compared to reprojection errors, this has several advantages. The first is robustness. While reprojection errors are unbounded, the above is equivalent to
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Global Positioning of Cameras and Points", "weight": 1.0} -->
+
+where $\theta$ is the angle between ${\mathbf{v}}_{ik}$ and ${\mathbf{X}}_{k} - {\mathbf{c}}_{i}$ for optimal $d_{ik}$. Thus, the error is strictly bounded to the range $\lbrack 0,1\rbrack$. As such, outliers do not heavily bias the result. Secondly, the objective function, as we experimentally show, converges reliably with random initialization due to its bilinear form.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Global Positioning of Cameras and Points", "weight": 1.0} -->
+
+Compared with classical translation averaging, discarding the relative translation terms in the optimization has two key advantages. First, the applicability of our method on datasets with inaccurate or unknown camera intrinsics as well as degenerate cameras not following the expected pinhole model (*e.g*., when dealing with arbitrary internet photos). This is because the knowledge of accurate intrinsics is required to solve for relative translation. When they deviate from the expected value, the estimated two-view translations suffer from large errors. Since translation averaging is inherently ill-posed due to unknown scale, recovering camera positions from noisy and outlier-contaminated observations is challenging, especially as relative translation errors exacerbate with longer baselines. Our proposed pipeline, instead, relies on careful filtering of two-view geometry and the error is defined w.r.t. the camera rays. Hence, poor camera intrinsics only bias the estimation of individual cameras instead of also biasing other overlapping cameras. Second, the applicability of global SfM in co-linear motion scenarios, which is a known degenerate case for translation averaging. Compared to pairwise relative translations, feature tracks constrain multiple overlapping cameras.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Global Positioning of Cameras and Points", "weight": 1.0} -->
+
+As such, our proposed pipeline can deal more reliably in common forward or sideward motion scenarios (see Section 4.3).
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Global Bundle Adjustment", "weight": 1.0} -->
+
+The global positioning step provides a robust estimation for cameras and points. However, the accuracy is limited, especially when camera intrinsics are not known in advance. As a further refinement, we perform several rounds of global bundle adjustment using Levenberg-Marquardt and the Huber loss as a robustifier. Within each round, camera rotations are first fixed, then jointly optimized with intrinsics and points. Such a design is particularly important for reconstructing sequential data. Before constructing the first bundle adjustment problem, we apply a pre-filtering of 3D point observations based on the angular error while allowing a larger error for uncalibrated cameras. Afterward, we filter tracks based on reprojection errors in image space. Iterations are halted when the ratio of filtered tracks falls below 0.1$\%$.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Camera Clustering", "weight": 1.0} -->
+
+For images collected from the internet, non-overlapping images can be wrongly matched together. Consequently, different reconstructions collapse into a single one. To overcome this issue, we post-process the reconstruction by performing clustering of cameras. First, the covisibility graph $\mathcal{G}$ is constructed by counting the number of visible points for each image pair. Pairs with fewer than 5 counts are discarded as the relative pose cannot be reliably determined below this number, and the median of the remaining pairs is used to set inlier threshold $\tau$. Then, we find well-constrained clusters of cameras by finding strongly connected components in $\mathcal{G}$. Such components are defined by only connecting pairs with more than $\tau$ counts. Afterwards, we carefully attempt to merge two strong components, if there are at least two edges with more than $0.75\tau$ counts. We recursively repeat this procedure until no more clusters can be merged. Each connected component is output as a separate reconstruction.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Proposed Pipeline", "weight": 1.0} -->
+
+The pipeline of the proposed method is summarized in Fig.. It consists of two major components: correspondence search and global estimation. For correspondence search, it starts with feature extractions and matching. Two-view geometry, including fundamental matrix, essential matrix, and homography, are estimated from the matches. Geometrically infeasible matches are excluded. Then, view graph calibration is performed similar to Sweeney *et al*. on geometrically verified image pairs. With the updated camera intrinsics, relative camera poses are estimated. As for global estimation, global rotations are estimated via averaging and inconsistent relative poses are filtered by thresholding the angular distance between ${\mathbf{R}}_{ij}$ and ${\mathbf{R}}_{j}{\mathbf{R}}_{i}^{\top}$. Then, the positions of cameras and points are jointly estimated via global positioning, followed by global bundle adjustment. Optionally, the accuracy of the reconstruction can be further boosted with structure refinement. Within this step, points are retriangulated with the estimated camera pose, and rounds of global bundle adjustment are performed.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Proposed Pipeline", "weight": 1.0} -->
+
+Camera clustering can also be applied to achieve coherent reconstructions.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+To demonstrate the performance of our proposed GLOMAP system, we conduct extensive experiments on various datasets, ranging from calibrated to uncalibrated and from unordered to sequential scenarios. More specifically, we compare against the state-of-the-art frameworks (OpenMVG, Theia, COLMAP ) on the ETH3D, LaMAR, Image Matching Challenge 2023, and MIP360 datasets. Furthermore, we present ablations to study the behavior of different components of our proposed system.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Metrics. For all evaluations, we adopt two standard metrics. For unordered image data, we report the AUC (Area Under the recall Curve) scores calculated from the maximum of relative rotation and translation error between every image pair, similar to. Such an error formulation considers the deviation between every possible camera pair. For sequential image data, we report the AUC scores calculated from the camera position error after globally aligning the reconstruction to the ground truth using a robust RANSAC scheme. When images are taken in sequences, especially in the case when cameras are nearly co-linear, the relative error does not capture the scale drift well. Thus, we directly focus on the camera positions. For a fair comparison, we use the same feature matches as input to all methods and thus also exclude correspondence search from the reported runtimes. We also tried using OpenMVG's and Theia's correspondence search implementations but consistently obtained better results using COLMAP. We employ Kapture for importing verified matches to OpenMVG. We use fixed settings for GLOMAP and the default recommended settings for OpenMVG and Theia.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Calibrated Image Collections", "weight": 1.0} -->
+
+ETH3D SLAM is a challenging dataset containing sequential data with sparse features, dynamic objects, and drastic illumination changes. We evaluated our method on the training sequences that come with millimeter-accurate ground truth. Ground truth is not available for test sequences and some frames, so we do not consider them. The results are presented in Table. Each row in the table averages the results across sequences sharing the same prefix with full results in the suppl. material. The results demonstrate that our proposed GLOMAP system achieves approximately 8% higher recall and scores 9 and 8 additional points in AUC at the 0.1m and 0.5m thresholds, respectively, compared to COLMAP, which is also one order of magnitude slower. Against other global SfM pipelines, GLOMAP shows a 18% and 4% improvement in recall and around 11 points higher AUC at 0.1m, confirming its robustness.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Calibrated Image Collections", "weight": 1.0} -->
+
+ETH3D MVS (rig) contains, per scene, about 1000 multi-rig exposures with each 4 images. The dataset contains both outdoor and indoor scenes with millimeter-accurate ground truth for 5 training sequences. We do not fix the pose of the rig for any of the methods. Results on this dataset can be found in Table. Ours successfully reconstructs all scenes. In contrast, OpenMVG performs poorly on all scenes while COLMAP fails for one, and Theia performs consistently worse than ours. On the sequences where COLMAP succeeds, ours achieves similar or higher accuracy. Our runtime is a little slower than global SfM baselines and about 3.5 times faster than COLMAP.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Calibrated Image Collections", "weight": 1.0} -->
+
+ETH3D MVS (DSLR) features an unordered collection of high-resolution images of outdoor and indoor scenes with millimeter-accurate ground truth for both training and testing sequences and results reported in Table. Consistent with other ETH3D datasets, ours outperforms OpenMVG and Theia while achieving similar accuracy as COLMAP. For exihibition_hall, GLOMAP performs inaccurately because of rotational symmetry of the scene, causing rotation averaging to collapse. Due to the small scale of the scenes, all methods achieve comparable runtimes.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Calibrated Image Collections", "weight": 1.0} -->
+
+LaMAR is a large-scale indoor and outdoor benchmark with each scene containing several tens of thousands of images captured by a variety of AR devices and smartphones. For this dataset, we use the retrieval pipeline from the benchmark to establish matches. The results on this dataset can be found in Table., and the qualitative result can be found in Figure 1(b) ‣ Figure 1 ‣ 1 Introduction ‣ Global Structure-from-Motion Revisited"). GLOMAP achieves significantly more accurate reconstruction on HGE and LIN compared to all other baselines, including COLMAP while being orders of magnitude faster than COLMAP. On CAB, all methods, including COLMAP, perform poorly, especially upon visual inspection, on this extremely challenging benchmark due to many forward motion trajectories, drastic day-night illumination changes, and many symmetries across floors/rooms and repetitive facades.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Uncalibrated Images Collections", "weight": 1.0} -->
+
+IMC 2023 contains unordered image collections over complex scenes. Images are collected from various sources and often lack prior camera intrinsics. The ground truth of the dataset is built by COLMAP with held out imagery. As the accuracy of this dataset is not very high, we follow the same scheme as He *et al*. to report the AUC scores at $3^{\circ},5^{\circ},10^{\circ}$. The results on training sets can be found in Table. On this dataset, the average AUC scores of the proposed method at $3^{\circ}$, $5^{\circ}$ and $10^{\circ}$ is several times higher than other global SfM baselines. The runtime is similar to other global SfM pipelines. Compared to COLMAP, the proposed method is about 4 points higher in AUC scores at $3^{\circ},5^{\circ}$, and $10^{\circ}$, and is about 8 times faster.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Uncalibrated Images Collections", "weight": 1.0} -->
+
+MIP360 contains 7 object-centric scenes with high-resolution images taken by the same camera. The provided COLMAP model is considered as (pseudo) ground truth for this dataset. Similarly, as the accuracy of ground truth is limited, the AUC scores at $3^{\circ},5^{\circ}$, and $10^{\circ}$ are reported. COLMAP reconstructions are re-estimated with the same matches as other methods. Results are summarized in Table and our method is significantly closer to the reference model compared with other global SfM methods while rerunning COLMAP produces similar results as ours. Ours is more than 1.5 times faster than COLMAP.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Ablation", "weight": 1.0} -->
+
+To demonstrate the effectiveness of the global position strategy, we conduct experiments by replacing the component by 1) adding only relative translation constraints, denoted as (BATA, cam), and 2) adding both points as well as translation constraints (BATA, cam+pt). For the (BATA, cam+pt) experiment, we use a similar weighting strategy for two types of constraints as implemented in Theia. We also compare the result of replacing the global positioning by Theia's LUD. For the experiments (BATA, cam) and LUD, we perform extra global positioning with fixed cameras to obtain point positions for subsequent bundle adjustment. We tested on both ETH3D MVS (DSLR) and IMC 2023. Results are summarized in Table. We see that relative translation constraints deteriorate convergence and overall performance.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 Though generally achieving satisfying performance, there still remain some failure cases. The major cause is a failure of rotation averaging, *e.g*., due to symmetric structures. In such a case, our method could be combined with existing approaches like Doppelganger. Also, since we rely on traditional correspondence search, incorrectly estimated two-view geometries or the inability to match image pairs altogether (*e.g*., due to drastic appearance or viewpoint changes) will lead to degraded results or, in the worst case, catastrophic failures.
 
-## Conclusion
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
-In summary, we proposed GLOMAP as a new global SfM pipeline. Previous systems within this category have been considered more efficient but less robust than incremental approaches. We revisited the problem and concluded that the key lies in the use of points in the optimization. Instead of estimating camera positions via ill-posed translation averaging and separately obtaining 3D structure from point triangulation, we merge them into a single global positioning step.
+In summary, we proposed GLOMAP as a new global SfM pipeline. Previous systems within this category have been considered more efficient but less robust than incremental approaches. We revisited the problem and concluded that the key lies in the use of points in the optimization. Instead of estimating camera positions via ill-posed translation averaging and separately obtaining 3D structure from point triangulation, we merge them into a single global positioning step. Extensive experiments on various datasets show that the proposed system achieves comparable or superior results to incremental methods in terms of accuracy and robustness while being orders of magnitude faster. The code is made available as open-source under a commercially friendly license.

@@ -1,15 +1,193 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Deep Structured Reactive Planning
 
-An intelligent agent operating in the real-world must balance achieving its goal with maintaining the safety and comfort of not only itself, but also other participants within the surrounding scene. This requires jointly reasoning about the behavior of other actors while deciding its own actions as these two processes are inherently intertwined - a vehicle will yield to us if we decide to proceed first at the intersection but will proceed first if we decide to yield. However, this is not captured in most self-driving pipelines, where planning follows prediction. In this paper we propose a novel data-driven, reactive planning objective which allows a self-driving vehicle to jointly reason about its own plans as well as how other actors will react to them. We formulate the problem as an energy-based deep structured model that is learned from observational data and encodes both the planning and prediction problems.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction
+An intelligent agent operating in the real-world must balance achieving its goal with maintaining the safety and comfort of not only itself, but also other participants within the surrounding scene. This requires jointly reasoning about the behavior of other actors while deciding its own actions as these two processes are inherently intertwined - a vehicle will yield to us if we decide to proceed first at the intersection but will proceed first if we decide to yield. However, this is not captured in most self-driving pipelines, where planning follows prediction. In this paper we propose a novel data-driven, reactive planning objective which allows a self-driving vehicle to jointly reason about its own plans as well as how other actors will react to them. We formulate the problem as an energy-based deep structured model that is learned from observational data and encodes both the planning and prediction problems. Through simulations based on both real-world driving and synthetically generated dense traffic, we demonstrate that our reactive model outperforms a non-reactive variant in successfully completing highly complex maneuvers (lane merges/turns in traffic) faster, without trading off collision rate.
 
-Self-driving vehicles (SDVs) face many challenging situations when dealing with complex dynamic environments. Consider a scenario where an SDV is trying to merge left into a lane that is currently blocked by traffic. The SDV cannot reasonably merge by simply waiting - it could be waiting for quite a while and inconvenience the cars behind it. On the other hand, it cannot aggressively merge into the lane disregarding the lane congestion, as this will likely lead to a collision.
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Towards this goal, we propose a novel joint prediction and planning framework that can perform reactive planning. Our approach is based on cost minimization for planning where we predict the actor reactions to the potential ego-agent plans for costing the ego-car trajectories. We formulate the problem as a deep structured model that defines a set of learnable costs across the future trajectories of all actors; these costs in turn induce a joint probability distribution over these actor future trajectories. A key advantage is that our model can be used jointly for prediction (with derived probabilities) and planning (with the costs).
+Self-driving vehicles (SDVs) face many challenging situations when dealing with complex dynamic environments. Consider a scenario where an SDV is trying to merge left into a lane that is currently blocked by traffic. The SDV cannot reasonably merge by simply waiting - it could be waiting for quite a while and inconvenience the cars behind it. On the other hand, it cannot aggressively merge into the lane disregarding the lane congestion, as this will likely lead to a collision. A human driver in this situation would think that if they gently nudge, other vehicles will have enough time to react without major inconvenience or safety risk, resulting in a successful and safe merge. While this is just an example, similar situations happen often for example during rush hour, in downtown areas, or highway ramp merging. The key idea here is that the human driver cannot be entirely passive with respect to the dynamic multi-actor environment; they must exercise some degree of control by reasoning about how other actors will react to their actions. Of course, the driver cannot use this control selfishly; they must act in a responsible manner to maximize their own utility while minimizing the risk/inconvenience to others.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This complex reasoning is, however, seldom used in self-driving approaches. Instead, the autonomy stack of an SDV is composed of a set of modules executed one after another. The AV first detects other actors in the scene (perception) and predicts their future trajectories (prediction). Given the output of perception and prediction, it plans a trajectory towards its intended goal that will be executed by the control module. This implies that behavior forecasts of other actors are not affected by the AV's own plan; the SDV is a passive actor assuming a stochastic world that it cannot change. As a consequence it might struggle when planning in high-traffic scenarios. In this paper we refer to prediction unconditioned on planning as non-reactive.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Recently, there has been a line of work that identify similar issues and tries to incorporate how the ego-agent affects other actors into the planning process; for instance, via game-theoretic planning and reinforcement learning. Yet these works rely on assumptions about a hand-picked prediction model or manually-tuned planning reward, which may not fully model real-world actor dynamics or human-like behaviors. Thus there is a need for a more general approach to the problem.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Towards this goal, we propose a novel joint prediction and planning framework that can perform reactive planning. Our approach is based on cost minimization for planning where we predict the actor reactions to the potential ego-agent plans for costing the ego-car trajectories. We formulate the problem as a deep structured model that defines a set of learnable costs across the future trajectories of all actors; these costs in turn induce a joint probability distribution over these actor future trajectories. A key advantage is that our model can be used jointly for prediction (with derived probabilities) and planning (with the costs). Another key advantage is that our structured formulation allows us to explicitly model interactions between actors and ensure a higher degree of safety in our planning.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 We evaluate our reactive model as well as a non-reactive variant in a variety of highly interactive, complex closed-loop simulation scenarios, consisting of lane merges and turns in the presence of other actors. Our simulation settings involve both real-world traffic as well as synthetic dense traffic settings. Importantly, we demonstrate that using a reactive objective can more effectively and efficiently complete these complex maneuvers without trading off safety. Moreover, we validate the choice of our learned joint structured model by demonstrating that it is competitive or outperforms prior works in open-loop prediction tasks.
 
-## Conclusion
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Prediction", "weight": 1.0} -->
+
+The prediction task, also refer to as motion forecasting, aims to predict future states of each agent given the past. Early methods have used physics-based models to unroll the past actor states. This field has exploded in recent years thanks to the advances in deep learning. One area of work in this space is to perform prediction (often jointly with detection) through rich unstructured sensor and map data as context, starting with LiDAR context to map rasterizations, to lane graphs. Modeling the future motion with a multi-modal distribution is of key importance given the inherent future uncertainty and sequential nature of trajectories Recent works also model interactions between actors, mostly through graph neural networks. In our work, we tackle the multi-modal and interactive prediction with a joint structured model, through which we can efficiently estimate probabilities.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Motion planning", "weight": 1.0} -->
+
+Given observations of the environment and predictions of the future, the purpose of motion planning is to find a safe and comfortable trajectory towards a specified goal. Sample-based planning is a popular paradigm due to its low latency, where first a large set of trajectory candidates are sampled and evaluated based on a pre-defined cost function, and then the minimal cost trajectory is chosen to be executed. Traditionally, such a cost function is hand-crafted to reflect our prior knowledge. More recently, learning-based cost functions also show promising results. Those costs can be learned through either Imitation Learning or Inverse Reinforcement Learning. In most of these systems, predictions are made independently of planning. While there has been recent work on accounting for actor reactivity in the planning process, such works still rely on hand designed rewards or prediction models which may have difficulty accounting for all real-world scenarios in complex driving situations.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Neural end-to-end motion planning", "weight": 1.0} -->
+
+The traditional compartmentalization of prediction and planning results in the following issues: First, hooking up both modules may result in a large system that can be prohibitively slow for online settings. Second, classical planning usually assumes predictions to be very accurate or errors to be normally distributed, which is not realistic in practice. Third, the sequential order of prediction and planning makes it difficult to model the interactions between the ego-agent and other agents while making decisions.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Neural end-to-end motion planning", "weight": 1.0} -->
+
+To address these issues, prior works have started exploring end-to-end planning approaches integrating perception, prediction and planning into a holistic model. Such methods can enjoy fast inference speed, while capture prediction uncertainties and model prediction-planning interactions either implicitly or explicitly. One popular way is to map sensor inputs directly to control commands via neural nets.. However, such methods lack interpretability and is hard to verify safety. Recent works have proposed neural motion planners that produce interpretable intermediate representations. This are in the form of non-parametric cost maps, occupancy maps or affordances. The most related work to ours, DSDNet, outputs a structured model representation, similar to our setting - yet DSDNet still follows the traditional pipeline of separating prediction from planning, and thus cannot do reactive planning.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Neural end-to-end motion planning", "weight": 1.0} -->
+
+The two closest related works on modeling multi-agent predictions during end-to-end planning are PRECOG, and PiP. PiP is a prediction model that generates joint actor predictions conditioned on the known future ego-agent trajectory, assuming planning is solved. However, in the real-world, finding the future ego-trajectory (planning) is in itself a challenging open problem, since the ego-trajectory depends on other actors which creates a complicated feedback-loop between planning and prediction. The PRECOG planning objective accounts for joint reactivity under a flow-based framework, yet it requires sequential decoding for planning and prediction making it hard to satisfy low-latency online requirements. Moreover, the planning objective does not ensure collision avoidance and can suffer from mode collapse in the SDV trajectory space.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Structured Models", "weight": 1.0} -->
+
+Researchers have applied neural nets to learn parameters in undirected graphical models, also known as Markov Random Fields (MRF's). One of the key challenges in training MRF's in the discrete setting is the computation of the partition function, where the number of states increases exponentially with the number of nodes in the worst case scenario. Message-passing algorithms such as Loopy Belief Propagation (LBP) have been found to approximate the partition function well in practice. Other learning based methods have included dual minimization, directly optimizing the Bethe Free Energy, finding variational approximations or mean-field approximations. Some approaches take an energy-minimization approach, unrolling the inference objective through differentiable optimization steps that can also be used to learn the model parameters.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Joint Reactive Prediction and Planning", "weight": 1.0} -->
+
+Suppose the SDV is driving in a scenario where there are $N$ actors. Let $\mathcal{Y} = {(\mathbf{y}_{0},\mathbf{y}_{1},\cdots,\mathbf{y}_{N})}$ be the set of random variables representing future trajectories of both the SDV, $\mathbf{y}_{0}$, and all other traffic participants, $\mathcal{Y}_{r} = {(\mathbf{y}_{1},{\cdots\mathbf{y}_{N}})}$. We define a reactive planner as one that considers actor predictions $\mathcal{Y}_{r}$ conditioned on $\mathbf{y}_{0}$ in the planning objective, and a non-reactive planner as one that assumes a prediction model which is independent of $\mathbf{y}_{0}$. In this section, we first outline the framework of our joint structured model which simultaneously models the costs and probability distribution of the future (Sec. III-A).
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Joint Reactive Prediction and Planning", "weight": 1.0} -->
+
+We then introduce our reactive objective which enables us to safely plan under such a distribution considering the reactive behavior of other agents (Sec. III-B) and discuss how to evaluate it (Sec. III-C), including with a goal-based extension (Sec. III-D). We finally describe our training procedure (Sec. III-E). We highlight additional model properties, such as interpolation between our non-reactive/reactive objectives, in our supplementary.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "III-A Structured Model for Joint Perception and Prediction", "weight": 1.0} -->
+
+We define a probabilistic deep structured model to represent the distribution over the future trajectories of the actors conditioned on the environment context $\mathcal{X}$ as follows
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "III-A Structured Model for Joint Perception and Prediction", "weight": 1.0} -->
+
+where $Z$ is the partition function, $C{(\mathcal{Y},\mathcal{X};\mathbf{w})}$ defines the joint energy of all future trajectories $\mathcal{Y}$ and $\mathbf{w}$ represents all the parameters of the model. In this setting, the context $\mathcal{X}$ includes each actor's past trajectories, LiDAR sweeps and HD maps, represented by a birds-eye view (BEV) voxelized tensor representation. Actor trajectories $\mathcal{Y}$ can naturally be represented in continuous space. However, performing inference on continuous structured models is extremely challenging. We thus instead follow and discretize each actor's action space into $K$ possible trajectories (each continuous) using a realistic trajectory sampler inspired, which takes past positions as input and samples a set of lines, circular curves, and euler spirals as future trajectories.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "III-A Structured Model for Joint Perception and Prediction", "weight": 1.0} -->
+
+Thus, each $\mathbf{y}_{i}$ is a discrete random variable that can take up one of $K$ options, where each option is a full continuous trajectory -- such a discretized distribution allows us to efficiently compute predictions (see Sec. III-C). Additional details on input representation and trajectory sampling are provided in the supplementary material.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "III-A Structured Model for Joint Perception and Prediction", "weight": 1.0} -->
+
+We exploit a learnable neural network to compute the actor-specific energy, $C_{\text{traj}}{(\mathbf{y}_{i},\mathcal{X};\mathbf{w})}$, parameterized with weights $\mathbf{w}$. A convolutional network takes as input the context feature $\mathcal{X}$ as a rasterized BEV 2D tensor grid centered around the ego-agent, and produces an intermediate spatial feature map $\mathbf{F} \in {\mathbb{R}}^{h \times w \times c}$, where $h,w$ represent the dimensions of the feature map (downsampled from the input grid), and $c$ represents the number of channels. These features are then combined with the candidate trajectories $\mathbf{y}_{i}$ and processed through an MLP, outputting a ${({N + 1})} \times K$ matrix of trajectory scores, one per actor trajectory sample. Our interaction energy is a combination of collision and safety distance violation costs.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "III-A Structured Model for Joint Perception and Prediction", "weight": 1.0} -->
+
+We define the collision energy to be $\gamma$ if a pair of future trajectories collide and 0 if not. Following, we define the safety distance violation to be a squared penalty within some safety distance of each actor's bounding box, scaled by the speed of the SDV. In our setting, we define safety distance to be 4 meters from other vehicles. Fig. 2 gives a graphic representation of the two energy terms. Full model details are in the supplementary, including the specific dataset-dependent input representation and model architecture.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "III-B Reactive Inference Objective", "weight": 1.0} -->
+
+The structured model defines both a set of costs and probabilities over possible futures. We develop a planning policy on top of this framework which decides what the ego-agent should do in the next few seconds (i.e., planning horizon). Our reactive planning objective is based on an optimization formulation which finds the trajectory that minimizes a set of planning costs -- these costs consider both the candidate SDV trajectory as well as other actor predictions conditioned on the SDV trajectory. In contrast to existing literature, we re-emphasize that both prediction and planning components of our objective are derived from the same set of learnable costs in our structured model, removing the need to develop extraneous components outside this framework; we demonstrate that such a formulation inherently considers both the reactivity and safety of other actors. We define our planning objective as
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "III-B Reactive Inference Objective", "weight": 1.0} -->
+
+where $\mathbf{y}_{0}$ is the ego-agent future trajectory and $f$ is the planning cost function defined over our structured model.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-B Reactive Inference Objective", "weight": 1.0} -->
+
+Note that $\mathcal{Y}_{r} \sim {p{(\left. \mathcal{Y}_{r} \middle| {\mathbf{y}_{0},\mathcal{X};\mathbf{w}} \right.)}}$ describes the future distribution of other actors, conditioned on the current candidate trajectory $\mathbf{y}_{0}$ and is derived from the underlying joint distribution in Eq.. Meanwhile, the $C{(\mathcal{Y},\mathcal{X};\mathbf{w})}$ term represents the joint energies of a given future configuration of joint actor trajectories.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-B Reactive Inference Objective", "weight": 1.0} -->
+
+The set of costs includes the SDV-specific cost, outside the expectation. It also includes the SDV/actor interaction costs, the actor-specific cost, and actor/actor interaction costs within the expectation. Note that the SDV-specific cost $C_{\text{traj}}{(\mathbf{y}_{0},\mathcal{X};\mathbf{w})}$ uses a different set of parameters from those of other actors $\mathbf{y}_{i}$ to better exploit the ego-centric sensor data and model SDV-specific behavior. Moreover, the set of actor-specific and interaction costs within the expectation leads to an inherent balancing property of additional responsibility to additional control: by explicitly modeling the reactive prediction distribution of other actors in the prediction model, we must also take into account their utilities as well. In the following, we further exclude the last energy term $\sum_{i,j}{C_{\text{inter}}{(\mathbf{y}_{i},\mathbf{y}_{j})}}$ due to computational reasons. See supplementary material for more details.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-C Inference for Conditional Planning Objective", "weight": 1.0} -->
+
+Due to our discrete setting and the nature of actor-specific and interaction costs, for any given $\mathbf{y}_{0}$, we can directly evaluate the expectation from Eq. without the need for Monte-Carlo sampling. We thus have
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-C Inference for Conditional Planning Objective", "weight": 1.0} -->
+
+where $p_{\mathbf{y}_{i}|\mathbf{y}_{0}}$ is short-hand for $p{(\left. \mathbf{y}_{i} \middle| {\mathbf{y}_{0},\mathcal{X};\mathbf{w}} \right.)}$, and $C_{\text{traj}}^{\mathbf{y}_{i}}$ for $C_{\text{traj}}{(\mathbf{y}_{i},\mathcal{X};\mathbf{w})}$ (same for pairwise). Since the joint probabilities factorize over the actor-specific and pairwise interaction energies, they simplify into the marginal and pairwise marginal probabilities between all actors.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-C Inference for Conditional Planning Objective", "weight": 1.0} -->
+
+where $p_{\mathbf{y}_{i}|\mathbf{y}_{0}}$ represents the marginal probability of the actor trajectory conditioned on the candidate ego-agent trajectory. These marginal probabilities which are tensors of size $N \times K \times K$, can all be efficiently approximated by exploiting Loopy Belief Propagation (LBP). This in turn allows efficient batch evaluation of the planning objective: for every sample of every actor ($N \times K$ samples), evaluate the conditional marginal probability times the corresponding energy term. Note that LBP can also be interpreted as a special form of recurrent network, and thus is amenable to end-to-end training. Then, since the ego-agent itself has $K$ trajectories to choose, solving the minimization problem in involves simply picking the trajectory with the minimum planning cost.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-D Goal Energy", "weight": 1.0} -->
+
+Similar to we make the observation that our current formulation, which encodes both actor behavior and desirable SDV behavior in the energies of our structured model, can be extended to goal-directed planning to flexibly achieve arbitrary goals during inference. In addition to the learned ego-agent cost $C_{\text{traj}}^{\mathbf{y}_{0}}$, we can specify a goal state $\mathcal{G}$ in each scenario and encourage the ego-agent to reach the goal state via a goal energy $C_{\text{goal}}^{\mathbf{y}_{0}}$. The goal state can take on different forms depending on the scenario: in the case of a turn, $\mathcal{G}$ is a target position. In the case of a lane change, $\mathcal{G}$ is a polyline representing the centerline of the lane in continuous coordinates.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "III-D Goal Energy", "weight": 1.0} -->
+
+In particular we define the goal energy term $C_{\text{goal}}^{\mathbf{y}_{0}}$ as follows: if $\mathcal{G}$ is a single point, the energy is the $\ell_{2}$ distance of the final waypoint; if $\mathcal{G}$ represents a lane, the energy represents the average projected distance to the lane polyline. We sum the goal energy cost to the conditional planning objective during inference.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "III-D Goal Energy", "weight": 1.0} -->
+
+\begin{overpic}[width=104.07117pt,trim=301.125pt 276.03125pt 501.87498pt 225.84373pt,clip]{figures/qual/simba_lm1_r0.png} \put(0.0,2.0){\scriptsize\hbox{\pagecolor{gray}\color[rgb]{1,1,1} Reactive, t=0s}} \end{overpic} \begin{overpic}[width=104.07117pt,trim=301.125pt 276.03125pt 501.87498pt 225.84373pt,clip]{figures/qual/simba_lm1_r1.png} \put(0.0,2.0){\scriptsize\hbox{\pagecolor{gray}\color[rgb]{1,1,1} Reactive, t=1s}} \end{overpic} \begin{overpic}[width=104.07117pt,trim=301.125pt
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "III-D Goal Energy", "weight": 1.0} -->
+
+276.03125pt 501.87498pt 225.84373pt,clip]{figures/qual/simba_lm1_r2.png} \put(0.0,2.0){\scriptsize\hbox{\pagecolor{gray}\color[rgb]{1,1,1} Reactive, t=2s}} \end{overpic} \begin{overpic}[width=104.07117pt,trim=301.125pt 276.03125pt 501.87498pt 225.84373pt,clip]{figures/qual/simba_lm1_r3.png} \put(0.0,2.0){\scriptsize\hbox{\pagecolor{gray}\color[rgb]{1,1,1} Reactive, t=3s}} \end{overpic}
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "III-D Goal Energy", "weight": 1.0} -->
+
+\begin{overpic}[width=104.07117pt,trim=301.125pt 276.03125pt 501.87498pt 225.84373pt,clip]{figures/qual/simba_lm1_nr0.png} \put(0.0,2.0){\scriptsize\hbox{\pagecolor{gray}\color[rgb]{1,1,1} Non-Reactive, t=0s}} \end{overpic} \begin{overpic}[width=104.07117pt,trim=301.125pt 276.03125pt 501.87498pt 225.84373pt,clip]{figures/qual/simba_lm1_nr1.png} \put(0.0,2.0){\scriptsize\hbox{\pagecolor{gray}\color[rgb]{1,1,1} Non-Reactive, t=1s}} \end{overpic} \begin{overpic}[width=104.07117pt,trim=301.125pt
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "III-D Goal Energy", "weight": 1.0} -->
+
+276.03125pt 501.87498pt 225.84373pt,clip]{figures/qual/simba_lm1_nr2.png} \put(0.0,2.0){\scriptsize\hbox{\pagecolor{gray}\color[rgb]{1,1,1} Non-Reactive, t=2s}} \end{overpic} \begin{overpic}[width=104.07117pt,trim=301.125pt 276.03125pt 501.87498pt 225.84373pt,clip]{figures/qual/simba_lm1_nr3.png} \put(0.0,2.0){\scriptsize\hbox{\pagecolor{gray}\color[rgb]{1,1,1} Non-Reactive, t=3s}} \end{overpic}
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "III-E Learning", "weight": 1.0} -->
+
+We train our joint structured model given observed ground-truth trajectories for the ego-car and all other agents in the scene. We want to learn the model energies such that they induce both optimal plans for the ego-agent and accurate probabilities for the actor behaviors. Since the model energies induce a probability distribution used in our prediction model, this implies that minimizing the cross-entropy between our predictive distribution and the ground-truth trajectories will also learn a good set of costs for planning.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "III-E Learning", "weight": 1.0} -->
+
+where $p_{\mathbf{y}_{i}}$ and $p_{\mathbf{y}_{i},\mathbf{y}_{j}}$ represent the marginal and pairwise marginal probabilities for every actor including the ego-agent, and $p_{\text{g.t.}}$ represents the indicator function that is zero everywhere unless $\mathbf{y}_{i},\mathbf{y}_{j}$ are equal to the ground-truth $\mathbf{y}_{i}^{\ast},\mathbf{y}_{j}^{\ast}$. Recall that the marginal probabilities, $p_{\mathbf{y}_{i}}$ and $p_{\mathbf{y}_{i},\mathbf{y}_{j}}$ for every actor including the ego-agent are computed through Loopy Belief Propagation, a differentiable iterative message-passing procedure.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "III-E Learning", "weight": 1.0} -->
+
+Note that our method has a subtle but important distinction from raw cross-entropy loss: $\Delta{(\mathbf{y}_{i}^{\ast})}$ is defined as the set of $k$ non-ground-truth trajectories for actor $i$ closest to $\mathbf{y}_{i}^{\ast}$ by $\ell_{2}$ distance, and we only compute the cross-entropy loss for trajectories outside of this set. We adopt this formulation since any trajectory within $\Delta$ can reasonably be considered as a ground-truth substitute, and hence we do not wish to penalize the probabilities of these trajectories.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+We demonstrate the effectiveness of our reactive planning objective in two closed-loop driving simulation settings: real-world traffic scenarios with our in-house simulator (Simba), and synthetically generated dense traffic with the open-source CARLA simulator. We setup a large number of complex and highly interactive scenarios from lane changes and (unprotected) turns - in order to tease apart the differences between reactive and non-reactive models.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Our results show a key insight: our pure reactive model alone achieves a higher success rate compared to the non-reactive model without trading off collision rate, implying it is able to effectively consider the reactive behavior of other actors and formulate a goal-reaching plan without being unreasonably aggressive. Moreover, we justify the choice of a deep structured model by demonstrating that when our model is used for actor trajectory prediction, it is competitive with the state-of-the-art in both CARLA and Nuscenes.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-A1 Training Datasets", "weight": 1.0} -->
+
+Since our closed-loop evaluations are in Simba and CARLA, our models are trained on the respective datasets in the corresponding domains. Our Simba model is trained on a large-scale, real-world dataset collected through our self-driving vehicles in numerous North American cities, which we call UrbanCity. The dataset consists of over 6,500 snippets of approximately 25 seconds from over 1000 different trips, with 10Hz LiDAR and HD map data, which are included as input context into the model $\mathcal{X}$ in addition to the past trajectories per actor. Meanwhile, the CARLA simulated dataset is a publicly available dataset, containing 60k training sequences. The input to the model for CARLA consists of rasterized LiDAR features and 2s of past trajectories to predict 4s future trajectories.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-A2 Simulation Setup", "weight": 1.0} -->
+
+Simba runs at 10Hz and leverages a realistic LiDAR simulator to generate LiDAR sweeps around the ego-agent at each timestep. HD map polygons are available per scenario. We first setup 12 different interactive "template" scenarios: we select these templates by analyzing logs in the validation set of UrbanCity and selecting a start time where there is a high degree of potential interactions with other actors. We set a goal state for the ego-agent, which for instance can be a turn or lane merge, and initialize actor positions according to their start time positions in the log. We then proceed to generate 25 distinct scenarios per template scenario by perturbing the initial position and velocity of each actor, for a total of 50 val/250 test scenarios. During simulation each actor behaves according to a heuristic car-following model that performs basic hazard detection.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-A2 Simulation Setup", "weight": 1.0} -->
+
+In CARLA we leverage the synthetic LiDAR sensor as input. Rather than initializing scenarios through ground-truth data, we manually create 6 "synthetic" template scenarios containing dense traffic, and spawn actors at specified positions with random perturbations. We extend the BasicAgent class given in CARLA 0.9.5 as an actor model per agent, which performs basic route following to a goal and hazard detection. We generate 50 val/100 test scenarios by perturbing the initial position / vehicle type / hazard detection range of each actor.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "IV-A2 Simulation Setup", "weight": 1.0} -->
+
+Scenarios in all settings are run for a set timer. The scenario completes if 1) the ego-agent has reached the goal, 2) the timer has expired, or 3) the ego-agent has collided.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "IV-A3 Closed-Loop Metrics", "weight": 1.0} -->
+
+The output metrics include: 1) Success Rate (whether the ego-agent successfully completed the lane change or turn), 2) time to completion (TTC), 3) collision rate, 4) number of actor brake events. This information is provided in CARLA but not in Simba.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "IV-B Reactive/Non-Reactive Simulation Results", "weight": 1.0} -->
+
+The pure reactive model outperforms the non-reactive model on success rate, time to completion, goal distance, with no difference in collision rate (Tab. I), on both Simba and CARLA. This implies that by considering the reactivity of other actors in its planning objective, the reactive model can more efficiently navigate to the goal in a highly-interactive environment, without performing overly aggressive behaviors that would result in a higher collision rate. Moreover, we also note that both the reactive/non-reactive models within our joint structured framework outperform a strong joint prediction and planning model, PRECOG -- we present our PRECOG implementation and visualizations in supplementary material.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "IV-C Qualitative Results", "weight": 1.0} -->
+
+To complement the quantitative metrics, we provide scenario visualizations. In Fig. 7, we present a lane merge scenario in Simba to better highlight the difference between the reactive and non-reactive models in a highly complex, interactive scenario. We provide simulation snapshots at $t = {0,1,2,3}$ seconds. Note that the reactive model is able to take decisive action and complete the lane merge; the neighboring actor slows down with adequate buffer to let the ego-agent pass. Meanwhile, the non-reactive agent does not complete a lane merge but drifts slowly to the left side of the lane over time. We provide several more comparative visualizations of various scenarios in both Simba and CARLA in our supplementary document and video.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "IV-D Prediction Metrics", "weight": 1.0} -->
+
+To validate the general performance of our joint structured framework, we compute actor predictions using our model, by using Loopy Belief Propagation to compute unconditioned actor marginals $p{(\mathbf{y}_{i})}$, and compare against state-of-the-art on standard prediction benchmarks in Fig. II, III: the CARLA PRECOG dataset and the Nuscenes dataset (note that a separate model was trained for Nuscenes). We report minMSD, the minimum mean squared distance between a sample of predicted/planned trajectories and ground-truth as metric. As shown, our method is competitive with or outperforms prior methods in minMSD. Similar to the findings of DSDNet, this implies that an energy-based model relying on discrete trajectory samples per actor is able to effectively make accurate trajectory predictions for each actor.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "IV-E Training Loss Functions", "weight": 1.0} -->
+
+We also perform an ablation study on the UrbanCity validation set to analyze our proposed training loss function compared against vanilla cross-entropy loss (no ignore set), as well as the approach in Chen et al.. We demonstrate in Fig. IV that our approach achieves the lowest Final Displacement Error (FDE), for the SDV and other actors, as well as the lowest collision rate between actor collisions and collisions of the ego-agent with ground-truth actors.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have presented a novel reactive planning objective allowing the ego-agent to jointly reason about its own plans as well as how other actors will react to them. We formulated the problem with a deep energy-based model which enables us to explicitly model trajectory goodness as well as interaction cost between actors. Our experiments showed that our reactive model outperforms the non-reactive model in various highly interactive simulation scenarios without trading off collision rate. Moreover, we outperform or are competitive with state-of-the-art in prediction metrics.

@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Using Reachable Sets for Trajectory Planning of Automated Vehicles
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 The computational effort of trajectory planning for automated vehicles often increases with the complexity of the traffic situation. This is particularly problematic in safety-critical situations, in which the vehicle must react in a timely manner. We present a novel motion planning approach for automated vehicles, which combines set-based reachability analysis with convex optimization to address this issue. This combination makes it possible to find driving maneuvers even in small and convoluted solution spaces. In contrast to existing work, the computation time of our approach typically decreases, the more complex situations become. We demonstrate the benefits of our motion planner in scenarios from the CommonRoad benchmark suite and validate the approach on a real test vehicle.

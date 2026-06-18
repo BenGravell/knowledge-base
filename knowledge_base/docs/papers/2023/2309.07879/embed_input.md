@@ -1,19 +1,546 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule
 
 Topics include Gradient descent, Acceleration, Stepsize hedging.
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 Can we accelerate convergence of gradient descent without changing the algorithm - just by carefully choosing stepsizes? Surprisingly, we show that the answer is yes. Our proposed Silver Stepsize Schedule optimizes strongly convex functions in k^log_rho 2 approx k^.7864 iterations, where rho = 1+sqrt is the silver ratio and k is the condition number. This is intermediate between the textbook unaccelerated rate k and the accelerated rate sqrt(k) due to Nesterov in 1983. The non-strongly convex setting is conceptually identical, and standard black-box reductions imply an analogous accelerated rate epsilon^-log_rho 2 approx epsilon^(-0).7864. We conjecture and provide partial evidence that these rates are optimal among all possible stepsize schedules. The Silver Stepsize Schedule is constructed recursively in a fully explicit way. It is non-monotonic, fractal-like, and approximately periodic of period k^log_rho 2. This leads to a phase transition in the convergence rate: initially super-exponential (acceleration regime), then exponential (saturation regime).
 
-## Introduction
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Gradient descent (GD) is a simple iterative algorithm to minimize an objective function $f$ by producing better and better estimates via the update
 
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 GD dates back nearly two hundred years to the work of Cauchy, yet it (and its variants) remain a primary workhorse in modern optimization, engineering, and machine learning due to the practical efficacy, simplicity, and scalability. It is of both theoretical and practical importance to analyze the convergence of GD and moreover to optimize parameters so that this convergence is as fast as possible.
 
-A central fact in convex optimization is that with a prudent choice of the stepsize schedule $\{\alpha_{t}\}$---the only^11^1In convex optimization, we typically view the initialization $x_{0}$ as part of the problem instance rather than a parameter choice, since $x_{0} = 0$ without loss of generality after a possible translation of the objective function $f$. parameters of the algorithm---running GD from any initialization $x_{0}$ produces iterates which optimize $f$ to arbitrary accuracy. Quantifying this statement leads to two intertwined questions: How fast does $x_{n}$ converge to a minimizer $x^{\ast}$ of $f$?
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+A central fact in convex optimization is that with a prudent choice of the stepsize schedule $\{\alpha_{t}\}$---the only^11^1In convex optimization, we typically view the initialization $x_{0}$ as part of the problem instance rather than a parameter choice, since $x_{0} = 0$ without loss of generality after a possible translation of the objective function $f$. parameters of the algorithm---running GD from any initialization $x_{0}$ produces iterates which optimize $f$ to arbitrary accuracy. Quantifying this statement leads to two intertwined questions: How fast does $x_{n}$ converge to a minimizer $x^{\ast}$ of $f$? And what stepsize choice $\{\alpha_{t}\}$ leads to the fastest convergence rate?
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 This series of papers revisits these classical questions in the fundamental setting of smooth^22^2In the non-smooth setting, it is classically known that acceleration is impossible, and moreover GD achieves the minimax-optimal convergence rate with simple monotonically decaying stepsize schedules like $\alpha_{t} \asymp {1/\sqrt{t}}$. convex optimization. Our overarching goal is to understand how much mileage can be obtained by simply optimizing the stepsize choice for GD.
 
-## Future work
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Note that this is markedly different from the past forty years of literature on accelerating the convergence rate for GD. That literature---starting from Nesterov's seminal work in 1983 ---achieves faster convergence rates by modifying the GD algorithm with extra building blocks such as momentum, auxiliary sequences, or other internal dynamics. See the related work section or the recent survey. In contrast, we investigate the basic question of: can we accelerate convergence without changing the GD algorithm---just by optimizing the stepsizes?
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Mainstream approach", "weight": 1.0} -->
+
+The standard analysis of GD uses a constant stepsize schedule, i.e., $\alpha_{t} = \overline{\alpha}$ for all iterations $t$; see e.g. the textbooks among many others. For example, $\overline{\alpha} = {1/M}$ in the setting of $M$-smooth convex objectives, or $\overline{\alpha} = {2/{({M + m})}}$ if the objectives are additionally $m$-strongly convex.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Mainstream approach", "weight": 1.0} -->
+
+This is provably correct. For example, in the strongly convex setting, this $\overline{\alpha}$ provides the optimal contraction rate---a larger stepsize $\alpha_{t} > \overline{\alpha}$ can lead to overshooting the target $x^{\ast}$, and a smaller stepsize $\alpha_{t} < \overline{\alpha}$ can lead to undershooting $x^{\ast}$.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Mainstream approach", "weight": 1.0} -->
+
+However, it is well-known that even after optimizing the constant $\overline{\alpha}$, this constant stepsize schedule leads to a slow convergence rate. (Hence the intensive research on accelerated GD.) Moreover, even though many alternative stepsize schedules have been proposed in both theory and practice---e.g., exact line search, Armijo-Goldstein rules, Polyak-type schedules, Barzilai-Borwein-type schedules, etc., see the related work section---none of these alternative schedules have led to an analysis that outperforms the slow "unaccelerated" rate of constant stepsize GD. Conventional wisdom therefore dictates that slow convergence is unavoidable, unless one modifies GD by adding extra building blocks beyond choosing stepsizes, e.g., via momentum.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Mainstream approach", "weight": 1.0} -->
+
+Θ (κ) by constant stepsizes (folklore)
+Θ (κ) by constant stepsizes (folklore)
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Mainstream approach", "weight": 1.0} -->
+
+$\Theta\left( \sqrt{\kappa} \right)$ by Heavy Ball
+$\Theta\left( \sqrt{\kappa} \right)$ by Nesterov Acceleration
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Mainstream approach", "weight": 1.0} -->
+
+$\Theta\left( \sqrt{\kappa} \right)$ by Chebyshev Stepsizes
+Θ (κlogρ2) by Silver Stepsizes (Theorem 1.1)
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Faster convergence via dynamic stepsizes?", "weight": 1.0} -->
+
+The premise of this series of papers is that this is wrong. Why might the constant stepsize schedule $\alpha_{t} = \overline{\alpha}$ be sub-optimal? Certainly it is optimal if GD is only run for $n = 1$ iteration---this is the assertion (1.2). However, it is sub-optimal for $n$ steps of GD, for any $n > 1$. Briefly, this is because the statement for $n = 1$ requires the worst-case problem instance (the objective function $f$ and initialization $x_{0}$) to align with the choice of stepsize $\alpha_{t} \neq \overline{\alpha}$ so that the convergence is slow, and for $n > 1$, the worst-case problem instances for each individual step might not align.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Faster convergence via dynamic stepsizes?", "weight": 1.0} -->
+
+We refer to this algorithmic idea as *hedging* between worst-case problem instances. (See §2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") for a fully worked-out example.)
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Motivation: the special case of quadratics", "weight": 1.0} -->
+
+Of course, using non-constant stepsizes is not a new idea---for the special case of minimizing *convex quadratics*, it has been known that this enables faster convergence since Young's seminal paper in 1953. In particular, for quadratic optimization, the optimal stepsize schedule is not constant, but given by the inverse roots of Chebyshev polynomials; the order of these stepsizes is irrelevant for the convergence rate (assuming exact arithmetic); and the resulting convergence rate is the so-called *accelerated rate* that is optimal among all Krylov-subspace algorithms, including even modifications of GD that use momentum or internal dynamics. See the related work section §1.2 for further details.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "A longstanding gap between quadratic and convex optimization", "weight": 1.0} -->
+
+However, while the advantage of non-constant stepsizes has been well-understood for quadratic optimization for 70 years (and nowadays is even taught in many introductory optimization courses), it has remained entirely open whether this phenomenon extends to any setting of convex optimization beyond quadratics. In particular, it was unclear whether *any* stepsize schedule could lead to *any* speedup over the textbook GD convergence rate---even by a constant factor.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "A longstanding gap between quadratic and convex optimization", "weight": 1.0} -->
+
+This gap is due to several reasons. First, many phenomena from the quadratic case are simply false in the setting of general convex optimization: e.g., the stepsize schedule based on roots of the Chebyshev polynomials is provably bad for the convex setting \[5, Chapter 8\], and the order of the stepsizes dramatically affects the convergence rate in the convex setting \[5, Chapter 8\]. Second, any approach for establishing the advantage of a non-constant stepsize schedule must track how progress in the current iteration is affected by previous iterations---and this effect of history appeared to only be explicitly computable in the quadratic setting, essentially since that is the only case in which the GD map is linear (hence tractable to track after repeated iterations).
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Contribution and discussion", "weight": 1.0} -->
+
+In this initial paper, we show that GD can converge faster for smooth convex optimization by using certain time-varying, non-monotonic stepsize schedules. This answers the hedging question (1.3) in the affirmative. This series of papers publishes and extends the first author's 2018 Master's Thesis (advised by the second author), which proved such a result for the first time, see the related work section §1.2. In particular, Chapter 8 of the thesis showed for the first time that a constant-factor improvement over the unaccelerated rate is possible in the smooth strongly convex setting, and Chapter 6 of the thesis showed for the first time that an asymptotic acceleration is possible in any setting beyond quadratics. (The latter result proves that arcsine-distributed random stepsizes achieve the fully accelerated rate $\Theta{({\sqrt{\kappa}{\log{1/\varepsilon}}})}$ if the convex functions are separable; this will be detailed in a forthcoming paper.) Prior to this thesis, the only result for acceleration via choosing stepsizes was for the special case of quadratic optimization, due to Young in 1953.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Contribution and discussion", "weight": 1.0} -->
+
+Conceptually, we deviate from traditional analyses of GD (and other optimization algorithms) by directly analyzing the cumulative progress of all the steps of the algorithm, rather than combining separate bounds for the progress of individual steps. As mentioned above, this global analysis of *multi-step descent* is provably necessary to show any benefit for any deviation from the constant stepsize schedule. Indeed, separately analyzing the progress for each iteration---as done, e.g., in standard GD analyses, in exact line search, or in standard offline-to-online convex optimization reductions---is provably too shortsighted and unavoidably leads to pessimistic, unaccelerated convergence rates. The key difficulty is how to track how different iterations affect progress in other iterations. Previously, this could be accomplished only for the special case of quadratics because then the GD update is linear. We show that this can be accomplished for general convex setting by this by using long-range consistency conditions between the gradients seen along the algorithm's trajectory.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Contribution and discussion", "weight": 1.0} -->
+
+We provide a high-level overview of these new conceptual ideas in §2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule").
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Contribution and discussion", "weight": 1.0} -->
+
+Below, we formally state our main result in §1.1.1, and then discuss the improved convergence rate in §1.1.2, the proposed stepsize schedule in §1.1.3, and the generality of the result in §1.1.4.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Main result: acceleration without momentum", "weight": 1.0} -->
+
+Formalizing this result requires restricting to a function class with controlled curvature. For concreteness, in this first paper we focus on the well-studied setting of strongly convex and smooth $f$, and we measure progress via distance to the optimum $x^{\ast}$. While smoothness is classically known to be required for acceleration, the other choices and assumptions in the theorem statement are not essential: strong convexity can be relaxed to convexity, and the progress measure can be replaced with other standard desiderata; see the discussion in §1.1.4.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Main result: acceleration without momentum", "weight": 1.0} -->
+
+For intuition, this is equivalent to the local curvature bound $I_{d} \preceq {{\nabla^{2}f}{(x)}} \preceq {\kappaI_{d}}$ under the assumption of twice-differentiability (not required by our results).---this is without loss of generality after rescaling.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Partial acceleration", "weight": 1.0} -->
+
+Our rate $\Theta{({\kappa^{\log_{\rho}2}{\log{1/\varepsilon}}})}$ lies between the textbook rate $\Theta{({\kappa{\log{1/\varepsilon}}})}$ for GD and the accelerated rate $\Theta{({\sqrt{\kappa}{\log{1/\varepsilon}}})}$ due to Nesterov in 1983. We emphasize that before the thesis that this paper is based upon, it was unknown if any improvement over the unaccelerated rate---even a constant factor---was achievable by any stepsize schedule. Our convergence rate is faster than all known GD stepsize schedules for convex optimization, including constant stepsize schedules, Polyak-type schedules, Barzilai-Borwein-type schedules, Goldstein-Armijo-type schedules, exact line search, etc.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Phase transition", "weight": 1.0} -->
+
+A distinctive feature of the Silver Convergence Rate $\tau_{n}$ is that it undergoes a phase transition: $\tau_{n}$ switches from super-exponential to exponential in the horizon $n$. This transition occurs at $n^{\ast} \asymp \kappa^{\log_{\rho}2}$, which is the number of iterations required to make the error decrease by a constant factor. See Figure 2. The reason for these two regimes is that beyond $n^{\ast}$, the new stepsizes converge quadratically fast to their stationary value; details in §4.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Phase transition", "weight": 1.0} -->
+
+Acceleration regime. This regime encapsulates the advantage of multi-step descent: the super-exponentiality of the $n$-step bound makes it better than composing the $1$-step bound $n$ times. This super-exponential regime interpolates the $\kappa$ dependence between the unaccelerated rate (achieved at $n = 1$) and our partially accelerated rate (achieved at $n \gtrsim n^{\ast}$).
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Phase transition", "weight": 1.0} -->
+
+Saturation regime. Here, the benefit of multi-step descent becomes negligible: $\tau_{2n} \approx \tau_{n}^{2}$ for $n \geqslant n^{\ast}$.^44^4Note that $\tau_{2n} \leqslant \tau_{n}^{2}$; intuitively this amounts to the statement that the optimal $2n$-step schedule is at least as good as repeating the optimal $n$-step schedule twice. We call this inequality *rate monotonicity*, see §4. The statement $\tau_{2n} \approx \tau_{n}^{2}$ therefore states that this bound is nearly tight. Briefly, this rate saturation occurs because the Silver Stepsize Schedule is approximately periodic with period $n^{\ast}$, see §1.1.3.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Dimension independence", "weight": 1.0} -->
+
+The convergence rate in Theorem 1.1 is independent of the dimension $d$ and thus can be extended to infinite-dimensional Hilbert space. This is because our analysis only uses consistency conditions for the GD trajectory to arise from a convex function---and these consistency conditions are dimension-independent. This is in common with classical analyses of GD and Nesterov-style acceleration.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Optimality", "weight": 1.0} -->
+
+We conjecture the Silver Stepsize Schedule has the fastest convergence rate among all possible choices of GD stepsize schedules. We prove optimality for the $n = 2$ case of \[5, Chapter 8\] in §2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"); this proof readily extends to small $n$, and we will address the question of optimality for all $n$ in a shortly forthcoming paper.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Recursive construction", "weight": 1.0} -->
+
+The Silver Stepsize Schedule is defined recursively in a fully explicit way. We briefly overview the construction; see §3 for full details. The $1$-step schedule $h^{}$ is initialized to the constant $\overline{\alpha} = {2/{({1 + {1/\kappa}})}}$ that is classically known to be optimal for $1$-step descent. We then recursively define the $2n$-step schedule $h^{({2n})}$ as
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Recursive construction", "weight": 1.0} -->
+
+where ${\overset{\sim}{h}}^{(n)}$ is the $n$-step schedule $h^{(n)}$ with its final stepsize $b_{n}$ removed, and $a_{2n}$ and $b_{2n}$ are obtained by "splitting" this removed stepsize $b_{n}$. Modulo a certain normalizing transformation, this splitting produces $a_{2n} < b_{n} < b_{2n}$ as the roots to a certain quadratic equation in $b_{n}$. See §4 for details and closed-form expressions.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Finite-horizon schedule", "weight": 1.0} -->
+
+This recursive construction produces (normalized) stepsize schedules that follow the pattern
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Infinite-horizon schedule", "weight": 1.0} -->
+
+This schedule simplifies in the limit $n\rightarrow\infty$: the $i$-th normalized stepsize is given by $a_{B{(i)}}$, where $B{(i)}$ denotes the smallest power of $2$ in the binary expansion of $i$. Note that no entries of the $b$ sequence appear.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Fractal order", "weight": 1.0} -->
+
+For the special case of quadratic optimization, the order of the stepsizes is well-known to be irrelevant for the convergence rate. In contrast, in the general setting of convex optimization, the order of the stepsizes provably does matter \[5, Chapter 8\]. For example, it can be shown that the convergence rate in Theorem 1.1 becomes greater than $1$ (i.e., not even contractive) if one reverses the order of the $2$-step Silver Stepsize Schedule.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Fractal order", "weight": 1.0} -->
+
+The Silver Stepsize Schedule generates a fractal, see Figure 1. This is due to our recursive construction, and is directly evident from the aforementioned fact that the $i$-th stepsize depends on the sparsity pattern of the binary expansion of $i$. This fractal structure aligns with the numerical observations, and is in stark contrast with all classical stepsize schedules which, if time-varying, decay monotonically in the iteration number $i$, e.g., as $1/i$.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Approximate periodicity", "weight": 1.0} -->
+
+The Silver Stepsize Schedule is not periodic as it is continually changes. However, it is approximately periodic with period $n^{\ast} \asymp \kappa^{\log_{\rho}2}$, see Figure 1. This is another facet of the rate saturation phenomenon discussed in §1.1.2. See §4 for details.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Dependence on horizon", "weight": 1.0} -->
+
+Theorem 1.1 is stated for horizons $n$ that are powers of $2$. For arbitrary integers $n$, one can simply run the Silver Stepsize Schedule for the largest power of $2$ below $n$, or better, run for all powers of $2$ in the binary expansion of $n$. This affects the average per-step-rate by only a small constant factor. We moreover conjecture that simply using $n$ steps of the infinite-horizon Silver Stepsize Schedule leads to the same convergence rate modulo a lower-order term. This seems reasonable since only logarithmically many stepsizes are changed, but we have not attempted to prove this. Orthogonally, if the horizon is not set in advance, then one can, e.g., do a "doubling" trick by exploiting the fact that the first $2^{i} - 1$ stepsizes are identical for all $n \geqslant 2^{i}$.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Dependence on horizon", "weight": 1.0} -->
+
+Specifically, for each $i$, decide on iteration $2^{i} - 1$ whether to stop at $n = 2^{i}$ iterations, or repeat roughly the same amount of effort and go to $2^{i + 1} - 1$ iterations.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Progress measure", "weight": 1.0} -->
+
+Theorem 4.1. ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") uses distance as the progress measure. This can be replaced by other standard progress measures such as function suboptimality or gradient norm, in the initial or final condition or both, since these measures are equivalent for $\kappa$-conditioned functions. This black-box replacement affects the rate by only a lower-order term. Moreover, this equivalence factor can be avoided by re-doing our analysis in a conceptually identical way for the desired progress measures (possibly also with minor changes to the stepsize schedule; e.g., for gradient norm contraction, it appears that one should reverse the order \[5, Chapter 8\]).
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Smoothness", "weight": 1.0} -->
+
+It is well-known that smoothness is required for acceleration: otherwise, GD cannot be accelerated even with momentum or other internal dynamics \[45, Chapter 3\].
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Convexity", "weight": 1.0} -->
+
+Theorem 1.1 is stated for the strongly convex setting, but this can be relaxed to the non-strongly convex setting. Indeed, all our core conceptual ideas extend: the advantage of time-varying, non-monotonic stepsizes, proving this advantage via multi-step descent rather than iterating the greedy $1$-step bound, certifying multi-step descent via recursive gluing, etc. The adaptation requires only minor technical modifications to the stepsize schedule, certificate recursion, and progress measure. These details will appear in a shortly forthcoming paper.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Convexity", "weight": 1.0} -->
+
+We mention that by standard black-box reductions (see e.g., or \[12, page 285\]), Theorem 1.1 immediately implies accelerated rates for the (non-strongly) convex setting by running GD with the Silver Stepsize Schedule on a quadratically regularized objective, i.e., $f{( \cdot )} + \delta \parallel \cdot - y \parallel^{2}$ for appropriate choices of $\delta$ and $y$. This gives an analogous partially accelerated rate of $\varepsilon^{- {\log\rho_{2}}} \approx \varepsilon^{- 0.7864}$ iterations to obtain $\varepsilon$ function suboptimality. This is intermediate between the textbook unaccelerated rate $\Theta{(\varepsilon^{- 1})}$ and Nesterov's accelerated rate $\Theta{(\varepsilon^{- {1/2}})}$ from 1983.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Convexity", "weight": 1.0} -->
+
+This strongly suggests that acceleration in the (non-strongly) convex case surpasses the $\Theta{({1/{({T{\log T}})}})}$ conjecture. The aforementioned forthcoming paper will address this via a direct analysis that bypasses regularization.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Three equivalent approaches to acceleration", "weight": 1.0} -->
+
+For quadratic optimization, the GD map becomes linear, which enables three equivalent approaches to acceleration. One approach, taken by Young in 1953 is to choose non-constant stepsizes that are the inverses of the roots of Chebyshev polynomials. A second approach is to use momentum, achieved for example by Hestenes and Stiefel's Conjugate Gradient Method in 1952 and Polyak's Heavy Ball Method in 1964. This equivalence arises because momentum amounts to a three-term recurrence, which if the coefficients are chosen appropriately, generates the same sequence of Chebyshev polynomials; see e.g. \[66, Ch. 5\]. A third approach is to use the limiting distribution of the roots of the Chebyshev polynomials: the arcsine distribution. This equivalence is due to the fact that the order of stepsizes does not affect convergence in the quadratic case, thus as the horizon $n\rightarrow\infty$, one might as well draw stepsizes i.i.d. from the equilibrium measure.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Three equivalent approaches to acceleration", "weight": 1.0} -->
+
+It is important to emphasize that the elegant equivalences between these three approaches---varying stepsizes, momentum, and equilibrium measures---breaks down beyond the special case of quadratic optimization.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Desiderata beyond fast convergence", "weight": 1.0} -->
+
+The above discussion concerns only the convergence rate, not stability. In settings with noisy gradients or inexact arithmetic, the order of the stepsizes may significantly affect the convergence rate of GD, even for quadratic optimization. This question of stability to roundoff errors was already raised in Young's original paper. In such settings, it is desirable to find permutations of the Chebyshev roots for which GD trajectories are maximally stable. An effective approach is to interleave the roots of Chebyshev polynomials of increasing degree. This leads to a fractal pattern, superficially similar to our proposed stepsize schedule; see for a recent discussion and additional results. However, we emphasize that this fractal is not only fundamentally different but also arises due to entirely different considerations---stability rather than fast convergence.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Structured quadratics", "weight": 1.0} -->
+
+If the quadratic function's Hessian has additional spectral structure, then improved results are possible. This is because the different viewpoints discussed above are classically known to extend to this situation via potential theory; see the excellent survey and the references within. This enables further refinements of the methods described above for structured quadratics and sometimes also perturbations away from quadratics; see e.g.,.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Unaccelerated GD", "weight": 1.0} -->
+
+For constant stepsize, the optimal convergence rate for GD is $\Theta{({\kappa{\log{1/\varepsilon}}})}$ in the strongly convex setting, and $\Theta{({1/\varepsilon})}$ in the convex setting; see, e.g., the textbooks. This is often called the unaccelerated rate for GD. Many alternative stepsize schedules have been proposed in both theory and practice. We highlight several well-studied schedules. One family of well-studied strategies adaptively chooses stepsizes either by minimizing the function value over the line spanned by the gradient. This mininimization can be performed exactly via line search, or approximately via Goldstein-Armijo-type schedules. Alternatively, it can be done by minimizing the estimated distance to the optimum via Polyak-type schedules. Another family is Barzilai-Borwein-type schedules, which are quasi-Newton methods that approximate the Hessian using the past step's change in iterate and gradient. None of these strategies are known to accelerate beyond the case of quadratics.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Accelerated GD via internal state", "weight": 1.0} -->
+
+The conventional approach for achieving faster convergence is to consider variations of GD that use auxiliary sequences of iterates and/or different update directions than the gradient. This is of course more powerful than just changing the stepsizes, and can be interpreted from a control theory perspective as adding internal dynamics to the algorithm. Accelerated rates were first shown in Nesterov's seminal work in 1983, and since then, many other accelerated algorithms and analyses have been proposed, as well as fruitful interpretations via continuous-time analysis. These accelerated algorithms require only $\Theta{({\sqrt{\kappa}{\log{1/\varepsilon}}})}$ iterations, or $\Theta{({1/\sqrt{\varepsilon}})}$ in the convex case, which is known to be minimax-optimal up to a constant for any algorithm that uses only gradient information. Much work has recently sharpened this constant, culminating in exactly matching upper and lower bounds. This recent line work exploits the idea that the worst-case convergence of optimization algorithms can be numerically computed via semidefinite programming (SDP).
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Accelerated GD via internal state", "weight": 1.0} -->
+
+This has also enabled using computer-automated SDP-analyses to investigate richer classes of algorithms, such as robust versions of accelerated methods, proximal algorithms, operator splitting, line search, biased stochastic gradient methods, inexact Newton's method, among many others. This area of research is extremely active and we refer the reader to the excellent recent survey for a comprehensive set of references and a detailed historical account.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Accelerated GD via dynamic stepsizes", "weight": 1.0} -->
+
+Although many time-varying stepsize schedules have been considered for GD, no convergences analyses improved over the textbook unaccelerated rate beyond the quadratic case. In 2018, Altschuler's MS thesis considered time-varying stepsize schedules in several settings, all through the unifying lens of hedging and multi-step descent. In Chapter 8 of the thesis, the PESTO framework was used to show for the first time the advantage of using time-varying stepsize schedules for GD beyond the quadratic setting. Explicit solutions were given for $n = {2,3}$ in the strongly convex setting. This showed that a constant-factor improvement over the textbook unaccelerated GD rate was indeed possible. A key difficulty in extending this to larger horizons $n$ is that the search for optimal stepsizes is non-convex. In 2022, Das Gupta et al. combined Branch & Bound techniques with the PESTO SDP to develop algorithms that perform this search numerically, and as an example used this to compute good approximate schedules in the convex setting for larger values of $n$ up to $50$. Grimmer very recently developed a technique to round these Branch & Bound solutions to exact rational certificates.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Accelerated GD via dynamic stepsizes", "weight": 1.0} -->
+
+This allowed him to extend these approximate stepsize schedules up to $n = 127$ in order to get a larger constant-factor improvement, and conjectured that dynamic stepsizes might lead to an accelerated rate of $O{({1/{({T{\log T}})}})}$. By extending a recursive application of the $2$-step solution, the present paper rigorously proves acceleration for all horizons $n$, and in particular obtains the first asymptotic improvements over the textbook unaccelerated GD rate---not just by a constant factor.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Organization", "weight": 1.0} -->
+
+In §2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), we provide an overview of the core conceptual ideas via the key case $n = 2$. §3 formally defines the Silver Stepsize Schedule and the Silver Convergence Rate $\tau_{n}$, §4 establishes the claimed properties of $\tau_{n}$, and §5 proves that $\tau_{n}$ is a valid bound on the convergence rate of the Silver Stepsize Schedule. §6 discusses future directions. Some technical details are deferred to the Appendix.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Conceptual overview: two-step case ($n = 2$)", "weight": 1.0} -->
+
+This section provides a complete analysis for the minimal non-trivial horizon length: $n = 2$. (No hedging can occur if $n = 1$.) Our goal here is to provide further intuition for the core concepts of hedging and multi-step descent, and explain concretely how these manifest in the design and analysis of the Silver Stepsize Schedule. Indeed, the $n = 2$ case captures most of the core intuition and ideas, and the result for general $n$ is essentially just an amped-up version thereof. These results first appeared in Altschuler's thesis \[5, Chapter 8\]; we refer to there for a lengthier treatment.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Conceptual overview: two-step case ($n = 2$)", "weight": 1.0} -->
+
+and the worst-case convergence rate over a function class $\mathcal{F}$ is
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Conceptual overview: two-step case ($n = 2$)", "weight": 1.0} -->
+
+The question of optimal stepsizes is therefore the minimax problem
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Conceptual overview: two-step case ($n = 2$)", "weight": 1.0} -->
+
+To motivate why non-constant stepsizes might be helpful, in §2.1 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") we first briefly recall the classical result of which solves this for the case of quadratic $\mathcal{F}$. Then in §2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), we solve this problem for convex $\mathcal{F}$ by presenting the $2$-step Silver Stepsize Schedule from \[5, Theorem 8.11\], proving its convergence rate via multi-step descent, and proving its optimality via hedging.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Conceptual overview: two-step case ($n = 2$)", "weight": 1.0} -->
+
+(a) Quadratic setting: (α*,β*) are the two permutations of {1.12339, 2.77905}. Details in §2.1.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Young's argument from 1953", "weight": 1.0} -->
+
+Observe that as one ranges over all possible choices of the stepsizes $(\alpha,\beta)$, the polynomial $p$ ranges over the set $\mathcal{P}$ of all degree $2$ polynomials satisfying the normalizing condition ${p{}} = 1$. Therefore finding optimal stepsizes $(\alpha,\beta)$ is equivalent to finding an optimal polynomial $p \in \mathcal{P}$.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Young's argument from 1953", "weight": 1.0} -->
+
+What is the optimal polynomial? By the above display and properties of the spectral norm,
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Young's argument from 1953", "weight": 1.0} -->
+
+Thus the optimal polynomial $p \in P_{2}$ is the one with minimal $L_{\infty}$ norm over the interval $\lbrack m,M\rbrack$. It is classically known that this is the (translated and scaled) Chebyshev polynomial of the first kind, see e.g.,. Thus the optimal stepsizes $(\alpha^{\ast},\beta^{\ast})$ are the inverses of the roots $\frac{M + m}{2} \pm \frac{M - m}{2\sqrt{2}}$ of the Chebyshev polynomial, in either order. These are the symmetric marked points in Figure 3 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), left.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Young's argument from 1953", "weight": 1.0} -->
+
+Crucially, observe that these two stepsizes are different---hence the advantage of non-constant schedules in the quadratic setting. We now interpret this phenomenon in two ways that are essential to our intuition for the convex setting. This discussion is based on \[5, Chapters 1 and 2\].
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Interpretation via hedging", "weight": 1.0} -->
+
+Why is $\overline{\alpha}:=\frac{2}{M + m}$ suboptimal for $2$ steps of GD when it is optimal for $1$? Recall that it is optimal for $1$ step because GD overshoots when using a longer step $\alpha > \overline{\alpha}$ on the sharp function ${f{(x)}} = {\frac{M}{2}x^{2}}$, and undershoots when using a shorter step $\alpha < \overline{\alpha}$ on the shallow function ${f{(x)}} = {\frac{m}{2}x^{2}}$. The algorithmic opportunity is that these worst-case functions are different for short-step GD and long-step GD. This is why using a short step and a long step---each individually suboptimal---can lead to faster overall convergence than using $\overline{\alpha}$ twice. We refer to this misalignment of worst-case functions as *hedging*.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Interpretation via hedging", "weight": 1.0} -->
+
+See Figure 3 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), left.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "The necessity of multi-step descent", "weight": 1.0} -->
+
+There is a dual interpretation of hedging via multi-step descent. By (2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")), the worst-case rate for $2$ steps is
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "The necessity of multi-step descent", "weight": 1.0} -->
+
+Contrast this with the greedy analysis, which bounds the worst-case rate after $2$ iterations by the product of the worst-case rates for $1$ step with $\alpha$ or $\beta$, namely
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "The necessity of multi-step descent", "weight": 1.0} -->
+
+Observe that the greedy analysis (2.4 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) is so shortsighted that it not only leads to worse bounds for any given stepsize schedule, but moreover leads to the wrong prescription of stepsizes. Indeed, optimizing this convergence rate (2.4 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) over $(\alpha,\beta)$ leads to $\alpha = \beta = \frac{2}{M + m}$ which is the constant schedule. This necessity of multi-step descent explains why the mainstream approach for convex optimization is constant stepsizes: previous approaches were unable to analyze multi-step descent. (This is only tractable in the quadratic setting because the gradient operator is linear, see (2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")).)
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Optimal stepsizes for convex optimization", "weight": 1.0} -->
+
+We now turn to the convex setting. Let $\mathcal{F}$ denote the set of $m$-strongly convex and $M$-smooth functions. Young's Chebyshev schedule is then provably bad^55^5This is not just a failure of analysis techniques: even for mild condition numbers like $\kappa = 10$, using the $2$-step Chebyshev Schedule in either order makes GD divergent (i.e., the contraction rate is larger than $1$). We are not aware of a reference for this, but it can be shown e.g., by using the SDP-analysis framework of..What are the optimal $2$ stepsizes? Certainly the above discussion of hedging motivates using non-constant stepsizes, but proving this requires multi-step descent, and that has been the longstanding stumbling block preventing progress beyond the quadratic setting.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Silver Stepsize Schedule for $n = 2$", "weight": 1.0} -->
+
+We show below that the $2$-step convergence rate $R{(\alpha,\beta;\mathcal{F})}$ is minimized by the stepsizes $(\alpha,\beta)$ that are defined by the system of equations
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Silver Stepsize Schedule for $n = 2$", "weight": 1.0} -->
+
+and moreover the optimal $2$-step convergence rate $R^{\ast}$ is given by this equalized value.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Remark 2.1", "weight": 1.0} -->
+
+The equations (2.5 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) can be solved explicitly, to give the alternative expressions
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Remark 2.1", "weight": 1.0} -->
+
+where $S = \sqrt{M^{2} + {({M - m})}^{2}}$. These are the formulas given in \[5, Thm. 8.10\], and is the $n = 2$ case of the Silver Stepsize Schedule and (square-rooted) Silver Convergence Rate defined in §4.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Remark 2.1", "weight": 1.0} -->
+
+Provable advantage of dynamic stepsizes. Since $R^{\ast} < {(\frac{M - m}{M + m})}^{2}$, this proves that it is possible to improve over standard GD by dynamically changing the stepsize. (Recall that $\frac{M - m}{M + m}$ is the textbook unaccelerated rate for 1 step of GD.) This mirrors how for quadratics, the optimal 2-step rate (2.3 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")) is better than the squared optimal $1$-step rate (2.4 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")).
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Remark 2.1", "weight": 1.0} -->
+
+Stepsize splitting. Since $\alpha^{\ast} < \frac{2}{M + m} < \beta^{\ast}$, the optimal stepsize $\frac{2}{M + m}$ for $n = 1$ splits into a short step $\alpha^{\ast}$ and long step $\beta^{\ast}$. For general $n$, the Silver Stepsize Schedule mirrors this splitting at every scale: it splits the largest stepsize into a shorter and longer step.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Remark 2.1", "weight": 1.0} -->
+
+Unique, asymmetric solution. Unlike the quadratic case, here the stepsize order is essential for fast convergence: the splitting requires the small stepsize to be first.^66^6We remark that the order may change for different progress measures, see \[5, Chapter 8.2\]. As a consequence, here the optimal stepsize schedule is unique. See Figure 3 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), right.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Remark 2.1", "weight": 1.0} -->
+
+Milder splitting. Even ignoring order, the stepsize values differ from the quadratic case. This occurs because the class of convex functions is richer than the class of quadratics, thus the supremum defining the worst-case rate $R{(\alpha,\beta;\mathcal{F})}$ is over more functions, thus it is harder to misalign the worst-cases by hedging. The result is less aggressive hedging and partial acceleration: the improvement over the $1$-step rate is smaller than in the quadratic case.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Remark 2.1", "weight": 1.0} -->
+
+We now turn to proving that Theorem 1.1 holds in the case $n = 2$, and moreover that the proposed Silver Stepsize Schedule is optimal among all $2$-step schedules.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Upper bound: rate certification via multi-step descent", "weight": 1.0} -->
+
+As discussed above, in order to prove any benefit of deviating from the constant stepsizes, we must directly analyze the cumulative multi-step descent of all iterations. This requires capturing how different iterations affect other iterations' progress. We do this by exploiting long-range consistency conditions between the information that GD sees along its trajectory.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Upper bound: rate certification via multi-step descent", "weight": 1.0} -->
+
+Our starting point is a known result on convex interpolability, recalled next. There is a set of consistency conditions that any $f \in \mathcal{F}$ must satisfy at any set of points ${\{ x_{i}\}}_{i \in \mathcal{I}}$: the co-coercivity
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Upper bound: rate certification via multi-step descent", "weight": 1.0} -->
+
+must be non-negative for every pair of points ${x,y} \in \mathcal{I}$. Of particular interest to us is the converse: there are consistency conditions on a set of data ${\{{(x_{i},g_{i},f_{i})}\}}_{i \in \mathcal{I}}$ that ensure it is $\mathcal{F}$-interpolable, i.e., there exists $f \in \mathcal{F}$ satisfying $g_{i} = {{\nabla f}{(x_{i})}}$ and $f_{i} = {f{(x_{i})}}$ for each $i \in \mathcal{I}$.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Upper bound: rate certification via multi-step descent", "weight": 1.0} -->
+
+Specifically, a celebrated line of work on convex interpolability culminated in a beautiful theorem of which states that ${\{{(x_{i},g_{i},f_{i})}\}}_{i \in \mathcal{I}}$ is $\mathcal{F}$-interpolable if and only if
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Upper bound: rate certification via multi-step descent", "weight": 1.0} -->
+
+is non-negative for every pair of indices ${i,j} \in \mathcal{I}$.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Upper bound: rate certification via multi-step descent", "weight": 1.0} -->
+
+We apply these conditions along the trajectory of GD. Specifically, we take $\mathcal{I}:={\{ 0,1,\ldots,n, \ast \}}$ to index the GD iterates and the optimum, and let ${\{{(x_{i},g_{i},f_{i})}\}}_{i \in \mathcal{I}}$ denote the first-order data^77^7This is purely an analysis device and does not change the GD algorithm (which neither knows the optimum nor queries function values). Including function values simplifies the interpolability conditions and thus our analysis.. The upshot is that this theorem enables replacing the supremum over functions $f \in \mathcal{F}$ by the data ${\{{(x_{i},g_{i},f_{i})}\}}_{i \in \mathcal{I}}$ in the definition of the worst-case rate $R{(\alpha,\beta;\mathcal{F})}$.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Upper bound: rate certification via multi-step descent", "weight": 1.0} -->
+
+Note that this replacement is lossless since the interpolability conditions in the theorem are necessary and sufficient.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Upper bound: rate certification via multi-step descent", "weight": 1.0} -->
+
+From the perspective of hedging, these co-coercivity conditions ${\{{Q_{ij} \geqslant 0}\}}_{i \neq j \in \mathcal{I}}$ generate all possible long-range consistency constraints on the objective function given the GD trajectory. From the perspective of multi-step descent, they generate all possible valid inequalities with which one can prove convergence rates for GD. Let us explain how we use this in the case $n = 2$.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Normalized Silver Stepsizes", "weight": 1.0} -->
+
+We construct auxiliary stepsize sequences $y_{n},z_{n}$, that are normalized in a certain way to lie in the interval $\lbrack 0,1\rbrack$. The particular normalization (a certain linear fractional transformation defined in §3.2) simplifies the recursive stepsize splitting by making it a quadratic equation.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Normalized Silver Stepsizes", "weight": 1.0} -->
+
+Explicitly, initialize the sequences $y_{1} = z_{1} = {1/\kappa}$, and define $y_{n},z_{n}$ recursively from $z_{n/2}$ as the solutions to the defining equations
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Normalized Silver Stepsizes", "weight": 1.0} -->
+
+This is the direct analog of the stepsize splitting detailed for the case $n = 2$ in §2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"). Denoting $\xi = {1 - z_{n/2}}$, the explicit solution is
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Normalized Silver Stepsizes", "weight": 1.0} -->
+
+The following lemma collect several simple observations about these sequences. See §4 for a detailed discussion of how $y_{n},z_{n}$ both increase to their limits ${y_{n},z_{n}}\rightarrow 1$, exponentially fast when they are close to $0$, and then doubly exponentially fast when they are close to $1$.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Silver Stepsizes", "weight": 1.0} -->
+
+from the Normalized Silver Stepsizes $y_{n},z_{n}$ via the linear fractional transformation $\psi$ given by
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Silver Stepsizes", "weight": 1.0} -->
+
+We remark that this mapping $\psi$ has the following special values
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Silver Stepsizes", "weight": 1.0} -->
+
+The significance of the two middle values is that these are the initial stepsizes $a_{1} = b_{1} = {\psi{({1/\kappa})}}$ and the limiting stepsizes ${\lim_{n\rightarrow\infty}a_{n}} = {\lim_{n\rightarrow\infty}b_{n}} = {\psi{}}$. We remark that these two middle values are the harmonic and arithmetic means of the two extremal values, i.e., ${\psi{({1/\kappa})}} = {{HM}{({\psi{}},{\psi{(\infty)}})}}$ and ${\psi{}} = {{AM}{({\psi{}},{\psi{(\infty)}})}}$. The looseness in the classical AM-HM inequality therefore quantifies the gap between the initial and limiting stepsizes. The following lemma records this and several other simple observations about these stepsizes.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Silver Stepsize Schedule", "weight": 1.0} -->
+
+Let $h^{(n)}$ denote the Silver Stepsize Schedule of length $n$. Denote its $n/2$-th stepsize by $a_{n}$ and its $n$-th by $b_{n}$. As overviewed briefly in §1.1.3, we recursively construct
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Silver Stepsize Schedule", "weight": 1.0} -->
+
+where ${\overset{\sim}{h}}^{({n/2})}$ denotes everything in $h^{({n/2})}$ except the final step, i.e., everything except $b_{n/2}$. Note that $b_{n/2}$ is in $h^{({n/2})}$, but not in $h^{(n)}$; it is split into $a_{n}$ and $b_{n}$. Note also that $a_{n}$, $b_{n}$ form the largest stepsizes in $h^{(n)}$, with $b_{n}$ being the largest (Lemma 3.2. ‣ 3.2 Silver Stepsizes ‣ 3 Silver Stepsize Schedule ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")). For the convenience of the reader, we recall from §1.1.3 that for small $n$, this pattern is
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Silver Stepsize Schedule", "weight": 1.0} -->
+
+See Figure 1 for an illustration of this pattern, and see §1.1.3 for a discussion of the emergent fractal, dependence on the horizon, and patterns for small $n$.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Remark 3.3 (Occupation measure)", "weight": 1.0} -->
+
+For all $i \in {\mathbb{N}}$ and all sufficiently large horizons $n \geqslant 2^{i}$, the stepsize $a_{2^{i}}$ is used in $2^{- i}$ fraction of the $n$-step Silver Stepsize Schedule. For example, for all horizons $n \geqslant 2$, the smallest stepsize $a_{2} = {\kappa/{({\kappa - 1})}}$ is used in every other iteration. For the infinite limit of the Silver Stepsize Schedule (see §1.1.3), the occupation measure simplifies to
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Remark 3.3 (Occupation measure)", "weight": 1.0} -->
+
+This can be viewed as a geometric distribution that takes value $a_{2^{i}}$ with probability $2^{- i}$.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Silver Convergence Rate", "weight": 1.0} -->
+
+We define the Silver Convergence Rate as
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Silver Convergence Rate", "weight": 1.0} -->
+
+Of course, from just this definition it is not yet clear why we call $\tau_{n}$ a rate; in §5 we prove that $\tau_{n}$ is the convergence rate of the Silver Stepsize Schedule. Note that since $z_{n}$ is monotonically increasing (Lemma 3.1. ‣ 3.1 Normalized Silver Stepsizes ‣ 3 Silver Stepsize Schedule ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")), this rate $\tau_{n}$ is monotonically decreasing from the textbook unaccelerated rate $\tau_{1} = {({{({\kappa - 1})}/{({\kappa + 1})}})}^{2}$ to ${\lim_{n\rightarrow\infty}\tau_{n}} = 0$. In the following section, we provide a complete understanding of exactly how fast $\tau_{n}$ converges to $0$.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Analysis of the Silver Convergence Rate", "weight": 1.0} -->
+
+Here we prove the bound on the Silver Convergence Rate $\tau_{n}$ in our main result (Theorem 1.1). We restate this bound for convenience.
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Heuristic derivation", "weight": 1.0} -->
+
+The phase transition in $\tau_{n} = {(\frac{1 - z_{n}}{1 + z_{n}})}^{2}$ is a consequence of the phase transition in the dynamics of the auxiliary sequence $z_{n}$. To explain this, it is convenient to simplify notation by re-indexing $n = 2^{i}$ so that iterations of the dynamical process are indexed by $i = {0,1,2,3,\ldots}$ rather than $n = {1,2,4,{8\ldots}}$. It is helpful to also re-parameterize
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Heuristic derivation", "weight": 1.0} -->
+
+where $\Psi:{{}\rightarrow{}}$ is the monotone bijection
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Heuristic derivation", "weight": 1.0} -->
+
+The significance of this re-parameterization to $h_{i}$ is that
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Heuristic derivation", "weight": 1.0} -->
+
+Thus, proving a fast convergence rate amounts to lower bounding $h_{i}$.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Heuristic derivation", "weight": 1.0} -->
+
+What do the dynamics of $h_{i}$ look like? At initialization, $z_{1} = {1/\kappa}$ (see §3), thus
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Heuristic derivation", "weight": 1.0} -->
+
+Then the iterations of this process increase $h_{i}$ exponentially fast to $1$ when it is sub-constant size, and then doubly-exponentially fast when $h_{i}$ is of constant size. (This dichotomy is the source of the phase transition in Theorem 4.1. ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule").)
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Heuristic derivation", "weight": 1.0} -->
+
+Taylor expanding $H$ around $h \approx 0$ and $h \approx 1$ illustrates the markedly different dynamics in these two regimes; see Figure 6.
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Heuristic derivation", "weight": 1.0} -->
+
+Thus, in this regime, each $h_{i}$ increases by a factor of roughly $\rho$, thus $h_{i} \approx {\rho^{i}h_{0}} \approx {\rho^{i}/{({2\kappa})}}$, thus the Silver Convergence Rate is roughly
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Heuristic derivation", "weight": 1.0} -->
+
+This regime lasts for only $i \approx {\log_{\rho}\kappa}$ iterations (aka horizon $n = 2^{i} \approx \kappa^{\log_{2}\rho}$) because at that point $h_{i} \asymp {\rho^{i}/\kappa} \asymp 1$ is of constant size. This is the phase transition.
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Heuristic derivation", "weight": 1.0} -->
+
+In words, the key phenomenon here is that the average rate $\tau_{n}^{1/n}$ stays essentially the same as $n$ increases---in contrast to the acceleration regime, in which the average rate improves in $n$. Indeed, the Taylor expansion (4.6) indicates that in the saturation regime, $\tau_{n} = \left( {1 - h_{i}} \right)^{2} \approx {({1 - h_{i - 1}})}^{4} = \tau_{n/2}^{2}$. By repeating this argument and then using the fact that $\tau_{n^{\ast}} = {\exp{({- {\Theta{}}})}}$ which follows from the acceleration regime, we obtain
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Heuristic derivation", "weight": 1.0} -->
+
+If the approximations were justified in the above two displays, then this informal argument would lead to a proof of Theorem 4.1. ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"). We do this in the following subsection.
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Rigorous derivation", "weight": 1.0} -->
+
+Here we prove Theorem 4.1. ‣ 4 Analysis of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"). We first state two helper lemmas, which formalize the Taylor approximations (4.4) and (4.6) in the acceleration regime and saturation regime, respectively.
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Certificate of the Silver Convergence Rate", "weight": 1.0} -->
+
+Here we prove that the Silver Stepsize Schedule has convergence rate $\tau_{n}$. This is where we establish multi-step descent. For a conceptual overview, we refer the reader to §2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") for the case of $n = 2$; the proof for general $n$ here mirrors that key case, albeit is more technically involved.
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Certificate of the Silver Convergence Rate", "weight": 1.0} -->
+
+Recall from the discussion there that the proof strategy amounts to finding a *certificate* $\{\lambda_{ij}\}$ for the rate $\tau_{n}$, by which we mean non-negative multipliers ${\{\lambda_{ij}\}}_{{i,j} \in {\{ 0,\ldots,{n - 1}, \ast \}}}$ such that
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Certificate of the Silver Convergence Rate", "weight": 1.0} -->
+
+See §2.2 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") for a definition of the co-coercivities $Q_{ij}$. Briefly, these are valid inequalities that generate all possible long-range consistency conditions between the gradients seen along GD's trajectory.
+
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Certificate of the Silver Convergence Rate", "weight": 1.0} -->
+
+Our proof builds the $2n$-step certificate by *recursively gluing* two copies of the $n$-step certificate and adding slight modifications to account for the fact that the $2n$-step Silver Stepsize Schedule $h^{({2n})}$ differs from $\lbrack h^{(n)},h^{(n)}\rbrack$ in two out of the $2n$ stepsizes.
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Certificate of the Silver Convergence Rate", "weight": 1.0} -->
+
+Concretely, this recursive gluing can be understood as creating the ${({{2n} + 1})} \times {({{2n} + 1})}$ matrix ${\{\lambda_{ij}\}}_{{i,j} \in {\{ 0,\ldots,{{2n} - 1}, \ast \}}}$ from the ${({n + 1})} \times {({n + 1})}$ matrix ${\{\sigma_{ij}\}}_{{i,j} \in {\{ 0,\ldots,{n - 1}, \ast \}}}$ in three parts: a tensor product which glues together two copies of the $n$-step certificate, a rank-one correction which affects the rows indexed by $i \in {\{{n - 1},{{2n} - 1}, \ast \}}$, and a sparse correction which affects the $6$ entries $(i,j)$ where $i \neq j
+
+<!-- chunk {"id": "body-0119", "role": "body", "section": "Certificate of the Silver Convergence Rate", "weight": 1.0} -->
+
+This recursive gluing is formally stated in Theorem 5.2. ‣ 5 Certificate of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") below. To most easily state this result, we first isolate a certain property of the sparsity pattern of the multipliers $\lambda_{ij}$ that holds by construction in our recursion. This property is technical and eases the proof.
+
+<!-- chunk {"id": "body-0120", "role": "body", "section": "Recursive gluing", "weight": 1.0} -->
+
+Proving Theorem 5.2. ‣ 5 Certificate of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule") requires establishing that $\lambda$ satisfies the identity (5.3. ‣ 5 Certificate of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule")). Ignoring presently the linear form in the function values (that term is much simpler and addressed in §5.2), this amounts to showing equality of two quadratic forms.
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Recursive gluing", "weight": 1.0} -->
+
+Naïvely, this requires checking equality of *all* coefficients of these quadratic forms---which is painstaking since these are quadratics in all the GD iterates $x_{0},\ldots,x_{{2n} - 1},x^{\ast}$ and their corresponding gradients $g_{0},\ldots,g_{{2n} - 1},g^{\ast}$, and moreover are defined over the ideal generated by the GD equations $x_{t + 1} = {x_{t} - {\alpha_{t}g_{t}}}$. A key observation that removes much of this labor is that *the quadratic forms in our recursive certificate have rank at most $4$.* In fact, these quadratic forms are only in the four variables $x_{n - 1},g_{n - 1},x_{{2n} - 1},g_{{2n} - 1}$.
+
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Recursive gluing", "weight": 1.0} -->
+
+This reduces the number of coefficients to be checked from $\Theta{(n^{2})}$ to a constant number: $10$.
+
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Recursive gluing", "weight": 1.0} -->
+
+This observation is formalized in the following lemma, which expresses the quadratic forms via coefficient matrices as this is convenient for book-keeping. For brevity, just as in Theorem 5.2. ‣ 5 Certificate of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), the explicit values of these matrices are deferred to the Appendix, but the key point is that each entry can be expressed a rational function of just $z_{n},y_{2n},z_{2n}$, see Remark B.1. ‣ Appendix B Deferred details for §5 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"). To isolate the quadratic form component of the co-coercivities, let $P_{ij}$ denote $Q_{ij}$ without its linear component $f_{i} - f_{j}$, i.e.,
+
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Quadratic form in iterates and gradients", "weight": 1.0} -->
+
+By Lemma 5.3. ‣ 5.1 Recursive gluing ‣ 5 Certificate of the Silver Convergence Rate ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), it suffices to show that
+
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Quadratic form in iterates and gradients", "weight": 1.0} -->
+
+where $E,S,L$ are the matrices defined in Appendix B.4. This amounts to checking the $10$ entries on or above the diagonal of these $4 \times 4$ matrices---elements below the diagonal need not be checked as the matrices are symmetric. By Lemma B.3. ‣ Appendix B Deferred details for §5 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), these entries can be expressed as rational functions in $z_{n},y_{2n},z_{2n}$, which are polynomially related via (3.1). Therefore, checking that these $10$ entries vanish amounts to checking that certain polynomials vanish modulo an associated ideal. This verification is rigorously automatable using standard techniques from computational algebraic geometry such as Gröbner bases; see e.g.. A simple script for Mathematica (or other computer algebra systems) that verifies these identities is available at the URL given in the references.
+
+<!-- chunk {"id": "body-0126", "role": "body", "section": "Quadratic form in iterates and gradients", "weight": 1.0} -->
+
+We emphasize that this is purely in the interest of brevity: verifying these identities can be done by hand, as it just amounts to straightforward (albeit tedious) algebraic cancellations.
+
+<!-- chunk {"id": "body-0127", "role": "body", "section": "Linear form in function values", "weight": 1.0} -->
+
+Recall that each $Q_{ij}$ contributes $2{({M - m})}{({f_{i} - f_{j}})}$. Thus, in order to show that all function values vanish in $\sum_{ij}{\lambda_{ij}Q_{ij}}$, it is equivalent to show that
+
+<!-- chunk {"id": "body-0128", "role": "body", "section": "Linear form in function values", "weight": 1.0} -->
+
+That is, the $j$-th row and column sums of $\lambda$ must match, for all $j$. We call refer to these identities as *netflow constraints*. Since $\sigma$ is a valid certificate, it satisfies the netflow constraints ${\sum_{j}\sigma_{ij}} = {\sum_{j}\sigma_{ji}}$ for all $j \in {\{ 0,\ldots,{n - 1}, \ast \}}$. Thus, by construction of $\Theta$ from $\sigma$, it follows that $\Theta$ satisfies the netflow constraints ${\sum_{j}\Theta_{ij}} = {\sum_{j}\Theta_{ji}}$ for all $i \in {\{ 0,\ldots,{{2n} - 1}, \ast \}}$. Therefore, in order to prove (5.7), it is equivalent to prove the netflow constraints for $\Xi + \Delta$; that is,
+
+<!-- chunk {"id": "body-0129", "role": "body", "section": "Linear form in function values", "weight": 1.0} -->
+
+The cases $i \in {\{ 0,\ldots,{n - 2}\}}$ are trivial since on these rows and columns, $\Xi$ and $\Delta$ are identically zero. The cases $i \in {\{ n,\ldots,{{2n} - 2}\}}$ are similarly trivial because on these rows and columns, $\Delta$ is identically zero and ${\sum_{j}{({\Xi_{ji} - \Xi_{ij}})}} = {\Xi_{{n - 1},i} + \Xi_{{{2n} - 1},i} + \Xi_{\ast,i}} = 0$ by construction of $\Xi$. It remains only to prove (5.8) for $i \in {\{{n - 1},{{2n} - 1}, \ast \}}$. By the sparsity patterns of $\Xi$ and $\Delta$, this amounts to showing
+
+<!-- chunk {"id": "body-0130", "role": "body", "section": "Linear form in function values", "weight": 1.0} -->
+
+By Lemma B.3. ‣ Appendix B Deferred details for §5 ‣ Acceleration by Stepsize Hedging I: Multi-Step Descent and the Silver Stepsize Schedule"), these quantities can be expressed as rational functions in $z_{n},y_{2n},z_{2n}$, which are polynomially related via (3.1). Therefore, checking that the three quantities vanish in (5.9) amounts to checking that three polynomials vanish modulo an ideal. As mentioned above, this verification is rigorously automatable using standard computational algebra techniques; see the same URL for a simple script implementing this computation.
+
+<!-- chunk {"id": "body-0131", "role": "body", "section": "Future work", "weight": 1.5} -->
 
 This work removes a key stumbling block in previous analyses of optimization algorithms: we show that directly analyzing *multi-step descent* can lead to improved convergence analyses. This general principle opens up a number of directions in both the design and analysis of optimization algorithms. We list a few here.
+
+<!-- chunk {"id": "body-0132", "role": "body", "section": "Beyond GD", "weight": 1.0} -->
+
+Do these techniques extend to stochastic settings where gradients are noisy or only computed approximately? This is motivated by modern machine learning settings such as empirical risk minimization. What about constrained settings where projections are interleaved? Or other settings where one uses coordinate descent, proximal steps, etc.? What about second-order methods such as Newton or Interior Point methods? The modern optimization toolbox is broad, and the algorithmic opportunity of faster multi-step descent that we establish warrants re-investigating many existing algorithms that use greedy analyses.
+
+<!-- chunk {"id": "body-0133", "role": "body", "section": "Beyond convexity", "weight": 1.0} -->
+
+While our techniques extend to the convex setting (see §1.1.4), it is less clear if extensions to non-convex settings are also possible. In particular, can one prove accelerated rates for converging to an stationary point? Could this justify empirical phenomena observed in neural network training such as super-acceleration from cyclic stepsize schedules ?
+
+<!-- chunk {"id": "body-0134", "role": "body", "section": "Faster convergence for restricted function classes", "weight": 1.0} -->
+
+Is faster convergence possible if the objective function is more structured? One well-motivated direction here is low-dimensional objective functions. It is known that faster asymptotic convergence is possible if the dimension $d$ is fixed and the number of iterations $n\rightarrow\infty$, e.g., via cutting planes. Recent work has shown that certain momentum-based modifications to GD can also surpass standard lower bounds for sufficiently large $n$. Do such phenomena extend to GD with dynamic stepsizes? Altschuler's thesis \[5, Chapter 6\] proved that for univariate convex functions (or more generally, separable convex functions), GD achieves the fully accelerated rate $\Theta{({\sqrt{\kappa}{\log{1/\varepsilon}}})}$ via a certain (random) dynamic choices of stepsizes. Does this extend to higher dimension? What is the fundamental trade-off between $n$, $d$, and the convergence rate?
+
+<!-- chunk {"id": "body-0135", "role": "body", "section": "Robustness", "weight": 1.0} -->
+
+The Silver Stepsize Schedule periodically uses extremely large step sizes, which are overly aggressive in isolation, but effective when combined with other short steps. It is natural to wonder if this dependence between iterations makes such strategies more sensitive to model misspecification, noisy gradients, inexact arithmetic, or other considerations in practical implementations. We expect this may occur, since it does for other accelerated algorithms, see e.g.,.

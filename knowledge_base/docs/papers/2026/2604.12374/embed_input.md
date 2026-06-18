@@ -1,3 +1,867 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Nemotron 3 Super: Open, Efficient Mixture-of-Experts Hybrid Mamba-Transformer Model for Agentic Reasoning
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 We describe the pre-training, post-training, and quantization of Nemotron 3 Super, a 120 billion (active 12 billion) parameter hybrid Mamba-Attention Mixture-of-Experts model. Nemotron 3 Super is the first model in the Nemotron 3 family to 1) be pre-trained in NVFP4, 2) leverage LatentMoE, a new Mixture-of-Experts architecture that optimizes for both accuracy per FLOP and accuracy per parameter, and 3) include MTP layers for inference acceleration through native speculative decoding. We pre-trained Nemotron 3 Super on 25 trillion tokens followed by post-training using supervised fine tuning (SFT) and reinforcement learning (RL). The final model supports up to 1M context length and achieves comparable accuracy on common benchmarks, while also achieving up to 2.2x and 7.5x higher inference throughput compared to GPT-OSS-120B and Qwen3.5-122B, respectively. Nemotron 3 Super datasets, along with the base, post-trained, and quantized checkpoints, are open-sourced on HuggingFace.
+
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The last few years have seen a rise in the popularity of Mixture-of-Experts (MoE) based Large Language Models (LLMs) (deepseekai2025deepseekv3technicalreport; yang2025qwen3technicalreport; 5team2025glm45agenticreasoningcoding). MoEs help LLMs achieve higher accuracy at a lower active parameter count than regular dense models (dai2024deepseekmoe; lepikhin2020gshard). Orthogonal to MoEs, Hybrid Mamba-Attention models have shown promise in significantly improving inference throughput (nemotronnanov2). We combine these two directions of improvement in Nemotron 3 (nvidia2025nvidianemotron3efficient). As part of our Nemotron 3 series of models, we present Nemotron 3 Super---a 12 billion active, 120 billion total parameter MoE hybrid Mamba-Attention model.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Nemotron 3 Super achieves better or on-par benchmark accuracies than GPT-OSS-120B (openai2025gptoss120bgptoss20bmodel) and Qwen3.5-122B while achieving up to 2.2$\times$ and 7.5$\times$ higher inference throughput, respectively, on the 8k token input / 64k token output setting.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Nemotron 3 Super is our first model to use LatentMoE (latentmoe_tr) - a novel MoE architecture that achieves better accuracy per parameter and per FLOP than regular MoEs. Nemotron 3 Super also incorporates Multi-Token-Prediction (MTP), which accelerates inference through speculative decoding while improving overall model quality. We pre-trained Nemotron 3 Super in NVFP4, demonstrating stable and accurate pre-training in low precision. Similar to Nemotron 3 Nano (nvidia2025nemotron3nanoopen), we pre-trained Nemotron 3 Super on 25 trillion text tokens divided into 2 phases. The first phase accounted for 80% of pre-training (20 trillion tokens) and focused on diversity and broad coverage, while the second phase accounted for 20% of pre-training (5 trillion tokens) and focused on high-quality data and benchmark accuracy.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our base model achieves significantly better accuracy than similarly sized state-of-the-art base models, such as GLM-4.5-Air-Base (5team2025glm45agenticreasoningcoding) and Ling-flash-Base-2.0 (lingteam2025every).
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We trained Nemotron 3 Super with a strong emphasis on agentic capabilities. To support this objective, we substantially scaled the breadth of our RL environments, the volume and quality of agentic training data, and the overall amount of post-training focused on multi-step tool-using behavior. To train effectively on this diverse set of long-horizon tasks, we made substantial improvements to the resiliency of our RL infrastructure, enabling large-scale asynchronous training. This expanded agentic training recipe yields substantial improvements over Nemotron 3 Nano across software engineering, terminal use, and general tool use benchmarks.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Nemotron 3 Super 120B-A12B NVFP4: post-trained and NVFP4 quantized model
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Nemotron 3 Super 120B-A12B FP8: post-trained and FP8 quantized model
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Nemotron 3 Super 120B-A12B: post-trained model
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Nemotron 3 Super 120B-A12B Base: base model
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Qwen3-Nemotron-235B-A22B-GenRM-2603: GenRM used for RLHF
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Nemotron-Pretraining-Specialized-v1.1: a collection of synthetic datasets aimed to improve LLM capabilities in code concepts and algorithms, formal logic, economics, and multiple choice questions.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Nemotron-Super-Post-Training-Data: a collection of RL environments and SFT datasets targeting a broad range of agentic capabilities.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The report is organized into 3 broad sections: Pre-training (§2), Post-training (§3), and Quantization (§4), each describing in detail our approach.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Pretraining", "weight": 1.0} -->
+
+In this section, we highlight the key features of Nemotron 3 Super 120B-A12B Base, detailing its hybrid Mamba-Attention Mixture-of-Experts (MoE) architecture, NVFP4 pre-training, hyperparameter configurations, long-context extension, and the 25-trillion-token corpus used for pretraining. We also demonstrate that Nemotron-3 Super 120B A12B Base achieves superior accuracy compared to other public state-of-the-art models---including Ling-flash-Base-2.0 and GLM-4.5-Air-Base---across a comprehensive suite of benchmarks.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
+
+Nemotron 3 Super 120B-A12B Base scales up the hybrid Mamba-Attention Mixture-of-Experts (MoE) architecture introduced in Nemotron-3 Nano (nvidia2025nvidianemotron3efficient). We extend this foundation to 120.6B total parameters, maintaining a constrained active budget of 12.7B parameters (12.1B excluding embeddings) per forward pass. The architecture comprises three core pillars: sparse LatentMoE scaling (§2.1.1), Multi-Token Prediction (MTP) for inference acceleration (§2.1.2), and a periodic hybrid interleaving pattern (§2.1.3).
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "LatentMoE: Hardware-Aware Expert Design for Improved Accuracy per Byte", "weight": 1.0} -->
+
+Mixture-of-Experts (MoE) architectures have emerged as a promising approach to maximize accuracy under fixed inference cost, allowing models to scale in parameter count while keeping floating-point operations (FLOPs) per token constant. Existing MoE designs are largely motivated by high-level sparsity arguments and optimized for offline, throughput-oriented settings, with little consideration for online deployments that impose strict latency, memory bandwidth, and communication constraints. Whereas accuracy per FLOP reflects computational efficiency, accuracy per parameter captures memory footprint, memory bandwidth, routing-induced communication, and sharding overhead. Neglecting these factors can yield architectures that appear efficient in aggregate compute yet incur substantial inefficiency in practice.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "LatentMoE: Hardware-Aware Expert Design for Improved Accuracy per Byte", "weight": 1.0} -->
+
+Motivated by these observations, we revisited MoE design from a hardware--software co-design perspective. Through systematic analysis of existing MoE systems across the throughput--latency Pareto frontier, together with accuracy measurements and theoretical analysis, we identified structural inefficiencies in prevailing MoE designs that limit accuracy per unit inference cost.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "LatentMoE: Hardware-Aware Expert Design for Improved Accuracy per Byte", "weight": 1.0} -->
+
+In low-latency serving, MoE inference is often dominated by the memory bandwidth cost of reading expert weights. Each expert matrix has size $d \times m$, where $d$ is the hidden dimension and $m$ is the expert FFN intermediate dimension; reducing this cost therefore requires decreasing $d$ or $m$.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "LatentMoE: Hardware-Aware Expert Design for Improved Accuracy per Byte", "weight": 1.0} -->
+
+In throughput-oriented serving, distributed MoE inference is dominated by all-to-all routing. Routing volume scales as $d \times K$, where $K$ is the number of active experts; reducing communication overhead therefore requires decreasing $d$ or $K$.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "LatentMoE: Hardware-Aware Expert Design for Improved Accuracy per Byte", "weight": 1.0} -->
+
+Preserving model quality requires preserving the effective nonlinear budget $K \cdot m$. To relieve memory and communication bottlenecks without sacrificing quality, $K$ and $m$ should thus be held fixed.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "LatentMoE: Hardware-Aware Expert Design for Improved Accuracy per Byte", "weight": 1.0} -->
+
+A task-specific effective feature rank $r_{eff}$ imposes a lower limit on how much $d$ can be reduced; reducing $d$ below this limit causes model quality to collapse.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "LatentMoE: Hardware-Aware Expert Design for Improved Accuracy per Byte", "weight": 1.0} -->
+
+Scaling both the total number of experts $N$ and the top-$K$ experts per token improves quality by exponentially expanding the space of expert combinations.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "LatentMoE: Hardware-Aware Expert Design for Improved Accuracy per Byte", "weight": 1.0} -->
+
+Principles -- imply that the hidden dimension $d$ is the most promising axis for reduction, enabling gains in both throughput- and latency-oriented regimes without significant loss in accuracy. Principle gives a lower bound on how far $d$ can be reduced without collapse. Principle indicates that increasing $N$ and $K$ improves quality; because memory bandwidth and communication scale linearly with $K$, we can increase $K$ by a factor $\alpha$ and reduce $d$ by the same factor $\alpha$ to obtain higher accuracy at similar inference cost. Guided by these insights, we developed LatentMoE (latentmoe_tr), a MoE architecture designed to achieve higher accuracy than a standard MoE at similar inference cost.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "LatentMoE: Hardware-Aware Expert Design for Improved Accuracy per Byte", "weight": 1.0} -->
+
+The LatentMoE architecture is illustrated in Figure 3(b). Each input token $x \in {\mathbb{R}}^{d}$ is first projected into a lower-dimensional latent space ${\mathbb{R}}^{\ell}$ via a learnable down-projection matrix $W_{\downarrow} \in {\mathbb{R}}^{\ell \times d}$. The compressed representation is then routed to an expanded set of experts that operate entirely in this latent space. After expert computation, the outputs are aggregated and projected back to dimension $d$ via a learnable up-projection matrix $W_{\uparrow} \in {\mathbb{R}}^{d \times \ell}$. Shifting routed expert computation and all-to-all traffic into the latent space reduces both per-expert weight loads and communication payloads by a factor $d/\ell$ relative to a standard MoE.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "LatentMoE: Hardware-Aware Expert Design for Improved Accuracy per Byte", "weight": 1.0} -->
+
+We use these savings to increase the total number of experts from $N$ to $N^{\prime} = {{N \cdot d}/\ell}$ and the top-$K$ active experts per token from $K$ to $K^{\prime} = {{K \cdot d}/\ell}$. The reduction in dimension offsets the increase in expert count and in $K$, yielding higher model quality at a similar computational and communication budget. To preserve quality, all non-routed computations---including the routing gate (gating network), shared expert computation, and non-expert layers---remain in the full hidden dimension $d$, as they do not contribute significantly to the targeted bottlenecks. We refer the reader to the LatentMoE technical report (latentmoe_tr) for further details.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Multi-Token Prediction", "weight": 1.0} -->
+
+Nemotron-3 Super incorporates a Multi-Token Prediction (MTP) objective to improve both modeling quality and inference efficiency. Unlike conventional next-token training, MTP optimizes the model to predict multiple future tokens at each position (gloeckle2024better; deepseekai2025deepseekv3technicalreport). This encourages representations that capture multi-step dependencies and longer-range structure, leading to consistent improvements in validation loss and downstream benchmark accuracy.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Multi-Token Prediction", "weight": 1.0} -->
+
+Beyond quality gains, MTP enables native speculative decoding. The auxiliary prediction heads function as an internal draft model: during inference, they generate candidate continuations that are verified by the main model in a single forward pass. This substantially reduces decoding latency while introducing minimal additional FLOPs---significantly less than required by an external draft model. Although speculative decoding is particularly effective at small batch sizes, recent work shows that it can also improve throughput in larger-batch and sparse MoE settings (huang2025moesd).
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Design for Robust Autoregressive Drafting", "weight": 1.0} -->
+
+Standard MTP implementations use $N$ independent heads, each trained to predict a fixed offset (e.g., ${n + 2},\ldots,{n + N + 1}$). While effective during training, this limits speculative decoding to at most $N$ draft tokens. Longer drafts require either increasing $N$ or reusing a single offset-trained head autoregressively.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Design for Robust Autoregressive Drafting", "weight": 1.0} -->
+
+Reusing a fixed-offset head introduces a training--inference mismatch: the head is trained under ground-truth hidden states but, at inference, conditions on its own generated states. This distribution shift often reduces acceptance rates as draft length increases.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Design for Robust Autoregressive Drafting", "weight": 1.0} -->
+
+Nemotron-3 Super addresses this limitation by sharing parameters across multiple MTP heads during training, yielding a unified prediction head exposed to multiple offsets. This shared-weight formulation regularizes the head across prediction horizons and improves robustness to the self-generated hidden states encountered during autoregressive drafting. As a result, the same head can be applied recursively at inference to generate longer drafts with more stable acceptance behavior. While acceptance rates naturally decrease as draft length increases, the degradation is substantially milder than with independently trained offset heads. This enables more effective speculative decoding without introducing additional parameters or requiring a separate draft model.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Speculative Decoding Performance", "weight": 1.0} -->
+
+We evaluate MTP quality using SPEED-Bench (speedbenchnvidia), a benchmark tailored for speculative decoding. Table 2 reports the average acceptance length (tokens accepted per verification step) with a fixed draft length of 7. Nemotron-3 Super achieves the highest overall average acceptance length (3.45), outperforming DeepSeek-R1 across all domains and remaining competitive with Qwen3-Next.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Speculative Decoding Performance", "weight": 1.0} -->
+
+Overall, MTP in Nemotron-3 Super improves both representation learning and decoding efficiency, enabling higher acceptance at extended draft lengths without relying on an external draft model. These acceptance gains translate to superior serving efficiency on Blackwell hardware. As shown in Figure 5, increasing the draft depth ($D = 1$ to $D = 3$) via MTP significantly shifts the throughput--latency Pareto frontier, delivering higher aggregate output tokens per second (TPS) for any given median user latency compared to the baseline with MTP disabled.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Hybrid Interleaved MoE Architecture and Global Anchors", "weight": 1.0} -->
+
+Nemotron 3 Super adopts a hybrid Mixture-of-Experts (MoE) architecture designed to maximize inference throughput---particularly for long-context reasoning---while preserving the modeling capacity of large-scale dense Transformers. The primary systems bottleneck in modern sequence models is the quadratic growth of the KV cache in self-attention layers. To address this, we predominantly utilize Mamba-2 blocks (dao2024transformersssmsgeneralizedmodels), which operate with a constant-sized state during generation, substantially reducing memory overhead and latency.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Hybrid Interleaved MoE Architecture and Global Anchors", "weight": 1.0} -->
+
+The 88-layer stack follows a periodic interleaving pattern in which MoE layers are paired with Mamba-2 blocks. While Mamba provides efficient linear-time sequence modeling, a limited number of self-attention layers are strategically inserted as global "anchors" to enable full-token interaction and long-range information routing across the stack. This hybrid interleaving preserves global dependency modeling while offloading the majority of computation to the more efficient Mamba and sparse MoE components. Table 1 and Figure 2 provide a comprehensive summary of the structural parameters and the specific interleaving pattern of the hybrid stack.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Hybrid Interleaved MoE Architecture and Global Anchors", "weight": 1.0} -->
+
+The attention layers employ Grouped-Query Attention (GQA) with 32 query heads and 2 KV heads (head dimension 128). Consistent with prior Nemotron models, we omit positional embeddings, dropout, and bias terms in linear layers, use RMSNorm for normalization, and maintain un-tied embedding and output weights. This configuration supports context lengths of up to 1M tokens.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Hybrid Interleaved MoE Architecture and Global Anchors", "weight": 1.0} -->
+
+Sparse scaling further improves efficiency. Each MoE layer activates only a subset of experts per token (top-22 routing), enabling the model to scale to 120.6B total parameters while maintaining a 12.7B active parameter budget per forward pass.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Hybrid Interleaved MoE Architecture and Global Anchors", "weight": 1.0} -->
+
+Overall, the synergy between linear-time Mamba blocks, sparsely activated MoE capacity, and strategically placed attention anchors enables Nemotron 3 Super to deliver strong long-context performance while remaining optimized for real-world deployment on modern hardware.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "NVFP4 Pretraining", "weight": 1.0} -->
+
+All Linear Layers Unless Otherwise Noted
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "NVFP4 Pretraining", "weight": 1.0} -->
+
+Strategically kept in as step-time impact is negligible
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "NVFP4 Pretraining", "weight": 1.0} -->
+
+Maintain fidelity of few attention layers
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "NVFP4 Pretraining", "weight": 1.0} -->
+
+Mamba Output Projection
+Mitigates high incidence of underflows observed when quantizing this layer to NVFP4 at smaller scales
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "NVFP4 Pretraining", "weight": 1.0} -->
+
+Nemotron 3 Super was trained with the NVFP4 pretraining recipe detailed in the Nemotron 3 white paper (nvidia2025nvidianemotron3efficient). All linear layers, unless otherwise noted in Table 3, are trained using the open-source NVFP4 GEMM kernels provided by Transformer Engine with the cuBLAS backend (NVIDIA_TransformerEngine_PR2177) for fprop, dgrad, and wgrad GEMMs. This framework performs quantization of weights, activations, and gradients to NVFP4 according to the scheme first introduced in nvidia2025pretraininglargelanguagemodels. Weights are quantized to NVFP4 using two-dimensional (2D) block scaling to maintain consistency between quantized weights in the forward and backward pass. Gradients and activations are quantized to NVFP4 using one-dimensional (1D) blocks along the GEMM reduction axis. Random Hadamard Transforms (RHTs) are performed on inputs to wgrad and stochastic rounding is applied to gradient tensors.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "NVFP4 Pretraining", "weight": 1.0} -->
+
+The NVFP4 format utilizes an E2M1 element format with 16-element micro-blocks, E4M3 micro-block scaling factors, and a second-level global scale. Nemotron 3 Super showcases large-scale stable training in NVFP4 up to 25T tokens.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "NVFP4 Pretraining", "weight": 1.0} -->
+
+During the training of Nemotron 3 Super, we observed a growth in the number of zero-valued weight gradient elements and investigated the root cause to validate training health. Magnitude patterns emerged within some expert layers, characterized by the norms of FC1 output channels and corresponding FC2 input channels converging toward zero (Figure 6). By the end of pretraining, zero-valued weight gradient elements accounted for 7% of total parameters, appearing to correlate with the magnitude patterns. We believe that NVFP4 quantization increases the incidence of true zeros in the weight gradients that could have been more easily be represented by or MXFP8. Low-norm channels likely attenuate quicker when these layers are trained in NVFP4.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "NVFP4 Pretraining", "weight": 1.0} -->
+
+We compare identical Nemotron 3 Nano models (nvidia2025nemotron3nanoopen) trained for 1T tokens in and in NVFP4 and find that NVFP4 pretraining produces roughly 3x more zero-valued weight gradients at the same token horizon. When a partially trained NVFP4 model is switched back to, the number of zero-valued weight gradients returns to baseline levels. The model still contains many small-magnitude gradients (\<1e-12), but NVFP4 quantization underflows these values to zero (Figure 7). We sampled weight, activation, and gradient tensors from routed expert layers and observed high rates of underflow in dgrad of FC2 at 500B tokens, primarily because two-dimensional weight quantization blocks span high and low magnitude channels. Underflows in dgrad of FC2 create zeros in wgrad of FC1 through backpropagation of the gradient. At 750B tokens, we observe high rates of underflow in fprop of FC1, creating zeros in wgrad of FC2 (Figure 8).
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "NVFP4 Pretraining", "weight": 1.0} -->
+
+The 1T-token NVFP4 model behaves similarly to a much longer-trained model. After 10T tokens, the released Nemotron 3 Nano model, trained, nvidia2025nemotron3nanoopen reaches a similar number of zero-valued weight gradient elements as the NVFP4 model trained to 1T tokens (Figure 7) and inspection of weight matrices in early expert layers revealed a similar channel magnitude pattern. These conclusions on the Nemotron 3 Nano architecture give insights into the channel magnitude patterns and growth in zero-valued weight gradient elements in Nemotron 3 Super.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "NVFP4 Pretraining", "weight": 1.0} -->
+
+Following our previous work in NVFP4 pretraining (nvidia2025pretraininglargelanguagemodels), we evaluated whether switching all tensors to higher precision prior to learning rate annealing would benefit Nemotron 3 Super. We promoted all tensors to MXFP8 at 19T tokens (1T tokens before annealing) and continued training through 20.6T tokens. While this improved the loss trajectory, it yielded no gains in downstream task accuracy (Fig 9). The final Nemotron 3 Super model is therefore pretrained with our NVFP4 recipe for the entire token horizon.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Data", "weight": 1.0} -->
+
+We describe here several new datasets that we added to pretraining since Nemotron 3 Nano (nvidia2025nemotron3nanoopen). We are releasing these datasets on HuggingFace as Nemotron-Pretraining-Specialized-v1.1.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Synthetic Code Concepts", "weight": 1.0} -->
+
+With the aim of improving Python problem-solving capabilities, we synthetically generated a dataset consisting Python problems and solutions. Using a taxonomy consisting of thousands of programming concepts curated from our Nemotron-Pretraining-Code datasets and GPT-OSS-120B, we extracted high-level programming concepts from the HumanEval benchmark dataset (chen2021evaluatinglargelanguagemodels). In total, after deduplication of the extracted taxonomical representations, we collected a total of 91 concepts.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Synthetic Code Concepts", "weight": 1.0} -->
+
+Using the extracted concepts, we performed open-ended generation using GPT-OSS 20B to generate Python programming problems that test these concepts and instructed it to generate the problem with a descriptive function name and problem description in the function docstring. To generate these problems at the pretraining scale, we combined up to four concepts per generation and generated up to five problems per set of concepts. This resulted in a total of approximately 14 million problems.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Synthetic Code Concepts", "weight": 1.0} -->
+
+Following problem generation, we then used GPT-OSS 120B to generate five self-contained solutions for each generated problem. To avoid biasing models trained on these data to generate long-winded solutions, we instructed GPT-OSS 120B to restrict its solution to 60 lines maximum. For each problem, we generate five solutions, and we stopped generating after obtaining approximately 23 million problem-solution pairs.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Synthetic Code Concepts", "weight": 1.0} -->
+
+As a final step in generating this dataset, we thoroughly cleaned the generated problem-solution pairs. Our cleaning consisted of the following steps: we check that GPT-OSS-120 B did not include additional imports that were not specified in the original problem generated from GPT-OSS-20 B. We discard all solutions that did not satisfy this condition. We form the final problem-solution pair by parsing only the solution provided by GPT-OSS-120B and appending it to the problem generated from GPT-OSS-20 B. We found that GPT-OSS-120B frequently modified the original problem and this ensured we maintained the desired format prescribed in our original problem-formation prompt. We check that the final problem-solution pair is valid Python code via generation of an abstract-syntax tree (AST). If the final function does not pass the final AST check, it is discarded. After the above cleaning procedure, we resulted in the 15 M problems that make up the dataset.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Synthetic Unconditional Algorithmic", "weight": 1.0} -->
+
+To create this dataset, we generated algorithmic Python problems using Qwen3-235B-A22B (the base model) and gpt-oss-120b. We used minimalistic prompts---such as "Write a function," "Write a Python function," or "Write a coding problem and solution for a student to solve"---and optionally specified a difficulty level (easy, medium, or hard). To ensure diversity and quality, we prompted gpt-oss-120b to rewrite these samples to handle edge cases, add unit tests, and reformat the outputs in various ways.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Synthetic Unconditional Algorithmic", "weight": 1.0} -->
+
+In another variant, we instructed gpt-oss-120b to generate LeetCode-style questions and answers, again with a randomly selected difficulty level. We further used gpt-oss-120b to score the correctness of the solution and, if incorrect, to correct it. Overall, such nearly unconditional prompting did result in high rates of duplicates. To combat this, we found it effective to deduplicate based on short titles of around 5--8 words generated by gpt-oss-120b for each problem.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Synthetic Unconditional Algorithmic", "weight": 1.0} -->
+
+All samples were decontaminated against HumanEval (chen2021evaluatinglargelanguagemodels), MBPP (austin2021programsynthesislargelanguage), CRUXEval (gu2024cruxevalbenchmarkcodereasoning), and LiveCodeBench (jain2024livecodebench) as follows: First, exact matches of the solution against those benchmarks were removed. Second, we used Qwen3-Embedding-0.6 to encode Problem and Solution and filtered any data with \>0.8 similarity with any of the benchmarks.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Synthetic Unconditional Algorithmic", "weight": 1.0} -->
+
+Although this dataset is small by usual pretraining standards (0.2B tokens), we believe it helps to teach coding practices like edge case handling and reasoning about program execution, as evidenced by improvements of 1-2 points to HumanEval, MBPP, and CRUXEval-O over the Nemotron 3 Nano base checkpoint, when adding these datasets to a redo of the last 100B tokens of 25T token pretraining.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Synthetic Economics", "weight": 1.0} -->
+
+We generated a diverse set of economics multiple-choice questions across various formats, including cloze, calculation, sentence completion, and multiple-response, covering key topics and terms in microeconomics, macroeconomics, and econometrics (e.g., "Statistical Inference and Hypothesis Testing - Type I error" and "Inflation and the Price Level - Inflation rate") from a curated list. For each topic-term pair, we used Qwen3-235B-A22B-Thinking-2507 to generate multiple questions, each accompanied by a detailed, step-by-step, and well-formatted solution. To enhance the diversity, we further prompted the model to create new and original questions using the initial outputs as reference points. Each question-solution pair underwent model-based verification for clarity, ambiguity, solvability and accuracy.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Synthetic Formal Logic", "weight": 1.0} -->
+
+We synthesized a set of formal logic problems and solutions spanning several tasks, such as translating between natural language and predicate or propositional logic, deriving the antecedents of conditional propositions, and solving logic problems using indirect or complete truth tables. We introduced variability into the generated scenarios, premises, and formulas by incorporating random personas,^22^2 letters, and/or logic connective (i.e., $\land$, $\vee$, $\supset$, $\equiv$, $\sim$) into the prompt. We generated and evaluated the problems and solutions using Qwen3-235B-A22B-Thinking-2507.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Synthetic Multiple Choice", "weight": 1.0} -->
+
+We construct a multiple-choice question (MCQ) dataset by bootstrapping from the MMLU auxiliary training set (hendryckstest2021), which aggregates auxiliary MCQ data from sources such as ARC (allenai:arc), MC_TEST, OpenBookQA (OpenBookQA2018), and RACE, etc. Starting from each seed question, we generate multiple similar questions that follow the same task format and difficulty profile, along with corresponding answer options by prompting Qwen3-235B-A22B (yang2025qwen3technicalreport). In the second stage, we prompt the DeepSeek-V3 (deepseekai2025deepseekv3technicalreport) model to solve each generated question by selecting an answer and providing the supporting knowledge or contextual reasoning underlying its choice. To improve answer reliability, we sample multiple independent solution generations for each question using different random seeds. We then apply majority voting over the generated answers to identify the most consistent choice, retaining only those samples whose final answer agrees with the majority and discarding inconsistent or incorrect instances.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Synthetic Multiple Choice", "weight": 1.0} -->
+
+Using this pipeline, we generate approximately 3.5M MMLU-style MCQ samples (\~1.6B tokens) augmented with explicit, relevant knowledge or reasoning traces. We evaluate the impact of this data via ablation experiments by continued training the Nemotron-Nano-V3 (nvidia2025nemotron3nanoopen) 24.9T-token checkpoint with an additional 100B tokens, out of which 1B tokens are from the generated MMLU-aux-train-SDG data. The results show consistent gains on most of the benchmarks: MMLU improves from 77.22 to 77.51, \"MATH Level 5\" from 78.55 to 79.05, AIME-2024 improved from 53.3 to 56.7, and MBPP from from 74.8 to 75.2. Performance on other benchmarks remains largely stable with only minor variance, indicating that the synthesized MCQ data primarily strengthens mathematical and structured reasoning capabilities without introducing regressions elsewhere.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Data Mixture and Ordering", "weight": 1.0} -->
+
+We adopt the Nemotron 3 Nano data mixture as described in (nvidia2025nemotron3nanoopen). Our pretraining corpus spans 16 high-level categories. The largest component is web crawl data, which we partition into five quality-based groups following the Nemotron-CC taxonomy (su2024nemotroncctransformingcommoncrawl): crawl-medium, crawl-medium-high, and crawl-high, representing progressively higher-quality crawl data, along with their synthetic counterparts, syn-crawl-medium-high and syn-crawl-high, generated from filtered web documents. Beyond web crawl, the mixture includes math (karimi2025nemotronccmath; akter2024mindmathinformedsynthetic), Wikipedia, code, Nemotron-CC-Code, academic text, Crawl++, multilingual data, finepdfs (kydlicek2025finepdfs) and synthetic SFT-style datasets. The SFT-style data is further divided into general-sft, stem-sft, and code-sft.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Data Mixture and Ordering", "weight": 1.0} -->
+
+As part of the SFT-style component, we incorporate reasoning-focused datasets into pretraining, motivated by prior findings demonstrating their effectiveness (akter2026frontloading). Crawl++ consists of OpenWebText, BigScience (laurencon2023bigsciencerootscorpus16tb), and Reddit datasets.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Data Mixture and Ordering", "weight": 1.0} -->
+
+Data blending is designed to balance diversity and quality: sources with comparable estimated quality are assigned similar weights, while higher-quality datasets receive proportionally greater weight in the mixture. Further details on dataset quality estimation and mixture construction are provided in (feng2024maximizedataspotentialenhancing). We adopt the two-phase curriculum proposed in (feng2024maximizedataspotentialenhancing) work. In Phase 1, the mixture emphasizes data diversity to promote broad coverage and generalization. In Phase 2, the blend shifts toward predominantly high-quality sources (e.g., Wikipedia) to refine model performance. The transition to Phase 2 occurs at 80% of total training tokens. The specific mixtures used in each phase are illustrated in Figure 10.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Hyperparameters", "weight": 1.0} -->
+
+The pretraining of Nemotron 3 Super 120B-A12B Base was conducted using a Warmup-Stable-Decay (WSD) (hu2024minicpm) learning rate schedule over a total horizon of 25 trillion tokens. The learning rate (LR) was warmed up over the initial 200 billion tokens to a peak value of $4.5 \times 10^{- 4}$. Following a sustained stable plateau phase, we implemented a minus-sqrt decay schedule for the final 5 trillion tokens, annealing the LR to a minimum of $4.5 \times 10^{- 6}$.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Hyperparameters", "weight": 1.0} -->
+
+We used AdamW (loshchilov2017decoupled) optimizer with a weight decay of 0.1 and momentum coefficients $\beta_{1} = 0.9$ and $\beta_{2} = 0.95$. The model was trained with a sequence length of 8,192 and a batch size of 3,072 sequences, resulting in approximately 25.17 million tokens per batch.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Hyperparameters", "weight": 1.0} -->
+
+The architecture employs a hybrid Mamba-MoE design, featuring Mixture-of-Experts (MoE) layers with 512 total experts and a top-22 routing mechanism ($k = 22$). We utilized a sigmoid router score function complemented by expert biasing. To ensure equitable expert utilization across the 120.6B parameters, we adopted an auxiliary-loss-free load balancing strategy (wang2024auxiliary; deepseekai2025deepseekv3technicalreport) with an update rate of $10^{- 3}$, paired with a standard load balancing loss with coefficient of $10^{- 4}$ (lepikhin2020gshard).
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Hyperparameters", "weight": 1.0} -->
+
+Furthermore, we used an MTP objective with loss scaling factor of 0.3. To maximize computational efficiency and training stability at scale, the execution utilized a hybrid precision scheme of and NVFP4.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Tracking Merge Evaluation", "weight": 1.0} -->
+
+During the stable phase of the WSD learning rate schedule described in Section 2.4, the learning rate remains constant, and individual trained checkpoints exhibit noisy benchmark performance from step to step. Following recent work on weight-space merging (wortsman2022modelsoup; tian2025wsm; ling2025foundation), we apply checkpoint merging (weighted averaging over a sliding window of recent checkpoints) to produce stronger readouts of model quality without requiring dedicated learning rate decay runs. In a conventional pretraining workflow, evaluating model quality at intermediate checkpoints requires dedicated decay runs; checkpoint merging eliminates this cost. For a schedule comparable to ours, the savings could reach $\sim 4$T tokens of compute (e.g., $\sim 2$ avoided runs at 1.5T and $\sim 2$ at 0.5T), or roughly $16\%$ of the total pretraining FLOP budget.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Tracking Merge Evaluation", "weight": 1.0} -->
+
+Following tian2025wsm, we use a minus-sqrt decay emulation to compute merge coefficients, with checkpoints saved every $1,000$ iterations ($\approx 25$B tokens at our global batch size of $3,{072 \times 8},192$ tokens). We evaluated sliding merge windows of 125B, 250B, and 500B tokens over the course of pretraining. On average, across a suite of 12 benchmarks (MMLU-Pro, MMLU, HumanEval, HumanEval+, MBPP, MBPP+, GSM8K, MATH-500, RACE, ARC-Challenge, HellaSwag, WinoGrande), the best merge consistently outperforms the corresponding trained checkpoint by 2--4 points on the unweighted average. Since merging is computationally cheap relative to training, we can evaluate all three windows at each checkpoint and select the best. Figure 11 reports this best-of-three merge against the trained checkpoint over the full 25T-token training run.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Tracking Merge Evaluation", "weight": 1.0} -->
+
+During the final 5T-token LR decay phase (from 20T to 25T tokens), the gap between merged and trained checkpoints narrows substantially, and the two evaluation trajectories largely coincide by the end of training. tian2025wsm reported that combining merging with decay offers no gain over merging alone, so this convergence is expected. The original WSM results went further, showing merge-based readouts *surpassing* decay-trained checkpoints. In experiments on the Nemotron 3 Nano scale architecture (30B-A3B), we were able to reproduce such gains when emulating short ($\sim 500$B) decay windows. However, direct comparisons at 1T and 1.5T merge horizons showed no improvement over decay-trained checkpoints.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Tracking Merge Evaluation", "weight": 1.0} -->
+
+Our takeaway is that offline checkpoint merging appears most effective for shorter annealing horizons. This is consistent with ling2025foundation, who employ a comparably short decay schedule and report merge-based improvements, in contrast with the much longer 5T decay used here, where trained decay is able to match or surpass merge-based readouts. The final base model checkpoint selected for downstream alignment was itself a 500B merge; short-horizon merging remains practically useful even alongside a full decay schedule. That said, our experiments explored only a single merge schedule (minus-sqrt) and a fixed checkpoint granularity; it remains plausible that alternative coefficient schemes, finer-grained checkpoint windows, or merging strategies tailored to longer decay horizons could recover the gains observed at shorter scales. Per-benchmark breakdowns are provided in Appendix Figure 17.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Long-Context Extension", "weight": 1.0} -->
+
+Similar to Nemotron 3 Nano, we added a long-context phase (LC-Phase) at the end of pretraining. In the LC-Phase, we performed continuous pretraining (CPT) to equip the base model with long-context ability. We used a constant learning rate of $4.5 \ast 10^{- 6}$ and global batch size of 16. We used 64-way context parallelism, 2-way tensor parallelism, and 64-way expert parallelism to train on GB200 GPUs. We reused the long-context document QA dataset from Nemotron 2 & 3 Nano. We allocated the document QA data to 20% in the Phase LC data blend, with the remaining 80% being downscaled Phase 2 data. We initially performed CPT on 1,048,576 (1m) context length. Such stage lasted for 34 billion tokens. Following that we added another stage to alternatingly train on both 1m and 4k sequences in order to mitigate the minor impact we observed on the math-related benchmarks. The second stage lasted for 17 billion tokens.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Base Model Evaluations", "weight": 1.0} -->
+
+All evaluation results were collected via Nemo Evaluator SDK^33^3 and NVIDIA's open source container of LM Evaluation Harness^44^4 unless otherwise stated.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Base Model Evaluations", "weight": 1.0} -->
+
+For mathematical reasoning, we evaluate GSM8K and MATH (cobbe2021trainingverifierssolvemath; hendrycks2021measuringmathematicalproblemsolving) benchmarks using greedy-decoding. We also highlight the competition-level slice of the MATH benchmark as "MATH Level 5". Additionally, we report the $\text{pass}@32$ performance on AIME-2024. We use Math-Verify^77^7 to grade all generations.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Base Model Evaluations", "weight": 1.0} -->
+
+For code tasks (HumanEval (chen2021evaluatinglargelanguagemodels), MBPP (austin2021programsynthesislargelanguage)) we evaluate the EvalPlus variants along with the sanitization of generations (Liu_Is_Your_Code_2023), in a 0-shot setup. We estimate $\text{avg}@32$, $\text{pass}@1$ from 32 generations per prompt.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Base Model Evaluations", "weight": 1.0} -->
+
+General reasoning benchmarks (OpenBookQA (mihaylov2018suitarmorconductelectricity), PIQA (bisk2019piqareasoningphysicalcommonsense), Hellaswag (zellers2019hellaswagmachinereallyfinish), Winogrande (sakaguchi2019winograndeadversarialwinogradschema)) are unchanged except for ARC-Challenge (Clark2018ThinkYH), where we present all options at the same time, similar to MMLU (hendrycks2021measuringmassivemultitasklanguage).
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Base Model Evaluations", "weight": 1.0} -->
+
+For multilingual capability, we evaluate MGSM (shi2022languagemodelsmultilingualchainofthought) (8-shot, native CoT) and Global MMLU-Lite (singh2024globalmmluunderstandingaddressing).
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Base Model Evaluations", "weight": 1.0} -->
+
+For long context capability, we evaluate RULER (hsieh2024ruler) using 100 samples per task.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Base Model Evaluations", "weight": 1.0} -->
+
+Accuracy results for Nemotron 3 Super 120B-A12B Base with comparsions to Ling-flash-Base-2.0 and GLM-4.5-Air-Base are shown in Table 4.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Post-Training", "weight": 1.0} -->
+
+We follow the same general recipe as Nemotron 3 Nano, with a stronger emphasis on agentic tasks. Figure 12 provides an overview of the pipeline. We begin with a Supervised Fine-Tuning (SFT) phase (§3.1), followed by a three-stage Reinforcement Learning phase---RLVR, SWE-RL, and RLHF (§3.2). We conclude with a final phase of MTP healing.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Post-Training", "weight": 1.0} -->
+
+In SFT, we expand the training blend to cover a wider range of agentic harnesses and interaction scenarios. We also significantly improved our RL infrastructure, enabling reliable large-scale asynchronous training on thousands of GPUs. This infrastructure allows us to train across 21 diverse environments, improving robustness across tasks, and train on long-horizon SWE tasks, strengthening multi-step reasoning and problem solving in realistic agentic settings.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Supervised Fine Tuning", "weight": 1.0} -->
+
+For Nemotron 3 Super SFT, we focused on improving dataset quality and diversity. In particular, we scaled up our agentic datasets and increased their share in the overall SFT blend. The chat template remains identical to Nemotron 3 Nano. In addition, we add low effort reasoning mode, giving users further control over reasoning length. We found that a single-stage SFT led to a marked degradation on long-input-short-output scenarios. We therefore adopt a two-stage SFT procedure: Stage 1 emphasizes learning from token-level supervision and induces strong reasoning behavior, while Stage 2 switches to per-conversation normalization to prevent long outputs from dominating the loss, which restores long-input-short-output performance while retaining reasoning.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "SFT objective and two-stage loss", "weight": 1.0} -->
+
+For a packed global batch $\mathcal{B}$ containing multiple conversations $c$, let $\mathcal{O}_{c}$ denote the set of output-token positions for conversation $c$ and $|\mathcal{O}_{c}|$ its output-token count.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Stage 1: token-level (global) average", "weight": 1.0} -->
+
+This corresponds to summing the output-token log probabilities across all conversations and normalizing by the total number of output tokens.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Stage 2: sample-level average", "weight": 1.0} -->
+
+This stage reduces the dominance of long outputs by normalizing each conversation by its own output-token count before averaging across the batch.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Stage 2: sample-level average", "weight": 1.0} -->
+
+For Stage 1, we run SFT with 256k sequence length packing, global batch size 64, constant lr ${1e} - 5$ with 30k warmup samples. For Stage 2, we use 512k sequence length packing and include long context data with length up to 512K, global batch size 32 and constant lr ${1e} - 5$.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "MTP during SFT", "weight": 1.0} -->
+
+We continue training Nemotron 3 Super with the same shared-weight MTP head used in pretraining to preserve both the accuracy benefits of multi-step prediction and the inference-time gains from speculative decoding. Concretely, we train two MTP layers with shared parameters and optimize the combined objective using a scaled auxiliary loss computed with per-token loss and 0.3 scaling factor.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Data", "weight": 1.0} -->
+
+We reuse the following datasets from the Nemotron 3 Nano SFT datasets: Chat, Infinibyte, and Formal Proofs. We refresh the following datasets with new teacher models (DeepSeek v3.2, Kimi K2): Competition Math, Competition Code, Conversational Tool Use, Multilingual, Science. Below we describe new or heavily modified SFT datasets.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Software Engineering. We curate a dataset of coding tasks derived from real-world GitHub issues to train Nemotron 3 Super for autonomous software engineering capabilities including code exploration, task tracking, issue reproduction and bug fixing. We use the issues and containerized execution environments from the SWE-Gym (pan2025trainingsoftwareengineeringagents), R2E-Gym (jain2025r2egymproceduralenvironmentshybrid) and SWE-rebench (badertdinov2025swerebenchautomatedpipelinetask) datasets. For R2E-Gym, we regenerate problem statements with Qwen3-Coder-480B-A35B-Instruct. We distill trajectories from the OpenHands agent harness using Qwen3-Coder-480B-A35B-Instruct as the teacher model.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Data", "weight": 1.0} -->
+
+The landscape of software development has undergone a substantial shift with the emergence of Agentic Command Line Interface (CLI) tools, moving beyond the \"autocomplete\" era of 2021--2023 into a regime of autonomous execution. Alongside substantial improvements in harnesses such as Claude Code, OpenCode, and OpenAI's Codex, models are now capable of operating as active digital collaborators, capable of multi-step reasoning, long-horizon execution, and end-to-end task orchestration.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Data", "weight": 1.0} -->
+
+We established a foundational seed set of tasks designed to replicate common user-initiated operations within agentic CLIs. Refer to Figure 13 where we discuss the full pipeline. We utilized NeMo Data Designer (nemo-data-designer) to generate approximately 20k queries derived from a taxonomy of 24 distinct actions typically performed in these environments. Subsequently, we employed GPT-OSS 120B (openai2025gptoss120bgptoss20bmodel) in an LLM-as-a-Judge framework to filter out tasks referencing pre-existing codebases or modifications to extant files. This mitigation ensures that the models do not attempt modification operations within empty directories---a scenario that frequently results in redundant and exhausted tool invocations during failed execution cycles. The resulting dataset comprises roughly 15k tasks centered on direct solution synthesis. To further enhance the diversity of the generated outputs, we coupled each task with a supplementary markdown specification, equivalent to an AGENTS.md file. These documents impose additional constraints and architectural requirements, effectively narrowing the design space and necessitating more complex, varied solutions from the agent.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Since we eliminate all tasks that require a pre-existing codebases, we augment this task set with roughly 3000 questions from SWE tasks that are challenging and come with pre-existing repository and specific git hash commit. We apply a simple prompt prior to the existing issue statements, stating that the execution environment does not have the library installed and therefore execution of unit tests should be avoided. This is a conscientious decision made to substantially reduce the engineering effort required to support per sample container based execution of each SWE task, reduce the number of tool calls and avoid large tool outputs due to multiple rounds of unit test executions. This further relaxes the constraints imposed on the agent to solve the issue, as there is no SWE specific prompt to guide the agent in solving the task. Finally, we synthesize 10k web development tasks using a taxonomy of 100 fine-grained tasks that are commonly requested by users as the seed, on which we apply LLM-as-a-Judge to eliminate tasks that require a pre-existing repository. We impose no restrictions on these tasks, but provide only a Node.js environment and expect the agent to setup and install all dependencies and plugins on its own.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Applying these task sets, we distill from high-performance, open-source agentic LLMs such as Qwen-3-Coder-480B (qwen2025qwen25technicalreport) and Minimax M2.5 (minimax2025m2) by recording their interactions with various CLI environments, such as Codex, OpenCode, Qwen Code CLI, and Stirrup. These interaction traces are subsequently filtered, normalized into the standard OpenAI message format with various tool definitions, and utilized for large-scale SFT to effectively embed agentic operational knowledge within the model. For each Agentic CLI, we study the individual capabilities that exist and are commonly utilized. We apply the same task sets to target different capabilities, such as Agent Skills, tool restriction (bash only execution), ask user clarifying questions, single and multi step planning, static and dynamic multi turn conversations and parallel tool calling, depending on whether the specific CLI can accommodate these capabilities.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Long Context. We extend the long-context SFT dataset from Nemotron 3 Nano with a more comprehensive synthetic data pipeline. To improve long-context multi-document reasoning, we construct a synthetic SFT dataset using long sequences from our pre-training blend, which contains books, papers, financial reports, code repositories, etc. We first cluster these documents by topic/domain and concatenate related documents to reach target sequence lengths, such as 128K, 256K, or 512K tokens. For each long-context sample, we use an LLM to generate one or more QA pairs. The prompt requires questions to involve cross-document or cross-section navigation, ensuring information is scattered rather than localized. It strictly enforces multi-hop reasoning, requiring at least 4 to 7 distinct retrieval or reasoning steps. These steps mandate computational or logical processing, preventing simple copy-pasting, and often include explicit formatting instructions. Next, we generate 8 independent reasoning traces for each context-question pair. We apply semantic majority voting to group the answers, either by exact match or via an LLM judge. From the resulting majority group, we select the answer containing the shortest reasoning trace.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Additionally, we generate seven synthetic reasoning tasks to improve the model's ability to process context in a sequential, left-to-right manner. Specifically, synthetic snippets (generated using Qwen3-235B-A22B-Thinking-2507) are concatenated together to form long input context. The thinking traces are constructed by chaining rule-based reasoning steps, each of which includes relevant excerpts from the input context and tracking metadata, such as the frequency of query-related snippets. We also construct long-context samples by concatenating records from (nvidia/Nemotron-Personas-USA) to reach the required sequence length. Questions are designed to emphasize multi-hop reasoning and information aggregation across records. Context, question, and answer are formatted using pre-defined templates, with ground-truth answers derived by executing SQL queries over the underlying records.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Financial Reasoning. To construct a large-scale training corpus for financial reasoning, we employ a template-based synthetic data generation (SDG) pipeline that scales a curated seed set into hundreds of thousands of grounded question--answer pairs. The pipeline sources 565 expert-authored seed questions from the SecQue benchmark (benyoash2025secque), a dataset of financial analysis questions anchored to SEC 10-K and 10-Q filings. These seeds are expanded combinatorially across S&P 500 companies^88^8 accessed 2025. and fiscal years, where comparative questions are restricted to company pairs within the same GICS Sub-Industry to preserve semantic coherence. GPT-OSS-120B paraphrases each template instantiation, producing up to three diverse reformulations per combination. The resulting questions are mapped to relevant SEC filing sections using the original SecQue metadata, and the corresponding documents are converted to markdown with a configurable token limit.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Data", "weight": 1.0} -->
+
+For answer generation, we adopt the GenSelect strategy (toshniwal2025genselectgenerativeapproachbestofn): five candidate answers are sampled per question using GPT-OSS-120B with distinct random seeds, and a larger judge model (Qwen3-235B-A22B) selects the best response based on numerical accuracy, financial methodology, and logical soundness. A smaller model (Qwen3-30B-A3B) then classifies each pair as ANSWERABLE or UNANSWERABLE, retaining only those containing a complete, substantive response. Prior to supervised fine-tuning, the SDG output undergoes percentile-based outlier removal and deduplication. The resulting dataset comprises 366,243 financial Q&A pairs with reasoning traces.
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Data", "weight": 1.0} -->
+
+CUDA. A large-scale synthetic CUDA dataset comprising 100K samples for kernel generation, repair, and optimization was constructed using a synthetic data generation pipeline based on DeepSeek-R1 and GPT-OSS-120B. Seed questions were sourced from popular open-source libraries, NVIDIA library API surfaces, and BackendBench (saroufim2025backendbench). These seeds were used to generate tuples of the form (PyTorch reference, CUDA C++ kernel) and (natural language specification, CUDA C++ kernel), each accompanied by reasoning. For each seed item, multiple candidate kernels were generated and rigorously validated for correctness within an internal CUDA evaluation environment. The validated kernels were then ranked by performance, and the highest-performing kernel was retained. In addition, we collected traces from an internal CUDA agent, producing samples of the form (PyTorch reference, faulty CUDA C++ kernel, error message, corrected CUDA C++ kernel) and (PyTorch reference, slow CUDA C++ kernel, Nsight Compute log, optimized CUDA C++ kernel).
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Using publicly available documentation and official code samples, and following the same formulation as the CUDA-C data, we generated additional PyTorch references and corresponding CUDA-library implementations with reasoning chains, as well as aligned natural language specifications. These libraries include Thrust, CUB, cuBLAS, cuDNN, cuSPARSE, cuRAND, and cuSOLVER.
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Safety. We have significantly enhanced our safety framework compared to Nemotron 3 Nano by combining a robust prompt library with a two-stage synthetic response generation strategy. While retaining the core prompts from Nemotron Content Safety v2, Gretel Safety Alignment v1 (gretelai_gretel-safety-alignment-en-v1), Harmful Tasks (hasan2024pruning) and Red-Team-2K (luo2024jailbreakv_robustness) covering content safety and common jailbreak techniques, we added in new synthetic prompts targeting the elicitation of over-refusals, demographic biases, and copyright reproduction. We also expand coverage of jailbreak strategies to better capture emerging adversarial techniques including indirect prompt injection attacks.
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Our primary advancement over Nemotron 3 Nano is an explicit response policy framework. For each prompt, a response policy is inferred from a combination of prompt metadata, its annotated safety category, and predictions from a set of lightweight auxiliary classifiers that detect attributes such as self-harm risk, demographic targeting, or the presence of embedded adversarial instructions. We cast this decision process as a multi-class classification problem, where each class corresponds to a distinct response mode aligned with safety guidelines. These response modes specify whether the model should provide supportive resources such as helpline information, issue a refusal with a brief explanation, or answer the benign portion of the request while ignoring malicious content. This ensures that the responses are safe, contextually appropriate, and consistent across a diverse set of safety-sensitive scenarios.
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Following the deliberative alignment framework (guan2025deliberativealignmentreasoningenables), we adopt a two-stage generation process in which the reasoning trace and the final response are curated separately but consistently with our response policy. In the first stage, we construct a concise reasoning trace that guides the model to reflect on the safety properties of the prompt, explicitly identifying why the request may be unsafe or policy-relevant and what constraints should govern the response. In the second stage, we generate the final response based on this reasoning trace, ensuring that it adheres to the predefined response policy and behavior guidelines. This structured separation encourages deliberate reflection on safety guidelines while producing responses that are consistent, policy-compliant, and contextually appropriate to ensure that the final response follows safety policies while minimizing unnecessary references to said policies. Finally, we apply a content-moderation classifier to filter any responses flagged as unsafe, providing an additional safeguard to ensure alignment with safety objectives.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Search. To improve search capabilities, we generated a synthetic search-agent SFT dataset using NeMo Data Designer (nemo-data-designer). The pipeline begins by constructing seed prompts grounded in the Wikidata knowledge graph (vrandecic2014wikidata): we query SPARQL (sparql2013) for well-connected hub entities across approximately 25 verified entity classes (cities, universities, films, chemical elements, etc.), then perform random walks of 4-8 hops through the graph, filtering out degenerate paths via stop-node lists, anti-meta-relation exclusions, and minimum path-length thresholds. Each valid walk yields a start entity, a chain of factual relations, and a final answer entity.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Data Designer then processes these seeds in three stages: a draft stage converts the structured knowledge-graph walk into a natural-language multi-hop question, an obfuscation stage rewrites the question to hide intermediate entities and eliminate breadcrumb-style chaining -- producing search-riddle queries where the solver must decompose the problem independently -- and an agent stage in which MiniMax-M2 (minimax2025m2) solves the obfuscated question by issuing web searches via the Tavily MCP search tool, producing a grounded search trajectory with supporting URLs. Each resulting SFT record is a multi-turn conversation where assistant turns interleave chain-of-thought reasoning with structured tool calls, and tool-response turns return search results as JSON, preserving a full Thought--Action--Observation loop across an average of 12 tool calls per trajectory. A final structured-output stage normalizes the agent's raw response into a validated JSON schema.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Terminal Use. The dataset for enhancing terminal capabilities follows the dual-stream Terminal-Task-Gen methodology described in Nemotron-Terminal (pi2026dataengineeringscalingllm), comprising a total of 84,864 samples. This pipeline combines the adaptation of existing high-quality datasets with synthetic task generation grounded in a comprehensive terminal skill taxonomy. The source distribution consists of 68,924 synthetic samples, 8,125 samples from Nemotron-Cascade-Math, and 7,815 samples from Nemotron-Cascade-Code (wang2025nemotroncascadescalingcascadedreinforcement). For trajectory construction, we use DeepSeek-V3.2 (deepseekai2024deepseekv32) as the primary engine to generate step-by-step solution traces within isolated, Dockerized environments through an agentic execution-feedback loop. All samples are generated using the Terminus 2 agent framework (merrill2026terminalbenchbenchmarkingagentshard) as the underlying scaffolding, providing a unified set of terminal tools and a structured interaction protocol to maintain consistency and quality across long-horizon trajectories.
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Multilingual. Our multilingual data combines synthetic translations of English SFT examples with a sentence-level parallel corpus to improve machine translation. We reuse the line-by-line translation pipeline from Nemotron 3 Nano, translating into six languages (German, Spanish, French, Italian, Japanese, and Chinese) using Qwen2.5-Instruct-14b. After translation, we apply filtering to remove samples in the wrong language and other common failure modes. We observed a recurring pattern where translation disrupts the alignment between prompt specifications and answer formats --- a consistency usually maintained in English data. This mismatch led to instruction-following failures during preliminary testing. To mitigate this, we introduced a lightweight post-editing step with Qwen3-4B-Thinking-2507 to automatically restore format compliance. We also expand the parallel corpus with additional Chinese $\leftrightarrow$ English pairs and exclude very short samples that previously degraded post-training performance.
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Structured Query Language (SQL). To improve Nemotron 3 Super on enterprise SQL workloads, we generate a synthetic text-to-SQL dataset with NeMo Data Designer (nemo-data-designer). The dataset contains 96.5k records spanning MySQL, PostgreSQL, and SQLite across 60 industry sectors, $\sim$`<!-- -->`{=html}700 domain topics, and 90 SQL concept buckets (from basic SELECT to recursive CTEs, window functions, and geospatial queries). Each sample pairs a natural-language prompt and a fully synthetic database schema context with a target SQL query. To improve robustness and to mimic the real-world messiness of production databases, the pipeline injects distractor tables and columns into the database context. Specifically, related but irrelevant tables and columns are added to the database context, forcing the model to learn to ignore irrelevant schema elements.
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Prompt diversity is controlled along three axes -- instruction style (imperative, declarative, interrogative, contextual, abbreviated), linguistic register (formal, conversational, technical, academic, direct), and politeness level -- yielding naturalistic and varied user requests. The final dataset of 96.5k records is validated and filtered down by Data Designer from a larger dataset using per-dialect syntax validators and five LLM-as-a-critic judges.
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Conversational Tool Use. Large-scale specialized tool-use training data has been adopted by many models to boost agentic capabilities (Liu2024ToolACE; deepseekai2024deepseekv32; kimiteam2025kimik2openagentic; 5team2025glm45agenticreasoningcoding).
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Domain Generation: Sample synthetic domains with a model, iteratively expanding initial generations into specialized subdomains.
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Policy and Tool Generation: Sample customer-service policies and related tools, iteratively improving them via self-refinement; use few-shot prompting and an LM-as-a-Judge for quality filtering to maintain style and formatting.
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Scenario Generation: Generate plausible user personas, background information, and inquiries for each policy setting.
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Trajectory Collection: For each policy--scenario pair, simulate $16$ customer service interactions among a model-based agent, user, and environment.
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Data", "weight": 1.0} -->
+
+Verification: Evaluate trajectories at both outcome and process levels using an LM-as-a-Judge.
+
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Data", "weight": 1.0} -->
+
+SFT Data Selection: Select successful trajectories for SFT and filter for difficulty by dropping scenarios that yield all-success or all-failure outcomes.
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Data", "weight": 1.0} -->
+
+A visualization of the pipeline is shown in Figure 14. We utilize Qwen3-235B-A22B-Thinking-2507, Qwen3-32B, Qwen3-235B-A22B-Instruct-2507 (yang2025qwen3technicalreport), deepseek-r1-0528 (deepseekai2025deepseekr1incentivizingreasoningcapability), DeepSeek-V3.2 (deepseekai2024deepseekv32), and gpt-oss-120b (openai2025gptoss120bgptoss20bmodel) on various parts of the above pipeline, yielding 279,116 conversations across 838 domains. This represents a substantial scale-up over Nemotron 3 Nano, which used 15,588 conversations spanning 5 domains.
+
+<!-- chunk {"id": "body-0119", "role": "body", "section": "Data", "weight": 1.0} -->
+
+General-Purpose Tool Use. The broader, general purpose tool-calling synthetic data pipeline begins with the construction of diverse tool sets from ToolEyes (ToolEyes2025), API-Bank (APIBank2023), UltraTools (Huang2024UltraTool), AutoTools (Shi2025AutoTools), xLAM (Zhang2024xLAM), Glaive-Function-Calling-v2 (GlaiveFunctionCallingV22025), Toucan-1.5M (Xu2025Toucan), as well as custom written tools that serve as the foundation for downstream synthetic task generation. A tool-calling trajectory is simulated by grounding in one or multiple of these tool sets. The trajectory simulation involves an LLM playing three roles - User (User-LLM), Assistant (Assistant-LLM), and Tool Environment (Tool-LLM).
+
+<!-- chunk {"id": "body-0120", "role": "body", "section": "Data", "weight": 1.0} -->
+
+The User-LLM is seeded with the selected tool set, a persona sampled from Nemotron-Personas-USA (nvidia/Nemotron-Personas-USA), and a tool-calling scenario (single-turn, multi-turn, or multi-step). The User-LLM starts by designing a task guided by the tool-calling scenario which is relevant to the selected persona and can be solved by the selected tool set. The Assistant-LLM attempts to solve this task in one or more turns by producing tool-calls and responding to tool execution results. The Tool-LLM is responsible for producing a simulated tool execution result based on the tool-call generated by the Assistant-LLM and the tool being called. The Tool-LLM is prompted with a rubric that helps identify syntactic and semantic errors in tool-calling, as well as the original user query so that the tool results can be contextualized when tool-call is successful. To ensure accuracy, we employ a turn-level and trajectory-level judge similar to the specialized tool-calling data generation. The turn level judge is also paired with a rule-based verification for ensuring correctness of tool-calls.
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Data", "weight": 1.0} -->
+
+We scale this pipeline with DeepSeek-v3.2 (DeepSeekV32025) and GLM-4.7 (GLM47Zai2025) to create a dataset of 1.5M diverse tool-calling trajectories.
+
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Data", "weight": 1.0} -->
+
+The overall general-purpose synthetic tool-calling data pipeline is visualized in figure 15.
+
+<!-- chunk {"id": "body-0123", "role": "body", "section": "SFT Data Blend", "weight": 1.0} -->
+
+Our general stage 1 SFT data blend can be found in Figure 16 (all datasets not listed make up less than 1% of the blend). We train on over 7M total samples. In stage 2, we use 85% of the stage 1 blend and augments it with 256K and 512K-token long-context data. Compared to Nemotron 3 Nano, we significantly increased the volume and diversity of agentic tasks, and allocate it a much larger proportion of our blend.
+
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Reasoning Control", "weight": 1.0} -->
+
+Nemotron 3 Super is trained for three reasoning modes: reasoning-off, regular and low-effort. The low-effort reasoning mode is a new addition. The regular and low-effort reasoning modes have the option to be used in conjunction with inference-time budget control (nvidia2025nemotronhfamilyaccurateefficient). These combinations of controls provide flexibilities that cover the entire spectrum of accuracy-efficiency trade-off to meet customers' needs in various application scenarios.
+
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Reasoning Control", "weight": 1.0} -->
+
+The low-effort reasoning mode is introduced during the SFT stage by adding training samples generated by GPT-OSS-120B in its low-effort mode (du2025nemotron). These low-effort training samples cover the tasks of math reasoning, STEM question answering and instruction following, and represent 2% of the overall SFT data by sample count. The low-effort mode is later optimized during the RL stages to be discussed in the next section.
+
+<!-- chunk {"id": "body-0126", "role": "body", "section": "Reasoning Control", "weight": 1.0} -->
+
+The SFT recipe for reasoning-off mode and for inference-time budget control is similar to nvidia2025nemotron3nanoopen with a few differences. We strip the reasoning traces from a random 3% samples for reasoning-off mode. After the main SFT stage, we add a short semi-on-policy SFT stage of 350 steps for inference-time budget control, where we collect roll-outs from the model and truncate 12% of reasoning traces to random reasoning budgets.
+
+<!-- chunk {"id": "body-0127", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
+
+--- Stage 1: Multi-environment RL from Verifiable Rewards (§3.2.1). This is the primary training stage, where we optimize Nemotron 3 Super jointly across the full set of environments. Training in a unified mixture keeps each RL update informed by the complete environment distribution and helps prevent regressions on individual tasks over the course of training.
+
+<!-- chunk {"id": "body-0128", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
+
+--- Stage 2: SWE-RL for end-to-end software engineering tasks (§3.2.2). We run SWE-RL as a separate stage because SWE rollouts are substantially slower to generate and typically require longer context lengths, creating a throughput bottleneck when co-trained with shorter-horizon environments. Isolating this stage allows us to tune rollout and batching settings for long-horizon, long-context trajectories.
+
+<!-- chunk {"id": "body-0129", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
+
+--- Stage 3: RLHF (§3.2.3). We finally apply RLHF as a distinct stage to improve instruction-following behavior, robustness, and overall interaction quality.
+
+<!-- chunk {"id": "body-0130", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
+
+--- Stage 4: MTP Healing. In this stage we train the MTP heads and keep rest of the weights frozen. We re-use the prompts from RLVR, and train the MTP head using the negative log likelihood loss similar to SFT on the generated responses. We find this stage significantly improves MTP accuracy.
+
+<!-- chunk {"id": "body-0131", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
+
+We describe these stages below including the training algorithm, data and systems setup.
+
+<!-- chunk {"id": "body-0132", "role": "body", "section": "Stage 1: Multi-environment RL from Verifiable Rewards", "weight": 1.0} -->
+
+We employ a unified RLVR strategy similar to Nemotron 3 Nano, but significantly scale the number of environments. We find that training on all environments simultaneously yields stable gains, whereas single-environment training leads to severe regressions on other benchmarks.
+
+<!-- chunk {"id": "body-0133", "role": "body", "section": "Stage 1: Multi-environment RL from Verifiable Rewards", "weight": 1.0} -->
+
+Our RLVR setting contains 21 environments covering diverse domains, including math, code, STEM, safety, chat, instruction following, long context capabilities, puzzles, and various agentic tasks. For data mixture and curriculum, we adopt an approach similar to Nemotron 3 Nano: we filter out prompts where the SFT model consistently provides correct answers, then sort the remaining samples via a difficulty-based curriculum. Further details of this methodology are available in Nemotron 3 Nano.
+
+<!-- chunk {"id": "body-0134", "role": "body", "section": "Low-effort Reasoning", "weight": 1.0} -->
+
+During the multi-environmental RL stages, we convert a subset of the prompts to be in the low-effort mode. For each low-effort prompt, the reward for a roll-out is adjusted as a function of both correctness and the number of generated tokens. The low-effort prompt mix starts with subsets of Math, STEM QA and competitive coding prompts, in total representing 2% of all RL prompts being in low-effort mode, and is later reduced to subsets of Math and STEM QA, representing just 1% of RL prompts. For Math and STEM QA, we randomly sample a subset. For competitive coding, we have a set of coding problems that have been withheld from SFT data and we only sample from this withheld set for low-effort coding prompts. Empirical results suggest that this data strategy provides sufficient generalization and the low-effort mode is improved across a wide set of benchmarks during the course of multi-environmental RL.
+
+<!-- chunk {"id": "body-0135", "role": "body", "section": "RLVR Data", "weight": 1.0} -->
+
+We scale up our RL data significantly compared to Nemotron 3 Nano. We describe the RL datasets we used in our multi environment RL below. The majority of the RL training environments are open sourced in Nemo Gym (nemo-gym). In total, we train on 21 environments and 37 different RL datasets.
+
+<!-- chunk {"id": "body-0136", "role": "body", "section": "RLVR Data", "weight": 1.0} -->
+
+--- Math. We use the same competitive math problems as Nemotron 3 Nano. For this dataset, we train both with and without a Python execution tool. We also introduce a new environment for formal proof verification.
+
+<!-- chunk {"id": "body-0137", "role": "body", "section": "RLVR Data", "weight": 1.0} -->
+
+--- Code. We train on competition-style code data from Nemotron 3 Nano and wang2025nemotroncascadescalingcascadedreinforcement. We also train on single-step patch generation for software engineering tasks to prepare for end-to-end RL in the next stage.
+
+<!-- chunk {"id": "body-0138", "role": "body", "section": "RLVR Data", "weight": 1.0} -->
+
+--- STEM. We include the STEM datasets from Nemotron 3 Nano and add newly curated, more challenging scientific problems.
+
+<!-- chunk {"id": "body-0139", "role": "body", "section": "RLVR Data", "weight": 1.0} -->
+
+--- Instruction Following. We augment the instruction-following data from Nemotron 3 Nano with a new multi-challenge dataset. In this setting, the agent must follow complex user instructions, with rewards computed from a predetermined rubric.
+
+<!-- chunk {"id": "body-0140", "role": "body", "section": "RLVR Data", "weight": 1.0} -->
+
+--- Safety. We add two environments: one targeting reduced over-refusals on safety-related prompts, and one improving robustness to jailbreaks. For jailbreaks, seed prompts come from our SFT data; to surface harder attacks during RL, we apply an iterative attack pipeline following PAIR (chao2024jailbreakingblackboxlarge), attacking an early SFT-only checkpoint and collecting modified prompts with high attack success rates.
+
+<!-- chunk {"id": "body-0141", "role": "body", "section": "RLVR Data", "weight": 1.0} -->
+
+--- Long Context. We use the same long-context environment introduced in Nemotron 3 Nano.
+
+<!-- chunk {"id": "body-0142", "role": "body", "section": "RLVR Data", "weight": 1.0} -->
+
+--- Agentic Tool Use. Beyond the tool-use environments from Nemotron 3 Nano, we add new environments focused on conversational tool use and terminal use.
+
+<!-- chunk {"id": "body-0143", "role": "body", "section": "RLVR Data", "weight": 1.0} -->
+
+--- Reasoning Gym. We train with Reasoning Gym (stojanovski2025reasoning), enabling learning over a diverse suite of reasoning tasks.
+
+<!-- chunk {"id": "body-0144", "role": "body", "section": "Stage 2: End-to-end RL for Software Engineering", "weight": 1.0} -->
+
+In the SWE-RL stage, we improve the model's ability to autonomously solve GitHub issues under diverse harnesses. Each rollout launches an Apptainer container with the target repository, runs an OpenHands agent loop to produce a code patch, and evaluates it against ground-truth tests for a binary reward. For tool diversity, we implemented OpenCode and Codex agent classes within OpenHands that match the tool formats of Claude Code and Codex CLI, reusing a single harness while varying tools and prompts at training time. This multi-harness training improves the model's generalization and performance across all target harnesses at inference time.
+
+<!-- chunk {"id": "body-0145", "role": "body", "section": "Stage 3: Reinforcement Learning from Human Feedback", "weight": 1.0} -->
+
+We follow a similar approach to Nemotron 3 Nano for RLHF, training a large GenRM model to provide supervision during RL. Rather than using a vanilla GenRM, we train a principle following GenRM as in wang2025rlbff. These principles allow us to guide Nemotron 3 Super's behavior on important domains like identity and safety related topics. Similar to Nemotron 3 Nano, we use Qwen3-235B-A22B-Thinking-2507 as the initialization for training the GenRM.
+
+<!-- chunk {"id": "body-0146", "role": "body", "section": "Stage 3: Reinforcement Learning from Human Feedback", "weight": 1.0} -->
+
+To train the GenRM we use the Helpsteer 3 dataset (Wang2025HelpSteer3Preference), commercially friendly subsets of the lmarena-140k dataset (chiang2024chatbot), and some more recently collected human preference data. Unlike Nemotron 3 Nano, we train using our GenRM throughout our multi environment RL stage and also perform a separate RLHF-only stage at the end of post training.
+
+<!-- chunk {"id": "body-0147", "role": "body", "section": "Algorithm", "weight": 1.0} -->
+
+We use an asynchronous GRPO setup in which training and inference are decoupled across separate GPU devices. Inference workers continuously generate trajectories, which are stored in a rollout buffer. Once enough trajectories are collected to form a batch, the batch is sent to the training engine for a model update. We push the updated weights to the inference workers as soon as a new model version is available. Because weight updates can happen mid-rollout, a single trajectory may contain tokens produced by different model versions. We do not recompute the KV cache after updating the model weights on the inference workers. To avoid excessive policy lag, which may result in accuracy degradation, we restrict the inference workers to be at most one step behind the latest model version.
+
+<!-- chunk {"id": "body-0148", "role": "body", "section": "Algorithm", "weight": 1.0} -->
+
+To stabilize the training and minimize off-policy effects caused by the training-inference mismatch and policy lag, we mask the importance sampling ratio computed from the training and inference logprobs (Shao2024DeepSeekMath; team2025every; yao2025offpolicy).
+
+<!-- chunk {"id": "body-0149", "role": "body", "section": "Algorithm", "weight": 1.0} -->
+
+In multi-environment RLVR, we sample 256 prompts per step and generate 16 responses per prompt. We train with a batch size of 4096, which corresponds to a single gradient update per rollout. We begin training with a maximum generation length of 49K tokens and later increase it to 64K.
+
+<!-- chunk {"id": "body-0150", "role": "body", "section": "Algorithm", "weight": 1.0} -->
+
+Agentic RL - PivotRL: Post-training for long-horizon agentic capabilities has a tension between efficiency and accuracy. By long-horizon, we mean tasks that require many turns of interaction with an environment, such as conversational tool use, code editing, terminal interaction, and web search. SFT is cheap and simple for this task, but it often degrades performance outside of the target domain (OOD). End-to-end RL avoids that outcome to a large part, but it is costly because every update requires online interactive rollouts in complex environments. To address this, during the post-training of Super, we adopt PivotRL (yi2026pivotrl).
+
+<!-- chunk {"id": "body-0151", "role": "body", "section": "Algorithm", "weight": 1.0} -->
+
+PivotRL is an assistant-turn-level RL method that addresses this tradeoff by reusing offline SFT expert trajectories during RL. It focuses training on informative turns (called \"pivots\") within those SFT traces, where the policy has uncertainty over the next action, and it uses a domain-appropriate reward to match the policy's action to the expert action, so the model gets credit for similar actions rather than the exact expert action. We notice that this method greatly improves the efficiency of our agentic RL, without facing the OOD degradation issues of SFT.
+
+<!-- chunk {"id": "body-0152", "role": "body", "section": "Algorithm", "weight": 1.0} -->
+
+We apply PivotRL for all agentic domains: including for Agentic Programming, Search, Terminal Use, and Conversational Tool Use. We will have a manuscript with more details soon.
+
+<!-- chunk {"id": "body-0153", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+RL at the frontier of model post-training is currently defined by scaling up to an increasing diversity of tasks or environments designed for the model to learn increasingly general capabilities. Scaling RL to many environments requires a high-performance, extensible, and standardized interface for coordinating between rollouts and training. To address the scaling performance and extensibility challenges using one standard framework, we adopt NeMo Gym (nemo-gym) and NeMo RL (nemo-rl) for enabling large-scale RL on many different environments/verifiers.
+
+<!-- chunk {"id": "body-0154", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+NeMo Gym is based on the abstraction of servers. There are three core varieties of servers in Gym: agents, models, and resources. An agent server implements the rollout kernel of a RL environment. A model server wraps an inference engine such as vLLM (kwon2023efficientmemorymanagementlarge) to provide a prompt-response API, and also carefully preserves token and inference log-prob data and metadata required for RL. A resource server provides a verification API for computing rewards from a given rollout.
+
+<!-- chunk {"id": "body-0155", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+Our Nemotron Super 3 RLVR experiments were all based on an integrated infrastructure of NeMo RL and NeMo Gym: NeMo RL acts as the RL training loop controller, using Megatron-Core (shoeybi2020megatronlmtrainingmultibillionparameter) for model training at scale, and routing all rollouts through NeMo Gym and vLLM.
+
+<!-- chunk {"id": "body-0156", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+NeMo RL and NeMo Gym use ray for orchestration and resource management and deploy the ray cluster on SLURM. Megatron training workers, vLLM generation workers, Gym environments and judge models are all scheduled onto a single ray cluster.
+
+<!-- chunk {"id": "body-0157", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+Async RL Infrastructure: All RL stages used asynchronous RL, where generation can happen independently of training which improves training efficiency by trading off how on-policy the rollouts are. The trainings used one-step off policy where each training step was earmarked for a future training step so there were no wasted rollouts. Training and generation were not collocated which simplifies deployment and avoids having to orchestrate complex memory management between the async training and generation workers.
+
+<!-- chunk {"id": "body-0158", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+All asynchronous RL runs also used in-flight weight updates (piche2025pipelinerl) where training can update generation worker weights without waiting for the remaining ongoing rollouts to finish. The result is a single rollout can have tokens and log probabilities from differently aged policies. Enabling in-flight weight updates is critical for speeding up asynchronous RL training. We did not recompute the KV cache after in-flight weight updates.
+
+<!-- chunk {"id": "body-0159", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+Resiliency: As we scaled up to 1k GPUs, we encountered several issues that caused intermittent failures that were not observed in smaller job shapes. These issues fell into two categories hardware related and software related.
+
+<!-- chunk {"id": "body-0160", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+We observed several hardware issues that required full restart of the job, so several optimizations were also made to improve startup time by parallelizing all initialization prefetching all virtual environments and binaries utilize caching in upstream repos like vLLM and flashinfer.
+
+<!-- chunk {"id": "body-0161", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+Parallel initialization exacerbated latent race conditions with port bindings in the post-training software stack, which became a significant failure point. Several components of the post-training software required ports: Ray control plane vLLM workers and OpenAI servers TCP rendezvous NeMo Gym servers. Due to the high number of processes needing ports on a node, we hit port conflict frequently at 1K GPU scale that were all time-of-check to time-of-use (TOCTOU) race conditions. The pattern we observed was that a component would check if a port was available without claiming it exclusively, and by the time it (or another process it notified) attempted to bind, another process had already claimed the port.
+
+<!-- chunk {"id": "body-0162", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+SWE-RL Infrastructure: Training a model on software engineering tasks requires a gym environment that can execute hundreds of concurrent agent-codebase interactions, each within an isolated sandbox, and return a reward signal derived from real test execution. In the SWE-RL environment in Nemo-Gym, each rollout launches an Apptainer container with the target repository, runs the OpenHands agent loop to produce a code patch, and runs the ground-truth tests to compute a binary reward. Rollouts are distributed across nodes using Ray with a SPREAD scheduling strategy. Below we describe the key components of this environment.
+
+<!-- chunk {"id": "body-0163", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+Container Execution with Apptainer. The absence of root access on our cluster restricts the use of Docker for container isolation. Instead, we use Apptainer (formerly Singularity) to run each SWE task instance in a pre-built container image (.sif files), providing filesystem isolation via a writable tmpfs overlay while sharing the host kernel.
+
+<!-- chunk {"id": "body-0164", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+OpenHands Agent Loop. The agent loop is executed by a modified version of OpenHands, managing the full lifecycle of each interaction: initializing the runtime, presenting the problem statement, running the agent's step loop upto a configurable turn limit, extracting the git patch, and cleaning up. The agent interacts with the repository workspace through bash commands and file operations via a tmux-based session.
+
+<!-- chunk {"id": "body-0165", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+Memory Management. Since Apptainer containers share host memory and processes (unlike Docker's cgroup isolation), runaway agent processes can cause OOM conditions affecting the entire node. We implemented a memory watchdog daemon that monitors the aggregate RSS of the tmux process tree and proactively kills processes inside panes when a configurable limit is exceeded, while keeping the tmux server alive for graceful recovery.
+
+<!-- chunk {"id": "body-0166", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+Command Blocklist. The shared-kernel nature of Apptainer means an agent issuing killall or pkill could terminate training processes or vLLM servers on the same node. A regex-based command block list intercepts and blocks dangerous commands before execution, returning informative error messages with safer alternatives.
+
+<!-- chunk {"id": "body-0167", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+Harness Diversity. To increase tool diversity during training without building separate harness integrations, we implemented OpenCode and Codex agent classes within OpenHands that match the tool input/output formats of their respective external harnesses (Claude Code and Codex CLI). Both agents plug into OpenHands' existing runtime and conversation memory, inheriting container management and observation handling.
+
+<!-- chunk {"id": "body-0168", "role": "body", "section": "Infrastructure", "weight": 1.0} -->
+
+Serialization. We replaced Python's standard json with orjson for serialization of HTTP payloads between the gym and the model server, as each trajectory turn carries prompt token IDs, generated token IDs, and log probabilities, resulting in large payloads that benefit from orjson's Rust-based implementation.
+
+<!-- chunk {"id": "body-0169", "role": "body", "section": "Post-trained Model Evaluations", "weight": 1.0} -->
+
+We evaluate Nemotron 3 Super on the same broad benchmark suite and evaluation stack as Nemotron 3 Nano (nvidia2025nemotron3nanoopen), covering general knowledge, reasoning, agentic, instruction following, long-context, and multilingual capability. All evaluation results were collected via Nemo Evaluator SDK^99^9 and for most benchmarks, the Nemo Skills Harness^1010^10 For reproducibility purposes, the open source container on Nemo Skills packaged via NVIDIA's Nemo Evaluator SDK used for evaluations can be found here^1111^11 In addition to Nemo Skills, the evaluations also used dedicated open-source packaged containers for Tau-2 Bench (default prompt), Terminal Bench Hard (48 tasks), ScaleAI Multi Challenge Multi-turn Instruction Following, Ruler.
+
+<!-- chunk {"id": "body-0170", "role": "body", "section": "Post-trained Model Evaluations", "weight": 1.0} -->
+
+More details on the evaluation settings can be found in the Nemo Evaluator SDK configs folder^1212^12 The following benchmarks are not onboarded yet in our open source tools and for these we used either their official open source implementation or otherwise an internal scaffolding that we plan to open source in the future: SWE Bench Verified (OpenHands), SWE Bench Multilingual (OpenHands), BrowseComp with Search (internal implementation, with Serp API), Terminal Bench Core 2.0 (Harbor).
+
+<!-- chunk {"id": "body-0171", "role": "body", "section": "Reasoning Capabilities", "weight": 1.0} -->
+
+We report results on AIME 25, HMMT Feb 25, GPQA (rein2023gpqa), LiveCodeBench v5 (jain2024livecodebench), SciCode (tian2024scicoderesearchcodingbenchmark), and HLE (phan2025humanitysexam). Across all benchmarks Nemotron 3 Super is competitive with GPT-OSS-120B, while lagging behind Qwen-3.5-122B slightly.
+
+<!-- chunk {"id": "body-0172", "role": "body", "section": "Agentic capabilities", "weight": 1.0} -->
+
+We report results on TerminalBench (the hard subset and the v2 set), SWE-Bench (OpenHands, OpenCode, Codex, and the Multilingual set) (jimenez2023swe), TauBench V2 (Airline, Retail, Telecom; and their average) (barres2025tau), and BrowseComp (wei2025browsecomp). For Browsecomp, our harness takes strong inspiration from the browser tool released with GPT OSS. (openai2025gptoss120bgptoss20bmodel), and we do not evaluate with any context management strategies. For SQL we evaluate on the BIRD benchmark li2023bird dev set (1,534 samples, SQLite, execution accuracy). Across all agentic benchmarks, Nemotron 3 Super outperforms or is competitve with GPT-OSS 120B and is competitive to Qwen 3.5 122B on some harnesses.
+
+<!-- chunk {"id": "body-0173", "role": "body", "section": "Chat and Instruction Following Capabilities", "weight": 1.0} -->
+
+We report results on IFBench, Multi-Challenge, Arena-Hard V2 (li2024wildchat). Across all benchmarks Nemotron 3 Super is competitive with the baseline models.
+
+<!-- chunk {"id": "body-0174", "role": "body", "section": "Long Context Capabilities", "weight": 1.0} -->
+
+We report results on Ruler (hsieh2024ruler) using 100 samples per task and AALCR.
+
+<!-- chunk {"id": "body-0175", "role": "body", "section": "Multilingual Capabilities", "weight": 1.0} -->
+
+We measure multilingual capability on MMLU-ProX (xuan2025mmlu) and ++ en$\rightarrow$xx (deutsch2025wmt24++). Nemotron 3 Super matches or outperforms the baseline models on both bencharks.
+
+<!-- chunk {"id": "body-0176", "role": "body", "section": "Multilingual Capabilities", "weight": 1.0} -->
+
+For comparison with GPT-OSS-120B and Qwen-3.5-122B-A10B, we use officially reported numbers whenever available; when not available, we follow the Nemotron 3 Nano report (nvidia2025nemotron3nanoopen) procedure of either sourcing values from reputable public aggregators (when consistent with the official protocol) or computing scores ourselves using the official evaluation settings.
+
+<!-- chunk {"id": "body-0177", "role": "body", "section": "Quantization For Inference", "weight": 1.0} -->
+
+We apply post-training quantization (PTQ) using Model-Optimizer^1313^13 to quantize weights and activations to generate two efficient deployment checkpoints: FP8 (W8A8) for Hopper and NVFP4 (W4A4) for Blackwell.
+
+<!-- chunk {"id": "body-0178", "role": "body", "section": "Nemotron 3 Super FP8 Checkpoint", "weight": 1.0} -->
+
+For FP8 PTQ calibration, we used a small subset containing 256 samples with 65536 context length from the post-training SFT dataset. For FP8 quantization, we quantized MoE GEMMs, both routed and shared, and Mamba Linear layers. We also kept the KV Cache in FP8, whereas Mamba state cache has been quantized to for speedup. The precision assignments for the different operators in this checkpoint are summarized in Table 6.
+
+<!-- chunk {"id": "body-0179", "role": "body", "section": "Nemotron 3 Super FP8 Checkpoint", "weight": 1.0} -->
+
+Attention GEMM (QKV and Out Projection)
+
+<!-- chunk {"id": "body-0180", "role": "body", "section": "Nemotron 3 Super FP8 Checkpoint", "weight": 1.0} -->
+
+MoE GEMM (Sparse Experts and Shared Experts)
+
+<!-- chunk {"id": "body-0181", "role": "body", "section": "Nemotron 3 Super FP4 Checkpoint", "weight": 1.0} -->
+
+FP4 is a more aggressive quantization format than FP8 and is particularly attractive for prefill-heavy inference workloads, such as coding-agent deployments, where linear and MoE GEMMs are major performance bottlenecks. NVFP4 is natively accelerated on Blackwell GPUs and delivers better accuracy than alternative FP4 formats such as MXFP4 (nvfp4_mxfp4). NVFP4 for inference (nvpfp4_ptq_default) uses signed E2M1 values with per-block scaling over 1D blocks of size 16 along the last dimension. These per-block scales are further quantized into FP8 E4M3 using a per-tensor statically calibrated scaling factor.
+
+<!-- chunk {"id": "body-0182", "role": "body", "section": "Nemotron 3 Super FP4 Checkpoint", "weight": 1.0} -->
+
+In the baseline NVFP4 PTQ recipe (nvpfp4_ptq_default), each per-block scale is determined by the maximum absolute value in the block. We evaluated a range of alternative PTQ methods. The results of these experiments can be found in Appendix B.1 Algorithm Details ‣ Nemotron 3 Super: Open, Efficient Mixture-of-Experts Hybrid Mamba-Transformer Model for Agentic Reasoning"). The best overall results were obtained with a hybrid FP4 recipe: weight per-block scales were selected by minimizing weight MSE, while activation per-block scales continued to use max-based scaling. This choice is both effective and practical. Weight quantization is calibrated offline so an expensive scale search can be performed without impacting runtime performance. Activation quantization must be computed efficiently at runtime, making scale search algorithms impractical. Max-based scaling of activations provides a good trade-off between runtime performance and quantization accuracy.
+
+<!-- chunk {"id": "body-0183", "role": "body", "section": "Nemotron 3 Super FP4 Checkpoint", "weight": 1.0} -->
+
+In addition, we selectively promoted some layers from FP4 (W4A4) to FP8 (W8A8) or (W16A16) to further improve accuracy. We used Model-Optimizer AutoQuantize ^1414^14 a neural architecture search (NAS) inspired method for deriving optimal mixed-precision assignments. AutoQuantize estimates per-operation sensitivity, models the performance cost of available quantization choices, and solves for the optimal layer-wise allocation using a knapsack-style optimization procedure. Its sensitivity metric follows a second-order Taylor approximation inspired by Optimal Brain Surgeon (obs), as introduced in LLM-MQ (llmmq). AutoQuantize generalizes LLM-MQ beyond weight-only quantization. It supports operator-level quantization, including joint weight-and-activation quantization for GEMMs, and accounts for inference deployment constraints such as operator fusion. The detailed AutoQuantize algorithm is given in B.2 Algorithm Details ‣ Nemotron 3 Super: Open, Efficient Mixture-of-Experts Hybrid Mamba-Transformer Model for Agentic Reasoning").
+
+<!-- chunk {"id": "body-0184", "role": "body", "section": "Nemotron 3 Super FP4 Checkpoint", "weight": 1.0} -->
+
+calibrated per-block weight scaling that minimizes MSE,
+
+<!-- chunk {"id": "body-0185", "role": "body", "section": "Nemotron 3 Super FP4 Checkpoint", "weight": 1.0} -->
+
+dynamic per-block max-based activation scaling, and
+
+<!-- chunk {"id": "body-0186", "role": "body", "section": "Nemotron 3 Super FP4 Checkpoint", "weight": 1.0} -->
+
+selective promotion of sensitive layers through Model-Optimizer AutoQuantize.
+
+<!-- chunk {"id": "body-0187", "role": "body", "section": "Nemotron 3 Super FP4 Checkpoint", "weight": 1.0} -->
+
+This combination addresses the accuracy loss of naive NVFP4 PTQ while preserving the runtime efficiency needed for deployment. The resulting per-operator precision assignments in the final NVFP4 checkpoint are summarized in Table 7.
+
+<!-- chunk {"id": "body-0188", "role": "body", "section": "Nemotron 3 Super FP4 Checkpoint", "weight": 1.0} -->
+
+For all searched backbone GEMMs, AutoQuantize considered candidate precisions from { NVFP4, FP8, } and selected the per-operator assignment under a quantization-sensitivity objective with an effective-precision budget of 4.75 bits. In the searched model, sparse-expert GEMMs are assigned NVFP4 throughout, attention and Mamba projection GEMMs are assigned FP8 or, and shared-expert GEMMs use a mix of NVFP4, FP8, and.
+Table 7: Precision settings for the backbone NVFP4 checkpoint compared with the baseline.
+
+<!-- chunk {"id": "body-0189", "role": "body", "section": "Nemotron 3 Super FP4 Checkpoint", "weight": 1.0} -->
+
+Combining AutoQuantize with the improved NVFP4 PTQ recipe produced a mostly-FP4 model, with only a small subset of layers retained in FP8 or for accuracy preservation. The full mixed-precision PTQ process completed in less than 2 hours on a single B200 node with 8 GPUs, using 512 samples from the Nemotron 3 Super SFT dataset at sequence length 4096. The resulting model achieved 99.8% median accuracy relative to the baseline while retaining near-FP4 performance. Final evaluation results are reported in Table 8.
+
+<!-- chunk {"id": "body-0190", "role": "body", "section": "Mamba State Quantization", "weight": 1.0} -->
+
+In memory-bound settings, DRAM reads of the Mamba state cache (SSM cache) become a major bottleneck to decoding speed. The SSM cache is stored in by default. One option is to store the SSM cache in while arithmetic executes. In this case, the cache is fetched from memory, upcast to for the recurrent update, and then cast back to for storage. Table 9 shows experiments on an early checkpoint of Nemotron 3 Super. These results show that directly casting the SSM cache to can result in up to 40% increase in verbosity when combined with W8A8 quantization. Even with maintaining weights and activations, casting the SSM cache to leads to up to 37% increase in verbosity.
+
+<!-- chunk {"id": "body-0191", "role": "body", "section": "Mamba State Quantization", "weight": 1.0} -->
+
+A key challenge in quantizing the Mamba cache is that quantization error does not remain local to a single step. Because Mamba decoding is recurrent, quantization error from previous steps propagates into future steps and accumulates over time. This accumulation of quantization error can be seen by unrolling the recurrent update. Let the recurrent state update be $h_{t} = {{A_{t}h_{t - 1}} + {B_{t}x_{t}}}$, and let cache quantization at step $t$ introduce an additive error $e_{t}$, so that $h_{q,t} = {{A_{t}h_{q,{t - 1}}} + {B_{t}x_{t}} + e_{t}}$. Unrolling this recursion gives
+
+<!-- chunk {"id": "body-0192", "role": "body", "section": "Mamba State Quantization", "weight": 1.0} -->
+
+showing that quantization error from earlier steps is propagated through subsequent recurrent transitions and can accumulate over decoding time.
+
+<!-- chunk {"id": "body-0193", "role": "body", "section": "Mamba State Quantization", "weight": 1.0} -->
+
+Addressing these quantization errors through changes in training (e.g., QAT or QAD) is non-trivial. Mamba training uses the chunked State Space Duality algorithm which does not explicitly materialize the recurrence relationship and the inference-time cache. Accurately modeling the recurrent decode-time cache behavior during training introduces substantial overhead. We therefore focused on training-free methods to recover the accuracy lost from cache quantization.
+
+<!-- chunk {"id": "body-0194", "role": "body", "section": "Mamba State Quantization", "weight": 1.0} -->
+
+One way to decrease the accumulation of quantization error during PTQ is to increase the mantissa precision. We explored this by using instead of for the SSM cache. Naive quantization did not improve verbosity as tensor-level analysis showed that the SSM cache has a wide dynamic range. We then introduced per-block scaling over blocks of size 128 along the state dimension to increase effective dynamic range. This eliminated the verbosity issue (Table 9).
+
+<!-- chunk {"id": "body-0195", "role": "body", "section": "Mamba State Quantization", "weight": 1.0} -->
+
+We also explored a hypothesis that the error accumulation was tied to rounding during the cast from to. The key issue is that round to nearest, ties on even (RTNE) introduces bias in the quantization process. Because RTNE maps a given input to the same rounded value, its quantization error has zero variance but non-zero bias relative to the original value. In contrast, stochastic rounding (SR) is unbiased in expectation. In a recurrent setting, the bias from RTNE accumulates coherently over time, whereas stochastic rounding replaces this systematic drift with zero-mean noise. Based on this observation, we applied stochastic rounding before casting the cache to which fixed the verbosity issue for both the baseline and the FP8 checkpoint (Table 9).
+
+<!-- chunk {"id": "body-0196", "role": "body", "section": "Mamba State Quantization", "weight": 1.0} -->
+
+Table 9 shows accuracy and verbosity of the different SSM cache recipes for livecodebench and scicode. Both with per-block scales and with stochastic rounding were able to maintain accuracy and verbosity similar to the baseline.
+
+<!-- chunk {"id": "body-0197", "role": "body", "section": "Mamba State Quantization", "weight": 1.0} -->
+
+It does not require calculating, storing, and loading block scale factors.
+
+<!-- chunk {"id": "body-0198", "role": "body", "section": "Mamba State Quantization", "weight": 1.0} -->
+
+Blackwell provides a dedicated PTX instruction for stochastic rounding during type conversion.
+
+<!-- chunk {"id": "body-0199", "role": "body", "section": "Mamba State Quantization", "weight": 1.0} -->
+
+Blackwell supports Philox-based pseudorandom number generation through cuRAND.
+
+<!-- chunk {"id": "body-0200", "role": "body", "section": "Mamba State Quantization", "weight": 1.0} -->
+
+To further improve efficiency, Table 9 also varies the number of Philox rounds. Increasing the number of rounds improves the statistical quality of the generated values, while reducing the number of rounds lowers pseudorandom number generation overhead. Philox\<5\> was chosen to maintain accuracy and verbosity while minimizing pseudorandom number generation overhead.
+
+<!-- chunk {"id": "body-0201", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+We introduce Nemotron 3 Super, a 12B active and 120B total parameter MoE hybrid Mamba-Attention model with strong agentic capabilities. Nemotron 3 Super employs LatentMoE to improve accuracy and incorporates MTP layers to accelerate inference via speculative decoding. We pretrained Nemotron 3 Super on 25 trillion text tokens with low-precision NVFP4, followed by post-training on a diverse set of RL environments. Finally, we quantized the model to FP8 and NVFP4, achieving significantly higher inference throughput without sacrificing model accuracy. Nemotron 3 Super achieves up to 2.2$\times$ higher throughput than GPT-OSS-120B while maintaining higher accuracy across a wide range of tasks. We release the pre-trained, post-trained, and quantized checkpoints for Nemotron 3 Super on HuggingFace.
+
+<!-- chunk {"id": "body-0202", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+We thank the following people for their invaluable contributions to NVIDIA Nemotron 3 Super.
+
+<!-- chunk {"id": "body-0203", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Aakshita Chandiramani, Aaron Blakeman, Abdullahi Olaoye, Abhibha Gupta, Abhilash Somasamudramath, Abhinav Khattar, Adeola Adesoba, Adi Renduchintala, Adil Asif, Aditya Agrawal, Aditya Vavre, Ahmad Kiswani, Aishwarya Padmakumar, Ajay Hotchandani, Akanksha Shukla, Akhiad Bercovich, Aleksander Ficek, Aleksandr Shaposhnikov, Alex Gronskiy, Alex Kondratenko, Alex Neefus, Alex Steiner, Alex Yang, Alexander Bukharin, Alexander Young, Ali Hatamizadeh, Ali Taghibakhshi, Alina Galiautdinova, Alisa Liu, Alok Kumar, Ameya Sunil Mahabaleshwarkar, Amir Klein, Amit Zuker, Amnon Geifman, Anahita Bhiwandiwalla, Ananth Subramaniam, Andrew Tao, Anjaney Shrivastava, Anjulie Agrusa, Ankur Srivastava, Ankur Verma, Ann Guan, Anna Shors,
+
+<!-- chunk {"id": "body-0204", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Annamalai Chockalingam, Anubhav Mandarwal, Aparnaa Ramani, Arham Mehta, Arti Jain, Arun Venkatesan, Asha Anoosheh, Ashwath Aithal, Ashwin Poojary, Asif Ahamed, Asit Mishra, Asli Sabanci Demiroz, Asma Kuriparambil Thekkumpate, Atefeh Sohrabizadeh, Avinash Kaur, Ayush Dattagupta, Barath Subramaniam Anandan, Bardiya Sadeghi, Barnaby Simkin, Ben Lanir, Benedikt Schifferer, Benjamin Chislett, Besmira Nushi, Bilal Kartal, Bill Thiede, Bita Darvish Rouhani, Bobby Chen, Boris Ginsburg, Brandon Norick, Branislav Kisacanin, Brian Yu, Bryan Catanzaro, Buvaneswari Mani, Carlo del Mundo, Chankyu Lee, Chanran Kim, Chantal Hwang, Chao Ni, Charles Wang, Charlie Truong, Cheng-Ping Hsieh, Chenhan Yu, Chenjie Luo, Cherie
+
+<!-- chunk {"id": "body-0205", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Wang, Chetan Mungekar, Chintan Patel, Chris Alexiuk, Chris Holguin, Chris Wing, Christian Munley, Christopher Parisien, Chuck Desai, Chunyang Sheng, Collin Neale, Cyril Meurillon, Dakshi Kumar, Dan Gil, Dan Su, Dane Corneil, Daniel Afrimi, Daniel Burkhardt Eliuth Triana, Daniel Egert, Daniel Fatade Douglas O'Flaherty, Daniel Lo, Daniel Rohrer, Daniel Serebrenik, Daniil Sorokin, Daria Gitman, Daria Levy, Darko Stosic, David Edelsohn, David Messina, David Mosallanezhad, David Tamok, Deena Donia, Deepak Narayanan, Devin O'Kelly, Dheeraj Peri, Dhruv Nathawani, Di Wu, Dima Rekesh, Dina Yared, Divyanshu Kakwani, Dmitry Konyagin Brandon Tuttle, Dong Ahn, Dongfu Jiang, Dorrin Poorkay, Duncan Riach, Dusan Stosic, Dustin Van Stee, Edgar Minasyan, Edward Lin, Eileen Peters Long, Elad Segal, Elena
+
+<!-- chunk {"id": "body-0206", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Lantz, Elena Lewis, Ellie Evans, Elliott Ning, Eric Chung, Eric Harper, Eric Pham-Hung, Eric W.
+
+<!-- chunk {"id": "body-0207", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Tramel, Erick Galinkin, Erik Pounds, Esti Etrog, Evan Briones, Evan Wu, Evelina Bakhturina, Evgeny Tsykunov, Ewa Dobrowolska, Farshad Saberi Movahed, Farzan Memarian, Fay Wang, Fei Jia, Felipe Soares, Felipe Vieira Frujeri, Feng Chen, Fengguang Lin, Ferenc Galko, Fortuna Zhang, Frankie Siino, Frida Hou, Gantavya Bhatt, Gargi Prasad, Geethapriya Venkataramani, Geetika Gupta, George Armstrong, Gerald Shen, Giulio Borghesi, Gordana Neskovic, Gorkem Batmaz, Grace Lam, Grace Wu, Greg Pauloski, Greyson Davis, Grigor Nalbandyan, Guoming Zhang, Guy Farber, Guyue Huang, Haifeng Qian, Haran Kumar Shiv Kumar, Harry Kim, Harsh Sharma, Hayate Iso, Hayley Ross, Herbert Hum, Herman Sahota, Hexin Wang, Himanshu Soni, Hiren Upadhyay, Huy Nguyen, Iain Cunningham, Ido
+
+<!-- chunk {"id": "body-0208", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Galil, Ido Shahaf, Igino Padovani, Igor Gitman, Igor Shovkun, Ikroop Dhillon, Ilya Loshchilov, Ingrid Kelly, Itamar Schen, Itay Levy, Ivan Moshkov, Izik Golan, Izzy Putterman, Jain Tu, Jan Baczek, Jan Kautz, Jane Polak Scowcroft, Janica Rosenberg, Jared Casper, Jarrod Pflum, Jason Grant, Jason Sewall, Jatin Mitra, Jeffrey Glick, Jenny Chen, Jesse Oliver, Jiacheng Xu, Jiafan Zhu, Jialin Song, Jian Zhang, Jiaqi Zeng, Jie Lou, Jill Milton, Jim Chow, Jimmy Zhang, Jinhang Choi, Jining Huang, Jocelyn Huang, Joel Caruso, Joey Conway, Joey Guman, Johan Jatko, John Kamalu, Johnny Greco, Jonathan Cohen, Jonathan Raiman, Joseph Jennings, Joyjit Daw, Juan Yu, Julio Tapia, Junkeun Yi, Jupinder Parmar, Jyothi Achar, Kari Briski, Kartik Mattoo, Katherine Cheung, Katherine Luna, Keith Wyss, Kevin Shih, Kezhi
+
+<!-- chunk {"id": "body-0209", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Kong, Khanh Nguyen, Khushi Bhardwaj, Kirill Buryak, Kirthi Shankar Sivamani, Konstantinos Krommydas, Kris Murphy, Krishna C.
+
+<!-- chunk {"id": "body-0210", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Puvvada, Krzysztof Pawelec, Kumar Anik, Laikh Tewari, Laya Sleiman, Leo Du, Leon Derczynski, Li Ding, Lilach Ilan, Lingjie Wu, Lizzie Wei, Luis Vega, Lun Su, Maarten Van Segbroeck, Maer Rodrigues de Melo, Magaret Zhang, Mahan Fathi, Makesh Narsimhan Sreedhar, Makesh Sreedhar, Makesh Tarun Chandran, Manuel Reyes Gomez, Maor Ashkenazi, Marc Cuevas, Marc Romeijn, Margaret Zhang, Mark Cai, Mark Gabel, Markus Kliegl, Martyna Patelka, Maryam Moosaei, Matthew Varacalli, Matvei Novikov, Mauricio Ferrato, Mehrzad Samadi, Melissa Corpuz, Meng Xin, Mengdi Wang, Mengru Wang, Meredith Price, Micah Schaffer, Michael Andersch, Michael Boone, Michael Evans, Michael Z Wang, Miguel Martinez, Mikail Khona, Mike Chrzanowski, Mike Hollinger, Mingyuan Ma, Minseok Lee, Mohammad Dabbah, Mohammad
+
+<!-- chunk {"id": "body-0211", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Shoeybi, Mostofa Patwary, Nabin Mulepati, Nader Khalil, Najeeb Nabwani, Nancy Agarwal, Nanthini Balasubramaniam, Narimane Hennouni, Narsi Kodukula, Natalie Hereth, Nathaniel Pinckney, Nave Assaf, Negar Habibi, Nestor Qin, Neta Zmora, Netanel Haber, Nick Reamaroon, Nickson Quak, Nidhi Bhatia, Nikhil Jukar, Nikki Pope, Nikolai Ludwig, Nima Tajbakhsh, Nir Ailon, Nirmal Juluru, Nirmalya De, Nowel Pitt, Oleg Rybakov, Oleksii Hrinchuk, Oleksii Kuchaiev, Olivier Delalleau, Oluwatobi Olabiyi, Omer Ullman Argov, Omri Almog, Omri Puny, Oren Tropp, Otavio Padovani, Ouye Xie, Parth Chadha, Pasha Shamis, Paul Gibbons, Pavlo Molchanov, Peter Belcak, Peter Jin, Pinky Xu, Piotr Januszewski,
+
+<!-- chunk {"id": "body-0212", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Pooya Jannaty, Prachi Shevate, Pradeep Thalasta, Pranav Prashant Thombre, Prasoon Varshney, Prerana Gambhir, Pritam Gundecha, Przemek Tredak, Qing Miao, Qiyu Wan, Quan Tran Minh, Rabeeh Karimi Mahabadi, Rachel Oberman, Rachit Garg, Rahul Kandu, Raina Zhong, Ran El-Yaniv, Ran Zilberstein, Rasoul Shafipour, Renee Yao, Renjie Pi, Richard Mazzarese, Richard Wang, Rick Izzo, Ridhima Singla, Rima Shahbazyan, Rishabh Garg, Ritika Borkar, Ritu Gala, Riyad Islam, Robert Clark, Robert Hesse, Roger Waleffe, Rohit Varma Kalidindi, Rohit Watve, Roi Koren, Ron Fan, Ruchika Kharwar, Ruisi Cai, Ruoxi Zhang, Russell J.
+
+<!-- chunk {"id": "body-0213", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Hewett, Ryan Prenger, Ryan Timbrook, Ryota Egashira, Sadegh Mahdavi, Sagar Singh Ashutosh Joshi, Sahil Modi, Samuel Kriman, Sandeep Pombra, Sanjay Kariyappa, Sanjeev Satheesh, Santiago Pombo, Saori Kaji, Satish Pasumarthi, Saurav Mishra, Saurav Muralidharan, Scott Hara, Sean Narenthiran, Sebastian Rogawski, Seonjin Na, Seonmyeong Bak, Sepehr Sameni, Seth Poulos, Shahar Mor, Shantanu Acharya, Shaona Ghosh Adam Lord, Sharath Turuvekere Sreenivas, Shaun Kotek, Shaya Gharghabi, Shelby Thomas, Sheng-Chieh Lin, Shibani Likhite, Shiqing Fan, Shiyang Chen, Shreya Gopal, Shrimai Prabhumoye, Shubham Pachori, Shubham Toshniwal, Shuo Zhang, Shuoyang Ding, Shyam Renjith, Shyamala Prayaga, Siddhartha Jain, Simeng Sun,
+
+<!-- chunk {"id": "body-0214", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Sirisha Rella, Sirshak Das, Smita Ithape, Sneha Harishchandra S, Somshubra Majumdar, Soumye Singhal, Sri Harsha Singudasu, Sriharsha Niverty, Stas Sergienko, Stefana Gloginic, Stefania Alborghetti, Stephen Ge, Stephen McCullough, Sugam Dipak Devare, Suguna Varshini Velury, Sukrit Rao, Sumeet Kumar Barua, Sunny Gai, Suseella Panguluri, Sushil Koundinyan, Swathi Patnam, Sweta Priyadarshi, Swetha Bhendigeri, Syeda Nahida Akter, Sylendran Arunagiri, Tailling Yuan, Talor Abramovich, Tan Bui, Tan Yu, Terry Kong, Thanh Do, Thomas Gburek, Thorgane Marques, Tiffany Moore, Tijmen Blankevoort, Tim Moon, Timothy Ma, Tiyasa Mitra, Tomasz Grzegorzek, Tomer Asida, Tomer Bar Natan, Tomer Keren, Tomer Ronen, Traian
+
+<!-- chunk {"id": "body-0215", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Rebedea, Trenton Starkey, Tugrul Konuk, Twinkle Vashishth, Tyler Condensa, Udi Karpas, Ushnish De, Vahid Noorozi, Vahid Noroozi, Vanshil Atul Shah, Veena Vaidyanathan, Venkat Srinivasan, Venmugil Elango, Victor Cui, Vijay Korthikanti, Vikas Mehta, Virginia Adams, Virginia Wu, Vitaly Kurin, Vitaly Lavrukhin, Vladimir Anisimov, Wan Seo, Wanli Jiang, Wasi Uddin Ahmad, Wei Du, Wei Ping, Wei-Ming Chen, Wendy Quan, Wenliang Dai, Wenwen Gao, Will Jennings, William Zhang, Xiaowei Ren, Xiaowen Xin, Xin Li, Yang Yu, Yangyi Chen, Yaniv Galron, Yashaswi Karnati, Yejin Choi, Yev Meyer, Yi-Fu Wu, Yian Zhang, Ying Lin, Yonatan Geifman, Yonggan Fu, Yoshi Suhara, Youngeun Kwon, Yuan Zhang, Yuki Huang, Zach Moshe, Zhilin Wang, Zhiyu Cheng,
+
+<!-- chunk {"id": "body-0216", "role": "body", "section": "Contributors", "weight": 1.0} -->
+
+Zhongbo Zhu, Zhuolin Yang, Zihan Liu, Zijia Chen, Zijie Yan, Zuhair Ahmed.

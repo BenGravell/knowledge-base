@@ -1,17 +1,195 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 HOIST-Former: Hand-Held Objects Identification, Segmentation, and Tracking in the Wild
 
 Topics include Video understanding, Object segmentation, Object tracking, Hand-object interaction, Transformers, In-the-wild datasets, Instance segmentation, Human-object interaction.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Targets the difficult video problem of identifying, segmenting, and tracking objects being held by hands, where occlusion and hand-offs make standard trackers brittle. HOIST-Former couples hand and object features through iterative pooling and contact-aware training, and the paper also contributes the HOIST in-the-wild video dataset.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 We address the challenging task of identifying, segmenting, and tracking hand-held objects, which is crucial for applications such as human action segmentation and performance evaluation. This task is particularly challenging due to heavy occlusion, rapid motion, and the transitory nature of objects being hand-held, where an object may be held, released, and subsequently picked up again. To tackle these challenges, we have developed a novel transformer-based architecture called HOIST-Former. HOIST-Former is adept at spatially and temporally segmenting hands and objects by iteratively pooling features from each other, ensuring that the processes of identification, segmentation, and tracking of hand-held objects depend on the hands' positions and their contextual appearance. We further refine HOIST-Former with a contact loss that focuses on areas where hands are in contact with objects. Moreover, we also contribute an in-the-wild video dataset called HOIST, which comprises 4,125 videos complete with bounding boxes, segmentation masks, and tracking IDs for hand-held objects.
 
-## Introduction
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-Humans primarily use their hands to interact with their surroundings, making the ability to segment and track hand-held objects crucial for understanding and interpreting human interactions with the environment. From monitoring a factory worker navigating through assembly tasks to evaluating the skill set of a resident doctor performing intricate medical operations, the dynamic interplay between hands and objects forms the core of many activities.
+Through experiments on the HOIST dataset and two additional public datasets, we demonstrate the efficacy of HOIST-Former in segmenting and tracking hand-held objects.
 
-In this paper, we study the problem of jointly segmenting and tracking objects that are held and moved by hands in unconstrained videos, as illustrated in Fig. 1. Specifically, given an input video composed of a sequence of frames, we consider all portable objects that are held by hands at any point within these frames. Suppose there are a number of such object instances. For each object instance, our objective is to produce a series of binary segmentation masks corresponding to each frame, such that the mask for a particular frame is empty if the object instance is not being held by a hand in that frame.
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Segmenting and tracking hand-held objects involves three complex sub-tasks: first, identifying the object in the grasp of a hand from among several; second, accurately segmenting that object; and third, maintaining its track throughout the video. Identifying hand-held objects is challenging because the mere overlapping of hand and object segments does not confirm a hold, as they may overlap in a 2D view without actual 3D contact.
+Humans primarily use their hands to interact with their surroundings, making the ability to segment and track hand-held objects crucial for understanding and interpreting human interactions with the environment. From monitoring a factory worker navigating through assembly tasks to evaluating the skill set of a resident doctor performing intricate medical operations, the dynamic interplay between hands and objects forms the core of many activities. Segmenting hand-held objects allows computer vision systems to identify the focal points of action, while tracking these objects over time provides a coherent understanding of sequential and complex actions. This combined capability is particularly crucial in scenarios involving multiple similar objects, as it requires the system to differentiate and monitor the path of each item to deliver contextually rich, actionable insights.
 
-To address the aforementioned challenges of Hand-held Objects Identification Segmentation and Tracking, we propose HOIST-Former. This model builds on the transformer-based image and video segmentation method Mask2Former, enhancing it with an innovative decoder architecture designed to overcome its limitations. Although Mask2Former is a leading method for object segmentation and tracking, its reliance on a predefined set of object categories makes it unsuitable for the segmentation and tracking of arbitrary hand-held objects in an open-world setting.
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this paper, we study the problem of jointly segmenting and tracking objects that are held and moved by hands in unconstrained videos, as illustrated in Fig. 1. Specifically, given an input video composed of a sequence of frames, we consider all portable objects that are held by hands at any point within these frames. Suppose there are a number of such object instances. For each object instance, our objective is to produce a series of binary segmentation masks corresponding to each frame, such that the mask for a particular frame is empty if the object instance is not being held by a hand in that frame. Note that our study is limited to portable objects that can be held and moved by hand, excluding non-portable objects like furniture.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Segmenting and tracking hand-held objects involves three complex sub-tasks: first, identifying the object in the grasp of a hand from among several; second, accurately segmenting that object; and third, maintaining its track throughout the video. Identifying hand-held objects is challenging because the mere overlapping of hand and object segments does not confirm a hold, as they may overlap in a 2D view without actual 3D contact. The segmentation task is complicated by heavy occlusion of objects by the hands, resulting in non-contiguous segments and the need to account for various object shapes and appearances in an open-world setting, regardless of category. Tracking is made difficult by the rapid movement of hands, which can drastically alter the position of the object from one frame to the next, potentially causing incorrect associations of object identity over time. Furthermore, while an object can be visible throughout the video, being hand-held is not a persistent characteristic; an object might be held at one moment, released the next, and picked up again subsequently. At times when the object is not in hand, segmentation and tracking should cease, notwithstanding its visibility. Despite these breaks in continuity, the object should maintain a consistent identifier throughout the video.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Some of the challenges described here are illustrated in Fig. 1.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To address the aforementioned challenges of Hand-held Objects Identification Segmentation and Tracking, we propose HOIST-Former. This model builds on the transformer-based image and video segmentation method Mask2Former, enhancing it with an innovative decoder architecture designed to overcome its limitations. Although Mask2Former is a leading method for object segmentation and tracking, its reliance on a predefined set of object categories makes it unsuitable for the segmentation and tracking of arbitrary hand-held objects in an open-world setting. Furthermore, Mask2Former's methodology, grounded solely on categorical membership and object visibility, is inadequate in scenarios where segmentation and tracking need to be initiated, paused, and resumed based on additional criteria, such as the hand-held status of an object, which is the central concern of this paper.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+HOIST-Former addresses the limitations of Mask2Former with a novel Hand-Object Transformer decoder, which iteratively localizes hands and hand-held objects by mutually pooling features, effectively conditioning the identification and segmentation of the hand-held objects based on the appearance of hands and their surrounding context. Specifically, from a given set of video frames, a backbone network extracts low-resolution spatio-temporal features. These features are then gradually upscaled by a pixel decoder to produce high-resolution, per-pixel spatio-temporal embeddings. Finally, the Hand-Object Transformer decoder utilizes these high-resolution embeddings to generate spatio-temporal segmentation masks for both hands and the objects they are holding.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To train and evaluate HOIST-Former, we have collected and annotated a large-scale in-the-wild video dataset, named HOIST, a contribution of this work. Specifically, for each hand-held object in the video, we annotate its segmentation mask and assign a tracking instance ID that persists throughout the video. Our dataset comprises 4,228 videos with approximately 85,000 frames in total. The HOIST dataset includes numerous videos featuring hand-held objects within challenging and unconstrained environments, which can be used to train robust methods for hand-held object segmentation and tracking.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Experiments conducted on the HOIST dataset, along with two other datasets, reveal that HOIST-Former achieves superior results in the segmentation and tracking of hand-held objects.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "HOIST-Former", "weight": 1.0} -->
+
+This section describes HOIST-Former, a novel network designed to jointly segment and track hand-held objects. The network takes as input a video $\mathcal{V} \in {\mathbb{R}}^{T \times H \times W \times 3}$, consisting of $T$ frames with spatial dimensions $H \times W$ and three color channels. For each object $O$ in the video that is held by a hand in at least one of the frames, the network outputs a binary 3D tensor $\mathbf{M} \in {\{ 0,1\}}^{T \times H \times W}$, representing the spatio-temporal locations of the object. If object $O$ is not held by a hand in a frame, then its corresponding 2D binary mask will be devoid of any segment, as our task is solely on segmenting and tracking the object when it is being held. Note that object $O$ retains a unique instance ID throughout the video, even if certain 2D segmentation masks become empty at times due to complete occlusion or temporary disruption of the hand-held status.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "HOIST-Former", "weight": 1.0} -->
+
+Inspired by the success of Mask2Former in video instance segmentation, we designed HOIST-Former with a similar overall architectural framework, consisting of three main components: a backbone network, a pixel decoder, and a transformer decoder, as depicted in Fig.. First, the input video is fed into the backbone network to extract low-resolution features. These features are then upscaled by the pixel decoder to generate high-resolution spatio-temporal features $\mathcal{F}$. The transformer decoder operates on $\mathcal{F}$, processing hand and object queries iteratively. These queries, starting as an initial set of learnable $C$-dimensional feature vectors representing potential hands or hand-held objects in the video, are iteratively updated by the transformer decoder. The spatio-temporal binary mask predictions for both object and hand tracks are decoded from these hand and object queries in conjunction with the high-resolution spatio-temporal features $\mathcal{F}$.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "HOIST-Former", "weight": 1.0} -->
+
+In the remainder of this section, we will describe the innovative transformer decoder of HOIST-Former, called Hand-Object Transformer Decoder. Following this, we will describe how HOIST-Former can be trained.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Hand-Object Transformer Decoder", "weight": 1.0} -->
+
+The Hand-Object Transformer Decoder is an innovative component, designed to systematically determine the positions of hands and hand-held objects through an iterative and collaborative feature pooling process. This effectively conditions the identification and segmentation of hand-held objects based on the appearance of hands and their immediate environment. This innovative transformer decoder allows us to segment and track arbitrary hand-held objects in an open-world setting, satisfying selection criteria that extend beyond categorical membership and object visibility.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Hand-Object Transformer Decoder", "weight": 1.0} -->
+
+Given the spatio-temporal features $\mathcal{F}$, we start with $N$ learnable hand queries $\mathbf{H}_{0} \in {\mathbb{R}}^{N \times C}$ and object queries $\mathbf{O}_{0} \in {\mathbb{R}}^{N \times C}$. These queries function similarly to region proposals and can generate spatio-temporal segmentation masks for hands and hand-held objects by attending to the features $\mathcal{F}$. Similar to Mask2Former, these queries are processed by $L$ transformer decoder layers to produce segmentation masks. However, unlike Mask2Former, our focus is on segmenting objects based on their interaction with hands, regardless of their category or visibility. We therefore condition object segmentation on the appearance of hands and their surrounding context. Conversely, identifying hand-held objects aids in localizing hands. Therefore, we condition the hand segmentation upon hand-held objects. These dual tasks are achieved by mutually pooling information between hand and object queries.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Hand-Object Transformer Decoder", "weight": 1.0} -->
+
+The operational flow of the Hand-Object Transformer Decoder is illustrated in Fig.. It encompasses four principal operations: an initial mask attention operation, succeeded by a cross-attention operation, another mask attention operation, and finally concluding with a second cross-attention operation.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Hand-Object Transformer Decoder", "weight": 1.0} -->
+
+In the above, $CrossAtt$ and $MaskAtt$ refer to the cross-attention and mask-attention modules, respectively. To elaborate, the function $CrossAtt{(\mathbf{X},\left. \mathbf{Y} \middle| f \right.)}$ takes two inputs, $X$ and $Y$, where $f$ symbolizes a trio of linear functions ${f_{Q}{( \cdot )}},{f_{K}{( \cdot )}},{f_{V}{( \cdot )}}$ (for query, key, value) with learnable parameters. The function $CrossAtt$ draws information from $Y$ to $X$, resulting in an updated version $\mathbf{X}^{\prime}$ of $\mathbf{X}$.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Hand-Object Transformer Decoder", "weight": 1.0} -->
+
+The function $MaskAtt{(\mathbf{X},\left. \mathbf{M} \middle| f \right.)}$ operates with two inputs: the query set $X$ and the collection of spatio-temporal binary masks $\mathbf{M}$. It outputs the revised queries $X^{\prime}$ and the updated masks $\mathbf{M}^{\prime}$. Also in this context, $f$ represents a set of three linear functions: ${f_{Q}{( \cdot )}},{f_{K}{( \cdot )}}$, and $f_{V}{( \cdot )}$, each characterized by learnable parameters.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Hand-Object Transformer Decoder", "weight": 1.0} -->
+
+In the above, $\mathcal{F}$ is the high-resolution spatio-temporal feature maps from the pixel decoder. The 4D attention mask $\mathcal{M}$ is determined by the set of 3D binary masks $\mathbf{M}$.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Hand-Object Transformer Decoder", "weight": 1.0} -->
+
+Another output of the $MaskAtt{(\mathbf{X},\left. \mathbf{M} \middle| f \right.)}$ function is the set of updated 3D masks $\mathbf{M}^{\prime}$, which are obtained by using dot products between query features $\mathbf{X}$ and spatio-temporal features $\mathcal{F}$. We refer the reader to Cheng et al. for more details.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Hand-Object Transformer Decoder", "weight": 1.0} -->
+
+Note that the Hand-Object Transformer Decoder is composed of four Attention modules: two cross-attention and two mask-attention modules. Each of these modules is equipped with three linear functions corresponding to query, key, and value, resulting in a total of 12 linear functions, each featuring learnable weights.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Training Losses", "weight": 1.0} -->
+
+The term $\mathcal{L}_{cls}$, $\mathcal{L}_{mask}$, and $\mathcal{L}_{dice}$ denote the class loss, mask loss, and dice losses, respectively. Both the mask loss and dice loss comprise a linear combination of individual losses calculated for hands, objects, and contact masks
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Training Losses", "weight": 1.0} -->
+
+The mask loss and dice loss each include a loss term specific to the contact mask, which represents the interaction area between a hand-held object and the hand holding it. This contact mask is derived after acquiring the spatio-temporal hand and object masks at each decoder layer $l$. Encoding the key interaction zone between hands and objects, the contact mask plays a vital role in accurately localizing hand-held objects. During training, we incorporate contact losses to guide HOIST-Former's focus towards areas where hands and objects make contact. The effectiveness of including contact losses is demonstrated through empirical results in our experimental section.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Training Losses", "weight": 1.0} -->
+
+The $\lambda_{i}$'s in Eq. and Eq. are tunable hyperparameters that control the relative strength of individual losses.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "HOIST Dataset", "weight": 1.0} -->
+
+This section describes a novel and challenging dataset we have collected to develop and evaluate hand-held object segmentation and tracking methods.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "HOIST Dataset", "weight": 1.0} -->
+
+Dataset Source. Our goal is to compile a sufficiently large and diverse video dataset to develop methods for detecting, segmenting, and tracking hand-held objects. Specifically, we aim for the dataset to satisfy several criteria. First, it should include videos of everyday activities in diverse indoor and outdoor environments. Second, the videos should feature people interacting with a wide range of objects. Third, we aim to develop methods suitable for unconstrained videos showcasing hands interacting with multiple objects, involving scenarios where objects are held, released, and picked up in various sequences; hence, the dataset should include such types of videos. To fulfill these requirements, we selected YouTube videos from the 100DOH dataset, which consists of 100K frames from 27.3K videos. While 100DOH provides bounding box annotations for hands and hand-contact objects, it lacks segmentation or tracking annotations.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "HOIST Dataset", "weight": 1.0} -->
+
+To construct HOIST, we initially focused on 100DOH frames featuring portable object annotations. We identified the publicly available YouTube videos corresponding to these frames as potential candidates. For each selected frame, we used shot boundary information to locate contiguous segments within the corresponding video, eliminating any duplicate segments in the process. The videos were post-processed to an approximate length of three seconds each. We extracted the videos at a rate of six frames per second, resulting in about 18 frames per video, and resized the frames to maintain a shorter side of 480 pixels. In total, our dataset comprises 4,228 videos with 83,970 frames.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "HOIST Dataset", "weight": 1.0} -->
+
+Annotation and Statistics. In the HOIST dataset, we annotate every instance of hand-held objects in the videos. Specifically, we provide annotations for each object's bounding box, segmentation mask, and a unique instance ID to facilitate tracking. We omit the object's bounding box and mask annotations in frames where the object is not held by a hand. The annotation process begins with the manual annotation of bounding boxes and tracking IDs for hand-held objects. Subsequently, we divide the videos into train, validation, and test sets, adhering to the splits defined in the 100DOH dataset. For the test and validation videos, we manually annotate the segmentation masks of hand-held objects. In contrast, for the training videos, we generate segmentation masks by applying the Segment Anything model to the manually annotated bounding boxes. Table provides some key statistics of the HOIST dataset and Fig. illustrates some sample annotated frames.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+This section outlines the extensive experiments we conducted on several datasets. We begin by describing the datasets used, the evaluation metrics employed, and the training details.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Datasets", "weight": 1.0} -->
+
+In addition to evaluating our method's effectiveness on the proposed HOIST dataset, we also perform experiments on selected videos from the VISOR and UVO datasets that are amendable for hands and hand-held objects evaluation. This section details the filtering steps we employed to select and prepare these videos.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Datasets", "weight": 1.0} -->
+
+VISOR is an egocentric video semantic segmentation dataset derived from EPIC-KITCHEN, centered around active objects involved in the user's actions. The dataset offers two types of annotations: manually curated, high-quality sparse annotations, and dense annotations generated through interpolation. Due to the unreliability of dense annotations, we only use the sparse annotations.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Datasets", "weight": 1.0} -->
+
+In its sparse annotations, each VISOR video clip typically encompasses three actions with a total of six annotated frames. From the annotations, we identified objects in direct contact with hands. Initially, we manually reviewed the object categories and names, excluding immobile categories like stovetops, dishwashers, and freezers. For certain remaining categories, we applied a further filter to eliminate excessively large objects, setting the mask area threshold for an "overly large" object at 0.3. Upon a detailed review of the dataset, we corrected several annotation errors, particularly those involving gloves and hands. The final step is to exclude object instances not in contact with hands by checking the overlap between diluted hands and instance masks. The VISOR dataset is divided into two subsets: originally, the Train subset had 5322 clips, and the Valid subset had 1251 clips. After our filtering steps, we are left with 5022 clips in the Train subset, featuring 31.4K frames and 34.5K hand-held object instances with mask annotations, and 1162 clips in the Valid subset, encompassing 7.3K frames with 8K hand-held object instances.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Datasets", "weight": 1.0} -->
+
+UVO is a general-purpose video segmentation dataset featuring annotations for various object categories, along with their segmentation masks and tracking IDs. To extract videos containing hand-held objects for segmentation and tracking, we employ a three-step process. First, we select a subset of UVO object categories likely to be hand-held, excluding categories like vehicles, people, and furniture. Second, we manually review videos under these potential hand-held object categories, retaining only those that actually feature hand-held objects. Third, we adjust the segmentation masks of these hand-held objects, setting them to empty masks in frames where they are not held by hands. This process results in 90 videos from the training set and 80 from the validation set. Given the insufficiency of 90 videos for training purposes, we opt to use only the 80 videos from the validation set for evaluation.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Evaluation metric and training details", "weight": 1.0} -->
+
+We measure the joint performance of hand-held object segmentation and tracking using the Average Precision (AP). We consider a detected spatio-temporal mask $\mathbf{M}$ as a true positive if its Intersection over Union (IoU) with a ground-truth spatio-temporal mask is greater than 0.5.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Evaluation metric and training details", "weight": 1.0} -->
+
+We implement HOIST-Former using Detectron2. We set the hyperparmeters $\lambda_{2},\lambda_{5}$ in Eq. and Eq. to be 5. We set the rest of $\lambda_{i}$'s to be 0.001. We train HOIST-Former on eight 80GB GPUs using AdamW optimizer with an initial learning rate of $0.0001$.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Comparison Methods", "weight": 1.0} -->
+
+Our objective is to effectively identify, segment, and track hand-held objects. Any viable approach must address these functions in some manner. We evaluate HOIST-Former against a comprehensive range of methods, each representing different approaches to these tasks.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Comparison Methods", "weight": 1.0} -->
+
+The first task involves locating a hand-held object's bounding box. The second requires generating a segmentation mask, and the third entails maintaining identity consistency across frames, either by matching detected object instances or through propagation. These tasks hinge on the initial identification and subsequent tracking of the bounding box and segmentation mask at Frame $t$. We consider two options for obtaining the initial bounding box: automatic detection using the 100DOH detector, or using a human-annotated ground truth bounding box. For initial segmentation, one option is using SAM with the bounding box as a prompt; alternatively, methods that use ground truth masks are also considered. For the continued tracking of the segmented object at Frame $t$, the state-of-the-art video object segmentation method STCN can be employed. Alternatively, this process can be split into tracking the bounding box first and then applying SAM segmentation, with the tracked box serving as the prompt. This division leads to further decisions regarding how the bounding box at Frame $t$ is detected and linked to its previous appearance, with options including the automatic 100DOH detector or the oracle-based ground truth bounding box.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Comparison Methods", "weight": 1.0} -->
+
+To connect detections, we experiment with IoUTracker, StrongSORT, ByteTrack, GTR and MixFormer, combining both automatic and oracle-based methods in detection, segmentation, and tracking.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Comparison Methods", "weight": 1.0} -->
+
+In contrast, HOIST-Former operates by producing a spatio-temporal binary segmentation mask for each hand-held object, treating the video as a singular entity and thus avoiding the need to distinctly separate these tasks. This sets HOIST-Former apart from the other baseline and oracle methods discussed. A notable comparison in terms of operation is the Mask2Former method, which we also benchmark against here.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
+
+Tab. 2 reports the performance of various methods for identifying, segmenting, and tracking hand-held objects. This analysis, detailed in Sec. 5.3, includes comparisons with Mask2Former and HOIST-Former. Among the methods excluding Mask2Former and HOIST-Former, BL-A emerges as the most effective. However, BL-A is only viable when a user manually identifies and segments the hand-held object in the first frame, a task requiring significant time and effort. Choosing to only draw the bounding box leads to a notable performance drop of 7.3% on the HOIST dataset (Method BL-B). If the initial bounding box is determined using the 100DOH detector instead of manual annotation (Method BL-C), performance drastically decreases, halving the AP. This highlights the critical need for accurate hand-held object bounding box detection, a task where the 100DOH detector falls short. The other methods in Tab. 2, following a similar approach of bounding box detection, linking, and segmentation using SAM with bounding box prompts, are also evaluated. BL-J, assuming ground truth bounding boxes, performs best among these.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
+
+However, when ground truth bounding boxes are replaced by those detected by 100DOH, as in method BL-K, there is a significant decline in performance. MixFormer proved to be the most effective among various linking methods tested.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
+
+HOIST-Former emerges as the leading method, significantly surpassing others, especially those ranging from BL-A to BL-M. This achievement is particularly noteworthy given that some methods have the advantage of accessing ground truth bounding boxes or segmentation masks, a privilege not afforded to HOIST-Former. Mask2Former ranks as the second-best method. Notably, this is not the standard Mask2Former network designed for segmenting and tracking predefined object categories. Rather, it is a re-trained version of the vanilla Mask2Former architecture, specifically adapted for a single consolidated class of hand-held objects. While Mask2Former outperforms many contenders in Tab. 2, it is still surpassed by HOIST-Former. This success of HOIST-Former is attributed to its advanced Hand-Object Transformer Decoder, which proficiently pools information and bases decisions on both hands and objects--key factors for determining hand-held status. Both Mask2Former and HOIST-Former models are trained using the HOIST training data.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Experimental Results", "weight": 1.0} -->
+
+For the VISOR dataset, characterized by a much sparser set of video frames compared to HOIST's framerates, the models are trained on VISOR training data. The performances reported in the table for VISOR reflect this specialized training.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Ablation studies and qualitative results", "weight": 1.0} -->
+
+A key innovation in HOIST-Former lies in its utilization of hand context to ascertain hand-held status. This novel concept is embodied in the Hand-Object Transformer Decoder, a unique Transformer decoder featuring two cross-attention modules: Hand-to-Object and Object-to-Hand, crafted for bidirectional context integration and decision-making. Additionally, the significance of this mutual context is highlighted by considering the contact boundary between hand and object segmentation, reinforced through the implementation of Contact Loss. These elements are purposefully integrated to ensure the network has sufficient information for accurate decision-making. Our ablation study, detailed in Tab. 3, evaluates the criticality of these components. The results clearly demonstrate that removing either the Hand-to-Object Attention module, the Object-to-Hand Attention module, or the Contact Loss significantly impacts HOIST-Former's performance.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Ablation studies and qualitative results", "weight": 1.0} -->
+
+Fig. shows results of HOIST-Former on two videos. The first row shows a case where the object is segmented only when it is hand-held. The second row shows a case where the object is asssigned the same tracking ID by HOIST-Former even after the object disappears for a while and contacts the hand later. Fig. shows some failure cases. The top row highlights cases where only a part of the object is segmented; the unsegmented part of the object contains extremely thin region and therefore hard to segment. The second row shows a case where a different object is assigned a previously assigned ID.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+
+In this paper, we tackled the task of identifying, segmenting, and tracking hand-held objects. We introduced HOIST-Former, an innovative transformer-based architecture, adept at segmenting hands and objects by pooling features based on their positions and context. This approach is further refined with a contact loss that emphasizes areas where hands contact objects. We also presented the HOIST dataset, comprising 4,125 in-the-wild videos with comprehensive annotations. Our experiments on HOIST and two other public datasets showcased HOIST-Former's effectiveness in hand-held object segmentation and tracking.

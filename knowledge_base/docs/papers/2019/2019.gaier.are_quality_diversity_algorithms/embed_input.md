@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Are Quality Diversity Algorithms Better at Generating Stepping Stones than Objective-based Search?
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 The route to the solution of complex design problems often lies through intermediate "stepping stones" which bear little resemblance to the final solution. By greedily following the path of greatest fitness improvement, objective-based search overlooks and discards stepping stones which might be critical to solving the problem. Here, we hypothesize that Quality Diversity (QD) algorithms are a better way to generate stepping stones than objective-based search: by maintaining a large set of solutions which are of high-quality, but phenotypically different, these algorithms collect promising stepping stones while protecting them in their own "ecological niche". To demonstrate the capabilities of QD we revisit the challenge of recreating images produced by user-driven evolution, a classic challenge which spurred work in novelty search and illustrated the limits of objective-based search. We show that QD far outperforms objective-based search in matching user-evolved images. Further, our results suggest some intriguing possibilities for leveraging the diversity of solutions created by QD.

@@ -1,17 +1,316 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Optuna: A Next-generation Hyperparameter Optimization Framework
 
 Topics include Optuna, Hyperparameter optimization, Black-box optimization, Define-by-run, Pruning, Distributed optimization, Machine learning systems.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Introduces Optuna as a define-by-run hyperparameter optimization framework that lets users construct dynamic search spaces in ordinary Python code. The paper emphasizes practical system design: search and pruning algorithms, simple single-machine use, and scalable distributed execution.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 The purpose of this study is to introduce new design-criteria for next-generation hyperparameter optimization software. The criteria we propose include define-by-run API that allows users to construct the parameter search space dynamically, efficient implementation of both searching and pruning strategies, and easy-to-setup, versatile architecture that can be deployed for various purposes, ranging from scalable distributed computing to light-weight experiment conducted via interactive interface. In order to prove our point, we will introduce Optuna, an optimization software which is a culmination of our effort in the development of a next generation optimization software. As an optimization software designed with define-by-run principle, Optuna is particularly the first of its kind. We will present the design-techniques that became necessary in the development of the software that meets the above criteria, and demonstrate the power of our new design through experimental results and real world applications. Our software is available under the MIT license.
 
-## Introduction
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Hyperparameter search is one of the most cumbersome tasks in machine learning projects. The complexity of deep learning method is growing with its popularity, and the framework of efficient automatic hyperparameter tuning is in higher demand than ever. Hyperparameter optimization softwares such as *Hyperopt*, *Spearmint*, *SMAC*, *Autotune*, and *Vizier* were all developed in order to meet this need.
 
-The choice of the parameter-sampling algorithms varies across frameworks. *Spearmint* and *GPyOpt* use Gaussian Processes, and *Hyperopt* employs *tree-structured Parzen estimator* (TPE). Hutter et al. proposed *SMAC* that uses random forests. Recent frameworks such as *Google Vizier*, *Katib* and *Tune* also support *pruning* algorithms, which monitor the intermediate result of each trial and kills the unpromising trials prematurely in order to speed up the exploration. There is an active research field for the pruning algorithm in hyperparameter optimization.
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The choice of the parameter-sampling algorithms varies across frameworks. *Spearmint* and *GPyOpt* use Gaussian Processes, and *Hyperopt* employs *tree-structured Parzen estimator* (TPE). Hutter et al. proposed *SMAC* that uses random forests. Recent frameworks such as *Google Vizier*, *Katib* and *Tune* also support *pruning* algorithms, which monitor the intermediate result of each trial and kills the unpromising trials prematurely in order to speed up the exploration. There is an active research field for the pruning algorithm in hyperparameter optimization. Domhan et al. proposed a method that uses parametric models to predict the learning curve. Klein et al. constructed Bayesian neural networks to predict the expected learning curve. Li et al. employed a bandit-based algorithm and proposed Hyperband.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 A still another way to accelerate the optimization process is to use distributed computing, which enables parallel processing of multiple trials. *Katib* is built on *Kubeflow*, which is a computing platform for machine learning services that is based on *Kubernetes*. *Tune* also supports parallel optimization, and uses the *Ray* distributed computing platform.
 
-However, there are several serious problems that are being overlooked in many of these existing optimization frameworks. Firstly, all previous hyperparameter optimization frameworks to date require the user to statically construct the parameter-search-space for each model, and the search space can be extremely hard to describe in these frameworks for large-scale experiments that involve massive number of candidate models of different types with large parameter spaces and many conditional variables. When the parameter space is not appropriately described by the user, application of advanced optimization method can be in vain.
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+However, there are several serious problems that are being overlooked in many of these existing optimization frameworks. Firstly, all previous hyperparameter optimization frameworks to date require the user to statically construct the parameter-search-space for each model, and the search space can be extremely hard to describe in these frameworks for large-scale experiments that involve massive number of candidate models of different types with large parameter spaces and many conditional variables. When the parameter space is not appropriately described by the user, application of advanced optimization method can be in vain. Secondly, many existing frameworks do not feature efficient pruning strategy, when in fact both *parameter searching strategy* and *performance estimation strategy* are important for high-performance optimization under limited resource availability. Finally, in order to accommodate with a variety of models in a variety of situations, the architecture shall be able to handle both small and large scale experiments with minimum setup requirements. If possible, architecture shall be installable with a single command as well, and it shall be designed as an open source software so that it can continuously incorporate newest species of optimization methods by interacting with open source community.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+*Define-by-run* programming that allows the user to dynamically construct the search space,
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Efficient sampling algorithm and pruning algorithm that allows some user-customization,
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Easy-to-setup, versatile architecture that can be deployed for tasks of various types, ranging from light-weight experiments conducted via interactive interfaces to heavy-weight distributed computations.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this study, we will demonstrate the significance of these criteria through *Optuna*, an open-source optimization software which is a culmination of our effort in making our definition of next-generation optimization framework come to reality.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We will also present new design techniques and new optimization algorithms that we had to develop in order to meet our proposed criteria. Thanks to these new design techniques, our implementation outperforms many major black-box optimization frameworks while being easy to use and easy to setup in various environments. In what follows, we will elaborate each of our proposed criteria together with our technical solutions, and present experimental results in both real world applications and benchmark datasets.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+*Optuna* is released under the MIT license, and is in production use at Preferred Networks for more than one year.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Deep Learning Frameworks
+Hyperparameter Optimization Frameworks
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+4def objective(trial):
+5 n_layers = trial.suggest_int(’n_layers’, 1, 4)
+8 for i in range(n_layers):
+9 layers.append(trial.suggest_int(’n_units_l{}’.format(i), 1, 128))
+11 clf = MLPClassifier(tuple(layers))
+13 mnist = fetch_mldata(’MNIST original’)
+14 x_train, x_test, y_train, y_test = train_test_split(mnist.data, mnist.target)
+16 clf.fit(x_train, y_train)
+18 return 1.0 - clf.score(x_test, y_test)
+20study = optuna.create_study
+21study.optimize(objective, n_trials=100)
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+5 ’n_units_l1’: hp.randint(’n_units_l1’, 128), 8 ’n_units_l2’: hp.randint(’n_units_l2’, 128), 11 ’n_units_l3’: hp.randint(’n_units_l3’, 128), 14 ’n_units_l4’: hp.randint(’n_units_l4’, 128), 20def objective(space): 21 layers = [space[’n_units_l1’] + 1] 23 space = space[’l{}’.format(i)] 24 if not space[’has_l{}’.format(i)]: 26 layers.append(space[’n_units_l{}’.format(i)] + 1) 28 clf = MLPClassifier(tuple(layers)) 30 mnist = fetch_mldata(’MNIST original’) 31 x_train, x_test, y_train, y_test = train_test_split(mnist.data,
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+mnist.target) 33 clf.fit(x_train, y_train) 35 return 1.0 - clf.score(x_test, y_test) 37hyperopt.fmin(fn=objective, space=space, max_evals=100, algo=hyperopt.tpe.suggest)
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Define-by-run API", "weight": 1.0} -->
+
+In this section we describe the significance of the *define-by-run* principle. As we will elaborate later, we are borrowing the term *define-by-run* from a trending philosophy in deep learning frameworks that allows the user to dynamically program deep networks. Following the original definition, we use the term *define-by-run* in the context of optimization framework to refer to a design that allows the user to dynamically construct the search space. In *define-by-run API*, the user does not have to bear the full burden of explicitly defining everything in advance about the optimization strategy.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Define-by-run API", "weight": 1.0} -->
+
+The power of *define-by-run* API is more easily understood with actual code. *Optuna* formulates the hyperparameter optimization as a process of minimizing/maximizing an *objective function* that takes a set of hyperparameters as an input and returns its (validation) score. Figure 1 is an example of an objective function written in *Optuna*. This function dynamically constructs the search space of neural network architecture (the number of layers and the number of hidden units) without relying on externally defined static variables. *Optuna* refers to each process of optimization as a *study*, and to each evaluation of objective function as a *trial*. In the code of Figure 1, *Optuna* defines an objective function (Lines 4--18), and invokes the 'optimize API' that takes the objective function as an input (Line 21). Instead of hyperparameter values, an objective function in *Optuna* receives a *living trial object*, which is associated with a single *trial*.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Define-by-run API", "weight": 1.0} -->
+
+*Optuna* gradually builds the objective function through the interaction with the *trial* object. The search spaces are constructed dynamically by the methods of the *trial* object during the runtime of the objective function. The user is asked to invoke 'suggest API' inside the objective function in order to dynamically generate the hyperparameters for each *trial* (Lines 5 and 9). Upon the invocation of 'suggest API', a hyperparameter is statistically sampled based on the history of previously evaluated *trials*. At Line 5, 'suggest_int' method suggests a value for 'n_layers', the integer hyperparameter that determines the number of layers in the Multilayer Perceptron. Using loops and conditional statements written in usual *Python* syntax, the user can easily represent a wide variety of parameter spaces. With this functionality, the user of *Optuna* can even express heterogeneous parameter space with an intuitive and simple code (Figure 3).
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Define-by-run API", "weight": 1.0} -->
+
+Meanwhile, Figure 2 is an example code of *Hyperopt* that has the exactly same functionality as the Optuna code in Figure 1. Note that the same function written in *Hyperopt* (Figure 2) is significantly longer, more convoluted, and harder to interpret. It is not even obvious at first glance that the code in Figure 2 is in fact equivalent to the code in Figure 1! In order to write the same *for-loop* in Figure 1 using *Hyperopt*, the user must prepare the list of all the parameters in the parameter-space prior to the exploration (see line 4-18 in Figure 2). This requirement will lead the user to even darker nightmares when the optimization problem is more complicated.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Modular Programming", "weight": 1.0} -->
+
+4def create_rf(trial):
+5 rf_max_depth = trial.suggest_int(’rf_max_depth’, 2, 32)
+6 return RandomForestClassifier(max_depth= rf_max_depth)
+8def create_mlp(trial):
+9 n_layers = trial.suggest_int(’n_layers’, 1, 4)
+12 for i in range(n_layers):
+13 layers.append(trial.suggest_int(’n_units_l{}’.format(i), 1, 128))
+15 return MLPClassifier(tuple(layers))
+17def objective(trial):
+18 classifier_name = trial.suggest_categorical(’classifier’, [’rf’, ’mlp’])
+21 classifier_obj = create_rf(trial)
+23 classifier_obj = create_mlp(trial)
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Modular Programming", "weight": 1.0} -->
+
+4def create_model(trial): 5 n_layers = trial.suggest_int(’n_layers’, 1, 3) 7 for i in range(n_layers): 8 n_units = trial.suggest_int(’n_units_l{}’.format(i), 4, 128) 9 layers.append(L.Linear(None, n_units)) 10 layers.append(F.relu) 11 layers.append(L.Linear(None, 10)) 12 return chainer.Sequential(*layers) 14def create_optimizer(trial, model): 15 lr = trial.suggest_loguniform(’lr’, 1e-5, 1e-1) 16 optimizer = chainer.optimizers.MomentumSGD(lr=lr) 17 weight_decay = trial.suggest_loguniform(’weight_decay’, 1e-10, 1e-3) 18 optimizer.setup(model) 19 optimizer.add_hook(chainer.optimizer.WeightDecay(weight_decay))
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Modular Programming", "weight": 1.0} -->
+
+22def objective(trial): 23 model = create_model(trial) 24 optimizer = create_optimizer(trial, model) 27study = optuna.create_study 28study.optimize(objective, n_trials=100)
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Modular Programming", "weight": 1.0} -->
+
+A keen reader might have noticed in Figure 3 that the optimization code written in *Optuna* is highly modular, thanks to its *define-by-run* design. Compatibility with modular programming is another important strength of the *define-by-run* design. Figure 4 is another example code written in *Optuna* for a more complex scenario. This code is capable of simultaneously optimizing both the topology of a multilayer perceptron (method 'create_model') and the hyperparameters of stochastic gradient descent (method 'create_optimizer'). The method 'create_model' generates 'n_layers' in Line 5 and uses a *for loop* to construct a neural network of depth equal to 'n_layers'. The method also generates 'n_units\_$i$' at each $i$-th loop, a hyperparameter that determines the number of the units in the $i$-th layer. The method 'create_optimizer', on the other hand, makes suggestions for both learning rate and weight-decay parameter.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Modular Programming", "weight": 1.0} -->
+
+Again, a complex space of hyperparameters is simply expressed in *Optuna.* Most notably, in this example, the methods 'create_model' and 'create_optimizer' are independent of one another, so that we can make changes to each one of them separately. Thus, the user can easily augment this code with other conditional variables and methods for other set of parameters, and make a choice from more diverse pool of models.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Deployment", "weight": 1.0} -->
+
+Indeed, the benefit of our *define-by-run* API means nothing if we cannot easily deploy the model with the best set of hyperparameters found by the algorithm. The above example (Figure 4) might make it seem as if the user has to write a different version of the objective function that does not invoke 'trial.suggest' in order to deploy the best configuration. Luckily, this is not a concern. For deployment purpose, *Optuna* features a separate class called 'FixedTrial' that can be passed to objective functions. The 'FixedTrial' object has practically the same set of functionalities as the *trial* class, except that it will only suggest the user defined set of the hyperparameters when passed to the objective functions. Once a parameter-set of interest is found (e.g., the best ones), the user simply has to construct a 'FixedTrial' object with the parameter set.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Historical Remarks", "weight": 1.0} -->
+
+Historically, the term *define-by-run* was coined by the developers of deep learning frameworks. In the beginning, most deep learning frameworks like *Theano* and *Torch* used to be declarative, and constructed the networks in their domain specific languages (DSL). These frameworks are called *define-and-run* frameworks because they do not allow the user to alter the manipulation of intermediate variables once the network is defined. In *define-and-run* frameworks, computation is conducted in two phases: construction phase and evaluation phase. In a way, contemporary optimization methods like *Hyperopt* are built on the philosophy similar to *define-and-run*, because there are two phases in their optimization: construction of the search space and exploration in the search space.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Historical Remarks", "weight": 1.0} -->
+
+Because of their difficulty of programming, the *define-and-run* style deep learning frameworks are quickly being replaced by *define-by-run* style deep learning frameworks like *Chainer*, *DyNet*, *PyTorch*, eager-mode *TensorFlow*, and *Gluon*. In the *define-by-run* style DL framework, there are no two separate phases for the construction of the network and the computation on the network. Instead, the user is allowed to directly program how each variables are to be manipulated in the network. What we propose in this article is an analogue of the *define-by-run* DL framework for hyperparameter optimization, in which the framework asks the user to directly program the *parameter search-space* (See Table 1). Armed with the architecture built on the *define-by-run* principle, our *Optuna* can express highly sophisticated search space at ease.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Efficient Sampling and Pruning Mechanism", "weight": 1.0} -->
+
+In general, the cost-effectiveness of hyperparameter optimization framework is determined by the efficiency of searching strategy that determines the set of parameters that shall be investigated, and performance estimation strategy that estimates the value of currently investigated parameters from learning curves and determines the set of parameters that shall be discarded. As we will experimentally show later, the efficiency of both searching strategy and performance estimation strategy is necessary for cost-effective optimization method.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Efficient Sampling and Pruning Mechanism", "weight": 1.0} -->
+
+The strategy for the termination of unpromising *trials* is often referred to as *pruning* in many literatures, and it is also well known as automated early stopping. We, however, refer to this functionality as pruning in order to distinguish it from the early stopping regularization in machine learning that exists as a countermeasure against overfitting. As shown in table 2, many existing frameworks do not provide efficient pruning strategies. In this section we will provide our design for both *sampling* and *pruning*.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Sampling Methods on Dynamically Constructed Parameter Space", "weight": 1.0} -->
+
+There are generally two types of sampling method: *relational sampling* that exploits the correlations among the parameters and *independent sampling* that samples each parameter independently. The *independent sampling* is not necessarily a naive option, because some sampling algorithms like TPE are known to perform well even without using the parameter correlations, and the cost effectiveness for both relational and independent sampling depends on environment and task. Our *Optuna* features both, and it can handle various independent sampling methods including TPE as well as relational sampling methods like CMA-ES. However, some words of caution are in order for the implementation of *relational sampling* in *define-by-run* framework.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Relational sampling in define-by-run frameworks", "weight": 1.0} -->
+
+One valid claim about the advantage of the old *define-and-run* optimization design is that the program is given the knowledge of the concurrence relations among the hyperparamters from the beginning of the optimization process. Implementing of optimization methods that takes the concurrence relations among the parameters into account is a nontrivial challenge when the search spaces are dynamically constructed. To overcome this challenge, *Optuna* features an ability to identify *trial* results that are informative about the concurrence relations. This way, the framework can identify the underlying concurrence relations after some number of independent samplings, and use the inferred concurrence relation to conduct user-selected relational sampling algorithms like CMA-ES and GP-BO. Being an open source software, *Optuna* also allows the user to use his/her own customized sampling procedure.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Efficient Pruning Algorithm", "weight": 1.0} -->
+
+def objective(trial):
+lr = trial.suggest_loguniform(’lr’, 1e-5, 1e-1)
+clf = sklearn.linear_model.SGDClassifier(learning_rate=lr)
+for step in range:
+clf.partial_fit(x_train, y_train, classes)
+## Report intermediate objective value
+intermediate_value = clf.score(x_val, y_val)
+trial.report(intermediate_value, step=step)
+## Handle pruning based on the intermediate value
+if trial.should_prune(step):
+return 1.0 - clf.score(x_val, y_val)
+study = optuna.create_study
+study.optimize(objective)
+Figure 5: An example of implementation of a pruning algorithm with Optuna. An intermediate value is reported at each step of iterative training. The Pruner class stops unpromising trials based on the history of reported values.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Efficient Pruning Algorithm", "weight": 1.0} -->
+
+Pruning algorithm is essential in ensuring the "cost" part of the cost-effectiveness. Pruning mechanism in general works in two phases. It ** periodically monitors the intermediate objective values, and ** terminates the *trial* that does not meet the predefined condition. In *Optuna*, 'report API' is responsible for the monitoring functionality, and 'should_prune API' is responsible for the premature termination of the unpromising *trials* (see Figure 5). The background algorithm of 'should_prune' method is implemented by the family of *pruner* classes. *Optuna* features a variant of Asynchronous Successive Halving algorithm, a recently developed state of the art method that scales linearly with the number of workers in distributed environment.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Efficient Pruning Algorithm", "weight": 1.0} -->
+
+Asynchronous Successive Halving(ASHA) is an extension of Successive Halving in which each worker is allowed to asynchronously execute aggressive early stopping based on provisional ranking of *trials*. The most prominent advantage of asynchronous pruning is that it is particularly well suited for applications in distributional environment; because each worker does not have to wait for the results from other workers at each round of the pruning, the parallel computation can process multiple *trials* simultaneously without delay.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Efficient Pruning Algorithm", "weight": 1.0} -->
+
+Algorithm 1 is the actual pruning algorithm implemented in *Optuna*. Inputs to the algorithm include the *trial* that is subject to pruning, number of steps, reducing factor, minimum resource to be used before the pruning, and minimum early stopping rate. Algorithm begins by computing the current *rung* for the *trial*, which is the number of times the *trial* has survived the pruning. The *trial* is allowed to enter the next round of the competition if its provisional ranking is within top $1/\eta$. If the number of *trials* with the same rung is less than $\eta$, the best *trial* among the *trials* with the same *rung* becomes promoted. In order to avoid having to record massive number of checkpointed configurations(snapshots), our implementation does not allow repechage. As experimentally verify in the next section, our modified implementation of Successive Halving scales linearly with the number of workers without any problem. We will present the details of our optimization performance in Section 5.2.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Efficient Pruning Algorithm", "weight": 1.0} -->
+
+Input: target trial trial, current step step, minimum resource r, reduction factor η, minimum early-stopping rate s.
+Output: true if the trial should be pruned, false otherwise.
+2rung ← max (0,log η (⌊step/r⌋) − s)
+3if step ≠ r ηs + rung then
+7value←get_trial_intermediate_value(trial,step)
+8values←get_all_trials_intermediate_values(step)
+9top _ k _ values←top_k(values,⌊|values|/η⌋)
+10if top _ k _ values = ⌀ then
+11 top _ k _ values←top_k(values,1)
+14return value ∉ top _ k _ values
+Algorithm 1 Pruning algorithm based on Successive Halving
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Scalable and versatile System that is Easy to setup", "weight": 1.0} -->
+
+figureOverview of Optuna’s system design. Each worker executes one instance of an objective function in each study. The Objective function runs its trial using Optuna APIs. When the API is invoked, the objective function accesses the shared storage and obtains the information of the past studies from the storage when necessary. Each worker runs the objective function independently and shares the progress of the current study via the storage.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Scalable and versatile System that is Easy to setup", "weight": 1.0} -->
+
+Our last criterion for the next generation optimization software is a scalable system that can handle a wide variety of tasks, ranging from a heavy experiment that requires a massive number of workers to a trial-level, light-weight computation conducted through interactive interfaces like *Jupyter Notebook*. The figure 4 illustrates how the database(*storage*) is incorporated into the system of *Optuna*; the trial objects shares the evaluations history of objective functions via storage. *Optuna* features a mechanism that allows the user to change the storage backend to meet his/her need.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Scalable and versatile System that is Easy to setup", "weight": 1.0} -->
+
+For example, when the user wants to run experiment with *Jupyter Notebook* in a local machine, the user may want to avoid spending effort in accessing a multi-tenant system deployed by some organization or in deploying a database on his/her own. When there is no specification given, *Optuna* automatically uses its built-in in-memory data-structure as the storage back-end. From general user's perspective, that the framework can be easily used for lightweight purposes is one of the most essential strengths of *Optuna*, and it is a particularly important part of our criteria for next-generation optimization frameworks. This *lightweight purpose compatibility* is also featured by select few frameworks like *Hyperopt* and *GPyOt* as well. The user of *Optuna* can also conduct more involved analysis by exporting the results in the *pandas* dataframe, which is highly compatible with interactive analysis frameworks like *Jupyter Notebooks*. *Optuna* also provides web-dashboard for visualization and analysis of *studies* in real time (see Figure 4).
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Scalable and versatile System that is Easy to setup", "weight": 1.0} -->
+
+Meanwhile, when the user wants to conduct distributed computation, the user of *Optuna* can deploy relational database as the backend. The user of *Optuna* can also use *SQLite* database as well. The figure 6b is an example code that deploys *SQLite* database. This code conducts distributed computation by simply executing run.py multiple times with the same *study* identifier and the same storage URL.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Scalable and versatile System that is Easy to setup", "weight": 1.0} -->
+
+3def objective(trial):
+5 return objective_value
+7study_name = sys.argv
+8storage = sys.argv
+10study = optuna.Study(study_name, storage)
+11study.optimize(objective)
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Scalable and versatile System that is Easy to setup", "weight": 1.0} -->
+
+1# Setup: the shared storage URL and study identifier.
+2STORAGE_URL='sqlite:///example.db'
+3STUDY_ID=$(optuna create-study –storage $STORAGE_URL)
+5# Run the script from multiple processes and/or nodes.
+6# Their execution can be asynchronous.
+7python run.py $STUDY_ID $STORAGE_URL &amp;
+8python run.py $STUDY_ID $STORAGE_URL &amp;
+9python run.py $STUDY_ID $STORAGE_URL &amp;
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Scalable and versatile System that is Easy to setup", "weight": 1.0} -->
+
+*Optuna*'s new design thus significantly reduces the effort required for storage deployment. This new design can be easily incorporated into a container-orchestration system like *Kubernetes* as well. As we verify in the experiment section, the distributed computations conducted with our flexible system-design scales linearly with the number of workers. *Optuna* is also an open source software that can be installed to user's system with one command.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Scalable and versatile System that is Easy to setup", "weight": 1.0} -->
+
+figureOptuna dashboard. This example shows the online transition of objective values, the parallel coordinates plot of sampled parameters, the learning curves, and the tabular descriptions of investigated trials.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+
+We demonstrate the efficiency of the new design-framework through three sets of experiments.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Performance Evaluation Using a Collection of Tests", "weight": 1.0} -->
+
+As described in the previous section, *Optuna* not only allows the user to use his/her own customized sampling procedure that suits the purpose, but also comes with multiple built-in optimization algorithms including the mixture of independent and relational sampling, which is not featured in currently existing frameworks. For example, *Optuna* can use the mixture of TPE and CMA-ES. We compared the optimization performance of the TPE+CMA-ES against those of other sampling algorithms on a collection of tests for black-box optimization, which contains 56 test cases. We implemented four adversaries to compare against TPE+CMA-ES: random search as a baseline method, *Hyperopt* as a TPE-based method, *SMAC3* as a random-forest based method, and *GPyOpt* as a Gaussian Process based method. For TPE+CMA-ES, we used TPE for the first 40 steps and used CMA-ES for the rest. For the evaluation metric, we used the best-attained objective value found in 80 trials.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Performance Evaluation Using a Collection of Tests", "weight": 1.0} -->
+
+Following the work of Dewancker et al., we repeated each *study* 30 times for each algorithm and applied Paired Mann-Whitney U test with $\alpha = 0.0005$ to the results in order to statistically compare TPE+CMA-ES's performance against the rival algorithms.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Performance Evaluation Using a Collection of Tests", "weight": 1.0} -->
+
+The results are shown in Figure 5.1. TPE+CMA-ES finds statistically worse solution than random search in only 1/56 test cases, performs worse than *Hyperopt* in 1/56 cases, and performs worse than *SMAC3* in 3/56 cases. Meanwhile, *GPyOpt* performed better than TPE+CMA-ES in 34/56 cases in terms of the best-attained loss value. At the same time, TPE+CMA-ES takes an order-of-magnitude less times per trial than *GPyOpt*.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Performance Evaluation Using a Collection of Tests", "weight": 1.0} -->
+
+figureResult of comparing TPE+CMA-ES against other existing methods in terms of best attained objective value. Each algorithm was applied to each study 30 times, and Paired Mann-Whitney U test with α = 0.0005 was used to determine whether TPE+CMA-ES outperforms each rival.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Performance Evaluation Using a Collection of Tests", "weight": 1.0} -->
+
+figureComputational time spent by different frameworks for each test case.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Performance Evaluation of Pruning", "weight": 1.0} -->
+
+We evaluated the performance gain from the pruning procedure in the *Optuna*-implemented optimization of Alex Krizhevsky's neural network (AlexNet) on the Street View House Numbers (SVHN) dataset. We tested our pruning system together with random search and TPE. Following the experiment, we used a subnetwork of AlexNet (hereinafter called simplified AlexNet), which consists of three convolutional layers and a fully-connected layer and involves 8 hyperparameters.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Performance Evaluation of Pruning", "weight": 1.0} -->
+
+For each experiment, we executed a *study* with one NVIDIA Tesla P100 card, and terminated each *study* $4$ hours into the experiment. We repeated each *study* 40 times. With pruning, both TPE and random search was able to conduct a greater number of *trials* within the same time limit. On average, TPE and random search *without* pruning completed 35.8 and 36.0 *trials* per *study*, respectively. On the other hand, TPE *with* pruning explored 1278.6 *trials* on average per *study*, of which 1271.5 were pruned during the process. Random search *with* pruning explored 1119.3 *trials* with 1111.3 pruned *trials*.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Performance Evaluation of Distributed Optimization", "weight": 1.0} -->
+
+We also evaluated the scalability of *Optuna*'s distributed optimization. Based on the same experimental setup used in Section 5.2, we recorded the transition of the best scores obtained by TPE with 1, 2, 4, and 8 workers in a distributed environment. Figure 7b shows the relationship between optimization score and execution time. We can see that the convergence speed increases with the number of workers.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Performance Evaluation of Distributed Optimization", "weight": 1.0} -->
+
+In the interpretation of this experimental results, however, we have to give a consideration to the fact that the relationship between the number of workers and the efficiency of optimization is not as intuitive as the relationship between the number of workers and the number of *trials*. This is especially the case for a SMBO such as TPE, where the algorithm is designed to sequentially evaluate each *trial*. The result illustrated in Figure 7c resolves this concern. Note that the optimization scores per the number of *trials* (i.e., parallelization efficiency) barely changes with the number of workers. This shows that the performance is linearly scaling with the number of *trials*, and hence with the number of workers. Figure 8 illustrates the result of optimization that uses both parallel computation and pruning. The result suggests that our optimization scales linearly with the number of workers even when implemented with a pruning algorithm.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Real World Applications", "weight": 1.0} -->
+
+*Optuna* is already in production use, and it has been successfully applied to a number of real world applications. *Optuna* is also being actively used by third parties for various purposes, including projects based on *TensorFlow* and *PyTorch*. Some projects use *Optuna* as a part of pipeline for machine-learning framework. In this section, we present the examples of *Optuna*'s applications in the projects at Preferred Networks.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Real World Applications", "weight": 1.0} -->
+
+Open Images Object Detection Track 2018. *Optuna* was a key player in the development of Preferred Networks' Faster-RCNN models for Google AI Open Images Object Detection Track 2018 on Kaggle ^33^3 whose dataset is at present the largest in the field of object detection. Our final model, PFDet, won the 2nd place in the competition.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Real World Applications", "weight": 1.0} -->
+
+As a versatile next generation optimization software, *Optuna* can be used in applications outside the field of machine learning as well. Followings are applications of *Optuna* for non-machine learning tasks.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Real World Applications", "weight": 1.0} -->
+
+High Performance Linpack for TOP500. The *Linpack* benchmark is a task whose purpose is to measure the floating point computation power of a system in which the system is asked to solve a dense matrix LU factorization. The performance on this task is used as a measure of sheer computing power of a system and is used to rank the supercomputers in the TOP500 list^44^4 *High Performance Linpack* (HPL) is one of the implementations for Linpack. HPL involves many hyperparameters, and the performance result of any system heavily relies on them. We used *Optuna* to optimize these hyperparameters in the evaluation of the maximum performance of *MN-1b*, an in-house supercomputer owned by Preferred Networks.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Real World Applications", "weight": 1.0} -->
+
+*RocksDB*. *RocksDB* is a persistent key-value store for fast storage that has over hundred user-customizable parameters. As described by the developers in the official website, "configuring *RocksDB* optimally is not trivial", and even the "*RocksDB* developers don't fully understand the effect of each configuration change"^55^5 For this experiment, we prepared a set of 500,000 files of size 10KB each, and used *Optuna* to look for parameter-set that minimizes the computation time required for applying a certain set of operations(store, search, delete) to this file set. Out of over hundred customizable parameters, we used *Optuna* to explore the space of 34 parameters. With the default parameter setting, *RocksDB* takes 372seconds on HDD to apply the set of operation to the file set. With pruning, *Optuna* was able to find a parameter-set that reduces the computation time to 30 seconds. Within the same 4 hours, the algorithm with pruning explores 937 sets of parameters while the algorithm without pruning only explores 39.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Real World Applications", "weight": 1.0} -->
+
+When we disable the time-out option for the evaluation process, the algorithm without pruning explores only 2 *trials*. This experiment again verifies the crucial role of pruning.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Real World Applications", "weight": 1.0} -->
+
+Encoder Parameters for *FFmpeg*. *FFmpeg*^66^6 is a multimedia framework that is widely used in the world for decoding, encoding and streaming of movies and audio dataset. *FFmpeg* has numerous customizable parameters for encoding. However, finding of good encoding parameter-set for *FFmpeg* is a nontrivial task, as it requires expert knowledge of codec. We used *Optuna* to seek the encoding parameter-set that minimizes the reconstruction error for the Blender Open Movie Project's "Big Buck Bunny"^77^7Blender Foundation --- www.blender.org. *Optuna* was able to find a parameter-set whose performance is on par with the second best parameter-set among the presets provided by the developers.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+
+The efficacy of *Optuna* strongly supports our claim that our new design criteria for next generation optimization frameworks are worth adopting in the development of future frameworks. The *define-by-run* principle enables the user to dynamically construct the search space in the way that has never been possible with previous hyperparameter tuning frameworks. Combination of efficient searching and pruning algorithm greatly improves the cost effectiveness of optimization. Finally, scalable and versatile design allows users of various types to deploy the frameworks for a wide variety of purposes. As an open source software, *Optuna* itself can also evolve even further as a next generation software by interacting with open source community. It is our strong hope that the set of design techniques we developed for *Optuna* will serve as a basis of other next generation optimization frameworks to be developed in the future.

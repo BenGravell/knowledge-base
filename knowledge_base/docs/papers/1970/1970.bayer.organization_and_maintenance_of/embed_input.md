@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Organization and Maintenance of Large Ordered Indices
 
 Topics include B-tree, Database indexing, Search trees, External memory, File systems, Dynamic indexes, Data structures.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Bayer and McCreight introduce B-trees for maintaining large ordered indexes on disk-like storage with logarithmic search, insertion, and deletion costs. The paper is foundational for database and filesystem indexing because it designs the tree around page/block access, high fanout, and guaranteed occupancy rather than only in-memory comparison counts.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Organization and maintenance of an index for a dynamic random access file is considered. It is assumed that the index must be kept on some pseudo random access backup store like a disc or a drum. The index organization described allows retrieval, insertion, and deletion of keys in time proportional to logk I where I is the size of the index and k is a device dependent natural number such that the performance of the scheme becomes near optimal. Storage utilization is at least 50% but generally much higher. The pages of the index are organized in a special data-structure, so-called B-trees. The scheme is analyzed, performance bounds are obtained, and a near optimal k is computed. Experiments have been performed with indices up to 100,000 keys. An index of size 15,000 can be maintained with an average of 9 (at least 4) transactions per second on an IBM 360/44 with a 2311 disc.

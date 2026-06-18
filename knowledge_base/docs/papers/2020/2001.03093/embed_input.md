@@ -1,19 +1,270 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Trajectron++: Dynamically-Feasible Trajectory Forecasting with Heterogeneous Data
 
 Topics include Trajectory prediction, Motion forecasting, Multi-agent prediction, Graph neural networks, Heterogeneous data, Probabilistic prediction, Conditional variational autoencoder.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Extends Trajectron with dynamic feasibility constraints and heterogeneous input data (HD maps, agent types), using a CVAE-based graph recurrent network to produce multi-modal trajectory distributions for multiple interacting agents simultaneously.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Reasoning about human motion is an important prerequisite to safe and socially-aware robotic navigation. As a result, multi-agent behavior prediction has become a core component of modern human-robot interactive systems, such as self-driving cars. While there exist many methods for trajectory forecasting, most do not enforce dynamic constraints and do not account for environmental information (e.g., maps). Towards this end, we present Trajectron++, a modular, graph-structured recurrent model that forecasts the trajectories of a general number of diverse agents while incorporating agent dynamics and heterogeneous data (e.g., semantic maps). Trajectron++ is designed to be tightly integrated with robotic planning and control frameworks; for example, it can produce predictions that are optionally conditioned on ego-agent motion plans. We demonstrate its performance on several challenging real-world trajectory forecasting datasets, outperforming a wide array of state-of-the-art deterministic and generative methods.
 
-## Introduction
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Predicting the future behavior of humans is a necessary part of developing safe human-interactive autonomous systems. Humans can naturally navigate through many social interaction scenarios because they have an intrinsic "theory of mind," which is the capacity to reason about other people's actions in terms of their mental states. As a result, imbuing autonomous systems with this capability could enable more informed decision making and proactive actions to be taken in the presence of other intelligent agents, e.g., in human-robot interaction scenarios.
+Predicting the future behavior of humans is a necessary part of developing safe human-interactive autonomous systems. Humans can naturally navigate through many social interaction scenarios because they have an intrinsic "theory of mind," which is the capacity to reason about other people's actions in terms of their mental states. As a result, imbuing autonomous systems with this capability could enable more informed decision making and proactive actions to be taken in the presence of other intelligent agents, e.g., in human-robot interaction scenarios. Figure 1 illustrates a scenario where predicting the intent of other agents may inform an autonomous vehicle's path planning and decision making. Indeed, multi-agent behavior prediction has already become a core component of modern robotic systems, especially in safety-critical applications like self-driving vehicles which are currently being tested in the real world and targeting widespread deployment in the near future.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 There are many existing methods for multi-agent behavior prediction, ranging from deterministic regressors to generative, probabilistic models. However, many of them were developed without directly accounting for real-world robotic use cases; in particular, they ignore agents' dynamics constraints, the ego-agent's own motion (important to capture the interactive aspect in human-robot interaction), and a plethora of environmental information (e.g., camera images, lidar, maps) to which modern robotic systems have access. Table 1 provides a summary of recent state-of-the-art approaches and their consideration of such desiderata.
 
-In this work we present *Trajectron++*, an open and extensible approach built upon the Trajectron framework which produces dynamically-feasible trajectory forecasts from heterogeneous input data for multiple interacting agents of distinct semantic types. Our key contributions are twofold: First, we show how to effectively incorporate high-dimensional data through the lens of encoding semantic maps. Second, we propose a general method of incorporating dynamics constraints into learning-based methods for multi-agent trajectory forecasting.
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Conclusion
+Accordingly, in this work we are interested in developing a multi-agent behavior prediction model that accounts for the dynamics of the agents, and in particular of ground vehicles; produces predictions possibly conditioned on potential future robot trajectories, useful for intelligent planning taking into account human responses; and provides a generally-applicable, open, and extensible approach which can effectively use heterogeneous data about the surrounding environment. Importantly, making use of such data would allow for the incorporation of environmental information, e.g., maps, which would enable producing predictions that differ depending on the structure of the scene (e.g., interactions at an urban intersection are very different from those in an open sports field!). One method that comes close is the Trajectron, a multi-agent behavior model which can handle a time-varying number of agents, accounts for multimodality in human behavior (i.e., the potential for many high-level futures), and maintains a sense of interpretability in its outputs.
 
-In this work, we present *Trajectron++*, a generative multi-agent trajectory forecasting approach which uniquely addresses our desiderata for an open, generally-applicable, and extensible framework. It can incorporate heterogeneous data beyond prior trajectory information and is able to produce future-conditional predictions that respect dynamics constraints, all while producing full probability distributions, which are especially useful in downstream robotic tasks such as motion planning, decision making, and control.
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+However, the Trajectron only reasons about relatively simple vehicle models (i.e., cascaded integrators) and past trajectory data (i.e., no considerations are made for added environmental information, if available).
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this work we present *Trajectron++*, an open and extensible approach built upon the Trajectron framework which produces dynamically-feasible trajectory forecasts from heterogeneous input data for multiple interacting agents of distinct semantic types. Our key contributions are twofold: First, we show how to effectively incorporate high-dimensional data through the lens of encoding semantic maps. Second, we propose a general method of incorporating dynamics constraints into learning-based methods for multi-agent trajectory forecasting. *Trajectron++* is designed to be tightly integrated with downstream robotic modules, with the ability to produce trajectories that are optionally conditioned on future ego-agent motion plans. We present experimental results on a variety of datasets, which collectively demonstrate that *Trajectron++* outperforms an extensive selection of state-of-the-art deterministic and generative trajectory prediction methods, in some cases achieving $60\%$ lower average prediction error.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+We aim to generate plausible trajectory distributions for a time-varying number $N{(t)}$ of interacting agents $A_{1},\ldots,A_{N{(t)}}$. Each agent $A_{i}$ has a semantic class $S_{i}$, e.g., Car, Bus, or Pedestrian.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+We also assume that geometric semantic maps are available around $A_{i}$'s position, $M_{i}^{(t)} \in {\mathbb{R}}^{{\lceil{C/r}\rceil} \times {\lceil{C/r}\rceil} \times L}$, with context size $C \times C$, spatial resolution $r$, and $L$ semantic channels. Depending on the dataset, these maps can range in sophistication from simple obstacle occupancy grids to multiple layers of human-annotated semantic information (e.g., marking out sidewalks, road boundaries, and crosswalks).
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+We also consider the setting where we condition on an ego-agent's future motion plan, for example when evaluating responses to a set of motion primitives. In this setting, we additionally assume that we know the ego-agent's future motion plan for the next $T$ timesteps, $\mathbf{y}_{\text{R}} = \mathbf{s}_{\text{R}}^{({{t + 1}:{t + T}})}$.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+Our approach^11^1All of our source code, trained models, and data can be found online at\
+is visualized in Figure 2. At a high level, a spatiotemporal graph representation of the scene in question is created from its topology. Then, a similarly-structured deep learning architecture is generated that forecasts the evolution of node attributes, producing agent trajectories.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+Scene Representation. The current scene is abstracted as a spatiotemporal graph $G = {(V,E)}$. Nodes represent agents and edges represent their interactions. As a result, in the rest of the paper we will use the terms "node" and "agent" interchangeably. Each node also has a semantic class matching the class of its agent (e.g., Car, Bus, Pedestrian). An edge $(A_{i},A_{j})$ is present in $E$ if $A_{i}$ influences $A_{j}$. In this work, the $\ell_{2}$ distance is used as a proxy for whether agents are influencing each other or not.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+Formally, an edge is directed from $A_{i}$ to $A_{j}$ if ${\|{\mathbf{p}_{i} - \mathbf{p}_{j}}\|}_{2} \leq d_{S_{j}}$ where ${\mathbf{p}_{i},\mathbf{p}_{j}} \in {\mathbb{R}}^{2}$ are the 2D world positions of agents $A_{i},A_{j}$, respectively, and $d_{S_{j}}$ is a distance that encodes the perception range of agents of semantic class $S_{j}$. While more sophisticated methods can be used to construct edges (e.g., ), they usually incur extra computational overhead by requiring a complete scene graph. Figure 2 shows an example of this scene abstraction.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+We specifically choose to model the scene as a directed graph, in contrast to an undirected one as in previous approaches, because a directed graph can represent a more general set of scenes and interaction types, e.g., asymmetric influence. This provides the additional benefit of being able to simultaneously model agents with different perception ranges, e.g., the driver of a car looks much farther ahead on the road than a pedestrian does while walking on the sidewalk.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+Modeling Agent History. Once a graph of the scene is constructed, the model needs to encode a node's current state, its history, and how it is influenced by its neighboring nodes. To encode the observed history of the modeled agent, their current and previous states are fed into a Long Short-Term Memory (LSTM) network with 32 hidden dimensions. Since we are interested in modeling trajectories, the inputs $\mathbf{x} = \mathbf{s}_{1,\ldots,{N{(t)}}}^{({{t - H}:t})} \in {\mathbb{R}}^{{{{({H + 1})} \times N}{(t)}} \times D}$ are the current and previous $D$-dimensional states of the modeled agents. These are typically positions and velocities, which can be easily estimated online.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+Ideally, agent models should be chosen to best match their semantic class $S_{i}$. For example, one would usually model vehicles on the road using a bicycle model. However, estimating the bicycle model parameters of another vehicle from online observations is very difficult as it requires estimation of the vehicle's center of mass, wheelbase, and front wheel steer angle. As a result, in this work pedestrians are modeled as single integrators and wheeled vehicles are modeled as dynamically-extended unicycles, enabling us to account for key non-holonomic constraints (e.g., no side-slip constraints) without requiring complex online parameter estimation procedures -- we will show through experiments that such a simplified model is already quite impactful on improving prediction accuracy. While the dynamically-extended unicycle model serves as an important representative example, we note that our approach can also be generalized to other dynamics models, provided its parameters can either be assumed or quickly estimated online.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+Encoding Agent Interactions. To model neighboring agents' influence on the modeled agent, *Trajectron++* encodes graph edges in two steps. First, edge information is aggregated from neighboring agents of the same semantic class. In this work, an element-wise sum is used as the aggregation operation. We choose to combine features in this way rather than with concatenation or an average to handle a variable number of neighboring nodes with a fixed architecture while preserving count information. These aggregated states are then fed into an LSTM with 8 hidden dimensions whose weights are shared across all edge instances of the same type, e.g., all Pedestrian-Bus edge LSTMs share the same weights. Then, the encodings from all edge types that connect to the modeled node are aggregated to obtain one "influence" representation vector, representing the effect that all neighboring nodes have. For this, an additive attention module is used. Finally, the node history and edge influence encodings are concatenated to produce a single node representation vector, $e_{\mathbf{x}}$.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+Incorporating Heterogeneous Data. Modern sensor suites are able to produce much more information than just tracked trajectories of other agents. Notably, HD maps are used by many real-world systems to aid localization as well as inform navigation. Depending on sensor availability and sophistication, maps can range in fidelity from simple binary obstacle maps, i.e., $M \in {\{ 0,1\}}^{H \times W \times 1}$, to HD semantic maps, e.g., $M \in {\{ 0,1\}}^{H \times W \times L}$ where each layer $1 \leq \ell \leq L$ corresponds to an area with semantic type (e.g., "driveable area," "road block," "walkway," "pedestrian crossing"). To make use of this information, for each modeled agent, *Trajectron++* encodes a local map, rotated to match the agent's heading, with a Convolutional Neural Network (CNN).
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+The CNN has 4 layers, with filters $\{ 5,5,5,3\}$ and respective strides of $\{ 2,2,1,1\}$. These are followed by a dense layer with 32 hidden dimensions, the output of which is concatenated with the node history and edge influence representation vectors.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+More generally, one can include further additional information (e.g., raw LIDAR data, camera images, pedestrian skeleton or gaze direction estimates) in this framework by encoding it as a vector and adding it to this backbone of representation vectors, $e_{\mathbf{x}}$.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+Encoding Future Ego-Agent Motion Plans. Producing predictions which take into account future ego-agent motion is an important capability for robotic decision making and control. Specifically, it allows for the evaluation of a set of motion primitives with respect to possible responses from other agents. Trajectron++ can encode the future $T$ timesteps of the ego-agent's motion plan $\mathbf{y}_{\text{R}}$ using a bi-directional LSTM with 32 hidden dimensions. A bi-directional LSTM is used due to its strong performance on other sequence summarization tasks. The final hidden states are then concatenated into the backbone of representation vectors, $e_{\mathbf{x}}$.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+Explicitly Accounting for Multimodality. *Trajectron++* explicitly handles multimodality by leveraging the CVAE latent variable framework. It produces the target $p{({\mathbf{y} \mid \mathbf{x}})}$ distribution by introducing a discrete Categorical latent variable $z \in Z$ which encodes high-level latent behavior and allows for $p{({\mathbf{y} \mid \mathbf{x}})}$ to be expressed as ${p{({\mathbf{y} \mid \mathbf{x}})}} = {\sum_{z \in Z}{p_{\psi}{({\mathbf{y} \mid {\mathbf{x},z}})}p_{\theta}{({z \mid \mathbf{x}})}}}$, where ${|Z|} = 25$ and $\psi,\theta$ are deep neural network weights that parameterize their respective distributions.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+$z$ being discrete also aids in interpretability, as one can visualize which high-level behaviors belong to each $z$ by sampling trajectories.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+During training, a bi-directional LSTM with 32 hidden dimensions is used to encode a node's ground truth future trajectory, producing $q_{\phi}{({z \mid {\mathbf{x},\mathbf{y}}})}$.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+Producing Dynamically-Feasible Trajectories. After obtaining a latent variable $z$, it and the backbone representation vector $e_{\mathbf{x}}$ are fed into the decoder, a 128-dimensional Gated Recurrent Unit (GRU). Each GRU cell outputs the parameters of a bivariate Gaussian distribution over control actions $\mathbf{u}^{(t)}$ (e.g., acceleration and steering rate). The agent's system dynamics are then integrated with the produced control actions $\mathbf{u}^{(t)}$ to obtain trajectories in position space. The only uncertainty at prediction time stems from *Trajectron++*'s output. Thus, in the case of linear dynamics (e.g., single integrators, used in this work to model pedestrians), the system dynamics are linear Gaussian.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+Explicitly, for a single integrator with control actions $\mathbf{u}^{(t)} = {\overset{˙}{\mathbf{p}}}^{(t)}$, the position mean at $t + 1$ is $\mu_{\mathbf{p}}^{({t + 1})} = {\mu_{\mathbf{p}}^{(t)} + {\mu_{\mathbf{u}}^{(t)}\Deltat}}$, where $\mu_{\mathbf{u}}^{(t)}$ is produced by *Trajectron++*. In the case of nonlinear dynamics (e.g., unicycle models, used in this work to model vehicles), one can still (approximately) use this uncertainty propagation scheme by linearizing the dynamics about the agent's current state and control. Full mean and covariance equations for the single integrator and dynamically-extended unicycle models are in the appendix.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+In contrast to existing methods which directly output positions, our approach is uniquely able to guarantee that its trajectory samples are dynamically feasible by integrating an agent's dynamics with the predicted controls.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+Output Configurations. Based on the desired use case, *Trajectron++* can produce many different outputs. The main four are outlined below.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+1\. *Most Likely (ML)*: The model's deterministic and most-likely single output. The high-level latent behavior mode and output trajectory are the modes of their respective distributions, where
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+2\. $z_{\text{mode}}$: Predictions from the model's most-likely high-level latent behavior mode, where
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+3\. *Full*: The model's full sampled output, where $z$ and $y$ are sampled sequentially according to
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+4\. *Distribution*: Due to the use of a discrete latent variable and Gaussian output structure, the model can provide an analytic output distribution by directly computing ${p{({\mathbf{y} \mid \mathbf{x}})}} = {\sum_{z \in Z}{p_{\psi}{({\mathbf{y} \mid {\mathbf{x},z}})}p_{\theta}{({z \mid \mathbf{x}})}}}$.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+Training the Model. We adopt the InfoVAE objective function, and modify it to use discrete latent states in a conditional formulation (since the model uses a CVAE). Formally, we aim to solve
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Trajectron++", "weight": 1.0} -->
+
+where $I_{q}$ is the mutual information between $\mathbf{x}$ and $z$ under the distribution $q_{\phi}{(\mathbf{x},z)}$. To compute $I_{q}$, we follow and approximate $q_{\phi}{({z \mid {\mathbf{x}_{i},\mathbf{y}_{i}}})}$ with $p_{\theta}{({z \mid \mathbf{x}_{i}})}$, obtaining the unconditioned latent distribution by summing out $\mathbf{x}_{i}$ over the batch. Notably, the Gumbel-Softmax reparameterization is not used to backpropagate through the Categorical latent variable $z$ because it is not sampled during training time. Instead, the first term of Equation 4 is directly computed since the latent space has only ${|Z|} = 25$ discrete elements. Additional training details can be found in the appendix.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Our method is evaluated on three publicly-available datasets: The ETH, UCY, and nuScenes datasets. The ETH and UCY datasets consist of real pedestrian trajectories with rich multi-human interaction scenarios captured at 2.5 Hz (${\Deltat} = {0.4s}$). In total, there are 5 sets of data, 4 unique scenes, and 1536 unique pedestrians. They are a standard benchmark in the field, containing challenging behaviors such as couples walking together, groups crossing each other, and groups forming and dispersing. However, they only contain pedestrians, so we also evaluate on the recently-released nuScenes dataset. It is a large-scale dataset for autonomous driving with 1000 scenes in Boston and Singapore. Each scene is annotated at 2 Hz (${\Deltat} = {0.5s}$) and is 20s long, containing up to 23 semantic object classes as well as HD semantic maps with 11 annotated layers.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+*Trajectron++* was implemented in PyTorch on a desktop computer running Ubuntu 18.04 containing an AMD Ryzen 1800X CPU and two NVIDIA GTX 1080 Ti GPUs. We trained the model for 100 epochs ($\sim 3$ hours) on the pedestrian datasets and 12 epochs ($\sim 8$ hours) on the nuScenes dataset.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+1\. Average Displacement Error (ADE): Mean $\ell_{2}$ distance between the ground truth and predicted trajectories.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+2\. Final Displacement Error (FDE): $\ell_{2}$ distance between the predicted final position and the ground truth final position at the prediction horizon $T$.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+3\. Kernel Density Estimate-based Negative Log Likelihood (KDE NLL): Mean NLL of the ground truth trajectory under a distribution created by fitting a kernel density estimate on trajectory samples.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+4\. Best-of-N (BoN): The minimum ADE and FDE from $N$ randomly-sampled trajectories. We compare our method to an exhaustive set of state-of-the art deterministic and generative approaches.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Deterministic Baselines. Our method is compared against the following deterministic baselines: Linear: A linear regressor with parameters estimated by minimizing least square error. LSTM: An LSTM network with only agent history information. Social LSTM: Each agent is modeled with an LSTM and nearby agents' hidden states are pooled at each timestep using a proposed social pooling operation. Social Attention: Same as, but all other agents' hidden states are incorporated via a proposed social attention operation.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Generative Baselines. On the ETH and UCY datasets, our method is compared against the following generative baselines: S-GAN: Each agent is modeled with an LSTM-GAN, which is an LSTM encoder-decoder whose outputs are the generator of a GAN. The generated trajectories are then evaluated against the ground truth trajectories with a discriminator. SoPhie: An LSTM-GAN with the addition of a proposed physical and social attention module. MATF: An LSTM-GAN model that leverages CNNs to fuse agent relationships and encode environmental information. Trajectron: An LSTM-CVAE encoder-decoder which is explicitly constructed to match the spatiotemporal structure of the scene. Its scene abstraction is similar to ours, but uses undirected edges.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+On the nuScenes dataset, the following methods are also compared against: Convolutional Social Pooling (CSP): An LSTM-based approach which explicitly considers a fixed number of movement classes and predicts which of those the modeled agent is likely to take. CAR-Net: An LSTM-based approach which encodes scene context with visual attention. SpAGNN: A CNN encodes raw LIDAR and semantic map data to produce object detections, from which a Graph Neural Network (GNN) produces probabilistic, interaction-aware trajectories.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Evaluation Methodology. For the ETH and UCY datasets, a leave-one-out strategy is used for evaluation, similar to previous works, where the model is trained on four datasets and evaluated on the held-out fifth. An observation length of 8 timesteps (3.2s) and a prediction horizon of 12 timesteps (4.8s) is used for evaluation. For the nuScenes dataset, we split off 15% of the train set for hyperparameter tuning and test on the provided validation set.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Throughout the following, we report the performance of *Trajectron++* in multiple configurations. Specifically, Ours refers to the base model using only node and edge encoding, trained to predict agent velocities and Euler integrating velocity to produce positions; Ours+$\int$ is the base model with dynamics integration, trained to predict control actions and integrating the agent's dynamics with the control actions to produce positions; Ours+$\int,M$ additionally includes the map encoding CNN; and Ours+$\int,M,\mathbf{y}_{\text{R}}$ adds the robot future encoder.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Legend: ∫ = Integration via Dynamics, M = Map Encoding, yR = Robot Future Encoding
+Table 2: (a) Our model’s deterministic Most Likely output outperforms other deterministic methods on displacement error metrics, even if it was not originally trained to do so. (b) Our model’s probabilistic Full output significantly outperforms other methods, yielding accurate predictions even in a small number of samples. Lower is better. Bold indicates best.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
+
+Our approach is first evaluated on the ETH and UCY Pedestrian Datasets, against deterministic methods on standard trajectory forecasting metrics. It is difficult to determine the current state-of-the-art in deterministic methods as there are contradictions between the results reported by the same authors in and. In Table 1 of, Social LSTM convincingly outperforms a baseline LSTM without pooling. However, in Table 1 of, Social LSTM is actually worse than the same baseline on average. Thus, when comparing against Social LSTM we report the results summarized in Table 1 of as it is the most recent work by the same authors. Further, the values reported by Social Attention in seem to have unusually high ratios of FDE to ADE. Nearly every other method (including ours) has FDE/ADE ratios around $2 - 3 \times$ whereas Social Attention's are around $3 - 12 \times$.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
+
+Social Attention's errors on the Univ dataset are especially striking, as its FDE of $3.92$ is $12 \times$ its ADE of $0.33$, meaning its prediction error on the other 11 timesteps is essentially zero. We still compare against the values reported in as there is no publicly-released code, but this raises doubts of their validity. To fairly compare against prior work, neither map encoding nor future motion plan encoding is used. Only the node history and edge encoders are used in the model's encoder. Additionally, the model's deterministic ML output scheme is employed, which produces the model's most likely single trajectory. Table 2 (a) summarizes these results and shows that our approach is competitive with state-of-the-art deterministic regressors on displacement error metrics (outperforming existing approaches by $33\%$ on mean FDE), even though our method was not originally trained to minimize this. It makes sense that the model performs similarly with and without dynamics integration for pedestrians, since they are modeled as single integrators.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
+
+Thus, their control actions are velocities which matches the base model's output structure.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
+
+Legend: ∫ = Integration via Dynamics, M = Map Encoding, yR = Robot Future Encoding
+Table 3: Mean KDE-based NLL for each dataset. Lower is better. 2000 trajectories were sampled per model at each prediction timestep. Bold indicates the best values.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
+
+To more concretely compare generative methods, we use the KDE-based NLL metric proposed, an approach that maintains full output distributions and compares the log-likelihood of the ground truth under different methods' outputs. Table 3 summarizes these results and shows that our method significantly outperforms others. This is also where the performance improvements brought by the dynamics integration scheme are clear. It yields the best performance because the model is now explicitly trained on the distribution it is seeking to output (the loss function term $p_{\psi}{(\left. \mathbf{y} \middle| {\mathbf{x},z} \right.)}$ is now directly over positions), whereas the base model is trained on velocity distributions, the integration of which (with no accounting for system dynamics) introduces errors. Unfortunately, at this time there are no publicly-released models for SoPhie or MATF, so they cannot be evaluated with the KDE-based NLL metric. Instead, we evaluate *Trajectron++* with the Best-of-$N$ metric used in their works.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
+
+Table 2 (b) summarizes these results, and shows that our method significantly ourperforms the state-of-the-art, achieving $55 - {60\%}$ lower average errors.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "ETH and UCY Datasets", "weight": 1.0} -->
+
+Map Encoding. To evaluate the effect of incorporating heterogeneous data, we compare the performance of *Trajectron++* with and without the map encoder. Specifically, we compare the frequency of obstacle violations in 2000 trajectory samples from the Full model output on the ETH - University scene, which provides a simple binary obstacle map. Overall, our approach generates colliding predictions $1.0\%$ of the time with map encoding, compared to $4.6\%$ without map encoding. We also study how much of a reduction there is for pedestrians that are especially close to an obstacle (i.e. they have at least one obstacle-violating trajectory in their Full output), an example of which is shown in the appendix. In this regime, our approach generates colliding predictions $4.9\%$ of the time with map encoding, compared to $21.5\%$ without map encoding.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+
+∗We subtracted 22-24 c m from these reported values (their detection/tracking error ), as we do not use a detector/tracker. This is done to establish a fair comparison.
+Legend: ∫ = Integration via Dynamics, M = Map Encoding, yR = Robot Future Encoding.
+Table 4: [nuScenes] (a): Vehicle-only FDE across time for Trajectron++ compared to that of other single-trajectory and probabilistic approaches. Bold indicates best. (b): Pedestrian-only FDE and KDE NLL across time for Trajectron++.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+
+To further evaluate the model's ability to use heterogeneous data and simultaneously model multiple semantic classes of agents, we evaluate it on the nuScenes dataset. Again, the deterministic ML output scheme is used to fairly compare with other single-trajectory predictors. The trajectories of both Pedestrians and Cars are forecasted, two semantic object classes which account for most of the 23 possible object classes present in the dataset. To obtain an estimate of prediction quality degradation over time, we compute the model's FDE at $t = {{\{ 1,2,3,4\}}s}$ for all tracked objects with at least $4s$ of available future data. We also implement a constant velocity baseline, which simply maintains the agent's heading and speed for the prediction horizon. Table 4 (a) summarizes the model's performance in comparison with state-of-the-art vehicle trajectory prediction models. Since other methods use a detection/tracking module (whereas ours does not), to establish a fair comparison we subtracted other methods' detection and tracking error from their reported values.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+
+The dynamics integration scheme and map encoding yield a noticeable improvement with vehicles, as their dynamically-extended unicycle dynamics now differ from the single integrator assumption made by the base model. Note that our method was only trained to predict $3s$ into the future, thus its performance at $4s$ also provides a measure of its capability to generalize beyond its training configuration. Other methods do not report values at $2$s and $4$s. As can be seen, *Trajectron++* outperforms existing approaches without facing a sharp degradation in performance after $3s$. Our approach's performance on pedestrians is reported in Table 4 (b), where the inclusion of HD maps and dynamics integration similarly improve performance as in the pedestrian datasets.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+
+Legend: ∫ = Integration via Dynamics, M = Map Encoding, yR = Robot Future Encoding
+Table 5: [nuScenes] (a): Vehicle-only prediction performance for ablated versions of our model. (b): The same, but excluding the ego-robot from consideration (as it is being conditioned on). This shows that our model’s robot future conditional performance does not arise from merely removing the ego-vehicle.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+
+Ablation Study. To develop an understanding of which model components influence performance, a comprehensive ablation study is performed in Table 5. As can be seen in the first row, even the base model's deterministic ML output performs strongly relative to current state-of-the-art approaches for vehicle trajectory forecasting. Adding the dynamics integration scheme yields a drastic reduction in NLL as well as FDE at all prediction horizons. There is also an associated slight increase in the frequency of road boundary-violating predictions. This is a consequence of training in position (as opposed to velocity) space, which yields more variability in the corresponding predictions. Additionally including map encoding maintains prediction accuracy while reducing the frequency of boundary-violating predictions.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+
+The effect of conditioning on the ego-vehicle's future motion plan is also studied, with results summarized in Table 5 (b). As one would expect, providing the model with future motion plans of the ego-vehicle yields significant reductions in error and road boundary violations. This use-case is common throughout autonomous driving as the ego-vehicle repeatedly produces future motion plans at every timestep by evaluating motion primitives. Overall, dynamics integration is the dominant performance-improving module.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+
+\begin{overpic}[width=125.74689pt,frame]{figures/qual_nuScenes_no_map_vel}\put(45.0,5.0){(a) Ours}\end{overpic} \begin{overpic}[width=125.74689pt,frame]{figures/qual_nuScenes_no_map_pos}\put(45.0,5.0){(b)+∫}\end{overpic} \begin{overpic}[width=125.74689pt,frame]{figures/qual_nuScenes_map_pos.pdf}\put(45.0,5.0){(c)+∫,M}\end{overpic} \begin{overpic}[width=43.36464pt]{figures/qual_nuScenes_legend.pdf}\end{overpic}
+Figure 3: [nuScenes] The same scene as forecast by three versions of Trajectron++.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+
+(a) The base model tends to under-shoot turns, and makes overly-confident predictions. (b) Our approach better captures position uncertainty with dynamics integration, producing well-calibrated probabilities. (c) The model is able to leverage the additional information that a map provides, yielding accurate predictions.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+
+Qualitative Comparison. Figure 3 shows trajectory predictions from the base model, with dynamics integration, and with dynamics integration + map encoding. In it, one can see that the base model (predicting in velocity space) undershoots the turn for the red car, predicting that it will end up in oncoming traffic. With the integration of dynamics, the model captures multimodality in the agent's action, predicting both the possibility of a right turn and continuing straight. With the addition of map encoding, the predictions are not only more accurate, but nearly all probability mass now lies within the correct side of the road. This is in contrast to versions of the model without map encoding which predict that the red car might move into oncoming traffic.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "nuScenes Dataset", "weight": 1.0} -->
+
+Online Runtime. A key consideration in robotics is runtime complexity. As a result, we evaluate the time it takes *Trajectron++* to perform forward inference on commodity hardware. The results are summarized in the appendix, and confirm that our model scales well to scenes with many agents and interactions.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+In this work, we present *Trajectron++*, a generative multi-agent trajectory forecasting approach which uniquely addresses our desiderata for an open, generally-applicable, and extensible framework. It can incorporate heterogeneous data beyond prior trajectory information and is able to produce future-conditional predictions that respect dynamics constraints, all while producing full probability distributions, which are especially useful in downstream robotic tasks such as motion planning, decision making, and control. It achieves state-of-the-art prediction performance in a variety of metrics on standard and new real-world multi-agent human behavior datasets.

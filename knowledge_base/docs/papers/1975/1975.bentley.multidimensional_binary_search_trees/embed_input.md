@@ -1,7 +1,19 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Multidimensional Binary Search Trees Used for Associative Searching
 
 Topics include K-d tree, Multidimensional search, Associative search, Nearest neighbors, Partial match queries, Data structures, Computational geometry.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Bentley introduces the k-d tree as a multidimensional generalization of binary search trees for associative search. The paper analyzes insertion, deletion, optimization, partial-match, nearest-neighbor, and intersection queries, making k-d trees a central data structure for geometric search and spatial indexing.
 
-This paper develops the multidimensional binary search tree (or k -d tree, where k is the dimensionality of the search space) as a data structure for storage of information to be retrieved by associative searches. The k -d tree is defined and examples are given. It is shown to be quite efficient in its storage requirements. A significant advantage of this structure is that a single data structure can handle many types of queries very efficiently. Various utility algorithms are developed; their proven average running times in an n record file are: insertion, O (log n ); deletion of the root, O ( n ( k -1)/ k ); deletion of a random node, O (log n ); and optimization (guarantees logarithmic performance of searches), O ( n log n ). Search algorithms are given for partial match queries with t keys specified [proven maximum running time of O ( n ( k - t )/ k )] and for nearest neighbor queries [empirically observed average running time of O (log n ).] These performances far surpass the best currently known algorithms for these tasks. An algorithm is presented to handle any general intersection query. The main focus of this paper is theoretical.
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+This paper develops the multidimensional binary search tree (or k -d tree, where k is the dimensionality of the search space) as a data structure for storage of information to be retrieved by associative searches. The k -d tree is defined and examples are given. It is shown to be quite efficient in its storage requirements. A significant advantage of this structure is that a single data structure can handle many types of queries very efficiently. Various utility algorithms are developed; their proven average running times in an n record file are: insertion, O (log n ); deletion of the root, O ( n ( k -1)/ k ); deletion of a random node, O (log n ); and optimization (guarantees logarithmic performance of searches), O ( n log n ). Search algorithms are given for partial match queries with t keys specified [proven maximum running time of O ( n ( k - t )/ k )] and for nearest neighbor queries [empirically observed average running time of O (log n ).] These performances far surpass the best currently known algorithms for these tasks. An algorithm is presented to handle any general intersection query.
+
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+The main focus of this paper is theoretical. It is felt, however, that k -d trees could be quite useful in many applications, and examples of potential uses are given.

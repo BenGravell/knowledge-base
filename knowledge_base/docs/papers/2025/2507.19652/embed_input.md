@@ -1,15 +1,187 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 RAKOMO: Reachability-Aware K-Order Markov Path Optimization for Quadrupedal Loco-Manipulation
 
 Topics include Trajectory optimization, Motion planning, Robotics, Safety, Benchmarks, Optimization, Planning, RAKOMO, KOMO.
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 Legged manipulators, such as quadrupeds equipped with robotic arms, require motion planning techniques that account for their complex kinematic constraints in order to perform manipulation tasks both safely and effectively. However, trajectory optimization methods often face challenges due to the hybrid dynamics introduced by contact discontinuities, and tend to neglect leg limitations during planning for computational reasons. In this work, we propose RAKOMO, a path optimization technique that integrates the strengths of K-Order Markov Optimization (KOMO) with a kinematically-aware criterion based on the reachable region defined as reachability margin. We leverage a neural-network to predict the margin and optimize it by incorporating it in the standard KOMO formulation. This approach enables rapid convergence of gradient-based motion planning - commonly tailored for continuous systems - while adapting it effectively to legged manipulators, successfully executing loco-manipulation tasks. We benchmark RAKOMO against a baseline KOMO approach through a set of simulations for pick-and-place tasks with the HyQReal quadruped robot equipped with a Kinova Gen3 robotic arm.
 
-## INTRODUCTION
+<!-- chunk {"id": "body-0003", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-Mobile manipulators are increasingly used in everyday activities due to their ability to perform tasks in industrial, domestic, and natural environments. Successful operations in the real world require the robot to reach and manipulate objects while avoiding collisions with both their own structure and the surrounding environment. The enhanced mobility provided by legs has motivated the robotics community to explore legged systems as mobile bases for manipulators.
+Mobile manipulators are increasingly used in everyday activities due to their ability to perform tasks in industrial, domestic, and natural environments. Successful operations in the real world require the robot to reach and manipulate objects while avoiding collisions with both their own structure and the surrounding environment. The enhanced mobility provided by legs has motivated the robotics community to explore legged systems as mobile bases for manipulators. For these multi-limbed systems, referred to as legged manipulators, it is crucial to plan whole-body motions that are aware of the leg limitations, in order to avoid compromising the robot's balance and performance in terms of tracking. Motion planning specifically addresses this problem by providing a set of collision-free configurations that respect the robot's limitations.
 
-In the literature, two powerful techniques for robot motion planning have been proposed: sampling-based and optimization-based planning, the latter often referred to as trajectory optimization (TO). Sampling-based methods, such as Rapidly Exploring Random Trees (RRT) and Probabilistic Roadmaps (PRM), can theoretically converge to an optimal solution if one exists, but tend to suffer from a slow convergence time. By contrast, optimization-based planning generally yields smoother trajectories that are compatible with real-time requirements.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
-Recently, the robotics community has shown significant interest in using TO to solve task-and-motion planning (TAMP) problems, where for each task evaluated, a motion planning problem is computed to test kinematic and/or dynamic feasibility. In the general formulation of TO, an objective function prioritizing path length, time, smoothness, and energy consumption is minimized under running and boundary constraints. Motion planning techniques such as CHOMP, STOMP, TrajOpt and KOMO discretize the problem and explore or approximate gradient information to drive the initial guess to the optimum.
+In the literature, two powerful techniques for robot motion planning have been proposed: sampling-based and optimization-based planning, the latter often referred to as trajectory optimization (TO). Sampling-based methods, such as Rapidly Exploring Random Trees (RRT) and Probabilistic Roadmaps (PRM), can theoretically converge to an optimal solution if one exists, but tend to suffer from a slow convergence time. By contrast, optimization-based planning generally yields smoother trajectories that are compatible with real-time requirements. Despite the risk of converging to locally optimal or unfeasible robot poses, we adopt TO in this work given that its convergence time is essential for the advancement of long-term planning.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+Recently, the robotics community has shown significant interest in using TO to solve task-and-motion planning (TAMP) problems, where for each task evaluated, a motion planning problem is computed to test kinematic and/or dynamic feasibility. In the general formulation of TO, an objective function prioritizing path length, time, smoothness, and energy consumption is minimized under running and boundary constraints. Motion planning techniques such as CHOMP, STOMP, TrajOpt and KOMO discretize the problem and explore or approximate gradient information to drive the initial guess to the optimum. Their success has been proven for autonomous drone flight, underwater vehicle missions, and pick-and-place tasks with mobile robots.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
 
 Trajectory optimization becomes more challenging for legged systems due to their inherently complex dynamical model, driven by nonlinear dynamics, strong coupling among actuated legs and the unactuated base, and the high dimensionality of the overall configuration space. Additionally, complexity scales up when the robot's motion has to be optimized for additional limbs that are involved in non-locomotive tasks. Some prior approaches address such complexity by simplifying the system to a six degrees-of-freedom (DOF) base, planning the entire whole-body kinematic motions with this simplified representation, neglecting the effect of the legs.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+The use of reduced-order models neglects the leg joint limitations during planning. Different approaches attempt to embed such information in the model without explicitly considering contact forces nor joint limits. A simple approach constrains the position of the base relative to the feet through box constraints. These constraints result in conservative approximation of the kinematic limits and provide no metric for optimizing kinematic feasibility. On the other hand, authors introduce kinematic feasibility by learning the probability density of the CoM positions with respect to the feet locations. Alternatively, researchers also defined 2D regions where if a reference point, e.g., center of mass (CoM) position, lies inside then: a) friction constraints on the contact forces and motor's actuation limits are respected, namely the feasible region; b) the joint-position limits are respected and leg singularities are avoided, namely the reachable region. A more recent work proposes a function approximator to estimate the so-called feasibility margin, defined as the shortest-distance between the instantaneous capture point (ICP) and the feasible region's boundary. Additionally, the authors proposed the margin optimization within a TO formulation to ensure dynamic locomotion robustness.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "I-A Contributions", "weight": 1.0} -->
+
+In this work, we propose an efficient trajectory optimization method for legged loco-manipulation that combines the efficiency of reduced modeling and feasibility of joint-level constraints. Explicitly modeling each leg joint introduces $n_{c}\text{x}n_{j}\text{x}N$ joint decision variables, where $n_{c}$ is the number of contacts, $n_{j}$ is the number of joints in each leg, and $N$ is the planning horizon. This choice significantly increases the problem complexity and computational time. To mitigate this, as proposed in we employ a simplified model of the legged robot at a cost of neglecting any leg joint-level constraint. To address this limitation, we introduce an efficient representation of the joint-kinematic constraints using the the reachability margin -- a metric defining the shortest distance from the horizontal projection of the base position to the boundaries of the reachable region. Inspired, we utilize a Multi-Layer Perceptron (MLP) to learn the reachability margin. We decide to incorporate the network into a KOMO formulation to prevent the robot's base from reaching heights and orientations that would push its legs beyond their reachability limits.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "I-A Contributions", "weight": 1.0} -->
+
+This can occur for a legged manipulator whenever the end-effector has to reach very high or very low targets, as we show in the results section. An alternative approach could have been to impose empirical limits on the robot's base height and orientations. However, this method risks setting overly conservative constraints. By employing a KOMO formulation, we gain numerical advantages due to the emergence of a banded cost/constraints Jacobian and a banded-symmetric Hessian, as described. These properties make Gauss-Newton solvers well-suited to solve such problems. The complexity of KOMO is linear on the number of waypoints and polynomial on the dimension of the robot configuration space. Despite its advantages, KOMO has been applied so far to fixed-based manipulators and omnidirectional wheeled robots.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "I-A Contributions", "weight": 1.0} -->
+
+At each iteration, the KOMO's trajectory is passed to an inverse-dynamics whole-body (IDWB) controller that solves a one shot Quadratic Programming problem for generating the robot actuation commands.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "I-A Contributions", "weight": 1.0} -->
+
+We introduce an efficient trajectory planning method for legged manipulators that leverages simplified robot models while effectively incorporating joint-kinematic constraints without resorting to full kinematic representation of the legs. This reduces the number of decision variables by $n_{c}\text{x}n_{j}\text{x}N$, resulting only in minimal computational overhead to simplified methods.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "I-A Contributions", "weight": 1.0} -->
+
+We propose a loco-manipulation planning strategy suitable for all legged commercial robots that operate with a black-box locomotion controller, where direct control of individual legs is not available to the control designer. Instead, the robot can only be steered through velocity inputs. The proposed strategy allows to create whole-body motions that inherently account for the kinematic limitations of the legs without explicitly modeling or incorporating them into the planning process, enabling more effective planning motion generation even in the absence of low-level leg control.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "I-A Contributions", "weight": 1.0} -->
+
+The paper is organized as follows: Sec. II and Sec. III presents, respectively, the motion planning and control of the robot. Section IV presents the proposed simulations and discusses the results. Section V concludes the paper.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "MOTION PLANNING", "weight": 1.0} -->
+
+In this section, we introduce the reachability margin and formulate the reachability-aware formulation of KOMO, named as RAKOMO.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "II-A Reachability Margin", "weight": 1.0} -->
+
+In order for the planner to provide kinematically feasible trajectories when using a simplified template as in Fig., it is crucial to consider the influence of the leg joint limits on the base motion. However, determining the resulting kinematic limits of the robot base states (e.g. roll, pitch, and height) is highly challenging because they cannot be treated as independent from each other. Additionally, such base kinematic limits are strongly dependent on the relative distance between the base and each foot. Such a relationship, instead, can be described in an efficient manner using the reachable region introduced. The reachable region describes the set of all base positions the robot can achieve for the given contact position and base orientation, where the joint constraints would be respected. Similar to the approach of, we utilize the reachable region in an optimization problem by defining a metric of reachability. This metric helps to guide the optimization of the base's motion to enhance kinematic feasibility and ensure efficient use of the robot's reachable workspace.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "II-A Reachability Margin", "weight": 1.0} -->
+
+The reachability metric, defined as reachability margin, is the distance between the current base position and the closest boundary of the reachable region. The computation of the reachability margin is achieved through the following steps: 1) computation of the reachable region; and 2) computation of the minimum distance between the horizontal projection of the base position and the edges of the reachable region.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-A Reachability Margin", "weight": 1.0} -->
+
+The reachable region can be obtained by mapping the kinematic constraints of the robot (defined in joint space) to the task-space (the Cartesian space where the base is defined). A ray-casting search is done to find the furthest point in the Cartesian space where the joint limits are still respected, i.e., the vertices of the region. As a result from the nature of the leg kinematic chain, the reachable region is, in general, a non-convex set.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "II-A Reachability Margin", "weight": 1.0} -->
+
+Given that the feasible region is non-convex, we resort to computing the reachability margin by iteratively computing the margins to all the edges of the region (obtained from the vertices) and find the minimum value. The minimum distance between the base and each edge $i$ of the region can be computed using
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "II-A Reachability Margin", "weight": 1.0} -->
+
+To incorporate the reachability margin in a gradient-based optimization problem, we need to be able to compute its gradient w.r.t. its inputs. Given the non-differentiable nature of the iterative algorithm used to obtain the region, this can only be achievable through the finite-difference of the numerical computation. This is considerably inefficient as the computation of one region can take, on average, 30 to 40 ms (with the gradient computation requiring over 1 sec). Instead, we proceed to approximate the reachability margin through training an MLP network.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "II-A Reachability Margin", "weight": 1.0} -->
+
+Note that given it is needed to generate trajectories for the robot's base (see Section II-B), we have defined the reachability margin in using the robot's base position. However, in reality, the reachable region is only affected by the configuration of the feet relative to the base.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "II-A Reachability Margin", "weight": 1.0} -->
+
+Therefore, to simplify the training of the network, the input to the reachability region and the MLP can be defined as ${\mathbf{x}}_{\mathbf{r}} = \left\lbrack {{}_{}^{}{}_{}^{}},{{}_{}^{}{}_{bf_{i}}^{}},\ldots,{{}_{}^{}{}_{bf_{Nc}}^{}} \right\rbrack$ where ${}_{}^{}{}_{}^{}$ is the unit vector representing the z-axis of the world frame in the robot base frame, ${}_{}^{}{}_{bf_{i}}^{}$ is the i-th foot position relative to the base frame (and expressed in the base frame), and $Nc$ is the number of feet in contact with the ground. Additionally, to optimize the margin with respect to the base position, we can use the relationship
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "II-A Reachability Margin", "weight": 1.0} -->
+
+where ${}_{}^{}{}_{bf_{i}}^{}$ is the i-th foot position relative to the base frame (and expressed in the world frame) and ${}_{}^{}{}_{wb}^{}$ denotes the base Cartesian position (expressed in the world frame). Finally, the network output is the scalar value of the reachability margin $m$.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "II-A Reachability Margin", "weight": 1.0} -->
+
+The architecture of the network is composed of 3 hidden layers, where the first layer has 512 neurons, the second layer has 256 neurons, and the third layer has 128 neurons. The activation function used in the hidden layers is the ReLU function, while the output layer has no activation function. The dataset is generated by sampling the input variables from uniform distributions centered around nominal operating values. The network is trained on a dataset composed of $5 \cdot 10^{6}$ samples, which was verified to be sufficient to reach a plateau in the prediction performance. Given that we can warm start the TO within the operating conditions and that the system is physically constrained to the kinematic boundaries, generalization outside the selected range is not needed. The time taken to compute the inference and the gradient of the network is on average 10 ms and 100 ms, respectively. This allows for the margin to be utilized efficiently in TO.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "II-B K-Order Markov Path Optimization - KOMO", "weight": 1.0} -->
+
+KOMO is an efficient method for solving motion planning problems introduced by Marc Toussaint in 2014. It represents a path as a sequence of waypoints, each defined as a kinematic robot configuration. A robot configuration can be seen as a set of joints connected by rigid links. We parameterize the robot configuration space as ${\mathbf{q}} = {\lbrack{{}_{}^{}{}_{wb}^{}},{{}_{}^{}{}_{}^{}},{\mathbf{q}}_{a}\rbrack} \in {\mathbb{R}}^{6 + n_{a}}$ where ${}_{}^{}{}_{}^{}$ denotes the base orientation expressed in the world frame using Euler angles, and $q_{1},\ldots,q_{n_{a}}$ correspond to the manipulator's joint angles with $n_{a}$ the number of joints.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "II-B K-Order Markov Path Optimization - KOMO", "weight": 1.0} -->
+
+The goal is to find a trajectory as a set of robot-configuration ${\mathbf{q}}_{0},..,{\mathbf{q}}_{N}$ that minimizes
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "II-B K-Order Markov Path Optimization - KOMO", "weight": 1.0} -->
+
+The inherent $k$-order Markovian property means that a robot configuration at time $t$, defined by ${\mathbf{q}}_{t}$, is influenced by a history of previous robot configuration up to the $k$-th order, i.e. ${\mathbf{q}}_{{t - k}:t}$. This property is useful to create costs or constraints only dependent on a group of $k$-tuplets states, and break older temporal dependencies. Hence, we can rewrite as
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "II-B K-Order Markov Path Optimization - KOMO", "weight": 1.0} -->
+
+with ${\mathbf{f}}_{t} \in {\mathbb{R}}$, ${\mathbf{g}}_{t} \in {\mathbb{R}}^{n_{g_{t}}}$ and ${\mathbf{h}}_{t} \in {\mathbb{R}}^{n_{h_{t}}}$. Not all cost and constraint functions have the same order $k$; it depends on the derivative order of the kinematic quantity involved. Specifically, for penalizing positions, velocities, and accelerations, we need respectively $k$ being of order 0, 1, and 2.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Objective", "weight": 1.0} -->
+
+The final trajectory should be smooth and penalize overall joint displacement from the starting robot joint configuration.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Objective", "weight": 1.0} -->
+
+Additionally, we want to optimize the reachability margin $m$ around a desired value $\epsilon^{\ast}$ along the robot's trajectory
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Equality Constraints", "weight": 1.0} -->
+
+Considering an object to grasp at a certain position (or a target position to place an object) defined as ${\mathbf{z}} \in {\mathbb{R}}^{3}$, we define the kinematic constraint to reach such desired end-effector's target position as
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Equality Constraints", "weight": 1.0} -->
+
+being $\mathcal{H}{({\mathbf{q}}_{t})}$ the differentiable kinematic model of the legged manipulator. We adopt a robot-centric perspective, preferring to express costs for the arm's end-effector which can lead to desired object motion poses. Hence, we can avoid to increase the dimensionality of the solution space, by not including rigid objects poses in $\mathbf{q}$ during the different time slices. Handling objects implies including them into the robot's kinematic tree, once each contact with the object is established.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Inequality Constraints", "weight": 1.0} -->
+
+with ${{\forall i},j} \in \mathcal{S}_{r}$, ${\forall o} \in \mathcal{S}_{o}$ and $d$ being the Euclidean distance between two collision primitives $\mathcal{K}$ with sphere-radius $r$ each. The two sets $S_{r}$ and $S_{o}$ denote, respectively, the subsets of robot and object meshes. Additionally, to respect arm joint limits and leg joint limits (through the reachability margin) we include
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Solver", "weight": 1.0} -->
+
+The formulation of the optimal problem is general enough for any non-linear programming solver, given differentiable functions ${\mathbf{f}}_{t}$, ${\mathbf{g}}_{t}$ and ${\mathbf{h}}_{t}$. The MLP problem in is solved with Augmented Lagrangian via Newton's method adopting line search. The Markovian property leads to having banded Jacobian of the costs/constraints (obtained by partial derivative with respect to $\mathbf{q}$) because first-order dependencies are local (${\mathbf{q}}_{t}$ depends only on $k$ previous configurations and not all the past states). The non-zero entries of the cost/constraint Jacobian associated to and are expressed for the rotational coordinates of the base as
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Solver", "weight": 1.0} -->
+
+where $({\nabla m_{\mathbf{g}}})$ is the gradient of the neural network output with respect to the vector $\mathbf{g}$. The Jacobian related to the translational coordinates can be obtained as
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Collision Avoidance", "weight": 1.0} -->
+
+In this work, we rely on the Flexible-Collision library (FCL) to perform collision and penetration queries. In particular, we leverage the computation of depth penetration between two convex polytopes using the Expanding Polytope Algorithm (EPA), and we use the Gilbert-Johnson-Keerthi (GJK) algorithm to compute the Euclidian distance between the queried convex shapes used.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Motion Control", "weight": 1.0} -->
+
+The motion planner outputs a set of robot joint configurations, $\mathbf{q}$, containing the base and arm degrees of freedom. According to the robot state, linear interpolation is performed between the current state and the next desired waypoint from KOMO. The number of waypoints for each dimension of the vector $\mathbf{q}$ is determined as ${N = {max{({\frac{\Deltaq_{i}}{v_{i}^{max}}f_{s}})}{\forall i}} = 1},{\ldots,{6 + n_{a}}}$, with $\Deltaq_{i}$ being the displacement between two consecutive configurations along the i-th dimension, $f_{s}$ being the control frequency, and $v_{i}^{max}$ being the maximum velocity of the i-th direction.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Motion Control", "weight": 1.0} -->
+
+The desired waypoint, denoted by ${\mathbf{q}}^{\ast}$ (containing the base and the arm desired position states), is provided to the dynamic whole-body controller (WBC), with the exception that the desired joint accelerations, denoted by ${\overset{¨}{\mathbf{q}}}^{d}$, are computed as
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Motion Control", "weight": 1.0} -->
+
+with ${\mathbf{K}}_{p}$, ${\mathbf{K}}_{d}$, and ${\mathbf{K}}_{i}$ being respectively the proportional, derivative, and integral gain matrices. $\mathbf{q}$ and $\overset{˙}{\mathbf{q}}$ represent, respectively, the current joint position and velocity, while ${\mathbf{q}}^{\ast}$ and ${\overset{˙}{\mathbf{q}}}^{\ast}$ represent, respectively, the desired joint position and velocity.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Motion Control", "weight": 1.0} -->
+
+To control the robot torso, a desired wrench ${\mathbf{W}}_{b}^{d}$ (to be rendered by the WBC) is defined w.r.t.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Results", "weight": 1.0} -->
+
+We conducted a set of simulations to validate the proposed approach using our legged manipulator, HyQReal with a Kinova Robotic Gen3 arm. The simulations were performed using Gazebo as a physics simulator. Throughout this work we leverage KOMO's solver to solve full path optimization problems for a fixed number of body configurations $N$ equal to 15. For collision avoidance, we modeled the quadruped's trunk as a bounding box and provided sphere-swept convex meshes around each link of the robotic arm. In all simulations, we considered the robot in a stance configuration, i.e. with all four feet on the ground and ${}_{}^{}{}_{bf_{i}}^{}$ fixed. The integration of dynamic gait and contact sequence optimization is left for future work. We designed two simulation scenarios to assess the results of the baseline approach (KOMO without the inclusion of the reachable regions) and our proposed approach RAKOMO: 1) grasping an object from a low height; and 2) picking and placing an object on high shelves. All the simulations discussed in this section are also included in the accompanying video.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-A Grasping low-height object", "weight": 1.0} -->
+
+In the first simulation, the robot is required to grasp a bottle underneath a table. The scenario is depicted in Fig. a,b. For the whole task duration, the penalization weight for the arm's position deviations in the cost function was set to be 10 times lower than the weight for penalizing base positions. This choice allows to exploit the arm's reachability as much as possible before the optimizer finds body postures in support of the arm. The desired value for the reachability margin $\epsilon^{\ast}$ in is set to 0.15$m$ and the minimum feasibility margin $\underset{¯}{\epsilon}$ is set to 0.05$m$.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "IV-A Grasping low-height object", "weight": 1.0} -->
+
+Results showed that introducing the reachability margin regularization in helps the optimizer to find body poses with better leg kinematic margins along the robot's trajectory. When using the baseline approach, the robot is unaware of the leg limitations. As a consequence, the quadruped's trunk lowers excessively, leading to unfavourable leg configurations. This results in a mismatch in the final end-effector position. As shown in Fig., the reachability margin starts increasing around 5$s$ because the robot's nominal height starts decreasing, bringing the left-front (LF) Hip-Flexion Extension (HFE) joint towards the center of its kinematic range. However, the same joint retracts more as the base height decreases, resulting in the margin dropping considerably until the motion is stopped when the robot belly hits/touches the ground. On the other hand, RAKOMO manages to keep the same joint, i.e. LF HFE closer towards the middle of the workspace throughout the grasping task, resulting in a margin centered around the optimal value $\epsilon^{\ast}$.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "IV-A Grasping low-height object", "weight": 1.0} -->
+
+The possibility of deploying the algorithm on quadruped robots, for online replanning, is maintained in both cases: the time to compute a solution according to the KOMO stopping criteria is 104$ms$ for the baseline and 270$ms$ for RAKOMO. Although this represents an increase of approximately 2.6 times, RAKOMO remains significantly more efficient compared to running KOMO on the full robot model, which would be composed of four additional kinematic chains (legs) leading to 12 additional joints. Given that the computational complexity scales cubically with the number of joints, these extra kinematic chains would lead to an estimated computation time increase of 7 times for the same setup, what would make an online implementation difficult.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "IV-B Pick and place of object on a high shelf", "weight": 1.0} -->
+
+In the second simulation scenario, the robot is positioned in front of a bookcase and tasked with moving a soda can from a lower shelf to an upper one. The scenario is depicted in Fig. c,d. To ensure accurate grasping and placement, we added two 0-order constraints as shown in to enforce the object's grasping at the initial time and the place position at the final time. Both RAKOMO and the baseline approach KOMO explore the planar DOF of the base to help the arm reach the object and move away from the shelf before placing the item on the upper shelf. However, during the final phase of the task, the baseline approach proceeds to raise the base to an excessive height due to the lack of awareness of the leg kinematic limits. As a result, the right-front leg (RF) HFE joint reaches its lower bound limit towards the end of the task, as illustrated in Fig.. In contrast, with RAKOMO, the robot's base height and orientation are maintained closer to more reachable values, ensuring better alignment with the robot's kinematic limits. The difference in terms of body posture around the end of the task is shown in Fig. c.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "IV-B Pick and place of object on a high shelf", "weight": 1.0} -->
+
+From a computational perspective, the time to compute a solution according to the KOMO stopping criteria for the solver is 120$ms$, and for RAKOMO it is 285$ms$.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+
+In this work, we presented a novel methodology for motion planning in legged manipulators that integrates a reachability margin within the K-Order Markov Optimization (KOMO) framework. By leveraging supervised learning to model the reachability margin (i.e. the shortest distance from the base's horizontal projection to the boundary of the leg's reachable region), we incorporated leg kinematic limitations directly into the motion planning process without explicitly modeling all the leg joints. This approach allows for efficient planning on a reduced-order model while ensuring that the generated motions do not push the robot's legs beyond their kinematic limits. We presented simulation results involving IIT's 140kg HyQReal quadruped equipped with a Kinova Gen3 manipulator, performing tasks such as grasping low-height objects and picking and placing items on high shelves. The results demonstrated that our method successfully generates whole-body motions that respect leg limitations. As a future direction, we aim to extend the approach for walking scenarios. Additionally, we aim at considering also dynamic limitations of the robot, such as torque limits.

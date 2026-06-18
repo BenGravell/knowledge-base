@@ -1,7 +1,19 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Similarity Estimation Techniques from Rounding Algorithms
 
 Topics include Similarity estimation, SimHash, Locality-sensitive hashing, Random hyperplane hashing, Sketching, Cosine similarity, Earth mover distance.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Introduces random-hyperplane similarity sketches, now widely known as SimHash, by viewing rounding algorithms as locality-sensitive hashing schemes. The paper connects cosine-similarity estimation, set similarity, and earth-mover-distance sketches to LP and SDP rounding, providing a compact bridge between approximation algorithms and large-scale similarity search.
 
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 A locality sensitive hashing scheme is a distribution on a family F of hash functions operating on a collection of objects, such that for two objects x, y, Prh∈F[h(x) = h(y)] = sim(x, y), where sim(x, y) ∈ is some similarity function defined on the collection of objects. Such a scheme leads to a compact representation of objects so that similarity of objects can be estimated from their compact sketches, and also leads to efficient algorithms for approximate nearest neighbor search and clustering. Min-wise independent permutations provide an elegant construction of such a locality sensitive hashing scheme for a collection of subsets with the set similarity measure sim(A, B) = |A∩B|/|A∪B|. We show that rounding algorithms for LPs and SDPs used in the context of approximation algorithms can be viewed as locality sensitive hashing schemes for several interesting collections of objects. Based on this insight, we construct new locality sensitive hashing schemes : 1. A collection of vectors with the distance between u and v measured by θ(u, v)/π, where θ(u, v) is the angle between u and v.
+
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+This yields a sketching scheme for estimating the cosine similarity measure between two vectors, as well as a simple alternative to minwise independent permutations for estimating set similarity. 2. A collection of distributions on n points in a metric space, with distance between distributions measured by the Earth Mover Distance (EMD), (a popular distance measure in graphics and vision). Our hash functions map distributions to points in the metric space such that, for distributions P and Q, EMD(P, Q) ≤ Eh∈F[d(h(P), h(Q))] ≤ O(log n log log n) · EMD(P, Q).

@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Control Architecture Design for Autonomous Vehicles
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 The system design of an autonomous vehicle encompasses numerous different interconnected sensing and control algorithms that can be devised in several ways, and the system has to be extensively tested and verified before employed on roads. Full-scale testing of such a system is complex due to the involved time effort, cost aspects, and safety considerations. In this tutorial paper, we give an overview of the design, implementation, and testing of the control stack in autonomous vehicles, based on our research on motion planning and control. We use scaled vehicles as part of the testing and verification of the system design. Scaled vehicles provide possibilities to test some of the relevant interplay in the control stack and robustness to time delays and sensor errors. We illustrate how scaled vehicles can help reduce the amount of full-scale testing, by finding shortcomings of the system design before deploying it on a full-scale test setup.

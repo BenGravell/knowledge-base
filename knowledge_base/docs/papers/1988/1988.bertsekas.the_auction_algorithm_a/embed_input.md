@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 The Auction Algorithm: A Distributed Relaxation Method for the Assignment Problem
 
 Topics include Auction algorithm, Assignment problem, Distributed optimization, Relaxation methods, Network optimization, Parallel algorithms, Combinatorial optimization.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Bertsekas introduces the auction algorithm for assignment problems as a distributed relaxation method in which agents bid for objects using price updates. The paper is important both as a practical assignment solver and as an early example of market-like distributed optimization.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 We propose a massively parallelizable algorithm for the classical assignment problem. The algorithm operates like an auction whereby unassigned persons bid simultaneously for objects thereby raising their prices. Once all bids are , objects are awarded to the highest bidder. The algorithm can also be interpreted as a Jacobi - like relaxation method for solving a dual problem. Its (sequential) worst - case complexity, for a particular implementation that uses scaling, is O(NAlog(NC)), where N is the number of persons, A is the number of pairs of persons and objects that can be assigned to each other, and C is the maximum absolute object value. Computational results show that, for large problems, the algorithm is competitive with existing methods even without the benefit of parallelism. When executed on a parallel machine, the algorithm exhibits substantial speedup.

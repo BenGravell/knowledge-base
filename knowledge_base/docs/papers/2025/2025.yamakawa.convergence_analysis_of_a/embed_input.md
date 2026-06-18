@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Convergence Analysis of a Regularized Newton Method with Generalized Regularization Terms for Unconstrained Convex Optimization Problems
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This paper presents a regularized Newton method (RNM) with generalized regularization terms for unconstrained convex optimization problems. The generalized regularization includes quadratic, cubic, and elastic net regularizations as special cases. Therefore, the proposed method serves as a general framework that includes not only the classical and cubic RNMs but also a novel RNM with elastic net regularization. We show that the proposed RNM has the global O ( k − 2 ) and local superlinear convergence, which are the same as those of the cubic RNM.

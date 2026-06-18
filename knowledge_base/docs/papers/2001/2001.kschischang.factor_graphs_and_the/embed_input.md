@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Factor Graphs and the Sum-product Algorithm
 
 Topics include Factor graphs, Sum-product algorithm, Belief propagation, Message passing, Graphical models, Error-correcting codes, Probabilistic inference.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Presents factor graphs as a unified graphical representation for factorizations of global functions and describes the sum-product message-passing algorithm on those graphs. The tutorial shows how algorithms including forward-backward, Viterbi, turbo decoding, belief propagation, Kalman filtering, and some FFTs arise as instances of the same computational rule.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Algorithms that must deal with complicated global functions of many variables often exploit the manner in which the given functions factor as a product of "local" functions, each of which depends on a subset of the variables. Such a factorization can be visualized with a bipartite graph that we call a factor graph, In this tutorial paper, we present a generic message-passing algorithm, the sum-product algorithm, that operates in a factor graph. Following a single, simple computational rule, the sum-product algorithm computes-either exactly or approximately-various marginal functions derived from the global function. A wide variety of algorithms developed in artificial intelligence, signal processing, and digital communications can be derived as specific instances of the sum-product algorithm, including the forward/backward algorithm, the Viterbi algorithm, the iterative "turbo" decoding algorithm, Pearl's belief propagation algorithm for Bayesian networks, the Kalman filter, and certain fast Fourier transform (FFT) algorithms.

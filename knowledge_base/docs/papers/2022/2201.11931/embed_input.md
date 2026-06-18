@@ -1,19 +1,246 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Fast Interpretable Greedy-Tree Sums
 
 Topics include Interpretable machine learning, Decision trees, Tree ensembles, Additive models, Greedy algorithms, Clinical decision instruments, Bagging, Model interpretability.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Introduces FIGS, an interpretable model class that greedily builds a sum of decision trees rather than a single tree or opaque ensemble. The method keeps rule-level readability while capturing additive structure, and the paper connects this behavior to disentanglement properties of additive target functions.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Modern machine learning has achieved impressive prediction performance, but often sacrifices interpretability, a critical consideration in high-stakes domains such as medicine. In such settings, practitioners often use highly interpretable decision tree models, but these suffer from inductive bias against additive structure. To overcome this bias, we propose Fast Interpretable Greedy-Tree Sums (FIGS), which generalizes the CART algorithm to simultaneously grow a flexible number of trees in summation. By combining logical rules with addition, FIGS is able to adapt to additive structure while remaining highly interpretable. Extensive experiments on real-world datasets show that FIGS achieves state-of-the-art prediction performance. To demonstrate the usefulness of FIGS in high-stakes domains, we adapt FIGS to learn clinical decision instruments (CDIs), which are tools for guiding clinical decision-making. Specifically, we introduce a variant of FIGS known as G-FIGS that accounts for the heterogeneity in medical data. G-FIGS derives CDIs that reflect domain knowledge and enjoy improved specificity (by up to 20% over CART) without sacrificing sensitivity or interpretability.
 
-## Introduction
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-Modern machine learning methods such as random forests, gradient boosting, and deep learning display impressive predictive performance, but are complex and opaque, leading many to call them "black-box" models. Model interpretability is critical in many applications, particularly in high-stakes settings such as clinical decision instrument (CDI) modeling. Interpretability allows models to be audited for general validation, errors, or biases, and therefore also more amenable to improvement by domain experts.
+To provide further insight into FIGS, we prove that FIGS learns components of additive models, a property we refer to as disentanglement. Further, we show (under oracle conditions) that unconstrained tree-sum models leverage disentanglement to generalize more efficiently than single decision tree models when fitted to additive regression functions. Finally, to avoid overfitting with an unconstrained number of splits, we develop Bagging-FIGS, an ensemble version of FIGS that borrows the variance reduction techniques of random forests. Bagging-FIGS enjoys competitive performance with random forests and XGBoost on real-world datasets.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Modern machine learning methods such as random forests, gradient boosting, and deep learning display impressive predictive performance, but are complex and opaque, leading many to call them "black-box" models. Model interpretability is critical in many applications, particularly in high-stakes settings such as clinical decision instrument (CDI) modeling. Interpretability allows models to be audited for general validation, errors, or biases, and therefore also more amenable to improvement by domain experts. Interpretability also facilitates counterfactual reasoning, which is the foundation of scientific insight, and it instills trust/distrust in a model when warranted. As an added benefit, interpretable models tend to be faster and more computationally efficient than black-box models.^11^1FIGS is integrated into the imodels package \\faGithub github.com/csinva/imodels with an sklearn-compatible API. Experiments for reproducing the results here can be found at \\faGithub github.com/Yu-Group/imodels-experiments.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Decision trees are a prime example of interpretable models. They can be easily visualized, memorized, and emulated by hand, even by non-experts, and thus fit naturally into high-stakes use-cases, such as decision-making in medicine (e.g., the emergency department^22^2For example, in the popular tool mdcalc, over 90% of available CDIs take the form of a decision tree.), law, and public policy. While decision trees have the potential to adapt to complex data, they are often outperformed by black-box models in terms of prediction performance. However, there is evidence that this performance gap is not intrinsic to interpretable models, e.g., see examples. In this paper, we identify an inductive bias of decision trees that causes its prediction performance to suffer in some instances, and design a new tree-based algorithm that overcomes this bias while preserving interpretability.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our starting point is the observation that *decision trees can be statistically inefficient at fitting regression functions with additive components*. To illustrate this, consider the following toy example: $y = {\mathbb{1}_{X_{1} > 0} + {\mathbb{1}_{X_{2} > 0} \cdot \mathbb{1}_{X_{3} > 0}}}$.^33^3This toy model is an instance of a Local Spiky and Sparse (LSS) model, which is grounded in real biological mechanisms whereby an outcome is driven by interactions of inputs (e.g. bio-molecules) which display thresholding behavior. The two components of this function can be individually implemented by trees with 1 split and 2 splits respectively. However, fitting their sum with a single tree requires at least 5 splits, as we are forced to make *duplicate subtrees*: a copy of the second tree has to be grown out of every leaf node of the first tree (see Fig 1).
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Indeed, given independent tree functions $f_{1},\ldots,f_{k}$, in order for a single tree $f$ to implement their sum, we would generally need
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This need to grow a deep tree to capture additive structure implies two statistical weaknesses of decision trees when fitting them to additive data-generating mechanisms. First, growing a deep tree greatly increases the probability of splitting on noisy features. Second, leaves in a deep tree contain fewer samples, implying that the predictions suffer from higher variance. These weaknesses could be mitigated if we fit a separate tree to each additive component of the generative mechanism and present the *tree-sum* as our fitted model. While existing ensemble methods such as random forests and gradient boosting comprise tree-sums, they either fit each tree independently (random forests) or sequentially (gradient boosting), and are hence unable to disentangle additive components.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 To address these weaknesses of decision trees, we propose Fast Interpretable Greedy-Tree Sums (FIGS), a novel yet natural algorithm that is able to *grow a flexible number of trees simultaneously*. FIGS is based on a simple yet effective modification to Classification and Regression Trees (CART), allowing it to adapt to additive structure (if present) by starting new trees, while still maintaining the ability of CART to adapt to higher-order interaction terms. By capping the total number of splits allowed, FIGS produces a model that is also easily visualized, memorized, and emulated by hand.
 
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 We performed extensive experiments across a wide array of real-world datasets to compare the predictive performance of FIGS to a number of popular decision rule models. Specifically, we took the number of rules (splits in the case of trees) as a common measure of interpretability for this model class, and constructed decision rule models at a prescribed level of interpretability. Our results show that FIGS often achieved the best predictive performance across various levels of interpretability (i.e., number of splits).
 
-## Discussion
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Next, we apply FIGS to a key domain problem involving decision rule models which is the construction of CDIs. CDIs are models for predicting patient risk and are widely used by healthcare professionals to make rapid decisions in a clinical setting such as the emergency room. To apply FIGS to the medical domain, it is crucial that FIGS is able to adapt to heterogeneous data from diverse groups of patients. Tailoring models to various groups is often necessary since various groups of patients may differ dramatically and require distinct features for high predictive performance on the same outcome. While a naive solution is to fit a unique model to each group of patients, this is sample-inefficient and sacrifices valuable information that can be shared across groups. To mitigate this issue, we introduce a variant of FIGS, called Group Probability-Weighted Tree Sums (G-FIGS), which accounts for this heterogeneity while using all the samples available. Specifically, G-FIGS first fits a classifier (e.g., logistic regression) to predict group membership probabilities for each sample. Then, it uses these estimates as instance weights in FIGS to output a model for each group.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We used both FIGS and G-FIGS to construct CDIs for three pediatric emergency care datasets, and found that both have up to 20% higher specificity than CART while maintaining the same level of sensitivity. Further, G-FIGS improves specificity over FIGS by over 3% for fixed levels of sensitivities. The features used in the fitted models agrees with medical domain knowledge. Moreover, G-FIGS learns a tree-sum model where each tree in the model represents a distinct clinical domain, providing a clear and organized framework for clinicians to use when assessing and treating patients. Next, we investigate the stability of G-FIGS to data perturbations. Stability to "reasonable" data perturbations is a key tenet of the Predictability, Computability, and Stability (PCS) framework, and a necessary prerequisite for the application of ML techniques in high-stakes domains. We show that G-FIGS learns a similar tree-sum model (i.e., a similar set of features) across data perturbations (e.g., introducing noise by randomly permuting labels).
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This work expands on initial results on G-FIGS contained in an earlier pre-print.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Next, to provide insight into the success of FIGS, we investigate tree-sum models and FIGS theoretically. We prove generalization upper bounds for tree-sum models when given oracle access to the optimal tree structures. Whenever additive structure is present, this upper bound has a faster rate in the sample size $n$ compared to the generalization lower bound for any decision tree proved. Further, we establish in the large-sample limit that FIGS disentangles the additive components of the generative model, with each tree in the sum fitting a separate additive component.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Lastly, similarly to CART, FIGS overfits when allowed too many splits. Hence, we develop an ensemble version, called Bagging-FIGS, that borrows the bootstrap and feature subsetting strategies of random forests. We compare the prediction performance of Bagging-FIGS against random forests, XGBoost, and generalized additive models (GAMs) across a wide range of real-world datasets. Bagging-FIGS always maintains competitive performance with all other methods, further enjoying the best performance on several datasets.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In what follows, Sec 2 introduces FIGS and Sec 3 covers related work. Sec 4 contains our experimental results on real-world datasets showing that FIGS predicts well with very few splits. Sec 5 covers three CDI case studies using FIGS and G-FIGS. Sec 6 investigates the theoretical performance of tree-sum models and FIGS. Finally, Sec 7 introduces Bagging-FIGS and compares its prediction performance to other algorithms on real-world datasets.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "FIGS: Algorithm description and run-time", "weight": 1.0} -->
+
+Suppose we are given training data $\mathcal{D}_{n} = \left\{ {(\mathbf{x}_{i},y_{i})} \right\}_{i = 1}^{n}$. When growing a tree, CART chooses for each node $\mathfrak{t}$ the split $s$ that maximizes the impurity decrease in the responses $\mathbf{y}$. For a given node $\mathfrak{t}$, the impurity decrease has the expression
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "FIGS: Algorithm description and run-time", "weight": 1.0} -->
+
+where ${\mathfrak{t}}_{L}$ and ${\mathfrak{t}}_{R}$ denote the left and right child nodes of $\mathfrak{t}$ respectively, and ${\overline{y}}_{\mathfrak{t}},{\overline{y}}_{{\mathfrak{t}}_{L}},{\overline{y}}_{{\mathfrak{t}}_{R}}$ denote the mean responses in each of the nodes. We call such a split $s$ a *potential split*, and note that for each iteration of the algorithm, CART chooses the potential split with the largest impurity decrease.^44^4This corresponds to greedily minimizing the mean-squared-error criterion in regression and Gini impurity in classification.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "FIGS: Algorithm description and run-time", "weight": 1.0} -->
+
+FIGS extends CART to greedily grow a tree-sum (see Algorithm 1). That is, at each iteration of FIGS, the algorithm chooses either to make a split on one of the current $K$ trees ${\hat{f}}_{1},\ldots,{\hat{f}}_{K}$ in the sum, or to add a new stump to the sum. To make this decision, it still applies the CART splitting criterion detailed above to identify a potential split in each leaf of each tree. However, to compute the impurity decrease for a given split, it substitutes the vector of *residuals* $r_{i} ≔ {y - {\sum_{k = 1}^{K}{{\hat{f}}_{k}{(\mathbf{x}_{i})}}}}$ for the vector of responses $\mathbf{y}$. FIGS makes only one split among the $K + 1$ trees: the one corresponding to the largest impurity decrease.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "FIGS: Algorithm description and run-time", "weight": 1.0} -->
+
+The value of each of the new leaf nodes is then defined to be the mean residual for the samples it contains, added to the value of its parent node. If a new stump is created, the value at the root is defined to be zero. At inference time, we predict the response of an example by dropping it down each tree and summing the values of each leaf node containing it.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "FIGS: Algorithm description and run-time", "weight": 1.0} -->
+
+1:FIGS(X: features, y: outcomes, stopping_threshold)
+3:while count_total_splits(trees) &lt; stopping_threshold:
+4: all_trees = join(trees, build_new_tree) # add new tree
+6: for tree in all_trees:
+7: y_residuals = y – predict(all_trees)
+8: for leaf in tree:
+9: potential_split = split(X, y_residuals, leaf)
+10: potential_splits.append(potential_split)
+11: best_split = split_with_min_impurity(potential_splits)
+12: trees.insert(best_split)
+Algorithm 1 FIGS fitting algorithm.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Selecting the model's stopping threshold", "weight": 1.0} -->
+
+Choosing a threshold on the total number of splits can be done similarly to CART: using a combination of the model's predictive performance (i.e., cross-validation) and domain knowledge on how interpretable the model needs to be. Alternatively, the threshold can be selected using an impurity decrease threshold rather than a hard threshold on the number of splits. We discuss potential data-driven choices of the threshold in the Discussion (Sec 8).
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Run-time analysis", "weight": 1.0} -->
+
+The run-time complexity for FIGS to grow a model with $m$ splits in total is $O{({dm^{2}n^{2}})}$, where $d$ the number of features, and $n$ the number of samples (see derivation in Appendix S1). In contrast, CART has a run-time of $O{({dmn^{2}})}$. Both of these worst-case run-times given above are quite fast, and the gap between them is relatively benign as we usually make a small number of splits to ensure interpretability.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Extensions", "weight": 1.0} -->
+
+FIGS supports many natural modifications that are used in CART trees. For example, different impurity measures can be used; here we use Gini impurity for classification and mean-squared-error for regression. Additionally, FIGS could benefit from pruning, shrinkage, or by being used as part of an ensemble model (e.g., Bagging-FIGS). We discuss other extensions in Appendix S1.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "FIGS results on real-world benchmark datasets", "weight": 1.0} -->
+
+This section shows that FIGS enjoys strong prediction performance on several real-world benchmark datasets compared to popular algorithms for fitting decision rule models.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Benchmark datasets", "weight": 1.0} -->
+
+For classification, we study four large datasets previously used to evaluate rule-based models along with the two largest UCI binary classification datasets used in Breiman's original paper introducing random forests (overview in Table 1). For regression, we study all datasets used in the random forest paper with at least 200 samples along with three of the largest non-redundant datasets from the PMLB benchmark. 80% of the data is used for training/3-fold cross-validation and 20% of the data is used for testing.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Baseline methods", "weight": 1.0} -->
+
+For both classification and regression, FIGS is compared to CART, RuleFit, and Boosted Stumps (CART stumps learned via gradient-boosting). Furthermore, for classification we additionally compare against C4.5 and for regression we additionally compare against a CART model fitted using the mean-absolute-error (MAE) splitting-criterion. We finally also add a black-box baseline comprising a Random Forest with 100 trees, which thus uses many more splits than all the other models.^55^5We also compare against Gradient-boosting with decision trees of depth 2, but find that it is outperformed by CART in this limited-split regime, so we omit these results for clarity. We also attempt to compare to optimal tree methods, such as GOSDT, but find that they are unable to fit the dataset sizes here.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "FIGS predicts well with few splits", "weight": 1.0} -->
+
+Fig 2 shows the models' performance results (on test data) as a function of the number of splits in the fitted model.^66^6For RuleFit, each term in the linear model is counted as one split. We treat the number of splits as a common metric for the level of interpretability of each model. In practice, interpretability is context-dependent. However, the goal of this experiment is to sweep across a range of interpretability levels, and show the test performance had that level been selected.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "FIGS predicts well with few splits", "weight": 1.0} -->
+
+The top two rows of Fig 2 show results for classification (measured using the area under the receiver operating characteristic (ROC) curve, i.e., AUC), and the bottom three rows show results for regression (measured using the coefficient of determination, denoted by $R^{2}$). On average, FIGS outperforms baseline models when the number of splits is very low. The performance gain from FIGS over other baselines is larger for the datasets with more samples (e.g., the top row of Fig 2), matching the intuition that FIGS performs better because of its increased flexibility. For two of the larger datasets (Credit and Recidivism), FIGS even outperforms the black-box Random Forest baseline, despite using less than 15 splits. For the smallest classification dataset (Diabetes), FIGS performs extremely well with very few (less than 10) splits but starts to overfit as more splits are added.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Learning CDIs via FIGS", "weight": 1.0} -->
+
+A key domain problem involving interpretable models is the development of CDIs, which can assist clinicians in improving the accuracy, consistency, and efficiency of diagnostic strategies for sick and injured patients. Recent works have developed and validated CDIs using interpretable models, particularly in emergency medicine. As discussed earlier, applying machine learning models to the medical domain must account for the heterogeneity in the data that arises from the presence of diverse groups of patients (e.g., age groups, sex, treatment sites). Typically, this heterogeneity is dealt by fitting a separate model on each group. However, this strategy comes at the cost of losing samples, and discarding valuable information that can be shared amongst various groups. To mitigate this loss of power, we introduce a variant of FIGS, called group-probability weighted FIGS, or G-FIGS as follows.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "G-FIGS: Fitting FIGS to multiple groups", "weight": 1.0} -->
+
+As before, we assume a supervised learning setting with features $X$, outcome $Y$, and a group label $G$ (e.g., treatment site or age group). G-FIGS is a two-step algorithm: (i) For a given group label $g$, G-FIGS first estimates group membership probabilities for each sample (e.g., by fitting a logistic regression model to predict group-membership)^77^7This is methodologically analogous to a propensity score in the causal inference literature. That is, it estimates ${\mathbb{P}}{({G = \left. g \middle| X \right.})}$. (ii) For a given group $g$, G-FIGS then uses the group probabilities ${\mathbb{P}}{({G = \left. g \middle| X \right.})}$ as sample weights when fitting FIGS to the *whole dataset*. This results in a group-specific model, but borrows information from samples in other groups. See Appendix S4 for more details, and a visual representation.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Datasets and data cleaning", "weight": 1.0} -->
+
+Table 2 shows the CDI datasets under consideration here. They each constitute a large-scale multi-site data aggregation by the Pediatric Emergency Care Applied Research Network (PECARN), with a relevant clinical outcome (e.g., presence of traumatic brain injury). For each of these datasets, we group patients into two natural groups: patients with age $< 2$ years and $\geq 2$ years. This age-based threshold is commonly used for emergency-based diagnostic strategies, because it follows a natural stage of development, including a child's ability to participate in their care (e.g., ability to verbally communicate with their doctor). At the same time, the natural variability in early childhood development also creates opportunities to share information across this threshold. These datasets are non-standard for machine learning; as such, we spend considerable time cleaning, curating, and preprocessing these features along with medical expertise included in the authorship team.^88^8Details, along with the openly released clean data can be found in Appendix S5.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Datasets and data cleaning", "weight": 1.0} -->
+
+We use 60% of the data for training, 20% for tuning hyperparameters (including estimation of each patient's group-membership ${\mathbb{P}}{({\text{age}{<{2\text{years}}|}X})}$), and 20% for evaluating test performance.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Prediction metrics", "weight": 1.0} -->
+
+Prediction performance is measured by comparing the specificity of a model when sensitivity is constrained to be above a given threshold, chosen to be $\{{92\%},{94\%},{96\%},{98\%}\}$. We opt for this metric because high levels of sensitivity are crucial for CDIs so as to avoid potentially life threatening false negatives (i.e., missing a diagnosis). For a given threshold, we would like to maximize specificity as false positives lead to unncessary resource utilization and can needlessly expose patients to the harmful effects of medical procedures such as radiation from a computed tomography (CT) scan.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Baseline methods", "weight": 1.0} -->
+
+We compare FIGS and G-FIGS to two baselines: CART and Tree-Alternating Optimization TAO ). For each baseline, we either (i) fit one model to all the training data or (ii) fit a separate model to each group (denoted with -SEP) -- one to the patients with age $< 2$ years and one for the patients with age $\geq 2$ years. Additionally, for CART, we also fit a model in the style of G-FIGS, denoted as G-CART. Limits on the total number of splits for each model are varied over a range which yields interpretable models, from 2 to 16 maximum splits^99^9The choice of 16 splits is somewhat arbitrary, but we find that amongst 643 popular CDIs on mdcalc, 93% contain no more than 16 splits and 95% contain no more than 20 splits. (full details of this and selection of other hyperparameters are inAppendix S5).
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "FIGS and G-FIGS predict well", "weight": 1.0} -->
+
+Table 3 shows the prediction performance of FIGS, G-FIGS, and baseline methods. Further, we report the prediction performance of all methods for each age group separately (i.e, age $< 2$ years and age $\geq 2$ years) in Table S2 and Table S3 respectively. For high levels of sensitivity, G-FIGS generally improves the model's specificity against the baselines. Further, G-FIGS also improves specificity for each age group, often outperforming both the models that fit all the data as well as the model that fits data for each group separately. This suggests that using a different model for each group while sharing information across groups can lead to better prediction in a heterogeneous population.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "FIGS and G-FIGS predict well", "weight": 1.0} -->
+
+Traumatic brain injury
+Cervical spine injury
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Features used by G-FIGS match medical knowledge", "weight": 1.0} -->
+
+Fig 3 shows the G-FIGS model on the cervical spinal injury (CSI) dataset for patients with age $< 2$ years, while Appendix S5 shows G-FIGS models for patients with age $\geq 2$ years, and the other two datasets. The features used by the learned model match medical domain knowledge and partially agree with previous work; e.g., features such as focal neurologic signs, altered mental status, and torticollis are all known to increase the risk of CSI. Further, features unique to each group largely relate to the age cutoff; the $< 2$ years age group features include those that clinicians can assess without asking the patient (e.g., substantial torso injury), while that of the $\geq 2$ years age group features (visualized in Fig S3) require verbal responses (neck pain, head pain). This matches the medical intuition that non-verbal features should be more reliable features in the $< 2$ years age group.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "G-FIGS disentangles clinical risk factors", "weight": 1.0} -->
+
+Fig 3 visualizes the G-FIGS and G-CART model for the $< 2$ years age group on the CSI dataset. Both G-FIGS and G-CART utilize almost all the same features (apart from Axial load to head). However, unlike G-CART, G-FIGS disentangles risk factors with each tree representing a clinical domain: the top tree identifies signs and symptoms, the middle tree corresponds to the mode of injury and how the patient arrived at the hospital, and the bottom tree assesses the overall severity of the patient's injury patterns and any associated injuries that may be present. By disentangling clinical domains, the fitted G-FIGS model not only has stronger prediction performance than a single-tree model (see Table 2), but also provides a more medically intuitive framework for clinicians to use when assessing and treating patients. We provide another example of the ability of FIGS to disentangle risk factors on a diabetes classification dataset in Appendix S6. We note that there is no a priori reason that tree-sum models are more reflective of the true data generating process than single tree models.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "G-FIGS disentangles clinical risk factors", "weight": 1.0} -->
+
+Instead, trust in the veracity of such a model should be based on good prediction performance as well as coherence with domain knowledge. In more detail, we recommend that practitioners follow the predictive, descriptive, and relevance (PDR) framework for investigating real-world scientific problems using interpretable machine learning models.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Stability Analysis of Learnt CDI", "weight": 1.0} -->
+
+As discussed earlier, the PCS framework argues that stability to "reasonable" data perturbations is a key prerequisite for interpretability and deployment of machine learning methods in high-stakes domains. Here, we investigate the stability of G-FIGS on the CSI dataset. Specifically, we introduce noise by randomly swapping a percentage $p$ of labels $\mathbf{y}$. We vary $p$ between $\{{1\%},{2.5\%},{5\%}\}$. For each value of $p$, we measure stability by comparing the similarity of the features selected in the model trained on the perturbed data to the model displayed in Fig 3. In particular, the similarity of features is measured via the Jaccard distance. Further details of our experiments, and our results can be found in Appendix S5. Our results show that G-FIGS learns a similar model for each age group even for larger values of $p$, indicating its stability.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Theoretical Investigations", "weight": 1.0} -->
+
+We perform theoretical investigations to better understand the properties of FIGS and tree-sum models. Specifically, we show (under some oracle conditions) that if the regression function has an additive decomposition, then tree-sum models and FIGS are able to achieve optimal generalization upper bounds and disentangle additive components. In this section, we summarize these theoretical results, and defer the formal statements and proof details to Appendix S6.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Oracle generalization upper bounds", "weight": 1.0} -->
+
+As discussed, *all* single-tree models have a squared error generalization error lower bound of $\Omega{(n^{- {2/{({d + 2})}}})}$ when fitted to smooth additive models. To demonstrate the utility of tree-sum models in capturing additive structure, we provide generalization upper bounds of tree-sum models when their structure is chosen by an oracle. Specifically, we consider the typical supervised learning set-up: $y = {{f{(\mathbf{x})}} + \epsilon}$, where $\mathbf{x}$ is a random variable on ${\lbrack 0,1\rbrack}^{d}$ and ${{\mathbb{E}}\left\{ \epsilon \middle| \mathbf{x} \right\}} = 0$.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Oracle generalization upper bounds", "weight": 1.0} -->
+
+Under this set-up, we show that if each component function $f_{k}$ is smooth, and blocks of features are independent (i.e., $\mathbf{x}_{I_{j}} \perp \perp \mathbf{x}_{I_{k}}$ for $j \neq k$), then there exists a tree-sum model such that its squared error generalization upper bound scales as $O{({Kn^{- {2/{({d_{\max} + 2})}}}})}$ where $d_{max} = {\max_{k}{|I_{k}|}}$. It is instructive to consider two extreme cases: If ${|I_{k}|} = 1$ for each $k$, the upper bound scales as $O\left( {dn^{- {2/3}}} \right)$.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Oracle generalization upper bounds", "weight": 1.0} -->
+
+On the other hand if $K = 1$, we have an upper bound of $O\left( n^{- {2/{({d + 2})}}} \right)$. Both bounds match the well-known minimax rates for their respective inference problems. See Theorem 2. ‣ S6.5 Theoretical generalization upper bounds ‣ Appendix S6 Theoretical Results ‣ Fast Interpretable Greedy-Tree Sums") for the formal statement.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "FIGS performs disentanglement", "weight": 1.0} -->
+
+One potential reason for the success of FIGS is its ability to disentangle additive structure. We show that under the generative model discussed above, if FIGS splits nodes using population quantities (i.e., in the large-sample limit), then the set of features split upon in each fitted tree ${\hat{f}}_{k}$ is contained within $I_{k}$. The precise theorem statement be found in Theorem 1. ‣ Generative model. ‣ S6.3 FIGS disentangles the additive components of additive generative models ‣ Appendix S6 Theoretical Results ‣ Fast Interpretable Greedy-Tree Sums") in Appendix Appendix S6. By disentangling additive components, FIGS is able to avoid duplicate subtrees, leading to a more parsimonious model with better performance. We provide (partial) empirical justification of this in real-world datasets, by showing that FIGS helps to reduce the number of possibly redundant and repeated splits often observed in CART models (see Appendix S3.) As discussed earlier, we emphasize that disentanglement does not necessarily reflect the underlying data generating process.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "FIGS performs disentanglement", "weight": 1.0} -->
+
+We refer the reader to Sec 5 for a larger discussion regarding interpreting disentanglement.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Bagging-FIGS", "weight": 1.0} -->
+
+Growing deeper decision trees reduces bias but increases variance. Allowing more splits in a FIGS model has the same effect. In order to reduce variance, random forests averages the predictions from an ensemble of decision trees that are each grown in a slightly different manner. Bagging-FIGS averages the predictions from an ensemble of FIGS models, and makes use of the same variance reduction strategies as random forests: (i) Each FIGS model fit on a bootstrap resampled dataset. (ii) At each iteration of each FIGS model, a random subset of the original features is chosen, and the algorithm chooses the next split only from this subset of features. The effect of both these strategies have been studied empirically and theoretically.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Baseline methods and settings", "weight": 1.0} -->
+
+In the remainder of this section, we will compare the prediction performance of FIGS and Bagging-FIGS against that of four other algorithms: random forest, XGBoost, and penalized iteratively reweighted least squares (PIRLS) on the log-likelihood of a generative additive model. All algorithms are fit using default settings^1010^10We use the implementation of PIRLS in pygam, with 20 splines term for each feature.. The number of features subsetted is a tuning parameter for random forest and Bagging-FIGS. For both algorithms, we set this to be $d/3$ for regression datasets and $\sqrt{d}$ for classification datasets. These are the default choices for RF. We fit Bagging-FIGS with 100 FIGS estimators.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Bagging-FIGS performs comparably to Random Forest and XGBoost", "weight": 1.0} -->
+
+Fig 4 shows the generalization performance of all the methods on the various real-world datasets introduced in Sec 4 and Sec 5. It shows that the performance of FIGS, measured by AUC can be improved via bagging and feature subsetting (Bagging-FIGS). In addition, Bagging-FIGS achieves comparable AUC to both XGBoost and random forest (on average improving over XGBoost by 0.015 and random forest by 0.013). For some datasets (e.g. IAI pecarn, Recidivism), Bagging-FIGS outperforms both baselines.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 FIGS is a powerful and natural extension to CART which achieves improved predictive performance over popular baseline tree-based methods across a wide array of datasets while maintaining interpretability by using very few splits. Furthermore, when the number of splits is unconstrained, an ensemble version of FIGS has prediction performance that compares favorably to random forest and XGBoost.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+As a case study, we have shown how FIGS and G-FIGS can make an important step towards interpretable modeling of heterogeneous data in the context of high-stakes clinical decision-making. The fitted CDI models here show promise, but require external clinical validation before potential use. While our current work only explores age-based grouping, the behavior of G-FIGS with temporal, geographical, or demographic splits could be studied as well. Additionally, there are many methodological extensions to explore, such as data-driven identification of input data groups and schemes for feature weighting in addition to instance weighting. FIGS has many other natural extensions, some of which we detail below.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Optimization", "weight": 1.0} -->
+
+Instead of using a greedy approach, one may perform global optimization algorithm over the class of tree-sum models. FIGS could include other moves such as pruning in addition to just adding more splits. This could also be embedded in a Bayesian framework, similar to Bayesian Additive Regression Trees.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Regularization", "weight": 1.0} -->
+
+Using cross-validation (CV) to select the number of splits tends to select larger models. Future work can use criteria related to BIC or stability in combination with CV for selecting this threshold based on data. In future work, one could also vary the total number of splits and number of trees separately, helping to build prior knowledge into the fitting process. FIGS could be penalized via novel regularization techniques, such as regularizing individual leaves or regularizing a linear model formed from the splits extracted by FIGS.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Learning interactions", "weight": 1.0} -->
+
+Interactions are known to be prevalent in biology and other fields, and therefore of key scientific interest. There has been recent interest in using random forests to learn interactions. However, since single decision trees are unable to disentangle additive structure, using random forests for interaction discovery might lead to a high false discovery rate. As a result, using FIGS in lieu of single decision trees might lead to improved interaction discovery. We leave this investigation to future work.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Model class", "weight": 1.0} -->
+
+The class of FIGS models could be further extended to include linear terms or allow for summations of trees to be present at split nodes, rather than just at the root.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Model class", "weight": 1.0} -->
+
+We hope FIGS and G-FIGS can pave the way towards more transparent and interpretable modeling that can improve machine-learning practice, particularly in high-stakes domains such as medicine, law, and policy making.

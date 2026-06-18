@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Clustering by Left-Stochastic Matrix Factorization
 
 Topics include Clustering, Matrix factorization, Left-stochastic matrices, Kernel methods, Soft clustering, Nonnegative matrix factorization, Similarity matrices.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Formulates similarity-based clustering as a left-stochastic nonnegative matrix factorization in which cluster memberships explain pairwise similarities. The paper provides a rotation-based algorithm plus uniqueness and error results, positioning the method as a probabilistic counterpart to kernel k-means and related spectral clustering objectives.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 We propose clustering samples given their pairwise similarities by factorizing the similarity matrix into the product of a cluster probability matrix and its transpose. We propose a rotation-based algorithm to compute this left-stochastic decomposition (LSD). Theoretical results link the LSD clustering method to a soft kernel k-means clustering, give conditions for when the factorization and clustering are unique, and provide error bounds. Experimental results on simulated and real similarity datasets show that the proposed method reliably provides accurate clusterings.

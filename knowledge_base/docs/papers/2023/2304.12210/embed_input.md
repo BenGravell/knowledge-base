@@ -1,17 +1,701 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 A Cookbook of Self-Supervised Learning
 
 Topics include Self-supervised learning, Supervised learning, Learning.
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 Self-supervised learning, dubbed the dark matter of intelligence, is a promising path to advance machine learning. Yet, much like cooking, training SSL methods is a delicate art with a high barrier to entry. While many components are familiar, successfully training a SSL method involves a dizzying set of choices from the pretext tasks to training hyper-parameters. Our goal is to lower the barrier to entry into SSL research by laying the foundations and latest SSL recipes in the style of a cookbook. We hope to empower the curious researcher to navigate the terrain of methods, understand the role of the various knobs, and gain the know-how required to explore how delicious SSL can be.
 
-## What is Self-Supervised Learning and Why Bother?
+<!-- chunk {"id": "body-0003", "role": "body", "section": "What is Self-Supervised Learning and Why Bother?", "weight": 1.0} -->
 
-Self-supervised learning, dubbed "the dark matter of intelligence" ^11^1 is a promising path to advance machine learning. As opposed to supervised learning, which is limited by the availability of labeled data, self-supervised approaches can learn from vast unlabeled data. Self-supervised learning (SSL) underpins deep learning's success in natural language processing leading to advances from automated machine translation to large language models trained on web-scale corpora of unlabeled text. In computer vision, SSL pushed new bounds on data size with models such as SEER trained on 1 billion images.
+Self-supervised learning, dubbed "the dark matter of intelligence" ^11^1 is a promising path to advance machine learning. As opposed to supervised learning, which is limited by the availability of labeled data, self-supervised approaches can learn from vast unlabeled data. Self-supervised learning (SSL) underpins deep learning's success in natural language processing leading to advances from automated machine translation to large language models trained on web-scale corpora of unlabeled text. In computer vision, SSL pushed new bounds on data size with models such as SEER trained on 1 billion images. SSL methods for computer vision have been able to match or in some cases surpass models trained on labeled data, even on highly competitive benchmarks like ImageNet. SSL has also been successfully applied across other modalities such as video, audio, and time series.
 
-Self-supervised learning defines a pretext task based on unlabeled inputs to produce descriptive and intelligible representations. In natural language, a common SSL objective is to mask a word in the text and predict the surrounding words. This objective of predicting the context surrounding a word encourages the model to capture relationships among words in the text without the need for any labels. The same SSL model representations can be used across a range of downstream tasks such as translating text across languages, summarizing, or even generating text, along with many others.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "What is Self-Supervised Learning and Why Bother?", "weight": 1.0} -->
 
-With the power to train on vast unlabeled data comes many benefits. While traditional supervised learning methods are trained on a specific task often known a priori based on the available labeled data, SSL learns generic representations useful across many tasks. SSL can be especially useful in domains such as medicine where labels are costly or the specific task can not be known a priori. There's also evidence SSL models can learn representations that are more robust to adversarial examples, label corruption, and input perturbations---and are more fair---compared to their supervised counterparts.
+Self-supervised learning defines a pretext task based on unlabeled inputs to produce descriptive and intelligible representations. In natural language, a common SSL objective is to mask a word in the text and predict the surrounding words. This objective of predicting the context surrounding a word encourages the model to capture relationships among words in the text without the need for any labels. The same SSL model representations can be used across a range of downstream tasks such as translating text across languages, summarizing, or even generating text, along with many others. In computer vision, analogous objectives exist with models such as MAE or BYOL learning to predict masked patches of an image or representation. Other SSL objectives encourage two views of the same image, formed by say adding color or cropping, to be mapped to similar representations.
 
-## Conclusion
+<!-- chunk {"id": "body-0005", "role": "body", "section": "What is Self-Supervised Learning and Why Bother?", "weight": 1.0} -->
 
-Self-supervised learning (SSL) established a new paradigm for advancing machine intelligence. Despite many successes, SSL remains a daunting field with a dizzying array of methods each with intricate implementations. Due to the fast moving research and the breadth of SSL methods, it remains a challenge to navigate the field. This becomes an issue for researchers and practitioners who joined the field only recently, in turn creating a high barrier to entry for SSL research and deployment.
+With the power to train on vast unlabeled data comes many benefits. While traditional supervised learning methods are trained on a specific task often known a priori based on the available labeled data, SSL learns generic representations useful across many tasks. SSL can be especially useful in domains such as medicine where labels are costly or the specific task can not be known a priori. There's also evidence SSL models can learn representations that are more robust to adversarial examples, label corruption, and input perturbations---and are more fair---compared to their supervised counterparts. Consequently, SSL is a field garnering growing interest. Yet, much like cooking, training SSL methods is a delicate art with a high barrier to entry.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Why a Cookbook for Self-Supervised Learning?", "weight": 1.0} -->
+
+While many components of SSL are familiar to researchers, successfully training a SSL method involves a dizzying set of choices from the pretext tasks to training hyper-parameters. SSL research has a high barrier to entry due to (i) its computational cost, (ii) the absence of fully transparent papers detailing the intricate implementations required to fully enable SSL's potential, and (iii) the absence of a unified vocabulary and theoretical view of SSL. As SSL established a distinct paradigm from traditional reconstruction-based unsupervised learning methods such as (denoising, variational) Autoencoders, our vocabulary for understanding SSL in a unified view is limited. In fact, attempts at unifying SSL methods under a single viewpoint have only started to emerge in the last year. Without a common ground to characterize the different components of SSL methods, it's more challenging for researchers to start working on SSL methods. Meanwhile, SSL research is in dire need for new researchers since SSL is now deployed throughout the real-world. Yet, many open research questions remain regarding SSL's generalization guarantees, fairness properties, and robustness to adversarial attacks or even naturally occurring variations.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Why a Cookbook for Self-Supervised Learning?", "weight": 1.0} -->
+
+Such questions are crucial to the reliability of SSL methods.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Why a Cookbook for Self-Supervised Learning?", "weight": 1.0} -->
+
+Furthermore, SSL---which is empirically driven---comes with many moving pieces (mostly hyper-parameters) that may impact key properties of the final representations and are not necessarily well-detailed in published work. That is, to start studying SSL methods, one must first exhaustively empirically probe those methods to fully grasp the impact and behaviors of all those moving pieces. Such empirical blind spots are strong limitations as they demand large computational resources and pre-existing hands-on experience. All in all, the co-occurrence of SOTA performances from seemingly different yet overlapping methods, little existing theoretical research, and widespread real-world deployment, make the need for a cookbook unifying the techniques and their recipes essential to lower SSL's research barrier to entry.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Why a Cookbook for Self-Supervised Learning?", "weight": 1.0} -->
+
+Our goal is to lower the barrier to entry into SSL research by laying the foundations and latest SSL recipes in the style of a cookbook. To successfully cook, you must first learn the basic techniques: chopping, sautéing, etc. We begin in Section 2 with the fundamental techniques of self-supervised learning using a common vocabulary. Specifically, we describe the families of methods along with theoretical threads to connect their objectives in a unified perspective. We highlight key concepts such as loss terms or training objectives in concept boxes. Next, a cook must learn to skillfully apply the techniques to form a delicious dish. This requires learning existing recipes, assembling ingredients, and evaluating the dish. In Section 3 we introduce the practical considerations to implementing SSL methods successfully. We discuss common training recipes including hyperparameter choices, how to assemble components such as architectures and optimizers, as well as how to evaluate SSL methods. We also share practical tips from leading researchers on common training configurations and pitfalls. We hope this cookbook serves as a practical foundation for successfully training and exploring self-supervised learning.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "The Families and Origins of SSL", "weight": 1.0} -->
+
+SSL methods have enjoyed a renaissance since 2020, thanks in large part to the availability of extremely large datasets and high-memory GPUs. However, the origins of SSL go back to the very beginning of the deep learning era.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Origins of SSL", "weight": 1.0} -->
+
+Contemporary methods build upon the knowledge we gained from early experiments. In this section, we give a brief overview of the main ideas of SSL prior to 2020. While many of the specific methods have fallen out of mainstream use because they no longer provide state-of-the-art performance on benchmark problems, and they will not be discussed in great detail, the ideas from these papers form the foundation for many of the modern methods. For example, the core objective of restoring missing or distorted parts of an input or contrasting two views of the same image form the foundation for modern SSL methods.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Origins of SSL", "weight": 1.0} -->
+
+1\. Information restoration: A wide range of methods have been developed that mask or remove something from an image, and then train a neural network to restore the missing information. Colorization-based SSL methods convert an image to grayscale, and then train a network to predict the original RGB values. Because colorization requires understanding object semantics and boundaries, colorization was demonstrated as an early SSL method for object segmentation. The most straightforward application of information restoration is to mask, aka remove, a portion of an image and then train a network to inpaint the missing pixel values. This idea evolved into masked auto-encoding methods, in which the masked region is a union of image patches that can be predicted using a transformer.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Origins of SSL", "weight": 1.0} -->
+
+2\. Using temporal relationships in video: While the focus of this review is on image (and not video) processing, a range of specialized methods have been developed for learning single-image representations by pre-training on videos. Note that information restoration methods are particularly useful for videos, which contain multiple modalities of information that can be masked. Wang and Gupta pre-train a model using a triplet loss that promotes similarities between representations of an object in two different frames. The resulting model performed well for object detection. Pathak et al. trains a model to predict the motion of objects in a single frame, and adapts the resulting features to solve single-frame detection problems. Agrawal et al. predicts the ego-motion of a camera given multiple frames. Owens et al. propose to remove the audio track from a video, and then predict the missing sound. For specialized applications like depth mapping, self-supervised methods have been proposed that learn monocular depth models from unlabeled image pairs and later the frames from a single-camera video. Such methods remain an active area of research.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Origins of SSL", "weight": 1.0} -->
+
+3\. Learning spatial context: This category of methods trains a model to understand the relative positions and orientations of objects within a scene. RotNet masks the direction of gravity by applying a random rotation and then asks the model to predict the rotation. Doersch et al. is one of the first SSL methods that simply predicts the relative location of two randomly sampled patches in an image. This strategy was superseded by "jigsaw" methods that break an image into an array of disjoint patches and predict the relative location of each. A different spatial task is learning to count: the model is trained to output the number of objects in an image in a self-supervised way.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Origins of SSL", "weight": 1.0} -->
+
+4\. Grouping similar images together: One can learn rich features by grouping semantically similar images together. K-means clustering is one of the most widely used methods from classical machine learning. A number of studies have adapted k-means to perform SSL with neural models. Deep clustering alternates between assigning labels to images by performing k-means in the feature space, and updating the model to respect these assigned class labels. More recent treatments of this approach use mean-shift updates to push features towards their cluster center, and have been shown to complement BYOL, a method based on two networks with the objective to predict pseudo-labels for each sample (discussed in Section 2.3). Other improvements to deep clustering include using optimal transport methods in feature space to create more informative clusters.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Origins of SSL", "weight": 1.0} -->
+
+5\. Generative models: An early influential SSL method is greedy layer-wise pretraining, in which layers of a deep network are trained one-at-a-time using an autoencoder loss. An analogous approach from the time used Restricted Boltzman Machines (RBMs), which could be trained layer-wise and stacked to create deep belief nets. While these methods were abandoned in favor of simpler initialization strategies and longer training runs, they were historically impactful uses of SSL, as they enabled the training of the first "deep" networks. Later advancements improved on the representation learning ability of auto-encoders, including denoising autoencoders, cross-channel prediction, and deep canonically correlated autoencoders. Nonetheless, it was ultimately found that representation transferability is better when the auto-encoder is asked to restore a missing part of its input, resulting in the "information restoration" category of SSL methods.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Origins of SSL", "weight": 1.0} -->
+
+Generative Adversarial Networks (GANs) consist of an image generator and a discriminator that differentiates real images from generated images. Both components of this model pair can be trained without supervision, and both potentially contain knowledge useful for transfer learning. Early GANs papers experimented with downstream image classification using GAN components. Specialized feature learning routines have also been developed that modify the discriminator, add a generator, or learn additional mappings from image to latent space to improve transfer learning.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Origins of SSL", "weight": 1.0} -->
+
+6\. Multi-view invariance: Many modern SSL methods, especially those that we focus on in this article, use contrastive learning to create feature representations that are invariant to simple transforms. The idea of contrastive learning is to encourage a model to represent two augmented versions of an input similarly. A number of methods led the charge in this direction by enforcing invariance in various ways before contrastive learning was widely adopted.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Origins of SSL", "weight": 1.0} -->
+
+One of the most popular frameworks for learning from unlabeled data is to use a weakly trained network to apply pseudolabels to images, and then train using these labels in a standard supervised fashion. This approach was later improved by enforcing invariance to transformations. Virtual adversarial training trains a network on images using their pseudolabels, and additionally performs adversarial training so that learned features are nearly invariant to small perturbations to the input image. Later works focused on maintaining invariance to data augmentation transforms. Important early methods in this category include MixMatch, which chooses pseudolabels by averaging outputs of a network on several different random augmentations of the training images, resulting in labels that are augmentation invariant. Around the same time, it was discovered that good SSL performance could be achieved by training a network to maximize the mutual information between the representations of an image under different views. These augmentation-based methods formed a bridge between the older methods described above and the contemporary methods that are the focus of this paper.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Origins of SSL", "weight": 1.0} -->
+
+With these origins, we now turn to categorizing SSL into four broad families: The Deep Metric Learning Family, The Self-Distillation Family, The Canonical Correlation Analysis Family, and the Masked Image Modeling Family.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "The Deep Metric Learning Family: SimCLR/NNCLR/MeanSHIFT/SCL", "weight": 1.0} -->
+
+The Deep Metric Learning (DML) family of methods is based on the principle of encouraging similarity between semantically transformed versions of an input. DML originated with the idea of a contrastive loss, which transforms this principle into a learning objective. Contrastive loss was first introduced in then more formally defined. In DML one trains a network to predict whether two inputs are from the same class (or not) by making their embedding close (or far from each other). Since data is without labels, to identify similar inputs, we often form variants of a single input using known semantic preserving transformations. The variants of the inputs are called positive pairs or examples; the samples we wish to make dissimilar are called negatives. Often there's a margin parameter, $m$, imposing the distance between examples from different classes should be larger than $m$. Similar to the contrastive loss, the Triplet loss shares a similar spirit, but is composed of triplets: a query, a positive example, and a negative example (see eq. 3).
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "The Deep Metric Learning Family: SimCLR/NNCLR/MeanSHIFT/SCL", "weight": 1.0} -->
+
+Compared to contrastive loss, triplet loss only requires the difference of (dis-)similarities between positive and negative examples to the query point to be larger than a margin $m$.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "The Deep Metric Learning Family: SimCLR/NNCLR/MeanSHIFT/SCL", "weight": 1.0} -->
+
+The shift from DML to what is now referred to as SSL might have occurred when Sohn introduced the (N+1)-tuple loss, a loss similar to the contrastive predictive coding (CPC) loss. The use of other sample positive views as the negative view of other pairs is introduce as an efficient strategy coined N-pair-mc loss. Ni et al. shows that contrastive learning is a special case of meta-learning, and existing meta-learners can be directly applied to SSL with competitive performance. CPC was extended to images. A key ingredient in CPC was the introduction of the InfoNCE loss described in 3 Oh Song et al., which became central in SSL.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "The Deep Metric Learning Family: SimCLR/NNCLR/MeanSHIFT/SCL", "weight": 1.0} -->
+
+To summarize, the main paradigm shift between DML and Contrastive SSL arises from a few key changes, namely using data-augmentation instead of sampling to obtain the positive/negative pairs, the use of deeper networks, and the use of a predictor network, which we note in Figure 4. One of the most prominent methods coming from the paradigm shift to SSL in the deep learning family is SimCLR.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "The Deep Metric Learning Family: SimCLR/NNCLR/MeanSHIFT/SCL", "weight": 1.0} -->
+
+SimCLR learns visual representations by encouraging similarity between two augmented views of an image. In SimCLR the two views are formed by applying a combination of transformations including random resizing, cropping, color jittering, and random blurring. After encoding each view, SimCLR uses a projector, often a MLP (multi-layer perceptron) followed by a ReLU (rectified linear unit) activation, to map the initial embeddings into another space where the constrative loss if applied to encourage similarity between the views. For downstream tasks, extracting the representation before the projector has been shown to improve performance. Further discussions of the role of the projector are in sections 2.6.1 and 3.2.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "The Deep Metric Learning Family: SimCLR/NNCLR/MeanSHIFT/SCL", "weight": 1.0} -->
+
+Another key ingredient along with the InfoNCE loss used in SimCLR is the non-parametric softmax introduced by Wu et al.. This name is motivated by removing the need to have a \"parametrized\" linear layer on top of the representation to compute the softmax by instead comparing representations with each others. This loss formulation already contained a temperature parameter in the softmax which is responsible for increasing or decreasing the sharpness of events in predictions. Other noteworthy developements include Schroff et al. use triplet loss with active triplet selection (hard positive, hard negative) either online from the current mini-batch or from a past checkpoint akin to momentum networks (discussed in section 2.3). Weinberger and Saul introduced push-pull weighting, to push negatives apart while pulling positives together, in a triplet loss to increase the margin of K-NN based models. Tian et al. introduced the possibility of many positive views.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "The Deep Metric Learning Family: SimCLR/NNCLR/MeanSHIFT/SCL", "weight": 1.0} -->
+
+Aside from forming positives using semantic preserving transformations, mining positive pairs naturally arising in data is also possible. An iconic triplet loss is based on video frames where the positive pairs come from nearby frames (while negatives are from far away frames) developed in Sermanet et al. coined Time-Contrastive (TC) Time-Contrastive Learning. Nonlinear ICA introduced a proof that you can learn the log PDF when doing classification tasks. Alexey et al. trains a classification pretext task by transforming image patches in comparison to different transformations of image patches. One disadvantage is that this setup can involve too many classes leading performance to degrade on downstream tasks. To overcome this, NCE has been successfully employed in Mnih and Teh; Mnih and Kavukcuoglu to modify the denominator in order not to loop over all classes. This is an alternative to sampling based estimation of the gradient that was found to be less stable. This introduces the concept of will become momentum encoder by imposing that features maps do not vary quickly referred to as proximal algorithm.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "The Deep Metric Learning Family: SimCLR/NNCLR/MeanSHIFT/SCL", "weight": 1.0} -->
+
+One other consideration in SSL motivated by the DML is the idea of "hard negative data mining" where the negative samples are intentionaly selected to be close to but distinct from the positives to form a more challenging learning objective. Next we describe an alternative to deep metric learning based on self-distillation.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "The Deep Metric Learning Family: SimCLR/NNCLR/MeanSHIFT/SCL", "weight": 1.0} -->
+
+[rounded corners=8.535827] rectangle (.5); [gray!40,rounded corners=5.690551] (0.100000,9.5-0.100000) rectangle (*1cm,9.5-0.400000-0.100000) node[rotate=90,black]; \nodeat (*0.5,9.5-0.400000*0.5-0.100000) Noise Contrastive Estimation: Learning Unnormalized Densities; \node[below] at (*0.5,9.5-0.400000-0.100000-0.200000) • introduced by Gutmann and Hyvärinen to learn unnormalized probability distributions given i.i.d observations x1, …, xN from the distribution X ∼ pX.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "The Deep Metric Learning Family: SimCLR/NNCLR/MeanSHIFT/SCL", "weight": 1.0} -->
+
+NCE enables approximation of pX by a parametrized function fθ without enforcing ∫fθ(x)dx = 1 during training • let’s first introduce a noise variable ϵ ∼ pϵ and let’s consider the following mixture distribution T ∼ ℬ(s), s ∈ V ∼ X1{T = 1} + ε1{T = 0} • using Bayes rule and denoting η = (1−s)/s we have $${{p_{T|V}\left( {T = \left. 1 \middle| V \right. = {\mathbf{v}}} \right)} = \frac{p_{V|T}\left( {V = \left. {\mathbf{v}} \middle| T \right. = 1} \right)}{{p_{V|T}\left( {V = \left. {\mathbf{v}} \middle| T \right. = 1} \right)} + {\eta p_{V|T}\left( {V = \left. {\mathbf{v}} \middle| T \right.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "The Deep Metric Learning Family: SimCLR/NNCLR/MeanSHIFT/SCL", "weight": 1.0} -->
+
+= 0} \right)}}},$$ • parametrize pV|T(V=v|T=1) = fθ(v)exp (c) with fθ &gt; 0 and learnable parameters {θ,c} • minimize the NLL of logistic regression (usual binary classification set-up) ℒ(θ,c) = −𝔼(v,t) ∼ (V,T)log [pT|V(T=t|V=v)] • the minimum is attained at fθ*exp (c*) = pX if pX(v) = 0 ⇒ pϵ(v) &gt; 0. If fθ is powerful enough, one can set c = 0 and the model will self-normalize • Ceylan and Gutmann extends NCE to nonindependent noise realization i.e. ϵ depends on X, Ma and Collins considers conditional distribution X|Y, Dyer compares NCE and Negative Sampling (the latter being a special case of the former) both extending Importance Sampling estimation of the partition function (normalization factor);
+Figure 1: Noise Contrastive Estimation
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "The Deep Metric Learning Family: SimCLR/NNCLR/MeanSHIFT/SCL", "weight": 1.0} -->
+
+[rounded corners=8.535827] rectangle (.8); [gray!40,rounded corners=5.690551] (0.100000,4.8-0.100000) rectangle (*1cm,4.8-0.400000-0.100000) node[rotate=90,black]; \nodeat (*0.5,4.8-0.400000*0.5-0.100000) Paradigm Shift Between Deep Metric Learning and Contrastive SSL; \node[below] at (*0.5,4.8-0.400000-0.100000-0.200000) Deep Metric Learning Contrastive SSL positive/negative pairs come from labels or fixed transforms e.g. two halves of an image ⇒ positive pairs come from designed DAs that are continuously sampled, negative pairs are all non-positive pairs regardless of class membership Hard-Negative Sampling for each mini-batch ⇒ random sampling encoder DN ⇒ encoder DN + projector MLP small dataset (N&lt;200k) ⇒ large dataset zero-shot k-NN validation ⇒ -zero-shot
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "The Deep Metric Learning Family: SimCLR/NNCLR/MeanSHIFT/SCL", "weight": 1.0} -->
+
+k-NN validation -zero/few-shot/fine-tuning linear probing; Figure 4: Deep Metric Learning versus Contrastive SSL
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "The Self-Distillation Family: BYOL/SimSIAM/DINO", "weight": 1.0} -->
+
+[rounded corners=8.535827] rectangle (.5); [gray!40,rounded corners=5.690551] (0.100000,10.5-0.100000) rectangle (*1cm,10.5-0.400000-0.100000) node[rotate=90,black]; \nodeat (*0.5,10.5-0.400000*0.5-0.100000) A Brief History of the Self-Distillation Family; \node[below] at (*0.5,10.5-0.400000-0.100000-0.200000) • Xu et al.; Joulin et al. searches pseudo-labels so that if a classifier were train on them it would have good margin (on true labels) • Bojanowski and Joulin introduces Noise as Targets i.e. C real frozen targets M ≜ [m1,…,mN] ∈ ℝD × C with assignment constraints of P ≜ [p1,…,pN] ∈ {0,1}C × N with ${\mathcal{L}_{NaT} =
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "The Self-Distillation Family: BYOL/SimSIAM/DINO", "weight": 1.0} -->
+
+et al. further prevents collapse in DeepCluster through constrained clustering membership using Sinkhorn to infer the cluster membership probabilities • Grill et al. introduces BYOL removing the clustering step, introducing a predictor and projector network, defining the continuous targets as the output of a momentum network, renormalize each sample representation by its ℓ2-norm and leverage positive pairs. The predictor acts as a whitening operator preventing collapse, and momentum network can be applied only to the projector • Chen and He replaces the BYOL moving average encoder by a stop-gradient • Caron et al. introduces DINO which extends BYOL and SimSIAM to discrete representations/targets and still relies on momentum encoder • Zhou et al. and Oquab et al. build upon DINO by combining its objective with a latent space masked-image modeling one, combining the best of both families;
+Figure 5: History of Self-Labeling
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "The Self-Distillation Family: BYOL/SimSIAM/DINO", "weight": 1.0} -->
+
+Self-distillation methods such as BYOL, SimSIAM, DINO, along with their variants rely on a simple mechanism: feeding two different views to two encoders, and mapping one to the other by means of a predictor. To prevent the encoders from collapsing by predicting a constant for any input, various techniques are employed. A common approach to prevent collapse is to update one of the two encoder weights with a running average of the other encoder's weights. We discuss the particularities of each method.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "The Self-Distillation Family: BYOL/SimSIAM/DINO", "weight": 1.0} -->
+
+BYOL (bootstrap your own latent) first introduced self-distillation as a means to avoid collapse. BYOL uses two networks along with a predictor to map the outputs of one network to the other. The network predicting the output is called the online or student network while the network producing the target is called the target or teacher network. Each network receives a different view of the same image formed by image transformations including random resizing, cropping, color jittering, and brightness alterations. The student network is updated throughout training using gradient descent. The teacher network is updated with an exponential moving average (EMA) updates of the weights of the online network. The slow updates induced by exponential moving average creates an asymmetry that is crucial to BYOL's success. The loss can be defined as
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "The Self-Distillation Family: BYOL/SimSIAM/DINO", "weight": 1.0} -->
+
+where the two vectors in representation space are automatically $\ell_{2}$-normalized i.e.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "The Self-Distillation Family: BYOL/SimSIAM/DINO", "weight": 1.0} -->
+
+where $\epsilon$ is often set at $1^{- 12}$. $f_{\theta_{s}}$ is the online encoder network often denoted as the student parametrized by $\theta_{s}$, and $p_{\gamma}$ is the predictor network parameterized by $\gamma$. ${\mathbf{x}} \sim X$ is the input sampled from the data distribution $X$, and ${t_{1}{({\mathbf{x}})}},{t_{2}{({\mathbf{x}})}}$ are two augmented views of $\mathbf{x}$ where ${t_{1} \sim T_{1}},{t_{2} \sim T_{2}}$ are two data augmentations. The target network $f_{\theta_{t}}$ is of the same architecture as the student and is updated by EMA with $\xi$ controlling to what degree the target network preserves its history as in
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "The Self-Distillation Family: BYOL/SimSIAM/DINO", "weight": 1.0} -->
+
+SimSiam is aimed at understanding which components in BYOL are most important. SimSiam showed that the EMA was not necessary in practice, even if it led to a small boost in performance. This enabled the use of a simplified loss defined by
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "The Self-Distillation Family: BYOL/SimSIAM/DINO", "weight": 1.0} -->
+
+where for clarity we omit the distribution over which $x,t_{1},t_{2}$ are sampled. Several works have aimed at understanding how BYOL and SimSiam avoid collapse such as Tian et al. or Halvagal et al., where they found that the asymmetry between the two branches is the key, as well the training dynamics which regularize the variance of the embeddings implicitly.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "The Self-Distillation Family: BYOL/SimSIAM/DINO", "weight": 1.0} -->
+
+DINO performs a centering of the output of the student network using a running mean (to avoid sensitivity to mini-batch size) and discretize (smoothly) the representations by means of a softmax with a temperate $\tau$ usually taken to be around $0.1$ as in
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "The Self-Distillation Family: BYOL/SimSIAM/DINO", "weight": 1.0} -->
+
+where akin to BYOL the teacher again has a moving average of the student network's weights, usually with value $\xi$ following a cosine schedule from $0.996$ to $1$ during training. The discretization in DINO caused by the softmax can be interepreted as an online clustering mechanism, where the last layer before the softmax contains the clustering prototypes and its weight. As such, the output of the penultimate layer is clustered using the weights of the last layer.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "The Self-Distillation Family: BYOL/SimSIAM/DINO", "weight": 1.0} -->
+
+iBOT builds on DINO and combines its objective with a masked image modeling objective applied in latent space directly. Here, the target reconstruction is not the image pixels but the same patches embedded through the teacher network.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "The Self-Distillation Family: BYOL/SimSIAM/DINO", "weight": 1.0} -->
+
+DINOv2 further builds on iBOT and improves its performance significantly in both linear and k-NN evaluations by improving the training recipe, the architecture, and by introducing additional regularizers such as KoLeo. In addition, DINOv2 curates a larger pretraining dataset consisting of 142 million images (further discussion in Table 1).
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "The Self-Distillation Family: BYOL/SimSIAM/DINO", "weight": 1.0} -->
+
+Many other methods belong to this self-distillation family. MoCo is another popular method based on building a dictionary look-up that was shown to in some cases to surpass supervised learning on segmentation and object detection benchmarks He et al.. Originally the momentum encoder was introduced as a substitute for a queue in contrastive learning, which extends the result of. MoCo's moving average uses a relatively large momentum with a default value of $\xi = 0.999$. This higher momentum value works much better than a smaller value of say $\xi = 0.9$. When SimCLR introduced the use of a projector and stronger data-augmentations, MoCoV2 followed suite with stronger data-augmentations and a projector head to boost performance. In a similar spirit, ISD compares a query distribution to anchors from the student distribution using KL-divergence that relaxes the binary distinction between positive and negative samples. MSF compares a query's nearest neighbor representation to the student target's representation and then minimize the $\ell_{2}$ distnace between them with renormalization (akin to cosine similarity maximization).
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "The Self-Distillation Family: BYOL/SimSIAM/DINO", "weight": 1.0} -->
+
+Another approach, SSCD builds on the contrastive objective to the task of copy detection outperforming copy detection models and other contrastive methods. Aside from the widespread use of the contrastive objective, many more methods employ similar running average updates as part of their training mechanism. For example, self-distillation, Deep Q Network in reinforcement learning, Mean Teacher in semi-supervised learning, and even model average in supervised and generative modeling.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "The Canonical Correlation Analysis Family: VICReg/BarlowTwins/SWAV/W-MSE", "weight": 1.0} -->
+
+The SSL canonical correlation analysis family originates with the Canonical Correlation Framework (CCA). The high-level goal of CCA is to infer the relationship between two variables by analyzing their cross-covariance matrices. Specifically, let ${\mathbf{X}} \in {\mathbb{R}}^{D}$ and ${\mathbf{Y}} \in {\mathbb{R}}^{D}$. The CCA framework seeks two transformations ${\mathbf{U}} = {f_{x}{({\mathbf{X}})}}$ and ${\mathbf{V}} = {f_{y}{({\mathbf{Y}})}}$ such that
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "The Canonical Correlation Analysis Family: VICReg/BarlowTwins/SWAV/W-MSE", "weight": 1.0} -->
+
+with $d$ (the dimension of the output mappings) such that $d \leq {\min{({\dim{({\mathbf{X}})}},{\dim{({\mathbf{Y}})}})}}$. Linear CCA considers the two mappings to be linear in which case the optimal parameters can be found through the SVD of $\Sigma_{x}^{- \frac{1}{2}}\Sigma_{xy}\Sigma_{y}^{- \frac{1}{2}}$, involving the covariance matrices of ${\mathbf{X}},{\mathbf{Y}}$ and their cross-covariance. A major advance in the study nonlinear CCA was achieved by Breiman and Friedman in the univariate output setting, and by Makur et al. in the multivariate output setting, by connecting the solution to eq. 13 to the Alternating Conditional Expectation (ACE) method.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "The Canonical Correlation Analysis Family: VICReg/BarlowTwins/SWAV/W-MSE", "weight": 1.0} -->
+
+Painsky et al. study the link between the optimal representation for nonlinear CCA using the Alternating Conditional Expectation proving new theoretical bounds that lead to further refinements of CCA.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "The Canonical Correlation Analysis Family: VICReg/BarlowTwins/SWAV/W-MSE", "weight": 1.0} -->
+
+These ideas were extended to deep learning in Deep Canonically Correlated Autoencoders (DCCAE) an autoencoder regularized via CCA. Hsieh and Andrew et al. introduce the objective of jointly learning parameters for two networks, $f_{1},f_{2}$, such they their outputs are maximally correlated. The inputs to these networks are two views $X_{1}$ and $X_{2}$. Specifically the objective is then to find parameters $\theta_{1},\theta_{2}$ for each network such that
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "The Canonical Correlation Analysis Family: VICReg/BarlowTwins/SWAV/W-MSE", "weight": 1.0} -->
+
+This DCCAE objective was extended to multivariate outputs and arbitrary DDNs in Wang et al..
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "The Canonical Correlation Analysis Family: VICReg/BarlowTwins/SWAV/W-MSE", "weight": 1.0} -->
+
+From these origins, stems SSL methods such as VICReg, Barlow Twins, SWAV, and W-MSE. VICReg, the most recent among these methods, balances three objectives based on co-variance matrices of representations from two views: variance, invariance, co-variance shown in Figure 6. Regularizing the variance along each dimension of the representation prevents collapse, the invariance ensures two views are encoded similarly, and the co-variance encourages different dimensions of the representation to capture different features.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Masked Image Modeling", "weight": 1.0} -->
+
+A number of prominent early self-supervised pre-training algorithms for computer vision applied degradations to training images, such as decolorization, noise, or shuffling image patches, and taught models to undo these degradations. Context encoders instead mask out large portions of an image and replace their pixel values with white, teaching an autoencoder to inpaint the white patches. This early attempt at masked image modeling does not achieve competitive performance with supervised learning on downstream tasks, and pre-dates vision transformer architectures which modern masked training routines build upon. Subsequently, BERT shook up the natural language processing world by replacing text tokens input to a transformer language model with learnable mask tokens and teaching the model to recover the original text. This paradigm, termed *masked language modeling* (MLM), can also be interpreted as a form of the above strategy, degrading a sample via masking and teaching a model to undo the masking degradation. MLM, along with span-infilling techniques, remains popular as a SSL objective for large language models.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Masked Image Modeling", "weight": 1.0} -->
+
+We can also similarly mask out portions of an image and teach a model to inpaint them. This pre-training vision strategy is known as masked image modeling (MIM). Inspired by BERT, Dosovitskiy et al. exploit the vision transformer architecture by masking out patch tokens and replacing them with learned mask tokens. They then teach their model to predict pixel values directly, but they find that this pre-training strategy is significantly less effective than supervised pre-training.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Masked Image Modeling", "weight": 1.0} -->
+
+Bao et al. note that applying the BERT strategy directly to images is difficult because whereas text tokens can only take on a small number of values that can be predicted as a classification problem, image patches can assume considerably more possible values and hence more classes than would be suitable for classification. Instead, the authors cast MIM as a regression problem, first using an autoencoder to encode image patches as discrete tokens, and then pre-training their transformer to predict the discrete token values for masked tokens. BEiT achieves significantly improved performance on downstream image classification and semantic segmentation over previous supervised and self-supervised baselines, but its training pipeline is complex since it requires a powerful autoencoder for converting image patches to discrete tokens.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Masked Image Modeling", "weight": 1.0} -->
+
+In order to streamline MIM pre-training, two concurrent works propose simplified algorithms, masked autoencoders (MAE) and SimMIM respectively, which directly reconstruct masked image patches rather than discrete image tokens extracted from an encoder as in BEiT. Moreover, these simplified pre-training strategies achieve superior performance to BEiT on downstream image classification, semantic segmentation, and object detection tasks. Since then, masked image modeling has achieved competitive performance on a wide variety of vision tasks and even vision-language representation learning. The most successful approaches when using a frozen encoder, iBOT and DINOV2 employ a mix of masked image modeling and more classical approaches such as self-distillation. Howver, their masked image modeling objective reconstructs in latent-space with a teacher network used to provide targets instead of using the original image as the reconstruction target.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Masked Image Modeling", "weight": 1.0} -->
+
+Consider that MIM is fundamentally a generative modeling task. Such models are trained to generate missing image parts conditional on the observed ones. Note that BEiT, MAE, and SimMIM are deployed on downstream prediction problems by removing the decoder and replacing it with a prediction head. However, masked image models can also achieve strong generative modeling, including text-conditional generation. Compared to autoregressive models for image generation (Yu et al., ) which generate patches sequentially, MIM-based generative models are significantly more efficient, since they can generate patches in parallel.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Masked Image Modeling", "weight": 1.0} -->
+
+In Section 3.6, we will discuss various techniques harnessed by state-of-the-art masked image modeling systems to achieve such competitive performance.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Masked Image Modeling", "weight": 1.0} -->
+
+[rounded corners=8.535827] rectangle; [gray!40,rounded corners=5.690551] (0.100000,7-0.100000) rectangle (*1cm,7-0.400000-0.100000) node[rotate=90,black]; \nodeat (*0.5,7-0.400000*0.5-0.100000) A Brief History of Masked Image Modeling; \node[below] at (*0.5,7-0.400000-0.100000-0.200000) • Pathak et al. implement a masked pre-training strategy where large portions of an image are replaced with white and inpainted by an encoder decoder model. • Devlin et al. propose the masked language modeling SSL task. BERT achieves state-of-the-art performance on a variety of downstream language problems. • Dosovitskiy et al. adapt the BERT pre-training strategy for the vision transformer architecture. • Bao et al. propose BEiT which replaces the pixelwise reconstruction loss by predicting discrete visual tokens extracted by a discrete VAE encoder.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Masked Image Modeling", "weight": 1.0} -->
+
+• He et al. simplify BEiT by removing the VAE encoder in favor of the pixelwise reconstruction loss, but tune the pipeline for superior performance. Masked autoencoders (MAE) achieve state-of-the-art ImageNet 1k performance among competitors that don’t use extra data. • SimMIM concurrently simplifies masked autoencoding in a similar fashion, achieving similar performance on image classification and also including state-of-the-art object detection, action recognition, and semantic segmentation. • Muse reaches state-of-the-art text conditional image generation with a masked transformer approach.;
+Figure 7: A Brief History of Masked Image Modeling
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Theoretical Study of SSL", "weight": 1.0} -->
+
+Numerous works have attempted to unify various SSL methods. In Huang et al., Barlow Twins' criterion is shown to be linked to an upper bound of a contrastive loss. This suggests a link exists between contrastive and covariance-based methods. This direction was further pursued in Garrido et al., where a covariance-based and contrastive criterion are shown to be equivalent up to normalization by deriving the precise gap between the two approaches. These results were further validated empirically as methods were shown to exhibit similar performance and representation properties at ImageNet's scale (1.2 million samples). The similarities among methods was also studied in Tao et al. where this unification was tackled from a study of the losses' gradients.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Relationship between Contrastive Learning and Other Objectives", "weight": 1.0} -->
+
+Initially, InfoNCE was suggested as a variational approximation to the mutual information between two views. Li et al. explains the role of InfoNCE in contrastive learning through the lens of the Hilbert-Schmidt Independence Criterion (HSIC), which was used to present a variational lower bound on the mutual information (MI) between different transformations. Tschannen et al. shows the performance of InfoNCE cannot be explained only in terms of mutual information. Instead other factors such as the feature extractor and formualtion of the mutual information estimator are important and can lead to drastically different performance. Alternative theories suggest that InfoNCE balances alignment of "positive" examples and uniformity of the overall feature representation, or that (under strong assumptions) it can identify the latent structure in a hypothesized data-generating process, akin to nonlinear ICA. In Wang and Isola, Theorem 1 shows that contrastive learning with an RBF kernel (an expressive map of features into a higher dimensional space) converges to a uniform distribution on the sphere with matched pairs.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Relationship between Contrastive Learning and Other Objectives", "weight": 1.0} -->
+
+shows that contrastive learning with deep linear network is equivalent to Principal Component Analysis (PCA) and further analyzes the role played by nonlinearity in the architecture if trained with contrastive loss, showing that nonlinearity leads to many local optima that can host diverse patterns in the training data, while linear networks only allow a single dominant pattern to be learned. Hjelm et al. introduced Deep InfoMax (DIM), which maximizes the mutual information between the input and output of a deep neural network encoder using local features from the input, an idea that was extended to graphs in Veličković et al..
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Unified contrastive losses", "weight": 1.0} -->
+
+Tian unified contrastive losses as minimizing a general family of loss functions $\mathcal{L}_{\phi,\psi}$, where $\phi$ and $\psi$ are monotonously increasing and differentiable scalar functions
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Unified contrastive losses", "weight": 1.0} -->
+
+where $z$ are representations with indices $i$ and $j$ running from $1$ to $N$. With different $\phi$ and $\psi$, Eqn. 15 covers many loss functions (Figure 8).
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Unified contrastive losses", "weight": 1.0} -->
+
+where $\epsilon > 0$ is some constant e.g. $\epsilon = 1$ has been used in He et al.; Tian et al., $\epsilon = 0$ yields a slight variation of SimCLR, the DCL loss.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Hard negative sampling", "weight": 1.0} -->
+
+Negative mining has been thoroughly studied in (deep) metric learning. Recently, some works have focused on putting more weight on hard samples. Yet, Kalantidis et al.; Tian showed that contrastive SSL losses with $\psi = e^{x/\tau}$ already have such mechanisms at the batch level, focusing on hard-negative pairs without explicit \"hard-negative sampling\". This means that contrastive losses need large batch sizes to ensure that hard negative samples are observed which occurs at an additional memory cost.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Study of the projector", "weight": 1.0} -->
+
+The projector network, first introduction by Chen et al., maps the representations into another space where the loss is computed. Despite strong empricial evidence the projector improves performance, few theoretical works attempted to explain its role. Jing et al. study the role of linear projectors in contrastive learning. More precisely, it is argued that the projector prevents dimensional collapse in the representation space and that it only needs to be diagonal and low-rank to do so. Although the proposed method without a projector outperforms SimCLR with a one layer linear projector, for 2- and 3-MLP projectors, performance remains out of reach. Cosentino et al. study the interplay of the projector and data augmentations when the augmentations are Lie group transformations, and, as Mialon et al., provide an explanation on the effect of width and depth of the projector. Further empirical investigations of the role of the projector are presented in section 3.2.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Dimensional Collapse of Representations", "weight": 1.0} -->
+
+While the goal of joint self-supervised methods is to learn meaningful representations, a significant part of the approaches suffer from what is called dimensional collapse. Dimensional collapse occurs when information encoded across different dimensions of the representation is redundant. In other words in the output of the projector, the embeddings are rank-deficient, which can be approximated via the singular value spectrum of the embeddings, as illustrated in Figure 12.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Dimensional Collapse of Representations", "weight": 1.0} -->
+
+This phenomenon was first illustrated by Hua et al. where the use of a whitening batch normalization helped alleviate collapse. Dimensional collapse was also studied from a theoretical point of view by Jing et al. with a focus on contrastive methods. Several following works linked dimensional collapse to an impact on performance. Some works focused on unsupervised evaluation where dimensional collapse was found to be a good proxy for downstream performance.\
+Different measures of dimensional collapse have been introduced such as the entropy of the singular value distribution, the classical rank estimator, fitting a power law to the singular value distribution or the AUC of the singular value distribution. Nonetheless, all of these measures focus on evaluating the rank of the representations to measure dimensional collapse in the learned representations.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Curated (standard)", "weight": 1.0} -->
+
+: The most common practice is to pretrain SSL models on curated datasets such as ImageNet and alternatives such as PASS Asano et al.. These datasets tend to generally be class-balanced and contain object-centric images, where the object is prominentely feature often in the center of the photo.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Training with data from the wild", "weight": 1.0} -->
+
+: Even though ImageNet has been the dataset of choice for pretraining, it is definitely not the only option. Its simplicity (object centric, single object, balanced classes) makes it a very good playground but most datasets in the wild are not as clean. If we want to leverage large uncurated datasets for SSL methods need to translate well outside of ImageNet. To this effect some works have explored pretraining on large uncurated datasets, or on datasets that different from ImageNet such as COCO, or iNaturalist. While these works have shown promising results, ImageNet (or similarly curated dataset) pretraining has remained the norm.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Training with data from the wild", "weight": 1.0} -->
+
+To provide other insights, we pretrained methods on Places205 and iNaturalist18 without changing the augmentations strategy but tuning heavily loss related coefficients. The goal is to see if the setups used on ImageNet transfer well to other datasets. Places205 has the advantage of not being object centric, and iNaturalist of having a power law distribution of classes as well as requiring a lot of fine-grained information. We report our results in table 1. As we can see most methods are able to achieve similar performance when pretraining either on ImageNet or on the target dataset. This would suggest that the protocol developed on ImageNet can transfer decently, since we noticed that hyperparameters that were optimal on ImageNet also tended to be on different datasets. There is one visbile exception though, SimCLR and MSN perform poorly on iNaturalist18 when pretraining on it directly. While conclusions are impossible to draw precisely here, it would suggest that certain method exhibit more sensitivity on the pretraining dataset than other.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Weakly-curated training data", "weight": 1.0} -->
+
+: A successful approach to leverage large uncurated datasets is to perform retrieval in them based on curated data. This means that the dataset will contain images similar to a curated or smaller source dataset such as ImageNet, while being much larger and more diverse. This strategy was used in DINOv2 where LVD-142M was built using a wide variety of small and domain specific datasets. While this does not lead to big performance boosts in classification on ImageNet, it can lead to significant boosts in performance on other tasks such as image retrieval.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Role of Data-Augmentation", "weight": 1.0} -->
+
+Many SSL methods, especially joint embedding methods derived from Chen et al., require a way to define positive views from a given image to learn invariances. The proxy used in these SSL methods is to leverage data augmentation to define these invariances. For example, by using different crops of a given images and positive view, the SSL model will be trained to produce a representation that is invariant to these different crops. When using a grayscale operation, or a colorjitter one as positive views, the representation will have to be invariant to the color information. Thus, the deep nature of what is learned by the SSL models is defined by the data augmentation pipeline. It is worth noting that perfect invariance is not achieved thanks to the projector, which helps improve performance on tasks which are not entirely invariant. Chen et al. study how much influence have specific data augmentations on SimCLR with respect to the performances over ImageNet. They show that simpler data augmentation such as noise aren't beneficial on ImageNet classification downstream. Instead, cropping and multiple color jittering operations lead to competitive results with a supervised baseline.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Role of Data-Augmentation", "weight": 1.0} -->
+
+This key element of data-augmentation had also been largely used in the following SSL works without significant changes. The only variant that is sometimes used is adding smaller crops in addition of bigger crops when learning in-variances. We discuss this use of big and smaller crops, called multi-crop, in the coming subsections.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Role of Data-Augmentation", "weight": 1.0} -->
+
+However this specific combination of data augmentation was specifically designed to reach good performances on ImageNet. Bordes et al. study the impact of different choice of data augmentation on different downstream tasks and found that even if the addition of ColorJitter seem beneficial for many classification task it might not always be the case on other downstream tasks. Similarly, Ericsson et al. show that different augmentations lead to learning different type of invariances for which some of them are better on some downstream tasks than other. The authors suggest to merge representations learned with different augmentations to improve transferability across a wider range of downstream task. There is also an hidden cost when using a complex pipeline of data augmentation: the data preprocessing time which might slow down significantly the training. Thus, when the training budget matter, it might be preferable to just use random crop along a grayscale operation when training a SSL model. We discuss common approaches for speeding up the training pipeline in Section 3.8.1. Ni et al. further show that contrastive learners can benefit from very aggressive data augmentations such as large rotations when explicitly trained not to be invariant to them, as in meta-learning.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Role of Data-Augmentation", "weight": 1.0} -->
+
+Another line of work attempts to remove the need for these handcrafted data augmentations. One approach is to use a reconstruction-based objectives such as MAE which uses a reconstruction loss in pixel space to avoid the need for defining precise invariances. Another approach is based on a joint-embedding where based on random parts of an images the goal is to predict the representations of the missing parts of the image in the representation space. An example of such method is I-JEPA or Data2Vec2.0 which use a context part of an image to predict missing small parts of the image. Another line of work tries to retain style information about the augmentations to improve downstream performance on tasks requiring style information such as color by predicting style information. Encoding true equivariance to augmentations (which requires a mapping between embedding) is an active line of work with approaches such as EquiMod, SEN, or which also aims at splitting the representations as class and pose. This idea of splitting representations as invariant and equivariant was also explored in SIE and using Lie group formalism in Ibrahim et al..
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Role of multi-crop", "weight": 1.0} -->
+
+While works such as MoCo are focused on increasing the number or quality of negative pairs, another direction to improve performance is to increase the number of positives for a given image. Multi-crop, which was introduced with SwAV, tackles this problem by introducing smaller crops ($96 \times 96$) on top of the usual two large ones ($224 \times 224$). Instead of only comparing the two large crops together, or all pairs of crops, the two large crops are each compared to all other crops (big or small). As such, if we have 2 large crops and $N$ small crops, the invariance loss is computed $2{({N - 1})}$ times, increasing the positive-pair related signal. The use of smaller crops as well as not comparing all pairs of crops helps reduce the computational cost of these additional crops. While the number of additional crops can vary (10 in Mugs compared to 6 in SwAV), it always lead to an icrease in training time and memory usage if used as is.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Role of multi-crop", "weight": 1.0} -->
+
+To mitigate this cost, using $160 \times 160$ large crops and 4 $96 \times 96$ in SwAV helped mitigate the memory cost and only lead to a training time increase of $25\%$ compared to the classical setting using two crops of size $224 \times 224$, while leading to a 4 point performance boost. As such, multi-crop is a very useful strategy to help boost performance for a marginal additional compute cost. It has thus become almost ubiquitous in recent works. It is worth pointing out that some works have only noticed minor increases in performance where it only lead to a 0.3 point performance increase.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Role of multi-crop", "weight": 1.0} -->
+
+Other approaches have emerged to negate the computational burden of feeding additional crops to the encoder by using nearest-neighbours in embedding space. While with NNCLR the matched positive crop is replaced by its nearest-neighbour in latent space, in MSF, a $k$-NN graph is built in embedding space to provide a similar effect as multi-crop and increase positive-pair related signal. This strategy was further employed in UniVCL which used augmentation strategies such as edge of node masking in combination with a $k$-NN graph in latent space. All of these approaches show significant performance boosts for a smaller computational cost compared to multi-crop. In MSF, the use of this $k$-NN graph only increases training time by 6%.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Role of the Projector", "weight": 1.0} -->
+
+Most SSL with joint embedding methods include a projector (usually 2- or 3-layers MLP with ReLU) after the encoder. The SSL loss is applied to the projector's output, and the projector is usually discarded after training. This crucial component was introduced in SimCLR and, although not responsible for avoiding collapse, allows significant top-1 accuracy gains on ImageNet. For example, in a 100-epochs training, the projector adds around $20\%$ of top-1 accuracy in SimCLR and VICReg (from around $50\%$ to $68\%$ and $48\%$ to $68\%$ respectively).\
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Role of the Projector", "weight": 1.0} -->
+
+Bordes et al. show that adding a projector is not only useful for SSL but is also highly beneficial in a supervised training setting when there is a misalignment between the training and downstream tasks (which was also demonstrated by Sariyildiz et al. ). In fact, it's well known from Yosinski et al. that cutting layers in a trained deep neural network is beneficial when doing transfer learning mostly to avoid the training task's overfitting bias. When looking through the lens of transfer learning, it becomes easy to understand why a projector is needed in SSL since the training task is always different from the downstream task. To bridge the gap between the terms used in the SSL and in the transfer learning literature, Bordes et al. suggested coining the method of probing intermediate representations or cutting layers as: Guillotine Regularization (GR). They also highlight how crucial it is to dissociate GR from the addition of a projector in SSL because the optimal layer on which one should probe the representation might not always be the backbone (but could be an intermediate projector layer as demonstrated in Chen et al. ).
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Role of the Projector", "weight": 1.0} -->
+
+Lastly, Bordes et al. demonstrated that reducing the misalignement between the training and pretext task (by using class label to find the positives pair in contrastive learning) leads to learning a network for which the best linear probe performance on ImageNet are obtained at the last projector layer (instead of the backbone) as shown in Figure 10.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Using a projector to handle noisy image augmentations", "weight": 1.0} -->
+
+The projector may also be necessary to mitigate the noise of data augmentation. As described in Section 3.1, SSL methods typically randomly augment input images to generate two different views of the same image. In some cases, enforcing invariance over two very different views might be a very strong constraint that could harm the performance, like when the content of the two views is different. To demonstrate how using the projector can mitigate that, we pretrain VICReg with and without projector using image augmentations that are semantically similar according to an "oracle", e.g a pretrained on ImageNet with full supervision. We pretrain for $100$ epochs and include the linear probing results of these experiments in Table 2. Without projector and with an oracle, the Top1 performance is $6.3\%$ higher compared to not using an oracle. However, equipped with a projector, using an oracle to remove noisy views only boosts Top1 performance by $0.6\%$. This might imply that the projector has a role in handling inconsistent or noisy augmented views during the SSL training process.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Influence of the projector's output dimension", "weight": 1.0} -->
+
+Similarly to how large batch sizes were seen as a requirement for contrastive methods, a large output dimension of the projector was seen as a requirement for covariance based methods. This is illustrated by figure 4 in Zbontar et al., and table 12 in Bardes et al., where drops of up to $15\%$ in top-1 on ImageNet can be observed. As pointed out in Garrido et al. this was due to the projector's intermediate layers scaling with the output dimension as well as loss weights that needed to be scaled as well. By tuning these parameters, VICReg's top-1 accuracy increases from $55.9\%$ to $65.1\%$ with 256 dimensional embeddings. The peak performance is also achieved at 1024 dimensions and plateaus afterwards. While VICReg stays more sensitive to the output dimension of the projector than SimCLR, it is significantly more robust than originally thought and very large output dimensions are not a requirement. Comparable results should be achievable for Barlow Twins due to the similarities between the two methods.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Influence of the backbone's output dimension", "weight": 1.0} -->
+
+Recent works also investigated the effect of the backbone dimension. Dubois et al. observed that larger backbone representations lead to better linear probe performance when using CISSL. Bordes et al. investigated more deeply the impact of the backbone dimension across common SSL methods like VICReg, SimCLR or BYOL. They show that traditional supervised methods decline in performance when the dimension of the backbone is increased. On the other hand, SSL methods highly benefit from wider backbone representations as shown in Figure 11(a) ‣ Figure 12 ‣ Influence of the backbone’s output dimension. ‣ 3.2 Role of the Projector ‣ 3 A Cook’s Guide to Successful SSL Training and Deployment ‣ A Cookbook of Self-Supervised Learning"). In fact, it is much more beneficial in SSL to increase the backbone size when training a ResNet than increasing the width or depth of the ResNet as illustrated in Figure 11(b) ‣ Figure 12 ‣ Influence of the backbone’s output dimension. ‣ 3.2 Role of the Projector ‣ 3 A Cook’s Guide to Successful SSL Training and Deployment ‣ A Cookbook of Self-Supervised Learning").
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Influence of the backbone's output dimension", "weight": 1.0} -->
+
+This observation highlights that the current architectures used in SSL, which are often the same as the those used in supervised training, might not be optimal.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Properties of the representation induced by the projector", "weight": 1.0} -->
+
+Mialon et al. argue that the projector enforces pairwise independence of the features in the representation and provide a demonstration for random projectors in the context of VICReg, BarlowTwins and W-MSE. In particular, higher degrees of independence are reached with wider projectors. Pairwise independence, or a soft notion thereof, can be more appropriate to learn unsupervised representations from "real world" datasets such as ImageNet than mutual independence. Alternatively, seeking alternative SSL regularization to VCReg is needed if mutual independence is sought. The optimization dynamics resulting from applying VCReg (the anti-collapse term in VICReg) at the projector's output is also worth noting: minimizing VCReg with respect to the projector parameters is not necessary, and VCReg is rather optimized with respect to the encoder parameters. Whether this analysis fully extends to other SSL methods is an open question.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Training a SSL without a projector", "weight": 1.0} -->
+
+Jing et al. proposes DirectCLR, which shows that regularizing the representation in DirectCLR by applying the InfoNCE SimCLR objective on sub-vectors of the representation without a trainable projector is sufficient to outperform SimCLR with a linear projector in terms of ImagNet top-1 accuracy.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "The Uniform Prior in SSL or the Failure of SSL on Unbalanced Data", "weight": 1.0} -->
+
+Despite their recent successes, there is an important limitation of SSL methods: poor performance on unbalanced datasets. Since real world data is imbalanced, such a limitation is an important factor that made the use of SSL methods on vast amount of uncurated data challenging. Assran et al. explains such a limitation by the use of an hidden uniform prior that is common to many SSL methods. By distributing the data uniformly in the representation space, SSL methods learn to find the most discriminative features in a given mini batch. When data is uniformly distributed across classes labels, the most discriminative features that the model will learn will be class specific. However, when using imbalanced data, the most discriminative features inside the mini batch might not be the class anymore but more low level information which decrease the performances on downstream classification tasks. To alleviate this issue, Assran et al. introduce the use of an additional regularization term on the SSL method MSN to change the distribution of the SSL clustering.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Role of the Moving Average Teacher", "weight": 1.0} -->
+
+While the original BYOL method is based on exponential moving average (EMA) updates of the weights for the target (teacher) network, it was later confirmed that EMA is not necessary (i.e., the online and target networks can be identical). This is also confirmed with SimSiam, as long as the predictor is updated more often or has larger learning rate compared to the backbone. In the case of DQN, the target network with EMA is shown to remove bias Fan et al. and Piché et al. showed that the EMA could be removed from the target network by using the correct regularizer. For BYOL, a stop gradient of the online network, meaning the decay rate is 0 for the target network, collapses as shown in Table 5 of Grill et al.. Pham et al. shows the idea of exponential moving averages provide training stability that can even be used in non student-teacher frameworks such as SimCLR. Specifically, they show applying EMA updates to the projector of SimCLR can boost performance.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Role of the Moving Average Teacher", "weight": 1.0} -->
+
+Wang et al. shows that training could also benefit from other kinds of asymmetries in the teacher-student setting (e.g., stronger augmentation on the student side).
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Role of the Predictor in Self-Labeling SSL", "weight": 1.0} -->
+
+The predictor network plays a central role in BYOL's success by predicting the representation of the teacher network from the student networks' representation. Shi et al. shows removing the predictor leads to a performance drop from 68% to 21% top-1 accuracy on ImageNet (compared to the original two-layer MLP predictor in BYOL). In Figure 1 of Shi et al., they demonstrate even a linear predictor leads to good performance and can recover from poor initialization in 10-20 epochs of training. For SimSiam, Table 1 of Chen and He shows removing the predictor in SimSiam also leads to collapse with a top-1 accuracy of \< 1% on ImageNet. Tian et al., whose implementation can be found^22^2 proves that in the presence of the predictor, the training dynamics of BYOL and SimSiam contains nontrivial stable fixed points, and thus avoid being trapped into trivial solutions during training, even if these trivial solutions are global optimal. It further proposed a contrastive method, DirectPred, that directly sets the predictor via eigenvalue decomposition during training and leads to comparable performance in ImageNet.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Role of the Predictor in Self-Labeling SSL", "weight": 1.0} -->
+
+Its follow-up work (DirectSet Wang et al. ) further removes the overhead of eigenvalue decomposition.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Role of Standard Hyper-Parameters", "weight": 1.0} -->
+
+A common issue in SSL research is that each method has different configurations of hyper-parameters. Hence comparisons directly between different SSL methods or models is often challenging. In this section, we present and describe the impact of each hyper-parameters to help SSL practitioners identify which are most important depending of their setup.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Role of Mini-Batch Size", "weight": 1.0} -->
+
+It was originally thought that contrastive methods such as SimCLR or MoCo require large batch sizes or memory banks to work. This turns out to be misleading as both methods can be made to work at small batch sizes. A square root scaling of the learning rate was discussed in the appendix of Chen et al. which already gave a significant increase in performance of up to 5 points in top-1 accuracy on ImageNet for a 100 epochs training. Similarly, Bordes et al. investigated the impact of the learning rate with small batch sizes and found how one can train SimCLR on ImageNet using a single gpu without an important drop in performances. Furthermore, some works such as DCL show that you can reach top performance with a batch size of 256 or more for SimCLR, and a queue size of only 256 or more for MoCo, by simply removing the positive pair from the denominator of the softmax and with more careful hyperparameter tuning. Similarly, it was shown by Zhang et al. that by decomposing the dictionary in MoCo and by using different temperatures for the positive and negative pairs it is possible to increase the robustness to the dictionary dimension.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Role of Learning Rate (Schedulers) and Optimizers", "weight": 1.0} -->
+
+Here we overview typical standard settings for learning rate schedulers and optimizers across methods. To determine the learning rate, methods often scale a base learning rate based on the batch size according to the heuristic by Goyal et al.: learning rate = $\frac{\text{batch size}}{256}*\text{base learning rate}$. For ImageNet pretraining, VICREg, Barlow Twins, BYOL, and SimCLR use a base learning rate of $0.2 - 0.3$ with the LARS optimizer. Additionally for some methods such as Barlow twins, a much smaller learning rate (0.0048) is used to update the bias terms and batch norm parameters. Other methods such as MAE, DINO, and iBot use the AdamW optimizer with a smaller base learning rate of ${1e} - 5 - {5e} - 4$. For a discussion of weight decay see Section 3.5.3. The most common training schedule involves a warmup period, usually 10 epochs, where the learning rate is linearly increased to its base value. After the warmup period, most methods use cosine decay.
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Role of Weight-Decay", "weight": 1.0} -->
+
+Weight-decay is an important component of backprogagation for many SSL methods. Table 15 in BYOL indicates that no weight decay may lead to unstable results. A recent blogpost^33^3[ also mentions using weight decay leads to stable learning in BYOL. In Figure 4 of Tian et al. the effect of weight decay is explained in terms of its effect on memory of the initial conditions. The hypothesis is that weight decay allows the online network and predictor to better model invariance to augmentations regardless of the initial condition. For further reading, Zhang et al. provides a good review of SimSIAM collapse understanding and Shi et al. does the same for BYOL.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Vision Transformers Considerations", "weight": 1.0} -->
+
+Training Vision Transformers (ViT) (Dosovitskiy et al., ) requires special care. They are more prone to collapse and instability, and are more sensitive to the setting of hyper-parameters.
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Vision Transformers Considerations", "weight": 1.0} -->
+
+Batch size. found that large batch (e.g., 4096) training for joint-embedding ViT SSL methods can be unstable. This instability does not reflect as a large drop in the final accuracy, but appears as drops in kNN probe accuracy during training when the $L_{\infty} - {norm}$ of the gradient spikes. Using a random (versus a learned) patch projection layer to embed pixel patches into input tokens for ViT stabilizes training for MoCo-V3, SimCLR, and BYOL and also improves the final accuracy. A learning rate warm-up period of 10k iterations also improves training stability. On the other hand, Caron et al. noted a drop in final k-NN accuracy when training with very small batch sizes. So, a batch size of 1024 or 2048 seems to be the sweet spot for SSL pre-training of ViTs.
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Vision Transformers Considerations", "weight": 1.0} -->
+
+While the ViT architecture does not have any BatchNorm layers, training a MoCo-V3 model with BN layers in the projector heads improved the linear probing accuracy of the ViT. Note that for joint embedding methods, batching can be done either together for all samples and crops in one batch, or separately for each batch of crops. SimCLR adopts the former, while BYOL and MoCo-V3 adopt the latter.
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Vision Transformers Considerations", "weight": 1.0} -->
+
+Patch size. found that training with smaller patch sizes ($5 \times 5$, or $8 \times 8$ instead of $16 \times 16$) leads to improved linear probing accuracy on DINO ViT pre-training. Note that while increasing patch sizes leads to a reduction in running time, it also increases memory usage (which makes it hard to train on patches smaller than $8 \times 8$).
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Vision Transformers Considerations", "weight": 1.0} -->
+
+Stochastic depth originated from NLP and was subsequently used in vision models to train deeper models. It randomly drops blocks of the ViT as a regularization. The per-layer drop-rate may depend linearly on the layer depth or uniformly as suggested in recent works. It has huge importance when training larger models (ViT-L, ViT-H, etc.). For instance Touvron et al. use $0.5$ drop path rate for ViT-H models. Conversely, when training smaller models like ViT-B, such regularization usually hurts the performance.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Vision Transformers Considerations", "weight": 1.0} -->
+
+LayerDecay decreases the learning rate geometrically along the layers. Put differently, the last layer is not affected, while the first has very small learning rate. In SSL vision models, LayerDecay increases performance when fine-tuning on downstream tasks. Depending on the model size, the parameter is set between $0.65$ to $0.85$ -- larger models usually need higher values because there are more layers. The underlying principle is that SSL builds strong model backbones, therefore we only need to fine-tune the shallowest layers.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Vision Transformers Considerations", "weight": 1.0} -->
+
+LayerScale is a per-channel multiplication of the vector produced by each residual block of the transformer. It increases the stability of the optimization and permits deeper ViT (larger than ViT-B).
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Vision Transformers Considerations", "weight": 1.0} -->
+
+\[cls\] token. When it is not explicitly needed by the method, using the average of the patch tokens instead of the class token saves memory without much change on the accuracies of the network.
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Techniques for High Performance Masked Image Modeling", "weight": 1.0} -->
+
+While there are several approaches to masked pretraining, the state-of-the-art systems that employ them tend to pair MIM with other techniques. For example, the ConvNextV2 architecture, which was state of the art on ImageNet (for models trained with only public data) when released, employs MAE pretraining. Interestingly, the authors point out that simply pretraining a ConvNextV2 with the MAE framework is subpar. They propose adding a novel normalization layer, called "global response normalization," that proves vital to reaching state-of-the-art results.
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Techniques for High Performance Masked Image Modeling", "weight": 1.0} -->
+
+In other works that claim state-of-the-art performance on image classification and semantic segmentation, MIM pretraining is paired with distillation. While some MIM routines involve reconstructing the masked portion of the input in pixel space, another option is to use a teacher network to generate target representations of the unmasked image. Zhou et al. propose iBOT, which uses ViTs for both the teacher and the student in distillation-based MIM and outperforms prior methods on ImageNet classification. Subsequently, Liu et al. propose dBOT, an updated distillation-based MIM approach which also achieves state-of-the-art results on image classification and semantic segmentation. A major finding in their work is that the choice of the teacher model does not have to be chosen carefully if the distillation is done in stages. This is where the teacher is updated periodically to match the student's weights and the student is reinitialized. Oquab et al. employ similar distillations to train smaller models from a ViT-g teacher with much better performance than training from scratch. This line of work highlights that pairing distillation with MIM is extremely effective.
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Techniques for High Performance Masked Image Modeling", "weight": 1.0} -->
+
+For object detectors that utilize MIM to outperform prior work, techniques that allow MIM to work with recent and high performing pyramid ViTs like Swin are critical. Since pyramid ViTs collapse patches, random masking can leave some local windows with no information. Li et al. propose an approach to masking that accounts for the hierarchical structure of these models called "uniform masking." They constrain the masking to hide equal amounts of information in each local window ensuring that each has some information intact. This technique helps self-supervised models (on ImageNet1K) outperform supervised models (even on ImageNet22K) on object detection benchmarks Li et al..
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Evaluation with labels", "weight": 1.0} -->
+
+Self-supervised pre-training is mainly evaluated on image classification, since it has been at the core of computer vision for decades. The three main common protocols are referred to as $k$-nearest neighbors (KNN), linear and full fine-tuning evaluations (ranked by order of complexity). They are offline evaluations, meaning that they are done independently of the self-supervised training procedure, conversely to online evaluation, which are performed during training. While online evaluation can provide a useful signal of downstream performance, because it's optimized alongside the varying self-supervised learning objective, it can be misleading. In addition, to these procedures which require labels for the downstream task, more recently, RankMe has appeared as a viable alternative to costly evaluations, and is used as an oracle to final accuracy without having to do any training.
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "KNN", "weight": 1.0} -->
+
+is one of the best known algorithms of machine learning and has been extensively used throughout the fields. With regards to image classification, a KNN classifier determines the label of a data point from the labels of its neighbors.
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "KNN", "weight": 1.0} -->
+
+Formally speaking, the model is first used to extract frozen features $\mathcal{X} = {x_{1},\ldots,x_{n}}$ (often $l_{2}$-normalized), from all the images in the training dataset. To classify a new image, we extract its feature representation $x^{\prime}$, and retrieve its $k$ nearest-neighbors. They are the $k$ vectors of the training set $\mathcal{X}$ that have highest cosine-similarity with $x^{\prime}$. Then, the vanilla approach applies a majority voting scheme: every neighbor counts $+ 1$ in its corresponding label, and we choose the label with most votes at the end. More sophisticated approaches use a weigthed voting scheme. Instead of counting $+ 1$ in its corresponding label, every neighbor counts a weight $w = {f{({x^{T}x^{\prime}})}}$, for instance DINO implemenation employs $w = e^{{x^{T}x^{\prime}}/T}$.
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "KNN", "weight": 1.0} -->
+
+This allows to account for imbalanced training set, not i.i.d. features, and usually gives more accurate results, at the cost of introducing an additional hyperparameter $T$.
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "KNN", "weight": 1.0} -->
+
+K-NN classifiers have the great advantage of not relying on many hyperparameters, being fast and light to deploy, without requiring any domain adaptation.
+
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Linear", "weight": 1.0} -->
+
+In the context of SSL evaluation, training a linear classifier on top of pre-trained feature representations, a.k.a. linear-probing evaluation, was introduced by Zhang et al.. It is the most popular protocol for several reasons: it achieves high-accuracy, its performance heavily rely on the quality of the representation since their discriminative power is low, it imitates how the features can be used in practice, and last but not least, it is not very computationally expensive.
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Linear", "weight": 1.0} -->
+
+Most of the time, it is done simply by appending a linear layer at the end of the frozen backbone, and optimizing its parameters for a few epochs (around $100$). Sometimes, as introduced by Bao et al., we can benefit from the fact that the linear evaluation is lightweight and evaluate multiple linear heads at the same time, to test many hyper-parameters at the same time (learning rate, averaging features or using a class-token for ViT-like architectures, number of features, etc.). A linear probe can also be trained online, by simply cutting gradient from the representations. Though only an approximation, an online linear probe is extremely cheap as it reuses the computations for the SSL pretraining, and gives a good indication of downstream performance, as shown in Figure 13.
+
+<!-- chunk {"id": "body-0119", "role": "body", "section": "MLP", "weight": 1.0} -->
+
+Instead of a simple linear probing, a multi-layer perceptron (with two or three layers) could also be used to extract which information is learned in a SSL model. Non linear evaluation is rarely present in work around SSL, however it is needed when the learned features are not linearly separable, and when it is too difficult to extract information present in features with a linear model. In fact, comparing results with a linear and a non linear probe, can give us some ideas about how well structured a representation is. Bordes et al. present some results that compare different evaluation regime using a linear or a non linear probe. In Figure 13, one can observe that it's possible to get some gain in accuracy when using a multilater layer perceptron instead of a linear probe. However, the main issue with adding capacity into the probe is one related to overfitting: the best MLP head might not be the ones you get after 100 epochs, as showed in Figure 13.
+
+<!-- chunk {"id": "body-0120", "role": "body", "section": "Full Fine-tuning", "weight": 1.0} -->
+
+The Masked Auto-encoders (MAE) paper re-introduced fine-tuning as the main evaluation metrics. The main arguments are that linear-probing is uncorrelated with fine-tuning and transfer learning performances, and that small MLP heads do not evaluate the strength of the method to create strong but non-linear features. The majority of works that followed focused on this type of evaluation (and sometimes do not report linear/MLP results). It has been shown that contrasting methods show inferior performance than masked image modeling with regards to fine-tuning, because they are less "optimization friendly" - which explains the overall interest over MIM. It is by far the most computationally expensive of the evaluation methods, since it needs to re-train the whole network. The most common benchmark on ImageNet runs the optimization over $100$ epochs for ViT smaller than base, and for $50$ epochs for larger models. Other works first fine-tune on ImageNet-21k for $60$ epochs, and further fine-tune on ImageNet-1k, which represents between $1/5$ to $2$ times the cost of the pre-training phase.
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Evaluation without labels", "weight": 1.0} -->
+
+As we just discussed, most evaluations rely on the use of labels and training an auxiliary model. This can make evaluations expensive and sensitive to hyperparameters or their optimizations. To help alleviate these issues multiple methods have been proposed to evaluate or help tune hyperparameters of methods without relying on labels. Using a pretext-task such as rotation prediction can facilitate performance evaluation without labels, as demonstrated in Reed et al. for data augmentation policy selection. However, a drawback of this approach is the requirement for training the classifier for the pretext-task and the assumption that rotations were not part of the pretraining augmentations, or the model would be invariant to it. The eigenspectrum of representations is used in conjunction with the loss value to evaluate performance in Li et al.. While a correlation with performance is shown, it requires training a performance classifier with the rank and loss value, making it hard to use for unsupervised evaluation. In Agrawal et al. $\alpha$-ReQ is introduced to evaluate methods by looking at the eigenspectrum decay of representations before the projector.
+
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Evaluation without labels", "weight": 1.0} -->
+
+Another simple way to evaluate SSL methods, called RankMe, was introduced by Garrido et al.. The idea is to use the effective rank of representations, defined as the entropy of the singular value distribution of the embeddings.
+
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Evaluation without labels", "weight": 1.0} -->
+
+It is shown to be a necessary condition for good performance, though you can achieve full rank representations with degenerate results (e.g. a random matrix with entries sampled i.i.d. from a Gaussian distribution). While this cannot be used to evaluate different methods, it works well for hyperparameter selection, as shown in Table 3.
+
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Going beyond classification", "weight": 1.0} -->
+
+While classification is a commonly used performance metric for evaluating self-supervised learning models, it is important to consider other types of vision tasks as well. Tasks such as object detection and semantic segmentation have gained popularity as they require models to learn more complex representations of visual information. Recent works Caron et al.; Zhou et al.; Bardes et al. have demonstrated the effectiveness of self-supervised learning for these tasks. However, a limitation is that there is currently no standardized protocol for evaluating self-supervised models on these tasks. Various evaluation methods exist, such as finetuning the encoder on a downstream task or using the encoder as a feature extractor. Further research is needed to establish a standardized evaluation protocol for these tasks in the context of self-supervised learning.
+
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Visual Evaluation", "weight": 1.0} -->
+
+Another way to evaluate what information is contained or not in a representation is to use a decoder over the representation that is able to map back this information to pixel space. Some methods like are built with a specific decoder which make such visual analysis easy, however most SSL methods aren't shipped with a decoder. To alleviate this issue and to allow researchers to visualize what can be learned by any type of SSL method, Bordes et al. suggest training a conditional generative diffusion model using a SSL representation as conditioning. By analyzing which information remains constant across different generated samples using a specific conditioning and what information does not remain constant (because of the stochasticity in the generative model), one can get some hints about what information is contained in the representation. If a representation encodes every information about each pixel, the conditional generative model would exploit every bit of this information to perform a perfect reconstruction which will lead to no variance across different samples.
+
+<!-- chunk {"id": "body-0126", "role": "body", "section": "Visual Evaluation", "weight": 1.0} -->
+
+If the representation encodes only the class information, the conditional generative model will only be able to use that to reconstruct the image belonging to this class, which means that when generating different samples, the object class will remain constant but the background/context/color would change across samples. In Figure 14, we show how RCDM was used by Bordes et al. to compare the representations learned at the projector level versus the representations learned at the backbone level. In this Figure, we observe that the representations at the projector level are much more invariant since the color/background information does not remain constant across different samples while this is not the case at the backbone level.
+
+<!-- chunk {"id": "body-0127", "role": "body", "section": "Distributed Training", "weight": 1.0} -->
+
+Training self-supervised models often requires large batch sizes, or can be considerably speed up by increasing the batch size, which is ultimately limited by the memory capacity of the device the model is trained. Distributed training divides batches across several devices that run in parallel, which increases the overall size of the batch. This is mainly done with DDP: Distributed Data Parallel or FSDP: Fully Sharded Data Parallel, available in libraries like FairScale or Apex. However some self-supervised methods rely on the statistics of the current batch for the computation of their loss value, which has to be taken into account when distributing the training across multiple devices. In this section, we present the elements that need to be taken into account in order to correctly distribute the training of common self-supervised learning methods. We call effective batch size, the size of the full batch distributed on the devices, and per device batch size, the size of each sub-batch on a single device.
+
+<!-- chunk {"id": "body-0128", "role": "body", "section": "Distributed Training", "weight": 1.0} -->
+
+Synchronized batch normalization. Batch normalization is one a the most common technique for stabilizing neural network training, as well as improving the performance of the network. It is present in most convolutional backbones used in self-supervised learning, in particular in ResNet. Batch norm uses the statistics from the current batch, which need to be aggregated for distributed training. This can be done easily in PyTorch by wrapping your distributed model the following way: model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model) This will replace all the BatchNorm modules in the network by a custom BatchNorm class that aggregates the statistics automatically.
+
+<!-- chunk {"id": "body-0129", "role": "body", "section": "Distributed Training", "weight": 1.0} -->
+
+Aggregate batches for exact loss computation. Batch norm is not the only operation that operate on batches, multiple self-supervised loss functions do as well, such as SimCLR that uses the examples in the current batch as negative example for its contrastive loss, or VICReg that computes the covariance matrix of its embeddings. In these cases the batches from each device need to be aggregated into the full batch manually. This can be done using the all_gather operation from PyTorch, however this operation does not allow back-propagation through it.
+
+<!-- chunk {"id": "body-0130", "role": "body", "section": "Distributed Training", "weight": 1.0} -->
+
+1class GatherLayer(torch.autograd.Function):
+3 Gather tensors from all process and support backward propagation
+4 for the gradients across processes.
+8 def forward(ctx, x):
+9 output = [torch.zeros_like(x) for _ in range(dist.get_world_size)]
+10 dist.all_gather(output, x)
+11 return tuple(output)
+14 def backward(ctx, *grads):
+15 all_gradients = torch.stack(grads)
+16 dist.all_reduce(all_gradients)
+17 return all_gradients[dist.get_rank]
+
+<!-- chunk {"id": "body-0131", "role": "body", "section": "Distributed Training", "weight": 1.0} -->
+
+We use an all_reduce operation on the gradient, which sums them, because DDP will divide them later by the number of devices. One can use the operation by simply calling: FullGatherLayer.apply(x) on the input x. Practically, for the methods above, this needs to be done on the embeddings just before the computation of the loss.
+
+<!-- chunk {"id": "body-0132", "role": "body", "section": "Distributed Training", "weight": 1.0} -->
+
+Additional tricks. We advise to always use the effective batch size as argument to the training script, as well as for comparing runs. The DataLoader class takes the per device batch size as, argument, which can be obtained by dividing the effective batch size by the number of devices which is world_size in PyTorch. We also advise to use an adaptive learning rate scaled with the effective batch_size, for example using effective_lr = base_lr \* effective_batch_size / 256 where is the base_lr is the argument of the training script. This reduce the learning rate search range when changing batch_size. When using small batch size, it is recommended by Chen et al. to use effective_lr = base_lr \* $\sqrt{(}\texttt{effective\_batch\_size})$ / 256.
+
+<!-- chunk {"id": "body-0133", "role": "body", "section": "Even Faster Training with FFCV and Other Speedups", "weight": 1.0} -->
+
+Since most join-embedding SSL methods requires different set of handcrafted data augmentation, data processing can become a real bottleneck when training SSL models. Some approaches^44^4 have used DALI as an alternative data loader to pytorch vision while some other have relied on FFCV-SSL^55^5 which is based on the FFCV library. FFCV-SSL shows that one can train SimCLR on ImageNet in less than 2 days on a single GPU or in just a few hours using 8 GPUs (Figure 15).
+
+<!-- chunk {"id": "body-0134", "role": "body", "section": "Speeding Up Training of Vision Transformers", "weight": 1.0} -->
+
+Training ViT can be made more efficient for two reasons. First, it is made easy for ViTs not to process all patches. This is especially helpful when using masked prediction pre-training objectives such as MAE or Masked Siamese Networks. For instance, with ViT and such objectives, Data2vec 2.0 achieves $84\%$ top-1 accuracy after pre-training for only $3$ hours on $32$ GPUs.
+
+<!-- chunk {"id": "body-0135", "role": "body", "section": "Speeding Up Training of Vision Transformers", "weight": 1.0} -->
+
+The second reason is linked to the architecture. Since transformers are employed in almost all domains of computer science, many works aim to reduce the compute and memory requirements of the attention mechanism. One approach is with low-rank and/or sparse approximation mechanisms. For instance, Li et al. use sparse self-attention to improve efficiency in the context of SSL vision models. Another approach, is to resort to IO-aware optimizations, the most known one perhaps being FlashAttention.
+
+<!-- chunk {"id": "body-0136", "role": "body", "section": "Speeding Up Training of Vision Transformers", "weight": 1.0} -->
+
+These speed-ups are available in open-source libraries: Fairseq, FairScale, XFormers, Apex, etc.
+
+<!-- chunk {"id": "body-0137", "role": "body", "section": "Speeding Up Training of Vision Transformers", "weight": 1.0} -->
+
+Another simple way to speed up the training of vision transformers is to use Pytorch bfloat16 which allow faster training while keeping the same precision range as float32 (this is useful to avoid the usual numerical instability issues one can encounter when training vision transformers in float16).
+
+<!-- chunk {"id": "body-0138", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+Pre-training large models with self-supervision objectives is popular not only for vision systems, but also for audio, text, and tabular data as well. The performance of existing SSL methods varies across these domains -- yielding state-of-the-art language models but limited success on tabular data -- which may either reflect better suitability of self-supervision or alternatively the wildly differing amount of attention which has been paid to the various domains in the SSL literature.
+
+<!-- chunk {"id": "body-0139", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+Applying SSL techniques to any of these data domains requires care as unique challenges arise in each domain which necessitate special considerations. For example, SSL for vision often revolves around data augmentations that may not naturally apply to speech signals. The 'positive pairs' available for contrastive learning varies from slightly different views of the same image to totally different segments of an audio recording. Nonetheless, both contrastive and generative objectives can be applied to these other data domains. One generically useful technique across data types is masking. Whether predicting missing words in a sentence, pixels in an image, or entries of a row in a table, masking is an effective component of SSL approaches across domains.
+
+<!-- chunk {"id": "body-0140", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+This section is not intended as a thorough survey of self-supervision for other data modalities, as each of those fields is vast. Domain-specific surveys can be found in Liu et al. (audio), Schiappa et al. (video), Min et al. (text), and Rubachev et al. (tabular data). Rather, this section provides a discussion of the interesting similarities and differences in how SSL is applied to audio, text, and tabular data.
+
+<!-- chunk {"id": "body-0141", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+Audio data. Audio signals, both raw audio and mel spectrograms, have a lot in common with images. As inputs to a neural network, there are strong similarities. For example convolutions can be useful. But as data for SSL, major differences arise. For example, horizontally flipping an image does not usually change the semantic meaning of an image (and is a wildly popular data augmentation), but for speech recordings this would completely distort the data. Similarly, while masking images is often done with random pixels, the two dimensions of a spectrogram represent time and frequency and masking with horizontal and/or vertical bands is more effective. Additionally, the existence of tones other than speech (background noise, room tone) presents a unique challenge when looking for positive pairs for contrastive learning, which is to prevent the learned representations from over fitting to the noise withing a given clip. In fact, the high frequency noisy artifacts, which are generally unrelated to the semantic meaning, mean reconstruction in input space is more complicated than other domains (e.g. text).
+
+<!-- chunk {"id": "body-0142", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+Multi-modal models, on the other hand, can consider a soundbite and its text or some frames of a video and the corresponding sound clip as different views to be used as positive pairs for contrastive learning.
+
+<!-- chunk {"id": "body-0143", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+Video data. Most of SSL images methods have a counter-part video SSL method. For instance, Feichtenhofer et al. have generalized SimCLR, MoCo, SwAV and BYOL to space-time video data. Indeed, in all these methods it is possible to incorporate the notion of similarity between different temporal clips of the same video. More recently, masked auto-encoding objectives for video have been built around the same idea as images, but by masking patches/ tubes of patches in the temporal axis as well. Besides, it is common practice to use SSL vision pre-trained models for video downstream tasks like action recognition. With ViT for instance, the patch embedding convolutional layer can be transferred from 2D to 3D by repeating the weights along the temporal axis. Vision models can then transfer to video models by using them as initialization for fine-tuning on video tasks. The frame features can also be used directly, by appending a linear layer on top of the features, or by using more complex heads. In this case, the visual system is frozen and the temporal information is learned after.
+
+<!-- chunk {"id": "body-0144", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+Text data. In contrast to audio data, text is a relatively clean input signal and representations that are useful for reconstruction do not over fit to a noisy part of the signal. In fact, the most popular large language models are all trained with reconstruction objective as opposed to contrastive objectives popular in other data domains. The Word2Vec objective predicts a masked out portion of the training text has served as a foundational objective for self-supervised learning in natural language. While uncommon, language modeling can be done with contrastive learning for word or or character representations. One other difference between text and images is that the masked token prediction for text is done over an entire dictionary. This approach is not the dominant one for images but it has been tried at the pixel level. While there are few augmentations for language data that do not change the semantic meaning, large scale systems generally use enough data and various types of masking to overcome this. Specifically, next token prediction is akin to masking the last token in a string, while bidirectional encoders mask tokens anywhere in the string or fill larger spans of missing text.
+
+<!-- chunk {"id": "body-0145", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+This choice of unidirectional next-token prediction versus bidirectional approaches leads to meaningful differences in downstream text applications. For contrastive learning, positive pairs often come from masking and/or cropping input sequences. They can also be generated using dropout so that one input has two different latent representations. Additionally, some methods for both contrastive and reconstructive pretraining corrupt the input with several other augmentations including document rotation, sentence permutation, and token deletion.
+
+<!-- chunk {"id": "body-0146", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+Tabular data. Unlike text, audio, and images, classical machine learning tools are still popular for processing tabular data. However, while deep learning for tabular data is comparatively a small field, finding sensible data augmentation strategies is already a much studied topic. Several SSL methods for tabular data utilize masking in various ways and some techniques creatively employ other augmentations developed for images, like mixup. As with images and audio, some algorithms aim to generate the missing or corrupted values while others employ contrastive learning. In combinatorial optimization such as Mixed Integer Programming (MIP), objective function is used as the guidance to generate positive solution pairs with comparable objectives and negative solution pairs whose objective values drastically differs despite tiny changes of a few variables. Similar approaches are also used in guided language generation.
+
+<!-- chunk {"id": "body-0147", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+The masked reconstruction approaches account for a variety of masking tactics. Furthermore, it is common with tabular data to predict mask vectors as a pretext task. Since the predicting mask itself is part of the pretraining objective, the masked entries in the input must be filled, and typically this is done by sampling from the empirical distribution of that column or feature.
+
+<!-- chunk {"id": "body-0148", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+With the same augmentation, i.e. masking and sampling from the empirical marginal distribution, Bahri et al. propose pretraining with a contrastive loss. Specifically, they propose using the InfoNCE loss to compare the representations of the clean and corrupted inputs.
+
+<!-- chunk {"id": "body-0149", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+Several other works outline ways to augment the data for a combination of generation and contrastive learning. For example, tabular data can be split into groups of columns so each sample (row) has several views available Ucar et al.. Borrowing from vision systems, a combination of CutMix in input space and mixup in embedding space is also an effective augmentation for tabular data. These methods generate augmented views that are used along with the clean input for contrastive learning. However, contrastive pretraining for both the SAINT model and SubTab seems to work best when this is paired with a reconstructive loss term.
+
+<!-- chunk {"id": "body-0150", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+In their work focusing on comparing the SSL methods for tabular data, Rubachev et al. find that pretraining objectives generally do help boost the performance of tabular models. But more specifically, they find that pretraining objectives that use the labels are best, implying that SSL for tabular data has yet to be the state of the art in its domain. Similarly, Levin et al. show that unlike in computer vision, existing SSL pre-training routines yield less transferable features than supervised pre-training.
+
+<!-- chunk {"id": "body-0151", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+Reinforcement learning. SSL has been used to improve reinforcement learning (RL) on visual inputs. This setting is similar to video, except apart from the sequence of images, we also have access to the sequence of actions. The most common approach to apply SSL here is to use contrastive learning to train a model to match current state representation and the next time step's representation, or to match representations of the same state but with different augmentations applied. One of the earliest examples is CURL. Recently, SSL has been used to improve sample efficiency on a challenging Atari100k benchmark. Recent works have modified BYOL or Barlow Twins by feeding images of consecutive timesteps' observations to the two branches of the siamese network: SGI and Barlow Balance did this for offline pretraining, while SPR uses it as an additional objective in the online setting. The best-performing method doing this is EfficientZero, which modifies MuZero, among other modifications, adding the SimSiam objective to train the encoder and the forward model, and sets the new state of the art on Atari100k. Parisi et al. propose PVR, a method based on MoCo that improves sample efficiency on control tasks.
+
+<!-- chunk {"id": "body-0152", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+Eysenbach et al. show that contrastive learning in RL setting is directly linked to goal-conditioned RL, and demonstrate that a method based on InfoNCE achieves great performance on robotic arm control tasks.
+
+<!-- chunk {"id": "body-0153", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+SSL has been shown to yield good representations for behavior cloning. Pari et al. show that imagenet-pretrained model finetuned with BYOL can be very effectively used for visual imitation on robotic open, push and stack tasks, while Arunachalam et al. use a similar method and successfully learn from a small manipulation dataset collected using VR. Guzey et al. present a method that uses BYOL to extract information from tactile sensors on robotic arms and improve dexterous manipulation. Cui et al. shows that BYOL representations of visual inputs are also useful when modeling goal-conditioned trajectories with transformer architecture.
+
+<!-- chunk {"id": "body-0154", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+There are a few additional challenges when applying SSL to RL. First, if the data is recorded on-line, individual observations are highly correlated with each other and are not IID (independent and identically distributed), so sampling from replay buffer should be done carefully. One failure mode of SSL objectives when applied to RL agents' data is the proclivity to latch on 'slow features'. The contrastive objective may learn for example to only look at the cloud patterns in the sky to tell apart frames in a self-driving dataset, so one must be careful to design augmentations in a way to remove useless static features in the image, or to sample data accordingly.
+
+<!-- chunk {"id": "body-0155", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+SSL has been used not only to improve sample efficiency, but also to improve exploration. Guo et al. propose BYOL-Explore which uses BYOL to learn the encoder and the forward model, and use the forward model disagreement as the exploration objective. The follow-up work by Jarrett et al. address the problem of BYOL-Explore latching on a noisy TV. Yarats et al. proposed using a clustering method akin to SwAV to do unsupervised exploration, i.e. exploration with only intrinsic rewards.
+
+<!-- chunk {"id": "body-0156", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+A few works have explored using vast natural videos data available to pre-train representations for RL agents. Xiao et al. introduce MVP, which uses masked-autoencoder to pre-train the transformer encoder for robotic control, while Ma et al. propose VIP, a method to learn universal features for RL using ResNet-50 backbone and the objective based the time between frames in the observations as the supervision signal. Another method for training foundation models for RL, R3M, combines time-contrastive and video-language alignment objectives. VIP and R3M are trained on the large Ego4D dataset, while MVP combines Imagenet, Ego4D, and additional hand manipulation data. Majumdar et al. propose VC-1, a method based on masked auto-encoding. The authors test the proposed method and other foundation models on the new test suite called CortexBench. The benchmark includes control, object manipulation, and navigation tasks, with different methods excelling at different parts of the benchmark.
+
+<!-- chunk {"id": "body-0157", "role": "body", "section": "Strategies for Other Data Domains", "weight": 1.0} -->
+
+There are also unsupervised methods for learning representations that are specific to RL and are not commonly used for images: e.g. Laplacian eigenmaps, forward-backward representations. Zhang et al. propose to learn representations by making representations the same for states that lead to the same rewards, and different otherwise.
+
+<!-- chunk {"id": "body-0158", "role": "body", "section": "Incorporating Multiple Modalities into SSL Training", "weight": 1.0} -->
+
+Self-supervised learning need not be based on a single modality. Especially multi-modal vision-language have recently demonstrated this to great effect. Contrastive Language--Image Pre-training (CLIP), and ALIGN are self-supervised learning approaches that use image-caption pairs to learn a joint embedding space for images and captions. The objective here is contrastive, given an image and its caption are fed through separate encoder models that encode each modality into a fixed-length embedding vector. The embeddings of the training data image-caption pair are aligned, whereas other combinations in a batch are repelled.
+
+<!-- chunk {"id": "body-0159", "role": "body", "section": "Incorporating Multiple Modalities into SSL Training", "weight": 1.0} -->
+
+This approach is especially interesting in comparison to contrastive SSL based on pure vision, as discussed in Section 2.6.1. The use of a second modality, here text, anchors the entire SSL training. It is no longer necessary to generate multiple augmented views to form a notion of robust representation as the joint approach learns semantically meaningful representations simply by observing similar captions re-occurring with similar images.
+
+<!-- chunk {"id": "body-0160", "role": "body", "section": "Incorporating Multiple Modalities into SSL Training", "weight": 1.0} -->
+
+As a result, image encoders arising from such a joint pre-training are especially robust to visual changes that leave semantic meaning unchanged, such as sketches of objects as evaluated in ImageNet-Sketch, and are strong on out-of-domain generalization tasks. Yet, this is not always a desired representation, as visualizations in Ghiasi et al. show that these models also group features that are visually dissimilar, but semantically, or literally, alike. This can be mitigated, and overall performance, e.g. in linear probing, can even be improved by combining both image-text and image-image SSL as done in Mu et al., who combine CLIP and SimCLR.
+
+<!-- chunk {"id": "body-0161", "role": "body", "section": "Incorporating Multiple Modalities into SSL Training", "weight": 1.0} -->
+
+Recent work has pushed these vision-language systems to larger scales, based on freely available image-caption pairs collected from the internet, such as. These modern SSL models are capable of representing both vision and text, and can be used in a number of applications that are multimodal, from visual-question answering to multimodal generation.
+
+<!-- chunk {"id": "body-0162", "role": "body", "section": "Incorporating Multiple Modalities into SSL Training", "weight": 1.0} -->
+
+The future of vision-language pre-training, as an alternative to robust visual representations learned on vision alone, remains to be further explored. While its advantages in vision-language downstream applications are evident, shared embedding spaces can also be constructed by training solely the vision encoder first, fixing it, and then training a matching language encoder, as described. Ultimately, vision-language models are only the first step to self-supervised learning from multiple modalities at scale. Prototypes, such as Reed et al., train self-supervised on arbitrary input streams, ranging from vision and text to tables and agent actions, and so learn re-usable representations that are helpful for general tasks.
+
+<!-- chunk {"id": "body-0163", "role": "body", "section": "Building Feature Extractors with Localization for Dense Prediction Tasks", "weight": 1.0} -->
+
+Aside from semantic understanding, popular computer vision tasks from object detection to segmentation to depth estimation require models which extract localized features, in other words ones which contain information indicating the locations of objects within the input image. Self-supervised learning may be particularly valuable for these dense prediction tasks since collecting segmentation masks or bounding box annotations for training images is significantly more expensive than classification labels. However, learning frameworks which are carefully tuned on image classification benchmarks may lack traits which are valuable for such dense prediction tasks. Several works, which we note perform their experiments in different settings and on different architectures and learning algorithms, express seemingly contradictory findings, namely that existing self-supervised learning strategies are or are not effective for downstream dense prediction tasks. We now delve further into this discussion.
+
+<!-- chunk {"id": "body-0164", "role": "body", "section": "Building Feature Extractors with Localization for Dense Prediction Tasks", "weight": 1.0} -->
+
+Limitations of self-supervised learners for localization. SSL approaches which rely on augmented views or jigsaw transformations, such as MoCo and PIRL, learn occlusion invariance since they are trained with random crops on ImageNet where foreground objects are often large so that different crops contain different parts of the same object. On the other hand, they lack viewpoint invariance and category-instance invariance. Further, Zhao et al. argue that self-supervised learners also lack localization information because the models are able to use all parts of the image, both foreground and background, to make their predictions. The above works conduct experiments principally on convolutional architectures. It is worth noting that Ericsson et al. suggest that the best among the popular SSL algorithms they test on are CNNs, which can still achieve competitive performance with their supervised learning counterparts in some detection and segmentation settings. Interestingly, older pretext tasks such as jigsaw or colorization, which predate the recent SSL craze sparked by MoCo and SimCLR, can also achieve competitive performance compared to supervised learning backbones when the pretext task is made "hard" enough.
+
+<!-- chunk {"id": "body-0165", "role": "body", "section": "Building Feature Extractors with Localization for Dense Prediction Tasks", "weight": 1.0} -->
+
+CNNs or ViTs? Recent works suggest that vision transformers (ViTs) contain superior localization information in their learned representations compared to convolutional architectures. Whereas CNNs require specially designed segmentation pipelines to extract localization information from their features, this information arises naturally in the patchwise features of ViTs. Existing SSL methods designed specifically for transformers confirm that the trained models are effective for downstream detection and segmentation tasks, especially when fine-tuned. However, it should be noted that these SSL algorithms explicitly demand localization in their objective functions, for example via masked autoencoding where patch features should contain information regarding the contents of the corresponding section of the image. More recently, masked autoencoding pre-training strategies have been adapted for convolutional architectures to great effect, where they achieve competitive performance on downstream object detection and instance segmentation. Moreover, we will see below that a variety of pre-training strategies designed specifically for localization can be effective on transformers and convolutional networks alike.
+
+<!-- chunk {"id": "body-0166", "role": "body", "section": "Building Feature Extractors with Localization for Dense Prediction Tasks", "weight": 1.0} -->
+
+So how do we learn localized features without annotations? In order to tailor representations for downstream dense prediction tasks, numerous works propose modifying SSL routines specifically to enhance the localization in their features. Since these SSL pre-training algorithms do not use segmentation or detection annotations, they instead rely on carefully chosen unsupervised object priors.
+
+<!-- chunk {"id": "body-0167", "role": "body", "section": "Building Feature Extractors with Localization for Dense Prediction Tasks", "weight": 1.0} -->
+
+One style of object prior enforces relationships between features extracted from locations within a single image, just as self-supervised learning procedures often enforce relationships between distinct images. One such prior uses the fact that adjacent ViT patches often contain the same objects. Unlike popular contrastive objectives which encourage augmented views of an image to produce similar features, SelfPatch encourages adjacent patches within a single image to produce similar features. A related method, DenseCL, matches the most similar pixel-wise features extracted from augmented samples to automatically handle the case in which augmentations move objects around in an image, and we only want to match features corresponding to the same object. More recently, VICRegL applies a similar principle by combining geometric and learned matching, with a non-contrastive criterion. Just as clustering-based methods cluster related images, Leopart fine-tunes a pre-trained model to cluster patch-level features.
+
+<!-- chunk {"id": "body-0168", "role": "body", "section": "Building Feature Extractors with Localization for Dense Prediction Tasks", "weight": 1.0} -->
+
+In addition to modifying the training loss to improve localization, we can also augment the data with this objective in mind by placing an object in multiple settings so that resulting models extract the same features from an object irrespective of its location. Instance Localization leverages RoIAlign, an algorithm designed for object detectors which extracts features corresponding to a specific image patch. To this end, Instance Localization pastes a randomly chosen patch cut from the foreground of one image onto two other images and extracts features corresponding to only the pasted foreground patch, using a contrastive loss to ensure that the foreground patch generates similar features regardless of the background present and regardless of its location within an image. A competing approach estimates the location of an object within the training image using saliency maps and then cuts and pastes these objects onto background and optimizes a similar objective. Instead of using augmentations to move objects around, Purushwalkam and Gupta notes that nearby video frames contain the same object but in different positions or from different viewpoints so that contrastive learning on video data can serve much the same purpose.
+
+<!-- chunk {"id": "body-0169", "role": "body", "section": "Building Feature Extractors with Localization for Dense Prediction Tasks", "weight": 1.0} -->
+
+Recently, UP-DETR and DETReg proposed an end-to-end SSL pretraining of the DETR family detectors. UP-DETR proposes to detect the bounding boxes of randomly selected patch regions in images conditioned on their pixel values while predicting their corresponding SwAV embedding. In DETReg, detection targets are obtained using the Selective Search algorithm, which does not require human annotations. Similarly, the detector predicts an associated SwAV embedding for each target bounding box.
+
+<!-- chunk {"id": "body-0170", "role": "body", "section": "Building Feature Extractors with Localization for Dense Prediction Tasks", "weight": 1.0} -->
+
+Vision-language models for dense prediction tasks. In Section 4.2, we saw that vision-language models extract semantically meaningful features. These features are also leveraged by recent works for open-vocabulary object detection. These works leverage vision and language backbones pre-trained as previously discussed on captioned image databases and fine-tune on object detection data. Crucially, pre-trained language models, paired with image feature extractors, allow open-vocabulary object detectors to detect new objects never seen during their fine-tuning stage simply by querying the language model with an appropriate prompt.
+
+<!-- chunk {"id": "body-0171", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Self-supervised learning (SSL) established a new paradigm for advancing machine intelligence. Despite many successes, SSL remains a daunting field with a dizzying array of methods each with intricate implementations. Due to the fast moving research and the breadth of SSL methods, it remains a challenge to navigate the field. This becomes an issue for researchers and practitioners who joined the field only recently, in turn creating a high barrier to entry for SSL research and deployment. We hope our cookbook will help lower these barriers by enabling the curious researcher of any background to navigate the terrain of methods, understand the role of the various knobs, and gain the know-how required to be successful with SSL.

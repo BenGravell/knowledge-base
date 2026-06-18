@@ -1,19 +1,210 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Grounding DINO: Marrying DINO with Grounded Pre-Training for Open-Set Object Detection
 
 Topics include Object detection, Open-set detection, Vision-language models, Grounded pretraining, DINO, Referring expression comprehension, Cross-modal fusion, Zero-shot transfer.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Combines the DINO detector with language-conditioned grounded pretraining to support open-set detection from category names or referring expressions. Its feature enhancer, language-guided query selection, and cross-modality decoder made Grounding DINO a widely used bridge between object detection and promptable vision-language grounding.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 In this paper, we present an open-set object detector, called Grounding DINO, by marrying Transformer-based detector DINO with grounded pre-training, which can detect arbitrary objects with human inputs such as category names or referring expressions. The key solution of open-set object detection is introducing language to a closed-set detector for open-set concept generalization. To effectively fuse language and vision modalities, we conceptually divide a closed-set detector into three phases and propose a tight fusion solution, which includes a feature enhancer, a language-guided query selection, and a cross-modality decoder for cross-modality fusion. While previous works mainly evaluate open-set object detection on novel categories, we propose to also perform evaluations on referring expression comprehension for objects specified with attributes. Grounding DINO performs remarkably well on all three settings, including benchmarks on COCO, LVIS, ODinW, and RefCOCO/+/g. Grounding DINO achieves a 52.5 AP on the COCO detection zero-shot transfer benchmark, i.e., without any training data from COCO. It sets a new record on the ODinW zero-shot benchmark with a mean 26.1 AP.
 
-## Introduction
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-A key indicator of an Artificial General Intelligence (AGI) system's capability is its proficiency in handling open-world scenarios. In this paper, we aim to develop a strong system to detect arbitrary objects specified by human language inputs, a task commonly referred to as open-set object detection^22^2We view the terms open-set object detection, open-world object detection, and open-vocabulary object detection the same task in this paper. To avoid confusion, we always use open-set object detection in our paper.. The task has wide applications for its great potential as a generic object detector.
+Code will be available .
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+A key indicator of an Artificial General Intelligence (AGI) system's capability is its proficiency in handling open-world scenarios. In this paper, we aim to develop a strong system to detect arbitrary objects specified by human language inputs, a task commonly referred to as open-set object detection^22^2We view the terms open-set object detection, open-world object detection, and open-vocabulary object detection the same task in this paper. To avoid confusion, we always use open-set object detection in our paper.. The task has wide applications for its great potential as a generic object detector. For example, we can cooperate with generative models for image editing (as shown in Fig. (b)).
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In pursuit of this goal, we design the strong open-set object detector Grounding DINO by following the two principles: tight modality fusion based on DINO and large-scale grounded pre-train for concept generalization.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Tight modality fusion based on DINO. The key to open-set detection is introducing language for unseen object generalization. Most existing open-set detectors are developed by extending closed-set detectors to open-set scenarios with language information. As shown in Fig., a closed-set detector typically has three important modules, a backbone for feature extraction, a neck for feature enhancement, and a head for region refinement (or box prediction). A closed-set detector can be generalized to detect novel objects by learning language-aware region embeddings so that each region can be classified into novel categories in a language-aware semantic space. The key to achieving this goal is using contrastive loss between region outputs and language features at the neck and/or head outputs.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To help a model align cross-modality information some work tried to fuse features before the final loss stage. We summarize the modulized design of object detectors in Fig.. Feature fusion can be performed in three phases: neck (phase A), query initialization (phase B), and head (phase C). For example, GLIP performs early fusion in the neck module (phase A), and OV-DETR uses language-aware queries as head inputs (phase B). We argue that introducing more feature fusion into the pipeline can facilitate better alignment between different modality features, thereby achieving better performance.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Although conceptually simple, it is hard for previous work to perform feature fusion in all three phases. The design of classical detectors like Faster RCNN makes it hard to interact with language information in most blocks. Unlike classical detectors, the Transformer-based detector method such as DINO has a consistent structure with language blocks. The layer-by-layer design enables it to interact with language information easily. Under this principle, we design three feature fusion approaches in the neck, query initialization, and head phases. More specifically, we design a feature enhancer by stacking self-attention, text-to-image cross-attention, and image-to-text cross-attention as the neck module. We then develop a language-guided query selection method to initialize queries for the detection head. We also design a cross-modality decoder for the head phase with image and text cross-attention layers to boost query representations.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Large-scale grounded pre-train for zero-shot transfer. Most existing open-set models rely on pre-trained CLIP models for concept generalization. Nevertheless, the efficacy of CLIP, specifically pre-trained on image-text pairs, is limited for region-text pair detection tasks, as identified in the RegionCLIP study by RegionCLIP. In contrast, GLIP presents a different way by reformulating object detection as a phrase grounding task and introducing contrastive training between object regions and language phrases on large-scale data. It shows great flexibility for heterogeneous datasets and remarkable performance on closed-set and open-set detection.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 We have adopted and refined the grounded training methodology. GLIP's approach involves concatenating all categories into a sentence in a random order. However, the direct category names concatenation does not consider the potential influence of unrelated categories on each other when extracting features. To mitigate this issue and improve model performance during grounded training, we introduce a technique that utilizes sub-sentence level text features. It removes the attention between unrelated categories during word feature extractions. Further elaboration on this technique can be found in Section 3.4.
 
-## Conclusion
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We have presented a Grounding DINO model in this paper. Grounding DINO extends DINO to open-set object detection, enabling it to detect arbitrary objects given texts as queries. We review open-set object detector designs and propose a tight fusion approach to better fusing cross-modality information. We propose a sub-sentence level representation to use detection data for text prompts in a more reasonable way. The results show the effectiveness of our model design and fusion approach. Moreover, we extend open-set object detection to REC tasks and perform evaluation accordingly.
+We pre-train the Grounding DINO on a large-scale dataset and evaluate the performance on mainstream object detection benchmarks like COCO. While some studies have examined open-set detection models under a \"partial label\" framework---training on a subset of data (e.g., base categories) and testing on additional categories---we advocate for a fully zero-shot approach to enhance practical applicability. Moreover, we extend the model to another important scenario Referring Expression Comprehension (REC) ^33^3We use the term Referring Expression Comprehension (REC) and Referring (Object) Detection exchangeable in this paper., where objects are described with attributes.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We conduct experiments on all three settings, including closed-set detection, open-set detection, and referring object detection, as shown in Fig., to comprehensively evaluate open-set detection performance. Grounding DINO outperforms competitors by a large margin. For example, Grounding DINO reaches a $52.5$ AP on COCO minival without any COCO training data. It also establishes a new state of the art on the ODinW zero-shot benchmark with a $26.1$ mean AP.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Grounding DINO", "weight": 1.0} -->
+
+Grounding DINO outputs multiple pairs of object boxes and noun phrases for a given (Image, Text) pair. For example, as shown in Fig., the model locates a cat and a table from the input image and extracts word cat and table from the input text as corresponding labels. Both object detection and REC tasks can be aligned with the pipeline. Following GLIP, we concatenate all category names as input texts for object detection tasks. REC requires a bounding box for each text input. We use the output object with the largest scores as the output for the REC task.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Grounding DINO", "weight": 1.0} -->
+
+Grounding DINO is a dual-encoder-single-decoder architecture. It contains an image backbone for image feature extraction, a text backbone for text feature extraction, a feature enhancer for image and text feature fusion (Sec. 3.1), a language-guided query selection module for query initialization (Sec. 3.2), and a cross-modality decoder for box refinement (Sec. 3.3).
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Grounding DINO", "weight": 1.0} -->
+
+For each (Image, Text) pair, we first extract vanilla image features and vanilla text features using an image backbone and a text backbone, respectively. The two vanilla features are fed into a feature enhancer module for cross-modality feature fusion. After obtaining cross-modality text and image features, we use a language-guided query selection module to select cross-modality queries from image features. Like the object queries in most DETR-like models, these cross-modality queries will be fed into a cross-modality decoder to probe desired features from the two modal features and update themselves. The output queries of the last decoder layer will be used to predict object boxes and extract corresponding phrases.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Feature Extraction and Enhancer", "weight": 1.0} -->
+
+Given an (Image, Text) pair, we extract multi-scale image features with an image backbone like Swin Transformer, and text features with a text backbone like BERT. Following previous DETR-like detectors, multi-scale features are extracted from the outputs of different blocks. After extracting vanilla image and text features, we fed them into a feature enhancer for cross-modality feature fusion. The feature enhancer includes multiple feature enhancer layers. We illustrate a feature enhancer layer in Fig. block 2. We leverage the Deformable self-attention to enhance image features and the vanilla self-attention for text feature enhancers. Inspired by GLIP, we add an image-to-text and a text-to-image cross-attention modules for feature fusion. These modules help align features of different modalities.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Language-Guided Query Selection", "weight": 1.0} -->
+
+Grounding DINO aims to detect objects from an image specified by an input text. To effectively leverage the input text to guide object detection, we design a language-guided query selection module to select features that are more relevant to the input text as decoder queries.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Language-Guided Query Selection", "weight": 1.0} -->
+
+Let's denote the image feature as $\mathbf{X}_{I} \in \text{R}^{N_{I} \times d}$ and the text features as $\mathbf{X}_{T} \in \text{R}^{N_{T} \times d}$. Here, $N_{I}$ represents the number of image tokens, $N_{T}$ indicates the number of text tokens, and $d$ corresponds to the feature dimension. In our experiments, we specifically utilize a feature dimension of $d = 256$. Typically, in our models, the value of $N_{I}$ exceeds $10,000$, while $N_{T}$ remains below $256$. Our objective is to extract $N_{q}$ queries from the encoder's image features to be used as inputs for the decoder. In alignment with the DINO method, we set $N_{q}$ to be $900$.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Language-Guided Query Selection", "weight": 1.0} -->
+
+In this expression, $\text{Top}_{N_{q}}$ represents the operation to pick the top $N_{q}$ indices. The function $\text{Max}^{({- 1})}$ executes the max operation along the $- 1$ dimension, and the symbol ^⊺^ denotes matrix transposition. We present the query selection process in Algorithm in PyTorch style. The language-guided query selection module outputs $N_{q}$ indices. We can extract features based on the selected indices to initialize queries. Following DINO, we use mixed query selection to initialize decoder queries. Each decoder query contains two parts: content part and positional part, respectively. We formulate the positional part as dynamic anchor boxes, which are initialized with encoder outputs. The other part, the content queries, are set to be learnable during training.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Cross-Modality Decoder", "weight": 1.0} -->
+
+We develop a cross-modality decoder to combine image and text modality features, as shown in Fig. block 3. Each cross-modality query is fed into a self-attention layer, an image cross-attention layer to combine image features, a text cross-attention layer to combine text features, and an FFN layer in each cross-modality decoder layer. Each decoder layer has an extra text cross-attention layer compared with the DINO decoder layer, as we need to inject text information into queries for better modality alignment.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Sub-Sentence Level Text Feature", "weight": 1.0} -->
+
+Two kinds of text prompts are explored in previous works, which we named as sentence level representation and word level representation, as shown in Fig.. Sentence level representation encodes a whole sentence to one feature. If some sentences in phrase grounding data have multiple phrases, it extracts these phrases and discards other words. In this way, it removes the influence between words while losing fine-grained information in sentences. Word level representation enables encoding multiple category names with one forward but introduces unnecessary dependencies among categories, especially when the input text is a concatenation of multiple category names in an arbitrary order. As shown in Fig. (b), some unrelated words interact during attention. To avoid unwanted word interactions, we introduce attention masks to block attentions among unrelated category names, named "sub-sentence" level representation. It eliminates the influence between different category names while keeping per-word features for fine-grained understanding.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Loss Function", "weight": 1.0} -->
+
+Following previous DETR-like works, we use the L1 loss and the GIOU loss for bounding box regressions. We follow GLIP and use contrastive loss between predicted objects and language tokens for classification. Specifically, we dot product each query with text features to predict logits for each text token and then compute focal loss for each logit. Box regression and classification costs are first used for bipartite matching between predictions and ground truths. We then calculate final losses between ground truths and matched predictions with the same loss components. Following DETR-like models, we add auxiliary loss after each decoder layer and after the encoder outputs.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Loss Function", "weight": 1.0} -->
+
+Grounding DINO L (Ours)
+O365,OI,GoldG,Cap4M,COCO,RefC
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+We conduct extensive experiments on three settings: a closed-set setting on the COCO detection benchmark (Sec. 0.C.2), an open-set setting on zero-shot COCO, LVIS, and ODinW (Sec. 4.2), and a referring detection setting on RefCOCO/+/g (Sec. 4.3). Ablations are then conducted to show the effectiveness of our model design (Sec. 4.5). We also explore a way to transfer a well-trained DINO to the open-set scenario by training a few plug-in modules in Sec. 0.C.1. The test of our model efficiency is presented in Sec. 0.C.4.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+
+We trained two model variants, Grounding DINO T with Swin-T, and Grounding DINO L with Swin-L as an image backbone, respectively. We leveraged BERT-base from Hugging Face as text backbones. As we focus more on the model performance on novel classes, we list zero-shot transfer and referring detection results in the main text.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+
+By default, we use 900 queries in our model following DINO. We set the maximum text token number as 256. Using BERT as our text encoder, we follow BERT to tokenize texts with a BPE scheme. We use six feature enhancer layers in the feature enhancer module. The cross-modality decoder is composed of six decoder layers as well. We leverage deformable attention in image cross-attention layers.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+
+Both matching costs and final losses include classification losses (or contrastive losses), box L1 losses, and GIOU losses. Following DINO, we set the weight of classification costs, box L1 costs, and GIOU costs as 2.0, 5.0, and 2.0, respectively, during Hungarian matching. The corresponding loss weights are 1.0, 5.0, and 2.0 in the final loss calculation.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Implementation Details", "weight": 1.0} -->
+
+Our Swin Transformer Tiny models are trained on 16 Nvidia V100 GPUs with a total batch size of 32. We extract three image feature scales, from 8$\times$ to 32$\times$. It is named "4scale" in DINO since we downsample the 32$\times$ feature map to 64$\times$ as an extra feature scale. For the model with Swin Transformer Large, we extract four image feature scales from backbones, from 4$\times$ to 32$\times$. The model is trained on 64 Nvidia A100 GPUs with a total batch size of 64.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Zero-Shot Transfer of Grounding DINO", "weight": 1.0} -->
+
+In this setting, we pre-train models on large-scale datasets and directly evaluate models on new datasets. We also list some fine-tuned results for a more thorough comparison of our model with prior works.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "COCO Benchmark", "weight": 1.0} -->
+
+We compare Grounding DINO with GLIP and DINO in Table. We pre-train models on large-scale datasets and directly evaluate our model on the COCO benchmark. As the O365 dataset has (nearly^44^4It is not an exact mapping between O365 and COCO categories. We made some approximations during evaluation. ) covered all categories in COCO, we evaluate an O365 pre-trined DINO on COCO as a zero-shot baseline. The result shows that DINO performs better on the COCO zero-shot transfer than DyHead. Grounding DINO outperforms all previous models on the zero-shot transfer setting, with $+ 0.5$AP and $+ 1.8$AP compared with DINO and GLIP under the same setting. Grounding data is still helpful for Grounding DINO, introducing more than $1$AP (48.1 vs. 46.7) on the zero-shot transfer setting. With stronger backbones and larger data, Grounding DINO sets a new record of $52.5$ AP on the COCO object detection benchmark without seeing any COCO images during training.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "COCO Benchmark", "weight": 1.0} -->
+
+Grounding DINO obtains a $62.6$ AP on COCO minival, outperforming DINO's $62.5$ AP. When enlarging the input images by $1.5 \times$, the benefits reduce. We suspect that the text branch enlarges the gap between models with different input images. Even though the performance plateaus with larger input size, Grounding DINO gets an impressive $63.0$ AP on COCO test-dev with fine-tuning on the COCO dataset.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "LVIS Benchmark", "weight": 1.0} -->
+
+LVIS is a dataset for long-tail objects. It contains more than $1000$ categories for evaluation. We use LVIS as a downstream task to test the zero-shot abilities of our model. We use GLIP and DetCLIPv2 as baselines for our models. The results are shown in Table.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "LVIS Benchmark", "weight": 1.0} -->
+
+We found two interesting phenomena in the results. First, Grounding DINO works better than common objects than GLIP, but worse on rare categories. We reviewed DETR-like models on LVIS and noted these models often exhibit lower rare category AP despite similar overall AP, like Table 2 of and Table 6 of. To our knowledge, no existing DETR-like models effectively address the rarity challenge in LVIS without extra training data, which may be a characteristic limitation of the architecture.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "LVIS Benchmark", "weight": 1.0} -->
+
+The other phenomenon is that Grounding DINO has larger gains with more data than GLIP. For example, Grounding DINO introduces $+ 1.8$ AP gains with the caption data Cap4M, whereas GLIP has only $+ 1.1$ AP. We believe that Grounding DINO has better scalability compared with GLIP. A larger-scale training will be left as our future work.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "LVIS Benchmark", "weight": 1.0} -->
+
+Although achieving better results than GLIP, we found that Grounding DINO is inferior to DetCLIPv2, which is trained on a larger scale data. This performance difference might be attributed to the disparity in data distribution between the training dataset and the LVIS dataset.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "LVIS Benchmark", "weight": 1.0} -->
+
+To unveil the full potential of Grounding DINO, we fine-tuned it on the LVIS dataset. Table highlights the commendable capability of our model. Remarkably, despite being pre-trained only on the O365 and GoldG datasets, Grounding DINO outperforms DetCLIPv2-T by a margin of $1.5$ AP. This result shows that Grounding DINO might have learned a better object-level representation which helps yield a better performance after fine-tuning (aligning with the target dataset). In our future work, we will perform more studies, including varying the semantic concept coverage of the training data and increasing the scale of the training data, to further improve the zero-shot generalization performance.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "LVIS Benchmark", "weight": 1.0} -->
+
+Grounding DINO L(Ours)
+O365,OI,GoldG,Cap4M,COCO,RefC
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "ODinW Benchmark", "weight": 1.0} -->
+
+ODinW (Object Detection in the Wild) is a more challenging benchmark to test model performance under real-world scenarios. It collects more than $35$ datasets for evaluation. We report three settings, zero-shot, few-shot, and full-shot results in Table. Grounding DINO performs well on this benchmark. With only O365 and GoldG for pre-train, Grounding DINO T outperforms DINO on few-shot and full-shot settings. Impressively, Grounding DINO with a Swin-T backbone outperforms DINO with Swin-L on the full-shot setting.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "ODinW Benchmark", "weight": 1.0} -->
+
+Grounding DINO outperforms GLIP under the same backbone for the zero-shot setting. Grounding DINO and GLIPv2-T show similar $AP_{average}$. However, a key distinction lies in the $AP_{median}$, where Grounding DINO significantly outperforms GLIPv2-T (11.9 vs 8.9). This suggests that while GLIPv2 may exhibit larger performance variance across different datasets, Grounding DINO maintains a more consistent performance level. GLIPv2 incorporates advanced techniques like masked text training and cross-instance contrastive learning, making it more complex than our Grounding DINO model. Moreover, our model is more compact (172M parameters) compared to GLIPv2 (232M parameters). These factors combined---performance consistency, model complexity, and size---should address concerns about our model's capability in true open-set scenarios.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "ODinW Benchmark", "weight": 1.0} -->
+
+Grounding DINO L set a new record on ODinW zero-shot with a $26.1$ AP, even outperforming the giant Florence models. The results show the generalization and scalability of Grounding DINO.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Referring Object Detection Settings", "weight": 1.0} -->
+
+We further explore our models' performances on the REC task. We leverage GLIP as our baseline. We evaluate the model performance on RefCOCO/+/g directly.^55^5We used the official released code and checkpoints in The results are shown in Table. Grounding DINO outperforms GLIP under the same setting. Nevertheless, both GLIP and Grounding DINO perform not well without REC data. More training data like caption data or larger models help the final performance, but quite minor. After injecting RefCOCO/+/g data into training, Grounding DINO obtains significant gains. The results reveal that most nowadays open-set object detectors need to pay more attention for a more fine-grained detection.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Referring Object Detection Settings", "weight": 1.0} -->
+
+Grounding DINO L (Ours)*
+O365,OI,GoldG,Cap4M,COCO,RefC
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Effects of RefC and COCO Data", "weight": 1.0} -->
+
+We add the RefCOCO/+/g (we note it as "RefC" in tables) and COCO into training in some settings. We explore the influence of these data in Table. The results show that RefC helps improve the COCO zero-shot and fine-tuning performance but hurts the LVIS and ODinW results. With COCO introduced, the COCO results are greatly improved. It shows that COCO brings marginal improvements in LVIS and slight decreases on ODinW.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Ablations", "weight": 1.0} -->
+
+We conduct ablation studies in this section. We propose a tight fusion grounding model for open-set object detection and a sub-sentence level text prompt. To verify the effectiveness of the model design, we remove some fusion blocks for different variants. Results are shown in Table. All models are pre-trained on O365 with a Swin-T backbone.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Ablations", "weight": 1.0} -->
+
+The results show that encoder fusion significantly improves model performance on both COCO and LVIS datasets. The results from comparing model $\#$`<!-- -->`{=html}1 with the baseline model $\#$`<!-- -->`{=html}0 validate this observation. Other techniques, such as language-guided query selection, text cross-attention, and sub-sentence text prompt, also contribute positively to the LVIS performance, yielding significant gains of +3.0 AP, +1.8 AP, and +0.5 AP, respectively. Additionally, these methods enhance the COCO zero-shot performance, further underscoring their effectiveness. However, we observed that language-guided query selection and sub-sentence text prompt had minimal impact on the COCO fine-tune performance. This outcome is reasonable, given that these methods do not alter model parameters or add computational burdens. Text cross-attention, while introducing fewer parameters than encoder fusion, showed less performance improvement compared to encoder fusion (+0.6 vs. +0.8).
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Ablations", "weight": 1.0} -->
+
+This finding suggests that fine-tuning performance is predominantly influenced by the model's parameters, indicating that scaling models is a promising direction for enhancing performance.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Ablations", "weight": 1.0} -->
+
+#ID
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+We have presented a Grounding DINO model in this paper. Grounding DINO extends DINO to open-set object detection, enabling it to detect arbitrary objects given texts as queries. We review open-set object detector designs and propose a tight fusion approach to better fusing cross-modality information. We propose a sub-sentence level representation to use detection data for text prompts in a more reasonable way. The results show the effectiveness of our model design and fusion approach. Moreover, we extend open-set object detection to REC tasks and perform evaluation accordingly. We show that existing open-set detectors do not work well for REC data without fine-tuning. Hence we call extra attention to REC zero-shot performance in future studies.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Despite the great performance on open-set object detection settings, Grounding DINO cannot be used for segmentation tasks like GLIPv2. Our training data is less than the largest GLIP model, which may limit our final performance. Moreover, we find that our model will produce false positive results in some cases, which may need more techniques or data to reduce the hallucination.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Social Impacts: The use of deep learning models, such as this one, exposes them to vulnerabilities through adversarial attacks. Additionally, the accuracy and correctness of the model's outputs cannot be guaranteed. There is also the risk that the open-set detection capabilities of the model could be exploited for unlawful purposes.

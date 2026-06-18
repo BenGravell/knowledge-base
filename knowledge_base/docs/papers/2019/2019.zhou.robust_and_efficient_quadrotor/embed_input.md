@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Robust and Efficient Quadrotor Trajectory Generation for Fast Autonomous Flight
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 In this letter, we propose a robust and efficient quadrotor motion planning system for fast flight in three-dimensional complex environments. We adopt a kinodynamic path searching method to find a safe, kinodynamic feasible, and minimum-time initial trajectory in the discretized control space. We improve the smoothness and clearance of the trajectory by a B-spline optimization, which incorporates gradient information from a Euclidean distance field and dynamic constraints efficiently utilizing the convex hull property of B-spline. Finally, by representing the final trajectory as a non-uniform B-spline, an iterative time adjustment method is adopted to guarantee dynamically feasible and non-conservative trajectories. We validate our proposed method in various complex simulational environments. The competence of the method is also validated in challenging real-world tasks. We release our code as an open-source package.11Open-source implementation is available at

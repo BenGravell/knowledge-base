@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 On Uninformative Optimal Policies in Adaptive LQR with Unknown B-Matrix
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This paper presents local asymptotic minimax regret lower bounds for adaptive Linear Quadratic Regulators (LQR). We consider affinely parametrized B-matrices and known A-matrices and aim to understand when logarithmic regret is impossible even in the presence of structural side information. After defining the intrinsic notion of an uninformative optimal policy in terms of a singularity condition for Fisher information we obtain local minimax regret lower bounds for such uninformative instances of LQR by appealing to van Trees' inequality (Bayesian Cramér-Rao) and a representation of regret in terms of a quadratic form (Bellman error). It is shown that if the parametrization induces an uninformative optimal policy, logarithmic regret is impossible and the rate is at least order square root in the time horizon. We explicitly characterize the notion of an uninformative optimal policy in terms of the nullspaces of system-theoretic quantities and the particular instance parametrization.

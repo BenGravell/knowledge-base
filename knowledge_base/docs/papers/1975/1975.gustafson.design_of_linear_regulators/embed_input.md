@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Design of Linear Regulators for Nonlinear Stochastic Systems
 
 Topics include Stochastic control, Linear quadratic regulator, Nonlinear systems, Linearization, Linear quadratic regulator design, Trajectory optimization.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Develops a methodology for designing linear regulators for nonlinear stochastic systems by linearizing about a nominal trajectory and applying LQR synthesis to the resulting linear stochastic model. One of the earliest works identifying key aspects in the design and motivation of optimal control for linear systems with multiplicative noise, including the observation that second-order noise terms show up as state- and input- multiplicative noise, and that the Certainty-Equivalence Principle and the Separation Theorem do not hold in this multiplicative noise setting. These ideas were picked up again by later authors such as Todorov and Gravell.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 The problem of regulating a nonlinear stochastic system with uncertain parameters and nonlinear noisy measurements is considered. The second-order terms in an expansion about the reference path are viewed as multiplicative disturbances in state and control. The linear estimation/control problem is solved by approximating these as wideband disturbances. The Certainty-Equivalence Principle and the Separation Theorem do not hold. The control and filter gains, found by solving a TPBVP, explicitly hedge against the parameter uncertainties and nonlinearity effects. Numerical results are presented for a combined guidance/navigation system for shuttle entry.

@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Sliding-Window Informed RRT*: A Method for Speeding up the Optimization and Path Smoothing
 
 Topics include Motion planning, Sampling-based planning, Asymptotic optimality, Sliding-window informed rapidly-exploring random tree star, Informed rapidly-exploring random tree star, Sliding window, Path smoothing.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 SWIRRT* addresses the degradation of Informed RRT* in large environments where the ellipsoidal sampling region covers most of the state space. Instead of sampling from a single ellipsoid spanning start to goal, it applies a sliding-window approach that focuses successive local ellipsoids along the current path, accelerating post-initial-solution optimization and improving path smoothness.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Path planning plays a vital role in robot navigation and manipulation, and multiple types of algorithms have been introduced to address this problem. Rapidly-exploring Random Tree (RRT) based algorithms have many advantages over other path planning algorithms. For example, RRT is suitable to solve the path planning problem in high dimensional space and can easily handle robot differential constraints. Informed RRT* is a method that uses the prolate hyper-spheroid to speed up the optimization process, but its efficiency will decrease to the same level as RRT* when the hyper-spheroid covers most of the state space. To overcome this drawback, we further propose a Sliding-Window Informed RRT* (SWIRRT*), which combines the sliding-window thought into the Informed RRT*, taking the advantage of the initial path and make the path optimization much faster. Simulations in 2D space have been carried out to demonstrate that our proposed method can improve the RRT-like algorithm's convergence speed.

@@ -1,5 +1,171 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Interpreting Reinforcement Learning Model Behavior via Koopman with Control
 
 Topics include Reinforcement learning, Stability analysis, Safety, Benchmarks, Control, Learning.
 
-Reinforcement learning (RL) models have shown the capability of learning complex behaviors, but quantitatively assessing those behaviors - which is critical for safety assurance and the discovery of novel strategies - is challenging. By viewing RL models as control systems, we hypothesize that data-driven approximations of their associated Koopman operators may provide dynamical information about their behavior, thus enabling greater interpretability. To test this, we apply the Koopman with control framework to RL models trained on several standard benchmark environments and demonstrate that properties of the fit linear control models, such as stability and controllability, evolve during training in a task dependent manner. Comparing these metrics across different training epochs or across differently optimized RL models enables an understanding of how they differ. In addition, we find cases where - even when the reward achieved by the RL model is static - the stability and controllability is nonetheless evolving, predicting increased reward with further training.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Reinforcement learning (RL) models have shown the capability of learning complex behaviors, but quantitatively assessing those behaviors - which is critical for safety assurance and the discovery of novel strategies - is challenging. By viewing RL models as control systems, we hypothesize that data-driven approximations of their associated Koopman operators may provide dynamical information about their behavior, thus enabling greater interpretability. To test this, we apply the Koopman with control framework to RL models trained on several standard benchmark environments and demonstrate that properties of the fit linear control models, such as stability and controllability, evolve during training in a task dependent manner. Comparing these metrics across different training epochs or across differently optimized RL models enables an understanding of how they differ. In addition, we find cases where - even when the reward achieved by the RL model is static - the stability and controllability is nonetheless evolving, predicting increased reward with further training. This suggests that these metrics may be able to serve as hidden progress measures, a core idea in mechanistic interpretability.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Taken together, our results illustrate that the Koopman with control framework provides a comprehensive way in which to analyze and interpret the behavior of RL models, particularly across training.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+Reinforcement learning (RL) models have exhibited remarkable success on a wide range of applied problems. However, in many cases, how they achieve this high performance remains unknown. Attempts to quantitatively interpret the behaviors learned by RL models can require expert knowledge, limiting the ability to achieve safety assurance and to identify novel capabilities that are discovered by RL models during training. Even in simple environments, understanding how the behavior of RL models changes with learning is non-trivial, with typical approaches using heuristics to identify changes in the distribution of visited states.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+At their core, RL models are control systems, taking in observations about the environment and performing actions (inputs), which lead to new states (outputs). While the state transition probabilities may be fixed in a given environment (e.g., fixed by the laws of physics, the rules of chess), the range of dynamical behaviors performed by an RL model (Fig. 1A: "falling", "hovering", "landing") may change across training and/or between differently optimized RL models. A natural way to provide better interpretability of RL model behavior would therefore be to leverage ideas from control theory, such as controllability and stability. However, because of the complexity and nonlinearity of the environments RL models are applied, directly utilizing tools from control theory to provide insight into their behavior can be challenging.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+Koopman operator theory, a framework for learning linear representations of nonlinear dynamical systems by lifting the underlying state-space to a high-dimensional function space, has shown considerable potential for providing interpretable models of complex, real-world systems, including algorithms \[12, 28 conjugacy via koopman operator theory")\] and machine learning models. Extensions of Koopman operator theory to include control have been developed, enabling the use of linear control for highly nonlinear systems. Recent work has shown that such Koopman operator theory with control can be used to compare the internal activation dynamics of recurrent neural networks (RNNs) trained with RL. However, the extent to which Koopman with control can broadly enhance the interpretability of RL model behavior has yet to be explored.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "INTRODUCTION", "weight": 1.5} -->
+
+Here, we show that linear time-invariant (LTI) control models, of the form $z_{t + 1} = {{Az_{t}} + {Bu_{t}}}$ (where $z$ is a lifted version of the state-space variables $x$), can be fit to the output trajectories generated by individual RL models, and that properties of $A$ and $B$ can provide insight into the associated RL model's behavior. We demonstrate that, across training, these metrics evolve in a task dependent manner and are often, although not always, aligned with the RL model's reward. This enables a quantitative understanding of the way in which the RL models behavior evolves and can be used to compare RL models trained with different optimizers (e.g., PPO, A2C ). In some settings, we find that these metrics can exhibit changes across training, even when the reward appears static. This suggests that the properties of $A$ and $B$ can act as hidden progress measures, an important concept in the study of the mechanistic interpretability.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "II-A RL models as control systems", "weight": 1.0} -->
+
+RL models take in observations, $o \in \mathcal{O}$, and perform actions, $a \in \mathcal{A}$, which evolve the underlying state of the system, $s \in \mathcal{S}$. Thus, RL models are defined on tuples $(\mathcal{O},\mathcal{S},\mathcal{A})$, where $\mathcal{O}$ is the observation space, $\mathcal{S}$ is the state-space, and $\mathcal{A}$ is the action space. By viewing the actions as inputs and the observations as outputs, we can recognize the RL model update
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "II-A RL models as control systems", "weight": 1.0} -->
+
+as a nonlinear control system, where $a_{t} = {m{(o_{t})}}$ is the action generated by the RL model, through learning the policy $m:{\mathcal{O}\rightarrow\mathcal{A}}$. Here, $g$ and $h$ are maps defined by the environment, where $g$ defines how a given action translates to a transition in states (e.g., how applying a specific torque to a pendulum affects its angular position) and $h$ defines what the RL model is able to observe of state $s_{t}$. In the case where there is full observability, $o_{t} = s_{t}$. In general, modern RL models make actions probabilistically, meaning the policy $m$ is not deterministic. In some complex environments, actions can lead to probabilistic transitions between states, meaning $g$ is also not deterministic. Furthermore, $g$ may be time-varying, making the RL problem (or correspondingly, the control problem) considerably more challenging.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "II-A RL models as control systems", "weight": 1.0} -->
+
+In this work, we consider environments where $g$ is deterministic and time-invariant, and where the states are fully observable (i.e., $h = \text{Id}_{s_{t}}$). Whether and how our approach can be extended to more difficult environments is an important future direction.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "II-B Koopman operator theory", "weight": 1.0} -->
+
+While a discrete-time dynamical system, $x_{t + 1} = {T{(x_{t})}}$ with $T:{\mathcal{X}\rightarrow\mathcal{X}}$, may be governed by a nonlinear map $T$, a linear representation may be achieved by lifting the states of the system, $x \in \mathcal{X}$, to an infinite dimensional function space, $\mathcal{F}$. Functions in this space (referred to as observables), $f \in \mathcal{F}$, evolve via the action of a composition operator, $U$,
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "II-B Koopman operator theory", "weight": 1.0} -->
+
+The operator $U$ is referred to as the Koopman operator and finite approximations of it, via data-driven numerical methods, provide linear models of complex dynamical systems. The linearity enables a mode decomposition ^11^1In general, there is an additional term in Eq. 3 corresponding to the continuous part of the spectrum. Given that, in order to be performant, RL models are expected not to be chaotic, we assume that the systems we fit only have point spectra.,
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "II-B Koopman operator theory", "weight": 1.0} -->
+
+where $(\lambda_{k},\phi_{k},v_{k})$ are the $N$ Koopman eigenvalues and their corresponding eigenfunctions and Koopman modes, respectively. This decomposition enables greater interpretability of the complex dynamics by extracting temporal and spatial information, which can be used to gain insight into the spatio-temporal properties of the system.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "II-C Koopman with control", "weight": 1.0} -->
+
+Extensions of Koopman operator theory to include systems with control have been developed. In particular, for a control system described by
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "II-C Koopman with control", "weight": 1.0} -->
+
+where $x_{t}$ is the state, $u_{t}$ is the input, and $y_{t}$ is the output at time $t$, an LTI surrogate model can be learned,
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "II-D Koopman with control for studying RL behavior", "weight": 1.0} -->
+
+While the map $g:{\mathcal{S}\rightarrow\mathcal{S}}$ is defined by the environment (e.g., laws of physics, rules of chess), different dynamical behaviors can demonstrate different aspects of $g$. For instance, in the standard RL environment LunarLander, an RL model controls a simplified lunar lander and is tasked with landing it on the surface of the moon, within a specified spatial window (Fig. 1A -- yellow flags denote target location of landing). To succeed, it must stabilize itself by coordinating its left and right engines. In addition, it must slow itself on its descent, so it does not crash (Fig. 1A, bottom row). Fitting a Koopman with control model (Eq. 5) to trajectories where the RL model has successfully learned this behavior, the Koopman eigenvalues associated with the matrix $A$ will have norm close to, but less than, $1$ (Fig. 1B, bottom row). This corresponds to the slow and stable descent of the well trained lunar lander.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-D Koopman with control for studying RL behavior", "weight": 1.0} -->
+
+In contrast, if the RL model has not been fully trained, it may exhibit trajectories where the lunar lander falls (Fig. 1A, top row) or where the lunar lander only hovers (Fig. 1A, middle row). Each of these behaviors will have different associated Koopman eigenvalues (Fig. 1B). This suggests that properties of $A$, and potentially $B$, can capture information that may prove insightful for understanding RL model behavior.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "II-D Koopman with control for studying RL behavior", "weight": 1.0} -->
+
+Here, we consider two such properties of the fit $A$ and $B$ matrices: maximum eigenvalue norm of $A$ and rank of the controllability matrix^22^2To make the rank more meaningful, we normalize so that a value of $1$ denotes that the controllability matrix is full rank. ($\lbrack B,{AB},{A^{2}B},\ldots,{A^{n - 1}B}\rbrack$). These capture aspects of the RL model's stability and controllability. Other properties of the learned Koopman with control model may provide further insight and should be considered in future work.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "RESULTS", "weight": 1.0} -->
+
+To demonstrate the potential of utilizing Koopman with control to interpret the behavior of RL models, we consider three standard RL environments: CartPole, Acrobot, and LunarLander. We train RL models using PPO and A2C. We implement our experiments using Gymnasium and Stable-Baselines3. To fit the Koopman with control models, we use the DMDc algorithm, implemented by the PyDMD package. In all cases, we ensure that the fit model has low mean-squared reconstruction error ($< 0.01$). Code is publicly available^33^3
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "III-A Cart Pole", "weight": 1.0} -->
+
+CartPole is a classic control task, in which a pole is attached to a cart via an un-actuated joint (Fig. 2A) and the RL model is trained to stabilize the pole by moving either to the left or the right. These two actions are represented as $0$ and $1$, respectively. This makes the action space $\mathcal{A} = {\{ 0,1\}}$. Because having the input $0$ denote a movement that is equal and opposite to $1$ may make the learning of the associated Koopman with control model more challenging, we consider a "one-hot" embedding of the actions, with $u = {\lbrack 1,0\rbrack}^{^{\intercal}}$ denoting a movement of the cart to the left and $u = {\lbrack 0,1\rbrack}^{^{\intercal}}$ denoting a movement of the cart to the right.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "III-A Cart Pole", "weight": 1.0} -->
+
+The state-space is four-dimensional, comprising of the linear position of the cart, the linear velocity of the cart, the angular position of the pole, and the angular velocity of the pole. For every time-step that the pole is sufficiently upright and the cart is within a fixed spatial interval, the reward is increased by $+ 1$.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "III-A Cart Pole", "weight": 1.0} -->
+
+We train RL models for $1000$ epochs, using either PPO or A2C. Every $200$ epochs, we save the RL model and sample $100$ new trials, each at most $200$ time-steps long. We record the states and actions across all these trials and construct a Koopman with control model that fits the dynamics using time-delay embeddings of the state. We use $n_{\text{delay}} = 4$ time-delays and fix the SVD rank of the DMDc computation to be $0.95$. We perform this process on $25$ independently initialized and trained RL models to check the robustness of our results.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-A Cart Pole", "weight": 1.0} -->
+
+We find that, after the first $200$ training epochs, the PPO optimized RL models outperform those optimized with A2C (Fig. 2B). Examining the properties of the fit Koopman with control models, we find that the PPO trained RL models exhibit trajectories with greater stability (maximum eigenvalue norm closer to $1$) (Fig. 2C). The normalized ranks of the controllability matrix (Fig. 2D) are similar, in both cases increasing with training.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-A Cart Pole", "weight": 1.0} -->
+
+While the reward of the A2C optimized RL models is relatively static during the first $1000$ epochs (Fig. 2B), closer examination at the later part of training shows an increase in stability (decreasing maximum eigenvalue norm -- Fig. 2C) and an increase in controllability (increasing normalized rank of controllability matrix -- Fig. 2D). This suggests that, while these models may not be showing much change -- when looking just at the reward -- they may nonetheless be improving.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-A Cart Pole", "weight": 1.0} -->
+
+To investigate the hypothesis, we train RL models using A2C for another $1000$ epochs. Consistent with increasing stability and controllability (Fig. 3B, orange shaded area), we find that the reward begins to increase after $1000$ epochs and sees a large improvement in performance by $1600$ epochs (Fig. 3A). This suggests that the properties of the fit $A$ and $B$ matrices in the Koopman with control model may serve as hidden progress measures, identifying changes in the behavior that are not captured by the reward.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-B Acrobot", "weight": 1.0} -->
+
+Another standard classic control RL environment is Acrobot. In this environment, an RL model must control two links that are linearly connected with an actuated joint (Fig. 4A). One end of the chain is fixed and RL models are trained to provide torque on the actuated joint in a sufficient way so as to get the free end of the chain above a given height (Fig. 4A, black line). The action-space is given by $\mathcal{A} = {\{{- 1},0,1\}}$, where $a \in \mathcal{A}$ corresponds to applying $a$ torque to the actuated joint. Because of the success in Sec. III-A, we again use a one-hot embedding of the action to model the control. The state-space comprises of the cosine and sine of $\theta_{1}$ and $\theta_{2}$, where $\theta_{1}$ is the angle of the first link and $\theta_{2}$ is the relative angle between the two links.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-B Acrobot", "weight": 1.0} -->
+
+In addition, the state-space includes the angular velocity of $\theta_{1}$ and $\theta_{2}$, making ${|\mathcal{S}|} = 6$. For every time-step that the free end of the chain is below the goal height, the reward is decreased by $- 1$.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-B Acrobot", "weight": 1.0} -->
+
+We train RL models for $10^{4}$ epochs, using PPO and A2C. Every $2000$ epochs, we save the RL model and sample $100$ new trials, each at most $500$ time-steps long. We use $n_{\text{delay}} = 5$ time-delays and fix the SVD rank of the DMDc computation to be $0.99$. We perform this process on $25$ independently initialized and trained RL models.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "III-B Acrobot", "weight": 1.0} -->
+
+We find that the A2C trained models quickly outperform the PPO trained models, reaching a reward of approximately $- 300$ within $2000$ epochs (Fig. 4B). The better reward achieved by RL models trained using A2C is accompanied by a rapid decrease in maximum eigenvalue norm within the first $2000$ training epochs (Fig. 4C), reflecting the need for transient (as opposed to stable) behavior to launch the free end of the chain above the target height. While the RL models trained with PPO are less performant initially, there is a steady improvement in reward after the first $2000$ training epochs, with these models ultimately outperforming the models trained with A2C (Fig. 4B). This is accompanied by a larger decrease in maximum eigenvalue norm (Fig. 4C) and larger increase in normalized controllability rank (Fig. 4D.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "III-C Lunar Lander", "weight": 1.0} -->
+
+Finally, we apply the Koopman with control framework to study the behavior of RL models trained in LunarLander, a more complex control problem that is widely used as a benchmark in RL. In this environment, an RL model is trained to guide the lunar lander to a specified spatial range of the moon (Fig. 5A). The RL model is able to make one of four actions at each time-step: do nothing, fire the left orientation engine, fire the main engine, fire the right orientation engine. These are denoted as $0$ to $3$, respectively, making $\mathcal{A} = {\{ 0,1,2,3\}}$. As in Sec. III-A, we believe this representation of actions may be not ideal for the Koopman with control model to properly represent the way in which the actions affect the lifted states. Therefore, we again use a one-hot embedding of the actions to model the control inputs.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "III-C Lunar Lander", "weight": 1.0} -->
+
+The state-space consists of the $x -$ and $y -$coordinates of the lunar lander, the linear velocities along the $x$ and $y$ axes, the angle of the lunar lander, the angular velocity, and two scalars that are $0$ if the left (right) leg of the lander has not contacted the moon's surface and $1$ otherwise. Thus, ${|\mathcal{S}|} = 8$. Unlike CartPole and Acrobot, the reward function contains multiple terms, including a bonus for landing ($+ 100$), a penalty for crashing ($- 100$), increases (decreases) for slower (faster) descent, and a penalty for firing the engines.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "III-C Lunar Lander", "weight": 1.0} -->
+
+We train RL models for $5 \cdot 10^{4}$ epochs, using PPO and A2C as optimizers. Every $10^{4}$ epochs, we save the RL model and sample $100$ new trials, each at most $1000$ time-steps long. We use $n_{\text{delay}} = 5$ time-delays and fix the SVD rank of the DMDc computation to be $0.99$. We perform this process on $25$ independently initialized and trained RL models.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "III-C Lunar Lander", "weight": 1.0} -->
+
+We find that, after the first $10^{4}$ training epochs, the RL models optimized using PPO outperform those that were optimized using A2C (Fig. 5B). Over this interval of training time, we find that the trajectories generated by RL models trained using PPO have smaller maximum eigenvalue norm (corresponding to greater stability -- Fig. 5C) and larger normalized rank of the controllability matrix (Fig. 5D). We find that, while in the first 1000 epochs the models trained with A2C exhibit an increase in stability and controllability, further training fails to lead to additional increases (Fig. 5C, D). This is consistent with the fact that models trained with A2C exhibit worse performance than the models trained with PPO (Fig. 5B).
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "DISCUSSION", "weight": 1.5} -->
+
+The explosion of development in reinforcement learning (RL) methods, capable of being applied to large and complex environments, has led to RL models with remarkable behavior. Fully understanding these models, at the behavioral level, has remained elusive, in large part because quantifying dynamical behavior is challenging. Here, inspired by recent uses of Koopman operator theory to analyze and compare machine learning models, as well as complex systems more generally, we demonstrate its ability to extract information about the behavior of RL models that has meaningful connections to the associated rewards, on several benchmark environments.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "DISCUSSION", "weight": 1.5} -->
+
+We find that the fit Koopman with control models shed light on how RL model behavior evolves with training. In some cases, we find that the extracted dynamical features can act as hidden progress measures, identifying improvements of the RL model with training that are not seen by the coarse-grained reward function (Fig. 3). Monitoring the metrics associated with stability and controllability may therefore be useful for guiding decisions related to training (e.g., deciding how long to train a model).
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "DISCUSSION", "weight": 1.5} -->
+
+The Koopman with control framework also enables comparisons of behavior from RL models trained with different optimizers. This allows for identifications of where the behavior is similar (for instance, after $200$ training epochs on CartPole, RL models trained with PPO and A2C have similar reward, maximum eigenvalue norm, and normalized rank of the controllability matrix: Fig. 2B--D) and where the behavior is different (for instance, after $6 \cdot 10^{3}$ training epochs on Acrobot, RL models trained with PPO and A2C have similar reward, but have very different normalized rank of the controllability matrix: Fig. 4B, D). Using methods specifically developed to compare control systems, including in environments with partially observable state-spaces (e.g., InputDSA ), can enable a more principled comparison of the behavior of different RL models.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "DISCUSSION", "weight": 1.5} -->
+
+Finally, we note that, by examining the dynamical behavior of RL models trained across multiple tasks, we can gain insight into the biases of different optimizers. For instance, RL models trained with A2C see rapid changes in maxmimum eigenvalue norm, as compared to RL models trained with PPO (Figs. 2C, 4C, and 5C). In the case of Acrobot, this change in stability leads to an initial advantage for A2C optimized RL models. However, in the case of CartPole, where the change in stability was in the incorrect direction (decreased stability, as compared to the desired increase in stability), this leads to a need for greater training to improve the reward. Greater comparison between the wide variety of RL optimizers may lead to more efficient and robust training.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "DISCUSSION", "weight": 1.5} -->
+
+Limitations. In this work, we consider RL models trained in environments with discrete-actions spaces, deterministic and time-invariant state transitions, and fully observable state-spaces. While these are significantly simpler than many of the complex environments that RL has been applied to, CartPole, Acrobot, and LunarLander are standard baselines in the RL community. Demonstrating that the Koopman with control framework can shed light on the behavior of RL models in these environments represents an important first step in the larger goal of enhancing the interpretability of RL model behavior.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "DISCUSSION", "weight": 1.5} -->
+
+While we focus on RL models trained with only two different optimizers (PPO and A2C), we note that PPO continues to be a popular approach and A2C is a simplified version of A3C, an optimizer that enabled state-of-the-art performance on Atari games. Thus, PPO and A2C represent a core baseline of RL optimization methods. In addition, that we find PPO consistently develops -- in all three environments tested -- greater stability (or greater transience, in the Acrobot environment) and greater controllability, supports its observed robustness and wide adoption.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "DISCUSSION", "weight": 1.5} -->
+
+Lastly, we note that we compute the associated Koopman with control models at a small number of training iterations. Performing our analysis over a wider range of training may identify specific changes in stability and controllability that are training epoch dependent.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "DISCUSSION", "weight": 1.5} -->
+
+Future directions. Our results demonstrate that the Koopman with control framework can provide insight into the behavior of RL models trained on "physical" control problems. As RL models can be applied to a very broad range of abstract tasks (e.g., playing chess), a natural next question to investigate is whether and how the Koopman with control framework can be applied to understanding the behavior of RL models in such environments. One potential path for doing this is utilizing a richer selection of observable functions, as opposed to using only time-delays, as was done in this work.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "DISCUSSION", "weight": 1.5} -->
+
+Finally, we note that recent work has shown that Koopman with control approaches can be used to model the activations of recurrent neural networks, including those underlying RL models. Coupling the activation level investigation pioneered by that work and the behavioral level investigation explored in this work could enable a multi-scale understanding of RL.

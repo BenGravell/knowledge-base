@@ -1,21 +1,283 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Khronos: A Unified Approach for Spatio-Temporal Metric-Semantic SLAM in Dynamic Environments
 
 Topics include Robotics, Graphs, Real-time systems, Khronos, Spatio-temporal, Metric-semantic simultaneous localization and mapping, SMS.
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 Perceiving and understanding highly dynamic and changing environments is a crucial capability for robot autonomy. While large strides have been made towards developing dynamic SLAM approaches that estimate the robot pose accurately, a lesser emphasis has been put on the construction of dense spatio-temporal representations of the robot environment. A detailed understanding of the scene and its evolution through time is crucial for long-term robot autonomy and essential to tasks that require long-term reasoning, such as operating effectively in environments shared with humans and other agents and thus are subject to short and long-term dynamics. To address this challenge, this work defines the Spatio-temporal Metric-semantic SLAM (SMS) problem, and presents a framework to factorize and solve it efficiently. We show that the proposed factorization suggests a natural organization of a spatio-temporal perception system, where a fast process tracks short-term dynamics in an active temporal window, while a slower process reasons over long-term changes in the environment using a factor graph formulation.
 
-## Introduction
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-In order to operate safely and effectively in human-populated environments, a robot needs to have a sufficient understanding of the world around it. Such shared spaces are often highly dynamic, with people, robots, and other entities constantly moving, interacting, and modifying the scene. For a robot to operate in such circumstances, it is not sufficient to build a world model just for a single snapshot in time. Instead, the robot should be also able to reason over the state of the scene at past times, inferring how the scene might have changed across multiple observations.
+We provide an efficient implementation of the proposed spatio-temporal perception approach, that we call Khronos, and show that it unifies exiting interpretations of short-term and long-term dynamics and is able to construct a dense spatio-temporal map in real-time. We provide simulated and real results, showing that the spatio-temporal maps built by Khronos are an accurate reflection of a 3D scene over time and that Khronos outperforms baselines across multiple metrics. We further validate our approach on two heterogeneous robots in challenging, large-scale real-world environments.
 
-To this end, we introduce the *Spatio-temporal Metric-semantic SLAM* (SMS) problem, which aims at building a dense metric-semantic model of the world at all times incrementally as the robot navigates the scene. We present a unified framework to tackle the SMS problem. The central idea of our approach is to develop a new factorization of the SMS problem based on spatio-temporal local consistency, which allows for the disentanglement of errors arising from sensing noise, state estimation errors, dynamic objects, and long-term changes in the scene.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In order to operate safely and effectively in human-populated environments, a robot needs to have a sufficient understanding of the world around it. Such shared spaces are often highly dynamic, with people, robots, and other entities constantly moving, interacting, and modifying the scene. For a robot to operate in such circumstances, it is not sufficient to build a world model just for a single snapshot in time. Instead, the robot should be also able to reason over the state of the scene at past times, inferring how the scene might have changed across multiple observations. Such capabilities are essential for a variety of applications that require reasoning over longer time spans, ranging from household and service robotics, to industrial construction or work-site monitoring, where robots are not only required to operate in highly dynamic environments,but also to keep track of --- or reason about --- the evolution of the environment from the past to more intelligently carry-out tasks efficiently.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Metric-semantic simultaneous localization and mapping (SLAM) allows a robot to construct a semantically annotated geometric representation of a scene in real-time. Geometric information is critical for robots to navigate safely and to manipulate objects, while semantic information provides the understanding for a robot to execute human instructions and to provide humans with models of the environment that are easy to understand. In order to build these dense metric-semantic representations in real-time, it is common to assume that the world is static and focus on robustly fusing noisy geometric and semantic measurements into a metric-semantic model. Even though this is a valid assumption for certain robotic applications, it limits the generality of the types of environments a robot can operate, along with the tasks it can be assigned to carry out. On the other hand, there exists an extensive body of work addressing SLAM in dynamic environments. These approaches show impressive capabilities in improving robot localization and state estimation in spite of moving entities within view of the robot.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+However, these prior works mostly focus on *short-term* dynamics, such as people or objects currently moving in front of the camera, and the corresponding literature has often been disconnected from the body of work focusing on *long-term* change detection, where the scene undergoes substantial changes (e.g., furniture being rearranged) while the robot is not directly observing it. Real environments undergo both short-term and long-term changes and the literature currently lacks a unifying approach that can reason over both. Moreover, to enable robots to effectively work alongside other humans and robots, such a framework needs to build this understanding of the world online during robot operation with the limited information and computational resources available.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To this end, we introduce the *Spatio-temporal Metric-semantic SLAM* (SMS) problem, which aims at building a dense metric-semantic model of the world at all times incrementally as the robot navigates the scene. We present a unified framework to tackle the SMS problem. The central idea of our approach is to develop a new factorization of the SMS problem based on spatio-temporal local consistency, which allows for the disentanglement of errors arising from sensing noise, state estimation errors, dynamic objects, and long-term changes in the scene. We integrate this insight into a spatio-temporal perception system, named *Khronos*, which is the first real-time metric-semantic system capable of building a spatio-temporal map of the scene. We thoroughly evaluate our method in several simulated scenes with detailed annotations on background reconstruction, object detection, motion tracking, and change detection and on multiple robotic platforms navigating highly dynamic real-world environments.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We formalize the Spatio-temporal Metric-semantic SLAM (SMS) problem, which allows a robot to build a dense metric-semantic understanding of the surrounding environment and its evolution over time.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 We propose a novel factorization of the SMS problem, which provides a unifying lens for existing interpretations focusing on short-term and long-term dynamics.
 
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 We present Khronos, the first spatio-temporal metric-semantic perception system, composed of novel algorithms for asynchronous local mapping and deformable global change detection.
 
-## Limitations
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We release our implementation and datasets open-source.^11^1Released upon acceptance at
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Related Works", "weight": 1.0} -->
+
+Metric-semantic SLAM. The goal of metric-semantic SLAM is to build a semantically annotated 3D map during online robot operation. Prominently, voxel-based methods can incrementally fuse noisy detections into the map. However, their rigid grid-structure makes them susceptible to state estimation drift. Alternatively, object-level SLAM methods and the related landmark-based methods refine the state estimate and maintain semantic information about objects in the scene. To achieve global consistency of the dense map, other representations such as surfels, meshes, or submap-based methods have been proposed. Recently, also neural representations including NeRF and Gaussian-Splatting-based mapping methods have been proposed. However, these methods oftentimes require powerful computers, making them unsuitable for real-time robot operation. To jointly optimize for the robot poses and semantic reconstruction of the scene, the methods above generally make the simplifying assumption that the world is static.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Related Works", "weight": 1.0} -->
+
+Dynamic SLAM. To address this limitation, a large body of work has emerged, which can be grouped into two main categories. First, sparse SLAM methods focus on improving state estimation performance --- typically by removing dynamic objects from the SLAM problem. Alternatively, dynamic entities such as cars or humans can be integrated into the estimation problem, leading to improved state estimates if good motion priors for these entities are available. Second, simultaneous tracking and reconstruction approaches are able to generate dense models of single or multiple, rigid objects moving in front of the camera. However, these approaches are often limited to table-top scenes. Dynablox and similar approaches can simultaneously perform motion detection and dense background reconstruction in larger scenes. Nonetheless, these methods often rely on tracking of incremental motion against a static background and may not generalize well to long-term changes in the scene.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Related Works", "weight": 1.0} -->
+
+Change Detection. Identifying long-term changes is traditionally addressed in a multi-session scenario, where two observations of the static scene before and after changes occurred are compared. Notably, Bore et al. detect and also track general long-term dynamic objects using a filtered probabilistic motion model. Recently, the first approaches for online long-term consistent mapping have emerged. Panoptic Mapping leverages semantic consistency of foreground objects and background classes to maintain a volumetric map in changing scenes. Fu et al. extend this idea with local registration and volumetric object descriptors, as well as neural object models. Recently, POCD and POV-SLAM approach the change-detection problem in a SLAM scheme and propose an object-aware SLAM pipeline to track and reconstruct object-level long-term changes in a factor-graph formulation.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Related Works", "weight": 1.0} -->
+
+Spatio-temporal Mapping. To the best of our knowledge, there are comparatively fewer works that combine short-term dynamics and long-term dynamics. Recently, Soares et al. showcase Changing-SLAM, which increases state-estimation robustness by accounting for both short-term and long-term dynamics in the scene. They build a map of sparse key points and employ a Bayesian filtering approach to detect short-term dynamics and data association to detect long-term changes. Any detected dynamic points are then removed from the SLAM problem. While this accounts for the effect of both short and long-term dynamics on state estimation, they do not focus on building a rich representation of the scene and an understanding of its evolution. In contrast, to our knowledge, our proposed method is the first to generate a spatio-temporal metric-semantic map in real-time, jointly optimizing for the robot poses and an explicit dense semantic representation of the scene at all times.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
+
+To define the spatio-temporal metric-semantic SLAM (SMS) problem, we consider a scene that is composed of objects $O_{i} \in \mathcal{O}$. The entire background of the scene is also represented as a static object $O_{BG} \in \mathcal{O}$.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
+
+where $\Omega_{i}^{t}$ denotes its surface, $T_{WO_{i}}^{t}$ its pose w.r.t. the world frame $W$, and $L_{i}$ the semantic label of $O_{i}$, at discrete time $t = {0,1,\ldots,T}$. The background object $O_{BG}$ is constant for all times $t$.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
+
+In the following, we use the shorthand notation for indexed variables of omitting the index and/or time step to refer to all existing indices and/or time steps, e.g.:
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
+
+where $\Omega_{j}^{t}$ is a surface measurement (i.e. from an RGBD camera), $T_{RZ_{j}}^{t}$ is the pose of the object surface w.r.t. the robot frame $R$ at time $t$, and $L_{j}^{t}$ the observed semantic label of the surface at time $t$. We summarize all measurement noise in the operation $\oplus \eta_{O}$, which includes errors such as surface measurement inaccuracies, but also missed or hallucinated measurements, or noisy semantic information.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
+
+where $\boxplus$ denotes addition on $SE{}$. The goal of the SMS problem is to build a spatio-temporal understanding of the scene in real time, i.e., at each current time $T$, our goal is to estimate the state of the scene at all previous times $t \leq T$.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Fragments and Factorization", "weight": 1.0} -->
+
+The MAP estimate in is hard to compute for a number of reasons. First, since the number of objects as well as their attributes can change, there is a large number of unknown variables and comparably fewer measurements. Second, the coupling between sensing noise, imperfect state estimation, and moving and changing scenes introduces a high degree of interdependence of all variables. This leads to having to keep all observations in memory, which causes the problem to scale poorly with space and time. Intuitively, this reflects the challenge that disagreements between the current measurement and map belief can originate from noise in the sensing process, erroneous state estimates, objects currently moving, or the scene having changed over time.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Fragments and Factorization", "weight": 1.0} -->
+
+To overcome these challenges, we propose a novel factorization of the above problem based on the key idea of *spatio-temporal local consistency*.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Fragments and Factorization", "weight": 1.0} -->
+
+Intuitively, this means that both errors in state estimation and changes in the scene, while they may grow large over time, are small for short time intervals $\delta$.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Fragments and Factorization", "weight": 1.0} -->
+
+The central idea of our approach is to decouple the dependencies in problem through the introduction of a set of latent variables $Y$, which we will refer to as "object fragments", that serve as intermediaries between $Z$ and $O$. Each object fragment can be thought of as a partial view of an object constructed by collecting multiple locally consistent surface measurements over a short time interval (a *fragment* of time). Importantly, we define $Y$ as the minimal partitioning of the observations $Z$ of $O$ such that local consistency, holds within the observations each $Y_{k}$. Practically, this can be thought of as breaking each $O_{i}$ into sequences of timestamps, the fragments, where the time between consecutive observations $Z$ is $< \delta$, as illustrated in Fig. (left).
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Fragments and Factorization", "weight": 1.0} -->
+
+To summarize, observations $Z$ are accumulated into object fragments $Y$ based on local consistency, and each true object $O$ is a collection of fragments $Y$. The challenge, however, is that all observations $Z$ are in robot frame $R$, whereas the goal is to estimate $O$ in $W$, and this introduces a strong global coupling between $Z$, $X$ and $O$, as $X$ relates the $W$ and $R$ frames.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Fragments and Factorization", "weight": 1.0} -->
+
+Furthermore, since each $Y_{k} \in Y$ only depends on non-overlapping sets of measurements, we can assume that all $Y_{k} \in Y$ are conditionally independent, such that
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Fragments and Factorization", "weight": 1.0} -->
+
+This formulation isolates the effect of sensing noise in ${\mathbb{P}}{(\left. Y_{k} \middle| {{\overline{Z}}_{k},{\overline{\Phi}}_{k}} \right.)}$, the likelihood of a fragment $Y_{k} \in Y$ given measurements in the corresponding temporal window. However, the global part of still contains a coupling between spatial and temporal sources of inconsistency that makes this a hard estimation problem. To alleviate this, we again leverage our definition of $Y_{k}$ as partial observations of an object $O_{i}$ within a time fragment.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Fragments and Factorization", "weight": 1.0} -->
+
+Since for a single object $O_{i}$, all relevant information is captured in their respective segments ${\overline{Y}}_{i} \subseteq Y$, if the associations $A_{i}:{Y_{k}\mapsto{\overline{Y}}_{i}}$ of fragments $Y_{k}$ to objects $O_{i}$ are known, this further simplifies to, as illustrated in Fig.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Fragments and Factorization", "weight": 1.0} -->
+
+The global estimation problem is thus decomposed into two sub-problems: the fragment reconciliation term, from which the objects are inferred from their fragments, and the second term, which takes the form of a landmark-based SLAM setup.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Fragments and Factorization", "weight": 1.0} -->
+
+Thus, with only minimal assumptions, we have obtained a well structured problem that we optimize as a surrogate. More importantly, this approach provides a unified framework that naturally gives rise to existing interpretations. First, short-term and long-term dynamics as defined naturally emerge, where *all* short-term dynamics, characterized by observations of continuous motion, are captured in the local part of, and *all* long-term dynamics, characterized by observations of abrupt changes, are captured in the global part of. Second, the difference between modeling objects based on observations and inferring what happened while not observed is clearly represented by considering the $O_{i}^{t}$ for which $\exists Y_{k}^{t}$, as $Y_{k}$ group all observations of an object $O_{i}$, and $\nexists Y_{k}^{t}$, respectively. Third, this formulation naturally enforces semantic consistency as introduced. Finally, the resulting problem structure has important algorithmic properties, further detailed in Sec. V.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Khronos", "weight": 1.0} -->
+
+This section introduces *Khronos*, our system to optimize. We follow and split the problem into three components, an *active window*, a *global optimization*, and a *reconciliation* component, as shown in Fig..
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "V-A Local Estimation via an Active Window", "weight": 1.0} -->
+
+We refer to the local estimation component as the *active window*. Its goal is to solve the local term in by incrementally estimating a set of fragments $Y_{k}$ from observations $Z,\Phi$ such that local consistency, is satisfied.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "V-A Local Estimation via an Active Window", "weight": 1.0} -->
+
+Reconstruction. We first reconstruct the static background. We point out that, while the formulation holds for any surface representation $\Omega$, we implement Khronos using meshes to model static surfaces $\Omega_{BG}$. To this end, a volumetric map is incrementally allocated around the robot and projective TSDF fusion is performed to estimate $\Omega_{BG}$. We then obtain candidate observations $Z$ in every frame from raw RGBD data. Following the definition of, different cues can be used to extract $Z$ from sensor data. First, we leverage semantic masks provided in the input frame. Second, we employ geometric motion detection to separate objects from the background. We therefore augment the volumetric local map following the approach of, using the motion cue that points falling into previously observed free space must be dynamic. However, since we only consider a short temporal window $\delta$ as introduced, the Occupancy, Sensor Sparsity and State Estimation terms of are dropped.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "V-A Local Estimation via an Active Window", "weight": 1.0} -->
+
+In summary, we allocate one measurement $Z_{j}^{t}$ for every mask, where $\Omega_{j}^{t}$ is the set of 3D points in that mask, $T_{RZ_{j}}$ is the transform to the sensor, and $L_{z}$ is an integer or feature vector for closed or open-set semantics, respectively (see Sec. VI-C).
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "V-A Local Estimation via an Active Window", "weight": 1.0} -->
+
+Tracking. To estimate fragments $Y$ that best explain the observations $Z$, we generate a pool of object hypotheses $\hat{Y}$. Since changes within the active window are small, we can greedily associate new observations $Z_{j}^{t}$ to the best fitting hypothesis $\hat{Y_{k}}$ by computing the volumetric IoU between each $Z_{j}^{t}$ and $\hat{Y_{k}}$. The IoU can efficiently be computed using a grid-aligned voxel-filter on the points $\Omega_{k}$ and $\Omega_{j}$. We associate semantic $Z_{j}^{t}$ to $\hat{Y_{k}}$ of matching labels $L_{k}$, dynamic $Z_{j}^{t}$ to the closest dynamic $\hat{Y_{k}}$, and allow cross-associations representing semantic-dynamic observations.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "V-A Local Estimation via an Active Window", "weight": 1.0} -->
+
+For each $Z_{j}^{t}$ that was not associated, a new hypothesis $\hat{Y_{k}}$ is added to the pool. Following, once local consistency is broken, no future observations can be part of the same $Y$, and these $\hat{Y}$ can be removed from the pool. We then estimate the probability of that hypothesis $\hat{Y}$ representing a true fragment $Y$ representing an object of class $L_{k}$ by rejecting ${\hat{Y}}_{k}$ that have less than $\tau_{Z} = 15$ observations and dynamic ${\hat{Y}}_{k}$ that have moved less than $\tau_{D} = {1\ m}$. We then marginalize all observations ${\overline{Z}}_{k}$ belonging to that $Y_{k}$.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "V-A Local Estimation via an Active Window", "weight": 1.0} -->
+
+It is worth to point out that this gives an enormous freedom in choosing suitable representations depending on the task and computation power at hand, given that all relevant observations ${\overline{Z}}_{k}$ are known at extraction time. In this approach, we choose to use TSDF fusion to reconstruct the surfaces of static objects as meshes with adaptive resolutions $\Omega_{k}$, and use sequences of pointclouds to represent deformable and dynamic object surfaces $\Omega_{k}$. Similarly, we track local consistency of the background and extract vertices that exit the active window. This asynchronous tracking of every entity in the active window guarantees that local consistency holds and naturally handles partial or erroneous observations. Simultaneously, it has the large advantage that object properties can be estimated when all data is available.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "V-B Global Optimization", "weight": 1.0} -->
+
+The global optimization module addresses the second term; the local estimates from the active window are optimized and updated for reconciliation. Globally, we jointly estimate the poses of the robot $X$, the poses of the fragments $Y$, and the dense background mesh $\Omega_{BG}$. In particular, we construct a deformation graph as described and augment it with fragments $Y_{k}$. Specifically, the nodes of the deformation graph correspond to robot poses $X$ and mesh control points $P_{M}$ selected from $\Omega_{BG}$ as, and a new set of fragment poses $T_{WY_{k}}$. We initialize $T_{WY_{k}}$ at the centroid of $\Omega_{k}$ with unit orientation, representing the reconstruction frame of $\Omega_{k}$. We connect $T_{WY_{k}}$ to the robot pose graph with edges $\mathcal{E}_{XY}$.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "V-B Global Optimization", "weight": 1.0} -->
+
+Each $T_{WY_{k}}$ is always connected to the robot poses $X_{f}$ and $X_{l}$, corresponding to when the fragment was *first* and *last* observed, respectively. This reflects the robot-centric measurement of $Y_{k}$ and ensures that when the robot poses are optimized, the fragment poses are updated correspondingly.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "V-B Global Optimization", "weight": 1.0} -->
+
+To compute associations $A$ between fragments $Y$ when the robot re-observes an object, we generate candidate associations as edges $\mathcal{E}_{YY}$ between fragments that have identical labels $L_{k}$ (or similar $L_{k}$ for open-set semantics), and whose bounding boxes overlap. For this initial work, we model $\mathcal{E}_{YY}$ as a pure translation constraint between $T_{WY_{a}}$ and $T_{WY_{b}}$, reflecting that the centroids of $\Omega_{a}$ and $\Omega_{b}$ should be close if they stem from the same object. We note that full 6DOF registration between $\Omega_{a}$ and $\Omega_{b}$ can naturally be integrated into our framework, but leave this for future work. Finally, we add candidate edges $\mathcal{E}_{LC}$ for loop closures provided by the odometry input.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "V-B Global Optimization", "weight": 1.0} -->
+
+For the edges in $\mathcal{E}_{YY}$, we set $\mathbf{\Lambda}_{ij}$ to ${diag}\left( {\lbrack{0\;0\;0\lambda}\rbrack} \right)$, where the zeros cancel out the rotation residual and $\lambda = 1$ is chosen permissively since we use the centroids of the $\Omega_{k}$ as reference for $\mathcal{T}_{Y_{k}}$.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "V-B Global Optimization", "weight": 1.0} -->
+
+To account for erroneous measurements and perceptual aliasing, we solve the pose graph optimization problem with the Truncated Least Squares (TLS) loss, where we optimize also for binary variables $\omega_{ij}$ such that $\omega_{ij} = 1$ for correct inlier measurements and $\omega_{ij} = 0$ for outliers, where $\overline{c}$ is the outlier truncation cost. Using the binary weights, we can classify the correctness of the candidate associations $\mathcal{E}_{YY} \cup \mathcal{E}_{LC}$. In practice, we solve the TLS problem with Graduated Non-Convexity (GNC) in GTSAM. From the solution $\mathcal{T}^{\ast}$, we directly update the robot and object fragment poses, collect the correct associations $\omega_{ij}$, and update the dense background mesh using the mesh control points $P_{M}^{\ast}$ as described.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "V-C Reconciliation", "weight": 1.0} -->
+
+Finally, the goal of reconciliation is to estimate the state of the scene at all times $t < T$, given the optimized fragments $Y$ at time $T$. It is important to note that fragments only contain positive observations, i.e., information about the presence of detected objects, but not about their absence. To resolve this evidence-of-absence vs. absence-of-evidence problem, we perform an additional geometric verification step.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "V-C Reconciliation", "weight": 1.0} -->
+
+Deformable Change Detection. We observe that, while no volumetric information is stored in our surface representation, this information is partially implicitly captured in the background and robot poses. The central idea is that rays connecting a background vertex and a corresponding robot pose that observed it were in free space at that time. However, since the robot and background poses can continually change during global optimization, integrating this information into a free-space map is not tractable during online operation. Instead, we approximate this global free-space information by a *library of rays*. Whenever a background vertex is extracted from the active window, we create a representative ray of that vertex $\mathbf{p}_{v} \in {\mathbb{R}}^{3}$ to the robot position $\mathbf{p}_{r}$ in the middle of its observation window. For efficient lookup, this is implemented by storing the indices of the vertex and view point in a coarse global hash map. These can efficiently and incrementally be added, and allow for the robot and background points to move freely within their grid cells.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "V-C Reconciliation", "weight": 1.0} -->
+
+When large position changes are detected, e.g. in the case of a loop closure, the hash map is re-computed from scratch. To detect evidence of absence or presence, we query points $\mathbf{p}_{q}$ on the surface of fragments $Y_{k}$ in this library of rays.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "V-C Reconciliation", "weight": 1.0} -->
+
+Distances $d_{d}$ longer than that of the vertex indicate the point was occluded, distances similar (within $d_{ray} = {30\ {cm}}$) to the vertex indicate geometric consistency with that observation, and short distances indicate evidence of absence. An example of this logic is shown in Fig.. In this way, we obtain all timestamps of rays reporting evidence of absence or presence of an object. Since the robot poses and mesh are continuously optimized, a timestamp is only considered reliable evidence of absence if at least $c_{ray} = {60\%}$ percent of rays within a temporal window of $\tau_{ray} = {5\ s}$ mark the object as absent.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "V-C Reconciliation", "weight": 1.0} -->
+
+Reconciliation. Finally, we can estimate the times each object was present in between fragments $Y$. To this end, we compute the latest absence of evidence before the fragment $Y$ was first observed and the earliest after it exited the active window. Similarly, we compute the earliest and latest evidence of presence within this window above. Intuitively, this reflects the logic that an object must have newly appeared some time between when its location was last observed to be empty and when the object was first observed in that location, and inversely for its disappearance. Assuming that objects have a uniform probability of appearing or disappearing, the minimum expected error estimate can easily be shown to be the middle of that window. An example is shown in Fig..
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "VI-A Experimental Setup", "weight": 1.0} -->
+
+Datasets. To thoroughly evaluate the proposed method, a dataset with both short and long-term dynamics in a single sequence and detailed spatio-temporal annotations is required. As, to the best of our knowledge, no dataset with all these features exists yet, we create two scenes using the photo-realistic simulator TESSE. A smaller *Apartment* dataset consists of several visits of a residential scene. The sequence is 87s long, with a robot speed of up to 1m/s over a trajectory of 39m, 64 static objects, 10 dynamic objects, and 6 long-term object changes. A second large-scale *Office* dataset explores an extensive office scene, turning a small loop in the middle, and finally closing a large loop when revisiting some of the rooms near the start pose. The sequence is 217s long, with a robot speed of up to 1m/s over a trajectory of 181m, 196 objects, 6 dynamic objects, and 8 long-term object changes. The dynamic objects include people and a football bouncing around. The changing objects range from large furniture to small household items (e.g. desks, chairs, boxes, vases).
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "VI-A Experimental Setup", "weight": 1.0} -->
+
+We further validate our approach in two different real-world environments on two heterogeneous robots: a Clearpath Jackal equipped with an Intel Realsense D455 RGBD camera and a Boston Dynamics Spot. We use OneFormer, a transformer-based semantic segmentation network, to produce the semantic segments for Khronos.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "VI-A Experimental Setup", "weight": 1.0} -->
+
+Metrics. We evaluate the ability of Khronos to reconstruct the *background*, model static *objects*, capture short-term *dynamics*, and detect long-term *changes.* For each category, we compute the metrics $\mathcal{L} = \{$precision, recall, F1-score$\}$. For the background, we consider each vertex that has a corresponding ground truth (GT) vertex within 20cm a positive. For static and dynamic objects, we consider each object that has a corresponding GT object a positive. For changes, we consider each object that has the same change label (newly appeared, disappeared) as the corresponding GT object a positive. It is important to point out that the recall is measured with respect to all entities existing at the evaluated time $t$, and not only entities already observed by the robot.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "VI-A Experimental Setup", "weight": 1.0} -->
+
+Baselines. Since, to the best of our knowledge, there do not yet exist approaches for real-time dense metric-semantic spatio-temporal SLAM, we compare Khronos to several recent approaches specializing on the individual components. We compare against Hydra, a dense, globally-consistent metric-semantic perception pipeline, Dynablox, a simultaneous dense mapping and dynamic object detection approach, and Panoptic Mapping, a method for online long-term consistent volumetric mapping.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "VI-A Experimental Setup", "weight": 1.0} -->
+
+Hardware. All computation is performed on an Intel i7-12700H laptop CPU with 32GB of RAM, allowing online deployment on autonomous mobile robots.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "VI-B Spatio-temporal Metric-semantic SLAM", "weight": 1.0} -->
+
+Tab. I presents detailed quantitative results for Khronos and the established baselines across both simulated datasets. For fair comparison, all methods use identical resolutions $\nu = {8\ {cm}}$ and sensing range of $r = {5\ m}$. To allow accurate evaluation of the systemic components, ground truth semantics from the simulator are employed (we discuss the importance of semantics in Sec. VI-C). Finally, to assess the importance of spatial-consistency, we run each method with ground truth (GT) poses and visual-inertial-odometry estimates obtained from Kimera.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "VI-B Spatio-temporal Metric-semantic SLAM", "weight": 1.0} -->
+
+Background Reconstruction. We observe that all methods generally achieve comparable results in terms of background reconstruction. A slight exception is Dynablox, which does not extract static object from the background, resulting in higher recall at a lower precision. More notably, Panoptic Mapping falsely detects previous segments of background as changed and removes them when revisiting them in the apartment scene, leading to low recall. The importance of spatial optimization becomes apparent when looking at the office scene with drift, where Khronos and Hydra are the best performing methods. The difference is not as strongly reflected in the numbers, as all methods only know the drifting odometry estimate for a long time before Khronos and Hydra can close the loop toward the end of the sequence.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "VI-B Spatio-temporal Metric-semantic SLAM", "weight": 1.0} -->
+
+Object Detection. As expected, the precision of detected objects is high given the true semantic segmentation as input. However, it is not 100% as all approaches merge and filter the input detections. However, a notable difference is apparent in recall. Since Hydra segments objects from the background, it can not capture small objects in the scene, such as the many fine items in the apartment. On the other, the two multi-resolution approaches Khronos and Panoptic Mapping achieve significantly higher recall in this scene, where the multi-hypothesis tracking and reconstruction approach of Khronos shows superior performance.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "VI-B Spatio-temporal Metric-semantic SLAM", "weight": 1.0} -->
+
+Dynamic Objects. Dynablox shows to be highly sensitive and achieves strong recall in the apartment scene. However, it also detects a number of false positives in this complex environment. On the other, Khronos is able to diminish the effect of noisy measurements through its model of persistent dynamic objects. It is apparent that the office poses a more challenging scene, where both Khronos and Dynablox detect more false positives. The reduced recall can be explained in part by the nature of some of the observed motions, such as humans walking closely in front and away from the robot, thus preventing the free-space map from being built and the motion to be detected. This is a fundamental limitation of the employed motion detection cue.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "VI-B Spatio-temporal Metric-semantic SLAM", "weight": 1.0} -->
+
+Change Detection. Observing the change detection performance, we notice that online detection of changing objects in cluttered and highly dynamic scenes is a challenging problem. Nonetheless, both methods are able to detect a significant number of changes, among some false positives. In the small apartment scene, not many meaningful loop closures are detected, and both methods show reduced performance when operating with drifting state estimates. However, the importance of spatial consistency for change detection becomes apparent in the large-scale office scene. While the precision of Panoptic Mapping breaks down for imperfect state estimates in longer sequences, Khronos is able to maintain its high performance through our joint spatio-temporal optimization and deformable change detection approach. This demonstrates that Khronos is able to build spatio-temporal maps also of large-scale environments during online robot operation.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "VI-C Semantic Segmentation Input", "weight": 1.0} -->
+
+Khronos is able to interface with different segmentation frontends, and the construction of the spatio-temporal map is agnostic to the input semantic or instance segmentation method. To demonstrate this, Tab. II compares the Khronos with ground-truth semantic segmentation as the input against an open-set segmentation method that clusters primitive image regions given by Segment Anything using CLIP features, approximately based on the logic described. With the different segmentation frontends, we maintain high performance compared to using ground-truth segmentation as input. The main limitation is in terms of whether the segmentation frontend is able to accurately detect the objects that change, The open set method suffers in recall as the "object-ness" of its detections is less well defined, leading to false negatives on object detections. Nonetheless, Khronos is able filter and extract meaningful objects from the noisy input observations. These findings demonstrate that our approach can build spatio-temporal maps of various "objects" of interest.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "VI-D Spatio-temporal Map Beliefs", "weight": 1.0} -->
+
+To highlight the capability of Khronos to build spatio-teporal map beliefs, we show the change detection recall of Khronos in the office scene in Fig.. One axis shows the time $T$ that has elapsed since the robot started exploring the scene. On the other axis, we show the belief about the world at time $t < T$, given the information obtained till $T$. Importantly, the diagonal axis of $T = t$ represents the real-time axis, i.e., the perceived 'present' of the robot. The first change happens around $90\ s$, but naturally the robot has not yet observed that object again. The robot then starts observing changes and increasing its recall, while new objects appear and disappear, decreasing the recall. Eventually, the robot closes the loop and detects several changes at the start location. Importantly, our approach propagates this information back through time and updates the robots belief about earlier times. This is reflected in the belief time marginal at $T = {220\ s}$, showing the robot's estimate of the scene at different times once all data is obtained.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "VI-D Spatio-temporal Map Beliefs", "weight": 1.0} -->
+
+A different way to picture this is by looking at a fixed belief time $t = {165\ s}$, where we can observe how the quality of the robot belief improves as more information is gathered, highlighted in green. Finally, the 4D-metrics can be interpreted as the area under this temporal surface.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "VI-E Mobile Robot Experiments", "weight": 1.0} -->
+
+We validate our approach in two real-world experiments with heterogeneous robots and sensing setups, navigating two different environments. Fig.LABEL:fig:mezzanine_qualitative shows qualitative results of the spatio-temporal map produced by Khronos on a Jackal ground robot in a mezzanine scene.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "VI-E Mobile Robot Experiments", "weight": 1.0} -->
+
+In this experiment, the robot visits a common area (top right) and then moves around the hallway and through the kitchen. As it revisits the common area, a chair is removed and a cooler newly appears. The robot then performs a longer trajectory, closes the loop back in the common area and correctly detects that the cooler has disappeared again. In addition to long-term changes, the robot also correctly identifies people moving (left) and objects that are not semantically recognized, such as the cart being pushed through the scene (bottom left). It is clear that Khronos is able to accurately capture both long term object appearances and disappearances, and also short term dynamic movements. In addition, we manually annotate this smaller scale scene with all changes that were induced by the person, and present the results in Tab. III. The observed performance demonstrates that Khronos is able to accurately capture the objects in the explored scene and reflect the orchestrated changes. Short-term dynamic changes (human motion and a rolling cart in this case) are not reported as manual labeling was too imprecise for the dynamic objects.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "VI-E Mobile Robot Experiments", "weight": 1.0} -->
+
+Second, we perform experiments on a Boston Dynamic Spot quadruped across the entire floor of a university building. Long-term changes to the scene are orchestrated by removing and adding objects in between robot observations. Short-term dynamics appear in the form of humans walking or moving items in view of the robots. Qualitative results are shown in Fig., where we observe that Khronos scales well also to this extensive environment and a more dynamic robot platform, and is able to generate a spatio-temporal map that accurately reflects the circumstances of the scene.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "VI-F Computation Time", "weight": 1.0} -->
+
+Finally, it is important for any interactive robot to perceive the scene in real-time with the limited computation available. We therefore present timing results from the large office scene with imperfect odometry. Due to our factorization, the active window can operate with approximately constant time complexity. We measure the time to process a frame in the active window at $45.5 \pm 9.2$ms, resulting in an average frame rate of 22.2 FPS. The scaling of other components of our pipeline is shown in Fig.. The top row shows components of the global optimization. The reconstruction of fragments from the active window is marked by occasional spikes, but usually takes $< {1\ s}$. The deformation of the global background scales linearly with the observed volume, but also generally stays $< {1\ s}$. The most complex part is solving the optimization problem. This becomes only relevant once loop closures are detected, but requires up to several seconds in the worst case. However, it is important to point out that all of these operations are performed in separate threads and don't need to be performed for every frame, enabling online operation of the robot. Second, the bottom row shows timing of reconciliation components.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "VI-F Computation Time", "weight": 1.0} -->
+
+Here we show worst-time performance, as the ray-hash is recomputed from scratch every time. It is important to point out that the ray hash can also be incrementally allocated and only needs to be recomputed after a large loop closure. Inference on the library of rays for change detection followed by reconciliation is generally quick, taking $< {100\ {ms}}$ for all fragments in the scene. These results demonstrate the strong algorithmic properties of the presented factorization, enabling spatio-temporal map building in real-time on mobile robots.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Limitations", "weight": 1.5} -->
 
 Since Khronos utilizes the bounding-box centroid as the position of a fragment for association edges, accurate fragment associations can be sensitive to partial observations and occlusions. Furthermore, the lack of 6D registration between fragments decreases the effectiveness of global estimation and reconciliation. Adoption of modern object pose and shape estimation and registration techniques would increase the robustness and accuracy of fragment association.
 
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
 Second, we currently only associate fragments geometrically, meaning that fragments that have moved are not associated. Incorporating fragment descriptors would allow reasoning about the history of moving objects in more detail.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
+Using a ray-tracing approach for change detection implies that the existence of a reference surface. While we found it to work well in our experiments, change detection in large open spaces with sparse surfaces would perform poorly.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
+Lastly, we currently keep all object fragments in memory. While this allows for more optimization flexibility, the problem also keeps growing indefinitely, potentially limiting the scalability of Khronos. In an ideal scenario, out-dated or confidently reconciled object fragments are marginalized, such that the number of object fragments stored is proportional to the number of objects to support lifelong mapping missions.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+
+In this paper, we defined the SMS problem and presented a novel approach to structure the problem, unifying the tracking of short-term dynamics and the detection of long-term changes in a single formulation We introduced Khronos, a first metric-semantic spatio-temporal perception system capable of solving the SMS problem and generate a dense 4D spatio-temporal map. We demonstrated that Khronos outperforms recent baselines across metrics pertaining to short and long-term dynamics, can interface with different semantic object formulations, and solve the complex SMS problem in real-time with limited compute. We validated Khronos on several different mobile robotic platforms, showing strong performance in complex real-world environments.

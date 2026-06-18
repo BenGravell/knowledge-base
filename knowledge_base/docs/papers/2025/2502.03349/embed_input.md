@@ -1,15 +1,173 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Robust Autonomy Emerges from Self-Play
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Self-play has powered breakthroughs in two-player and multi-player games. Here we show that self-play is a surprisingly effective strategy in another domain. We show that robust and naturalistic driving emerges entirely from self-play in simulation at unprecedented scale - 1.6~billion~km of driving. This is enabled by Gigaflow, a batched simulator that can synthesize and train on 42 years of subjective driving experience per hour on a single 8-GPU node. The resulting policy achieves state-of-the-art performance on three independent autonomous driving benchmarks. The policy outperforms the prior state of the art when tested on recorded real-world scenarios, amidst human drivers, without ever seeing human data during training. The policy is realistic when assessed against human references and achieves unprecedented robustness, averaging 17.5 years of continuous driving between incidents in simulation.
 
-## Introduction
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Self-play has been an effective strategy for training policies for board games, card games, 3D multiplayer games, real-time strategy games, robotic manipulation, and even bioengineering. In this work, we demonstrate the effectiveness of self-play in another domain. We show that simulated self-play yields naturalistic and robust driving policies, while using only a minimalistic reward function and never seeing human data during training.
 
-We demonstrate that qualitatively new levels of realism and robustness emerge when self-play training is taken to unprecedented scale -- orders of magnitude beyond prior experiments (Feng et al. Zhang et al., ). This discovery is enabled by Gigaflow, a batched simulator architected from the ground up for self-play reinforcement learning on a massive scale. Gigaflow is capable of simulating and learning from $4.4$ billion state transitions (7.2 million km of driving, or 42 years of continuous driving experience) per hour on a single 8-GPU node.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Discussion
+We demonstrate that qualitatively new levels of realism and robustness emerge when self-play training is taken to unprecedented scale -- orders of magnitude beyond prior experiments (Feng et al. Zhang et al., ). This discovery is enabled by Gigaflow, a batched simulator architected from the ground up for self-play reinforcement learning on a massive scale. Gigaflow is capable of simulating and learning from $4.4$ billion state transitions (7.2 million km of driving, or 42 years of continuous driving experience) per hour on a single 8-GPU node. It simulates urban environments with up to 150 densely interacting traffic participants $360\, 000$ times faster than real time at a cost of under \$5 per million km driven (based on public cloud rates). A full training run simulates over one trillion state transitions, 1.6 billion km driven, or $9500$ years of subjective driving experience, and completes in under 10 days one 8-GPU node.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We use Gigaflow to train a parameterized family of driving policies. The parameters specify the type of traffic participant controlled by the policy (passenger vehicle, large truck, bicyclist, or even a pedestrian) and the driving style (e.g. aggressive vs. cautious). These parameters can be modified at test time with no additional training, such that a single trained policy can be used to control a variety of traffic participants, with a variety of behavioral styles. During training, this parameterized policy architecture enables all simulated traffic participants to be collecting experience in parallel, all flowing through a single neural network. This supports self-play simulations where more than a hundred agents are all controlled by a single neural network, which is learning from all of their experiences, yet the agents exhibit diverse outward manifestations (truck vs. bicycle), functional characteristics (turning radius), and behavioral styles (adherence to traffic laws).
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The result is a robust and naturalistic driving policy that achieves state-of-the-art performance when tested in recorded real-world scenarios, amidst recorded human drivers, without ever seeing human data during training. We test the Gigaflow policy in three leading independent third-party benchmarks: CARLA, nuPlan, and the Waymo Open Motion Dataset (through the Waymax simulator ). State-of-the-art performance on each benchmark was previously achieved by specialist agents that were trained specifically for that benchmark, commonly using benchmark-specific datasets. In contrast, we outperform the prior state of the art on all benchmarks with a single policy (Fig. 1) that was trained entirely via self-play, using none of the provided datasets for training.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The behaviors exhibited by the Gigaflow policy are naturalistic despite never seeing human data during training. The trained policy exhibits long-horizon planning without any dedicated planning or search modules, can deal with heavily contentious traffic scenarios, is quantitatively realistic when assessed against human references, and exhibits unprecedented robustness, averaging over 3 million km (or 17.5 years of continuous driving) between incidents in simulation.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Gigaflow", "weight": 1.0} -->
+
+The goal of Gigaflow is to train a *generalist policy* $\pi{(\left. a \middle| {W,S,A,C} \right.)}$ in simulation (Fig. 2d). The policy observes the static world $W$, its own state $S$, and other dynamic agents $A$ to produce an action $a$ (Fig. 2c). A conditioning parameter $C$ modulates the policy's behavior. Learning this generalist policy requires careful modeling of two core concepts: uncertainty and other-agent behaviors.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Gigaflow", "weight": 1.0} -->
+
+Uncertainty in driving stems from partial or incomplete observations. The driver is generally unaware of the goals and intentions of other agents, or even their exact location, speed, or acceleration. Objects or parts of the static world may be hidden or occluded. Real-world sensors often introduce noise. Gigaflow models uncertainty directly through noise on the state $S$, noise in the state transitions, stochasticity in the dynamic agents, and partial observability on dynamic agents $A$ and the static world $W$. Gigaflow agents observe the positions and speeds of nearby agents but not their acceleration, and crucially, neither their goals nor conditioning.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Gigaflow", "weight": 1.0} -->
+
+Modeling agent behaviors is a particularly impactful and complex aspect of driving. Prior work approached behavior models through hand-designed agents (Kesting et al. Gulino et al., ), recorded and replayed data (Gulino et al. Li et al. Vinitsky et al., ), or models of driving learned from data. In contrast, in Gigaflow, realistic and general driving behaviors for all traffic participants emerge via self-play reinforcement learning on a massive scale.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Gigaflow world", "weight": 1.0} -->
+
+The Gigaflow world is simple: we do not script scenarios, use human driving traces, or design delicate reward terms. We show that simulation at massive scale makes up for much of this simplicity (Fig. 2).
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Gigaflow world", "weight": 1.0} -->
+
+Agents train on one of eight maps, randomly perturbed with rescaling, shears, flips and reflections. Total drivable lanes per map range from four to 40 km for a total of 136 km of road across the eight maps (Fig. 2a). In each map, we spawn one to $N_{a}$ agents at random locations and orientations on the road and ask them to reach goal points sampled uniformly over the map. This creates a world in which agents drive for long distances before reaching their destinations (Fig. 2b). Agents are tasked with visiting a variable number of intermediate waypoints, requiring the ability to follow complex routes (see Appendix B for details).
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Gigaflow world", "weight": 1.0} -->
+
+Dense traffic flows with diverse interactions emerge as agents navigate to their destinations. As training progresses, we can observe agents executing zipper merges and tight maneuvers in traffic jams, managing congested roundabouts and uncontrolled intersections, resolving occasional gridlocks, and performing multi-point turns to reroute around accidents or obstructions.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Gigaflow world", "weight": 1.0} -->
+
+Gigaflow agents train fully in self-play. All dynamic agents -- vehicles, pedestrians, and cyclists -- use the same single reactive parametric policy $\pi$; their behaviors are varied through conditioning $C$ (Fig. 2d). The policy is aware of the dynamics of the agent it controls as part of the conditioning $C_{\text{dynamics}}$. The agent reward is a mixture of incentives to reach its goal, avoid collisions, drive centered and lane aligned, as well as penalties for running red lights or stop signs, and exceeding acceleration and jerk limits. The weights on each of these reward components are randomized per agent and provided as conditioning $C_{\text{reward}}$ to the agent (see Appendix B for details). This allows a single reactive policy $\pi$ to exhibit a wide range of behaviors. The result is a diverse training world where agents learn a continuum of driving styles: some drive cautiously, others are likely to run traffic lights, while a rare few are willing to drive against the flow of traffic. Because the policy only observes the conditioning $C$ of the agent it controls, it must learn to be robust to the unpredictable behaviors of other drivers.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Gigaflow simulation and training", "weight": 1.0} -->
+
+The Gigaflow simulation and training framework is designed to optimize driving data collection and training throughput per unit of computation. We simulate and learn from $4.4$ billion state transitions per hour on a single 8-GPU node, rolling out urban commute simulations $360\, 000$ times faster than real time at the cost of under \$5 per million kilometers driven (based on public cloud rates). These training rates require three core ingredients: a fast batched simulator (Shacklett et al. Petrenko et al. Shacklett et al., ), a compact and expressive policy for fast inference and backpropagation, and a high-throughput training algorithm.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Gigaflow simulation and training", "weight": 1.0} -->
+
+Gigaflow simulation. Gigaflow simulates $38\, 400$ environments in parallel across 8 GPUs with up to $N_{a} = 150$ vehicles each (Fig. 2a). Basic operations, such as policy inference and dynamics updates are batched across all agents. Agent localization, collision checking, and observation construction rely on dedicated optimized data structures. Due to the large map sizes, we precompute and cache all map observations in a spatial hash and perform fast, GPU-based runtime lookup and retrieval. Agents perceive the map by observing sets of points sampled sparsely along drivable lanes $W_{\text{lane}}$, and densely along the nearby road edges for precise maneuvering $W_{\text{boundary}}$.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Gigaflow simulation and training", "weight": 1.0} -->
+
+Beyond map features, agents get observations of nearby traffic participants $A$ -- containing nearby vehicles' sizes, locations, orientations, and velocities -- and nearby stop lines and traffic lights $W_{\text{stop}}$. Gigaflow models static obstacles as immobile vehicles $A_{\text{static}}$. To reduce memory, we do not store these observations in the rollout buffer, but calculate them on demand from stored world states. See Appendix A for a detailed description of the simulator.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Gigaflow simulation and training", "weight": 1.0} -->
+
+Gigaflow policy. Gigaflow can simulate diverse actor types, from pedestrians to heavy trucks, by parameterizing a single unified feed-forward policy (Fig. 2d). The decision to use the same underlying neural network policy for all traffic participants significantly impacts the overall throughput: we need only a single (batched) forward pass per simulation step to calculate actions for all agents. The policy resembles a Deep Sets architecture and is invariant to permutation w.r.t. each observation type. Critically, the entire trainable artifact is relatively compact at six million parameters. On an 8-GPU A100 node, the policy allows inference throughput of $7.4$ million decisions per second during experience collection at a batch size of $2.6$ million, and eight gradient updates per second in the training phase with a batch size of $256\, 000$. See Appendix D for more details.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Gigaflow simulation and training", "weight": 1.0} -->
+
+Gigaflow training. We train the Gigaflow policy using Proximal Policy Optimization (PPO). One of the main challenges associated with autonomous driving is the inherent imbalance in the data distribution. As training progresses, the on-policy data is dominated by ordinary traffic configurations, such as orderly driving in a straight line between intersections. The critic is often able to accurately predict the returns for such trajectories, resulting in a large portion of samples with near-zero advantage that consequently yield vanishingly small gradients.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Gigaflow simulation and training", "weight": 1.0} -->
+
+We use a variant of Prioritized Experience Replay that filters samples that have minimal impact on learning. The filtering is based on the absolute value of the estimated advantage. We filter up to 80% of samples with low absolute advantage, which significantly increases learning throughput without sacrificing sample efficiency. Our approach, which we refer to as *advantage filtering*, focuses training on the most informative state transitions, prioritizing learning from the underexplored tails of the data distribution where selected actions are measurably better or worse, and makes more efficient use of the data we generate. See Appendix C for more details.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Zero-shot evaluation on driving benchmarks", "weight": 1.0} -->
+
+We evaluate a trained Gigaflow policy on the leading closed-loop driving benchmarks: CARLA, nuPlan, and the Waymo Open Motion Dataset through the Waymax simulator. These benchmarks encompass a wide range of actor behaviors, driving scenarios, maps, traffic densities, durations, and scoring methodologies. The CARLA benchmark consists of routes with hand-designed scenarios based on the NHTSA pre-crash topology. It evaluates long distance driving (several minutes per 1--3 km route). nuPlan and Waymax evaluate short distance driving (8--14 seconds per scenario, $< 100$ m) in scenarios derived from recorded real-world driving with the associated sensor data.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Zero-shot evaluation on driving benchmarks", "weight": 1.0} -->
+
+A generalist Gigaflow policy outperforms state-of-the-art specialists. For each benchmark, we compare to specialist state-of-the-art policies that are either trained or carefully hand-designed (Chitta et al. Jaeger et al. Dauner et al., ) to perform well on that specific benchmark. In contrast, we use a single policy across all benchmarks. Our policy is trained purely in self-play and is evaluated zero-shot in each benchmark environment. Without any fine-tuning, our policy surpasses the state of the art in CARLA, nuPlan, and Waymax (Fig. 1 with details in Tables A6, A5 and A7 and Appendix E). This demonstrates robust driving with strong generalization. Our self-play policy outperforms the state of the art on real driving traces with human traffic participants, without ever seeing human data during training.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Zero-shot evaluation on driving benchmarks", "weight": 1.0} -->
+
+Gigaflow policy generalizes to diverse actor behaviors. The benchmarks implement a diverse set of environment actors. CARLA uses reactive rules-based vehicles with lane-changing capabilities, combined with events triggered by the driver's behavior (e.g., a pedestrian that darts suddenly in front of the driver). The actors in nuPlan and Waymax are controlled by different variants of the Intelligent Driver Model. Vehicles in nuPlan follow the lane center line, whereas vehicles in Waymax follow the paths of logged human drivers. The Gigaflow policy exhibits robust driving amongst all of these actor types.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Zero-shot evaluation on driving benchmarks", "weight": 1.0} -->
+
+Gigaflow policy generalizes to diverse maps and driving situations. Gigaflow trains on variants of synthetic maps with closed road networks, but generalizes to the real-world maps in nuPlan and in the Waymo Open Motion Dataset (WOMD). The WOMD maps are small, with incomplete road networks constructed from logs of instrumented vehicles in several US cities. The nuPlan benchmark is based on driving logs of human drivers in locales with both right-handed and left-handed driving; it contains larger maps that encompass the entire testing area of the vehicle. Both nuPlan and WOMD scenarios include merges, unprotected turns, and interactions with pedestrians and cyclists. The Gigaflow policy achieves state-of-the-art results in these benchmarks without any training on recorded driving logs or any human-designed scenarios.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Zero-shot evaluation on driving benchmarks", "weight": 1.0} -->
+
+Gigaflow policy generalizes to real-world observation noise. Both Waymax and nuPlan construct observations, maps, and other actors with auto-labeling tools from real-world perception data. This brings occlusion, incorrect or missing traffic-light states, and obstacles revealed at the last moment. Despite the minimalistic noise modeling in Gigaflow, the Gigaflow policy generalizes zero-shot to these conditions.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Zero-shot evaluation on driving benchmarks", "weight": 1.0} -->
+
+Gigaflow policy is state-of-the-art according to multiple scoring methodologies. Each benchmark brings its own definition of 'good driving'. Those definitions are distinct and sometimes contradictory. For example, running a red light in CARLA incurs nearly the same penalty as colliding with another vehicle. Yet the same action can be advantageous in nuPlan, where red light violations are ignored by the scoring criteria, hard braking causes comfort penalties, and forward progress is strongly rewarded. Despite such variations, the single generalist Gigaflow driver outperforms specialist policies optimized for individual benchmark scores.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Zero-shot evaluation on driving benchmarks", "weight": 1.0} -->
+
+The Gigaflow policy approaches the ceiling of benchmark performance. The vast majority of the infractions sustained by the Gigaflow policy during testing on the benchmarks can be attributed to limitations of the benchmarks. For instance, $20\%$ of the reported infractions in CARLA are caused by pedestrians or cyclists darting from the sidewalk into the roadway without reacting to the evasive maneuver of the driver or other traffic participants. Preventing such collisions would require drastic overfitting to this type of scenario. Other exemplary limitations are gridlocks caused by CARLA-controlled traffic ($33\%$ of all infractions) or fuzzy stop sign and red light checks ($16\%$ of all infractions).
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Zero-shot evaluation on driving benchmarks", "weight": 1.0} -->
+
+In nuPlan our policy sustains $15$ collisions in $1118$ scenarios. We analyzed each of them. Nine are unavoidable due to invalid initialization or sensor noise (agents appearing inside the vehicle's bounding box). Four are caused by non-reactive pedestrian agents walking into the vehicle while the vehicle was stopped or in an evasive maneuver. Two collisions are due to traffic light violations of other agents.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Zero-shot evaluation on driving benchmarks", "weight": 1.0} -->
+
+In Waymax our policy sustains $187$ collisions in $44\, 097$ scenarios. We again analyzed each of them. $55.6\%$ were caused by unavoidable IDM agent behavior of the traffic participants controlled by the benchmark, such as swerving directly into the ego vehicle. $41.7\%$ were caused by initialization in a state of collision, typically with a pedestrian. $2.7\%$ (i.e. five scenarios) were considered at-fault and avoidable by the Gigaflow policy. Of the at-fault collisions, there were additional contributing factors such as perception issues or aggressive and spurious IDM behaviors. One example is when the Gigaflow policy seeks to avoid a rear-end collision with an IDM agent approaching from behind at high speed.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Zero-shot evaluation on driving benchmarks", "weight": 1.0} -->
+
+We include videos of all reported infractions in the supplementary material.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Analysis", "weight": 1.0} -->
+
+Gigaflow training employs two neural networks: the policy (actor) that chooses actions and the value function approximator (critic) that estimates the expected cost-to-go from a given state. We examine how the policy's driving behavior changes over the course of training (Fig. 3) and how the policy and value networks respond to targeted changes to their inputs in various scenarios (Fig. 4).
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Analysis", "weight": 1.0} -->
+
+Reinforcement learning at scale yields mastery of complex skills. The scale of Gigaflow training enables the policy to handle complex scenarios despite never seeing real-world or hand-designed driving scenarios during training. The policy learns to execute unprotected left turns, drive in crowded roads used by both pedestrians and vehicles, and handle vehicles dangerously merging into the driver's lane (Fig. 3a). In diagnostic tests designed for analysis, Gigaflow vehicles are able to safely negotiate through a narrow bottleneck into a single lane when the other lanes are blocked by an accident (Fig. 3b) and quickly merge three traffic flows into a single one due to road closures (Fig. 3c). Many of these skills are mastered only after $10^{11}$ to $10^{12}$ steps of training experience ($90$ to $1600$ million km driven).
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Analysis", "weight": 1.0} -->
+
+Value network detects dangerous states. To examine the value network's ability to detect dangerous states, we evaluate it on a set of observations generated by densely sampling all possible positions and orientations of the driver on a fixed region of the map. We find that the network appropriately assigns low value to states where the driver is taking a corner too fast, and where collision with another vehicle is imminent due to high relative velocity (Fig. 4a).
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Analysis", "weight": 1.0} -->
+
+Policy and value networks attend to salient scene features. Driving requires attending to the most consequential traffic participants at any given time, among hundreds of actors who may be present in the environment. We assess the attention of our policy and value networks by analyzing the change in action distribution (via mutual information) and change in value estimate when each actor is individually removed (Fig. 4b). As expected, the networks sometimes attend to different actors: For example, the value estimate is affected by all actors that make the scene more dangerous over the long term (for example a speeding car approaching a line of vehicles queued at a red traffic light), whereas the policy's action might not change due to such an actor if there is no way for the policy to mitigate the danger (Fig. 4b).
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Analysis", "weight": 1.0} -->
+
+Policy executes maneuvers contingent on nearby traffic behavior. We evaluate the policy in scenarios where a nearby vehicle either behaves predictably (continuing to move at constant velocity) or unpredictably, with all else fixed. We find that the policy executes appropriate discrete maneuvers contingent on the nearby vehicle behavior, like changing lanes to avoid collision with a vehicle that is cutting into its lane and passing a vehicle that unexpectedly stops in the road. The policy executes contingent longer-term routing maneuvers, like turning around by circling the block instead of making a three-point turn, depending on traffic (Fig. 4c).
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Analysis", "weight": 1.0} -->
+
+Policy reacts to potential events far in the future. Both networks are also able to react to salient scene features even when they are distant, like an obstruction $150$ $m$ down the road (Fig. 4d), and can ignore actors that are near but irrelevant (e.g., a car parked few meters from the driver in a parking lot). While considering potential events beyond the planning horizon is often a challenge for trajectory-based planners, the Gigaflow policy optimizes long-term return directly without the limitations of a short time horizon.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Analysis", "weight": 1.0} -->
+
+One policy learns a continuum of driving styles. Reward function coefficients $C_{\text{reward}}$, vehicle dimensions, and vehicle goals are all randomized during training. As a result, the policy learns a parameterized family of driving styles (Fig. 4e,f; Fig. A1); different styles can be elicited from a single trained policy by setting the parameters accordingly, without any retraining or fine-tuning. For example, the policy squeezes through narrow passages or performs tight turns if and only if the vehicle dimensions permit this (Fig. 4f). Likewise, reducing the conditioning parameter that controls sensitivity to red lights makes the policy more willing to run red lights in order to accomplish other goals.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Analysis", "weight": 1.0} -->
+
+Gigaflow yields a highly efficient, capable, and realistic simulation environment. The Gigaflow training configuration features substantial dynamics noise and diverse reward conditioning parameters $C_{\text{reward}}$ (see Section 2). We can configure the same simulation infrastructure for long-form evaluation of trained policies. In this configuration, we reduce the injected dynamics noise, increase control frequency, and set conditioning parameters $C_{\text{reward}}$ that prioritize safety for all actors. This yields a fast, cost-effective, and highly robust traffic simulator. In this regime, a fully trained Gigaflow agent experiences on average 17.5 years of driving and travels over 3 million $km$ before encountering an incident. (For reference, human drivers average approximately $829\, 000$ vehicle kilometers traveled per police-reported traffic crash in the United States, or as much as 1 crash per $24\, 800$ $km$ in narrower domains such as San Francisco.) To our knowledge this is the first demonstration of long-term robust traffic simulation based on independent agents traversing a diverse urban road network.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Analysis", "weight": 1.0} -->
+
+We evaluate the realism of the driving behaviors learned via Gigaflow on the Waymo Open Sim Agents Challenge (WOSAC), which measures the ability to reproduce real-world driving behaviors for simulation purposes. Despite not using any human data for training, the Gigaflow policy exhibits many characteristics of human driving, achieving a score of 0.62 in zero-shot evaluation on the realism meta-metric, outperforming several approaches based on supervised autoregressive prediction. (Details in Section E.4.)
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Many questions remain to fully understand the long-term role of self-play in delivering broad-competence robust autonomy. First, our work has been conducted entirely in simulation. Techniques for transferring policies from simulation to reality will have to be brought to bear before claims can be made regarding the efficacy of self-play policies in the physical world (Müller et al. Lee et al. Kaufmann et al., ).
 
-Second, our work has focused on planning and decision-making, largely abstracting the perception stack. To integrate the presented findings into an operational system, sensing and perception will have to be modeled much more closely. An exciting possibility is to combine large-scale self-play training with data-driven simulation of the associated perceptual inputs (e.g. camera images) (Ost et al. Yang et al. Hu et al., ). It is likely feasible in the coming years due to ongoing improvements in simulation methodology (Shacklett et al. Petrenko et al. Shacklett et al., ), computing hardware, and system architectures.
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Second, our work has focused on planning and decision-making, largely abstracting the perception stack. To integrate the presented findings into an operational system, sensing and perception will have to be modeled much more closely. An exciting possibility is to combine large-scale self-play training with data-driven simulation of the associated perceptual inputs (e.g. camera images) (Ost et al. Yang et al. Hu et al., ). It is likely feasible in the coming years due to ongoing improvements in simulation methodology (Shacklett et al. Petrenko et al. Shacklett et al., ), computing hardware, and system architectures. Combining self-play with photorealistic sensor simulation would substantially increase the computational footprint of each experience, but the wall-clock training time can be maintained by scaling out over a commensurate number of compute nodes.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Third, our work has demonstrated that training without real-world driving traces can yield policies that are surprisingly human-like and highly robust when tested in recorded real-world scenarios with human participants (Caesar et al. Gulino et al., ). By contrast, common perspectives on learning-based autonomous driving hold that recorded datasets will play a key role in training driving policies (Jain et al. Hawke et al. Chen et al., ). How do we reconcile our findings with these views? One possibility is to combine large-scale self-play training with training on recorded scenarios, perhaps via a combination of reinforcement learning and imitation learning (Lu et al. Zhang et al., ). This can further increase robustness and help bridge simulation and reality.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Our findings may inspire broader application of self-play in training agents that act in the presence of (and in close coordination with) humans in physical and digital environments. Such coordinated action may be called for in mobile robotics, in both consumer and industrial settings, and in digital domains such as online games. We have shown that policies that function effectively in the presence of human actors in complex dynamic environments can be trained without utilizing human data. Broader application of this methodology may substantially reduce the cost and complexity of training autonomous policies by meaningfully reducing the need for human data collection.

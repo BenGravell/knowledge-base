@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Review of Computational Stirling Analysis Methods
 
 Topics include Stirling engine, Computational fluid dynamics, Free-piston stirling convertors, Space power systems, Numerical simulation, Energy conversion.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Reviews computational analysis methods for Stirling engines, motivated by free-piston Stirling convertors for nuclear thermal-to-electric space power. The report traces modeling approaches up to higher-fidelity numerical simulation and argues that improved loss modeling can guide more efficient Stirling-engine design.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Nuclear thermal to electric power conversion carries the promise of longer duration missions and higher scientific data transmission rates back to Earth for both Mars rovers and deep space missions. A free-piston Stirling convertor is a candidate technology that is considered an efficient and reliable power conversion device for such purposes. While already very efficient, it is believed that better Stirling engines can be developed if the losses inherent its current designs could be better understood. However, they are difficult to instrument and so efforts are underway to simulate a complete Stirling engine numerically. This has only recently been attempted and a review of the methods leading up to and including such computational analysis is presented. And finally it is proposed that the quality and depth of Stirling loss understanding may be improved by utilizing the higher fidelity and efficiency of recently developed numerical methods. One such method, the Ultra HI-Fl technique is presented in detail.

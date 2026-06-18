@@ -1,3 +1,13 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Multi-Variable Conformal Prediction: Optimizing Prediction Sets without Data Splitting
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 Conformal prediction constructs prediction sets with finite-sample coverage guarantees, but its calibration stage is structurally constrained to a scalar score function and a single threshold variable - forcing shapes of prediction sets to be fixed before calibration, typically through data splitting. We introduce multi-variable conformal prediction (MCP), a framework that extends conformal prediction to vector-valued score functions with multiple simultaneous calibration variables. Building on scenario theory as a principled framework for certifying data-driven decisions, MCP unifies prediction set design and calibration into a single optimization problem, eliminating data splitting without sacrificing coverage guarantees. We propose two computationally efficient variants: RemMCP, grounded in constrained optimization with constraint removal, which admits a clean generalization of split conformal prediction; and RelMCP, based on iterative optimization with constraint relaxation, which supports non-convex score functions at the cost of possibly greater conservatism.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Through numerical experiments on ellipsoidal and multi-modal prediction sets, we demonstrate that RemMCP and RelMCP consistently meet the target coverage with prediction set sizes smaller than or comparable to those of baselines with data split, while considerably reducing variance across calibration runs - a direct consequence of using all available data for shape optimization and calibration simultaneously.

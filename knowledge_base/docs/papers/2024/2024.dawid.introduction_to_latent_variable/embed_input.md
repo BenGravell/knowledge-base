@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Introduction to Latent Variable Energy-Based Models: A Path Toward Autonomous Machine Intelligence
 
 Topics include Research paper.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Dawid and LeCun turn LeCun's autonomous machine intelligence proposal into lecture-note form, introducing energy-based models, latent variables, and their role in self-supervised predictive world models. The paper argues that JEPAs and hierarchical JEPAs can make predictions in representation space, handle uncertainty with latent variables, and support multiscale planning more naturally than purely supervised, reinforcement-learning, or high-dimensional probabilistic approaches.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Current automated systems have crucial limitations that need to be addressed before artificial intelligence can reach human-like levels and bring new technological revolutions. Among others, our societies still lack level-5 self-driving cars, domestic robots, and virtual assistants that learn reliable world models, reason, and plan complex action sequences. In these notes, we summarize the main ideas behind the architecture of autonomous intelligence of the future proposed by Yann LeCun. In particular, we introduce energy-based and latent variable models and combine their advantages in the building block of LeCun’s proposal, that is, in the hierarchical joint-embedding predictive architecture.

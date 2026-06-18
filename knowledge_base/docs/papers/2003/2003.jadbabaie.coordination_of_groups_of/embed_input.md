@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Coordination of Groups of Mobile Autonomous Agents Using Nearest Neighbor Rules
 
 Topics include Multi-agent systems, Consensus, Nearest neighbor rules, Switched systems, Flocking, Distributed coordination, Mobile agents.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Provides a theoretical explanation for the Vicsek-style nearest-neighbor heading-alignment rule, proving convergence to common motion under changing neighbor graphs. The paper helped launch rigorous consensus theory for mobile multi-agent systems and highlights a switched linear system that is stable without a common quadratic Lyapunov function.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 In a recent Physical Review Letters article, Vicsek et al. propose a simple but compelling discrete-time model of n autonomous agents (i.e., points or particles) all moving in the plane with the same speed but with different headings. Each agent's heading is updated using a local rule based on the average of its own heading plus the headings of its "neighbors." In their paper, Vicsek et al. provide simulation results which demonstrate that the nearest neighbor rule they are studying can cause all agents to eventually move in the same direction despite the absence of centralized coordination and despite the fact that each agent's set of nearest neighbors change with time as the system evolves. This paper provides a theoretical explanation for this observed behavior. In addition, convergence results are derived for several other similarly inspired models. The Vicsek model proves to be a graphic example of a switched linear system which is stable, but for which there does not exist a common quadratic Lyapunov function.

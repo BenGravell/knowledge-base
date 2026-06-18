@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Semidefinite Programming
 
 Topics include Semidefinite programming, Convex optimization, Interior-point methods, Primal-dual methods, Linear matrix inequalities, Combinatorial optimization, Control theory.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Surveys semidefinite programming as convex optimization over positive-semidefinite matrix constraints and explains why SDPs generalize linear and quadratic programming while remaining tractable. The article is a foundational tutorial on SDP theory, applications, and primal-dual interior-point solution methods.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 In semidefinite programming one minimizes a linear function subject to the constraint that an affine combination of symmetric matrices is positive semidefinite. Such a constraint is nonlinear and nonsmooth, but convex, so semidefinite programs are convex optimization problems. Semidefinite programming unifies several standard problems (e.g., linear and quadratic programming) and finds many applications in engineering and combinatorial optimization. Although semidefinite programs are much more general than linear programs, they are not much harder to solve. Most interior-point methods for linear programming have been generalized to semidefinite programs. As in linear programming, these methods have polynomial worst-case complexity, and perform very well in practice. This paper gives a survey of the theory and applications of semidefinite programs, and an introduction to primal-dual interior-point methods for their solution.

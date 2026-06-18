@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Imaging Vector Fields Using Line Integral Convolution
 
 Topics include Line integral convolution, Flow visualization, Vector field visualization, Texture synthesis, Scientific visualization, Computer graphics, Image processing.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Introduces Line Integral Convolution (LIC), a dense texture-based method for visualizing vector fields by filtering an input texture along local streamlines. The paper established the basic algorithmic vocabulary for later LIC variants, including curvilinear filtering, periodic motion filtering, and the use of arbitrary textures to show detailed directional structure without relying on manually seeded streamlines or sparse glyphs.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Imaging vector fields has applications in science, art, image processing and special effects. An effective new approach is to use linear and curvilinear filtering techniques to locally blur textures along a vector field. This approach builds on several previous texture generation and filtering techniques. It is, however, unique because it is local, one-dimensional and independent of any predefined geometry or texture. The technique is general and capable of imaging arbitrary two-dimensional and three-dimensional vector fields. The local one-dimensional nature of the algorithm lends itself to highly parallel and efficient implementations. Furthermore, the curvilinear filter is capable of rendering detail on very intricate vector fields. Combining this technique with other rendering and image processing techniques - like periodic motion filtering - results in richly informative and striking images. The technique can also produce novel special effects.

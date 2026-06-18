@@ -1,19 +1,257 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Bench2Drive: Towards Multi-Ability Benchmarking of Closed-Loop End-To-End Autonomous Driving
 
-In an era marked by the rapid scaling of foundation models, autonomous driving technologies are approaching a transformative threshold where end-to-end autonomous driving (E2E-AD) emerges due to its potential of scaling up in the data-driven manner. However, existing E2E-AD methods are mostly evaluated under the open-loop log-replay manner with L2 errors and collision rate as metrics (e.g., in nuScenes), which could not fully reflect the driving performance of algorithms as recently acknowledged in the community. For those E2E-AD methods evaluated under the closed-loop protocol, they are tested in fixed routes (e.g., Town05Long and Longest6 in CARLA) with the driving score as metrics, which is known for high variance due to the unsmoothed metric function and large randomness in the long route. Besides, these methods usually collect their own data for training, which makes algorithm-level fair comparison infeasible. To fulfill the paramount need of comprehensive, realistic, and fair testing environments for Full Self-Driving (FSD), we present Bench2Drive, the first benchmark for evaluating E2E-AD systems' multiple abilities in a closed-loop manner.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction
+In an era marked by the rapid scaling of foundation models, autonomous driving technologies are approaching a transformative threshold where end-to-end autonomous driving (E2E-AD) emerges due to its potential of scaling up in the data-driven manner. However, existing E2E-AD methods are mostly evaluated under the open-loop log-replay manner with L2 errors and collision rate as metrics (e.g., in nuScenes), which could not fully reflect the driving performance of algorithms as recently acknowledged in the community. For those E2E-AD methods evaluated under the closed-loop protocol, they are tested in fixed routes (e.g., Town05Long and Longest6 in CARLA) with the driving score as metrics, which is known for high variance due to the unsmoothed metric function and large randomness in the long route. Besides, these methods usually collect their own data for training, which makes algorithm-level fair comparison infeasible.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+To fulfill the paramount need of comprehensive, realistic, and fair testing environments for Full Self-Driving (FSD), we present Bench2Drive, the first benchmark for evaluating E2E-AD systems' multiple abilities in a closed-loop manner. Bench2Drive's official training data consists of 2 million fully annotated frames, collected from 13638 short clips uniformly distributed under 44 interactive scenarios (cut-, overtaking, detour, etc), 23 weathers (sunny, foggy, rainy, etc), and 12 towns (urban, village, university, etc) in CARLA v2. Its evaluation protocol requires E2E-AD models to pass 44 interactive scenarios under different locations and weathers which sums up to 220 routes and thus provides a comprehensive and disentangled assessment about their driving capability under different situations. We implement state-of-the-art E2E-AD models and evaluate them in Bench2Drive, providing insights regarding current status and future directions.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 ^††^footnotetext: This work was in part supported by by NSFC and Shanghai Municipal Science and Technology Major Project under Grant 2021SHZDZX0102.
 
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 In recent years, the field of autonomous driving has witnessed tremendous growth, fueled by the rapid advancement and scaling of foundation models. These developments have ushered in a new era of end-to-end autonomous driving (E2E-AD) systems, which promise a scalable, data-driven approach to vehicle automation, opposed to traditional module-based perception, prediction, planning pipeline. Such systems are designed to be capable of learning from vast amounts of data, potentially transforming the landscape of vehicle intelligence.
 
-Despite these advancements, the evaluation methodologies for E2E-AD systems remain a critical bottleneck. One popular way is to conduct log-replay with the recorded expert trajectories in dataset like nuScenes, i.e., open-loop evaluation. These models usually predict the future locations of the ego vehicle with the raw sensor information as inputs. As for metrics, the L2 error relative to the recorded trajectories and the ratio of collision happening are used.
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-To address the aforementioned challenges in evaluating autonomous driving (AD) systems, it is essential to develop a new benchmark that fairly assesses their capabilities in a granular manner. To this end, we introduce Bench2Drive, a new benchmark designed to evaluate E2E-AD systems in a comprehensive, realistic, and fair closed-loop environment. Bench2Drive has an official training dataset collected by state-of-the-art expert model Think2Drive, comprising 2 million fully annotated frames, sourced from 13638 clips.
+Despite these advancements, the evaluation methodologies for E2E-AD systems remain a critical bottleneck. One popular way is to conduct log-replay with the recorded expert trajectories in dataset like nuScenes, i.e., open-loop evaluation. These models usually predict the future locations of the ego vehicle with the raw sensor information as inputs. As for metrics, the L2 error relative to the recorded trajectories and the ratio of collision happening are used. However, as widely discussed in the community, these open-loop metrics are insufficient for showcasing proficiency in planning, due to issues including distribution shift, causal confusion, etc. nuScenes is also problematic due to its small and imbalanced validation set (around 75% of the frames only require continuing to drive straight). As a result, only encoding the ego status (location, speed, etc) could achieve similar L2 errors compared to complex methods with sensor inputs, which prompts a call for a closed-loop evaluation benchmark for E2E-AD.
 
-## Conclusion
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+CARLA is one of the most widely used simulator for closed-loop E2E-AD evaluation. Within its framework, benchmarks such as Town05Long and Longest6 have been established, featuring multiple routes that require AD systems to complete safely within specific time constraints. However, these benchmarks only assess basic skills such as lane following, making turns, collision avoidance, and traffic lights obeying, failing to examine AD systems' driving ability under complicated and interactive traffic. The latest CARLA Leaderboard v2 introduces 39 challenging scenarios designed to evaluate the robustness of AD systems in more intricate situations. Nevertheless, the official routes for evaluation, ranging from 7 to 10 kilometers and filled with scenarios, present a formidable challenge, often too difficult to complete flawlessly, as shown in Fig. (a). Consequently, with the driving score metric employing an exponential decay function, it becomes challenging to effectively compare different AD systems, as they tend to score very low. For instance, in the current Leaderboard v2^11^1[ participating methods score less than 10 points out of 100. Besides, existing methods usually collect data by themselves which makes algorithm-level fair comparison infeasible.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To address the aforementioned challenges in evaluating autonomous driving (AD) systems, it is essential to develop a new benchmark that fairly assesses their capabilities in a granular manner. To this end, we introduce Bench2Drive, a new benchmark designed to evaluate E2E-AD systems in a comprehensive, realistic, and fair closed-loop environment. Bench2Drive has an official training dataset collected by state-of-the-art expert model Think2Drive, comprising 2 million fully annotated frames, sourced from 13638 clips. It span a diverse array of 44 interactive scenarios such as cut-ins, overtakings, and detours under different weather conditions and towns, ranging from sunny days in bustling city centers to foggy conditions in quaint villages. The evaluation protocol includes 220 short routes, each only around 150 meters in length and containing a single specific scenario. In this way, the assessment of individual skills is isolated and thus allows for a detailed comparison of the AD systems' proficiency across 44 distinct skill sets. Moreover, the brevity of each route mitigates the impact of the exponential decay function on the driving score, facilitating a more accurate and meaningful comparison of performance across different systems.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Such a structured and focused benchmark would provide clearer insights into the strengths and weaknesses of each AD system, enabling targeted improvements and more refined technology development.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Comprehensive Scenario Coverage: Bench2Drive is designed to test AD systems across 44 interactive scenarios, providing a thorough evaluation about capabilities under complex situations.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Granular Skill Assessment: By structuring the evaluation across 220 short routes, each focusing on a specific driving scenario, Bench2Drive allows for detailed analysis and comparison of how different AD systems perform on individual tasks.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Closed-Loop Evaluation Protocol: Bench2Drive evaluates AD systems in a closed-loop manner, where the AD system's actions directly influence the environment. This setup offers an accurate assessment of an AD system's driving performance.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Diverse Large-Scale Official Training Data: Bench2Drive consists of a standardized training set of 2 million fully annotated frames from 13638 clips under diverse scenarios, weathers, and towns, ensuring that all AD systems are trained under abundant yet similar conditions, which is crucial for fair algorithm-level comparisons.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+*These features make Bench2Drive a pioneering benchmark in the field of autonomous driving, providing an essential tool for researchers to refine and evaluate their E2E-AD systems in a realistic, comprehensive, and fair manner.* We implement several classic baselines including TCP, ThinkTwice, DriveAdapter, UniAD, VAD, and AD-MLP and evaluate them in the Bench2Drive. We confirm the fact that open-loop metrics like L2 error could not reflect the actual driving performance. For the classic closed-loop metric - Drive Score, we find that it lack details and its heavy punishment encourages over-conservative driving strategies while Bench2Drive offers a comprehensive understanding about capabilities of different methods.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Planning Benchmarks", "weight": 1.0} -->
+
+Benchmarking in the field of autonomous driving has evolved from specialized datasets, such as KITTI for perception and NGSIM/highD, BARK for behavior prediction, to integrated forms like nuScenes, Argoverse, and Waymo, which facilitate the evaluation of various synergic system components. Recently, the assessment of planning capabilities for learning-based methods has become an area of interest. In Table, we present a comparison of planning benchmarks. nuScenes, while offering open-loop metrics, has been critiqued for its inability to adequately evaluate planning proficiency due to the lack of closed-loop simulation. Furthermore, it suffers from an imbalanced validation set, with a significant portion (75%) of scenarios only requiring straightforward driving, thus inadequately challenging the decision-making capabilities of AD systems in complex environments. nuPlan and Waymax offer closed-loop evaluations but are limited to bounding box level assessments, excluding sensor simulation and, consequently, are not suitable for E2E-AD methods. Longest6, a modified version of CARLA Leaderboard V1, only assesses basic skills such as lane following, making turns, collision avoidance, and traffic lights.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Planning Benchmarks", "weight": 1.0} -->
+
+CARLA Leaderboard V2 lacks expert demonstration data. As widely discussed in the community, the lack of an official training set makes the comparisons of different methods in the system-level instead of the algorithm-level.Bench2Drive deal with these shortcomings by offering a large-scale, annotation-rich official training dataset alongside a multi-ability evaluation set. This enables a more granular and informative assessment of an AD system's driving capabilities, overcoming the limitations of existing benchmarks that rely on average scoring across all routes as their primary performance metric.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "End-to-End Autonomous Driving", "weight": 1.0} -->
+
+The concept of E2E-AD could date back to 1980s. Recently, the arise of neural network, especially Transformer, demonstrates the power of scaling laws, which rejuvenates the enthusiasm for E2E-AD. However, they are either evaluated only in the open-loop way or in the relatively simple scenes like Town05Long/Longest6. Bench2Drive offers a challenging and comprehensive arena to compare E2E-AD methods' ability.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Bench2Drive", "weight": 1.0} -->
+
+Bench2Drive consists of a large-scale fully annotated dataset collected in CARLA as the official training set, an evaluation toolkit for the granular driving skill assessment, and implementations of several state-of-the-art E2E-AD methods tailored for the training dataset and evaluation toolkit. All data, codes, and checkpoints are in GitHub and Huggingface under Apache License 2.0. We give details in the following section.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Data Collection Agent", "weight": 1.0} -->
+
+The data collection agent (expert) is responsible for collecting the data so that student models could learn from the data. In the real world, this is usually done by human to drive around the city, like the curation of KITTI, nuScenes, Waymo, Argoverse. However, it requires lots of human efforts. In simulation, there is a cheap substitute - teacher model. The teacher model would use information not available in the real world (termed privileged information), for example, ground-truth locations, states, and intentions of surrounding agents and ground-truth states of traffic lights, etc. As a result, people using CARLA either write rules or train a RL model to use the privileged information to drive in the simulation.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Data Collection Agent", "weight": 1.0} -->
+
+In this work, we use the world model based reinforcement learning teacher - Think2Drive to navigate in CARLA and collect data, since it is the only expert model which is able to solve all 44 scenarios during the construction of Bench2Drive. Notably, after the release of Bench2Drive, the rule-based expert PDM-Lite ^22^2 is open sourced and users could use it for customized demand.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Expert Dataset", "weight": 1.0} -->
+
+Existing E2E-AD methods evaluated in the closed-loop manner typically collect their own data using the CARLA simulator. However, as highlighted, the size and distributions of these datasets significantly influence performance, rendering fair algorithm-level comparisons challenging. To address this, we have constructed a large-scale expert dataset with comprehensive annotations including 3D bounding boxes, depth, and semantic segmentation, sampled at 10 Hz, to serve as the official training set. As the information from expert could be an important guidance of student models, we also provide the expert model - Think2Drive's value estimation and features. Fig. gives an overview.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Expert Dataset", "weight": 1.0} -->
+
+1x LiDAR: 64 channels, 85-meter range, 600,000 points per second
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Expert Dataset", "weight": 1.0} -->
+
+6x Camera: Surround coverage, 900x1600 resolution, JPEG compression (quality-level 20)
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Expert Dataset", "weight": 1.0} -->
+
+5x Radar: 100-meter range, $30^{\circ}$ horizontal and vertical FoV
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Expert Dataset", "weight": 1.0} -->
+
+1x IMU & GNSS: Location, yaw, speed, acceleration, and angular velocity
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Expert Dataset", "weight": 1.0} -->
+
+1x BEV Camera: Debugging, visualization, remote sensing
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Expert Dataset", "weight": 1.0} -->
+
+HD-Map: Lanes, centerlines, topology, dynamic light states, trigger areas for lights and stop signs
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Expert Dataset", "weight": 1.0} -->
+
+Moreover, to tackle the challenge posed by the long-tail distribution of data from both perception and behavior perspectives, a significant bottleneck in autonomous driving (approximately 75% of the clips in nuScenes only involve the ego vehicle driving straight), we ensure the distribution of weather conditions, landscapes, and behaviors are as uniform as possible. We add more available locations for scenarios compared to the official routes of CARLA Leaderboard V2 as shown in Fig., enhancing the data diversity. Further, we design 5 more scenarios beyond Leaderboard V2 to enhance behavior diversity as detailed in Appendix G. We give the distribution of scenarios and weathers and towns in Appendix B. As illustrated, Bench2Drive dataset is rich in both perception and behavior diversity.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Expert Dataset", "weight": 1.0} -->
+
+For data partitioning, we segmented the driving process into short clips, each approximately 150 meters in length and containing a single specific scenario. This segmentation allows for the curriculum learning of individual driving skills. To cater to different computational capabilities, we designed three data subsets: mini (10 clips for debugging and visualization), base (1,000 clips, comparable to nuScenes, suitable for 8xRTX3090 server), and full (10,000 clips for large-scale studies).
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Expert Dataset", "weight": 1.0} -->
+
+CrossingBicycleFlow, EnterActorFlow, HighwayExit, InterurbanActorFlow, HighwayCutIn, InterurbanAdvancedActorFlow, MergerIntoSlowTrafficV2, MergeIntoSlowTraffic, NonSignalizedJunctionLeftTurn, NonSignalizedJunctionRightTurn, NonSignalizedJunctionLeftTurnEnterFlow, ParkingExit, LaneChange, SignalizedJunctionLeftTurn, SignalizedJunctionRightTurn, SignalizedJunctionLeftTurnEnterFlow
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Expert Dataset", "weight": 1.0} -->
+
+Accident, AccidentTwoWays, ConstructionObstacle, ConstructionObstacleTwoWays, HazardAtSideLaneTwoWays, HazardAtSideLane, ParkedObstacleTwoWays, ParkedObstacle, VehicleOpenDoorTwoWays
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Expert Dataset", "weight": 1.0} -->
+
+BlockedIntersection, DynamicObjectCrossing, HardBreakRoute, OppositeVehicleTakingPriority, OppositeVehicleRunningRedLight, ParkingCutIn, PedestrianCrossing, ParkingCrossingPedestrian, StaticCutIn, VehicleTurningRoute, VehicleTurningRoutePedestrian, ControlLoss
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Expert Dataset", "weight": 1.0} -->
+
+EnterActorFlow, CrossingBicycleFlow, NonSignalizedJunctionLeftTurn, NonSignalizedJunctionRightTurn, NonSignalizedJunctionLeftTurnEnterFlow, OppositeVehicleTakingPriority, OppositeVehicleRunningRedLight, PedestrianCrossing, SignalizedJunctionLeftTurn, SignalizedJunctionRightTurn, SignalizedJunctionLeftTurnEnterFlow, TJunction, VanillaNonSignalizedTurn, VanillaSignalizedTurnEncounterGreenLight, VanillaSignalizedTurnEncounterRedLight, VanillaNonSignalizedTurnEncounterStopsign, VehicleTurningRoute, VehicleTurningRoutePedestrian
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+Existing planning benchmarks assess the performance of AD systems by averaging scores across all provided routes. This approach offers a general overview of driving capabilities but fails to pinpoint specific strengths and weaknesses of different methods. Even worse, existing benchmarks in CARLA like Longest6 and Leaderboard V2 cover several kilometers, leading to high variance in the driving score metric. This variance arises because the infraction score penalizes errors through cumulative multiplication, which can significantly skew results. For instance, consider three test runs where each achieves 90% route completion, but the number of red lights run differs: 0, 1, and 2. The corresponding driving scores would be 90, ${90 \ast 0.7} = 63$, and ${90 \ast 0.7 \ast 0.7} = 44.1$, which causes a large standard deviation - 18.9 and thus makes comparison between methods unreliable.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+To address these issues, we propose a more granular evaluation framework for all 44 scenarios by designing 5 distinct short routes (around 150 meters in length) per scenario, each featuring different weathers and towns, which result in a total of 220 routes. This approach allows people to assess AD systems' capabilities by isolated skills, leading to a more detailed analysis with reduced variance. Further, we summarize 5 advanced skills for urban driving: Merging, Overtaking, Give Way, Traffic Sign, Emergency Brake as in Table and report the score of each skill. The decoupled design provides a clearer insight into which skills are effectively handled by the AD systems and which are not, fostering a more nuanced understanding of system performance.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+Formally, the evaluation set consists of 220 routes and each route defines a pair of source location $(x_{\text{src}},y_{\text{src}})$ and destination location $(x_{\text{dst}},y_{\text{dst}})$ in one specific town and weather. Given raw sensor inputs (cameras, LiDAR, IMU/GPS, etc) as well as the target waypoints, the ego vehicle should drive from source to the destination location.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+Success Rate (SR): This metric measures the proportion of successfully completed routes within the allotted time and without traffic violations. A route is deemed successful if the ego vehicle reaches its destination without any rule infractions. The success rate is calculated as the ratio of successful routes to the total number of routes, as shown in Equ. (left).
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+Driving Score (DS): This metric follows CARLA official metric as reference. It considers both route completion and penalty for infractions. Specifically, it averages the route completion percentages and penalizes infractions based on their severity, as depicted in Equation (right). The driving score is normalized by the total number of routes from same type or group as well.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+where $n_{\text{success}}$ and $n_{\text{total}}$ denote the number of successful routes and total samples respectively; $\text{Route-Completion}_{i}$ representats the percentage of route distance completed for the $i$-th route; $p_{i,j}$ means the $j$-th infraction penalty on the $i$-th route. Please refer to Appendix F for details about infraction types and penalties scores.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+Efficiency: The CARLA team has implemented a function to check whether the self-driving car's speed is too low.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+This function calculates the speed percentage using the vehicle's speed and the average speed of nearby vehicles at current frame. CARLA Leaderboard sets four checkpoints per route and checks the ego vehicle's speed when the ego vehicle arrives a checkpoint. Specifically, if the vehicle is faster than nearby vehicles, the driving efficiency would be larger than 100%. The check results are included as a penalty in the final driving score. However, with only four checkpoints, the vehicle must cover 25% of the total route distance before reaching the next checkpoint. This leads to a high variance in the penalty values for low speeds, complicating the reflection of driving capabilities in the driving scores. To alleviate this, we increase the number of checkpoints to 20. Speed check is now performed every 5% of the total route length, and it is excluded from the driving score calculation. The final driving efficiency metric is defined as the average of the speed percentage over all checks.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+If the ego vehicle fails to pass the initial 5% checkpoint, this route is not included in the final driving efficiency metric calculation. To account for cases where abnormal speed spikes may occur (e.g., when the vehicle falls off the current map layer), speed percentage values exceeding 1000% are filtered out.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+Comfortness: Comfortness is closely related to human experience and thus requires comparing autonomous driving policy with the behavior of numerous human driving experts to measure it. For this, we follow the popular benchmark nuPlan's smoothness(also called comfort) protocol, which evaluates ego's minimum and maximum longitudinal accelerations, the maximum absolute values of lateral acceleration, yaw rate, yaw acceleration, the longitudinal component of jerk, and the maximum magnitude of the jerk vector. These variables are compared to thresholds with default values determined empirically from the examination of nuPlan's human expert trajectories. Comfortness is measured based on whether these values fall within the upper and lower bounds of the expert values.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+where smoothness variables(vars) include: longitudinal acceleration - expert bound: \[-4.05, 2.40\], maximum absolute lateral acceleration - expert bound: \[-4.89, 4.89\], yaw rate - expert bound: \[-0.95, 0.95\], yaw acceleration - expert bound: \[-1.93, 1.93\], longitudinal component of jerk - expert bound: \[-4.13, 4.13\], maximum magnitude of jerk vector - expert bound:\[-8.37, 8.37\].
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+A trajectory is deemed Smooth only if all smoothness variables meet the smoothness criteria.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+In nuPlan, smoothness is determined by frame-by-frame evaluation of these variables over the entire trajectory, which makes it susceptible to local driving behaviors. For example, if a vehicle ahead suddenly brakes, the ego vehicle must also brake abruptly to avoid a collision. Even if the ego's hard brake behavior is appropriate in this case and its driving is smooth at other times, the entire trajectory could still be judged as unsmooth, leading to unreasonable evaluation results. To mitigate this issue, we segment the entire trajectory at a timestep interval $n = 20$ for evaluation.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+The final smoothness metric is defined as the ratio of smooth trajectory segments to the total number of segments.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Multi-Ability Evaluation", "weight": 1.0} -->
+
+Specifically, if the ego vehicle is blocked (speed remains below 0.1 for more than 60 seconds.), resulting in a failure case, this segment is still be considered as smooth because its speed is safe for human. Note that if the total frames of a trajectory are less than 20, the respective route is excluded from the smoothness assessment.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Baselines & Datasets", "weight": 1.0} -->
+
+UniAD explicitly conducts perception and prediction and uses Transformer Query to transport information. Together with it, we also implement the commonly used BEVFormer in Bench2Drive,
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Baselines & Datasets", "weight": 1.0} -->
+
+VAD also adopts Transformer Query yet with vectorized scene representation and thus improves efficiency.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Baselines & Datasets", "weight": 1.0} -->
+
+AD-MLP simply feeds the ego vehicle's history states into an MLP to predict future trajectories, which is a simple baseline for history state interpolation planner.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Baselines & Datasets", "weight": 1.0} -->
+
+TCP only uses the front cameras and the ego state as inputs to predict both trajectories and control signals. It is a simple yet effective baseline in CARLA v1.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Baselines & Datasets", "weight": 1.0} -->
+
+ThinkTwice promotes the idea of coarse-to-fine by refining the planning routes in a layer-by-layer manner and distilling the expert features.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Baselines & Datasets", "weight": 1.0} -->
+
+DriveAdapter proposes a new paradigm to fully unleash the power of expert model by decoupling the learning of perception and planning and connecting the two parts by adapter modules.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Baselines & Datasets", "weight": 1.0} -->
+
+Recognizing the varied computational resources available within the community, we have trained these baseline models on the *base* subset (1,000 clips). We use 950 clips for training while leaving 50 clips for open-loop evaluation. We ensure that the validation set contains at least one clip for each of 44 scenarios and the weather distribution is balanced. AD-MLP and TCP are trained with 1 \* A6000 while ThinkTwice, DriveAdapter, UniAD, and VAD are trained with 8 \* A100. For the closed-loop evaluation, we run all models in CARLA with the 220 test routes mentioned in Sec. 3.3 and calculate the metric accordingly. Note that some models' might have wrong behaviors in some certain routes (e.g., driving to some buggy location) and cause CARLA to crash without scoring. We treat these routes as 0 score. Please refer to Appendix C for more implementation details.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Open-loop metric could indicate model convergence but it fails for advanced comparison.. AD-MLP has a high L2 error and performs extremely bad in closed-loop evaluation while VAD has a low L2 error and a decent closed-loop performance. *It shows that we could use L2 error to verify the convergence and fitting status of neural networks*, i.e., when the L2 error is very high, there should be something wrong within the system. In this case, AD-MLP does not use raw sensors, which is similar to drive blindly and thus infeasible to fit the dataset. Notably, different from findings in nuScenes, AD-MLP fails to achieve decent L2 error in Bench2Drive, due to the better behavior diversity as shown in Fig.. On the other hand, UniAD-base has a lower L2 error compared to VAD yet with worse closed-loop performance, aligning with findings. Open-loop evaluation ignore the issues including distribution shift and causal confusion and thus fails to give meaningful comparsion for models with good fitting of dataset, demonstrating the importance of closed-loop evaluation.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Results", "weight": 1.0} -->
+
+For efficiency and smoothness, we could observe that AD-MLP has the lowest efficiency due to its quick failure and stuck. UniAD has higher efficiency and smoother trajectories compared to TCP-traj, demonstrating the effectivenes of the UniAD's post optimization for the planning head.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Expert feature distillation offers important guidance. As pointed out, due to the high-dimensional input space of AD, i.e., multiple images and point clouds, E2E-AD methods tend to overfit. The features from expert, which already possesses strong driving knowledge, could be helpful to mitigate the issue by distillation. As a result, methods (TCP/ThinkTwice/DriveAdapter) with expert feature distillation outperforms those without (VAD/UniAD) by a large margin. From the comparison between TCP-traj with and without distillation, we could observe similar trend. However, in the real world setting, it could be difficult to obtain expert features, which worths further study.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Interactive behaviors are difficult to learn. All models' scores of skills regarding strong interaction (Merging, Overtaking, and Emergency Brake) are unsatisfying. It might come from two perspectives: (I) Long-tail issue. Even though we ensure that the number of clips for different scenarios are similar, there are only a few frames within one clip are about interactive behaviors. As a result, it might be challenging for the learning. (II) Imitation learning paradigm. Direct supervised training of control signals or trajectories might fail to give guidance regarding the gaming, thinking, and reasoning process of interaction. More advanced training paradigms could be a promising direction.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Case Analysis", "weight": 1.0} -->
+
+We conduct visualizations and upload the results to For all five abilities, we choose some representative scenarios to visualize, where some baselines success and some baselines fail for the ease of comparison and analysis. We give the corresponding failure analysis so that the users and practioners could have a sense about the pros, cons, and future works of existing E2E-AD methods.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this work, we present Bench2Drive, a new benchmark tailed for closed-loop evaluation of end-to-end autonomous driving methods. We open source a fully-annotated large-scale dataset as the official training set and a multi-ability evaluation toolkit for the granular driving skill assessment. State-of-the-art E2E-AD methods are tested in Bench2Drive with their pros and cons evaluated, which provides insights for the future direction.
 
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
 Since the rendering of simulation in CARLA has gaps compared to real world, utilizing real world datasets could be complementary as done in the concurrent work - NAVSIM.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Generative models like diffusion models might have the potential to provide realistic and reactive rendering, with some pioneering works in the field. However, the illusion and artifact issue of diffusion requires further exploration.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+Social Impact: The deployment of AD systems holds immense potential to revolutionize transportation, but it also brings significant ethical and safety concerns. Bench2Drive could serve as a platform for rigorously validating the capabilities of AD systems in a controlled and simulated environment, helping to identify potential flaws before real-world deployment. One of the primary risks is the simulation-reality gap---the difference between how an AD system performs in simulation versus in the real world. Simulations have the difficulties to fully replicate the complexities and unpredictability of real-world driving conditions. There is a risk that an AD system might perform well in simulation but fail in real-world scenarios due to unmodeled factors like rare edge cases, unexpected human behaviors, or varying environmental conditions. Bench2Drive is intended to complement, not replace, real-world testing, and it is crucial to emphasize that simulation is one part of a broader validation process that must include extensive on-road testing.

@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Score-Guided Motion Planning: Learning the Gradient Field of Promising Regions
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 In this paper, a score-guided sampling framework, ScorePlanner, is proposed to address the critical challenge of sampling inefficiency in sampling-based motion planning. ScorePlanner fundamentally reframes the sampling problem: instead of relying on blind, uniform exploration, it introduces a guided generation process. This process leverages a learned score function, the gradient of the log-probability of promising configurations, to actively steer samples towards the connective backbone of the promising space. ScorePlanner can be seamlessly integrated as a modular sampler into foundational planners like RRT and RRT* to dramatically improve sampling efficiency and accelerate convergence to high-quality solutions. Extensive experiments in a variety of challenging environments are conducted to demonstrate the performance gains of the proposed framework.

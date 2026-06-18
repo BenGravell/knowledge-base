@@ -1,13 +1,377 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Mitigating LLM Hallucinations via Conformal Abstention
 
-We develop a principled procedure for determining when a large language model (LLM) should abstain from responding (e.g., by saying "I don't know") in a general domain, instead of resorting to possibly "hallucinating" a non-sensical or incorrect answer. Building on earlier approaches that use self-consistency as a more reliable measure of model confidence, we propose using the LLM itself to self-evaluate the similarity between each of its sampled responses for a given query. We then further leverage conformal prediction techniques to develop an abstention procedure that benefits from rigorous theoretical guarantees on the hallucination rate (error rate). Experimentally, our resulting conformal abstention method reliably bounds the hallucination rate on various closed-book, open-domain generative question answering datasets, while also maintaining a significantly less conservative abstention rate on a dataset with long responses (Temporal Sequences) compared to baselines using log-probability scores to quantify uncertainty, while achieveing comparable performance on a dataset with short answers (TriviaQA).
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction
+We develop a principled procedure for determining when a large language model (LLM) should abstain from responding (e.g., by saying "I don't know") in a general domain, instead of resorting to possibly "hallucinating" a non-sensical or incorrect answer. Building on earlier approaches that use self-consistency as a more reliable measure of model confidence, we propose using the LLM itself to self-evaluate the similarity between each of its sampled responses for a given query. We then further leverage conformal prediction techniques to develop an abstention procedure that benefits from rigorous theoretical guarantees on the hallucination rate (error rate). Experimentally, our resulting conformal abstention method reliably bounds the hallucination rate on various closed-book, open-domain generative question answering datasets, while also maintaining a significantly less conservative abstention rate on a dataset with long responses (Temporal Sequences) compared to baselines using log-probability scores to quantify uncertainty, while achieveing comparable performance on a dataset with short answers (TriviaQA). To evaluate the experiments automatically, one needs to determine if two responses are equivalent given a question.
 
-Large language models are excellent at next word prediction. At the same time, however, they are also prone to *hallucination*---that is, confidently generate responses that may look plausible on the surface, but that are actually incorrect or even nonsensical Ji et al., Maynez et al.. Unfortunately, hallucinations are difficult to detect, especially when users are not able to easily verify the factuality of an LLM's responses by themselves. In generation tasks in particular, it can be challenging to discriminate between hallucinations that present false facts, and any of the many other viable ways of expressing correct information.
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Following standard practice, we use a thresholded similarity function to determine if two responses match, but also provide a method for calibrating the threshold based on conformal prediction, with theoretical guarantees on the accuracy of the match prediction, which might be of independent interest.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Large language models are excellent at next word prediction. At the same time, however, they are also prone to *hallucination*---that is, confidently generate responses that may look plausible on the surface, but that are actually incorrect or even nonsensical Ji et al., Maynez et al.. Unfortunately, hallucinations are difficult to detect, especially when users are not able to easily verify the factuality of an LLM's responses by themselves. In generation tasks in particular, it can be challenging to discriminate between hallucinations that present false facts, and any of the many other viable ways of expressing correct information. Therefore, hallucinations can be extremely detrimental towards achieving trustworthy and reliable LLM performance, and hence avoiding or even detecting hallucinations has become one of the most important research topics in LLM research.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 In this work, we develop a principled abstention policy that mitigates LLM hallucination by simply choosing to either produce a single response from the model that is likely to be hallucination-free, or otherwise abstain from producing a response altogether (e.g., by saying "I don't know"). The quality of such a policy can be measured by two quantities: the expected proportion of time the method chooses to abstain, and the expected proportion of unfiltered hallucinations in the responses; we will henceforth refer to these as the *abstention rate* and the hallucination *risk*, respectively.
 
-While directly considering the (log-)probabilities of the response sequence generated by an LLM might be tempting, these probabilities heavily depend on the length of the output sequence, and the likelihood of an answer becomes non-indicative of its correctness as the sequence length grows. Therefore, a large body of prior work has attempted to detect hallucinations through either confidence estimation (Cole et al. Manakul et al. Kuhn et al. Wang et al., ) or more involved inference time procedures.
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In this paper we address both of these questions, by (i) developing well-engineered prompts to use the LLM for evaluating the similarity of two of its responses for a given query; and (ii) using theoretically well-founded methods to determine the level of agreement in evaluation responses, below which the LLM is likely hallucinating. A crucial property of (i) is that the *self*-evaluation prompt depends on the query itself, making it explicit that similarity of two responses depends on the question.
+While directly considering the (log-)probabilities of the response sequence generated by an LLM might be tempting, these probabilities heavily depend on the length of the output sequence, and the likelihood of an answer becomes non-indicative of its correctness as the sequence length grows. Therefore, a large body of prior work has attempted to detect hallucinations through either confidence estimation (Cole et al. Manakul et al. Kuhn et al. Wang et al., ) or more involved inference time procedures. A consistent observation that has been reported in prior work is that *uncertainty* of the LLM responses, or equivalently, the level of *agreement* between a batch of sampled responses, tends to be a reasonable proxy for detecting hallucinations, although it clearly cannot detect situations where the LLM is completely sure about an incorrect answer. This approach comes with two immediate challenges: how we can decide if two responses agree for a given question, and what level of disagreement indicates hallucination.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this paper we address both of these questions, by (i) developing well-engineered prompts to use the LLM for evaluating the similarity of two of its responses for a given query; and (ii) using theoretically well-founded methods to determine the level of agreement in evaluation responses, below which the LLM is likely hallucinating. A crucial property of (i) is that the *self*-evaluation prompt depends on the query itself, making it explicit that similarity of two responses depends on the question. For (ii), we leverage the *conformal prediction* and related risk control techniques (Vovk et al. Bates et al. Angelopoulos et al. ), by assuming access to a small holdout calibration set of prompt-response pairs. These techniques allow us to *calibrate* the detection/abstention policy so that it satisfies a pre-specified, distribution-free, statistical upper bound on the hallucination risk while minimizing the abstention rate. Our method is lightweight as it is only based on prompting and does not require to update the LLM itself, such as by fine-tuning.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We evaluate our method on a variety of closed-book open-domain question answering tasks. In particular, as also observed in parallel work (Kuhn et al. Manakul et al., ), we find that an instruction-tuned LLM can effectively and efficiently be used not only to generate candidate responses, but also to self-evaluate the coherence among responses; we then use the latter either to select a final response or to choose to abstain. We find that abstention with self-evaluation outperforms log-probability baselines used in the literature (Quach et al. Azaria and Mitchell, ).
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To evaluate the experiments automatically, one needs to determine if two responses are equivalent given a question. A standard way to do this is to use a thresholded similarity function to determine if two answers match. To select the right threshold, we provide a calibration method, also based on conformal prediction, which comes with theoretical guarantees on the accuracy of the match prediction, and applicable for small calibration datasets (which need to be labelled manually). To our knowledge, this is the first such method presented in the literature, and hence it might be of independent interest.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Problem definition", "weight": 1.0} -->
+
+We now give a formal definition of the problem we consider and summarize our approach. Let $\mathcal{X}$ be a space of input prompts and $\mathcal{Y}$ be a space of output responses. Let $m:{{\mathcal{X} \times \mathcal{Y} \times \mathcal{Y}}\rightarrow{\{ 0,1\}}}$ be the binary ground-truth match function, so that ${m{(X;Y^{\prime},Y)}} = 1$ indicates that response $Y^{\prime} \in \mathcal{Y}$ matches the response $Y \in \mathcal{Y}$ for a given query $X \in \mathcal{X}$, and ${m{(X;Y^{\prime},Y)}} = 0$ denotes that it does not.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Problem definition", "weight": 1.0} -->
+
+That is, given a ground truth response $Y$ to $X$, $m{(X;Y^{\prime},Y)}$ is the indicator function whether $Y^{\prime}$ is semantically equivalent to $Y$ *given* $X$. The conditioning on $X$ makes our model very flexible: While the simplest way to define $m$ could be to check if $Y$ and $Y^{\prime}$ mean the same thing, our setting can accommodate much broader and more useful definitions, the most appealing of which is whether $Y$ and $Y^{\prime}$ are equally correct responses to $X$. For example, for the prompt $X =$*"Tell me a European capital."*, $Y =$*"London"* is as good as $Y^{\prime} =$*"Paris"*, allowing our method to be applicable for questions with multiple different correct responses, as long as a good match function $m$ can be devised.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Problem definition", "weight": 1.0} -->
+
+Given a classifier (i.e., a possibly random map) $f:{\mathcal{X}\rightarrow\mathcal{Y}}$, its loss on the prompt-response pair $(X,Y)$ is defined as $1 - {m{(X;{f{(X)}},Y)}}$. Our goal is to obtain, given a classifier $f$, a selective classification scheme which can abstain from prediction (answering a prompt) when $f$ would make a mistake. To this end, we define an *abstention* function, which can decide whether the classifier should be applied to a given input prompt $X$.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Problem definition", "weight": 1.0} -->
+
+We consider score-base abstention functions, that is, for a given parameter $\lambda \in \Lambda$ (where $\Lambda \subset$ is a a parameter space), a query $X \in \mathcal{X}$, and a score function $g:{\mathcal{X}\rightarrow}$ indicating the model's confidence in classifying the input, the abstention policy $a:{{\Lambda \times \mathcal{X}}\rightarrow{\{ 0,1\}}}$ is defined as
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Problem definition", "weight": 1.0} -->
+
+where ${a_{\lambda}{(X)}} = 1$ means that the predictor should abstain. Given a query $X$, the score might be a random variable, and therefore $a$, similarly to $f$, might also be random. Together the pair $(a_{\lambda},f)$ define a *selective classifier*.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Problem definition", "weight": 1.0} -->
+
+Let $\ell:{{\mathcal{X} \times \mathcal{Y} \times \Lambda}\rightarrow}$ be a loss function so that $\ell{(X,Y;\lambda)}$ is the loss of selective classifier $(a_{\lambda},f)$ given a query-response pair $(X,Y)$.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Problem definition", "weight": 1.0} -->
+
+A trivial policy that always abstains would result in a zero loss. However, an interesting policy would also have a small abstention rate. The quality of a policy that can abstain is controlled: (i) the *risk* ${R{(\lambda)}} = {{\mathbb{E}}{\lbrack{\ell{(X,Y;\lambda)}}\rbrack}}$ of producing an incorrect answer on a new query, and (ii) the *rate of abstention* ${T{(\lambda)}} = {{\mathbb{E}}{\lbrack{a_{\lambda}{(X)}}\rbrack}}$, where the expectations are taken over a query-response pair $(X,Y)$ distributed according to $\mathcal{D}$.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Problem definition", "weight": 1.0} -->
+
+Since the abstention rate $T{(\lambda)}$ is a non-decreasing function of $\lambda$, this is equivalent to finding the smallest $\lambda$ for which ${R{(\lambda)}} \leq \alpha$; we denote this optimal threshold by $\lambda^{\ast}$.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Problem definition", "weight": 1.0} -->
+
+To solve this problem approximately, we assume that we are given a calibration dataset
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Problem definition", "weight": 1.0} -->
+
+which is a collection of ground truth query-response pairs. We also assume that given a new test point $(X,Y)$ sampled from the true data distribution $\mathcal{D}$, and that $\{{(X,Y)},{(X_{1},Y_{1})},\ldots,{(X_{n},Y_{n})}\}$ are exchangeable^11^1Jointly distributed random variables $Z_{1},\ldots,Z_{n}$ are exchangeable if for every permutation $\pi$ of $\lbrack n\rbrack$, ${P{(Z_{1},\ldots,Z_{n})}} = {P{(Z_{\pi_{1}},\ldots,Z_{\pi_{n}})}}$. (which is a generalization of the assumption that they were all selected independently from $\mathcal{D}$).
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Problem definition", "weight": 1.0} -->
+
+We will use the calibration dataset $D_{n}$ to design our abstention policy, that is, to find a $\hat{\lambda}$ such that we can guarantee ${R{(\hat{\lambda})}} \leq \alpha$ with high probability, based on $D_{n}$. Notice that the calibration dataset is much smaller than the training dataset that is used to train the LLM. Before discussing how $\lambda$ is optimized, we first discuss potential choices for the classifier $f$ and the score function $g$ in our context.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Choice of the score function $g$ and the classifier $f$", "weight": 1.0} -->
+
+In this section, we discuss the choice of the score function $g$ and the classifier $f$. Let $k$ be an integer. We augment each question-answer pair $(X_{i},Y_{i})$ with $k$ samples $Y_{i}^{1},\ldots,Y_{i}^{k}$ generated from the LLM given a query $X$. So a datapoint in the calibration data will be of the form $(X_{i},Y_{i},Y_{i}^{1},\ldots,Y_{i}^{k})$. Notice that in many use cases of LLMs, we already generate multiple responses for a given query and output a response based on a number of criteria. So we are not adding a computational overhead here by demanding the existence of $k$ responses. We can choose $k$ to be any number of responses the LLM already generates.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Choice of the score function $g$ and the classifier $f$", "weight": 1.0} -->
+
+We consider two score functions. The first, called *match count*, is defined with respect to a contextual similarity function $s:{{\mathcal{X} \times \mathcal{Y} \times \mathcal{Y}}\rightarrow}$ (that might be different than the match function $m$) and is parameterized by a positive scalar parameter $\beta$. By default, we suggest using LLM prompting to measure similarity of text outputs, but other similarity functions could also be used. For a query $X$, generated responses $Y^{1},\ldots,Y^{k}$, and a parameter $\beta$, let the score of response $Y^{i}$ be the number of other responses that are similar to $Y^{i}$, that is, $|{\{{j \neq i}:{{s{(X;Y^{i},Y^{j})}} > \beta}\}}|$.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Choice of the score function $g$ and the classifier $f$", "weight": 1.0} -->
+
+The default response $f{(X)}$ is a response with the largest score, and the score $g{(X)}$ is the score of $f{(X)}$. As explained in the previous section, the policy abstains if the score is below $\lambda$. Otherwise, the policy returns the response $f{(X)}$.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Choice of the score function $g$ and the classifier $f$", "weight": 1.0} -->
+
+Similarly as reported in the literature (Manakul et al. Kuhn et al., ), we have observed that using LLM prompting as the similarity function works well in practice. Computing the score function then requires $O{(k^{2})}$ extra inferences, which adds significant computational overhead. There are multiple cheaper alternatives. One cheaper alternative is to get similarity of each response with all other responses in a single prompt. This alternative still performs well in practice while being much faster to compute. An even more interesting alternative, called *expected match count*, is the following: for each response $Y^{i}$, ask the LLM in a single query how many matches exist among other responses $\{{j \neq i}:Y^{j}\}$. Then the score is the expected match count ${g{(X)}} = {\sum_{i = 1}^{k}{q{({{``i"} \mid X})}i}}$, where $q$ is the probability of token $``i"$ according to the LLM.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Choice of the score function $g$ and the classifier $f$", "weight": 1.0} -->
+
+In addition to being computationally inexpensive, this score can take any values in interval $\lbrack 0,k\rbrack$, which allows for a more fine-grained and improved optimization. On the other hand, computing this score requires access to the log-probabilities of the LLM, and is not a black-box solution.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Choice of the score function $g$ and the classifier $f$", "weight": 1.0} -->
+
+Finally, the simplest alternative is to choose $f$ to be the greedy (zero-temperature) output of the LLM (denoted, say, by $Y^{1}$), and the score of this prediction is the number of similar responses in the randomly selected samples $Y^{2},\ldots,Y^{k}$, as defined either by the match count or the expected match count above. This approach reduces the computation cost of the comparisons by a factor of $k$, and we refer to it as the *greedy* version of the methods.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Choice of the match function $m$", "weight": 1.0} -->
+
+Match functions can be naturally derived from similarity scores: two responses match if their similarity score is large enough (i.e., larger than a given threshold). A popular similarity score function, usually defined in term of a response and a true label, is the F1 score (Joshi et al. Devlin et al., ), which is calculated as
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Choice of the match function $m$", "weight": 1.0} -->
+
+where precision is the percentage of the response words that appear in the label sentence, and recall is the percentage of the label words that appear in the response sentence. When the labels are short sentences, as is the case in our experiments, we can obtain more reliable results using only the recall score. For experiments on the TriviaQA dataset, with short answers and labels, we use the recall score to evaluate different methods.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Choice of the match function $m$", "weight": 1.0} -->
+
+Both the F1 and the recall scores however are poor choices when LLM answers are longer and can be expressed in many forms. For experiments conducted on the Temporal Sequences dataset Srivastava et al. which we consider in the following, responses are sometimes long texts, and so we use LLM-prompting to decide if the generated answer and the label match, using the same similarity metric as before, by asking the LLM to measure similarity of two texts given the question on a scale of $1 - 10$. If the score is above a pre-specified threshold, the generated text is considered correct (or a match). The same conformal risk control procedure (discussed in the next section) can be used to verify the validity of this match function choice. The details of the calibration of the match function are presented together with the descriptions of the experiments in Section 7.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Choice of the match function $m$", "weight": 1.0} -->
+
+In the next section, we discuss tuning of the abstention policy and the match function based on the calibration set.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Conformal abstention", "weight": 1.0} -->
+
+Given the calibration dataset, we want to construct a postprocessing procedure that guarantees that the resulting composite policy (which depends on the calibration data, and hence, is random) is an approximately optimal solution for problem.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Conformal abstention", "weight": 1.0} -->
+
+Notice that the loss function is non-increasing in $\lambda$: for $\lambda_{1} \leq \lambda_{2}$, if ${a_{\lambda_{1}}{(X)}} = 1$, then ${a_{\lambda_{2}}{(X)}} = 1$ and both parameters have zero loss. On the other hand, $f$ does not depend on $\lambda$, and hence the loss of $\lambda_{2}$ is smaller than or equal to the loss of $\lambda_{1}$. Given that calibration data and the test point are exchangeable while the loss function $\ell$ is non-increasing in $\lambda$, then we can use the *Conformal Risk Control (CRC) framework* of Angelopoulos et al. to tune $\lambda$. In particular, define the average loss
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Conformal abstention", "weight": 1.0} -->
+
+The expectation in is over calibration data as well as the test point. For completeness, the proof is given in Appendix A.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Conformal abstention", "weight": 1.0} -->
+
+The above guarantee is non-trivial: standard confidence-interval-based methods would lead to a solution that uses a more conservative padding of order $O{({1/\sqrt{n}})}$ instead of the smaller $O{({1/n})}$ padding used. We will discuss this alternative approach, called Risk-Controlling Prediction Sets (RCPS), in Section.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Simple high probability amplification of the CRC procedure", "weight": 1.0} -->
+
+The CRC formulation of Angelopoulos et al. given by and holds only in expectation over the calibration data. To have reliable decision making, in practice one typically desires to have confidence guarantees that hold with high probability over the samples. In this and the following section we present several methods that come with high-probability guarantees; some of these approaches will be compared experimentally in Section 7.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Simple high probability amplification of the CRC procedure", "weight": 1.0} -->
+
+Clearly, under the assumption that the loss function is non-negative, one can convert a CRC guarantee in expectation to a guarantee in probably, for instance through Markov's inequality. Namely, and imply that ${{\mathbb{P}}{({{R{(\hat{\lambda})}} \geq {\alpha/\delta}})}} \leq \delta$ for any failure probability $\delta$. This result is rather weak as it does not hold with high probability. However, interestingly, we can further improve upon Markov's inequality without extra assumptions through an amplification (or boosting) argument, at the expense of data splitting. Unlike Markov's inequality, such inequality provides a high-probability guarantee for the CRC procedure, however it is looser by a constant factor than the high-probability inequalities we will consider for RCPS in the coming section.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Bounding $|{\\lambda^{\\ast} - {\\hat{\\lambda}}_{n}}|$", "weight": 1.0} -->
+
+Although the CRC procedure ensures that the constraint inequality in is satisfied, it provides no guarantees on how the abstention rate of the solution ${\hat{\lambda}}_{n}$ deviates from the optimal abstention rate, i.e. a bound on $|{{T{(\lambda^{\ast})}} - {T{({\hat{\lambda}}_{n})}}}|$.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Bounding $|{\\lambda^{\\ast} - {\\hat{\\lambda}}_{n}}|$", "weight": 1.0} -->
+
+Assuming that the abstention rate $T$ and risk $R$ are differentiable functions of the threshold $\lambda$, under the assumptions of Theorem 2 of Angelopoulos et al., we have
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Risk-Controlling Prediction Sets", "weight": 1.0} -->
+
+Motivated by the need for high-probability guarantees over the calibration data, Angelopoulos et al. also introduced another family of methods, called RCPS.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Risk-Controlling Prediction Sets", "weight": 1.0} -->
+
+This follows from the fact that ${\hat{\lambda}}_{n}$ can be rewritten as
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Risk-Controlling Prediction Sets", "weight": 1.0} -->
+
+This identity shows that applying conformal risk control is equivalent to applying the distribution-free RCPS procedure of Bates et al. for a Hoeffding upper confidence bound (UCB) on the empirical risk at level $\alpha + {c{(\delta,\alpha,n)}}$. It then follows from Theorem 2 of Bates et al. that holds.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Risk-Controlling Prediction Sets", "weight": 1.0} -->
+
+However, the RCPS approach is more general than CRC as it is applicable even if the loss function is non-monotonic.^22^2When the loss function is non-monotonic we can no longer rely on arguments as, however we can still apply confidence bounds discussed here by making them hold uniformly over a finite parameter set $\Lambda$ through the union bound argument. In such case, $\delta$ is replaced by $\delta/{|\Lambda|}$. Let $\delta \in {}$ be a failure probability. We want to choose $\hat{\lambda}$ to ensure that
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Risk-Controlling Prediction Sets", "weight": 1.0} -->
+
+Here, $\mathbb{P}$ is again over the random calibration set $D_{n}$. In the following we consider several upper confidence bounds for RCPS, some of which were already discussed by Bates et al..
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Baseline confidence bounds", "weight": 1.0} -->
+
+Among RCPS methods we first consider the *empirical Bernstein inequality* (Audibert et al. Maurer and Pontil, ). In this case, the upper bound is computed as
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Baseline confidence bounds", "weight": 1.0} -->
+
+where $\hat{Var}{(\lambda)}$ is a sample variance of losses computed with parameter $\lambda$.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Baseline confidence bounds", "weight": 1.0} -->
+
+Since we are working with Bernoulli losses, we evaluate the *Hoeffding-Bentkus inequality*, one of the tightest known bounds for such losses. Computation of the bound relies on the following function (of ${t,p} \in {\lbrack 0,1\rbrack}$),
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Baseline confidence bounds", "weight": 1.0} -->
+
+where ${Bin}{(n,p)}$ is a binomial random variable with parameters $n \in {\mathbb{N}}$ and $p \in {\lbrack 0,1\rbrack}$ and ${{kl}{(p,q)}} = {{p{\ln{({p/q})}}} + {{({1 - p})}{\ln{({{({1 - p})}/{({1 - q})}})}}}}$ is the relative entropy between two Bernoulli distributions with success probabilities $p$ and $q$, respectively. Then, the upper bound is given by solving a simple optimization problem
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Baseline confidence bounds", "weight": 1.0} -->
+
+Finally, we consider the so-called *Bernoulli relative-entropy inequality*, a.k.a. the 'little kl' inequality. Here the upper confidence bound is computed by solving the simple optimization problem
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Baseline confidence bounds", "weight": 1.0} -->
+
+Bates et al. mentions another, so-called Waudby-Smith-Ramdas (WSR) inequality for the case of non-binary losses, which is tighter for such cases since it adapts better to the variance. This inequality belongs to the family of concentration inequalities derived through regret analysis of online betting algorithms, first proposed by Kwang-Sung and Orabona. In fact, it was recently shown that WSR inequality is looser than another inequality from this family, and which notably, for Bernoulli distributions coincides with the Bernoulli relative-entropy inequality considered above.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Calibrating the match function $m$", "weight": 1.0} -->
+
+As described in Section 2.2, it is hard to identify if two responses to a query (e.g., one generated by the LLM and another being the ground truth answer) are the same, and hence devising a good match function (to be used in computing the loss $\ell$) is a non-trivial problem. As explained before, we consider score-based match functions.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Calibrating the match function $m$", "weight": 1.0} -->
+
+where for any event $E$, ${\mathbb{I}}{\{ E\}}$ denotes its indicator function and $\beta$ is a threshold to be chosen. Note that although we use the same notation for the similarity function and its threshold as in the definition of the score function in Section 2.1, these are not necessarily the same.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Calibrating the match function $m$", "weight": 1.0} -->
+
+In this section we assume that $s$ is given (in the experiments we will use different option, such as recall or LLM self-prompting, discussed in Section 2.2), and the goal is to select a threshold $\beta$ so that the match function $m$ reflects the ground truth as much as possible (given $s$). We can do this based on another calibration set, again, with a slight inconsistency in the notation, denoted by ${(X_{1},Y_{1}^{\prime},Y_{1})},\ldots,{(X_{n},Y_{n}^{\prime},Y_{n})}$, where, for all $i$, $(X_{i},Y_{i})$ are ground-truth question-answer pairs sampled independently from the data distribution $\mathcal{D}$, and $Y_{i}^{\prime}$ is the model's response to query $X_{i}$.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Calibrating the match function $m$", "weight": 1.0} -->
+
+Whether $Y_{i}$ and $Y_{i}^{\prime}$ agree has to be checked manually, so the size $n$ of this calibration set can be quite small in practice.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Calibrating the match function $m$", "weight": 1.0} -->
+
+If the quality of the responses is monotone in $s$, that is, if ${s{(X,Y^{\prime},Y)}} < {s{(X,Y^{\operatorname{\prime\prime}},Y)}}$ means that $Y^{\operatorname{\prime\prime}}$ is a better response to $X$ than $Y^{\prime}$ (as suggested by the ground truth response $Y$), then one can use any of the methods discussed in the previous sections, such as, to select a threshold $\beta$ to get a guarantee on the error the match function makes when comparing responses to the ground truth; here we can define $\ell{(X_{i},Y_{i}^{\prime},Y_{i})}$ to be 0 if the match function is correct about comparing $Y_{i}$ and $Y_{i}^{\prime}$ and 1 otherwise.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Calibrating the match function $m$", "weight": 1.0} -->
+
+However, none of our similarity function candidates are monotone, as typically a too high threshold becomes too conservatives and may classify some correct responses $Y_{i}^{\prime}$ as incorrect, while a too low threshold may result in incorrect answer classified as correct. Nevertheless, we present next a procedure which, using an upper bound on the performance of $m$, allows us to calibrate the threshold $\beta$ with theoretical guaranties.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Calibrating the match function $m$", "weight": 1.0} -->
+
+Let $C$ be the number of incorrect LLM responses (i.e., when the LLM's response does not match the label according to the human rater) for our $n$ calibration samples. This is the true performance measure. Let $L_{2}$ denote the number of times the LLM's response is different from the label according to the match function $m$. This is the performance measure that we report when we use $m$ as a surrogate to the true loss. Next we show how proper calibration of $\beta$ can ensure that $L_{2}$ is an approximate upper bound on $C$, and hence reporting errors based on $m$ can be used to upper bound the true error rate. Let $L_{1}$ denote the number of times the LLM's response is different from the corresponding label, but is classified as the same according to the match function. Then clearly
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Calibrating the match function $m$", "weight": 1.0} -->
+
+While the dependence of $L_{2}$ on the threshold $\beta$ can be arbitrary in general, it is easy to see that $L_{1}$ is a monotone decreasing function of $\beta$ (setting a higher threshold $\beta$ either keeps $m{(X,Y,Y^{\prime})}$ unchanged or changes it from 1 to 0), allowing the application of conformal prediction to set $\beta$ with theoretical guarantees on the behavior of $L_{1}$ on new data using the calibration dataset ${(X_{1},Y_{1}^{\prime},Y_{1})},\ldots,{(X_{n},Y_{n}^{\prime},Y_{n})}$.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Calibrating the match function $m$", "weight": 1.0} -->
+
+For example, setting the value of $\beta$ according to the conformal prediction rule as
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Calibrating the match function $m$", "weight": 1.0} -->
+
+on new test data, which implies that on expectation $L_{2} + \alpha$ is an upper bound on the number of errors the LLM makes. Note that since $L_{2}$ is evaluated using the (calibrated) match function $m$, at test time we can use a lot of data, making the measured value of $L_{2}$ arbitrarily close to its expectation ${\mathbb{E}}{\lbrack L_{2}\rbrack}$ (we can also use any of the confidence bounds from Section 4 to upper bound their difference), we can guarantee that the expected number of errors ${\mathbb{E}}{\lbrack C\rbrack}$ made by the LLM satisfies
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Calibrating the match function $m$", "weight": 1.0} -->
+
+where $\epsilon \geq {{{\mathbb{E}}{\lbrack L_{2}\rbrack}} - L_{2}}$ is an upper bound on the difference of $L_{2}$ and its expectation, which can be made arbitrarily small. Selecting a calibration method which comes with a high-probability guarantee would yield a high-probability version of.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Selective classification", "weight": 1.0} -->
+
+The problem that we study is a case of selective classification (El-Yaniv and Wiener Geifman and El-Yaniv Lin et al., ). Given a classifier, a training set, a confidence parameter, and a desired risk bound, the objective of Geifman and El-Yaniv is to design an abstention policy such that the risk is bounded by the desired bound with high probability. They normalize loss by decision rate (one minus abstention rate), which makes loss non-monotonic. Geifman and El-Yaniv propose a binary search procedure. However, given the non-monotonicity of the loss function, the binary search procedure is not guaranteed to find a solution that satisfies the risk condition.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Selective classification", "weight": 1.0} -->
+
+Kamath et al. study selective question answering when the test point might be out-of-domain. Selective classification methods are closely related to the RCPS approach that we discussed in Section.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Abstention in LLMs", "weight": 1.0} -->
+
+There has been a number of recent papers that study abstention in LLMs. We only cover approaches that use a pre-trained model, and not those based on fine-tuning LLMs. These papers usually consider general metrics for their methods, such as the area under the curve, and do not provide any practical guidance on how to actually choose an abstention policy, which is one of our main contributions. Given a risk tolerance $\alpha$, the policy that these papers implicitly suggest chooses a policy parameter that leads to $\alpha$ loss; while this method comes with no theoretical guarantees, we consider it as a baseline for our calibration methods in our experiments.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Abstention in LLMs", "weight": 1.0} -->
+
+Cole et al. investigate a number of score functions in designing an abstention mechanism: (i) a likelihood-based score; (ii) using sampling repetition and counting how many times the sampled output matches exactly (after making the response lower case and removing punctuation) the greedy (zero-temperature) output; (iii) computing sampling diversity defined as the fraction of non-unique answers; and (iv) using self-verification by checking the probability given by the model if the greedy answer is correct. They report that their approach (ii) is generally the best. However, since it considers exact match of the responses, its applicability is limited to short responses only (otherwise exact matching almost never happens in practice). Furthermore, the resulting abstention policy has no theoretical (statistical) performance guarantee, unlike the one we propose here.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Abstention in LLMs", "weight": 1.0} -->
+
+Manakul et al. study a black-box approach to detecting hallucinations by generating multiple responses, and measuring similarity of a reference response and the set of generated responses. They consider various measures of similarity, including LLM self-prompting. In their experiments, the method that generates multiple responses and uses LLM self-prompting for similarity calculations outperforms other baselines including the one using log-probability scores. Although the overall approach in this paper is conceptually similar to ours, their self-prompting method only compares responses without contexts, resulting in inferior similarity measures. Similar methods have been studied by Lin et al.. Furthermore, as discussed at the beginning of this section, the choice of an actual abstention policy is not discussed in either of these papers.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Abstention in LLMs", "weight": 1.0} -->
+
+Kuhn et al. study uncertainty quantification of LLMs. Similarly to our work,they propose generating $k$ responses, and clustering them based on their contextual similarities evaluated using a smaller language model. Then they investigate the application of semantic entropy to score model uncertainty.^33^3Note that their formula for estimating semantic entropy is incorrect, as it gives uniform weight to all clusters. As entropy measures the uncertainty of the whole output distribution, this method does not seem to be directly applicable to decide between using a given response (e.g., the zero-shot response) or abstain.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Abstention in LLMs", "weight": 1.0} -->
+
+Wang et al. study reasoning with LLMs and propose generating a set of 'reasoning paths' instead of a final answer. Here reasoning paths are generated by prompting the model to provide intermediate reasoning steps used to arrive at the answer. Instead of greedily choosing the 'best' answer according to some criterion of the associated reasoning path, the paper proposes to select the most consistent answer. This approach is complementary to the one we consider in this paper, and in principle, the match function and the score function can be computed using reasoning paths.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Using token probabilities to quantify uncertainty", "weight": 1.0} -->
+
+A popular approach to quantify uncertainty is based on using (normalized) log-probabilities of responses. Kadavath et al. show that LLMs are well-calibrated at the token level on multiple-choice question-answering tasks when the prompts are in an appropriate format. However, the quality of log-probability scores quickly degrades as the model generates longer texts (Cole et al. Manakul et al. Kuhn et al., ).
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Asking language models to quantify uncertainty (self-verification)", "weight": 1.0} -->
+
+Kadavath et al. propose using LLM self-prompting to measure a model's uncertainty in its responses. More specifically, for a given query, a number of responses are generated, and then the model is queried if the responses are correct. For this query, the log-probability of "True" is returned as a measure of uncertainty. Related approaches are studied by Mielke et al.. However, Manakul et al. and Kuhn et al. report that LLM self-verification is not as effective as sampling-based methods (i.e., methods using multiple responses) in quantifying model uncertainty.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Applications of conformal prediction in quantifying uncertainty in LLMs", "weight": 1.0} -->
+
+Conformal prediction has been used for quantifying uncertainty in LLMs, but we are not aware of any works that employ conformal prediction in designing an abstention mechanism. Quach et al. use conformal prediction to construct confidence sets of text outputs that contain an acceptable answer with a high probability, based on a calibration mechanism applied to log-probability scores. Ravfogel et al. propose using conformal prediction to calibrate parameter $p$ in nucleus (top-$p$) sampling. Ren et al. consider a multiple-choice-style LLM planning, and use conformal prediction to quantify uncertainty of LLM-based planners.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Other uncertainty-quantification methods in deep learning and LLMs", "weight": 1.0} -->
+
+*Ensemble methods* are based on the classical idea of bootstrap for confidence estimation where multiple estimators for the regression function, each computed on a perturbed version of the data (e.g. by drawing samples from the empirical distribution over data), are combined.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Other uncertainty-quantification methods in deep learning and LLMs", "weight": 1.0} -->
+
+The empirical distribution of the resulting estimates is then used to construct confidence intervals. While many of these methods can be interpreted as sample-based approximations to Bayesian methods, model-hyperparameter selection (e.g., scale of perturbations, learning) for ensemble methods is typically done using a validation on holdout data (a subset of the training data). Many recent papers have studied ensemble methods in the context of deep learning and reinforcement learning (Osband et al. Lakshminarayanan et al. Malinin and Gales, ). In the context of LLMs, the methods require training multiple language models, which is very expensive. Osband et al. introduces epistemic neural networks (epinets), which approximate ensemble methods by training a single network with an artificially injected (controlled) source of randomness. Rabanser et al. proposes to use intermediate model checkpoints to quantify the uncertainty of the final model in its responses. While these approaches aim to mimic the bootstrap procedure during prediction, their validity is not justified by theoretical considerations, and hence remain heuristic approximations.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Our experiments aim to verify three hypotheses: (i) conformal abstention done through CRC and RCPS is able to mitigate hallucinations as measured by loss, while maintaining a low abstention rate; (ii) the loss is a reasonable measure of detecting hallucinations; and (ii) for longer responses, defining scores using LLM similarity prompting is more effective than the ones based on log-probabilities.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Datasets. We evaluate our approach on two publicly available question-answering datasets: Temporal Sequences and TriviaQA. TriviaQA predominantly contains short answers while Temporal Sequences contains several long answers as well. We hypothesise that some commonly used scores, such as log-probabilities predicted by the model will not yield a good performance on long answers, and therefore we expect that the calibration procedure combined with log-probability scores will perform worse than the calibration procedure with our proposed match-scores on Temporal Sequences.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Calibration/test splits. In each experiment, 20% of the data is used for testing (holdout sample). Each experiment is performed on subsamples of calibration sets of increasing sizes; moreover, each subsample is drawn with replacement 10 times. We report the resulting average test losses and their standard deviations. We also report the median for the parameter $\lambda$ of our methods.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Language model. We use a Gemini Pro model to generate outputs and scores.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+The match function $m$. We use a similarity-score-based match functions to compute the loss $\ell$, as described in Section 2.2, and calibrate its threshold according to Section 5. Thus, first we have to choose a similarity score function with a corresponding threshold. First we discuss the TriviaQA dataset, which contains short answers. For such cases, typically the F1 score is used in the literature (Joshi et al. Devlin et al., ). However, to better accommodate the case that the response may be long and the answer (label) is very short, which significantly reduces the F1 score, we rather consider recall as the similarity score in the experiments. To select the threshold, we uniformly sampled 100 question-answer pairs that were not used for calibration or testing, and manually inspected the similarity of the generated response and the true answer. With respective thresholds of 0.5 and 0.25, the recall and F1 scores make no mistakes, hence, in the experiments we used recall with threshold 0.5 as the match function for this dataset.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+According to, this implies that any measurement of the error rate in testing with this match function would result in at most 1 percentage-point lower error in expectation than the ground truth.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Selecting an appropriate similarity function for the Temporal Sequences dataset is much harder because it has a large proportion of long answer, which makes the F1 and recall scores much less useful: with the same thresholds as above, on a random sample of 100 question-answer pairs, the F1 score resulted in 45 mistakes while and recall score ended up with 13, after manually checking the validity of the corresponding responses generated by the language model. Therefore, we decided to prompt the LLM to compute the similarity of the response and the true answer, using the similarity-seeking prompt presented in Appendix B. Then we computed the smallest threshold (which was $\hat{\beta} = 7$ in this case) so that the number of errors in the 100 datapoints was 4 (as verified by manual inspection); according to, this guarantees that the (expected) error rate as measured by the resulting match function (i.e., using the $\hat{\beta}$-thresholded LLM self-prompting score) is at most 5 percentage-point lower than the true error rate.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Therefore, for the Temporal Sequences dataset we used the LLM self-prompting similarity score with threshold $\hat{\beta} = 7$ to compute the match function. (Note that the same method resulted in 2 mistakes for the TriviaQA dataset.)
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Calibration methods. For calibrated methods with theoretical guarantees, we consider the CRC method (defined, and referred to as 'Bound in expectation'), and three variants of the RCPS procedure, as described in Section 4, with UCB given by ${\hat{R}}_{{ub}\text{-}{bern}}$ (referred to as 'Emp. Bernstein'), ${\hat{R}}_{{ub}\text{-}{hb}}$ (referred to as 'Hoeffing-Bentkus'), ${\hat{R}}_{{ub}\text{-}{kl}}$ (referred to as 'Bernoulli KL').
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+For a given risk tolerance $\alpha$, a simple baseline abstention policy chooses the smallest parameter $\lambda$ that satisfies ${L_{n}{(\lambda)}} \leq \alpha$. We do not however have a theoretical guarantee on the risk of this baseline, and as we will show, it might violate the risk condition with small calibration datasets. This method is referred to as 'Baseline' in the experiments.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Note that we do not include the high-probability amplification of CRC discussed in Proposition 3.1 in our experiments. The risk guarantee provided by this bound is ${{\mathbb{P}}{({{R{({\hat{\lambda}}^{\ast})}} \leq {e\alpha}})}} \geq {1 - \delta}$, i.e. the bound is inflated by $e$ compared to RCPS baselines. So, to properly compare it to other baselines we need to replace $\alpha$ by $\alpha/e$, which makes the guarantee quite conservative and results in a very high abstention rate.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Score functions. We consider calibration of three different scores using the above methods. The first two scores are the *greedy* variants of the score functions proposed and described in Section 2.1: In both cases, we take the greedy (zero-temperature) response as the reference response and sample additional ${k - 1} = 10$ extra responses at temperature 0.9. Then we either (i) prompt the LLM for the similarity of the reference response and each of the extra responses, and obtain the number of matches between the reference response and the extra responses --- this is referred to as *match count (m.c.)* in the results; (ii) prompt the LLM for the number of matches between the reference response and the extra responses at once, and calculate the expected number of matches using the log-probabilities assigned by the LLM to the responses "1", "2", $\ldots$ --- this is referred to as *expected match count (e.m.c.)* in the results.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+The third scoring method is the simple baseline of the log-probability of the zero-temperature response. Another popular score in the literature is the normalized log-probability; however, we only report results with the log-probability score, as in our experiments it always performed at least as good as its normalized version. This baseline is referred to as *log-probabilities (l.p.)* in the results.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+The prompts used in calculating the score functions and some data samples are described in Appendix B.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Results on the Temporal Sequences dataset", "weight": 1.0} -->
+
+We experimented with $4000$ question-answer pairs. The experiments were performed with two risk tolerance levels, $\alpha = 0.05$ and $\alpha = 0.1$, and we used $\delta = 0.05$ failure probability for confidence intervals.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Results on the Temporal Sequences dataset", "weight": 1.0} -->
+
+The results of the experiments are reported in Figure 1, which shows the average test losses vs. abstention rates on the test sample for calibration datasets of various sizes (the exact numerical results are reported in Tables 1 and in Appendix C). As expected, we can observe an inherent trade-off between the two metrics: in particular, a larger abstention rate leads to a smaller test error; however, some methods and baselines exhibit better trade-offs. For instance, by looking at Figure 1 we can observe that for a sufficiently large calibration sample, it is evident that log-probability scoring performs considerably *worse* regardless of which conformal prediction method (CRC/RCPS, confidence bound) is used. At the same time, the proposed match count (m.c.) and expected match count (e.m.c.) proposed perform much better, and the difference between the CRC and RCPS methods is minimal.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Results on the Temporal Sequences dataset", "weight": 1.0} -->
+
+We also observe that the Empirical Bernstein calibration method is significantly worse than the others; this is expected since here we estimate Bernoulli random variables, and the other two bounds used in the RCPS methods are specialized for this case, unlike the Empirical Bernstein bound, which -- unlike the other two -- would be applicable for non-binary loss functions, as well. We can also observe that the uncalibrated Baseline methods violate the risk conditions for smaller calibration datasets a bit more than other methods.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Results on the TriviaQA dataset", "weight": 1.0} -->
+
+We experimented on the TriviaQA dataset in a similar fashion. In particular, we used $1000$ randomly selected question-answer pairs, performed experiments with two risk tolerance levels, $\alpha = 0.1$ and $\alpha = 0.2$, and used $\delta = 0.05$ failure probability for the confidence intervals.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Results on the TriviaQA dataset", "weight": 1.0} -->
+
+Similarly to our other experiment, Figure 2 shows the trade-off between the abstention rate and test error. As a result of the fact that the LLM tends to generate shorter responses on the queries in this dataset (and the true responses are also short), log-probability scoring is competitive with our proposed scoring methods. In fact, they seem to perform quite similarly in all experiments (with the log-probability scores being somewhat better for $\alpha = 0.1$ and worse for $\alpha = 0.2$). As before, we observe that there is a negligible difference between the CRC and RCPS methods, and that Baseline sometimes violates the risk condition with smaller calibration datasets.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Results on the TriviaQA dataset", "weight": 1.0} -->
+
+More details (with the exact numerical results) are presented in Tables 7 and in Appendix C.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Results on the TriviaQA dataset", "weight": 1.0} -->
+
+Comparing the experiments for the two datasets, we can conclude that our proposed calibrated abstention methods based on match counts (or expected match counts) are preferable to the variant based on log-probability, as they perform well for both short and long answers, while the log-probability score is significantly worse for questions with long answers.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Conclusions and future directions", "weight": 1.0} -->
+
+We proposed a conformal calibration and similarity scoring procedure which enables LLMs to abstain in a principled way. In particular, one of our main contributions is a novel procedure to generate match scores to count the number of similar responses to a query. When combined with conformal calibration, this scoring procedure achieves a good trade-off between abstention rate and test performance. Importantly, in experiments over two question-answering datasets, our proposed procedure surpasses the simple baseline scoring procedure of using log-probabilities of the predictor (once more suggesting that LLMs are not well-calibrated). Finally, we also presented a method to calibrate the match function (based on similarity measures) which is used in automatically evaluating the performance of the LLM at test time, which comes with theoretical guarantees on its accuracy and requires only a small labelled calibration set to tune the threshold.

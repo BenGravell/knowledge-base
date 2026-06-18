@@ -1,15 +1,169 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Perceive, Predict, and Plan: Safe Motion Planning through Interpretable Semantic Representations
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 In this paper we propose a novel end-to-end learnable network that performs joint perception, prediction and motion planning for self-driving vehicles and produces interpretable intermediate representations. Unlike existing neural motion planners, our motion planning costs are consistent with our perception and prediction estimates. This is achieved by a novel differentiable semantic occupancy representation that is explicitly used as cost by the motion planning process. Our network is learned end-to-end from human demonstrations. The experiments in a large-scale manual-driving dataset and closed-loop simulation show that the proposed model significantly outperforms state-of-the-art planners in imitating the human behaviors while producing much safer trajectories.
 
-## Introduction
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-The goal of an autonomy system is to take the output of the sensors, a map, and a high-level route, and produce a safe and comfortable ride. Meanwhile, producing interpretable intermediate representations that can explain why the vehicle performed a certain maneuver is very important in safety critical applications such as self-driving, particularly if a bad event was to happen. Traditional autonomy stacks produce interpretable representations through the perception and prediction modules in the form of bounding boxes as well as distributions over their future motion.
+The goal of an autonomy system is to take the output of the sensors, a map, and a high-level route, and produce a safe and comfortable ride. Meanwhile, producing interpretable intermediate representations that can explain why the vehicle performed a certain maneuver is very important in safety critical applications such as self-driving, particularly if a bad event was to happen. Traditional autonomy stacks produce interpretable representations through the perception and prediction modules in the form of bounding boxes as well as distributions over their future motion. However, the perception module involves thresholding detection confidence scores and running Non-Maximum Supression (NMS) to trade off the precision and recall of the object detector, which cause information loss that could result in unsafe situations, e.g., if a solid object is below the threshold. To handle this, software stacks in industry rely on a secondary fail safe system that tries to catch all mistakes from perception. This system is however trained separately and it is not easy to decide which system to trust.
 
-In this paper we take a different approach, and exploit a novel semantic layer as our intermediate interpretable representation. Our approach is designed with safety in mind, and thus does not rely on detection and/or thresholded activations. Instead, we propose a flexible yet efficient representation that can capture different shapes (not just rectangular objects) and can handle low-confidence objects. In particular, we generate a set of probabilistic semantic occupancy layers over space and time, capturing locations of objects of different classes (i.e., vehicles, bicyclists, and pedestrians) as well as potentially occluded ones.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+First attempts to perform end-to-end neural motion planning did not produce interpretable representations, and instead focused on producing accurate control outputs that mimic how humans drive. Recent approaches, have tried to incorporate interpretability. The neural motion planner of shared feature representations between perception, prediction and motion planning. However it can produce inconsistent estimates between the modules, as it is framed as a multi-task learning problem with separate headers between the tasks. As a consequence, the motion planner might ignore detections or motion forecasts, resulting in unsafe behaviors.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this paper we take a different approach, and exploit a novel semantic layer as our intermediate interpretable representation. Our approach is designed with safety in mind, and thus does not rely on detection and/or thresholded activations. Instead, we propose a flexible yet efficient representation that can capture different shapes (not just rectangular objects) and can handle low-confidence objects. In particular, we generate a set of probabilistic semantic occupancy layers over space and time, capturing locations of objects of different classes (i.e., vehicles, bicyclists, and pedestrians) as well as potentially occluded ones. Our motion planner can then use this intermediate representation to penalize maneuvers that intersect regions with higher occupancy probability. Importantly, our interpretable representation is differentiable, enabling end-to-end learning of the full autonomy system (i.e., from raw sensor data to planned trajectory). Additionally, as opposed to other neural motion planners, our approach can utilize the intended high-level route not only to plan a trajectory that achieves the goal, but also to further differentiate semantically between on-coming or conflicting traffic.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This allows the motion planner to potentially learn the risk with respect to a particular semantic class (e.g., moving close to an oncoming vehicle compared to a parked vehicle).
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 We demonstrate the effectiveness of our approach on a large-scale dataset that consists of smooth manual-driving in challenging urban scenarios. Furthermore, we use a state-of-the-art sensor simulation to perform closed-loop evaluations of driving behavior produced by our proposed model. We show that our method is capable of imitating human trajectories more closely than existing approaches while yielding much lower collision rate.
 
-## Conclusion
+<!-- chunk {"id": "body-0008", "role": "body", "section": "End-to-End Interpretable Neural Motion Planner", "weight": 1.0} -->
 
-In this paper, we have proposed an end-to-end perception, prediction and motion planning model that generates safe trajectories for the SDV from raw sensor data. Importantly, our model not only produces interpretable intermediate representations, but also the generated ego-vehicle trajectories are consistent with the perception and prediction outputs. Furthermore, unlike most previous approaches that employ thresholded activations in detection and trajectory prediction of objects, we use semantic occupancy layers that are able to carry information about low probability objects to the motion planning module.
+In this paper we propose an end-to-end approach to self-driving. Importantly, our model produces intermediate representations that are designed for safe planning and decision-making, together with interpretability. Towards this goal, we exploit the map, the intended route (high level plan to go from point A to point B), and the raw LiDAR point-cloud to generate an intermediate semantic occupancy representation over space and time (i.e., present and future time steps). These interpretable occupancy layers inform the motion planner about potential objects, including those with low probability, allowing perception of objects of arbitrary shape, rather than just bounding boxes. This is in contrast to existing approaches that rely on object detectors that threshold activations and produce objects with only bounding box shapes. Note that thresholding activations is very problematic for safety, as if an object is below the threshold it will not be detected, potentially resulting in a collision.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "End-to-End Interpretable Neural Motion Planner", "weight": 1.0} -->
+
+Our semantic activations are very interpretable. In particular, we generate occupancy layers for each class of vehicles, bicyclists, and pedestrians, as well as occlusion layers which predict occluded objects. Furthermore, using the planned route of the self-driving vehicle (SDV), we can semantically differentiate vehicles by their interaction with our intended route (e.g., oncoming traffic vs. crossing). This not only adds to the interpretability of the perception outputs, but can potentially help the planner learn different subcosts for each category (e.g., different safety buffers for parked vehicles vs oncoming traffic). We refer the reader to Fig. 2 for an exhaustive list of the classes that we predict in the different layers of our occupancy maps.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "End-to-End Interpretable Neural Motion Planner", "weight": 1.0} -->
+
+Our sample-based learnable motion planner then takes these occupancy predictions and evaluates the associated risk of different maneuvers to find a safe and comfortable trajectory for the SDV. This is accomplished through an interpretable cost function used to cost motion-plan samples, which can efficiently exploit the occupancy information. Importantly, our proposed autonomy model is trained end-to-end to imitate human driving while avoiding collisions and traffic infractions. Fig. 1 shows an overview of our proposed approach.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Perceiving and Forecasting Semantic Occupancies", "weight": 1.0} -->
+
+Our model exploits LiDAR point clouds and HD maps to predict marginal distributions of semantic occupancy over time, as shown in Fig. 3. These are spatio-temporal, probabilistic, and instance-free representations of the present and future that capture whether a spatial region is occupied by any dynamic agent belonging to a semantic group at discrete time steps. Note that this representation naturally captures multi-modality in the future behavior of actors by placing probability mass on different spatial regions at future time steps, which is important as the future might unroll in very different ways (e.g., vehicle in front of the SDV brakes/accelerates, a pedestrian jaywalks/stays in the sidewalk).
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Perceiving and Forecasting Semantic Occupancies", "weight": 1.0} -->
+
+Input Representation: We use several consecutive LiDAR sweeps as well as HD maps (including lane graphs) as input to our model as they bring complementary information. Following, we voxelize $T_{p}$=10 past LiDAR point clouds in bird's eye view (BEV) with a resolution of $a$=0.2 meters/voxel. Our region of interest is $W$=140m long (70m front and behind of the SDV), $H$=80m wide (40 to each side of the SDV), and $Z$=5m tall; obtaining a 3D tensor of size $(\frac{H}{a},\frac{W}{a},\frac{Z}{a}, \cdot T_{p})$. As proposed, we concatenate height and time along the channel dimension to avoid using 3D convolutions or a recurrent model, thus saving memory and computation. Leveraging map information is very important to have a safe motion planner as we need to drive according to traffic rules such as stop signs, traffic lights and lane markers.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Perceiving and Forecasting Semantic Occupancies", "weight": 1.0} -->
+
+Maps are also very relevant for perception and motion forecasting since they provide a strong prior on the presence as well as the future motion of traffic participants (e.g., vehicles and bikes normally follow lanes, pedestrians usually use sidewalks/crosswalks). To exploit HD maps, we adopt the representation proposed in and rasterize different semantic elements (e.g., roads, lanes, intersections, crossings) into different binary channels to enable separate reasoning about the distinct elements. For instance, the state of a traffic light (green, yellow, red) is rasterized in 3 different channels, facilitating traffic flow reasoning at intersections. All in all, we obtain a 3D tensor of size $(\frac{H}{a},\frac{W}{a},C)$, with $C$=17 binary channels for the map.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Perceiving and Forecasting Semantic Occupancies", "weight": 1.0} -->
+
+Backbone Network: We combine ideas in and to build a multi-resolution, two-stream backbone network that extracts features from the LiDAR voxelization and map raster. One stream processes LiDAR while the other one processes the map. Each stream is composed of 4 residual blocks with number of layers and stride respectively. Thus, the features after each residual block are $\mathcal{F}_{1x},\mathcal{F}_{2x},\mathcal{F}_{4x},\mathcal{F}_{8x}$, where the subscript indicates the downsampling factor from the input in BEV. The features from the different blocks are then concatenated at 4x downsampling by max pooling higher resolution ones $\mathcal{F}_{1x},\mathcal{F}_{2x}$ and interpolating $\mathcal{F}_{8x}$, as proposed. The only difference between the two streams is that the LiDAR one uses more features versus on the map stream.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Perceiving and Forecasting Semantic Occupancies", "weight": 1.0} -->
+
+We give more capacity to the LiDAR branch as the input is much higher dimensional than the raster map, and the backbone is responsible for aggregating geometric information from different past LiDAR sweeps to extract good appearance and motion cues. Finally, the LiDAR and map features are fused by concatenation along the feature dimension followed by a final residual block of 4 convolutional layers with no downsampling, which outputs a tensor $\mathcal{F}$ with 256 features.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Perceiving and Forecasting Semantic Occupancies", "weight": 1.0} -->
+
+Semantic Occupancy Forecasting: Predicting the future motion of traffic participants is very challenging as actors can perform complex motions and there is a lot of uncertainty due to both partial observability (because of sensor occlusion or noise) as well as the multi-modal nature of the possible outcomes. Many existing approaches have modeled the underlying distribution in a parametric way (e.g., Gaussian, mixture of Gaussians). While efficient, this incorporates strong assumptions, lacks expressivity and is prone to instabilities during optimization (see ). Jain et al. use non-parametric occupancy distributions for each instance (i.e., actor) naturally capturing complex multi-modal distributions. However, this is a computationally and memory inefficient representation that scales poorly with the number of actors, which can be hundreds in crowded scenes. In contrast, in this paper we propose a novel representation, where groups of actors are modeled with a single non-parametric distribution of future semantic occupancy. This removes the need for both detection and tracking and is both efficient and effective as shown in our experiments.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Perceiving and Forecasting Semantic Occupancies", "weight": 1.0} -->
+
+In particular, these actors are grouped semantically in a hierarchy. We consider vehicles, pedestrians and bikes as the root semantic classes $\mathcal{C}$, as shown in Fig. 2. For each root category, we consider mutually-exclusive subclasses which include a negative (not occupied) subclass. Note that the root categories are not mutually exclusive as actors that belong to different classes can share the same occupied space (e.g., pedestrian getting in or out of a car). We create these subdivisions because we wish to learn different planning costs for each of these subclass occupancies, given that such subcategories have very different semantics for driving. For instance, parked vehicles require a smaller safety buffer than a fast moving vehicle in a lane that conflicts with the SDV route, since they are not likely to move and therefore the uncertainty around them is smaller. We do not subdivide the pedestrians and bikes (with riders) by their semantic location (road/sidewalk) or behavior (stationary/moving), as they are vulnerable road users and thus we want to make sure we plan a safe maneuver around them, no matter their actions.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Perceiving and Forecasting Semantic Occupancies", "weight": 1.0} -->
+
+We model fully occluded traffic participants (i.e., vehicles, pedestrians, bikes) through additional occupancy maps, just by adding one more subcategory. This can then be used for motion planning to exert caution.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Perceiving and Forecasting Semantic Occupancies", "weight": 1.0} -->
+
+More precisely, we represent the occupancy of each class $c \in \mathcal{C}$ as a collection of categorical random variables $o_{i,j}^{t,c}$ over space and time. Space is discretized into a BEV spatial grid on the ground plane with a resolution of 0.4 m/pixel, where $i,j$ denotes the spatial location. Time is discretized into 11 evenly spaced horizons into the future, ranging from 0 to 5 seconds, every 0.5 seconds.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Perceiving and Forecasting Semantic Occupancies", "weight": 1.0} -->
+
+To obtain the output logits $l^{t,c}$ of these spatio-temporal discrete distributions we employ a multi-scale context fusion by performing two parallel fully convolutional networks with different dilation rates. One stream performs regular 2D convolutions over $\mathcal{F}_{2x}$, providing very local, fine-grained features needed to make accurate predictions in the recent future. The other stream takes the coarser features $\mathcal{F}$ and performs dilated 2D convolutions to obtain a bigger receptive field that is able to place occupancy mass far away from the initial actor location for those that move fast. We then concatenate the two feature maps into $\mathcal{F}_{\text{occ}}$. Finally, we design an efficient recurrent occupancy update for each root class to output the logits for all its subclasses
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Perceiving and Forecasting Semantic Occupancies", "weight": 1.0} -->
+
+where $\mathcal{U}_{\theta}^{t}$ is a neural network that contains a transposed convolution to upsample the resolution by 2, $l^{0:{{t - 1},c}}$ are the predicted logits up to timestep $t - 1$, $\mathcal{I}$ is a 2x bilinear interpolation, and $\parallel$ represents feature-wise concatenation. We perform the recurrence at a lower resolution to reduce the memory impact. We refer the reader to Fig. 3 for a detailed illustration of the recurrency. Recurrent convolutions provide the right inductive bias to express the intuition that further future horizons need a bigger receptive field, given that actors could have moved away from their starting location. Finally, to output the categorical distribution $o_{i,j}^{t,c}$ we use a softmax across the mutually-exclusive subclasses of the root class $c$, for each space grid cell $i,j$ and time horizon $t$.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Motion Planning", "weight": 1.0} -->
+
+Here $w$ represents the learnable parameters of the planner. The objective function $f$ is composed of subcosts, $f_{o}$, that make sure the trajectory is safe with regards to the semantic occupancy forecasts, as well as other subcosts, $f_{r}$ related to comfort, traffic rules and progress in the route (see Fig. 8). Thus
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Motion Planning", "weight": 1.0} -->
+
+with $w = {(w_{r},w_{o})}$ the vector of all learnable parameters for the motion planner. We now describe the safety costs in details, as it is one of our major contributions. We include a very brief explanation of $f_{r}$ and refer the reader to the supplementary material for more details.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Motion Planning", "weight": 1.0} -->
+
+Safety Cost: The SDV should not collide with other objects on the road and needs to navigate cautiously when it is uncertain. For this purpose, we use the predicted semantic-occupancy $o$ to penalize trajectories that intersect occupied regions. In particular, at each time step $t$ of trajectory $\tau$, we find all the cells in the occupancy layer that have intersection with the SDV polygon (with a safety margin indicated by parameter $\lambda$), and conservatively use the value of the cell with maximum probability as occupancy subcost, denoted by $o_{c}{(\tau,t,\lambda)}$. Then the safety cost is computed by
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Motion Planning", "weight": 1.0} -->
+
+with $w_{c}$ and $w_{cv}$ the weighting parameters. Note that the first term penalizes trajectories that intersect regions with high occupancy probability whereas the second term penalizes high-velocity motion in areas with uncertain occupancy.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Motion Planning", "weight": 1.0} -->
+
+Traffic rules, Comfort and Route Progress Costs: The trajectory of the SDV must obey traffic rules. We use the information available in the map to penalize trajectories that violate the lane boundaries, road boundaries, stop signs, red traffic-lights, speed-limit, and do not stay close to the lane center. As it is common in self-driving systems, the mission route is given to our planner as a sequence of lanes that the SDV needs to follow to reach the destination. We penalize the number of lane-changes required to switch to these lanes. This encourages behaviors that are consistent with the input route. Additionally, in order to promote comfortable driving, we penalize trajectories for acceleration and violation thereof, lateral acceleration and violation thereof, jerk and violation thereof, curvature and its first and second derivatives. Note that the violations are computed with regards to a predefined threshold that is considered comfortable. Fig. 8 shows some of the described cost functions.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Motion Planning", "weight": 1.0} -->
+
+Trajectory Parametrization and Sampling: The output of the motion planner is a sequence of vehicle states that describes how the SDV should move within the planning horizon. At each planning iteration, a set of sampled trajectories are evaluated using the cost function in Eq 2, and the one with minimum cost is selected for execution. It is important that the sampled set, while being small enough to allow real-time computation, cover various maneuvers such as lane-following, lane-changes, and nudging encroaching objects. Hence, to achieve this efficiently, we choose a sampling approach that is aware of the lane structures. In particular, we follow the trajectory parameterization and sampling procedure proposed, where trajectories are sampled by combining longitudinal motion and lateral deviations relative to a particular lane (e.g., current SDV lane, right lane). Consequently, the sampled trajectories correspond to appropriate lane-based driving with variations in lateral motions which can be applied to many traffic scenarios. The details of the sampling algorithm are presented in the supplementary material.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Learning", "weight": 1.0} -->
+
+We trained our full model of perception, prediction and planning end-to-end. The final goal is to be able to drive safely and comfortably similar to human demonstrations. Additionally, the model should forecast the semantic occupancy distributions that are similar to what happened in the real scene.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Learning", "weight": 1.0} -->
+
+Semantic Occupancy Loss: This loss is defined as the cross entropy between the ground truth distribution $p$ and the predicted distribution $q_{\phi}$ of the semantic occupancy random variables $o_{i,j}^{t,c}$.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Learning", "weight": 1.0} -->
+
+Due to the highly imbalanced data in terms of spatial occupancy since the majority of the space is free, we obtain the subset of spatial locations $\mathcal{S}^{t,c}$ at time $t$ for class $c$ by performing hard negative mining.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Learning", "weight": 1.0} -->
+
+Planning Loss: Since selecting the minimum-cost trajectory within a discrete set is not differentiable, we use the max-margin loss to penalize trajectories that have small cost and are different from the human driving trajectory or are unsafe. Let $\mathbf{x}$ and $\tau_{h}$ be the input and human trajectory respectively for a given example. We utilize the max margin loss to encourage the human driving trajectory to have smaller cost $f$ than other trajectories. In particular,
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Learning", "weight": 1.0} -->
+
+where $f_{o}^{t}$ is the occupancy cost function at time step $t$, $f_{r}$ is the rest of the planning subcosts as defined in Section 3.2 (note that we omitted $o$ and $w$ from $f$ for brevity), and ${\lbrack\rbrack}_{+}$ represents the ReLU function. The imitation task-loss $l_{\text{im}}$ measures the $\ell_{1}$ distance between trajectory $\tau$ and the ground-truth for the entire horizon, and the safety task-loss $l_{\text{o}}^{t}$ accounts for collisions and their severity at each trajectory step.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+
+Dataset and Training: We train our models using our large-scale dataset that includes challenging scenarios where the operators are instructed to drive smoothly and in a safe manner. It contains 6100 scenarios for the training set, while validation and test sets contain 500 and 1500 scenarios. Each scenario is 25 seconds. Compared to KITTI, our dataset has 33x more hours of driving and 42x more objects. We use exponentiated gradient decent to update the planner parameters and Adam optimizer for the occupancy forecasting. We scale the gradient that is passed to perception and prediction from the planner to avoid instability in P&P training.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+
+Baselines: We compare against the following baselines: ACC which performs a simple car-following behavior using the measured state of the lead vehicle. Imitation Learning (IL) where the future positions of the SDV are predicted directly from the fused LiDAR and map features (Fig 3), and is trained using L2 loss. NMP where a planning cost-map is predicted from the fused features directly and detection and predictions are treated only as an axillary task. PLT: which is the joint behavior-trajectory planning method of, where planning is accomplished using a combination of interpretable subcosts, including collision costs with regards to predicted trajectories of actors. However, the detection and prediction modules are trained separately from the planner.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+
+Metrics: Planning metrics include cumulative collision rate indicating the percentage of collisions with ground-truth bounding-boxes of the actors at each trajectory time step, L2 distance to human trajectory which indicates how well the model imitated the human driving, jerk and lateral acceleration which show how comfortable the produced trajectories are. We also measure the progress of the SDV along the route.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+
+The first set of experiments are performed in an open-loop setting in which the LiDAR data up to the current timestamp is passed to the model and the generated trajectory is assumed to be executed by the ego vehicle for the 5sec planning horizon (as opposed to closed-loop execution where the trajectory is constantly replanned as new sensor data becomes available). Table 1 shows the planing metrics for our proposed method and the baselines. It shows that our proposed model (P3) outperforms all the baselines in (almost) all planning metrics. In particular, our motion planner generates much safer trajectories, with 40% less collisions at 5s compared to PLT. It also outperforms NMP by a very significant margin, which could be due to our consistent use of perception and prediction outputs in motion planning, as opposed to the free-form cost volume from sensor data. Another aspect that we observed to improve safety was the temporally smoother occupancies output by our recurrent occupancy update as opposed to a convolutional one.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+
+A more nuanced detail that could also contribute to our increased safety is the pooling of the cost on the space occupied by the SDV, as opposed to the simple indexing on its centroid previously proposed. Our model also produces less jerk which indicates the effectiveness of including multiple interpretable subcosts in the planning objective. Besides, our model exhibits much closer behavior to human compared to IL that has been optimized to match human trajectories. The progress metric also shows that our model is less agggressive compared to the other baselines and similar to IL.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+
+Ablation Study: We report the result of the ablation study in Table 2. Our best model is $\mathcal{M}_{5}$ (P3 in Table 1) corresponds to the semantic occupancy and the motion planner being jointly trained. $\mathcal{M}_{1}$ and $\mathcal{M}_{2}$ perform detection and multi-modal trajectory prediction which is used in motion planner to form collision costs. Overall, end-to-end training of perception and planning modules improve safety as indicated by the collision metrics. Furthermore, using occupancy representation yields much better performance in driving metrics. The progress metric also indicates that the occupancy model is not overly cautious and the advancement in the route is similar to other models. Note that we also include $\mathcal{M}_{3}$ which is similar to $\mathcal{M}_{1}$, but the predicted trajectories are rasterized to form an occupancy representation for motion planning.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+
+Qualitative results: Fig. 5 shows examples of generated semantic occupancy layers at different time horizons for two traffic scenarios (refer to the caption for corresponding color of each semantic class). In Fig. 14(c), for example, we can see multiple modes in the prediction of a vehicle with corresponding semantics of conflicting and oncoming. In the bottom scene, our model is able to recognize the occluded region on the right end of the intersection. Furthermore, the oncoming vehicle (red color) which has a low initial velocity is predicted with large uncertainty which is visible in Fig. 5(f).
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+
+Closed-loop Evaluation: We also perform experiments in a closed-loop simulated environment leveraging realistic LiDAR simulation. At each simulation time-step, the simulated LiDAR point-cloud is passed to our model and a trajectory is planned for the ego vehicle and is executed by the simulation for 100ms. This process continues iteratively for 15s of simulation. We tested our models in a scenario with one or two initially-occluded non-compliant actors with trajectories that are in conflict with the route of the ego-vehicle (see Fig 6(a)). By varying the initial velocity and along-the-lane location of each actor, we created 80 highly challenging traffic scenes (12k frames) for our tests. We compared the performance of our proposed end-to-end autonomy system that uses semantic occupancy with the alternative trajectory-based method ($\mathcal{M}_{5}$ and $\mathcal{M}_{2}$ respectively). As shown in Table 3, our full approach can react safely to the non-compliant vehicles, resulting in less collisions than $\mathcal{M}_{2}$.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+
+This cautious behavior is also reflected in the rest of the metrics such as jerk, acceleration, and velocity where $\mathcal{M}_{2}$ exhibits more aggressive behavior. Fig. 6 demonstrates an example run of the simulation. As the SDV approaches the intersection, the non-reactive vehicle, which is turning right, becomes visible (Fig. 6(c)). The planner generates a lane-change trajectory to avoid the slow-moving vehicle (Fig. 6(d)).
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+In this paper, we have proposed an end-to-end perception, prediction and motion planning model that generates safe trajectories for the SDV from raw sensor data. Importantly, our model not only produces interpretable intermediate representations, but also the generated ego-vehicle trajectories are consistent with the perception and prediction outputs. Furthermore, unlike most previous approaches that employ thresholded activations in detection and trajectory prediction of objects, we use semantic occupancy layers that are able to carry information about low probability objects to the motion planning module. Our experiments on a large dataset of challenging scenarios and closed-loop simulations showed that the proposed method, while exhibiting human-like driving behavior, is significantly safer than the state-of-the-art learnable planners.

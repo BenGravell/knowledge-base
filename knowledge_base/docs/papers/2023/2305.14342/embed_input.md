@@ -1,17 +1,350 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Sophia: A Scalable Stochastic Second-order Optimizer for Language Model Pre-training
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Given the massive cost of language model pre-training, a non-trivial improvement of the optimization algorithm would lead to a material reduction on the time and cost of training. Adam and its variants have been state-of-the-art for years, and more sophisticated second-order (Hessian-based) optimizers often incur too much per-step overhead. In this paper, we propose Sophia, Second-order Clipped Stochastic Optimization, a simple scalable second-order optimizer that uses a light-weight estimate of the diagonal Hessian as the pre-conditioner. The update is the moving average of the gradients divided by the moving average of the estimated Hessian, followed by element-wise clipping. The clipping controls the worst-case update size and tames the negative impact of non-convexity and rapid change of Hessian along the trajectory. Sophia only estimates the diagonal Hessian every handful of iterations, which has negligible average per-step time and memory overhead.
 
-## Introduction
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+On language modeling with GPT models of sizes ranging from 125M to 1.5B, Sophia achieves a 2x speed-up compared to Adam in the number of steps, total compute, and wall-clock time, achieving the same perplexity with 50% fewer steps, less total compute, and reduced wall-clock time. Theoretically, we show that Sophia, in a much simplified setting, adapts to the heterogeneous curvatures in different parameter dimensions, and thus has a run-time bound that does not depend on the condition number of the loss.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Language models (LLMs) have gained phenomenal capabilities as their scale grows. However, pre-training LLMs is incredibly time-consuming due to the massive datasets and model sizes---hundreds of thousands of updates to the model parameters are required. For example, PaLM was trained for two months on 6144 TPUs, which costed 10 million dollars.
 
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 Pre-training efficiency is thus a major bottleneck in scaling up LLMs. This work aims to improve pre-training efficiency with a faster optimizer, which either reduces the time and cost to achieve the same pre-training loss, or alternatively achieves better pre-training loss with the same budget.
 
-Adam (or its variants (Loshchilov & Hutter Shazeer & Stern You et al., )) is the dominantly used optimizer for training LLMs, such as GPT (Radford et al. Brown et al., ), OPT, Gopher and LLAMA. Designing faster optimizers for LLMs is challenging. First, the benefit of the first-order (gradient-based) pre-conditioner in Adam is not yet well understood (Liu et al. Zhang et al. Kunstner et al., ). Second, the choice of pre-conditioners is constrained because we can only afford light-weight options whose overhead can be offset by the speed-up in the number of iterations.
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-This paper introduces Sophia, Second-order Clipped Stochastic Optimization, a light-weight second-order optimizer that uses an inexpensive stochastic estimate of the diagonal of the Hessian as a pre-conditioner and a clipping mechanism to control the worst-case update size. On pre-training language models such as GPT-2, Sophia achieves the same validation pre-training loss with 50$\%$ fewer number of steps than Adam. Because Sophia maintains almost the memory and average time per step, the speedup also translates to 50$\%$ less total compute and 50$\%$ less wall-clock time (See Figure (a)&(b)).
+Adam (or its variants (Loshchilov & Hutter Shazeer & Stern You et al., )) is the dominantly used optimizer for training LLMs, such as GPT (Radford et al. Brown et al., ), OPT, Gopher and LLAMA. Designing faster optimizers for LLMs is challenging. First, the benefit of the first-order (gradient-based) pre-conditioner in Adam is not yet well understood (Liu et al. Zhang et al. Kunstner et al., ). Second, the choice of pre-conditioners is constrained because we can only afford light-weight options whose overhead can be offset by the speed-up in the number of iterations. For example, the block-diagonal Hessian pre-conditioner in K-FAC is expensive for LLMs (Martens & Grosse Grosse & Martens Ba et al. Martens et al., ). On the other hand, Chen et al. automatically search among the light-weight gradient-based pre-conditioners and identify Lion, which is substantially faster than Adam on vision Transformers and diffusion models but only achieves limited speed-up on LLMs.
 
-## Conclusion
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This paper introduces Sophia, Second-order Clipped Stochastic Optimization, a light-weight second-order optimizer that uses an inexpensive stochastic estimate of the diagonal of the Hessian as a pre-conditioner and a clipping mechanism to control the worst-case update size. On pre-training language models such as GPT-2, Sophia achieves the same validation pre-training loss with 50$\%$ fewer number of steps than Adam. Because Sophia maintains almost the memory and average time per step, the speedup also translates to 50$\%$ less total compute and 50$\%$ less wall-clock time (See Figure (a)&(b)). We also note that comparing the run-time to achieve the same loss is a correct way to compare the speed of optimizers for LLMs; see Section 3.2 for more details.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Moreover, the scaling law based on model size from 125M to 770M is in favor of Sophia over Adam---the gap between Sophia and Adam with 100K steps increases as the model size increases (Figure (c)). In particular, Sophia on a 540M-parameter model with 100K steps gives the same validation loss as Adam on a 770M-parameter model with 100K steps. Note that the latter model needs 40% more training time and 40% more inference cost.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Algorithm 1 Hutchinson(θ) 1: Input: parameter θ. 2: Compute mini-batch loss L(θ). 3: Draw u from 𝒩(0,Id). 4: return u ⊙ ∇(⟨∇L(θ),u⟩). Algorithm 2 Gauss-Newton-Bartlett(θ) 1: Input: parameter θ. 2: Draw a mini-batch of input {xb}b = 1B. 3: Compute logits on the mini-batch: {f(θ,xb)}b = 1B. 4: Sample ŷb ∼ softmax(f(θ,xb)), ∀b ∈ [B]. 5: Calculate ĝ = ∇(1/B∑ℓ(f(θ,xb),ŷb)). 6: return B ⋅ ĝ ⊙ ĝ.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Algorithm 3 Sophia 1: Input: θ1, learning rate {ηt}t = 1T, hyperparameters λ, γ, β1, β2, ϵ, and estimator choice Estimator ∈ {Hutchinson, Gauss-Newton-Bartlett} 2: Set m0 = 0, v0 = 0, h1 − k = 0 3: for t = 1 to T do 4: Compute minibach loss Lt(θt). 5: Compute gt = ∇Lt(θt). 6: mt = β1mt − 1 + (1−β1)gt 7: if tmodk = 1 then 8: Compute ĥt = Estimator(θt). 9: ht = β2ht − k + (1−β2)ĥt 10: else 11: ht = ht − 1 12: θt = θt − ηtλθt (weight decay) 13: θt + 1 = θt − ηt ⋅ clip(mt/max {γ ⋅ ht, ϵ},1)
+Figure 2: The motivating toy example. θ is the sharp dimension and θ is the flat dimension.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+GD’s learning rate is limited by the sharpness in θ1, and makes slow progress along θ. Adam and SignGD bounce along θ while making slow progress along θ. Vanilla Newton’s method converges to a saddle point. Sophia makes fast progress in both dimensions and converges to the minimum with a few steps. Figure 2: The motivating toy example. θ is the sharp dimension and θ is the flat dimension. GD’s learning rate is limited by the sharpness in θ1, and makes slow progress along θ. Adam and SignGD bounce along θ while making slow progress along θ. Vanilla Newton’s method converges to a saddle point. Sophia makes fast progress in both dimensions and converges to the minimum with a few steps.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Concretely, Sophia estimates the diagonal entries of the Hessian of the loss using a mini-batch of examples every $k$ step (with $k = 10$ in our implementation). We consider two options for diagonal Hessian estimators: (a) an unbiased estimator that uses a Hessian-vector product with the same run-time as a mini-batch gradient up to a constant factor, and (b) a biased estimator that uses one mini-batch gradient calculated with resampled labels. Both the two estimators only introduce 5% overheads per step (in average). At every step, Sophia updates the parameter with an exponential moving average (EMA) of the gradient divided by the EMA of the diagonal Hessian estimate, subsequently clipped by a scalar. (All operations are element-wise.) See Algorithm for the pseudo-code.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Additionally, Sophia can be seamlessly integrated into existing training pipelines, without any special requirements on the model architecture or computing infrastructure. With the either of the Hessian estimators, Sophia only require either standard mini-batch gradients, or Hessian-vector products which are supported in auto-differentiation frameworks such as PyTorch and JAX.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Thanks to the Hessian-based pre-conditioner, Sophia adapts more efficiently, than Adam does, to the heterogeneous curvatures in different parameter dimensions, which can often occur in the landscape of LLMs losses and cause instability or slowdown. Sophia has a more aggressive pre-conditioner than Adam---Sophia applies a stronger penalization to updates in sharp dimensions (where the Hessian is large) than the flat dimensions (where the Hessian is small), ensuring a uniform loss decrease across all parameter dimensions. In contrast, Adam's updates are mostly uniform across all parameter dimensions, leading to a slower loss decrease in flat dimensions. (See Section 2.1 for more discussions.) These make Sophia converge in fewer iterations. Thanks to the light-weight diagonal Hessian estimate, the speed-up in the number of steps translates to a speed-up in total compute and wall-clock time.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Sophia's clipping mechanism controls the worst-case size of the updates in all directions, safeguarding against the negative impact of inaccurate Hessian estimates, rapid Hessian changes over time, and non-convex landscape (with which the vanilla Newton's method may converge to local maxima or saddle points instead of local minima). The safeguard allows us to estimate Hessian infrequently (every $k = 10$ step) and stochastically. In contrast, prior second-order methods often update Hessian estimates every step (Martens & Grosse Grosse & Martens Anil et al. Yao et al., ).
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We provide theoretical analyses of much simplified versions of Sophia on convex functions. The runtime bound does not depend on the local condition number (the ratio between maximum and minimum curvature at the local minimum) and the worst-case curvature (that is, the smoothness parameter), demonstrating the advantage of Sophia in adapting to heterogeneous curvatures across parameter dimensions.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Method", "weight": 1.0} -->
+
+We first instantiate gradient descent (GD) and Adam on a simplified 2D problem and motivate the use of second-order information and per-coordinate clipping in Section 2.1. Then, we present Sophia in detail in Section 2.2, and the pseudo-code in Algorithm. We introduce two choices of estimators of diagonal Hessian used in Sophia in Section 2.3.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Motivations", "weight": 1.0} -->
+
+Heterogeneous curvatures. The loss functions of modern deep learning problems often have different curvatures across different parameter dimensions (Sagun et al. Ghorbani et al. Zhang et al. Yao et al., ). E.g., on a 125M-parameter GPT-2 model, Figure shows that the distribution of positive diagonal entries of the Hessian is dispersed.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Motivations", "weight": 1.0} -->
+
+A common simplification of Adam that is more amenable to analysis (Balles & Hennig Bernstein et al. Zhuang et al. Kunstner et al., ) is SignGD, which dates back to RProp that motivated RMSProp and Adam. Observe that without using the EMA (for both the gradient and second moments of the gradient), Adam's update is simplified to ${{{\eta \cdot {\nabla L}}{(\theta)}}/{|{{\nabla L}{(\theta)}}|}} = {{\eta \cdot \text{sign}}{({{\nabla L}{(\theta)}})}}$ (where all operations are entry-wise), which is called SignGD.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Motivations", "weight": 1.0} -->
+
+Limitations of GD and SignGD (Adam). It is well known that the optimal learning rate of GD should be proportional to the inverse of the curvature, that is, the Hessian/second derivative at the local minimum. More precisely, let $h_{1}$ and $h_{2}$ be the curvatures of $L_{1}$ and $L_{2}$ at the local minimum (and thus $h_{1} \gg h_{2}$). The optimal learning rate for the update of $\theta_{\lbrack 1\rbrack}$ in equation is $\asymp {1/h_{1}}$, which is much smaller than the optimal learning rate that the update of $\theta_{\lbrack 2\rbrack}$ needs, which is $\asymp {1/h_{2}}$.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Motivations", "weight": 1.0} -->
+
+As a result, the largest shared learning rate can only be $1/h_{1}$; consequently, the convergence in $\theta_{\lbrack 2\rbrack}$ dimension is slow as demonstrated in the brown curve in Figure.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Motivations", "weight": 1.0} -->
+
+The update size of SignGD is the learning rate $\eta$ in all dimensions. The same update size translates to less progress in decreasing the loss in the flat direction than in the sharp direction. As observed from the yellow curve in Figure, the progress of SignGD in the flat dimension $\theta_{\lbrack 2\rbrack}$ is slow because each step only decreases the loss $L_{2}{(\theta_{\lbrack 2\rbrack})}$ slightly. On the other hand, along the direction $\theta_{\lbrack 1\rbrack}$, the iterate quickly travels to the valley in the first three steps and then starts to bounce. To fully converge in the sharp dimension, the learning rate $\eta$ needs to decay to 0, which will exacerbate the slow convergence in the flat dimension $\theta_{\lbrack 2\rbrack}$. The trajectory of Adam in this example is indeed similar to SignGD, which is also plotted as the red curve in Figure.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Motivations", "weight": 1.0} -->
+
+The behavior of SignGD and Adam above indicates that a more aggressive pre-conditioning is needed---sharp dimensions should have relatively smaller updates than flat dimensions so that the decrease of loss is equalized in all dimensions.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Motivations", "weight": 1.0} -->
+
+Limitations of Newton's method. Nevertheless, Newton's method has known limitations as well. For non-convex functions, vanilla Newton's method could converge to a global maximum when the local curvature is negative. In the blue curve of Figure, Newton's method quickly converges to a saddle point instead of a local minimum. The curvature might also change rapidly along the trajectory, making the second-order information unreliable. To address these limitations, we propose considering only pre-conditioners that capture positive curvature, and introduce a pre-coordinate clipping mechanism to mitigate the rapid change of Hessian (more detail in Section 2.2).
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Motivations", "weight": 1.0} -->
+
+where $\rho$ is a constant to control the worst-case update size, $\epsilon$ is a very small constant (e.g., 1e-12), which avoids dividing by 0. When the curvature of some dimension is rapidly changing or negative and thus the second-order information is misleading and possibly leads to a huge update before clipping, the clipping mechanism kicks in and the optimizer defaults to SignGD (even though this is sub-optimal for benign situations). Numerous prior methods such as trust region, backtracking line search, and cubic regularization also tackle the same issue of Newton's method, but the clipping mechanism is much simpler and more efficient.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Motivations", "weight": 1.0} -->
+
+As shown in the black curve in Fig., the update in equation starts off similarly to SignGD due to the clipping mechanism in the non-convex region, making descent opposed to converging to a local maximum. Then, in the convex valley, it converges to the global minimum with a few steps. Compared with SignGD and Adam, it makes much faster progress in the flat dimension $\theta_{\lbrack 2\rbrack}$ (because the update is bigger in dimension $\theta_{\lbrack 2\rbrack}$), while avoiding boucing in the sharp dimension $\theta_{\lbrack 1\rbrack}$ (because the update is significantly shrunk in the sharp dimension $\theta_{\lbrack 1\rbrack}$).
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Sophia: Second-order Clipped Stochastic Optimization", "weight": 1.0} -->
+
+Section 2.1 demonstrates that Adam does not sufficiently adapt to the heterogeneous curvatures. On the other hand, vanilla Newton's method has a pre-conditioner optimal for convex functions, but is vulnerable to negative curvature and rapid change of Hessian. With these insights, we design a new optimizer, Sophia, which is more adaptive to heterogeneous curvatures than Adam, more resistant to non-convexity and rapid change of Hessian than Newton's method, and also uses a low-cost pre-conditioner.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Sophia: Second-order Clipped Stochastic Optimization", "weight": 1.0} -->
+
+EMA of diagonal Hessian estimates. Sophia uses a diagonal Hessian-based pre-conditioner, which directly adjusts the update size of different parameter dimensions according to their curvatures. We will present two options in detail in Section 2.3 for estimating the diagonal Hessian efficiently. To mitigate the overhead, we only estimate the Hessian every $k$ steps ($k = 10$ in our implementation). At time step $t$ with ${t{mod}k} = 1$, the estimator returns an estimate ${\hat{h}}_{t}$ of the diagonal of the Hessian of the mini-batch loss.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Sophia: Second-order Clipped Stochastic Optimization", "weight": 1.0} -->
+
+Similar to the gradient of the mini-batch loss function, the estimated diagonal Hessian can also have large noise. Inspired by the EMA of moments of gradients in Adam, we also denoise the diagonal Hessian estimates with EMA across iterations.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Sophia: Second-order Clipped Stochastic Optimization", "weight": 1.0} -->
+
+Per-coordinate clipping. As discussed in Section 2.1, on nonconvex functions, vanilla Newton's method, which uses Hessian as the pre-conditioner, may converge to local maxima instead of local minima. In addition, the inaccuracy of Hessian estimates and the change of Hessian along the trajectory can make the second-order information unreliable. To this end, we only consider the positive entries of the diagonal Hessian and introduce per-coordinate clipping to the update. For a clipping threshold $\rho > 0$, let the clipping function be ${\text{clip}{(z,\rho)}} = {\max{\{{\min{\{ z,\rho\}}},{- \rho}\}}}$ where all operations are applied coordinate-wise.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Sophia: Second-order Clipped Stochastic Optimization", "weight": 1.0} -->
+
+The re-adjustment makes the scale of the update less dependent on $\gamma$, because now $\gamma$ only controls the fraction of clipped entries but all clipped entries will eventually be set to $\eta_{t}$ in the udpate---e.g., when $\gamma$ is extremely small, all entries of ${\left( {\eta_{t}/\gamma} \right) \cdot \text{clip}}{({m_{t}/{\max{\{ h_{t},{\epsilon/\gamma}\}}}},\gamma)}$ will be $\eta_{t}$. In practice, the choice of $\gamma$ should be tuned based on the the fraction of clipped entries (See Section 3.1 for details). We present the pseudo-code of the Sophia in Algorithm.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Sophia: Second-order Clipped Stochastic Optimization", "weight": 1.0} -->
+
+\text{sign}}{({m_{t}{\lbrack i\rbrack}})}}$, which is the same as stochastic momentum SignSGD.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Sophia: Second-order Clipped Stochastic Optimization", "weight": 1.0} -->
+
+In other words, Sophia uses stochastic momentum SignSGD as a backup when the Hessian is negative (or mistakenly estimated to be negative or very small.) We also note that the clipping mechanism controls the worst-case size of the updates in all parameter dimensions to be at most $\rho$, which also improves the stability (which could be a severe issue for second-order methods). Moreover, because for many parameter dimensions, the clipping is not activated and the update is automatically adjusted, our worst-case update size $\eta\rho$ can be chosen to be larger than the worst update size $\eta$ in stochastic momentum SignSGD.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Sophia: Second-order Clipped Stochastic Optimization", "weight": 1.0} -->
+
+Several previous works (Becker & Le Cun Chapelle et al. Schaul et al., ), including the recent work AdaHessian, use diagonal Hessian as a pre-conditioner in optimizers for training neural networks. However, they use more frequent Hessian estimations, which leads to significant per-step computation overhead (more than two gradient computations), most likely because of the lack of the clipping mechanism that safeguards against inaccurate and changing Hessian. In general, to the best of our knowledge, there has not been previous reports that showed second-order optimizers achieve a speed-up on decoder-only large language models in wall-clock time or total compute.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+We introduce two diagonal Hessian estimators, both of which have memory and run-time costs similar to computing a gradient (up to constant factors).
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+Option 1: Hutchinson's unbiased estimator. For any loss function $\ell{(\theta)}$ on parameters $\theta \in {\mathbb{R}}^{d}$, the Hutchinson's estimator (Hutchinson Roosta-Khorasani & Ascher Yao et al., ) first draws $u \in {\mathbb{R}}^{d}$ from the spherical Gaussian distribution $\mathcal{N}{(0,I_{d})}$, and then outputs $\hat{h} = {u \odot {({{\nabla^{2}\ell}{(\theta)}u})}}$, where $\odot$ denotes the element-wise product, and ${\nabla^{2}\ell}{(\theta)}u$ is the product of the Hessian with the vector $u$. The Hutchinson's estimator is an unbiased estimator for the diagonal of the Hessian, because
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+The estimator only requires a Hessian-vector product (i.e., ${\nabla^{2}\ell}{(\theta)}u$), which have efficient implementations in PyTorch and JAX, instead of the full Hessian matrix.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+Option 2: Gauss-Newton-Bartlett (GNB) estimator. We leverage the structure of the loss to design a biased stochastic estimator for the diagonal Hessian, following Schraudolph; Martens; Wei et al.. Suppose $\ell{(\theta,{(x,y)})}$ is a loss function on an example $(x,y)$ of the form ${\ell{(\theta,{(x,y)})}} = {\ell_{\text{ce}}{({f{(\theta,x)}},y)}}$ where $\ell_{\text{ce}}$ is the cross-entropy loss and ${f{(\theta,x)}} \in {\mathbb{R}}^{V}$ is the logits, and $V$ is the number of items/classes in a multi-class classification problem (e.g., the vocabulary size in LLMs).
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+First, the Hessian of $\ell{(\theta,{(x,y)})}$ (w.r.t to variable $\theta$) has the well-known Gauss-Newton decomposition (Ortega & Rheinboldt Schraudolph, ) (which is a simple consequence of the chain rule),
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+In the context of neural networks, past works have found that the second term $J_{\theta\theta}f{(\theta,x)}{\lbrack q\rbrack}$ in Equation 8 is often relative smaller than the first term ${{J_{\theta}f{(\theta,x)}} \cdot S \cdot J_{\theta}}f{(\theta,x)}^{\top}$, which is often referred to as the Gauss-Newton matrix (Dennis Jr & Schnabel Ortega & Rheinboldt Schraudolph Chen, ) and used as pre-conditioners in second-order optimizers (Botev et al. Martens Gargiani et al., ). Following this line of work, we build an unbiased estimator for the diagonal of the Gauss-Newton matrix, which is a biased estimator for the diagonal of the Hessian.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+We first claim that $S$ only depends $f{(\theta,x)}$ but not $y$, even though the loss depends on $y$.^22^2Denote by ${p{(\theta,x)}} = {\text{softmax}{({f{(\theta,x)}})}} \in {\mathbb{R}}^{V}$ the probability vector obtained by applying softmax on the logits. Indeed, a simple derivation shows that $S = {{\text{diagonal}{({p{(\theta,x)}})}} - {p{(\theta,x)}p{(\theta,x)}^{\top}}}$, where $\text{diagonal}{({p{(\theta,x)}})}$ is the matrix with the vector $p{(\theta,x)}$ residing on the diagonal.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+In fact, this is a general property of exponential families---the Hessian of the negative log-likelihood of any exponential family distribution only depends on the parameters of that exponential family, but not on the example on which the likelihood is evaluated. Thus, $S = \left. \frac{\partial^{2}{\ell_{\text{ce}}{(t,\hat{y})}}}{\partial t^{2}} \right|_{t = {f{(\theta,x)}}}$ for any $\hat{y} \in {\{ 1,\ldots,V\}}$, which implies that ${S = {{\mathbb{E}}_{\hat{y} \sim {p{(\theta,x)}}}\left\lbrack \left.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+\frac{\partial^{2}{\ell_{\text{ce}}{(t,\hat{y})}}}{\partial t^{2}} \right|_{t = {f{(\theta,x)}}} \right\rbrack}}.$ Because $\ell_{\text{ce}}{(t,y)}$ is the negative log-probability of the probabilistic model defined by the categorical distribution $\text{Cat}{(t)}$ with parameter $t$, by Bartlett's second identity, we have that,
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+where the first equality holds for $t = {f{(\theta,x)}}$ and the second equality holds for all $t$ by Bartlett's second identity. Therefore, the Gauss-Newton matrix satisfies
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+Mini-batch version. Given a mini-batch of inputs ${\{{(x_{b},y_{b})}\}}_{b = 1}^{B}$. The most natural way to build an estimator for the diagonal of the Gauss-Newton matrix for the Hessian of the mini-batch loss is using
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+where ${\hat{y}}_{b}$'s are labels sampled from the model on inputs $x_{b}$'s respectively. However, as noted by Grosse, implementing this estimator is inconvenient under the current auto-differentiation frameworks, where the users only have access to the average gradient over a mini-batch (as opposed to the individual ones).
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+Note that the RHS of Equation 13 is the same as the expectation of Equation 11, which, by Equation 10, also equals to the diagonal of the Gauss-Newton matrix for the mini-batch loss. Hence, we use ${{{B \cdot {\nabla_{\theta}\hat{L}}}{(\theta)}} \odot {\nabla_{\theta}\hat{L}}}{(\theta)}$ as the estimator.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+GNB estimator for exponential family. If $y$ is drawn from an exponential family $p{(y;\eta)}$ where the natural parameter $\eta$ is set to be $f{(\theta,x)}$ and the loss function $\ell{({f{(\theta,x)}},y)}$ is the negative log-likelihood loss for the corresponding probabilistic distribution, then all the derivations above still follow because $S$ still only depends on $f{(\theta,x)}$ but not $y$, and both the first and second Bartlett's identities still hold.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+GNB estimator for squared loss. When ${y,{f{(\theta,x)}}} \in {\mathbb{R}}$ and ${\ell{({f{(\theta,x)}},y)}} = {\frac{1}{2}{({{f{(\theta,x)}} - y})}^{2}}$, the $S$ matrix is identity, and thus one can simply use $J_{\theta}f{(\theta,x)}J_{\theta}f{(\theta,x)}^{\top}$ as the estimator.^33^3One can verify that the GNB estimator gives the same quantity in expectation if we use a probabilistic model $y \sim {\mathcal{N}{({f{(\theta,x)}},\sigma^{2})}}$ and go through the derivation of the GNB estimator.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+To the best of our knowledge, Wei et al. is the first paper that uses this estimator of Gauss-Newton matrix. Given the use Bartlett's first and second identities that are central to the estimator, we call it Gauss-Newton-Bartlett (GNB) estimator.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Diagonal Hessian Estimators", "weight": 1.0} -->
+
+Comparisons of Hessian estimators. The Hutchinson's estimator does not assume any structure of the loss, but requires a Hessian-vector product. The GNB estimator only estimates the Gauss-Newton term but always gives a positive semi-definite (non-negative) diagonal Hessian estimate. The PSDness ensures that the pre-conditioned update is always a descent direction. The GNB estimator can also be easily extended to the negative log-likelihood loss of any exponential family distribution, and be adapted to estimating the trace of the Gauss-Newton matrix as in Wei et al. or efficiently implementing the product of Gauss-Newton matrix with a vector. The authors suspect the GNB estimator has a smaller variance than the Hutchinson's estimator, but more empirical and theoretical investigation are needed to support the hypothesis.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+We name the algorithm using the Hutchinson's estimator and the GNB estimator Sophia-H and Sophia-G, respectively. We evaluate Sophia on auto-regressive language modeling with GPT-2 of model sizes ranging from 125M to 770M, and GPT NeoX of sizes 1.5B and 6.6B. Results indicate that Sophia is 2x faster than AdamW in number of steps, total compute, and wall-clock time across all model sizes. Moreover, the scaling law is in favor of Sophia over AdamW.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+Language modeling. We train autoregressive models on OpenWebText and the Pile. Following standard protocol, we set the context length of GPT-2 to 1024, and the context length of GPT-2 NeoX to 2048. We consider GPT-2 with 125M (small), 355M (medium), and 770M (large) parameters, and GPT NeoX with 1.5B and 6.6B parameters, respectively. Detailed model configurations are deferred to Section B.2.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+Baselines. We mainly compare Sophia and Adam with decoupled weight decay (AdamW) which is the dominantly used optimizer on language modeling tasks, AdaHessian which uses the EMA of the square of the diagonal Hessian estimate in its denominator, and Lion, which is an first-order adaptive optimizer discovered by symbolic search. For the 30M model, all hyperparameters are tuned with grid search. For other models, all hyperparmeters but the peak learning rate are configured as identical to those found on the 30M model. For models with size 125M and 355M, the peak learning rates are obtained through grid search. For larger models, we gradually increase the peak learning rate to search for the largest possible peak learning rate such that the training does not blow up, and ensure that the chosen learning rate is approximately the largest in the sense that 1.25 times the chosen learning rate will lead to a blow-up.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+For AdamW we found the well-established practice ($\beta_{1} = 0.9$ and $\beta_{2} = 0.95$) works consistently better than other choices (Radford et al. Karamcheti et al., ). For Lion, we use $\beta_{1} = 0.95$ and $\beta_{2} = 0.98$ following Chen et al.. Although Chen et al. suggests using $0.1$ times the learning rate (LR) of AdamW for vision tasks, we find out the LR should be larger on LMs from the grid search. For AdaHessian, we found $\beta_{1} = 0.92$ and $\beta_{2} = 0.99$ works the best in the grid search. Details on hyperparameter tuning are deferred to Section B.1.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+Implementation. We set batch size to 480 for GPT-2 and 2048 for GPT NeoX. We use cosine LR schedule with the final LR equal to 0.05 times the peak LR, following Rae et al.. We use the standard gradient clipping (by norm) threshold 1.0. We adopt a fixed 2k steps of LR warm-up. For Sophia, we use $\beta_{1} = 0.96$, $\beta_{2} = 0.99$, $\epsilon =$`<!-- -->`{=html}1e-12 and update diagonal Hessian every 10 steps. For Sophia-H, we use only a subset of 32 examples from the mini-batch to calculate the diagonal Hessian to further reduce overhead. For Sophia-G, we use a subset of 240 examples from the mini-batch to calculate the diagonal Gauss-Newton. We implement the algorithms in PyTorch and JAX and train all the models in bfloat16. The 125M and 355M models are trained on A5000 GPUs, while the 770M models are trained on A100 GPUs.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+We use a TPU v3-128 slice to train the 1.5B and 6.6B GPT NeoX.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Hyperparamter tuning strategy", "weight": 1.0} -->
+
+We refer to Section B.1 for the details on hyperparameters and only discuss two key hyperparameters, $\gamma$ and the peak learning rate $\eta$ in the main text. Similar to the protocol of baselines, all other hyperparameters are tuned on a 30M model and remain fixed for all the model sizes. For the peak learning rate and $\gamma$, we found the following strategy general works well, and delivers almost the same performance as those found by grid search.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Hyperparamter tuning strategy", "weight": 1.0} -->
+
+On a small model, tune $\gamma$ to make the proportion of coordinates where the update is not clipped (i.e., ${|{m_{t}/{\max{\{{\gamma \cdot h_{t}},\epsilon\}}}}|} < 1$) in the range of ${10\%} - {50\%}$. If the proportion is too large (or too small), multiply $\gamma$ by $0.5$ (or $2$) and restart. The same $\gamma$ likely can be transferred to models with the same architecture and data but different number of parameters. We use $\gamma = 0.01$ for Sophia-H and $\gamma = 0.05$ for Sophia-G in this paper.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Hyperparamter tuning strategy", "weight": 1.0} -->
+
+Suppose we already find a suitable $\gamma$ following the above procedure. We can then set the learning rate of Sophia to be either 3-5 times the learning rate that one would have used for Lion, or 0.8 times the learning rate that one would have used for AdamW.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Methodology for comparing the optimizers for LLMs", "weight": 1.0} -->
+
+running optimizer $O_{1}$ (e.g. Adam) with $T$ steps, with the optimal learning rate and learning rate schedule (tuned for running for $T$ steps),
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Methodology for comparing the optimizers for LLMs", "weight": 1.0} -->
+
+running optimizer $O_{2}$ (e.g., Sophia) with $T/2$ steps, with any learning rate schedule.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Methodology for comparing the optimizers for LLMs", "weight": 1.0} -->
+
+If Experiment 2 achieves a loss that is smaller than or equal to the loss of Experiment 1 (for a reasonable sets of choices of $T$), then we say optimizer $O_{2}$ is 2x faster than optimizer $O_{1}$.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Methodology for comparing the optimizers for LLMs", "weight": 1.0} -->
+
+In more formal language, suppose the loss (or any minimization metric) of an optimizer $O$ with runtime budget $T$ and hypeparameter $H$ (excluding the runtime $T$) is denoted by $\text{Eval}{(O,T,H)}$. Then, we say optimizer $O_{2}$ is $k$-times faster than $O_{1}$ if
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Methodology for comparing the optimizers for LLMs", "weight": 1.0} -->
+
+Note that the equation above implies ${{\min_{H_{1}}\text{Eval}}{(O_{1},T,H_{1})}} \geq {{\min_{H_{2}}\text{Eval}}{(O_{2},{T/k},H_{2})}}$, but is simpler to verify than the latter. We note that many modern learning rate schedulers such as cosine learning rate are highly sensitive to a pre-specific total number of steps. The optimal hyperparameters are also sensitive to the total budget $T$. Thus, tuning the hyperparameters of the baseline $O_{1}$ with a pre-specified budget $T$ (aka, minimizing $H_{1}$ given $T$) is critical to ensure fair comparison. (On the other hand, the tuning strategy for $H_{2}$ is less important because we just need to show the existence of a good $H_{2}$.)
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Methodology for comparing the optimizers for LLMs", "weight": 1.0} -->
+
+Moreover, we note that, in equation, we need to insist $\geq$ without any approximations. The difference in losses of various experiments might be seemingly small--- $\text{Eval}{(\text{Adam},{T/2},H)}$ is likely to be only slightly higher than $\text{Eval}{(\text{Adam},T,H)}$ (assuming the peak learning rate is a hyperparameter), and thus allowing any approximation in the criterion may lead to the fallacy statement that "Adam is 2x faster than Adam". In fact, Figure (a) shows that even with the same peak learning rate, the learning rate in a run with $T/2$ steps decays faster than the learning rate in a run with $T$ steps. Moreover, the $T/2$-steps run tends to have a initial faster decay of loss than the $T$-steps run but stop at a higher final loss, and the latter is not a continuation of the former.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Methodology for comparing the optimizers for LLMs", "weight": 1.0} -->
+
+running optimizer $O_{2}$ (e.g., Sophia) with $T$ steps, with any learning rate schedule, and recording the performance of the $T/2$-th checkpoint.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Methodology for comparing the optimizers for LLMs", "weight": 1.0} -->
+
+We note that if one were able to find an optimizer $O_{2}$ that is 2x faster than $O_{1}$ under the proposed criterion (comparing 1&2), then one can also design another optimizer $O_{2}^{\prime}$ (which run for $T$ steps) that is 2x faster than $O_{1}$ under the second criterion (comparing 1&2'): first running optimizer $O_{2}$ for $T/2$ steps and do nothing for the rest of the $T/2$ steps. Therefore, even though we will also provide comparison between Experiment 1&2' in Figure as an alternative, we use the comparison between Experiment 1&2 quantitatively in most of the paper.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Technical details", "weight": 1.0} -->
+
+Following the methodology above, we train baselines and Sophia for 100K, 200K, or 400K, and mainly compare 400k-steps baseline vs 200K-steps Sophia, and 200k-steps baseline vs 100k-steps Sophia. We primarily evaluate the models with their log perplexity and plot the loss curves. We also report in-context learning results (with 2-shot exemplars and greedy decoding) on SuperGLUE. We average the results of 5 prompts (Section B.3).
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Sophia is 2x faster in terms of number of steps, total compute and wall-clock time. The improvement in validation loss brought by Sophia can be translated into reduction of number of steps or total compute. In Figure (a)(b)(c) and Figure, we evaluate the optimizers by comparing the number of steps or total compute needed to achieve the same validation loss level. As can be observed in Figure (a)(b)(c), Sophia-H and Sophia-G achieve a 2x speedup compared with AdamW and Lion across different model sizes.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Results", "weight": 1.0} -->
+
+The scaling law is in favor of Sophia over AdamW. In Figure (d), we plot the validation loss on OpenWebText of models of different sizes pre-trained for 100K steps. The gap between Sophia and AdamW grows as we scale up the models. Moreover, the 540M model trained by Sophia-H has smaller loss than the 770M model trained by AdamW. The 355M model trained by Sophia-H has comparable loss as the 540M model trained by AdamW.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Few-shot Evaluation on Downstream Tasks (SuperGLUE). As shown in Figure, as expected, the improvement in validation loss transfers to an improvement in downstream task accuracy. With the same number of steps in pre-training, GPT-2 medium, GPT-2 large and GPT NeoX 1.5B pre-trained with Sophia have better few-shot accuracy on most subtasks. Also, models pre-trained with Sophia have comparable few-shot accuracy as models pre-trained with AdamW for 2x number of steps.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Analysis", "weight": 1.0} -->
+
+Comparison of wall-clock time and amount of compute. We compare the total compute (TFLOPs) per step and the wall-clock time on A100 GPUs in Table. We report the average time per step (T(step)), the time spent in Hessian computation (T(Hessian)) and the total compute following Chowdhery et al.. Since we calculate the diagonal Hessian estimate with a reduced batch size every 10 steps, the computation of the Hessian accounts for 6$\%$ of the total compute, and the overall wall-clock time overhead is less than 5$\%$ compared with AdamW. In terms of memory usage, our optimizer has two states, $m$ and $h$, which results in the same memory cost as AdamW.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Analysis", "weight": 1.0} -->
+
+Sensitivity to $\rho$ and $\beta_{2}$, and transferability of hyperparameters. On a 30M model, we perform a grid search to test the sensitivity of Sophia-H to hyperparamters (Figure (c)). All combinations have a similar performance, while $\beta_{2} = 0.99$ and $\gamma = 0.01$ performs the best. Moreover, this hyperparameter choice is transferable across model sizes. For all the experiments on 125M, 355M and 770M, we use the hyperparameters searched on the 30M model, which is $\gamma = 0.01$, $\beta_{2} = 0.99$.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Analysis", "weight": 1.0} -->
+
+Training Stability. Sophia-H has better stability in pre-training compared to AdamW and Lion. Gradient clipping (by norm) is an important technique in language model pre-training as it avoids messing up the moment of gradients with one mini-batch gradient computed from rare data. In practice, the frequency that gradients clipping is triggered is related to the training stability---if the gradient is frequently clipped, the iterate can be at a very instable state. We compare the proportion of steps where gradient clipping is triggered on GPT-2 small (125M) in Figure (a). Although all methods use the same clipping threshold 1.0, Sophia-H seldomly triggers gradient clipping, while AdamW and Lion trigger gradient clipping in more than 10$\%$ of the steps.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Analysis", "weight": 1.0} -->
+
+Another common trick of pre-training deep Transformers is scaling the product of keys and values by the inverse of the layer index as implemented by Mistral and Huggingface. This stabilizes training and increases the largest possible learning rate. Without this trick, the maximum learning rate of AdamW and Lion on GPT-2 medium (355M) can only be 1.5e-4, which is much smaller than 3e-4 with the trick (the loss will blow up with 3e-4 without the trick). Moreover, the loss decreases much slower without the trick as shown in Figure (b). In all the experiments, Sophia-H does not require scaling the product of keys and values by the inverse of the layer index.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+
+Choices of Hessian update frequency $k$. We study the effect of Hessian update frequency $k$ of Sophia-G on computational overhead and validation loss on a 30M GPT-2 model. We consider $k = {1,10,100}$ and run each method for 100k, 200k, and 400k steps. All other hyperparameters are fixed, and we tune the peak learning rate with a grid search. We plot the amount of compute spent and the validation loss of each run in Figure (a). While $k = 1$ has better validation loss with the same number of steps, the computational overhead is 50$\%$ and the convergence speed with respect to amount of compute is worse than $k = 10$. The choice of $k = 100$ still outperforms AdamW, but is not as good as $k = 10$.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+
+Diagonal Hessian pre-conditioners. We compare different diagonal Hessian pre-conditioners (with the same $k = 10$ and $\gamma$ found by grid search): Empirical Fisher (E-F+clip), AdaHessian (AH+clip), Hutchinson (Sophia-H), and GNB (Sophia-G). Note that empirical Fisher is the EMA of squared gradients, which differs from GNB in label sampling. We run each method for 100k, 200k, and 400k steps and plot the results in Figure (b). Results indicate that GNB is better than Empirical Fisher, which is consistent with Kunstner et al.. Sophia-H is also consistently better than AdaHessian. We hypothesize that the difference stems from that the EMA of the diagonal Hessian estimates (used in Sophia-H ) has more denoising effect than the EMA of the second moment of Hessian estimates (used in AdaHessian).
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+
+Element-wise Clipping. We compare the role of different update clipping strategy in Figure (c). We include element-wise clipping without pre-conditioners (Clip), update normalization without pre-conditioners (Normalize), AdaHessian and Sophia-G without clipping (GNB). The learning rate is found by grid search. Note that clipping without pre-conditioner is essentially the same as sign momentum, or Lion with a single $\beta$. Without element-wise clipping, we find that AdaHessian will diverge with $k = 2$ and GNB will diverge with $k = 5$, thus we use $k = 1$ for AdaHessian and $k = 2$ for GNB. Results indicate that per-coordinate clipping itself is already better than AdamW. Further adding the GNB pre-conditioner makes Sophia-G much better than baselines.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Theoretical Analysis", "weight": 1.0} -->
+
+This section provides runtime bounds for the deterministic version of Sophia that does not depend on the local condition number (the ratio between maximum and minimum curvature at the local minimum) and the worst-case curvature (that is, the smoothness parameter), demonstrating the advantage of Sophia in adapting to heterogeneous curvatures across parameter dimensions.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Theoretical Analysis", "weight": 1.0} -->
+
+We start with standard assumptions on the differentiability and uniqueness of the minimizer.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Assumption 4.1", "weight": 1.0} -->
+
+The following assumptions state that the Hessian has a certain form of continuity---within a neighborhood of size $R$, the ratio between the Hessians, ${\nabla^{2}L}{(\theta^{\prime})}^{- 1}{\nabla^{2}L}{(\theta)}$, is assumed to be bounded by a constant 2.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Assumption 4.2", "weight": 1.0} -->
+
+There exists a constant $R > 0$, such that
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Assumption 4.2", "weight": 1.0} -->
+
+We analyze the convergence rate of the deterministic version of the Sophia on convex functions,
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Assumption 4.2", "weight": 1.0} -->
+
+where ${{\nabla^{2}L}{(\theta_{t})}} = {V_{t}^{\top}\Sigma_{t}V_{t}}$ is an eigendecomposition of ${\nabla^{2}L}{(\theta_{t})}$. Here, we use the full Hessian as the pre-conditioner because the diagonal Hessian pre-conditioner cannot always work for general functions which may not have any alignment with the natural coordinate system. Moreover, the matrix $V_{t}$ transforms ${({{\nabla^{2}L}{(\theta_{t})}})}^{- 1}{\nabla L}{(\theta_{t})}$ into eigenspace and thus the clipping can be done element-wise in the eigenspace. We do not need the max between Hessian and $\epsilon$ in the original version of Sophia because the Hessian is always PSD for convex functions.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Assumption 4.2", "weight": 1.0} -->
+
+Finally, the matrix $V_{t}^{\top}$ transforms the update back to the original coordinate system for the parameter update.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We introduced Sophia, a scalable second-order optimizer for language model pre-training. Sophia converges in fewer steps than first-order adaptive methods, while maintaining almost the same per-step cost. On language modeling with GPT models, Sophia achieves a 2x speed-up compared with AdamW in the number of steps, total compute, and wall-clock time.

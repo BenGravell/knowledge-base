@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Shape and Motion from Image Streams under Orthography: A Factorization Method
 
 Topics include Structure from motion, Factorization method, Orthographic projection, Measurement matrix, Singular value decomposition, Shape reconstruction, Motion estimation.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Introduces measurement-matrix factorization for orthographic image streams, using rank constraints and singular-value decomposition to recover camera motion and 3D shape from tracked points. It made structure from motion a clean linear-algebra problem and shaped later factorization-based reconstruction methods.
 
-Inferring scene geometry and camera motion from a stream of images is possible in principle, but is an ill-conditioned problem when the objects are distant with respect to their size. We have developed a factorization method that can overcome this difficulty by recovering shape and motion under orthography without computing depth as an intermediate step. An image stream can be represented by the 2F x P measurement matrix of the image coordinates of P points tracked through F frames. We show that under orthographic projection this matrix is of rank 3. Based on this observation, the factorization method uses the singular-value decomposition technique to factor the measurement matrix into two matrices which represent object shape and camera rotation respectively. Two of the three translation components are computed in a preprocessing stage. The method can also handle and obtain a full solution from a partially filled-in measurement matrix that may result from occlusions or tracking failures. The method gives accurate results, and does not introduce smoothing in either shape or motion.
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Inferring scene geometry and camera motion from a stream of images is possible in principle, but is an ill-conditioned problem when the objects are distant with respect to their size. We have developed a factorization method that can overcome this difficulty by recovering shape and motion under orthography without computing depth as an intermediate step. An image stream can be represented by the 2F x P measurement matrix of the image coordinates of P points tracked through F frames. We show that under orthographic projection this matrix is of rank 3. Based on this observation, the factorization method uses the singular-value decomposition technique to factor the measurement matrix into two matrices which represent object shape and camera rotation respectively. Two of the three translation components are computed in a preprocessing stage. The method can also handle and obtain a full solution from a partially filled-in measurement matrix that may result from occlusions or tracking failures. The method gives accurate results, and does not introduce smoothing in either shape or motion. We demonstrate this with a series of experiments on laboratory and outdoor image streams, with and without occlusions.

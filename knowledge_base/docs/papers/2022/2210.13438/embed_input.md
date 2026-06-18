@@ -1,19 +1,211 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 High Fidelity Neural Audio Compression
 
 Topics include Audio compression, End-to-end learning, Neural networks, Vector quantization, Latent, Transformers, Language models.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Presents EnCodec, a high-fidelity neural codec that combines a streaming encoder-decoder, residual vector quantization, adversarial spectrogram losses, and optional Transformer entropy coding. The paper helped make discrete neural audio tokens practical for both compression and downstream generative audio modeling.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 We introduce a state-of-the-art real-time, high-fidelity, audio codec leveraging neural networks. It consists in a streaming encoder-decoder architecture with quantized latent space trained in an end-to-end fashion. We simplify and speed-up the training by using a single multiscale spectrogram adversary that efficiently reduces artifacts and produce high-quality samples. We introduce a novel loss balancer mechanism to stabilize training: the weight of a loss now defines the fraction of the overall gradient it should represent, thus decoupling the choice of this hyper-parameter from the typical scale of the loss. Finally, we study how lightweight Transformer models can be used to further compress the obtained representation by up to 40%, while staying faster than real time. We provide a detailed description of the key design choices of the proposed model including: training objective, architectural changes and a study of various perceptual loss functions. We present an extensive subjective evaluation (MUSHRA tests) together with an ablation study for a range of bandwidths and audio domains, including speech, noisy-reverberant speech, and music.
 
-## Introduction
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-Recent studies suggest that streaming audio and video have accounted for the majority of the internet traffic in 2021 (82% according to ). With the internet traffic expected to grow, audio compression is an increasingly important problem. In lossy signal compression we aim at minimizing the bitrate of a sample while also minimizing the amount of distortion according to a given metric, ideally correlated with human perception. Audio codecs typically employ a carefully engineered pipeline combining an encoder and a decoder to remove redundancies in the audio content and yield a compact bitstream.
+Our approach is superior to the baselines methods across all evaluated settings, considering both 24 kHz monophonic and 48 kHz stereophonic audio. Code and models are available at github.com/facebookresearch/encodec.
 
-The problems arising in lossy neural compression models are twofold: first, the model has to represent a wide range of signals, such as not to overfit the training set or produce artifact laden audio outside its comfort zone. We solve this by having a large and diverse training set (described in Section 4.1), as well as discriminator networks (see Section 3.4) that serve as perceptual losses, which we study extensively in Section 4.5.1, Table 2. The other problem is that of compressing efficiently, both in compute time and in size. For the former, we limit ourselves to models that run in real-time on a single CPU core.
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Accompanying those technical contributions, we posit that designing end-to-end neural compression models is a set of intertwined choices, among which at least the encoder-decoder architecture, the quantization method, and the perceptual loss play key parts. Objective evaluations exist and we report scores on them in our ablations (Section 4.5.1). But the evaluation of lossy audio codecs necessarily relies on human perception, so we ran extensive human evaluation for multiple points in this design space, both for speech and music.
+Recent studies suggest that streaming audio and video have accounted for the majority of the internet traffic in 2021 (82% according to ). With the internet traffic expected to grow, audio compression is an increasingly important problem. In lossy signal compression we aim at minimizing the bitrate of a sample while also minimizing the amount of distortion according to a given metric, ideally correlated with human perception. Audio codecs typically employ a carefully engineered pipeline combining an encoder and a decoder to remove redundancies in the audio content and yield a compact bitstream. Traditionally, this is achieved by decomposing the input with a signal processing transform and trading off the quality of the components that are less likely to influence perception. Leveraging neural networks as trained transforms via an encoder-decoder mechanism has been explored by Morishima et al.; Rippel et al.; Zeghidour et al.. Our research work is in the continuity of this line of work, with a focus on audio signals.
 
-## Conclusion
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We presented EnCodec: a state-of-the-art real-time neural audio compression model, producing high-fidelity audio samples across a range of sample rates and bandwidth. We showed subjective and objective results from 24kHz monophonic at 1.5 kbps (Figure 3) to 48kHz stereophonic (Table 4). We improved sample quality by developing a simple but potent spectrogram-only adversarial loss which efficiently reduces artifacts and produce high-quality samples. Besides, we stabilized training and improved the interpretability of the weights for losses through a novel gradient balancer.
+The problems arising in lossy neural compression models are twofold: first, the model has to represent a wide range of signals, such as not to overfit the training set or produce artifact laden audio outside its comfort zone. We solve this by having a large and diverse training set (described in Section 4.1), as well as discriminator networks (see Section 3.4) that serve as perceptual losses, which we study extensively in Section 4.5.1, Table 2. The other problem is that of compressing efficiently, both in compute time and in size. For the former, we limit ourselves to models that run in real-time on a single CPU core. For the latter, we use residual vector quantization of the neural encoder floating-point output, for which various approaches have been proposed.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Accompanying those technical contributions, we posit that designing end-to-end neural compression models is a set of intertwined choices, among which at least the encoder-decoder architecture, the quantization method, and the perceptual loss play key parts. Objective evaluations exist and we report scores on them in our ablations (Section 4.5.1). But the evaluation of lossy audio codecs necessarily relies on human perception, so we ran extensive human evaluation for multiple points in this design space, both for speech and music. Those evaluations (MUSHRA) consist in having humans listen to, compare, and rate excerpts of speech or music compressed with competitive codecs and variants of our method, and the uncompressed ground truth. This allows to compare variants of the whole pipeline in isolation, as well as their combined effect, in Section 4.5.1 (Figure 3 and Table 1). Finally, our best model, EnCodec, reaches state-of-the-art scores for speech and for music at 1.5, 3, 6, 12 kbps at 24 kHz, and at 6, 12, and 24 kbps for 48 kHz with stereo channels.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Model", "weight": 1.0} -->
+
+An audio signal of duration $d$ can be represented by a sequence ${\mathbf{x}} \in {\lbrack{- 1},1\rbrack}^{C_{a} \times T}$ with $C_{a}$ the number of audio channels, $T = {d \cdot f_{sr}}$ the number of audio samples at a given sample rate $f_{sr}$. The EnCodec model is composed of three main components: (i) First, an encoder network $E$ is input an audio extract and outputs a latent representation $\mathbf{z}$; (ii) Next, a quantization layer $Q$ produces a compressed representation ${\mathbf{z}}_{q}$, using vector quantization; (iii) Lastly, a decoder network $G$ reconstructs the time-domain signal, $\hat{\mathbf{x}}$, from the compressed latent representation ${\mathbf{z}}_{q}$.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Model", "weight": 1.0} -->
+
+The whole system is trained end-to-end to minimize a reconstruction loss applied over both time and frequency domain, together with a perceptual loss in the form of discriminators operating at different resolutions. A visual description of the proposed method can be seen in Figure 1.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Encoder & Decoder Architecture", "weight": 1.0} -->
+
+The EnCodec model is a simple streaming, convolutional-based encoder-decoder architecture with sequential modeling component applied over the latent representation, both on the encoder and on the decoder side. Such modeling framework was shown to provide great results in various audio-related tasks, e.g., source separation and enhancement, neural vocoders, audio codec, and artificial bandwidth extension. We use the same architecture for 24 kHz and 48 kHz audio.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Encoder & Decoder Architecture", "weight": 1.0} -->
+
+Encoder-Decoder. The encoder model $E$ consists in a 1D convolution with $C$ channels and a kernel size of 7 followed by $B$ convolution blocks. Each convolution block is composed of a single residual unit followed by a down-sampling layer consisting in a strided convolution, with a kernel size $K$ of twice the stride $S$. The residual unit contains two convolutions with kernel size 3 and a skip-connection. The number of channels is doubled whenever down-sampling occurred. The convolution blocks are followed by a two-layer LSTM for sequence modeling and a final 1D convolution layer with a kernel size of 7 and $D$ output channels. Following Zeghidour et al.; Li et al., we use $C$ = 32, $B$ = 4 and as strides. We use ELU as a non-linear activation function either layer normalization or weight normalization. We use two variants of the model, depending on whether we target the low-latency streamable setup, or a high fidelity non-streamable usage.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Encoder & Decoder Architecture", "weight": 1.0} -->
+
+With this setup, the encoder outputs 75 latent steps per second of audio at 24 kHz, and 150 at 48 kHz. The decoder mirrors the encoder, using transposed convolutions instead of strided convolutions, and with the strides in reverse order as in the encoder, outputting the final mono or stereo audio.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Encoder & Decoder Architecture", "weight": 1.0} -->
+
+Non-streamable. In the non-streamable setup, we use for each convolution a total padding of $K - S$, split equally before the first time step and after the last one (with one more before if $K - S$ is odd). We further split the input into chunks of 1 seconds, with an overlap of 10 ms to avoid clicks, and normalize each chunk before feeding it to the model, applying the inverse operation on the output of the decoder, adding a negligible bandwidth overhead to transmit the scale. We use layer normalization, computing the statistics including also the time dimension in order to keep the relative scale information.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Encoder & Decoder Architecture", "weight": 1.0} -->
+
+Streamable. For the streamable setup, all padding is put before the first time step. For a transposed convolution with stride $s$, we output the $s$ first time steps, and keep the remaining $s$ steps in memory for completion when the next frame is available, or discarding it at the end of a stream. Thanks to this padding scheme, the model can output 320 samples (13 ms) as soon as the first 320 samples (13 ms) are received. We replace the layer normalization with statistics computed over the time dimension with weight normalization, as the former is ill-suited for a streaming setup. We notice a small gain over the objective metrics by keeping a form of normalization, as demonstrated in Table A.3.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Residual Vector Quantization", "weight": 1.0} -->
+
+We use Residual Vector Quantization (RVQ) to quantize the output of the encoder as introduced by Zeghidour et al.. Vector quantization consists in projecting an input vector onto the closest entry in a codebook of a given size. RVQ refines this process by computing the residual after quantization, and further quantizing it using a second codebook, and so forth.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Residual Vector Quantization", "weight": 1.0} -->
+
+We follow the same training procedure as described by Dhariwal et al. and Zeghidour et al.. The codebook entry selected for each input is updated using an exponential moving average with a decay of 0.99, and entries that are not used are replaced with a candidate sampled from the current batch. We use a straight-through-estimator to compute the gradient of the encoder, e.g. as if the quantization step was the identity function during the backward phase. Finally, a commitment loss, consisting of the MSE between the input of the quantizer and its output, with gradient only computed with respect to its input, is added to the overall training loss.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Residual Vector Quantization", "weight": 1.0} -->
+
+By selecting a variable number of residual steps at train time, a single model can be used to support multiple bandwidth target. For all of our models, we use at most 32 codebooks (16 for the 48 kHz models) with 1024 entries each, e.g. 10 bits per codebook. When doing variable bandwidth training, we select randomly a number of codebooks as a multiple of 4, i.e. corresponding to a bandwidth 1.5, 3, 6, 12 or 24 kbps at 24 kHz. Given a continuous latent represention with shape $\lbrack B,D,T\rbrack$ that comes out of the encoder, this procedure turns it into a discrete set of indexes $\lbrack B,N_{q},T\rbrack$ with $N_{q}$ the number of codebooks selected. This discrete representation can changed again to a vector by summing the corresponding codebook entries, which is done just before going into the decoder.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Language Modeling and Entropy Coding", "weight": 1.0} -->
+
+We additionally train a small Transformer based language model with the objective of keeping faster than real time end-to-end compression/decompression on a single CPU core. The model consists of 5 layers, 8 heads, 200 channels, a dimension of 800 for the feed-forward blocks, and no dropout. At train time, we select a bandwidth and the corresponding number of codebooks $N_{q}$. For a time step $t$, the discrete representation obtained at time $t - 1$ is transformed into a continuous representation using learnt embedding tables, one for each codebook, and which are summed. For $t = 0$, a special token is used instead. The output of the Transformer is fed into $N_{q}$ linear layers with as many output channels as the cardinality of each codebook (e.g. 1024), giving us the logits of the estimated distribution over each codebook for time $t$. We thus neglect potential mutual information between the codebooks at a single time step.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Language Modeling and Entropy Coding", "weight": 1.0} -->
+
+This allows to speedup inference (as opposed to having one time step per codebook, or a multi-stage prediction) with a limited impact over the final cross entropy. Each attention layer has a causal receptive field of 3.5 seconds, and we offset by a random amount the initial position of the sinusoidal position embedding to emulate being in a longer sequence. We train the model on sequences of 5 seconds.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Language Modeling and Entropy Coding", "weight": 1.0} -->
+
+Entropy Encoding. We use a range based arithmetic coder in order to leverage the estimated probabilities given by the language model. As noted by Ballé et al., evaluation of the same model might lead to different results on different architectures, or with different evaluation procedures due to floating point approximations. This can lead to decoding errors as the encoder and decoder will not use the exact same code. We observe in particular that the difference between batch evaluation (e.g. all time steps at once), and the real-life streaming evaluation that occurs in the decoder can lead to difference larger than $10^{- 8}$. We first round the estimated probabilities with a precision of $10^{- 6}$, although evaluations in more contexts would be needed for practical deployment. We use a total range width of $2^{24}$, and assign a minimum range width of 2. We discuss the impact on the processing time in Section 4.6.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Training objective", "weight": 1.0} -->
+
+We detail the training objective that combines a reconstruction loss term, a perceptual loss term (via discriminators), and the RVQ commitment loss.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Training objective", "weight": 1.0} -->
+
+Reconstruction Loss. The reconstruction loss term is comprised of a time and a frequency domain loss term. We minimize the L1 distance between the target and compressed audio over the time domain, i.e. ${\ell_{t}{({\mathbf{x}},\hat{\mathbf{x}})}} = {\|{{\mathbf{x}} - \hat{\mathbf{x}}}\|}_{1}$. For the frequency domain, we use a linear combination between the L1 and L2 losses over the mel-spectrogram using several time scales. Formally,
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Training objective", "weight": 1.0} -->
+
+where $\mathcal{S}_{i}$ is a 64-bins mel-spectrogram using a normalized STFT with window size of $2^{i}$ and hop length of $2^{i}/4$, $e = {5,\ldots,11}$ is the set of scales, and $\alpha$ represents the set of scalar coefficients balancing between the L1 and L2 terms. Unlike Gritsenko et al., we take $\alpha_{i} = 1$.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Training objective", "weight": 1.0} -->
+
+Discriminative Loss. To further improve the quality of the generated samples, we introduce a perceptual loss term based on a multi-scale STFT-based (MS-STFT) discriminator, illustrated in Figure 2. Multi scale discriminators are popular for capturing different structures in audio signals. The MS-STFT discriminator consists in identically structured networks operating on multi-scaled complex-valued STFT with the real and imaginary parts concatenated. Each sub-network is composed of a 2D convolutional layer (using kernel size 3 x 8 with 32 channels), followed by 2D convolutions with increasing dilation rates in the time dimension of 1, 2 and 4, and a stride of 2 over the frequency axis. A final 2D convolution with kernel size 3 x 3 and stride provide the final prediction. We use 5 different scales with STFT window lengths of. For 48 kHz audio, we double the size of each STFT window and train the discriminator every two batches, and for stereophonic audio, we process separately the left and right channels.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Training objective", "weight": 1.0} -->
+
+We use LeakyReLU as a non-linear activation function and apply weight normalization to our discriminator network. The MS-STFT discriminator model architecture is visually depicted in Figure 2.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Training objective", "weight": 1.0} -->
+
+The adversarial loss for the generator is constructed as follows, $\ell_{g}{(\hat{\mathbf{x}})} = \frac{1}{K}\sum_{k}\max{(0,1 - D_{k}{(\hat{\mathbf{x}})})})$, where $K$ is the number of discriminators. Similarly to previous work on neural vocoders, we additionally include a relative feature matching loss for the generator. Formally,
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Training objective", "weight": 1.0} -->
+
+where the $mean$ is computed over all dimensions, $(D_{k})$ are the discriminators, and $L$ is the number of layers in discriminators. The discriminators are trained to minimize the following hinge-loss adversarial loss function: ${L_{d}{({\mathbf{x}},\hat{\mathbf{x}})}} = {{\frac{1}{K}{\sum_{k = 1}^{K}{\max{(0,{1 - {D_{k}{({\mathbf{x}})}}})}}}} + {\max{(0,{1 + {D_{k}{(\hat{\mathbf{x}})}}})}}}$, where $K$ is the number of discriminators. Given that the discriminator tend to overpower easily the decoder, we update its weight with a probability of 2/3 at 24 kHz, and 0.5 at 48 kHz.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Training objective", "weight": 1.0} -->
+
+Multi-bandwidth training. At 24 kHz, we train the model to support the bandwidths 1.5, 3, 6, 12, and 24 kbps by selecting the appropriate number of codebooks to keep in the RVQ step, as explained in Section 3.2. At 48 kHz, we train to support 3, 6, 12 and 24 kbps. We also noticed that using a dedicated discriminator per-bandwidth is beneficial to the audio quality. Thus, we select a given bandwidth for the entire batch, and evaluate and update only the corresponding discriminator.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Training objective", "weight": 1.0} -->
+
+VQ commitment loss. As mentioned in Section 3.2, we add a commitment loss $l_{w}$ between the output of the encoder, and its quantized value, with no gradient being computed for the quantized value. For each residual step $c \in {\{ 1,{\ldotsC}\}}$ (with $C$ depeding on the bandwidth target for the current batch), noting ${\mathbf{z}}_{c}$ the current residual and $q_{c}{({\mathbf{z}}_{c})}$ the nearest entry in the corresponding codebook, we define $l_{w}$ as
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Training objective", "weight": 1.0} -->
+
+Overall, the generator is trained to optimize the following loss, summed over the batch,
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Training objective", "weight": 1.0} -->
+
+Balancer. We introduce a loss balancer in order to stabilize training, in particular the varying scale of the gradients coming from the discriminators. We also find that the balancer makes it easier to reason about the different loss weights, independently of their scale. Let us take a number of losses ${(\ell_{i})}_{i}$ that depends only on the output of the model $\hat{x}$. We define $g_{i} = \frac{\partial\ell_{i}}{\partial\hat{x}}$, and ${\langle{\| g_{i}\|}_{2}\rangle}_{\beta}$ the exponential moving average of $g_{i}$ over the last training batches. Given a set of weights $(\lambda_{i})$ and a reference norm $R$, we define
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Training objective", "weight": 1.0} -->
+
+We then backpropagate into the network $\sum_{i}{\overset{\sim}{g}}_{i}$, instead of the original $\sum_{i}{\lambda_{i}g_{i}}$. This changes the optimization problem but allows to make the $\lambda_{i}$ interpretable irrespectively of the natural scale of each loss. If ${\sum_{i}\lambda_{i}} = 1$, then each weight can be interpreted as the fraction of the model gradient that come from the corresponding loss. We take $R = 1$ and $\beta = 0.999$. All the generator losses from Eq. fit into the balancer, except for the commitment loss, as it is not defined with respect to the output of the model.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Dataset", "weight": 1.0} -->
+
+We train EnCodec on 24 kHz monophonic across diverse domains, namely: speech, noisy speech, music and general audio while we train the fullband stereo EnCodec on only 48 kHz music. For speech, we use the clean speech segments from DNS Challenge 4 and the Common Voice dataset. For general audio, we use on AudioSet together with FSD50K. For music, we rely on the Jamendo dataset for training and evaluation and we further evaluate our models on music using a proprietary music dataset. Data splits are detailed in Appendix A.1.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Dataset", "weight": 1.0} -->
+
+For training and validation, we define a mixing strategy which consists in either sampling a single source from a dataset or performing on the fly mixing of two or three sources. Specifically, we have four strategies: (s1) we sample a single source from Jamendo with probability 0.32; (s2) we sample a single source from the other datasets with the same probability; (s3) we mix two sources from all datasets with a probability of 0.24; (s4) we mix three sources from all datasets except music with a probability of 0.12.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Dataset", "weight": 1.0} -->
+
+The audio is normalized by file and we apply a random gain between -10 and 6 dB. We reject any sample that has been clipped. Finally we add reverberation using room impulse responses provided by the DNS challenge with probability 0.2, and in the range \[0.3, 1.3\] except for the single-source music samples. For testing, we use four categories: clean speech from DNS alone, clean speech mixed with FSDK50K sample, Jamendo sample alone, proprietary music sample alone.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+Opus is a versatile speech and audio codec standardized by the IETF in 2012. It scales from 6 kbps narrowband monophonic audio to 510 kbps fullband stereophonic audio. EVS is a codec standardized in 2014 by 3GPP and developed for Voice over LTE (VoLTE). It supports a range of bitrates from 5.9 kbps to 128 kbps, and audio bandwidths from 4 kHz to 20 kHz. It is the successor of AMR-WB.We use both codecs to serve as traditional digital signal processing baselines. We also utilize MP3 compression at 64 kbps as an additional baseline for the stereophonic signal compression case. MP3 uses lossy data compression by approximating the accuracy of certain components of sound that are considered to be beyond hearing capabilities of most humans. Finally, we compare EnCodec to the SoundStream model from the official implementation available in Lyra 2 ^11^1 at 3.2 kbps and 6 kbps on audio upsampled to 32 kHz. We also reproduced a version of SoundStream with minor improvements.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+Namely, we use the relative feature loss introduce in Section 3.4, and layer normalization (applied separately for each time step) in the discriminators, except for the first and last layer, which improved the audio quality during our preliminary studies. Results a reported in Table A.2 in the Appendix A.3.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Evaluation Methods", "weight": 1.0} -->
+
+We consider both subjective and objective evaluation metrics. For the subjective tests we follow the MUSHRA protocol, using both a hidden reference and a low anchor. Annotators were recruited using a crowd-sourcing platform, in which they were asked to rate the perceptual quality of the provided samples in a range between 1 to 100. We randomly select 50 samples of 5 seconds from each category of the the test set and force at least 10 annotations per samples. To filter noisy annotations and outliers we remove annotators who rate the reference recordings less then 90 in at least 20% of the cases, or rate the low-anchor recording above 80 more than 50% of the time. For objective metrics, we use ViSQOL ^22^2We compute visqol: using the recommended recipes., together with the Scale-Invariant Signal-to-Noise Ration (SI-SNR).
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Training", "weight": 1.0} -->
+
+We train all models for 300 epochs, with one epoch being 2,000 updates with the Adam optimizer with a batch size of 64 examples of 1 second each, a learning rate of $3 \cdot 10^{- 4}$, $\beta_{1} = 0.5$, and $\beta_{2} = 0.9$. All the models are traind using 8 A100 GPUs. We use the balancer introduced in Section 3.4 with weights $\lambda_{t} = 0.1$, $\lambda_{f} = 1$, $\lambda_{g} = 3$, $\lambda_{feat} = 3$ for the 24 kHz models. For the 48 kHz model, we use instead $\lambda_{g} = 4$, $\lambda_{feat} = 4$.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Results", "weight": 1.0} -->
+
+We start with the results for EnCodec with a bandwidth in $\{ 1.5,3,6,12\}$ kbps and compare them to the baselines. Results for the streamable setup are reported in Figure 3 and a breakdown per category in Table 1. We additionally explored other quantizers such as Gumbel-Softmax and DiffQ (see details in Appendix A.2), however, we found in preliminary results that they provide similar or worse results, hence we do not report them.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Results", "weight": 1.0} -->
+
+When considering the same bandwidth, EnCodec is superior to all evaluated baselines considering the MUSHRA score. Notice, EnCodec at 3kbps reaches better performance on average than Lyra-v2 using 6kbps and Opus at 12kbps. When considering the additional language model over the codes, we can reduce the bandwidth by $\sim {25 - {40\%}}$. For instance, we can reduce the bandwidth of the 3 kpbs model to 1.9 kbps. We observe that for higher bandwidth, the compression ratio is lower, which could be explained by the small size of the Transformer model used, making hard to model all codebooks together.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Ablation study", "weight": 1.0} -->
+
+Next, we perform an ablation study to better evaluate the effect of the discriminator setup, streaming, multi-target bandwidth, and balancer. We provide more detailed ablation studies in the Appendix, Section A.3.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Ablation study", "weight": 1.0} -->
+
+The effect of discriminators setup. Various discriminators were proposed in prior work to improve the perceptual quality of the generated audio. The Multi-Scale Discriminator (MSD) model proposed by Kumar et al. and adopted, operates on the raw waveform at different resolutions. We adopt the same MSD configuration as described in Zeghidour et al.. Kong et al. additionally propose the Multi-Period Discriminator (MPD) model, which reshapes the waveform to a 2D input with multiple periods. Next, the STFT Discriminator (Mono-STFTD) model was introduced in Zeghidour et al., where a single network operates over the complex-valued STFT.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Ablation study", "weight": 1.0} -->
+
+We evaluate our MS-STFTD discriminator against three other discriminator configurations: (i) MSD+Mono-STFTD (as in Zeghidour et al. ); (ii) MPD only; (iii) MS-STFTD only; (vi) MS-STFTD+MPD. Results are reported in Table 2. Results suggest that using only a multi-scale STFT-based discriminator such as MS-STFTD, is enough to generate high quality audio. Additionally, it simplifies the model training and reduces training time. Including the MPD discriminator, adds a small gain when considering the MUSHRA score.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Ablation study", "weight": 1.0} -->
+
+The effect of the streamable modeling. We also investigate streamable vs. non-streamable setups and report results in Table 3. Unsurprisingly, we notice a small degradation switching from non-streamable to streamable but the performance remains strong while this setting enables streaming inference.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Ablation study", "weight": 1.0} -->
+
+The effect of the balancer. Lastly, we present results evaluating the impact of the balancer. We train the EnCodec model considering various values $\lambda_{t}$, $\lambda_{f}$, $\lambda_{g}$, and $\lambda_{feat}$ with and without the balancer. Results are reported in Table A.4 in the Appendix. As expected, results suggest the balancer significantly stabilizes the training process. See Appendix A.3 for more details.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Stereo Evaluation", "weight": 1.0} -->
+
+All previously reported results considered only the monophonic setup. Although it makes sense when considering speech data, however for music data, stereo compression is highly important. We adjust our current setup to stereo by only modifying our discriminator setup as described in Section 3.4.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Stereo Evaluation", "weight": 1.0} -->
+
+Results for EnCodec working at 6 kbps, EnCodec with Residual Vector Quantization (RVQ) at 6 kbps, and Opus at 6 kbps, and MP3 at 64 kbps are reported in Table 4. EnCodec is significantly outperforms Opus at 6kbps and is comparable to MP3 at 64kbps, while EnCodec at 12kpbs achieve comparable performance to EnCodec at 24kbps. Using a language model and entropy coding gives a variable gain between 20% to 30%.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Latency and computation time", "weight": 1.0} -->
+
+We report the initial latency and real time factor on Table 5. The real-time factor is here defined as the ratio between the duration of the audio and the processing time, so that it is greater than one when the method is faster than real time. We profiled all models on a single thread of a MacBook Pro 2019 CPU at 6 kbps.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Latency and computation time", "weight": 1.0} -->
+
+Initial latency. The 24 kHz streaming EnCodec model has an initial latency (i.e., without the computation time) of 13.3 ms. The 48 kHz non-streaming version has an initial latency of 1 second, due to the normalizations used. Note that using entropy coding increases the initial latency, because the stream cannot be "flushed" with each frame, in order to keep the overhead small. Thus decoding the frame at time $t$, requires for the frame $t + 1$ to be partially received, increasing the latency by 13ms.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Latency and computation time", "weight": 1.0} -->
+
+Real time factor. While our model is worse than Lyra v2 in term of processing speed, it processes the audio 10 times faster than real time, making it a good candidate for real life applications. The gain from the entropy coding comes at a cost, although the processing is still faster than real time and could be used for applications where latency is not essential (e.g. streaming). At 48 kHz, the increased number of step size lead to a slower than real time processing, although a more efficient implementation, or using accelerated hardware would improve the RTF. It could also be used for archiving where real time processing is not required.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+We presented EnCodec: a state-of-the-art real-time neural audio compression model, producing high-fidelity audio samples across a range of sample rates and bandwidth. We showed subjective and objective results from 24kHz monophonic at 1.5 kbps (Figure 3) to 48kHz stereophonic (Table 4). We improved sample quality by developing a simple but potent spectrogram-only adversarial loss which efficiently reduces artifacts and produce high-quality samples. Besides, we stabilized training and improved the interpretability of the weights for losses through a novel gradient balancer. Finally, we also demonstrated that a small Transformer model can be used to further reduce the bandwidth by up to 40% without further degradation of quality, in particular for applications where low latency is not essential (e.g. music streaming).

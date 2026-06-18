@@ -1,15 +1,507 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Reinforcement Learning and Control as Probabilistic Inference: Tutorial and Review
 
 Topics include Reinforcement learning, Optimal control, Uncertainty, Probabilistic models, Generalization, Control, Learning, Variational inference, Inference.
 
-The framework of reinforcement learning or optimal control provides a mathematical formalization of intelligent decision making that is powerful and broadly applicable. While the general form of the reinforcement learning problem enables effective reasoning about uncertainty, the connection between reinforcement learning and inference in probabilistic models is not immediately obvious. However, such a connection has considerable value when it comes to algorithm design: formalizing a problem as probabilistic inference in principle allows us to bring to bear a wide array of approximate inference tools, extend the model in flexible and powerful ways, and reason about compositionality and partial observability. In this article, we will discuss how a generalization of the reinforcement learning or optimal control problem, which is sometimes termed maximum entropy reinforcement learning, is equivalent to exact probabilistic inference in the case of deterministic dynamics, and variational inference in the case of stochastic dynamics.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction
+The framework of reinforcement learning or optimal control provides a mathematical formalization of intelligent decision making that is powerful and broadly applicable. While the general form of the reinforcement learning problem enables effective reasoning about uncertainty, the connection between reinforcement learning and inference in probabilistic models is not immediately obvious. However, such a connection has considerable value when it comes to algorithm design: formalizing a problem as probabilistic inference in principle allows us to bring to bear a wide array of approximate inference tools, extend the model in flexible and powerful ways, and reason about compositionality and partial observability. In this article, we will discuss how a generalization of the reinforcement learning or optimal control problem, which is sometimes termed maximum entropy reinforcement learning, is equivalent to exact probabilistic inference in the case of deterministic dynamics, and variational inference in the case of stochastic dynamics. We will present a detailed derivation of this framework, overview prior work that has drawn on this and related ideas to propose new reinforcement learning and control algorithms, and describe perspectives on future research.
 
-Probabilistic graphical models (PGMs) offer a broadly applicable and useful toolbox for the machine learning researcher: by couching the entirety of the learning problem in the parlance of probability theory, they provide a consistent and flexible framework to devise principled objectives, set up models that reflect the causal structure in the world, and allow a common set of inference methods to be deployed against a broad range of problem domains. Indeed, if a particular learning problem can be set up as a probabilistic graphical model, this can often serve as the first and most important step to solving it.
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Conventionally, decision making problems formalized as reinforcement learning or optimal control have been cast into a framework that aims to generalize probabilistic models by augmenting them with utilities or rewards, where the reward function is viewed as an extrinsic signal. In this view, determining an optimal course of action (a plan) or an optimal decision-making strategy (a policy) is a fundamentally distinct type of problem than probabilistic inference, although the underlying dynamical system might still be described by a probabilistic graphical model.
+Probabilistic graphical models (PGMs) offer a broadly applicable and useful toolbox for the machine learning researcher: by couching the entirety of the learning problem in the parlance of probability theory, they provide a consistent and flexible framework to devise principled objectives, set up models that reflect the causal structure in the world, and allow a common set of inference methods to be deployed against a broad range of problem domains. Indeed, if a particular learning problem can be set up as a probabilistic graphical model, this can often serve as the first and most important step to solving it. Crucially, in the framework of PGMs, it is sufficient to write down the model and pose the question, and the objectives for learning and inference emerge automatically.
 
-Specifically, we will discuss how a generalization of the reinforcement learning or optimal control problem, which is sometimes termed maximum entropy reinforcement learning, is equivalent to exact probabilistic inference in the case of deterministic dynamics, and variational inference in the case of stochastic dynamics. This observation is not a new one, and the connection between probabilistic inference and control has been explored in the literature under a variety of names, including the Kalman duality, maximum entropy reinforcement learning, KL-divergence control, and stochastic optimal control.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Formulating reinforcement learning and decision making as inference provides a number of other appealing tools: a natural exploration strategy based on entropy maximization, effective tools for inverse reinforcement learning, and the ability to deploy powerful approximate inference algorithms to solve reinforcement learning problems. Furthermore, the connection between probabilistic inference and control provides an appealing probabilistic interpretation for the meaning of the reward function, and its effect on the optimal policy.
+Conventionally, decision making problems formalized as reinforcement learning or optimal control have been cast into a framework that aims to generalize probabilistic models by augmenting them with utilities or rewards, where the reward function is viewed as an extrinsic signal. In this view, determining an optimal course of action (a plan) or an optimal decision-making strategy (a policy) is a fundamentally distinct type of problem than probabilistic inference, although the underlying dynamical system might still be described by a probabilistic graphical model. In this article, we instead derive an alterate view of decision making, reinforcement learning, and optimal control, where the decision making problem is simply an inference problem in a particular type of graphical model. Formalizing decision making as inference in probabilistic graphical models can in principle allow us to to bring to bear a wide array of approximate inference tools, extend the model in flexible and powerful ways, and reason about compositionality and partial observability.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Specifically, we will discuss how a generalization of the reinforcement learning or optimal control problem, which is sometimes termed maximum entropy reinforcement learning, is equivalent to exact probabilistic inference in the case of deterministic dynamics, and variational inference in the case of stochastic dynamics. This observation is not a new one, and the connection between probabilistic inference and control has been explored in the literature under a variety of names, including the Kalman duality, maximum entropy reinforcement learning, KL-divergence control, and stochastic optimal control. While the specific derivations the differ, the basic underlying framework and optimization objective are the same. All of these methods involve formulating control or reinforcement learning as a PGM, either explicitly or implicitly, and then deploying learning and inference methods from the PGM literature to solve the resulting inference and learning problems.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Formulating reinforcement learning and decision making as inference provides a number of other appealing tools: a natural exploration strategy based on entropy maximization, effective tools for inverse reinforcement learning, and the ability to deploy powerful approximate inference algorithms to solve reinforcement learning problems. Furthermore, the connection between probabilistic inference and control provides an appealing probabilistic interpretation for the meaning of the reward function, and its effect on the optimal policy. The design of reward or cost functions in reinforcement learning is oftentimes as much art as science, and the choice of reward often blurs the line between algorithm and objective, with task-specific heuristics and task objectives combined into a single reward. In the control as inference framework, the reward induces a distribution over random variables, and the optimal policy aims to explicitly match a probability distribution defined by the reward and system dynamics, which may in future work suggest a way to systematize reward design.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This article will present the probabilistic model that can be used to embed a maximum entropy generalization of control or reinforcement learning into the framework of PGMs, describe how to perform inference in this model -- exactly in the case of deterministic dynamics, or via structured variational inference in the case of stochastic dynamics, -- and discuss how approximate methods based on function approximation fit within this framework. Although the particular variational inference interpretation of control differs somewhat from the presentation in prior work, the goal of this article is not to propose a fundamentally novel way of viewing the connection between control and inference. Rather, it is to provide a unified treatment of the topic in a self-contained and accessible tutorial format, and to connect this framework to recent research in reinforcement learning, including recently proposed deep reinforcement learning algorithms. In addition, this article presents a review of the recent reinforcement learning literature that relates to this view of control as probabilistic inference, and offers some perspectives on future research directions.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The basic graphical model for control will be presented in Section 2, variational inference for stochastic dynamics will be discussed in Section 3, approximate methods based on function approximation, including deep reinforcement learning, will be discussed in Section 4, and a survey and review of recent literature will be presented in Section 5. Finally, we will discuss perspectives on future research directions in Section 6.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Graphical Model for Control as Inference", "weight": 1.0} -->
+
+In this section, we will present the basic graphical model that allows us to embed control into the framework of PGMs, and discuss how this framework can be used to derive variants of several standard reinforcement learning and dynamic programming approaches. The PGM presented in this section corresponds to a generalization of the standard reinforcement learning problem, where the RL objective is augmented with an entropy term. The magnitude of the reward function trades off between reward maximization and entropy maximization, allowing the original RL problem to be recovered in the limit of infinitely large rewards. We will begin by defining notation, then defining the graphical model, and then presenting several inference methods and describing how they relate to standard algorithms in reinforcement learning and dynamic programming. Finally, we will discuss a few limitations of this method and motivate the variational approach in Section 3.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "The Decision Making Problem and Terminology", "weight": 1.0} -->
+
+First, we will introduce the notation we will use for the standard optimal control or reinforcement learning formulation. We will use $\mathbf{s} \in \mathcal{S}$ to denote states and $\mathbf{a} \in \mathcal{A}$ to denote actions, which may each be discrete or continuous. States evolve according to the stochastic dynamics $p{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}$, which are in general unknown. We will follow a discrete-time finite-horizon derivation, with horizon $T$, and omit discount factors for now. A discount $\gamma$ can be readily incorporated into this framework simply by modifying the transition dynamics, such that any action produces a transition into an absorbing state with probability $1 - \gamma$, and all standard transition probabilities are multiplied by $\gamma$.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "The Decision Making Problem and Terminology", "weight": 1.0} -->
+
+A task in this framework can be defined by a reward function $r{(\mathbf{s}_{t},\mathbf{a}_{t})}$. Solving a task typically involves recovering a policy $p{(\left. \mathbf{a}_{t} \middle| {\mathbf{s}_{t},\theta} \right.)}$, which specifies a distribution over actions conditioned on the state parameterized by some parameter vector $\theta$.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "The Decision Making Problem and Terminology", "weight": 1.0} -->
+
+This optimization problem aims to find a vector of policy parameters $\theta$ that maximize the total expected reward $\sum_{t}{r{(\mathbf{s}_{t},\mathbf{a}_{t})}}$ of the policy. The expectation is taken under the policy's *trajectory* distribution $p{(\tau)}$, given by
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "The Decision Making Problem and Terminology", "weight": 1.0} -->
+
+For conciseness, it is common to denote the action conditional $p{(\left. \mathbf{a}_{t} \middle| {\mathbf{s}_{t},\theta} \right.)}$ as $\pi_{\theta}{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$, to emphasize that it is given by a parameterized policy with parameters $\theta$. These parameters might correspond, for example, to the weights in a neural network. However, we could just as well embed a standard planning problem in this formulation, by letting $\theta$ denote a sequence of actions in an open-loop plan.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "The Decision Making Problem and Terminology", "weight": 1.0} -->
+
+Having formulated the decision making problem in this way, the next question we have to ask to derive the control as inference framework is: how can we formulate a probabilistic graphical model such that the most probable trajectory corresponds to the trajectory from the optimal policy? Or, equivalently, how can we formulate a probabilistic graphical model such that inferring the posterior action conditional $p{(\left. \mathbf{a}_{t} \middle| {\mathbf{s}_{t},\theta} \right.)}$ gives us the optimal policy?
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "The Graphical Model", "weight": 1.0} -->
+
+(a) graphical model with states and actions
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "The Graphical Model", "weight": 1.0} -->
+
+(b) graphical model with optimality variables
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "The Graphical Model", "weight": 1.0} -->
+
+To embed the control problem into a graphical model, we can begin simply by modeling the relationship between states, actions, and next states. This relationship is simple, and corresponds to a graphical model with factors of the form $p{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}$, as shown in Figure 1 (a). However, this graphical model is insufficient for solving control problems, because it has no notion of rewards or costs. We therefore have to introduce an additional variable into this model, which we will denote $\mathcal{O}_{t}$. This additional variable is a binary random variable, where $\mathcal{O}_{t} = 1$ denotes that time step $t$ is *optimal*, and $\mathcal{O}_{t} = 0$ denotes that it is not optimal.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "The Graphical Model", "weight": 1.0} -->
+
+The graphical model with these additional variables is summarized in Figure 1 (b).
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "The Graphical Model", "weight": 1.0} -->
+
+That is, the probability of observing a given trajectory is given by the product between its probability to occur according to the dynamics (the term in square brackets on the last line), and the exponential of the total reward along that trajectory. It is most straightforward to understand this equation in systems with deterministic dynamics, where the first term is a constant for all trajectories that are dynamically feasible. In this case, the trajectory with the highest reward has the highest probability, and trajectories with lower reward have exponentially lower probability. If we would like to plan for an optimal action sequence starting from some initial state $\mathbf{s}_{1}$, we can condition on $\mathbf{o}_{1:T}$ and choose ${p{(\mathbf{s}_{1})}} = {\delta{(\mathbf{s}_{1})}}$, in which case maximum a posteriori inference corresponds to a kind of planning problem. It is easy to see that this exactly corresponds to standard planning or trajectory optimization in the case where the dynamics are deterministic, in which case Equation reduces to
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "The Graphical Model", "weight": 1.0} -->
+
+Here, the indicator function simply indicates that the trajectory $\tau$ is dynamically consistent (meaning that ${p{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}} \neq 0$) and the initial state is correct. The case of stochastic dynamics poses some challenges, and will be discussed in detail in Section 3. However, even under deterministic dynamics, we are often interested in recovering a policy rather than a plan. In this PGM, the optimal policy can be written as $p{({\left. \mathbf{a}_{t} \middle| {\mathbf{s}_{t},\mathcal{O}_{t:T}} \right. = 1})}$ (we will drop $= 1$ in the remainder of the derivation for conciseness). This distribution is somewhat analogous to $p{(\left.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "The Graphical Model", "weight": 1.0} -->
+
+\mathbf{a}_{t} \middle| {\mathbf{s}_{t},\theta^{\star}} \right.)}$ in the previous section, with two major differences: first, it is independent of the parameterization $\theta$, and second, we will see later that it optimizes an objective that is slightly different from the standard reinforcement learning objective in Equation.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Policy Search as Probabilistic Inference", "weight": 1.0} -->
+
+We can recover the optimal policy $p{(\left. \mathbf{a}_{t} \middle| {\mathbf{s}_{t},\mathcal{O}_{t:T}} \right.)}$ using a standard sum-product inference algorithm, analogously to inference in HMM-style dynamic Bayesian networks. As we will see in this section, it is sufficient to compute backward messages of the form
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Policy Search as Probabilistic Inference", "weight": 1.0} -->
+
+These messages have a natural interpretation: they denote the probability that a trajectory can be optimal for time steps from $t$ to $T$ if it begins in state $\mathbf{s}_{t}$ with the action $\mathbf{a}_{t}$.^11^1Note that $\beta_{t}{(\mathbf{s}_{t},\mathbf{a}_{t})}$ is *not* a probability density over $\mathbf{s}_{t},\mathbf{a}_{t}$, but rather the probability of $\mathcal{O}_{t:T} = 1$. Slightly overloading the notation, we will also introduce the message
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Policy Search as Probabilistic Inference", "weight": 1.0} -->
+
+These messages denote the probability that the trajectory from $t$ to $T$ is optimal if it begins in state $\mathbf{s}_{t}$.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Policy Search as Probabilistic Inference", "weight": 1.0} -->
+
+The factor $p{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$ is the action *prior*. Note that it is not conditioned on $\mathcal{O}_{1:T}$ in any way: it does not denote the probability of an optimal action, but simply the prior probability of actions. The PGM in Figure 1 doesn't actually contain this factor, and we can assume that ${p{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}} = \frac{1}{|\mathcal{A}|}$ for simplicity -- that is, it is a constant corresponding to a uniform distribution over the set of actions. We will see later that this assumption does not actually introduce any loss of generality, because any non-uniform $p{(\left.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Policy Search as Probabilistic Inference", "weight": 1.0} -->
+
+The recursive message passing algorithm for computing $\beta_{t}{(\mathbf{s}_{t},\mathbf{a}_{t})}$ proceeds from the last time step $t = T$ backward through time to $t = 1$. In the base case, we note that $p{(\left. \mathcal{O}_{T} \middle| {\mathbf{s}_{T},\mathbf{a}_{T}} \right.)}$ is simply proportional to $\exp{({r{(\mathbf{s}_{T},\mathbf{a}_{T})}})}$, since there is only one factor to consider.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Policy Search as Probabilistic Inference", "weight": 1.0} -->
+
+This makes intuitive sense: in a Markovian system, the optimal action does not depend on the past.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Policy Search as Probabilistic Inference", "weight": 1.0} -->
+
+where the order of conditioning in the third step is flipped by using Bayes' rule, and cancelling the factor of $p{(\mathcal{O}_{t:T})}$ that appears in both the numerator and denominator. The term $p{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$ disappears, since we previously assumed it was a uniform distribution.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Policy Search as Probabilistic Inference", "weight": 1.0} -->
+
+This derivation provides us with a solution, but perhaps not as much of the intuition. The intuition can be recovered by considering what these equations are doing in log space. To that end, we will introduce the log-space messages as
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Policy Search as Probabilistic Inference", "weight": 1.0} -->
+
+The use of $Q$ and $V$ here is not accidental: the log-space messages correspond to "soft" variants of the state and state-action value functions.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Policy Search as Probabilistic Inference", "weight": 1.0} -->
+
+For smaller values of $Q{(\mathbf{s}_{t},\mathbf{a}_{t})}$, the maximum is soft. Hence, we can refer to $V$ and $Q$ as soft value functions and Q-functions, respectively. We can also consider the backup in Equation in log-space. In the case of deterministic dynamics, this backup is given by
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Policy Search as Probabilistic Inference", "weight": 1.0} -->
+
+which exactly corresponds to the Bellman backup. However, when the dynamics are stochastic, the backup is given by
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Policy Search as Probabilistic Inference", "weight": 1.0} -->
+
+This backup is peculiar, since it does not consider the expected value at the next state, but a "soft max" over the next expected value. Intuitively, this produces Q-functions that are optimistic: if among the possible outcomes for the next state there is one outcome with a very high value, it will dominate the backup, even when there are other possible states that might be likely and have extremely low value. This creates risk seeking behavior: if an agent behaves according to this Q-function, it might take actions that have extremely high risk, so long as they have some non-zero probability of a high reward. Clearly, this behavior is not desirable in many cases, and the standard PGM described in this section is often not well suited to stochastic dynamics. In Section 3, we will describe a simple modification that makes the backup correspond to the soft Bellman backup in the case of stochastic dynamics also, by using the framework of variational inference.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Which Objective does This Inference Procedure Optimize?", "weight": 1.0} -->
+
+In the previous section, we derived an inference procedure that can be used to obtain the distribution over actions conditioned on all of the optimality variables, $p{(\left. \mathbf{a}_{t} \middle| {\mathbf{s}_{t},\mathcal{O}_{1:T}} \right.)}$. But which objective does this policy actually optimize? Recall that the overall distribution is given by
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Which Objective does This Inference Procedure Optimize?", "weight": 1.0} -->
+
+which we can simplify in the case of deterministic dynamics into Equation. In this case, the conditional distributions $p{(\left. \mathbf{a}_{t} \middle| {\mathbf{s}_{t},\mathcal{O}_{1:T}} \right.)}$ are simply obtained by marginalizing the full trajectory distribution and conditioning the policy at each time step on $\mathbf{s}_{t}$. We can adopt an optimization-based approximate inference approach to this problem, in which case the goal is to fit an approximation $\pi{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$ such that the trajectory distribution
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Which Objective does This Inference Procedure Optimize?", "weight": 1.0} -->
+
+matches the distribution in Equation. In the case of exact inference, as derived in the previous section, the match is exact, which means that ${D_{\text{KL}}{({{\hat{p}{(\tau)}} \parallel {p{(\tau)}}})}} = 0$, where $D_{\text{KL}}$ is the KL-divergence. We can therefore view the inference process as minimizing $D_{\text{KL}}{({{\hat{p}{(\tau)}} \parallel {p{(\tau)}}})}$, which is given by
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Which Objective does This Inference Procedure Optimize?", "weight": 1.0} -->
+
+Negating both sides and substituting in the equations for $p{(\tau)}$ and $\hat{p}{(\tau)}$, we get
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Which Objective does This Inference Procedure Optimize?", "weight": 1.0} -->
+
+Therefore, minimizing the KL-divergence corresponds to maximizing the expected reward *and* the expected conditional entropy, in contrast to the standard control objective in Equation, which only maximizes reward. Hence, this type of control objective is sometimes referred to as maximum entropy reinforcement learning or maximum entropy control.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Which Objective does This Inference Procedure Optimize?", "weight": 1.0} -->
+
+However, that in the case of stochastic dynamics, the solution is not quite so simple. Under stochastic dynamics, the optimized distribution is given by
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Which Objective does This Inference Procedure Optimize?", "weight": 1.0} -->
+
+where the initial state distribution and the dynamics are *also* conditioned on optimality. As a result of this, the dynamics and initial state terms in the KL-divergence do *not* cancel, and the objective does not have the simple entropy maximizing form derived above.^22^2In the deterministic case, we know that ${p{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t},\mathcal{O}_{1:T}} \right.)}} = {p{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}}$, since exactly one transition is ever possible. We can still fall back on the original KL-divergence minimization at the trajectory level, and write the objective as
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Which Objective does This Inference Procedure Optimize?", "weight": 1.0} -->
+
+However, because of the ${\log p}{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}$ terms, this objective is difficult to optimize in a model-free setting. As discussed in the previous section, it also results in an optimistic policy that assumes a degree of control over the dynamics that is unrealistic in most control problems. In Section 3, we will derive a variational inference procedure that *does* reduce to the convenient objective in Equation (2.4) even in the case of stochastic dynamics, and in the process also addresses the risk-seeking behavior discussed in Section 2.3.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Alternative Model Formulations", "weight": 1.0} -->
+
+It's worth pointing out that the definition of $p{({\mathcal{O}_{t} = \left. 1 \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.})}$ in Equation requires an additional assumption, which is that the rewards $r{(\mathbf{s}_{t},\mathbf{a}_{t})}$ are always negative.^33^3This assumption is not actually very strong: if we assume the reward is bounded above, we can always construct an exactly equivalent reward simply by subtracting the maximum reward. Otherwise, we end up with a negative probability for $p{({\mathcal{O}_{t} = \left. 0 \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.})}$.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Alternative Model Formulations", "weight": 1.0} -->
+
+However, this assumption is not actually required: it's quite possible to instead define the graphical model with an undirected factor on $(\mathbf{s}_{t},\mathbf{a}_{t},\mathcal{O}_{t})$, with an unnormalized potential given by ${\Phi_{t}{(\mathbf{s}_{t},\mathbf{a}_{t},\mathcal{O}_{t})}} = {\mathbb{1}_{\mathcal{O}_{t} = 1}{\exp{({r{(\mathbf{s}_{t},\mathbf{a}_{t})}})}}}$. The potential for $\mathcal{O}_{t} = 0$ doesn't matter, since we always condition on $\mathcal{O}_{t} = 1$. This leads to the same exact inference procedure as the one we described above, but without the negative reward assumption.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Alternative Model Formulations", "weight": 1.0} -->
+
+Once we are content to working with undirected graphical models, we can even remove the variables $\mathcal{O}_{t}$ completely, and simply add an undirected factor on $(\mathbf{s}_{t},\mathbf{a}_{t})$ with the potential ${\Phi_{t}{(\mathbf{s}_{t},\mathbf{a}_{t})}} = {\exp{({r{(\mathbf{s}_{t},\mathbf{a}_{t})}})}}$, which is mathematically equivalent. This is the conditional random field formulation described by Ziebart. The analysis and inference methods in this model are identical to the ones for the directed model with explicit optimality variables $\mathcal{O}_{t}$, and the particular choice of model is simply a notational convenience.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Alternative Model Formulations", "weight": 1.0} -->
+
+We will use the variables $\mathcal{O}_{t}$ in this article for clarity of derivation and stay within the directed graphical model framework, but all derivations are straightforward to reproduce in the conditional random field formulation.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Alternative Model Formulations", "weight": 1.0} -->
+
+Another common modification to this framework is to incorporate an explicit temperature $\alpha$ into the CPD for $\mathcal{O}_{t}$, such that ${p{(\left. \mathcal{O}_{t} \middle| {\mathbf{s}_{t},{ba_{t}}} \right.)}} = {\exp{({\frac{1}{\alpha}r{(\mathbf{s}_{t},\mathbf{a}_{t})}})}}$. The corresponding maximum entropy objective can then be written equivalently as the expectation of the (original) reward, with an additional multiplier of $\alpha$ on the entropy term. This provides a natural mechanism to interpolate between entropy maximization and standard optimal control or RL: as $\alpha\rightarrow 0$, the optimal solution approaches the standard optimal control solution.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Alternative Model Formulations", "weight": 1.0} -->
+
+Note that this does not actually increase the generality of the method, since the constant $\frac{1}{\alpha}$ can always be multiplied into the reward, but making this temperature constant explicit can help to illuminate the connection between standard and entropy maximizing optimal control.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Alternative Model Formulations", "weight": 1.0} -->
+
+Finally, it is worth remarking again on the role of discount factors: it is very common in reinforcement learning to use a Bellman backup of the form
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Alternative Model Formulations", "weight": 1.0} -->
+
+where $\gamma \in {(0,1\rbrack}$ is a discount factor. This allows for learning value functions in infinite-horizon settings, where the backup would otherwise be non-convergent for $\gamma = 1$, and reduces variance for Monte Carlo advantage estimators in policy gradient algorithms. The discount factor can be viewed a simple redefinition of the system dynamics. If the initial dynamics are given by $p{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}$, adding a discount factor is equivalent to undiscounted value fitting under the modified dynamics ${\overline{p}{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}} = {\gammap{(\left.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Alternative Model Formulations", "weight": 1.0} -->
+
+\mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}}$, where there is an additional transition with probability $1 - \gamma$, regardless of action, into an absorbing state with reward zero. We will omit $\gamma$ from the derivations in this article, but it can be inserted trivially in all cases simply by modifying the (soft) Bellman backups in any place where the expectation over $p{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}$ occurs, such as Equation previously or Equation in the next section.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Variational Inference and Stochastic Dynamics", "weight": 1.0} -->
+
+The problematic nature of the maximum entropy framework in the case of stochastic dynamics, discussed in Section 2.3 and Section 2.4, in essence amounts to an assumption that the agent is allowed to control both its actions and the dynamics of the system in order to produce optimal trajectories, but its authority over the dynamics is penalized based on deviation from the true dynamics. Hence, the ${\log p}{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}$ terms in Equation can be factored out of the equations, producing additive terms that corresponds to the cross-entropy between the posterior dynamics $p{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t},\mathcal{O}_{1:T}} \right.)}$ and the true dynamics $p{(\left.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Variational Inference and Stochastic Dynamics", "weight": 1.0} -->
+
+\mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}$. This explains the risk-seeking nature of the method discussed in Section 2.3: if the agent is allowed to influence its dynamics, even a little bit, it would reasonably choose to remove unlikely but extremely bad outcomes of risky actions.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Variational Inference and Stochastic Dynamics", "weight": 1.0} -->
+
+Of course, in practical reinforcement learning and control problems, such manipulation of system dynamics is not possible, and the resulting policies can lead to disastrously bad outcomes. We can correct this issue by modifying the inference procedure. In this section, we will derive this correction by freezing the system dynamics, writing down the corresponding maximum entropy objective, and deriving a dynamic programming procedure for optimizing it. Then we will show that this procedure amounts to a direct application of structured variational inference.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Maximum Entropy Reinforcement Learning with Fixed Dynamics", "weight": 1.0} -->
+
+The issue discussed in Section 2.4 for stochastic dynamics can briefly be summarized as following: since the posterior dynamics distribution $p{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t},\mathcal{O}_{1:T}} \right.)}$ does not necessarily match the true dynamics $p{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}$, the agent assumes that it can influence the dynamics to a limited extent. A simple fix to this issue is to explicitly disallow this control, by forcing the posterior dynamics and initial state distributions to match $p{(\left.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Maximum Entropy Reinforcement Learning with Fixed Dynamics", "weight": 1.0} -->
+
+and the same derivation as the one presented in Section 2.4
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Maximum Entropy Reinforcement Learning with Fixed Dynamics", "weight": 1.0} -->
+
+That is, the objective is still to maximize reward and entropy, but now under stochastic transition dynamics. To optimize this objective, we can compute backward messages like we did in Section 2.3. However, since we are now starting from the maximization of the objective in Equation, we have to derive these backward messages from an optimization perspective as a dynamic programming algorithm. As before, we will begin with the base case of optimizing $\pi{(\left. \mathbf{a}_{T} \middle| \mathbf{s}_{T} \right.)}$, which maximizes
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Maximum Entropy Reinforcement Learning with Fixed Dynamics", "weight": 1.0} -->
+
+where the equality holds from the definition of KL-divergence, and $\exp{({V{(\mathbf{s}_{T})}})}$ is the normalizing constant for $\exp{({r{(\mathbf{s}_{T},\mathbf{a}_{T})}})}$ with respect to $\mathbf{a}_{T}$ where ${V{(\mathbf{s}_{T})}} = {\log{\int_{\mathcal{A}}{{\exp{({r{(\mathbf{s}_{T},\mathbf{a}_{T})}})}}{d\mathbf{a}_{T}}}}}$, which is the same soft maximization as in Section 2.3. Since we know that the KL-divergence is minimized when the two arguments represent the same distribution, the optimal policy is given by
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Maximum Entropy Reinforcement Learning with Fixed Dynamics", "weight": 1.0} -->
+
+The recursive case can then computed as following: for a given time step $t$, $\pi{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Maximum Entropy Reinforcement Learning with Fixed Dynamics", "weight": 1.0} -->
+
+The first term follows directly from the objective in Equation, while the second term represents the contribution of $\pi{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$ to the expectations of all subsequent time steps. The second term deserves a more in-depth derivation. First, consider the base case: given the equation for $\pi{(\left. \mathbf{a}_{T} \middle| \mathbf{s}_{T} \right.)}$ in Equation, we can evaluate the objective for the policy by directly substituting this equation into Equation. Since the KL-divergence then evaluates to zero, we are left only with the $V{(\mathbf{s}_{T})}$ term. In the recursive case, we note that we can rewrite the objective in Equation as
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Maximum Entropy Reinforcement Learning with Fixed Dynamics", "weight": 1.0} -->
+
+which corresponds to a standard Bellman backup with a soft maximization for the value function. Choosing
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Maximum Entropy Reinforcement Learning with Fixed Dynamics", "weight": 1.0} -->
+
+we again see that the KL-divergence evaluates to zero, leaving $E_{\mathbf{s}_{t} \sim {\hat{p}{(\mathbf{s}_{t})}}}{\lbrack{V{(\mathbf{s}_{t})}}\rbrack}$ as the only remaining term in the objective for time step $t$, just like in the base case of $t = T$. This means that, if we fix the dynamics and initial state distribution, and only allow the policy to change, we recover a Bellman backup operator that uses the expected value of the next state, rather than the optimistic estimate we saw in Section 2.3 (compare Equation to Equation ). While this provides a solution to the practical problem of risk-seeking policies, it is perhaps a bit unsatisfying in its divergence from the convenient framework of probabilistic graphical models. In the next section, we will discuss how this procedure amounts to a direct application of structured variational inference.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Connection to Structured Variational Inference", "weight": 1.0} -->
+
+One way to interpret the optimization procedure in Section 3.1 is as a particular type of structured variational inference. In structured variational inference, our goal is to approximate some distribution $p{(\mathbf{y})}$ with another, potentially simpler distribution $q{(\mathbf{y})}$. Typically, $q{(\mathbf{y})}$ is taken to be some tractable factorized distribution, such as a product of conditional distributions connected in a chain or tree, which lends itself to tractable exact inference. In our case, we aim to approximate $p{(\tau)}$, given by
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Connection to Structured Variational Inference", "weight": 1.0} -->
+
+\mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$ to $q{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$ for the same reason. In structured variational inference, approximate inference is performed by optimizing the variational lower bound (also called the evidence lower bound). Recall that our evidence here is that $\mathcal{O}_{t} = 1$ for all $t \in {\{ 1,\ldots,T\}}$, and the posterior is conditioned on the initial state $\mathbf{s}_{1}$. The variational lower bound is given by
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Connection to Structured Variational Inference", "weight": 1.0} -->
+
+where the inequality on the last line is obtained via Jensen's inequality. Substituting the definitions of $p{(\tau)}$ and $q{(\tau)}$ from Equations and, and noting the cancellation due to ${q{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}} = {p{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}}$, the bound reduces to
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Connection to Structured Variational Inference", "weight": 1.0} -->
+
+up to an additive constant. Optimizing this objective with respect to the policy $q{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$ corresponds exactly to the objective in Equation. Intuitively, this means that this objective attempts to find the closest match to the maximum entropy trajectory distribution, subject to the constraint that the agent is only allowed to modify the policy, and not the dynamics. Note that this framework can also easily accommodate any other structural constraints on the policy, including restriction to a particular distribution class (e.g., conditional Gaussian, or a categorical distribution parameterized by a neural network), or restriction to partial observability, where the entire state $\mathbf{s}_{t}$ is not available as an input, but rather the policy only has access to some non-invertible function of the state.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Approximate Inference with Function Approximation", "weight": 1.0} -->
+
+We saw in the discussion above that a dynamic programming backward algorithm with updates that resemble Bellman backups can recover "soft" analogues of the value function and Q-function in the maximum entropy reinforcement learning framework, and the stochastic optimal policy can be recovered from the Q-function and value function. In this section, we will discuss how practical algorithms for high-dimensional or continuous reinforcement learning problems can be derived from this theoretical framework, with the use of function approximation. This will give rise to several prototypical methods that mirror corresponding techniques in standard reinforcement learning: policy gradients, actor-critic algorithms, and Q-learning.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Maximum Entropy Policy Gradients", "weight": 1.0} -->
+
+One approach to performing structured variational inference is to directly optimize the evidence lower bound with respect to the variational distribution. This approach can be directly applied to maximum entropy reinforcement learning. Note that the variational distribution consists of three terms: $q{(\mathbf{s}_{1})}$, $q{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}$, and $q{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$. The first two terms are fixed to $p{(\mathbf{s}_{1})}$ and $p{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}$, respectively, leaving only $q{(\left.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Maximum Entropy Policy Gradients", "weight": 1.0} -->
+
+\mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$ to vary. We can parameterize this distribution with any expressive conditional, with parameters $\theta$, and will therefore denote it as $q_{\theta}{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$. The parameters could correspond, for example, to the weights in a deep neural network, which takes $\mathbf{s}_{t}$ as input and outputs the parameters of some distribution class. In the case of discrete actions, the network could directly output the parameters of a categorical distribution (e.g., via a soft max operator). In the case of continuous actions, the network could output the parameters of an exponential family distribution, such as a Gaussian. In all cases, we can directly optimize the objective in Equation by estimating its gradient using samples. This gradient has a form that is nearly identical to the standard policy gradient, which we summarize here for completeness.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Maximum Entropy Policy Gradients", "weight": 1.0} -->
+
+where the second line follows from applying the likelihood ratio trick and the definition of entropy to obtain the ${\log q_{\theta}}{(\left. \mathbf{a}_{t^{\prime}} \middle| \mathbf{s}_{t^{\prime}} \right.)}$ term. The $- 1$ comes from the derivative of the entropy term. The last line follows by noting that the gradient estimator is invariant to additive state-dependent constants, and replacing $- 1$ with a state-dependent baseline $b{(\mathbf{s}_{t^{\prime}})}$. The resulting policy gradient estimator exactly matches a standard policy gradient estimator, with the only modification being the addition of the $- {{\log q_{\theta}}{(\left. \mathbf{a}_{t^{\prime}} \middle| \mathbf{s}_{t^{\prime}} \right.)}}$ term to the reward at each time step $t^{\prime}$.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Maximum Entropy Policy Gradients", "weight": 1.0} -->
+
+Intuitively, the reward of each action is modified by subtracting the log-probability of that action under the current policy, which causes the policy to maximize entropy. This gradient estimator can be written more compactly as
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Maximum Entropy Policy Gradients", "weight": 1.0} -->
+
+where $\hat{A}{(\mathbf{s}_{t},\mathbf{a}_{t})}$ is an advantage estimator. Any standard advantage estimator, such as the GAE estimator, can be used in place of the standard baselined Monte Carlo return above. Again, the only necessary modification is to add $- {{\log q_{\theta}}{(\left. \mathbf{a}_{t^{\prime}} \middle| \mathbf{s}_{t^{\prime}} \right.)}}$ to the reward at each time step $t^{\prime}$. As with standard policy gradients, a practical implementation of this method estimates the expectation by sampling trajectories from the current policy, and may be improved by following the natural gradient direction.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Maximum Entropy Actor-Critic Algorithms", "weight": 1.0} -->
+
+Instead of directly differentiating the variational lower bound, we can adopt a message passing approach which, as we will see later, can produce lower-variance gradient estimates. First, note that we can write down the following equation for the optimal target distribution for $q{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$:
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Maximum Entropy Actor-Critic Algorithms", "weight": 1.0} -->
+
+This is because conditioning on $\mathbf{s}_{t}$ makes the action $\mathbf{a}_{t}$ completely independent of all past states, but the action still depends on all future states and actions. Note that the dynamics terms $p{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}$ and $q{(\left. \mathbf{s}_{t + 1} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}$ do not appear in the above equation, since they perfectly cancel.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Maximum Entropy Actor-Critic Algorithms", "weight": 1.0} -->
+
+In this case, note that the inner expectation does not contain $\mathbf{s}_{t}$ or $\mathbf{a}_{t}$, and therefore makes for a natural representation for a message that can be sent from future states.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Maximum Entropy Actor-Critic Algorithms", "weight": 1.0} -->
+
+For convenience, we can also define a Q-function as
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Maximum Entropy Actor-Critic Algorithms", "weight": 1.0} -->
+
+Note that, in this case, the value function and Q-function correspond to the values of the current policy $q{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$, rather than the optimal value function and Q-function, as in the case of dynamic programming. However, at convergence, when ${q{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}} = {q^{\star}{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}}$ for each $t$, we have
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Maximum Entropy Actor-Critic Algorithms", "weight": 1.0} -->
+
+which is the familiar soft maximum from Section 2.3. We now see that the optimal variational distribution for $q{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$ can be computed by passing messages backward through time, and the messages are given by $V{(\mathbf{s}_{t})}$ and $Q{(\mathbf{s}_{t},\mathbf{a}_{t})}$.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Maximum Entropy Actor-Critic Algorithms", "weight": 1.0} -->
+
+So far, this derivation assumes that the policy and messages can be represented exactly. We can relax the first assumption in the same way as in the preceding section. We first write down the variational lower bound for a single factor $q{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Maximum Entropy Actor-Critic Algorithms", "weight": 1.0} -->
+
+It's straightforward to show that this objective is simply the full variational lower bound, which is given by $E_{q{(\tau)}}{\lbrack{{{\log p}{(\tau)}} - {{\log q}{(\tau)}}}\rbrack}$, restricted to just the terms that include $q{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$. If we restrict the class of policies $q{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$ so that they cannot represent $q^{\star}{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$ exactly, we can still optimize the objective in Equation by computing its gradient, which is given by
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Maximum Entropy Actor-Critic Algorithms", "weight": 1.0} -->
+
+where $b{(\mathbf{s}_{t})}$ is any state-dependent baseline. This gradient can computed using samples from $q{(\tau)}$ and, like the policy gradient in the previous section, is directly analogous to a classic likelihood ratio policy gradient. The modification lies in the use of the backward message $Q{(\mathbf{s}_{t},\mathbf{a}_{t})}$ in place of the Monte Carlo advantage estimate. The algorithm therefore corresponds to an actor-critic algorithm, which generally provides lower variance gradient estimates.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Maximum Entropy Actor-Critic Algorithms", "weight": 1.0} -->
+
+In order to turn this into a practical algorithm, we must also be able to approximate the backward message $Q{(\mathbf{s}_{t},\mathbf{a}_{t})}$ and $V{(\mathbf{s}_{t})}$. A simple and straightforward approach is to represent them with parameterized functions $Q_{\phi}{(\mathbf{s}_{t},\mathbf{a}_{t})}$ and $V_{\psi}{(\mathbf{s}_{t})}$, with parameters $\phi$ and $\psi$, and optimize the parameters to minimize a squared error objectives
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Maximum Entropy Actor-Critic Algorithms", "weight": 1.0} -->
+
+This interpretation gives rise to a few interesting possibilities for maximum entropy actor-critic and policy iteration algorithms. First, it suggests that it may be beneficial to keep track of both $V{(\mathbf{s}_{t})}$ and $Q{(\mathbf{s}_{t},\mathbf{a}_{t})}$ networks. This is perfectly reasonable in a message passing framework, and in practice might have many of the same benefits as the use of a target network, where the updates to $Q$ and $V$ can be staggered or damped for stability. Second, it suggests that policy iteration or actor-critic methods might be preferred (over, for example, direct Q-learning), since they explicitly handle both approximate messages and approximate factors in the structured variational approximation. This is precisely the scheme employed by the soft actor-critic algorithm.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Soft Q-Learning", "weight": 1.0} -->
+
+We can derive an alternative form for a reinforcement learning algorithm without using an explicit policy parameterization, fitting only the messages $Q_{\phi}{(\mathbf{s}_{t},\mathbf{a}_{t})}$. In this case, we assume an implicit parameterization for both the value function $V{(\mathbf{s}_{t})}$ and policy $q{(\left. \mathbf{a}_{t} \middle| \mathbf{s}_{t} \right.)}$, where
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Soft Q-Learning", "weight": 1.0} -->
+
+which corresponds directly to Equation. In this case, no further parameterization is needed beyond $Q_{\phi}{(\mathbf{s}_{t},\mathbf{a}_{t})}$, which can be learned by minimizing the error in Equation, substituting the implicit equation for $V{(\mathbf{s}_{t})}$ in place of $V_{\psi}{(\mathbf{s}_{t})}$. We can write the resulting gradient update as
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Soft Q-Learning", "weight": 1.0} -->
+
+Where the standard Q-learning update has a $\max$ over $\mathbf{a}_{t + 1}$, the soft Q-learning update has a "soft" max. As the magnitude of the reward increases, the soft update comes to resemble the hard update.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Soft Q-Learning", "weight": 1.0} -->
+
+In the case of discrete actions, this update is straightforward to implement, since the integral is replaced with a summation, and the policy can be extracted simply by normalizing the Q-function. In the case of continuous actions, a further level of approximation is needed to evaluate the integral using samples. Sampling from the implicit policy is also non-trivial, and requires an approximate inference procedure, as discussed by Haarnoja et al..
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Soft Q-Learning", "weight": 1.0} -->
+
+We can further use this framework to illustrate an interesting connection between soft Q-learning and policy gradients. According to the definition of the policy in Equation, which is defined entirely in terms of $Q_{\phi}{(\mathbf{s}_{t},\mathbf{a}_{t})}$, we can derive an alternative gradient with respect to $\phi$ starting from the policy gradient. This derivation represents a connection between policy gradient and Q-learning that is not apparent in the standard framework, but becomes apparent in the maximum entropy framework. The full derivation is provided by Haarnoja et al. (Appendix B). The final gradient corresponds to
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Soft Q-Learning", "weight": 1.0} -->
+
+The soft Q-learning gradient can equivalently be written as
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Soft Q-Learning", "weight": 1.0} -->
+
+where we substitute the target value ${r{(\mathbf{s}_{t},\mathbf{a}_{t})}} + {V{(\mathbf{s}_{t + 1})}}$ for $\hat{A}{(\mathbf{s}_{t},\mathbf{a}_{t})}$, taking advantage of the fact that we can use any state-dependent baseline. Although these gradients are not exactly equal, the extra term $- {{\nabla_{\phi}V}{(\mathbf{s}_{t})}}$ simply accounts for the fact that the policy gradient alone is insufficient to resolve one extra degree of freedom in $Q{(\mathbf{s}_{t},\mathbf{a}_{t})}$: the addition or subtraction of an action-independent constant.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Soft Q-Learning", "weight": 1.0} -->
+
+We can eliminate this term if we add the policy gradient with respect to $\phi$ together with Bellman error minimization for $V{(\mathbf{s}_{t})}$, which has the gradient
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Review of Prior Work", "weight": 1.0} -->
+
+In this section, we will discuss a variety of prior works that have sought to explore the connection between inference and control, make use of this connection to devise more effective learning algorithms, and extend it into other applications, such as intent inference and human behavior forecasting. We will first discuss the variety of frameworks proposed in prior work that are either equivalent to the approach presented in this article, or special cases (or generalization) thereof (Section 5.1). We will then discuss alternative formulations that, though similar, differ in some critical way (Section 5.2). We will then discuss specific reinforcement learning algorithms that build on the maximum entropy framework (Section 5.3), and conclude with a discussion of applications of the maximum entropy framework in other areas, such as intent inference, human behavior modeling, and forecasting (Section 5.4).
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Frameworks for Control as Inference", "weight": 1.0} -->
+
+Framing control, decision making, and reinforcement learning as a probabilistic inference and learning problem has a long history, going back to original work by Rudolf Kalman, who described how the Kalman smoothing algorithm can also be used to solve control problems with linear dynamics and quadratic costs (the "linear-quadratic regulator" or LQR setting). It is worth noting that, in the case of linear-quadratic systems, the maximum entropy solution is a linear-Gaussian policy where the mean corresponds exactly to the optimal *deterministic* policy. This sometimes referred to as the Kalman duality. Unfortunately, this elegant duality does not in general hold for non-LQR systems: the maximum entropy framework for control as inference generalizes standard optimal control, and the optimal stochastic policy for a non-zero temperature (see Section 2.5) does not in general have the optimal deterministic policy as its mean.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Frameworks for Control as Inference", "weight": 1.0} -->
+
+Subsequent work expanded further on the connection between control and inference. Attias, proposed to implement a planning algorithm by means of the Baum-Welch-like method in HMM-style models. Todorov, formulated a class of reinforcement learning problems termed "linearly-solvable" MDPs (LMDPs). LMDPs correspond to the graphical model described in Section 2, but immediately marginalize out the actions or, equivalently, posit that actions are equivalent to the next state, allowing the entire framework to operate entirely on states rather than actions. This gives rise to a simple and elegant framework that is especially tractable in the tabular setting. In the domain of optimal control, Kappen, formulated a class of path integral control problems that also correspond to the graphical model discussed in Section 2, but derived starting from a continuous time formulation and formulated as a diffusion process. This continuous time generalization arrives at the same solution in discrete time, but requires considerably more stochastic processes machinery, so is not discussed in detail in this article. Similar work by Toussaint and colleagues formulated graphical models for solving decision making problems, indirectly arriving at the same framework as in the previously discussed works.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Frameworks for Control as Inference", "weight": 1.0} -->
+
+In the case of Toussaint expectation propagation was adapted for approximate message passing during planning. Ziebart, formulated learning in PGMs corresponding to the control or reinforcement learning problem as a problem of learning reward functions, and used this connection to derive maximum entropy *inverse* reinforcement learning algorithms, which are discussed in more detail in Section 5.4. Ziebart's derivation of the relationship between decision making, conditional random fields, and PGMs also provides a thorough exploration of the foundational theory in this field, and is a highly recommend compendium to accompany this article for readers seeking a more in-depth theoretical discussion and connections to maximum entropy models. The particular PGM studied by Ziebart is discussed in Section 2.5: although Ziebart frames the model as a conditional random field, without the auxiliary optimality variables $\mathcal{O}_{t}$, this formulation is equivalent to the one discussed here. Furthermore, the maximum causal entropy method discussed by Ziebart can be shown to be equivalent to the variational inference formulation presented in Section 3.1.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Related but Distinct Approaches", "weight": 1.0} -->
+
+All of the methods discussed in the previous section are either special cases or generalizations of the control as inference framework presented in this article. A number of other works have presented related approaches that also aim to unify control and inference, but do so in somewhat different ways. We survey some of these prior techniques in this section, and describe their technical and practical differences from the presented formulation.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Boltzmann Exploration", "weight": 1.0} -->
+
+The form of the optimal policy in the maximum entropy framework (e.g., Equation ) suggests a very natural exploration strategy: actions that have large Q-value should be taken more often, while actions that have low Q-value should be taken less often, and the stochastic exploration strategy has the form of a Boltzmann-like distribution, with the Q-function acting as the negative energy. A large number of prior methods have proposed to use such a policy distribution as an exploration strategy, but in the context of a reinforcement learning algorithm where the Q-function is learned via the standard ("hard") max operator, corresponding to a temperature (see Section 2.5) of zero. Boltzmann exploration therefore does not optimize the maximum entropy objective, but rather serves as a heuristic modification to enable improved exploration. A closely related idea is presented in the work on energy-based reinforcement learning, where the free energy of an energy-based model (in that case, a restricted Boltzmann machine) is adjusted based on a reinforcement learning update rule, such that the energy corresponds to the negative Q-function.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Boltzmann Exploration", "weight": 1.0} -->
+
+Interestingly, energy-based reinforcement learning can optimize either the maximum entropy objective or the standard objective (with Boltzmann exploration), based on the type of update rule that is used. When used with an on-policy SARSA update rule, as proposed by Sallans and Hinton the method actually does optimize the maximum entropy objective, since the policy uses the Boltzmann distribution. However, when updated using an off-policy Q-learning objective with a hard max, the method reduces to Boltzmann exploration and optimizes the standard RL objective.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Entropy Regularization", "weight": 1.0} -->
+
+In the context of policy gradient and actor-critic methods, a commonly used technique is to use "entropy regularization," where an entropy maximization term is added to the policy objective to prevent the policy from becoming too deterministic prematurely. This technique was proposed as early as the first work on the REINFORCE algorithm, and is often used in recent methods (see, e.g., discussion by O'Donoghue et al., ). While the particular technique for incorporating this entropy regularizer varies, typically the simplest way is to simply add the gradient of the policy entropy at each sampled state to a standard policy gradient estimate, which itself may use a critic. Note that this is *not*, in general, equivalent to the maximum entropy objective, which not only optimizes for a policy with maximum entropy, but also optimizes the policy itself to *visit* states where it has high entropy.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Entropy Regularization", "weight": 1.0} -->
+
+Put another way, the maximum entropy objective optimizes the expectation of the entropy with respect to the policy's state distribution, while entropy regularization only optimizes the policy entropy at the states that are visited, without actually trying to modify the policy itself to visit high-entropy states (see, e.g., Equation in O'Donoghue et al., ). While this does correspond to a well-defined objective, that objective is rather involved to write out and generally not mentioned in work that uses entropy regularization. The technique is typically presented as a heuristic modification to the policy gradient. Interestingly, it is actually easier to perform proper maximum entropy RL than entropy regularization: maximum entropy RL with a policy gradient or actor-critic method only requires subtracting ${\log\pi}{(\left. \mathbf{a} \middle| \mathbf{s} \right.)}$ from the reward function, while heuristic entropy maximization typically uses an explicit entropy gradient.
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Variational Policy Search and Expectation Maximization", "weight": 1.0} -->
+
+Another formulation of the reinforcement learning problem with strong connections to probabilistic inference is the formulation of policy search in an expectation-maximization style algorithm. One common way to accomplish this is to directly treat rewards as a probability density, and then use a "pseudo-likelihood" written as
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Variational Policy Search and Expectation Maximization", "weight": 1.0} -->
+
+where $r{(\tau)}$ is the total reward along a trajectory, and $p{(\left. \tau \middle| \theta \right.)}$ is the probability of observing a trajectory $\tau$ given a policy parameter vector $\theta$. Assuming $r{(\tau)}$ is positive and bounded and applying Jensen's inequality results in a variety of algorithms, including reward-weighted regression, that all follow the following general recipe: samples are weighted according to some function of their return (potentially with importance weights), and the policy is then updated by optimizing a regression objective to match the sample actions, weighted by these weights. The result is that samples with higher return are matched more closely, while those with low return are ignored. Variational policy search methods also fall into this category, sometimes with the modification of using explicit trajectory optimization rather than reweighting to construct the target actions, and sometimes using an exponential transformation on $r{(\tau)}$ to ensure positivity.
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Variational Policy Search and Expectation Maximization", "weight": 1.0} -->
+
+Unlike the approach discussed in this article, the use of the reward as a "pseudo-likelihood" does not correspond directly to a well-defined probabilistic model, though the application of Jensen's inequality can still be motivated simply from the standpoint of deriving a bound for the RL optimization problem. A more serious disadvantage of this class of methods is that, by regressing onto the reweighted samples, the method loses the ability to properly handle risk for stochastic dynamics and policies. Consider, for example, a setting where we aim to fit a unimodal policy for a stateless problem with a 1D action. If we have a high reward for the action $- 1$ and $+ 1$, and a low reward for the action $0$, the optimal fit will still place all of the probability mass in the middle, at the action $0$, which is the worst possible option.
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Variational Policy Search and Expectation Maximization", "weight": 1.0} -->
+
+Mathematically, this problem steps from the fact that supervised learning matches a target distribution by minimizing a KL-divergence of the form $D_{\text{KL}}{({p_{\text{tgt}} \parallel p_{\theta}})}$, where $p_{\text{tgt}}$ is the target distribution (e.g., the reward or exponentiated reward). RL instead minimizes a KL-divergence of the form $D_{\text{KL}}{({p_{\theta} \parallel p_{\text{tgt}}})}$, which prioritizes finding a mode of the target distribution rather than matching its moments. This issue is discussed in more detail in Section 5.3.5 of. In general, the issue manifests itself as risk-seeking behavior, though distinct in nature from the risk-seeking behavior discussed in Section 2.4.
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Variational Policy Search and Expectation Maximization", "weight": 1.0} -->
+
+Note that Toussaint and Storkey, also propose an expectation-maximization based algorithm for control as inference, but in a framework that does in fact yield maximum expected reward solutions, with a similar formulation to the one in this article.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "KL-Divergence Constraints for Policy Search", "weight": 1.0} -->
+
+Policy search methods frequently employ a constraint between the new policy and the old policy at each iteration, in order to bound the change in the policy distribution and thereby ensure smooth, stable convergence. Since policies are distributions, a natural choice for the form of this constraint is a bound on the KL-divergence between the new policy and the old one. When we write out the Lagrangian of the resulting optimization problem, we typically end up with a maximum entropy optimization problem similar to the one in Equation, where instead of taking the KL-divergence between the new policy and exponentiated reward, we instead have a KL-divergence between the new policy and the old one. This corresponds to a maximum entropy optimization where the reward is ${r{(\mathbf{s},\mathbf{a})}} + {\lambda{\log\overline{\pi}}{(\left.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "KL-Divergence Constraints for Policy Search", "weight": 1.0} -->
+
+\mathbf{a} \middle| \mathbf{s} \right.)}}$, where $\lambda$ is the Lagrange multiplier and $\overline{\pi}$ is the old policy, and the entropy term has a weight of $\lambda$. This is equivalent to a maximum entropy optimization where the entropy has a weight of one, and the reward is scaled by $\frac{1}{\lambda}$. Thus, although none of these methods actually aim to optimize the maximum entropy objective in the end, each step of the policy update involves solving a maximum entropy problem. A similar approach is proposed by Rawlik et al. where a sequence of maximum entropy problems is solved in a Q-learning style framework to eventually arrive at the standard maximum reward solution.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Reinforcement Learning Algorithms", "weight": 1.0} -->
+
+Maximum entropy reinforcement learning algorithms have been proposed in a range of frameworks and with a wide variety of assumptions. The path integral framework has been used to derive algorithms for both optimal control and planning and policy search via reinforcement learning. The framework of linearly solvable MDPs has been used to derive policy search algorithms, value function based algorithms, and inverse reinforcement learning algorithms. More recently, entropy maximization has been used as a component in algorithms based on model-free policy search with importance sampling and its variants, model-based algorithms based on the guided policy search framework, and a variety of methods based on soft Q-learning and soft actor-critic algorithms.
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Reinforcement Learning Algorithms", "weight": 1.0} -->
+
+The particular reasons for the use of the control as inference framework differ between each of these algorithms. The motivation for linearly solvable MDPs is typically based on computationally tractable exact solutions for tabular settings, which are enabled essentially by dispensing with the non-linear maximization operator in the standard RL framework. Although the maximum entropy dynamic programming equations are still not linear in terms of value functions and Q-functions, they are linear under an exponential transformation. The reason for this is quite natural: since these methods implement sum-product message passing, the only operations in the original probability space are summations and multiplications. However, for larger problems where tabular representations are impractical, these benefits are not apparent.
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Reinforcement Learning Algorithms", "weight": 1.0} -->
+
+In the case of path consistency methods, the maximum entropy framework offers an appealing mechanism for off-policy learning. In the case of guided policy search, it provides a natural method for matching distributions between model-based local policies and a global policy that unifies the local policy into a single globally coherent strategy. For the more recent model-free maximum entropy algorithms, such as soft Q-learning and soft-actor critic, as well the work of Hausman et al. the benefits are improved stability and model-free RL performance, improved exploration, and the ability to pre-train policies for diverse and under-specified goals. For example, Haarnoja et al., present a quadrupedal robot locomotion task where the reward depends only on the speed of the robot's motion, regardless of direction. In a standard RL framework, this results in a policy that runs in an arbitrary direction. Under the maximum entropy framework, the optimal policy runs in all directions with equal probability. This makes it well-suited for pretraining general-purpose policies that can then be finetuned for more narrowly tailored tasks.
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Reinforcement Learning Algorithms", "weight": 1.0} -->
+
+More recently, Haarnoja et al. also showed that maximum entropy policies can be composed simply by adding their Q-functions, resulting in a Q-function with bounded difference against the optimal Q-function for the corresponding composed reward.
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Reinforcement Learning Algorithms", "weight": 1.0} -->
+
+Recently, a number of papers have explored how the control as inference or maximum entropy reinforcement learning framework can be extended to add additional latent variables to the model, such that the policy is given by $\pi{(\left. \mathbf{a} \middle| {\mathbf{s},\mathbf{z}} \right.)}$, where $\mathbf{z}$ is a latent variable. In one class of methods, these variables are held constant over the duration of the episode, providing for a time-correlated exploration signal that can enable a single policy to capture multiple skills and rapidly explore plausible behaviors for new tasks by searching in the space of values for $\mathbf{z}$. In another class of methods, the latent variable $\mathbf{z}$ is selected independently at each time step, and the policy $\pi{(\left.
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Reinforcement Learning Algorithms", "weight": 1.0} -->
+
+\mathbf{a} \middle| {\mathbf{s},\mathbf{z}} \right.)}$ has some simple unimodal form (e.g., a Gaussian distribution) conditioned on $\mathbf{z}$, but a complex multimodal form when $\mathbf{z}$ is integrated out. This enables the policy to represent very complex mulitmodal distributions, which can be useful, for example, for capturing the true maximum entropy distribution for an underspecified reward function (e.g., run in all possible directions). It also makes it possible to learn a higher-level policy that uses $\mathbf{z}$ as its action space, effectively driving the lower level policy and using it as a distribution over skills. This leads to a natural probabilistic hierarchical reinforcement learning formulation.
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Modeling, Intent Inference, and Forecasting", "weight": 1.0} -->
+
+Aside from devising more effective reinforcement learning and optimal control algorithms, maximum entropy reinforcement learning has also been used extensively in the inverse reinforcement learning setting, where the goal is to infer intent, acquire reward functions from data, and predict the behavior of agents (e.g., humans) in the world from observation. Indeed, the use of the term "maximum entropy reinforcement learning" in this article is based on the work of Ziebart and colleagues, who proposed the maximum entropy *inverse* reinforcement learning algorithm for inferring reward functions and modeling human behavior.
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Modeling, Intent Inference, and Forecasting", "weight": 1.0} -->
+
+While maximum entropy reinforcement learning corresponds to inference in the graphical model over the variables $\mathbf{s}_{t}$, $\mathbf{a}_{t}$, and $\mathcal{O}_{t}$, *inverse* reinforcement learning corresponds to a learning problem, where the goal is to learn the CPD $p{(\left. \mathcal{O}_{t} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}$, given example sequences $\{\mathbf{s}_{1:{T,i}},\mathbf{a}_{1:{T,i}},\mathcal{O}_{1:{T,i}}\}$, where $\mathcal{O}_{t}$ is always true, indicating that the data consists of demonstrations of optimal trajectories. As with all graphical model learning problems, inference takes place in the inner loop of an iterative learning procedure.
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Modeling, Intent Inference, and Forecasting", "weight": 1.0} -->
+
+Exact inference via dynamic programming results in an algorithm where, at each iteration, we solve for the optimal soft value function, compute the corresponding policy, and then use this policy to compute the gradient of the likelihood of the data with respect to the parameters of the CPD $p{(\left. \mathcal{O}_{t} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}$. For example, if we use a linear reward representation, such that ${p{(\left. \mathcal{O}_{t} \middle| {\mathbf{s}_{t},\mathbf{a}_{t}} \right.)}} = {\exp{({\phi^{T}f{(\mathbf{s}_{t},\mathbf{a}_{t})}})}}$, the learning problem can be expressed as
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Modeling, Intent Inference, and Forecasting", "weight": 1.0} -->
+
+where computing ${\log p}{(\left. \mathbf{a}_{t,i} \middle| {\mathbf{s}_{t,i},\mathcal{O}_{1:T},\phi} \right.)}$ and its gradient requires solving for the optimal policy under the current reward parameters $\phi$.
+
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Modeling, Intent Inference, and Forecasting", "weight": 1.0} -->
+
+The same optimism issue discussed in Section 2 occurs in the inverse reinforcement learning setting, where exact inference in the graphical model produces an "optimistic" policy that assumes some degree of control over the system dynamics. For this reason, Ziebart and colleagues proposed the maximum causal entropy framework for inverse reinforcement learning under stochastic dynamics. Although this framework is derived starting from a causal reformulation of the maximum entropy principle, the resulting algorithm is exactly identical to the variational inference algorithm presented in Section 3, and the corresponding learning procedure corresponds to optimizing the variational lower bound with respect to the reward parameters $\phi$.
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Modeling, Intent Inference, and Forecasting", "weight": 1.0} -->
+
+Subsequent work in inverse reinforcement learning has studied settings where the reward function has a more complex, non-linear representation, and extensions to approximate inference via the Laplace approximation (under known dynamics) and approximate reinforcement learning (under unknown dynamics). Aside from inferring reward functions from demonstrations for the purpose of imitation learning, prior work has also sought to leverage the framework of maximum entropy inverse reinforcement learning for inferring the intent of humans, for applications such as robotic assistance, brain-computer interfaces, and forecasting of human behavior.
+
+<!-- chunk {"id": "body-0119", "role": "body", "section": "Modeling, Intent Inference, and Forecasting", "weight": 1.0} -->
+
+Recent work has also drawn connections between generative adversarial networks (GANs) and maximum entropy inverse reinforcement learning. This connection is quite natural since, just like generative adversarial networks, the graphical model in the maximum entropy reinforcement learning framework is a generative model, in this case of trajectories. GANs avoid the need for explicit estimation of the partition function by noting that, given a model $\hat{p}{(\mathbf{x})}$ for some true distribution $p{(\mathbf{x})}$, the optimal classifier for discriminating whether a sample $\mathbf{x}$ came from the model or from the data corresponds to the odds ratio
+
+<!-- chunk {"id": "body-0120", "role": "body", "section": "Modeling, Intent Inference, and Forecasting", "weight": 1.0} -->
+
+Although $\hat{p}{(\mathbf{x})}$ is unknown, fitting this "discriminator" and using its gradients with respect to $\mathbf{x}$ to modify $p{(\mathbf{x})}$ allows for effective training of the generative model. In the inverse reinforcement learning setting, the discriminator takes the form of the reward function. The reward function is learned so as to maximize the reward of the demonstration data and minimize the reward of samples from the current policy, while the policy is updated via the maximum entropy objective to maximize the expectation of the reward and maximize entropy. As discussed by Finn et al., this process corresponds to a generative adversarial network over trajectories, and also corresponds exactly to maximum entropy inverse reinforcement learning. A recent extension of this framework also provides for an effective inverse reinforcement learning algorithm in a model-free deep RL context, as well as a mechanism for recovering robust and transferable rewards in ambiguous settings. A simplification on this setup known as generative adversarial imitation learning (GAIL) dispenses with the goal of recovering reward functions, and simply aims to clone the demonstrated policy.
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Modeling, Intent Inference, and Forecasting", "weight": 1.0} -->
+
+In this setup, the algorithm learns the advantage function directly, rather than the reward, which corresponds roughly to an adversarial version of the OptV algorithm.
+
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Modeling, Intent Inference, and Forecasting", "weight": 1.0} -->
+
+A number of prior works have also sought to incorporate probabilistic inference into a model of biological decision making and control. The particular frameworks employed in these approaches differ: the formulation proposed by Friston, is similar to the maximum entropy approach outlined in this survey, and also employs the formalism of approximate variational inference. The formulation described by Botvinick and Toussaint, does not use the exponential reward transformation, and corresponds more closely to the "pseudo-likelihood" formulation outlined in Section 5.2.
+
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Perspectives and Future Directions", "weight": 1.0} -->
+
+In this article, we discussed how the maximization of a reward function in Markov decision process can be formulated as an inference problem in a particular graphical model, and how a set of update equations similar to the well-known value function dynamic programming solution can be recovered as the direct consequence of applying structured variational inference to this graphical model. The classical maximum expected reward formulation emerges as a limiting case of this framework, while the general case corresponds to a maximum entropy variant of reinforcement learning or optimal control, where the optimal policy not only aims to maximize the expected reward, but also aims to maintain high entropy.
+
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Perspectives and Future Directions", "weight": 1.0} -->
+
+The framework of maximum entropy reinforcement learning has already been employed in a range of contexts, as discussed in the previous section, from devising more effective and powerful forward reinforcement learning algorithms, to developing probabilistic algorithms for modeling and reasoning about observed goal-driven behavior. A particularly exciting recent development is the intersection of maximum entropy reinforcement learning and latent variable models, where the graphical model for control as inference is augmented with additional variables for modeling time-correlated stochasticity for exploration or higher-level control through learned latent action spaces. The extensibility and compositionality of graphical models can likely be leveraged to produce more sophisticated reinforcement learning methods, and the framework of probabilistic inference can offer a powerful toolkit for deriving effective and convergent learning algorithms for the corresponding models.
+
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Perspectives and Future Directions", "weight": 1.0} -->
+
+Less explored in the recent literature is the connection between maximum entropy reinforcement learning and robust control. Although some work has hinted at this connection, the potential for maximum entropy reinforcement learning to produce policies that are robust to modeling errors and distributional shift has not been explored in detail. In principle, a policy that is trained to achieve high expected reward under the highest possible amount of injected noise (highest entropy) should be robust to unexpected perturbations at test time. Indeed, recent work in robotics has illustrated that policies trained with maximum entropy reinforcement learning methods (e.g., soft Q-learning) do indeed exhibit a very high degree of robustness. However, a detailed theoretical exploration of this phenomenon has so far been lacking, and it is likely that it can be applied more broadly to a range of challenging problems involving domain shift, unexpected perturbations, and model errors.
+
+<!-- chunk {"id": "body-0126", "role": "body", "section": "Perspectives and Future Directions", "weight": 1.0} -->
+
+Finally, the relationship between probabilistic inference and control can shed some light on the design of reward functions and objectives in reinforcement learning. This is an often-neglected topic that has tremendous practical implications: reinforcement learning algorithms typically assume that the reward function is an extrinsic and unchanging signal that is provided as part of the problem definition. However, in practice, the design of the reward function requires considerable care, and the success of a reinforcement learning application is in large part determined by the ability of the user to design a suitable reward function. The control as inference framework suggests a probabilistic interpretation of rewards as log probability of some discrete event variable $\mathcal{O}_{t}$, and exploring how this interpretation can lead to more interpretable, more effective, and easier to specify reward functions could lead to substantially more practical reinforcement learning methods in the future.

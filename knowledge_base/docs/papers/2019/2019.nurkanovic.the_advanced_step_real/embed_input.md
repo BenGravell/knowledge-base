@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 The Advanced Step Real Time Iteration for NMPC
 
 Topics include Nonlinear model predictive control, Real-time iteration, Advanced-step control, Multi-level iteration, Online optimization, Predictor-corrector methods, Contractivity, Sequential quadratic programming, Parametric optimization.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 This paper defines Advanced-Step RTI, a family of NMPC schemes that uses predicted future initial values and inexpensive extra preparation-phase iterations to improve the next RTI linearization point. It connects RTI, advanced-step NMPC, and multi-level iteration, giving a contraction estimate and a numerical example showing better tracking of the optimal solution manifold than standard RTI at the same sampling time.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This paper introduces an extension to the well-known Real Time Iteration (RTI) for Nonlinear Model Predictive Control (NMPC). We combine algorithmic ideas of the RTI, Advanced Step Controller and Multi-Level Iteration (MLI) framework and get thereby a family of new algorithms that allow one to trade control performance for computational efficiency in a flexible way. The main idea is to improve the linearization point for a new iteration by making cheap iterations with a new initial parameter prediction. We derive a general contraction estimate for the new algorithm and show that this approach yields closer tracking of the optimal solution manifold and results in better control performance. The efficacy of our approach is shown on a nontrivial numerical example.

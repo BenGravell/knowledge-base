@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Partial Feedback Linearization of Underactuated Mechanical Systems
 
 Topics include Partial feedback linearization, Underactuated systems, Nonlinear control, Strong inertial coupling, Zero dynamics, Acrobot, Robotics.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Develops partial feedback linearization for underactuated mechanical systems and highlights when either the active or passive coordinates can be linearized through nonlinear feedback. The paper is especially useful for understanding how inertial coupling and zero dynamics shape controllers for Acrobot-like systems.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 In this paper we discuss the partial feedback linearization control of underactuated mechanical systems. We consider an n degree of freedom system having m actuated, or active, degrees of freedom and l = n - m unactuated, or passive, degrees of freedom. It is known that the portion of the dynamics corresponding to the active degrees of freedom may be linearized by nonlinear feedback. In this paper we show, alternatively, that the portion of the dynamics corresponding to the passive degrees of freedom may be linearized by nonlinear feedback under a condition that we call strong inertial coupling. We derive and analyze the resulting zero dynamics which are crucial to an understanding of the response of the overall system. Simulation results are presented showing the performance of two link underactuated robots under partial feedback linearization control.

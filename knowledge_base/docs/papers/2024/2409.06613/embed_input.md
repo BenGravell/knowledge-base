@@ -1,15 +1,198 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 DemoStart: Demonstration-led Auto-curriculum Applied to Sim-to-real with Multi-fingered Robots
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 We present DemoStart, a novel auto-curriculum reinforcement learning method capable of learning complex manipulation behaviors on an arm equipped with a three-fingered robotic hand, from only a sparse reward and a handful of demonstrations in simulation. Learning from simulation drastically reduces the development cycle of behavior generation, and domain randomization techniques are leveraged to achieve successful zero-shot sim-to-real transfer. Transferred policies are learned directly from raw pixels from multiple cameras and robot proprioception. Our approach outperforms policies learned from demonstrations on the real robot and requires 100 times fewer demonstrations, collected in simulation. More details and videos in
 
-## Introduction
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-A longstanding goal of the robotics community has been to synthesize skills that are functional, performant, and safe to execute on real robots, especially for complex robot morphologies and tasks such as manipulation with multi-fingered hands. Learning from human-teleoperated robots has led to some impressive results for relatively simple embodiments, for which effective teleoperation devices exist. However, high-quality teleoperation of sophisticated embodiments such as dexterous hands remains an open research challenge.
+A longstanding goal of the robotics community has been to synthesize skills that are functional, performant, and safe to execute on real robots, especially for complex robot morphologies and tasks such as manipulation with multi-fingered hands. Learning from human-teleoperated robots has led to some impressive results for relatively simple embodiments, for which effective teleoperation devices exist. However, high-quality teleoperation of sophisticated embodiments such as dexterous hands remains an open research challenge. As a result, simulation-based learning with subsequent transfer to real robots (sim-to-real) is an attractive alternative that can significantly reduce the scalability and safety concerns associated with learning from real robot data.
 
-We test DemoStart on several challenging tasks that require 6D Cartesian control of an arm with 7 degrees of freedom (DoF) and joint-space control of a dexterous hand with 12 DoFs. We show that DemoStart is effective in simulation, with over 98% success on a number of different tasks including lifting, plug insertion, cube reorientation, nut-and-bolt threading, and a tidy-up task of placing a screwdriver in a cup.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Discussion
+In this work we tackle a set of problems with the following constraints: a complex embodiment with a large action space; a very small number of sub-optimal demonstrations available per task; and access to only success detectors that act as binary sparse rewards. Finding a general approach to solve problems of this type can greatly expand the set of tasks that can be solved with dexterous robots by reducing the amount of effort required to solve a new task.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our auto-curriculum method, DemoStart (Section III-A), combines a handful of demonstrations in simulation with RL from sparse rewards to go beyond the quality of demonstrated behaviors and avoid the need for difficult reward design. DemoStart creates a curriculum in which the difficulty of learning is automatically adjusted. While the trained policies leverage privileged information, we distill them into policies that rely only on RGB camera images and proprioception. In combination with the judicious use of domain randomization techniques, this allows the policies to be deployed zero-shot to real robots. Compared to learning from demonstrations directly, our approach can learn from two orders of magnitude fewer demonstrations.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We test DemoStart on several challenging tasks that require 6D Cartesian control of an arm with 7 degrees of freedom (DoF) and joint-space control of a dexterous hand with 12 DoFs. We show that DemoStart is effective in simulation, with over 98% success on a number of different tasks including lifting, plug insertion, cube reorientation, nut-and-bolt threading, and a tidy-up task of placing a screwdriver in a cup. We also demonstrate effective zero-shot transfer of our solutions for plug lifting, plug insertion, and cube reorientation to the real world (97%, 64%, and 97% success, respectively), outperforming both the zero-shot sim-to-real transfer of naive RL baselines and policies imitating human-teleoperated demonstrations collected directly in the real world. Figure shows the setup and tasks considered in this work. The video in the supplementary material includes further visualizations of the behaviors generated by DemoStart and the baselines.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The DemoStart method for solving tasks in simulation from minimal and sub-optimal demonstrations, with sparse rewards.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Experiments showing that DemoStart can master difficult-to-control simulation tasks with a high DoF embodiment, achieving success rates over 98% on all evaluated tasks.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Successful evaluations of sim-to-real zero-shot transfer on a dexterous multi-fingered hand mounted on a robot arm, showing that DemoStart generates transferable behaviors for dexterous tasks.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Method", "weight": 1.0} -->
+
+We propose an approach to train policies in simulation which can transfer zero-shot to real environments. Our approach requires only a few demonstrations in simulation and a binary sparse success reward, making it easy to design new tasks. Our procedure consists of two steps. We first learn a teacher policy in simulation from features (not images) using a novel auto-curriculum RL method, DemoStart (see Section III-A), and physics domain randomization. We then distill the teacher policy into a vision-based student policy (Section III-B) and transfer it zero-shot to real.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Method", "weight": 1.0} -->
+
+We consider learning within a Markov decision process (MDP) framework. At each time step, $t$, the agent selects an action, $a_{t} \in \mathcal{A}$, based on its current state, $s_{t} \in \mathcal{S}$. Subsequently, it receives a reward ($r_{t + 1} = {R{(s_{t},a_{t})}} \in {\mathbb{R}}$) and transitions to the next state ($s_{t + 1}$) according to the transition probability distribution ($p{( \cdot \mid s_{t},a_{t})}$). With sparse rewards, we end the episode on the first success.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Method", "weight": 1.0} -->
+
+We parameterize the MDP with *task parameters* (TPs) $\psi$. Each $\psi$ contains 1) The starting state $s_{0}$, 2) Environment settings such as physical or visual parameters, and 3) A goal specification, for goal-conditioned tasks. We call $\mathcal{T}_{\text{target}}$ the distribution over TPs with starting states $s_{0}$ from the initial states of the target environment. In our auto-curriculum method, we extend $\mathcal{T}_{\text{target}}$ by creating TPs that are better suited for training policies. When evaluating the performance of a policy in simulation, we sample the TPs from $\mathcal{T}_{\text{target}}$.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "III-A DemoStart: A demonstration-led auto-curriculum for RL in simulation", "weight": 1.0} -->
+
+In this section we propose DemoStart, an auto-curriculum method where demonstrations are leveraged to provide increasingly difficult episode start states. DemoStart leverages three distinct conceptual mechanisms which are then put together as part of a single data generation procedure. We first describe these mechanisms and then show how they fit together in DemoStart.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "III-A DemoStart: A demonstration-led auto-curriculum for RL in simulation", "weight": 1.0} -->
+
+Mechanism 1: Turning demonstrations into TPs of varying difficulty. We start by recording a few demonstrations of solving the task in simulation. For each time step in the demonstrations, we save the full environment state such that each of these states can then be used as the starting state $s_{0}$ of a TP. TPs that have a start state towards the end of demonstrations, and therefore require fewer steps to reach a goal state, tend to be easier, whereas TPs with start states towards the beginning of demonstrations tend to be harder.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "III-A DemoStart: A demonstration-led auto-curriculum for RL in simulation", "weight": 1.0} -->
+
+Mechanism 2: Finding TPs with high training signal with zero-variance filtering. During learning, most TPs are either too hard or too easy to provide a good training signal for the current policy. For instance, if a policy knows how to insert a plug when already on top of its socket, a good TP for learning might be one where the plug is lifted and almost on top of the socket while a hard TP would be one where the plug is far from the socket and not grasped. Other parameters of a TP, such as the physics parameters, will also affect the difficulty of the task. DemoStart uses a novel heuristic to identify TPs that lead to a strong training signal: we only train on experience generated from TPs for which the current policy sometimes succeeds and sometimes fails. We call this heuristic Zero-Variance Filtering (ZVF). The main intuition behind ZVF is that if success on a TP doesn't vary across episodes then there is no behavior to be reinforced in the experience of that TP. We further discuss some considerations regarding the applications of ZVF in Appendix VII-E.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "III-A DemoStart: A demonstration-led auto-curriculum for RL in simulation", "weight": 1.0} -->
+
+Mechanism 3: Focusing on TPs with minimal bias from demonstrations. Recorded demonstrations often contain unnatural states which would not occur when executing a skilled agent. For example, a demonstration may contain states where the agent has an unstable grasp of an object. As a result, training using such states as TPs' starting states can have a negative impact on performance. In our example, the agent may end up focusing on how to rectify a poor grasp instead of learning how to grasp an object well in the first place. To tackle this, DemoStart's implementation includes a novel technique to bias the TPs it trains on towards states which occur earlier in the demonstrations. This way, once an agent has become competent at grasping an object, it will no longer train on TPs where the object is already grasped. The details of how this bias is implemented is described in the overall implementation of DemoStart below.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "III-A DemoStart: A demonstration-led auto-curriculum for RL in simulation", "weight": 1.0} -->
+
+Implementing DemoStart. DemoStart is implemented as part of a distributed actor-learner setup. The actors generate experience by executing the policy in the environment and send it to a learner through an experience replay buffer. The learner updates the policy based on the experience using the MPO algorithm. The method we describe below determines how we gather experience for learning and thus it is implemented as part of the actors without affecting other parts of the system such as the agent update rules.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "III-A DemoStart: A demonstration-led auto-curriculum for RL in simulation", "weight": 1.0} -->
+
+Step 1. Sample a sequence of TPs. First, the actor samples a sequence of TPs $(\psi_{0},\psi_{1},\ldots,\psi_{K})$. The first TP $\psi_{0}$ is always sampled from $\mathcal{T}_{\text{target}}$. The next $K$ TPs are sampled by first sampling one demonstration from the set of demonstrations and splitting it into $K$ temporal chunks of equal size. We then sample uniformly a single environment state from each chunk $i$ and use it as $s_{0}$ of the corresponding TP $\psi_{i}$. As a result, the sequence is designed so that the TPs tend to go from harder to easier.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "III-A DemoStart: A demonstration-led auto-curriculum for RL in simulation", "weight": 1.0} -->
+
+Step 2. Find a TP to train. Second, the actor searches for a TP in the sequence which is identified to contain high training signal. Starting with the first TP $\phi_{0}$, the actor generates $T$ episodes by executing the policy on that TP. Note that none of this generated data is sent for training. We then apply the ZVF criterion to decide whether this TP has high training signal. If there is variance in the sparse reward outcomes, meaning some but not all of the $T$ episode succeeded, we consider the TP good for learning and we move on to Step 3. If there is no variance across the $T$ episodes because the agent always fails, meaning the TP is too hard, we move on to evaluating the next TP in the sequence which should be easier. If the agent always succeeds on that TP, meaning the TP is too easy, or we have run out of TPs in the sequence, we go back to Step 1 to sample a new sequence of TPs.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "III-A DemoStart: A demonstration-led auto-curriculum for RL in simulation", "weight": 1.0} -->
+
+Step 3. Generate training data on the selected TP. Finally, if the previous step found a TP suitable for training, we then generate $M$ episodes of the policy on that TP and send the data to the replay buffer for training. When done, we return to Step 1.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "III-A DemoStart: A demonstration-led auto-curriculum for RL in simulation", "weight": 1.0} -->
+
+We highlight three properties of DemoStart. First, ZVF has the positive property that it is easy to implement as part of any setup with binary sparse rewards. Unlike other auto-curriculum methods like PAIRED or PLR, DemoStart does not require an additional agent to be trained or a separate centralized controller. Second, DemoStart does not make use of the demonstrations' experience as part of the replay. As such, it is able to leverage demonstrations that are of poor quality or that are not suitable for behavior cloning, for example due to a different action space. In particular, as we show in the plug insertion task (Section IV-A), we are able to leverage demonstrations where no demonstration completes the entire task from beginning to end, but each demonstration executes a section of the task (e.g. flipping the plug to the upright position). Third, DemoStart will gracefully switch training from using initial states from the demonstrations to using the initial states from the target environment in $\mathcal{T}_{\text{target}}$. In all our experiments, we use $K = 8$, $T = 4$ and $M = 50$.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "III-B Distillation and Transfer", "weight": 1.0} -->
+
+After training a policy that operates from privileged observations using DemoStart, we distill the result into a student policy with visual observations, as. Instead of interactively querying the teacher policy while training the student policy, we generate an offline dataset of trajectories from the teacher, and use behavior cloning to train the student. This approach provides additional flexibility as it makes it easy to mix different types of data, or reuse the same pipeline for learning entirely from human demonstrations (see Section V-A).
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-B Distillation and Transfer", "weight": 1.0} -->
+
+Domain Randomization. We use three types of domain randomization (DR) when training the teacher and student policies: 1) Perturbations: We apply external force disturbances to any object that is not fixed to the basket; 2) Physics: We randomize the friction, mass, and inertia of every joint and body in the scene; 3) Visual: We randomize the camera poses and lighting, as well as the colors of every object in the scene (see Appendix VII-B3). When training the teacher policy with DemoStart, we do not use perturbations and physics DR for episodes initialized from demonstration states.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-B Distillation and Transfer", "weight": 1.0} -->
+
+Photorealistic Rendering. We include photorealistic images rendered with Filament for the plug insertion task. When generating these images, we randomize lighting and camera exposure settings. The first row of Figure shows an example image.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-B Distillation and Transfer", "weight": 1.0} -->
+
+Policy distillation. We use the Perceiver-Actor-Critic (PAC) model, a scalable neural architecture designed for continuous control tasks for the student policy. While PAC supports optimizing an offline-RL objective, we solely use it for behavior cloning. More details in Appendix VII-A2 model ‣ VII-A Agent training details ‣ VII Appendix ‣ DemoStart: Demonstration-led auto-curriculum applied to sim-to-real with multi-fingered robots").
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+Each of our six robot cells consists of a square basket with slanted walls and two cameras fixed to the basket corners: front right and left corner. We use a Kuka LBR iiwa 14 robot arm with the three-finger DEX-EE Hand attached to its flange, as well as two wrist cameras attached to either side of the base of the hand. The real robot setup is replicated in simulation using MuJoCo. The action space exposed to the agent is 18-dimensional. The first 6 dimensions correspond to the desired 6D Cartesian velocity of the robot arm, while the last 12 dimensions correspond to the desired joint positions of the fingers of the robot hand. Our real and simulated experimental setups are shown in Figure. Please refer to Appendix VII-B for a more detailed description of the experimental setup.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-A Tasks", "weight": 1.0} -->
+
+Our tasks are inspired by the NIST dexterous manipulation benchmark and have varying levels of complexity, time horizon (multiple stages), precision, among other attributes relevant to dexterous manipulation.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-A Tasks", "weight": 1.0} -->
+
+For real robot experiments we 3D-printed a simplified version of an industrial-grade plug (yellow) and socket (gray) connector from NIST Board #1, as well as a green cube with a black side. For simulation experiments we also used oversized CAD models of a nut and bolt as well as a screwdriver and cup from the YCB object dataset. Below is a brief description of each task, along with the type and number of demonstrations we captured from simulation for DemoStart. Further details on tasks and objects in Appendix VII-C.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "IV-A Tasks", "weight": 1.0} -->
+
+Plug lifting: Lift the yellow plug 5cm above the basket surface. We used 5 demonstrations.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "IV-A Tasks", "weight": 1.0} -->
+
+Plug insertion: Insert the plug into the socket. We initially recorded 12 demonstrations of plug insertion where the plug was always spawned upright. We then changed the environment to randomize the orientation of the plug and instead of collecting new demonstrations of insertion, we just added 8 demonstrations of flipping the connector into the upright position, which was faster and didn't require solving the insertion task. Our experiments use all 20 demonstrations.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-A Tasks", "weight": 1.0} -->
+
+Cube reorientation: Reorient the cube such that a specific side is facing upwards and within 5cm of the basket center. The goal orientation is sampled as part of the TP. We used 2 demonstrations of unstructured interaction with the cube.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-A Tasks", "weight": 1.0} -->
+
+Nut and bolt threading: Thread a nut onto a bolt. The nut and bolt are oversized and the bolt is fixed. We used 60 demonstrations total: 20 demonstrations of the full task, 20 lifts and 20 demonstrations where the nut was brought to the top of the bolt.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-A Tasks", "weight": 1.0} -->
+
+Screwdriver in cup: Ensure cup is upright and insert screwdriver into the cup, handle first. We used 20 demonstrations.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "IV-A Tasks", "weight": 1.0} -->
+
+To collect demonstrations in simulation, we use a simpler action space that allows us to collect data through a 3Dconnexion SpaceMouse. Although the action space was different, the demonstrations can be used by DemoStart, which does not use the actions from the demonstrations. As part of the teleoperation baseline described in Section V-A, we also collected expert human demonstrations on the real robot setup. Appendix VII-B4-VII-B5 include further details on teleoperation.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "V-A Baselines", "weight": 1.0} -->
+
+We compare DemoStart against various baselines and ablations on the plug insertion task. Both DemoStart and our vanilla RL baseline uses the same sparse reward and MPO agent architecture, as described in Appendix VII-A1 (see more in Appendix VII-F). We also compare to Scheduled Auxiliary Control (SAC-X), an RL method that uses auxiliary rewards to help exploration. In order to evaluate on the real robot, we use the distillation method from Section III-B to learn either from data generated from our agents in simulation or from real demonstrations obtained through teleoperation. Note that for the plug insertion task, the 20 demonstrations in simulation are equivalent to half an hour of collection time. In contrast, the 2753 demonstrations collected on the real robot, including failures, are equivalent to 27 hours non-stop of data collection.We discuss further details about our baselines in Appendix VII-D.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "V-B Simulation experiments", "weight": 1.0} -->
+
+We compare the performance of agents trained in simulation on the tasks of plug lift and plug insertion. See Table I for the performance of each method on plug insertion. For each evaluation, we run 1000 episodes of 10 seconds each with different initial conditions. We include physics DR and perturbations on the objects during the evaluations. An episode is successful if the task was achieved during the episode.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "V-B Simulation experiments", "weight": 1.0} -->
+
+Vanilla RL with the same sparse rewards was unable to solve any of the plug tasks. SAC-X using manually-designed auxiliary rewards can solve plug lift (100%) and insertion (99.2%), however this high performance comes at high cost as the process of generating the auxiliary rewards is non-trivial and requires domain expertise. DemoStart also solves the tasks with 99.7% success rate for lift and 99.6% for insertion, but requires only a sparse reward and a few demonstrations in simulation. When distilling with BC, the distilled vision-based policy from DemoStart data retains its performance (99.0% for plug insertion) while distilling SAC-X in plug insertion results in a significant drop of performance (20.4%) as the distilled policy struggles to learn from the jerky, non-smooth behaviors of SAC-X policy. Distilling DemoStart and SAC-X for plug lift results in high success rates for both tasks, with 99.3% and 98.3% success rates respectively.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "V-B Simulation experiments", "weight": 1.0} -->
+
+Note that the distilled policies only have access to RGB images and proprioceptive information, and their evaluations randomize the camera poses and use photorealistic images.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "V-B Simulation experiments", "weight": 1.0} -->
+
+To evaluate the relative importance of the mechanisms introduced in Section III-A, we include two ablations. In Vanilla RL + Mechanism 1 actors sample the TPs from a mixture distribution. 20% of this mixture consists of the native environment's distribution $\mathcal{T}_{\text{target}}$ and the remaining 80% are uniformly distributed across the states from the collected demonstrations. In Vanilla RL + Mechanisms 1 & 2, each actor additionally uses the ZVF criterion to decide whether to send the experience it has generated to the learner, instead of sending all data. In Vanilla RL + Mechanism 1 + Success Filter, ZVF is replaced with a simple criterion that if any rollout from a given TP is successful, that state is considered informative.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "V-B Simulation experiments", "weight": 1.0} -->
+
+Finally, table II shows the performance of DemoStart on the five tasks in Figure. DemoStart achieves near-perfect results in all tasks in simulation and behavior is also significantly more efficient at solving the task compared to the demonstrations it was trained. For instance, in the Screwdriver in cup task, agents take a median time of 3.5 seconds to solve the task, whereas the median time of the demonstrations is 93.2 seconds.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "V-B Simulation experiments", "weight": 1.0} -->
+
+Emergent Curricula with DemoStart. During training, we record some of the starting states that passed the ZVF. Qualitatively, we see the emergence of semantically meaningful curricula. As Figure shows, when learning the screwdriver-in-cup task, early episodes used in training start with the screwdriver above an upright cup, and later on we see the screwdriver being grasped, the cup being held, and finally episodes starting with the cup upside down.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "V-C Real-world performance", "weight": 1.0} -->
+
+On the real robot, we test distilling DemoStart on three different tasks: plug lift, plug insertion and cube reorientation. For the plug tasks, we compare policies distilled from DemoStart data against those distilled from SAC-X or teleoperation data. Unless otherwise specified, the distilled policies use as observations the images from the four cameras, and the joint angles for the arm and fingers as well as the arm's tool center point. For each method and task we collected 100 episodes of one minute for lift and cube reorientation, and three minutes for insertion. We ensured that no episode started in a successful state. An episode was marked as successful if it contained at least one successful step (for plug lift, the plug needed be held for at least a second). Table III shows the average success rate.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "V-C Real-world performance", "weight": 1.0} -->
+
+As expected, performance drops when transferring policies from simulation to the real robot. For plug lift and cube reorientation the sim-to-real gap is small and performance remains strong in the real setup with a 97% success rate in each task. For plug insertion, the drop is not only in terms of success rate, but also in terms of how quickly the policies achieve the task. Figure shows the success rate for plug insertion as a function of episode duration, showing that in simulation policies solve plug insertion in seconds, whereas transferred policies require many more attempts.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "V-C Real-world performance", "weight": 1.0} -->
+
+The distilled policies from DemoStart clearly outperform the other two methods on the plug tasks. It is remarkable that, although the Real Teleoperation baseline produces reasonable performance on plug lift, it fails to do so on plug insertion. Both baselines are able to capture some of the behaviors needed to solve the tasks, but result in more fidgety policies. We hypothesize these behaviors come from the action distribution in teleoperation and SAC-X data being more diverse and less smooth. For instance, each teleoperator has a different style of collecting data and will often include pauses or suboptimal motions during data collection. For SAC-X, pure RL is prone to produce jerky behaviors if not properly regularized, that in turn lead to more diverse solutions. In contrast, policies learned through DemoStart funnel the policy behavior. This results in more consistent and smooth behaviors that are easier to learn and transfer to real.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "V-D Distillation ablations", "weight": 1.0} -->
+
+We perform several ablations on the distillation pipeline for learning pixel-based policies on the plug insertion task. The ablations include using the Cartesian fingertip poses as observations instead of the finger joint angles, not including photorealistic rendering in the training data, and using a different number of cameras. Table IV shows the performance of PAC in the simulation and real environments for the plug insertion task. We observe that the performance in simulation is barely affected while the performance in the real world decreases significantly in some cases. For instance, the performance decreases with the number of camera views, especially when wrist cameras are not included. Not using any photorealistic data also results in lower performance. Using Cartesian poses instead of joint angles results in only a mild decrease in performance.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "V-D Distillation ablations", "weight": 1.0} -->
+
+Plug Insertion Sim
+Plug Insertion Real
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 We introduce a pipeline that leverages simulation-based training and sim-to-real transfer to synthesize complex behaviors for real robot manipulation. DemoStart simplifies task design, relying only on a handful of low-quality demonstrations and a simple, sparse reward function. DemoStart can also leverage incomplete demonstrations of a task and combine them in order to learn to solve the task end-to-end. We have shown that DemoStart is effective on a number of challenging tasks and that, with distillation, it can produce vision based controllers that can perform well on real robots.
 
-Inherently, DemoStart makes a number of trade-offs. Using demonstrations only to shape the initial state distribution of RL allows greater flexibility in how the demonstrations can be obtained while allowing for more efficient and performant behaviors to emerge. However, this simplicity can result in behaviors that don't follow the demonstrations closely and thus it is harder to provide guarantees with regards to the final solution. Another consideration to make is that, although we found the variance-based signal of DemoStart to be generally effective, there are some situations where it can be misleading.
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Inherently, DemoStart makes a number of trade-offs. Using demonstrations only to shape the initial state distribution of RL allows greater flexibility in how the demonstrations can be obtained while allowing for more efficient and performant behaviors to emerge. However, this simplicity can result in behaviors that don't follow the demonstrations closely and thus it is harder to provide guarantees with regards to the final solution. Another consideration to make is that, although we found the variance-based signal of DemoStart to be generally effective, there are some situations where it can be misleading. This is primarily due to inherent stochasticity of the environment which can cause variance in situations where there is little training signal for the policy to learn.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Overall we expect DemoStart to work well for many manipulation tasks with predictable dynamics including those with challenging exploration or hard-to-define rewards. Regarding the limitations of this work, we believe that including more informative rewards, when available, will allow for more precise behavior shaping. Additionally, employing more advanced randomization techniques may enable better sim-to-real transfer. Because zero-variance filtering drops most of the data produced by actors, and because we are using sparse rewards, the method is compute intensive compared to methods that use dense rewards. Compute efficiency can be improved by reducing the cost of simulation (e.g. by using a GPU-based simulator), or by better selection of informative states from demonstrations (perhaps by estimating the success probability of a starting state before rolling out). We leave these explorations for future work. On the potential extensions, we believe the modularity of our pipeline is an asset. One interesting direction to be explored in future work, for instance, is to include real-robot data in the second training phase. This is already enabled by the current distillation pipeline and would allow for a self-improvement loop where performance continues to improve during deployment.

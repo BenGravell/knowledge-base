@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Policy Iteration for Linear Quadratic Games with Stochastic Parameters
 
 Topics include Control theory, Optimal control, Stochastic optimal control, Robust control, Game theory, Dynamic game, Linear quadratic games, Linear quadratic regulator, Linear systems, Algebraic Riccati equation, Semidefinite programming, Reinforcement learning, Policy improvement, Value iteration, Value functions, Equilibrium value, Uncertain systems, Model uncertainty, Stochastic parameters, Stochastic processes, Multiplicative noise, Uncertainty, Robustness.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Develops a polcy iteration algorithm for a state-feedback (fully observed) problem setting with linear dynamics, multiplicative noise (stochastic parameters), and adversarial disturbances. Nice compact notation for rather complicated Riccati equations, useful as a reference.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Robustness is a key challenge in the integration of learning and control. In machine learning and robotics, two common approaches to promote robustness are adversarial training and domain randomization. Both of these approaches have analogs in control theory: adversarial training relates to H∞ control and dynamic game theory, while domain randomization relates to theory for systems with stochastic model parameters. We propose a stochastic dynamic game framework that integrates both of these complementary approaches to modeling uncertainty and promoting robustness. We describe policy iteration algorithms in both model-based and model-free settings to compute equilibrium strategies and value functions. We present numerical experiments that illustrate their effectiveness and the value of combining uncertainty representations in our integrated framework. We also provide an open-source implementation of the algorithms to facilitate their wider use.

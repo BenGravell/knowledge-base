@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Distribution-Free Prediction Sets
 
 Topics include Conformal prediction, Distribution-free inference, Prediction sets, Density level sets, Kernel density estimation, Finite-sample coverage, Nonparametric statistics.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Builds finite-sample-valid prediction sets by combining conformal prediction with density-estimation ideas, yielding sets that behave like calibrated density level sets. The result is useful because it separates the coverage guarantee, which is distribution-free and finite-sample, from efficiency claims that depend on smoothness assumptions.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This article introduces a new approach to prediction by bringing together two different nonparametric ideas: distribution-free inference and nonparametric smoothing. Specifically, we consider the problem of constructing nonparametric tolerance/prediction sets. We start from the general conformal prediction approach, and we use a kernel density estimator as a measure of agreement between a sample point and the underlying distribution. The resulting prediction set is shown to be closely related to plug-in density level sets with carefully chosen cutoff values. Under standard smoothness conditions, we get an asymptotic efficiency result that is near optimal for a wide range of function classes. But the coverage is guaranteed whether or not the smoothness conditions hold and regardless of the sample size. The performance of our method is investigated through simulation studies and illustrated in a real data example.

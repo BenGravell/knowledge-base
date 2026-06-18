@@ -1,17 +1,339 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 GR00T N1: An Open Foundation Model for Generalist Humanoid Robots
 
 Topics include Imitation learning, Robotics, Robustness, Transformers, Diffusion models, Foundation models, Vision-language models, Datasets, Benchmarks, Learning, GR00T N1, Vision-language-action model, Humanoid robot.
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 General-purpose robots need a versatile body and an intelligent mind. Recent advancements in humanoid robots have shown great promise as a hardware platform for building generalist autonomy in the human world. A robot foundation model, trained on massive and diverse data sources, is essential for enabling the robots to reason about novel situations, robustly handle real-world variability, and rapidly learn new tasks. To this end, we introduce GR00T N1, an open foundation model for humanoid robots. GR00T N1 is a Vision-Language-Action (VLA) model with a dual-system architecture. The vision-language module (System 2) interprets the environment through vision and language instructions. The subsequent diffusion transformer module (System 1) generates fluid motor actions in real time. Both modules are tightly coupled and jointly trained end-to-end. We train GR00T N1 with a heterogeneous mixture of real-robot trajectories, human videos, and synthetically generated datasets. We show that our generalist robot model GR00T N1 outperforms the state-of-the-art imitation learning baselines on standard simulation benchmarks across multiple robot embodiments.
 
-## Introduction
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-Creating autonomous robots to perform everyday tasks in the human world has long been a fascinating goal and, at the same time, a significant technical undertaking. Recent progress in robotic hardware, artificial intelligence, and accelerated computing has collectively paved the ground for developing general-purpose robot autonomy. To march toward human-level physical intelligence, we advocate for a full-stack solution that integrates the three key ingredients: hardware, models, and data. First and foremost, robots are embodied physical agents, and their hardware determines their capability envelope.
+Furthermore, we deploy our model on the Fourier GR-1 humanoid robot for language-conditioned bimanual manipulation tasks, achieving strong performance with high data efficiency.
 
-We introduce GR00T N1, an open foundation model for generalist humanoid robots. The GR00T N1 model is a Vision-Language-Action (VLA) model, which generates actions from image and language instruction input. It has cross-embodiment support from tabletop robot arms to dexterous humanoid robots. It adopts a dual-system compositional architecture, inspired by human cognitive processing. The System 2 reasoning module is a pre-trained Vision-Language Model (VLM) that runs at 10Hz on an NVIDIA L40 GPU. It processes the robot's visual perception and language instruction to interpret the environment and understand the task goal.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We develop an effective co-training strategy to learn across the entire data pyramid in both pre- and post-training phases. To train our model with action-less data sources, such as human videos and neural-generated videos, we learn a latent-action codebook and also use a trained inverse dynamics model (IDM) to infer pseudo-actions. These techniques enable us to annotate actions on action-less videos so we can effectively treat them as additional robot embodiments for model training.
+Creating autonomous robots to perform everyday tasks in the human world has long been a fascinating goal and, at the same time, a significant technical undertaking. Recent progress in robotic hardware, artificial intelligence, and accelerated computing has collectively paved the ground for developing general-purpose robot autonomy. To march toward human-level physical intelligence, we advocate for a full-stack solution that integrates the three key ingredients: hardware, models, and data. First and foremost, robots are embodied physical agents, and their hardware determines their capability envelope. It makes humanoid robots a compelling form factor to build robot intelligence due to their human-like physique and versatility. Second, the diversity and variability of the real world demands that the robots operate on open-ended objectives and perform a wide range of tasks. Achieving this requires a generalist robot model sufficiently expressive and capable of handling various tasks. Third, real-world humanoid data are costly and time-consuming to acquire at scale. We need an effective data strategy to train large-scale robotic models.
 
-## Limitations
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Currently, our GR00T N1 model focuses primarily on short-horizon tabletop manipulation tasks. In future work, we aim to extend its capabilities to tackle long-horizon loco-manipulation, which will require advancements in humanoid hardware, model architecture, and training corpora. We anticipate a stronger vision-language backbone will enhance the model's spatial reasoning, language understanding, and adaptability. Our synthetic data generation techniques --- leveraging video generation models and automated trajectory synthesis systems --- have shown great promise.
+In recent years, foundation models have brought forth dramatic breakthroughs in understanding and generating visual and text data. They demonstrate the effectiveness of training generalist models on web-scale data to enable strong generalization and fast adaptation to downstream tasks. The successes of foundation models in neighboring fields of AI have depicted a promising roadmap for building the "backbone" of intelligence for generalist robots, endowing them with a set of core competencies and enabling them to rapidly learn and adapt in the real world. However, unlike the digital realms of words and pixels, no Internet of humanoid robot datasets exist for large-scale pre-training. The data available for any single humanoid hardware would be orders of magnitude too small. Recent efforts in the robot learning community have explored cross-embodied learning to enlarge the dataset by pooling training data from many different robots. However, the great variability in robot embodiments, sensors, actuator degrees of freedom, control modes, and other factors result in an archipelago of "data islands" rather than a coherent, Internet-scale dataset needed for training a true generalist model.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We introduce GR00T N1, an open foundation model for generalist humanoid robots. The GR00T N1 model is a Vision-Language-Action (VLA) model, which generates actions from image and language instruction input. It has cross-embodiment support from tabletop robot arms to dexterous humanoid robots. It adopts a dual-system compositional architecture, inspired by human cognitive processing. The System 2 reasoning module is a pre-trained Vision-Language Model (VLM) that runs at 10Hz on an NVIDIA L40 GPU. It processes the robot's visual perception and language instruction to interpret the environment and understand the task goal. Subsequently, a Diffusion Transformer, trained with action flow-matching, serves as the System 1 action module. It cross-attends to the VLM output tokens and employs embodiment-specific encoders and decoders to handle variable state and action dimensions for motion generation. It generates closed-loop motor actions at a higher frequency (120Hz). Both the System 1 and System 2 modules are implemented as Transformer-based neural networks, tightly coupled and jointly optimized during training to facilitate coordination between reasoning and actuation.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To mitigate the "data island" problem mentioned earlier, we structure the VLA training corpora as a data pyramid, illustrated in Fig.. Rather than treating the training datasets as a homogeneous pool, we organize heterogeneous sources by scale: large quantities of web data and human videos lay the base of the pyramid; synthetic data generated with physics simulations and/or augmented by off-the-shelf neural models form the middle layer, and real-world data collected on the physical robot hardware complete the top. The lower layers of the pyramid provide broad visual and behavioral priors, while the upper layers ensure grounding in embodied, real-robot execution.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We develop an effective co-training strategy to learn across the entire data pyramid in both pre- and post-training phases. To train our model with action-less data sources, such as human videos and neural-generated videos, we learn a latent-action codebook and also use a trained inverse dynamics model (IDM) to infer pseudo-actions. These techniques enable us to annotate actions on action-less videos so we can effectively treat them as additional robot embodiments for model training. By unifying all data sources across the data pyramid, we construct a consistent dataset where the input consists of the robot state, visual observations, and language instruction, and the output is the corresponding motor action. We pre-train our model end-to-end across the three data layers, spanning (annotated) video datasets, synthetically generated datasets, and real-robot trajectories --- by sampling training batches across this heterogeneous data mixture.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+With a unified model and single set of weights, GR00T N1 can generate diverse manipulation behaviors using single-arm, bimanual, and humanoid embodiments. Evaluated on standard simulation benchmark environments, GR00T N1 achieves superior results compared to state-of-the-art imitation learning baselines. We also demonstrate GR00T N1's strong performance in real-world experiments with GR-1 humanoid robots. Our GR00T-N1-2B model checkpoint, training data, and simulation benchmarks are publicly available here: GitHub and HuggingFace Datasets.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "GR00T N1 Foundation Model", "weight": 1.0} -->
+
+GR00T N1 is a Vision-Language-Action (VLA) model for humanoid robots trained on diverse data sources. The model contains a vision-language backbone that encodes language and image input and a DiT-based flow-matching policy that outputs high-frequency actions. We use the NVIDIA Eagle-2 VLM as the vision-language backbone. Specifically, our publicly released GR00T-N1-2B model has 2.2B parameters in total, with 1.34B in the VLM. The inference time for sampling a chunk of 16 actions is 63.9ms on an L40 GPU using bf16. Fig. provides a high-level overview of our model design.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "GR00T N1 Foundation Model", "weight": 1.0} -->
+
+We design a compositional model that integrates Vision-Language Model (VLM)-based reasoning module (System 2) and Diffusion Transformer (DiT)-based action module (System 1) in a unified learning framework;
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "GR00T N1 Foundation Model", "weight": 1.0} -->
+
+We develop an effective pre-training strategy using a mixture of human videos, simulation and neural-generated data, and real robot demonstrations for generalization and robustness;
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "GR00T N1 Foundation Model", "weight": 1.0} -->
+
+We train a massively multi-task, language-conditioned policy that supports a wide range of robot embodiments and enables rapid adaptation to new tasks through data-efficient post-training.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Model Architecture", "weight": 1.0} -->
+
+In this section, we describe the GR00T N1 model architecture, illustrated in Fig. ‣ 2.1 Model Architecture ‣ 2 GR00T N1 Foundation Model ‣ GR00T N1: An Open Foundation Model for Generalist Humanoid Robots"). GR00T N1 uses flow-matching (Lipman et al., ) to learn action generation. A diffusion transformer (DiT) processes the robot's proprioceptive state and action, which are then cross-attended with image and text tokens from the Eagle-2 VLM backbone to output the denoised motor actions. Below, we elaborate on each module in detail.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "State and Action Encoders", "weight": 1.0} -->
+
+To process states and actions of varying dimensions across different robot embodiments, we use an MLP per embodiment to project them to a shared embedding dimension as input to the DiT. As in Black et al., the Action Encoder MLP also encodes the diffusion timestep together with the noised action vector.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "State and Action Encoders", "weight": 1.0} -->
+
+We use action flow matching, which samples actions through iterative denoising. The model takes as input noised actions in addition to encodings of the robot's proprioceptive state, image tokens, and text tokens. The actions are processed in chunks as in Zhao et al., meaning that at any given time $t$ the model uses $A_{t} = {\lbrack a_{t},a_{t + 1},\ldots,a_{{t + H} - 1}\rbrack}$ which contains the action vectors of timesteps $t$ through ${t + H} - 1$. We set $H = 16$ in our implementation.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Vision-Language Module (System 2)", "weight": 1.0} -->
+
+For encoding vision and language inputs, GR00T N1 uses the Eagle-2 vision-language model (VLM) pretrained on Internet-scale data. Eagle-2 is finetuned from a SmolLM2 LLM and a SigLIP-2 image encoder. Images are encoded at resolution $224 \times 224$ followed by pixel shuffle, resulting in 64 image token embeddings per frame. These embeddings are then further encoded together with text by the LLM component of the Eagle-2 VLM. The LLM and image encoder are aligned over a broad set of vision-language tasks following the general recipe of Li et al..
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Vision-Language Module (System 2)", "weight": 1.0} -->
+
+During policy training, a text description of the task, as well as (possibly multiple) images, are passed to the VLM in the chat format used during vision-language training. We then extract vision-language features of shape (batch size $\times$ sequence length $\times$ hidden dimension) from the LLM. We found that using middle-layer instead of final-layer LLM embeddings resulted in both faster inference speed and higher downstream policy success rate. For GR00T-N1-2B, we use the representations from the 12th layer.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Diffusion Transformer Module (System 1)", "weight": 1.0} -->
+
+For modeling actions, GR00T N1 uses a variant of DiT, which is a transformer with denoising step conditioning via adaptive layer normalization, denoted as $V_{\theta}$. As shown in Fig. ‣ 2.1 Model Architecture ‣ 2 GR00T N1 Foundation Model ‣ GR00T N1: An Open Foundation Model for Generalist Humanoid Robots"), $V_{\theta}$ consists of alternating cross-attention and self-attention blocks, similar to Flamingo and VIMA. The self-attention blocks operate on noised action token embeddings $A_{t}^{\tau}$ together with state embeddings $q_{t}$, while cross-attention blocks allow conditioning on the vision-language token embeddings $\phi_{t}$ output by VLM. After the final DiT block, we apply an embodiment-specific Action Decoder, another MLP, to the final $H$ tokens to predict the actions.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Diffusion Transformer Module (System 1)", "weight": 1.0} -->
+
+As in Black et al., we use ${p{(\tau)}} = {\text{Beta}{(\frac{s - \tau}{s};1.5,1)}}$, $s = 0.999$. During inference, we generate action chunks with $K$-step denoising.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Diffusion Transformer Module (System 1)", "weight": 1.0} -->
+
+In practice, we found $K = 4$ inference steps to work well across all embodiments.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Training Data Generation", "weight": 1.0} -->
+
+To train GR00T N1, we use a diverse set of data sources and objectives to construct the data pyramid. We first source diverse human egocentric video data from open datasets, which forms the base, together with the web data used in VLM pretraining. Next, we generate synthetic neural trajectories using pre-trained video generation models. In this way, we $\sim$`<!-- -->`{=html}10$\times$ our in-house collected teleoperation trajectories --- the "peak" of the data pyramid --- from 88 hours to 827 hours, using diverse counterfactual robot trajectories with novel language instructions. We additionally generate diverse simulation trajectories, which also expand the middle part of the data pyramid.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Training Data Generation", "weight": 1.0} -->
+
+In the next paragraph, we first describe how we extract latent actions from videos, which we use to extract labels for web-scaled human egocentric datasets. Next, we describe how we generate neural and simulated robot trajectories, and how we obtain actions for each of these data sources.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Latent Actions", "weight": 1.0} -->
+
+For human egocentric videos and neural trajectories, we do not have any actions that we can directly use to train GR00T N1. For these data, we instead generate latent actions by training a VQ-VAE model to extract features from consecutive image frames from videos. The encoder takes the current frame $x_{t}$ and the future frame $x_{t + H}$ of a video with a fixed window size $H$ and outputs the latent action $z_{t}$. The decoder is trained to take the latent action $z_{t}$ and $x_{t}$ and reconstruct $x_{t + H}$. This model is trained with a VQ-VAE objective, where the continuous embedding from the encoder is mapped to the nearest embedding from the codebook.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Latent Actions", "weight": 1.0} -->
+
+After training, we take the encoder and use it as an inverse dynamics model; given an $x_{t}$ and $x_{t + H}$ pair, we extract the continuous pre-quantized embedding and use this as the latent action label during pre-training, with the same flow-matching loss, but treat it as a distinct "LAPA" embodiment. Training the VQ-VAE model on all heterogeneous data together allows us to unify all of the data to share the same learned latent action space, potentially improving cross-embodiment generalization. Fig. shows $x_{t}$ and $x_{t + H}$ pairs from 8 distinct embodiments including both robot and human embodiment, all retrieved from similar latent actions; the first latent action shows all embodiments moving right arm to the left and the second latent action shows moving right arm to the right.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Neural Trajectories", "weight": 1.0} -->
+
+Robot data scales linearly with human labor, since it typically requires a human operator to teleoperate the robot to produce each trajectory. Recently, video generation models have demonstrated significant potential for high-quality controllable video generation, which paves the way for building world models in the robotic domain. To harness these models, we fine-tune image-to-video generation models (Agarwal et al. Yang et al. Wan Team, ) on all of our 88 hours of in-house collected teleoperation data and generate 827 hours of video data given the existing initial frames with novel language prompts, augmenting it by around 10$\times$. This enables generating training data that captures many more counterfactual scenarios in the real world without actually collecting teleoperation data for each of these cases (examples shown in Fig.; more examples of dream generations in Fig. ).
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Neural Trajectories", "weight": 1.0} -->
+
+To increase the diversity of our neural trajectories, we first use a commercial-grade multimodal LLM to detect the objects given initial frames and generate many more possible combinations of "pick up {object} from {location A} to {location B}\", while instructing the model to only consider the physically feasible combinations. We also apply post-processing mechanisms, including filtering and re-captioning, to the generated videos. For this, we also use a commercial-grade multimodal LLM as a judge and feed the downsampled 8 frames to filter out neural trajectories that do not follow the language instruction precisely. We then caption the filtered-out videos. (More details can be found in Appendix F).
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Simulation Trajectories", "weight": 1.0} -->
+
+Scaling up real-world data collection for humanoid robots is highly expensive due to the challenge of simultaneously controlling both arms and dexterous hands. Recent research (Wang et al. Mandlekar et al. Jiang et al., ) has demonstrated that generating training data in simulation is a practical alternative. We use DexMimicGen to synthesize large-scale robot manipulation trajectories.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Simulation Trajectories", "weight": 1.0} -->
+
+Starting with a small set of human demonstrations, DexMimicGen applies demonstration transformation and replay in simulation to expand the dataset automatically. Each task is decomposed into a sequence of object-centric subtasks. The initial human demonstrations are segmented into smaller manipulation sequences, each corresponding to a subtask involving a single object. These segments are then adapted to new environments by aligning them with the object's position, preserving the relative poses between the robot's end effector and the object. To ensure smooth execution, the system interpolates movements between the robot's current state and the transformed segment. The robot then follows the full sequence step by step, verifying task success at the end. Only successful demonstrations are retained, ensuring high-quality data. Using DexMimicGen, we scale a limited set of human demonstrations into a large-scale humanoid manipulation dataset. Considering the pre- and post-training datasets, we have generated 780,000 simulation trajectories --- equivalent to 6,500 hours, or nine continuous months, of human demonstration data --- in just 11 hours. These simulation data significantly supplement the real-robot data with minimal human costs.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Pre-training", "weight": 1.0} -->
+
+During the pre-training phase, GR00T N1 is trained via flow-matching loss ) on a diverse collection of embodiments and data sources, encompassing various real and synthetic robot datasets as well as human motion data. We refer readers to Sec. for a detailed description of the datasets.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Pre-training", "weight": 1.0} -->
+
+For human videos, in the absence of ground-truth actions, we extract learned latent actions and use them as flow-matching targets (see Sec. 2.2). For robot datasets such as our GR-1 humanoid data or Open X-Embodiment data, we use both ground-truth robot actions as well as learned latent actions as flow-matching targets. In the case of neural trajectories (Sec. 2.2) used to augment our robot datasets, we use both latent actions as well as predicted actions from an inverse-dynamics model trained on the real robot data. Pre-training hyper-parameters are listed in Table in the Appendix.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Post-training", "weight": 1.0} -->
+
+In the post-training phase, we fine-tune our pre-trained model on datasets corresponding to each single embodiment. As in pretraining, we keep the language component of the VL backbone frozen and fine-tune the rest of the model. Post-training hyperparameters are given in Table in the Appendix.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Post-training with Neural Trajectories", "weight": 1.0} -->
+
+To overcome the challenge of data scarcity during post-training, we explore augmenting the data for each downstream task by generating neural trajectories, similar to the procedure described in Sec. 2.2. For downstream tasks that are conditioned on multiple views, we finetune the video model to generate multiple subimages in a grid. For simulation tasks, we collect diverse initial frames from the randomly initialized environment. For real robot tasks, we randomly initialize object poses manually and record the robot's initial observation. Novel initial frames could also be created automatically using img2img diffusion, but we leave further exploration for future work. We also demonstrate examples of multi-round video generation for generating long-horizon trajectories composed of atomic tasks and neural trajectories of liquids and articulated objects, known to be extremely challenging to simulate, though we leave quantitative evaluation of downstream tasks for future work.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Post-training with Neural Trajectories", "weight": 1.0} -->
+
+For our post-training pipeline with neural trajectories, we restrict ourselves to fine-tuning the video generation model only on the human-collected trajectories for simulation tasks and only 10% of the data from the real-world benchmark collected for post-training, to match the realistic scenario that we only have access to limited number of teleoperation data. Since the generated videos do not have action labels, we use either latent or inverse dynamics models (IDM) labeled actions and train the policy model to treat these pseudo-actions as action labels for a different embodiment. In low-data regime scenarios, we also restrict ourselves on training the IDM models only on the low-data, to facilitate realistic scenarios. Details of how we train the IDM models are provided in Appendix F. Some empirical comparisons between latent and IDM-labeled actions are made in Sec. 4.4. During post-training, we co-train the policy with real-world trajectories with neural trajectories with a 1:1 sampling ratio.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Training Infrastructure", "weight": 1.0} -->
+
+We train GR00T N1 on a cluster managed via NVIDIA OSMO, an orchestration platform for scaling complex␣‌robotics workloads. The training cluster is equipped with H100 NVIDIA GPUs connected via NVIDIA Quantum-2 InfiniBand in a fat-tree topology. We facilitate fault-tolerant multi-node training and data ingestion via a custom library built on top of the Ray distributed computing library. We use up to 1024 GPUs for a single model. GR00T-N1-2B used roughly 50,000 H100 GPU hours for pretraining.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Training Infrastructure", "weight": 1.0} -->
+
+Compute-constrained finetuning was tested in the context of a single A6000 GPU. If only tuning the adapter layers (action and state encoders + action decoder) and DiT, a batch size up to 200 can be used. When tuning the vision encoder, a batch size of up to 16 can be used.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Pre-Training Datasets", "weight": 1.0} -->
+
+We structure our pre-training corpus into three main categories: real-robot datasets (Sec. 3.1), synthetic datasets (Sec. 3.2), and human video datasets (Sec. 3.3). These roughly correspond to the peak, middle, and base of the data pyramid, respectively. The synthetic datasets consist of both simulation trajectories and neural trajectories. Table summarizes our training data generation strategies in Sec. 2.2 and their applicable data sources correspondingly. We provide the full statistics (# of frames, hours, and camera views) of our pretraining datasets in Table.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Real-World Datasets", "weight": 1.0} -->
+
+GR00T N1 Humanoid Pre-Training Dataset. Our internally collected dataset covers a broad range of general manipulation tasks, focused on Fourier GR1 through teleoperation. We leverage the VIVE Ultimate Tracker to capture the teleoperator's wrist poses while Xsens Metagloves track finger movements. We also explored other teleoperation hardware options, including Apple Vision Pro and Leap Motion. The recorded human movements are then retargeted to humanoid actions via inverse kinematics. The real-time teleoperation operates at a control frequency of 20Hz. Alongside the robot's actions, we capture images from a head-mounted camera at each step, as well as the human's low-dimensional proprioception and actions. The dataset includes fine-grained annotations, which detail atomic actions such as grasping, moving, and placing, and coarse-grained annotations, which aggregate sequences of fine-grained actions into higher-level task representations. This hierarchical structure supports learning both precise motion control and high-level task reasoning.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Real-World Datasets", "weight": 1.0} -->
+
+Open X-Embodiment. Open X-Embodiment Collaboration et al. is a widely used cross-embodiment dataset for robot manipulation. We include the RT-1, Bridge-v2, Language Table, DROID, MUTEX, RoboSet and Plex, providing diverse datasets covering various manipulation tasks, language-conditioned control, and robot-environment interactions.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Real-World Datasets", "weight": 1.0} -->
+
+AgiBot-Alpha. AgiBot-World-Contributors et al. is a large-scale dataset of trajectories from 100 robots. We used the 140,000 trajectories available at the time of launching our training run. The dataset covers fine-grained manipulation, tool usage, and multi-robot collaboration.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Synthetic Datasets", "weight": 1.0} -->
+
+Our synthetic datasets include 1) simulation trajectories automatically multiplied from a small number of human demonstrations within physics simulators and 2) neural trajectories derived from videos produced by off-the-shelf neural generation models.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Simulation Trajectories", "weight": 1.0} -->
+
+In addition to real-world datasets, we feature large-scale synthetic datasets generated in simulation as described in Sec. 2.2. Our simulation tasks comprise humanoid robots performing a broad range of tabletop rearrangement tasks and feature a large array of realistic 3D assets. We build these tasks under the RoboCasa simulation framework. Broadly, our tasks follow the behavior "rearrange A from B to C", where A corresponds to an object, and B and C represent the source and target locations in the environment. The source and target locations are receptacles such as plates, baskets, placemats, and shelves, and the robot must rearrange objects across different combinations of source and target receptacles. Overall, our pre-training simulation datasets feature 54 unique combinations of source and target receptacle categories. We place the objects and receptacles in randomized locations throughout the table and additionally incorporate distractor objects and receptacles in the scene. The distractors require the model to pay attention to the task language to perform the desired behavior.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Simulation Trajectories", "weight": 1.0} -->
+
+We generate diverse, high-quality training datasets at a massive scale using DexMimicGen. Our datasets feature the GR-1 humanoid robot, but we can adopt the system for a wide range of robots. We begin by collecting a few dozen source demonstrations via teleoperation using the Leap Motion device. The Leap Motion device tracks the 6-DoF wrist poses and finger poses, and we retarget these values and send them to the whole-body IK controller based on mink. Given human demonstrations, DexMimicGen processes the demonstrations into object-centric segments and then transforms and combines these segments to generate new demonstrations. Using this system, we generate 10,000 new demonstrations for each (source, target) receptacle pair in our pre-training task regime, resulting in 540k total demonstrations.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Neural Trajectories", "weight": 1.0} -->
+
+To generate neural trajectories, we fine-tune open-source image-to-video models on our real-world GR00T N1 Humanoid Pre-Training dataset, as described in Sec. 2.2. We trained the models for 100 epochs on a dataset comprising 3,000 real-world robot data samples with language annotations, each recorded at 480P resolution and consisting of 81 frames. As illustrated in Fig., our model can generate high-quality counterfactual trajectories given novel language prompts. Moreover, the model, trained on Internet-scale video data, demonstrates strong generalization capabilities in handling unseen initial frames, novel objects, and new motion patterns. These videos are further labeled with latent actions and IDM-based pseudo-actions for model training. We generate a total of around 827 hours of videos; it takes 2 minutes to generate a one-second video on an L40 GPU, and required approximately 105k L40 GPU hours ($\sim$`<!-- -->`{=html}1.5 days) on 3,600 L40 GPUs.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Human Video Datasets", "weight": 1.0} -->
+
+We include a diverse set of human video datasets. These do not include explicit action labels but contain extensive sequences of human-object interactions, capturing affordances, task semantics, and natural motion patterns. These datasets cover a wide range of real-world human behaviors, including grasping, tool use, cooking, assembly, and other task-oriented activities performed in natural environments, and provide detailed first-person perspectives of hand-object interactions.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Human Video Datasets", "weight": 1.0} -->
+
+Ego4D is a large-scale egocentric video dataset that includes diverse recordings of everyday activities;
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Human Video Datasets", "weight": 1.0} -->
+
+Ego-Exo4D adds complementary exocentric (third-person) views alongside first-person recordings;
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Human Video Datasets", "weight": 1.0} -->
+
+Assembly-101 focuses on complex assembly tasks by providing detailed videos of step-by-step object assembly;
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Human Video Datasets", "weight": 1.0} -->
+
+EPIC-KITCHENS includes first-person footage of culinary activities;
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Human Video Datasets", "weight": 1.0} -->
+
+HOI4D captures human-object interactions with frame-wise annotations for segmentation, hand and object poses, and actions;
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Human Video Datasets", "weight": 1.0} -->
+
+HoloAssist captures collaborative and assistive tasks within augmented reality environments;
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Human Video Datasets", "weight": 1.0} -->
+
+RH20T-Human includes recordings of fine-grained manipulation tasks with an emphasis on natural hand-object interactions across diverse real-world scenarios.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Evaluation", "weight": 1.0} -->
+
+We evaluate our GR00T N1 models in a diverse set of simulated and real-world benchmarks. Our simulation experiments are conducted on three distinct benchmarks designed to systematically assess the effectiveness of our model across various robot embodiments and manipulation tasks. In our real-world experiments, we investigate the model's capability on a suite of tabletop manipulation tasks with the GR-1 humanoid robot. These experiments aim to demonstrate GR00T N1's ability to acquire new skills from a limited number of human demonstrations.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Simulation Benchmarks", "weight": 1.0} -->
+
+Our simulation experiments comprise two open-source benchmarks from prior work (Nasiriany et al. Jiang et al., ), as well as a newly developed suite of tabletop manipulation tasks designed to closely mirror our real-world task settings. We meticulously choose these benchmarks for evaluating our models across different robot embodiments and diverse manipulation tasks. Our model checkpoints, together with the publicly available simulation environments and datasets, ensure the reproducibility of our key results. Fig. illustrates some example tasks from these three benchmarks.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Simulation Benchmarks", "weight": 1.0} -->
+
+RoboCasa features a collection of tasks in simulated kitchen environments. We focus on 24 "atomic" tasks that involve foundational sensorimotor skills such as pick-and-place, door opening and closing, pressing buttons, turning faucets, and more. For each task, we use the publicly available dataset of 3000 demonstrations featuring the Franka Emika Panda arm, all generated with MimicGen. The observation space includes three RGB images captured from cameras positioned on the left, right, and at the wrist. The state representation comprises the position and rotation of both the end-effector and the robot base, as well as the gripper's state. The action space is defined by the relative position and rotation of the end-effector along with the gripper state. We follow the same training and evaluation protocol outlined by Nasiriany et al..
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Simulation Benchmarks", "weight": 1.0} -->
+
+DexMimicGen Cross-Embodiment Suite (9 tasks, DexMG)
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Simulation Benchmarks", "weight": 1.0} -->
+
+DexMimicGen includes an array of nine bimanual dexterous manipulation tasks requiring precise two-arm coordination. Together, these tasks cover three bi-manual robot embodiments: Bimanual Panda Arms with Parallel-Jaw Grippers: tasks include threading, piece assembly, and transport. The state/action space consists of the end-effector position and rotation of both arms, as well as the gripper states; Bimanual Panda Arms with Dexterous Hands: tasks include box cleanup, drawer cleanup, and tray lifting. The state/action space consists of the end-effector position and rotation of both arms and hands; GR-1 Humanoid with Dexterous Hands: tasks include pouring, coffee preparation, and can sorting. The state/action space consists of the joint position and rotation of both arms and hands, along with the waist and neck. We generate 1000 demonstrations for each task using the DexMimicGen data generation system and evaluate the model's ability to generalize to novel object configurations.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Simulation Benchmarks", "weight": 1.0} -->
+
+GR-1 Tabletop Tasks (24 tasks, GR-1)
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Simulation Benchmarks", "weight": 1.0} -->
+
+This dataset serves as a digital counterpart to real-world humanoid datasets, enabling systematic evaluations that inform the performance of real-robot deployment. This benchmark focuses on dexterous hand control using the GR-1 humanoid robot equipped with Fourier dexterous hands. Compared to DexMG, this benchmark features a significantly larger variety of objects with diverse placements. We model a total of 18 rearrangement tasks, which have a similar structure to the pre-training tasks outlined in Sec. 3.2, \\ie, rearranging objects from a source to a target receptacle. Each task involves a unique combination of receptacles, and these combinations are unseen in our pre-training data. Like the pre-training tasks, most tasks involve distractor objects and receptacles that require the model to pay attention to the task language. We additionally feature six tasks that involve placing objects into articulated objects (\\ie, cabinets, drawers, and microwaves) and closing them. The observation space includes one RGB image captured from an egocentric camera positioned on the robot's head. The state/action space consists of the joint position and rotation of both arms and hands, along with the waist and neck.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Simulation Benchmarks", "weight": 1.0} -->
+
+We optionally include in our datasets the end effector-based actions for controlling the arms, as the native action space for controlling the whole-body IK controller is end effector-based. We generate 1000 demonstrations for each task using the DexMimicGen system.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Real-World Benchmarks", "weight": 1.0} -->
+
+We introduce a diverse and meticulously designed set of tabletop manipulation tasks, aimed at evaluating and post-training our models on human demonstrations. These tasks emphasize critical aspects of real-world dexterity, including precise object manipulation, spatial reasoning, bimanual coordination, and multi-agent collaboration. We carefully categorize our benchmarks into four distinct types, ensuring a rigorous evaluation of model performance. We show some example tasks from our real-world benchmarks in Fig..
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Real-World Benchmarks", "weight": 1.0} -->
+
+This category evaluates the model's ability to grasp objects and place them into designated containers, a fundamental capability for robotic manipulation. Tasks include transferring objects between common household containers such as trays, plates, cutting boards, baskets, placemats, bowls, and pans. These scenarios test fine motor skills, spatial alignment, and adaptability to different object geometries. To rigorously assess generalization, we evaluate models on both seen and unseen objects.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Real-World Benchmarks", "weight": 1.0} -->
+
+Articulated Object Manipulation (3 tasks, Articulated)
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Real-World Benchmarks", "weight": 1.0} -->
+
+These tasks assess the model's ability to manipulate articulated storage compartments. The model must grasp an object, place it into a storage unit such as a wooden chest, dark cabinet, or white drawer, and then close the compartment. These tasks introduce challenges in constrained motion control and precise placement within limited spaces. Generalization is tested with both seen and unseen objects.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Real-World Benchmarks", "weight": 1.0} -->
+
+Industrial Object Manipulation (3 tasks, Industrial)
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Real-World Benchmarks", "weight": 1.0} -->
+
+We design this category for industrial scenarios, which involve three structured workflows and tool-based interactions: 1) Machinery Packing: Pick up various machinery parts and tools and place them into a designated yellow bin; 2) Mesh Cup Pouring: Grasp a mesh cup containing small industrial components (\\eg, screws and bolts) and pour its contents into a plastic bin; and 3) Cylinder Handover: Pick up a cylindrical object, transfer it from one hand to the other, and place it into a yellow bin. These tasks closely mirror real-world industrial applications, making them highly relevant benchmarks for assessing dexterity in structured environments.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Real-World Benchmarks", "weight": 1.0} -->
+
+Collaborative tasks require synchronization between multiple agents, emphasizing role coordination and adaptive decision-making: 1) Coordination Part 1: Pick up a cylinder, place it into a mesh cup, and hand it over to another robot; and 2) Coordination Part 2: The receiving robot places the cylinder into one yellow bin, then pours the remaining contents of the mesh cup into another yellow bin.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Real-World Benchmarks", "weight": 1.0} -->
+
+These carefully designed benchmarks introduce structured, goal-driven interactions to test whether a model can seamlessly adapt to real-world applications. To build a high-quality post-training dataset, we let human operators collect task-specific data for durations ranging from 15 minutes to 3 hours, depending on task complexity. We then filter out low-quality trajectories to maintain data integrity. By incorporating a diverse set of task requirements --- spanning precise single-agent manipulation to complex multi-agent coordination---our benchmark provides a rigorous testbed for evaluating generalization, adaptability, and fine-tuned control in human-like manipulation tasks.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Experiment Setup", "weight": 1.0} -->
+
+Our evaluation experiment consists of post-training GR00T N1 and baseline models as described in Sec. 2.3 in a data-limited setting and evaluating the policy success rate in our simulated and real benchmarks described in Sections 4.1 and 4.2, respectively. By default we use a global batch size of 1024 and train for 60k steps. For the DexMimicGen Cross-Embodiment Suite, where each embodiment contains relatively few tasks and the overall training data is limited, we used a smaller batch size of 128 for GR00T-N1-2B.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+To demonstrate the effectiveness of diverse pretraining of GR00T N1, we compare with two established baselines, BC-Transformer and Diffusion Policy.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+BC-Transformer is a Transformer-based behavior cloning policy in RoboMimic. It consists of a Transformer architecture for processing observation sequences and a Gaussian Mixture Model (GMM) module for modeling action distributions. The policy takes 10 observation frames as input and predicts the next 10 actions.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Baselines", "weight": 1.0} -->
+
+Diffusion Policy models action distributions through a diffusion-based generative process. It employs a U-Net architecture that progressively removes noise from random samples to generate precise robot actions conditioned on observation sequences. It takes a single frame of observations as input and produces 16 action steps in one inference pass.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Evaluation Protocol", "weight": 1.0} -->
+
+For simulated benchmark evaluation, we report the average success rate over 100 trials, taking the maximum score of the last 5 checkpoints, where checkpoints are written every 500 training steps, following the protocol from RoboCasa.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Evaluation Protocol", "weight": 1.0} -->
+
+For real robot evaluation, we employ a partial scoring system to capture model behavior across different execution phases, ensuring a fine-grained assessment of performance. We report the average success rate over 10 trials for each task, except for the task of Pack Machinery; for this task, we report the success rate of how many objects out of the 5 machinery parts and tools are placed into the bin, given a time-limit of 30 seconds. We conduct only 5 trials due to the time constraint. Additionally, to assess the model's efficiency in a low-data regime, we subsample 10% of the full dataset for each task and evaluate whether the model can still learn effective behaviors.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Pre-training Evaluations", "weight": 1.0} -->
+
+To evaluate the generalization capabilities of our pretrained checkpoint, we design two tasks on the real GR-1 humanoid robot. In the first task, the robot is instructed to place an object on the bottom shelf. However, the object is intentionally positioned to the left of its left hand, requiring a coordinated bimanual strategy. The robot must first grasp the object with its left hand, transfer it within reach of the right hand, and then complete the placement onto the shelf. In the second task, the robot is instructed to place a novel object into an unseen target container. For each task, we evaluate the pretrained GR00T-N1-2B model using five different objects, with three trials per object. GR00T-N1-2B achieves a success rate of 76.6% (11.5/15) in the first coordinated setting and 73.3% (11/15) in the second setting involving novel object manipulation. 0.5 stands for grasping the object correctly but failing to place the object into the container. The high performance under these two evaluation settings illustrates the effectiveness of large-scale pre-training.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Post-training Evaluations", "weight": 1.0} -->
+
+In simulation, we compare the quantitative results for our post-trained GR00T N1 models against from-scratch baselines in the three simulation benchmarks. For each benchmark, we post-train using 30, 100, and 300 demonstrations per task (24 tasks for RoboCasa, 9 tasks for DexMG, and 24 tasks for GR-1). We observe that GR00T N1 consistently outperforms the baseline models across benchmark tasks and dataset sizes. In Appendix B, we include the full results and a bar plot for comparison.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Post-training Evaluations", "weight": 1.0} -->
+
+On the real robot, we compare GR00T-N1-2B against Diffusion Policy, training on 10% of the human teleoperation dataset and the full dataset (Table and Fig. ). GR00T-N1-2B, achieves a significantly higher success rate across all tasks, outperforming Diffusion Policy by 32.4% in the 10% Data setting and by 30.4% in the Full Data setting. Notably, GR00T-N1-2B trained on just 10% of the data performs only 3.8% lower than Diffusion Policy trained on the full dataset, highlighting its data efficiency.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Post-training w/ Neural Trajectories Evaluations", "weight": 1.0} -->
+
+We show some preliminary results of using neural trajectories during post-training for the RoboCasa benchmark for simulation evaluation and Pick-and-Place (seen) and Industrial for the real-world evaluation in Figure. We observe that GR00T N1 co-trained with neural trajectories consistently results in substantial gains compared to GR00T N1 only trained on real-world trajectories: +4.2%, +8.8%, +6.8% on average for 30, 100, and 300 data-regimes, respectively, for RoboCasa and +5.8% on average across the 8 tasks with the GR-1 Humanoid.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Post-training w/ Neural Trajectories Evaluations", "weight": 1.0} -->
+
+When comparing LAPA and IDM labels in RoboCasa, an interesting pattern emerges: LAPA slightly outperforms IDM in the relatively low-data regime, but as more data becomes available (100 and 300), the performance gap between LAPA and IDM widens. This trend is intuitive--- with more data for IDM training, the pseudo-action labels become increasingly aligned with real-world actions, leading to stronger positive transfer. Since GR-1 Humanoid is a relatively "high-data" regime for us, we only utilize IDM actions for neural trajectory co-training in the real world.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
+
+How does this behavior look qualitatively? To answer this, we consider the task "Turn Sink Spout" in RoboCasa --- in the 100 sample regime, the DP baseline gets 11.8% success rate whereas GR00T N1 gets 42.2%. The DP baseline often gets confused about the semantics of the tasks. From Table, we see that GR00T N1 has strong results in the low-data regime. It is natural, in the limit of large fine-tuning datasets, that the effect of pre-training dwindles.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
+
+When prompting the pre-trained GR00T N1 model with the task instruction "Pick up the red apple and place it in the basket," one of the tasks in our post-training benchmark, we observe interesting behavioral patterns. In this scenario, we intentionally position the apple to the left of the humanoid hand. Despite seeing few similar tasks during pretraining and exhibiting jerkier motions, the pretrained checkpoint uses its left hand to grasp the apple, hands it over to the right hand, and then places it into the basket. We provide the visualization of this behavior in Fig.. In contrast, the post-trained checkpoint fails in this scenario. Since all post-training data exclusively involve the right hand without any inter-hand transfer, the post-trained policy loses the capability to perform this behavior.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Qualitative Results", "weight": 1.0} -->
+
+For post-trained GR00T N1, we observed that, compared to the baseline Diffusion Policy, its motion is generally much smoother, and its grasping accuracy is significantly higher. In contrast, the Diffusion Policy baseline suffers from immobility during the initial frames and frequently exhibits inaccurate grasping, resulting in a low success rate in our real-world benchmarks. We provide visualizations of two policy rollout examples in Fig..
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
+Currently, our GR00T N1 model focuses primarily on short-horizon tabletop manipulation tasks. In future work, we aim to extend its capabilities to tackle long-horizon loco-manipulation, which will require advancements in humanoid hardware, model architecture, and training corpora. We anticipate a stronger vision-language backbone will enhance the model's spatial reasoning, language understanding, and adaptability. Our synthetic data generation techniques --- leveraging video generation models and automated trajectory synthesis systems --- have shown great promise. However, existing methods still face challenges in generating diverse and counterfactual data, while adhering to the laws of physics, limiting the quality and variability of synthetic datasets. We aim to enhance our synthetic data generation techniques to further enrich our data pyramid for model training. Furthermore, we plan to explore novel model architectures and pre-training strategies to improve the robustness and generalization capabilities of our generalist robot models.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+
+We have presented GR00T N1, an open foundation model for generalist humanoid robots. GR00T N1 features a dual-system model design, leverages heterogeneous training data, and supports multiple robot embodiments. We systematically evaluate it as a generalist policy across simulation benchmarks and on the real GR-1 humanoid robot. Our experiments demonstrate its strong generalization capabilities, enabling robots to learn diverse manipulation skills with high data efficiency. We hope that our open GR00T-N1-2B model, alongside its training datasets and simulation environments, will accelerate the community's progress toward building and deploying generally capable humanoid robots in the wild.

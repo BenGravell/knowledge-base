@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 A Framework for Worst-Case and Stochastic Safety Verification Using Barrier Certificates
 
 Topics include Barrier certificates, Safety verification, Stochastic systems, Worst-case analysis, Sum of squares, Dynamical systems.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Builds a unified barrier-certificate framework for proving worst-case and probabilistic safety of continuous and hybrid systems. It is an important bridge between SOS optimization and safety verification under both deterministic uncertainty and stochastic dynamics.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This paper presents a methodology for safety verification of continuous and hybrid systems in the worst-case and stochastic settings. In the worst-case setting, a function of state termed barrier certificate is used to certify that all trajectories of the system starting from a given initial set do not enter an unsafe region. No explicit computation of reachable sets is required in the construction of barrier certificates, which makes it possible to handle nonlinearity, uncertainty, and constraints directly within this framework. In the stochastic setting, our method computes an upper bound on the probability that a trajectory of the system reaches the unsafe set, a bound whose validity is proven by the existence of a barrier certificate. For polynomial systems, barrier certificates can be constructed using convex optimization, and hence the method is computationally tractable. Some examples are provided to illustrate the use of the method.

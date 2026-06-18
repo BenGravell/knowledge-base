@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Time-optimal Race Car Driving Using an Online Exact Hessian Based Nonlinear MPC Algorithm
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This work presents an embedded nonlinear model predictive control (NMPC) strategy for autonomous vehicles under a minimum time objective. The time-optimal control problem is stated in a path-parametric formulation such that existing reliable numerical methods for real-time nonlinear MPC can be used. Building on previous work on timeoptimal driving, we present an approach based on a sequential quadratic programming type algorithm with online propagation of second order derivatives. As an illustration of our method, we provide closed-loop simulation results based on a vehicle model identified for small-scale electric race cars.

@@ -1,19 +1,187 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 pRRTC: GPU-Parallel RRT-Connect for Fast, Consistent, and Low-Cost Motion Planning
 
 Topics include Motion planning, Sampling-based planning, Graphics processing unit, Parallelized, SIMT, Compute unified device architecture, Collision checking, High-dimensional planning, pRRTC, Rapidly-exploring random tree connect.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 GPU-accelerated RRT-Connect implementation co-designed for three hierarchical levels of parallelism: concurrent bidirectional tree expansion across GPU thread blocks, SIMT-optimized parallel collision checking within each block, and thread-level forward kinematics.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Sampling-based motion planning algorithms, like the Rapidly-Exploring Random Tree (RRT) and its widely used variant, RRT-Connect, provide efficient solutions for high-dimensional planning problems faced by real-world robots. However, these methods remain computationally intensive, particularly in complex environments that require many collision checks. To improve performance, recent efforts have explored parallelizing specific components of RRT such as collision checking, or running multiple planners independently. However, little has been done to develop an integrated parallelism approach, co-designed for large-scale parallelism. In this work we present pRRTC, a RRT-Connect based planner co-designed for GPU acceleration across the entire algorithm through parallel expansion and SIMT-optimized collision checking. We evaluate the effectiveness of pRRTC on the MotionBenchMaker dataset using robots with 7, 8, and 14 degrees of freedom (DoF). Compared to the state-of-the-art, pRRTC achieves as much as a 10x speedup on constrained reaching tasks with a 5.4x reduction in standard deviation. pRRTC also achieves a 1.4x reduction in average initial path cost.
 
-## Introduction
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-Motion planning is a fundamental problem in robotics that involves finding collision-free motion paths through a robot's configuration space. While there are many approaches to planning, sampling-based motion planning (SBMP) approaches are widely used due to their generality and efficiency in higher-dimensions. One of the most popular SBMP algorithms is the Rapidly-Exploring Random Tree (RRT) and its bidirectional variant RRT-Connect. RRT-Connect's design biases it towards quickly solving problems involving large open spaces, even in high dimensions.
+Finally, we deploy pRRTC on a 14-DoF dual Franka Panda arm setup and demonstrate real-time, collision-free motion planning with dynamic obstacles. We open-source our planner to support the wider community.
 
-To address this gap, we introduce pRRTC, a parallel RRT-Connect-based algorithm designed for GPU acceleration across multiple parallelism levels: mid-level planning iteration parallelism and low-level primitive operation parallelism. Our approach's performance is driven by three key design decisions: concurrent sampling, expansion and connection of start and goal trees via GPU threads, SIMT-optimized collision checking to quickly validate edges, inspired by the SIMD-optimized validation of, and efficient memory management between block and thread level parallelism, ultimately reducing expensive memory transfer overheads.
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-By integrating parallelism across planning iterations and primitive operations, pRRTC achieves fast, consistent, and efficient planning. We evaluate pRRTC against state-of-the-art CPU- and GPU-based motion planners on the MotionBenchMaker dataset using robots with 7, 8, and 14 degrees of freedom (DoF). pRRTC achieves as much as a 10× speedup on constrained reaching tasks over state-of-the-art planners in complex environments. Importantly, pRRTC exhibits a 5.4× reduction in planning time standard deviation across all problems, indicating consistency across a variety of environments and robots.
+Motion planning is a fundamental problem in robotics that involves finding collision-free motion paths through a robot's configuration space. While there are many approaches to planning, sampling-based motion planning (SBMP) approaches are widely used due to their generality and efficiency in higher-dimensions. One of the most popular SBMP algorithms is the Rapidly-Exploring Random Tree (RRT) and its bidirectional variant RRT-Connect. RRT-Connect's design biases it towards quickly solving problems involving large open spaces, even in high dimensions. However, its performance suffers in cluttered environments such as in constrained reaching tasks.
 
-## Conclusion and Future Work
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In this work, we present pRRTC, a GPU-based parallel RRT-Connect algorithm coupled with a SIMT-optimized parallel collision checker. pRRTC utilizes both low- and medium-level GPU parallelism, parallelizing both low-level primitives (collision checking and nearest neighbors) and expansion of the tree while introducing almost no additional computational or communication overhead.
+One potential avenue for improving planning performance is through the use of parallelism. Existing parallelized approaches fall into one of three categories: *high-level parallelism* by executing multiple RRT instances simultaneously, *mid-level parallelism* by executing multiple sample-and-grow iterations simultaneously, and *low-level parallelism* over primitive operations such as collision checking. While prior works have mostly focused on one form of parallelism, little has been done on integrating an approach over multiple levels of parallelism to maximize performance on modern parallel hardware (e.g., GPUs).
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To address this gap, we introduce pRRTC, a parallel RRT-Connect-based algorithm designed for GPU acceleration across multiple parallelism levels: mid-level planning iteration parallelism and low-level primitive operation parallelism. Our approach's performance is driven by three key design decisions: concurrent sampling, expansion and connection of start and goal trees via GPU threads, SIMT-optimized collision checking to quickly validate edges, inspired by the SIMD-optimized validation of, and efficient memory management between block and thread level parallelism, ultimately reducing expensive memory transfer overheads. Compared to other GPU-based SBMP algorithms (e.g., ), our approach supports high-dimensional manipulators and achieves sub-millisecond planning performance.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+By integrating parallelism across planning iterations and primitive operations, pRRTC achieves fast, consistent, and efficient planning. We evaluate pRRTC against state-of-the-art CPU- and GPU-based motion planners on the MotionBenchMaker dataset using robots with 7, 8, and 14 degrees of freedom (DoF). pRRTC achieves as much as a 10× speedup on constrained reaching tasks over state-of-the-art planners in complex environments. Importantly, pRRTC exhibits a 5.4× reduction in planning time standard deviation across all problems, indicating consistency across a variety of environments and robots. pRRTC also produces low-cost initial paths, achieving a 1.4× reduction in average initial path cost compared to existing approaches. These results highlight the benefits of software-hardware co-designed GPU parallelism for accelerating SBMPs. Finally, we deploy pRRTC on a 14 DoF dual Franka Panda arm setup and demonstrate real-time, collision-free motion planning with dynamic obstacles (see Fig.˜7).
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "II-A The RRT-Connect Planning Algorithm", "weight": 1.0} -->
+
+There is a vast array of SBMP approaches each with their own modifications to core operations of sampling, nearest neighbors search, steering, and collision checking. In this work, we focus on the RRT and RRT-Connect algorithms due to their fast single-query performance.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "II-A The RRT-Connect Planning Algorithm", "weight": 1.0} -->
+
+Many modifications have been proposed to the RRT algorithm, such as the growth of multiple trees, biased sampling, and environment preprocessing. RRT-Connect is a widely used variant that simultaneously expands two trees: one rooted at the start configuration and the other at the goal configuration. The balanced variant of RRT-Connect selects the smaller tree for tree growth at each iteration, which is more efficient for problems with unbalanced difficulty around the start and goal configurations. Each iteration of the algorithm also includes an additional connect operation, where the newly added node is greedily extended toward the opposing tree until a collision is detected. The planner terminates when the two trees successfully connect, forming a complete path. Additionally, sampling heuristics such as dynamic domain sampling can be easily integrated to improve performance.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "II-A The RRT-Connect Planning Algorithm", "weight": 1.0} -->
+
+RRT-Connect is well known for accelerating planning in large, open spaces. However, many problems contain *narrow passages* created by environment geometry (e.g., when a robot must reach into a container), where motion is heavily constrained. In such cases, a large number of samples must be evaluated, motivating the extension of trees in parallel. A critical component of this process is motion validation, which depends on collision checking.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "II-A The RRT-Connect Planning Algorithm", "weight": 1.0} -->
+
+Collision checking is empirically recognized as a primary bottleneck in motion planning. This has motivated diverse algorithmic strategies, including hierarchical collision detection, restructured computations for faster expected performance, delayed or lazy checking, exact and swept-volume approaches, and caching techniques. Given the independence of collision-checking operations across candidate samples, parallelism offers a natural and promising direction for accelerating this stage of the planning pipeline.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "II-B Parallel Acceleration of Planning Algorithms", "weight": 1.0} -->
+
+Parallelization of planning algorithms has been studied since the advent of the field. In particular, Amato et al. noted early on that SBMPs were "embarrassingly parallel." We categorize the parallelism of SBMPs into three categories: high-, medium-, and low-level parallelism. High-level parallelization refers to running multiple isolated planners in parallel; medium-level parallelization refers to running multiple iterations within the same planning framework in parallel; low-level parallelization refers to parallelizing primitive operations within each iteration of a single planning algorithm.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "II-B Parallel Acceleration of Planning Algorithms", "weight": 1.0} -->
+
+In terms of CPU parallelism, most parallel planners achieve high- or medium-level parallelization, such as running many instances of the planner simultaneously, running RRT iterations in parallel on one tree, and parallelizing search with forests of trees. With regard to low-level parallelism, VAMP utilizes vectorized motion validation through CPU Single Instruction, Multiple Data (SIMD) instructions leading to data parallelism in the collision checking process. However, CPU-based parallelism is limited in scope due to a relatively small number of cores and the limitations of current CPU SIMD operations.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "II-B Parallel Acceleration of Planning Algorithms", "weight": 1.0} -->
+
+GPUs provide massive parallelism through the Single Instruction, Multiple Thread (SIMT) model over thousands of cores. While powerful, GPUs require careful algorithm design to fully leverage the hardware. High-level parallelization strategies have been proposed and, offering substantial speedups in environments with narrow passages. A number of different GPU-based SBMPs have been proposed such as GMT, Pk-RRT, Kino-PAX, and the RRT-like planner used by cuRobo which leverages medium-level parallelism for parallel sampling, rollouts, and tree growth. Work on low-level parallelism has been focused on accelerating collision checking through clustering, spatial hashing, hierarchy construction, and checking discretized configurations along a motion in parallel.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "II-B Parallel Acceleration of Planning Algorithms", "weight": 1.0} -->
+
+Finally, we note that outside of SBMP algorithms there have similarly been many developments on GPU-parallelization of other classes of planning and control algorithms including both search-based planning, as well as optimal control-based techniques.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-B Parallel Acceleration of Planning Algorithms", "weight": 1.0} -->
+
+Despite these many advances and clear evidence of performance gains, existing works that parallelize SBMP algorithms only utilize parallelism at one specific level, limiting their overall performance. To overcome this gap, we developed pRRTC, a GPU-based planner that leverages co-designed parallelism across multiple levels to surpass state-of-the-art performance.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "pRRTC Algorithm", "weight": 1.0} -->
+
+In this section, we discuss the algorithmic design and implementation of pRRTC as diagrammed in Fig.˜1 and Algs.˜1 and. Overall, pRRTC retains similar primitive operations and structure as the vanilla RRT-Connect algorithm, but it implements aggressive mid- and low-level parallelism designed to leverage the computational structure of modern GPUs. At the mid-level, pRRTC runs hundreds of parallel RRT-Connect iterations asynchronously across both trees (Alg.˜1 lines 4-19). This enables pRRTC to explore the configuration space faster and find higher quality paths. At the low-level, pRRTC parallelizes nearest neighbors (NN) search and discretized edge collision checking (CC).
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "pRRTC Algorithm", "weight": 1.0} -->
+
+This parallelism is realized via blocks of parallel threads on the GPU. Each block is responsible for running independent RRT-Connect iterations with a constant number of threads $t_{1},\ldots,t_{n}$ to parallelize low-level operations. NN search and CC against the robot itself and environment are parallelized across individual threads (shown in green). For forward kinematics (FK), threads are logically organized into groups of four to parallelize matrix operations (shown in pink) building on previous GPU designs.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "pRRTC Algorithm", "weight": 1.0} -->
+
+Our block and thread organization is critical for efficiency. Threads within a block share a physical processor and low-latency shared memory, enabling fast synchronization for fine-grained parallel operations. Since independent RRT-Connect iterations require little coordination, blocks can operate asynchronously and access the global trees only when needed. This allows each block to explore the search space at its own pace with minimal synchronization overhead, while still leveraging the progress made by others. To handle potential race conditions on the shared global trees, pRRTC employs atomic primitives to ensure new configurations are written safely to memory.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "pRRTC Algorithm", "weight": 1.0} -->
+
+3:for block index i = 0 … Ns a m p l e s do in parallel
+4: for iteration i t e r ← 0 … max_iters do
+5: Tsi, Toi ← argmin (|Ta|,|Tb|), argmax (|Ta|,|Tb|)
+7: cn n si ← NEAREST_NEIGHBOR(cr a n di, Tsi)
+9: if validi then // Add and Greedily extend to Toi
+11: cn n oi ← NEAREST_NEIGHBOR(cn e wi, Toi)
+17: if validi then Tsi.add(cn e wi)
+19: if ie x t = ne x t then return PATH(Ta, Tb)
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "pRRTC Algorithm", "weight": 1.0} -->
+
+Finally, when serial operations are required, they are executed by a designated lead thread $t_{1}$ within each block. This role is primarily reserved for intermittent, higher-level control flow tasks, such as selecting which tree to expand, sampling new states, and updating the global tree.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "pRRTC Algorithm", "weight": 1.0} -->
+
+The complete algorithm is shown in Alg.˜1 and Alg.˜2 where $c$ refers to joint space configurations, $\delta$ is the extension range parameter, $T_{a}$ is the start tree, $T_{b}$ is the goal tree, $T_{s}^{i}$ and $T_{o}^{i}$ refer to the tree being extended and the opposite tree for block $i$, and $N_{cc}$ is the collision checking resolution. While omitted above for improved readability and clarity of our overall approach, we also use the dynamic domain sampling heuristic described in Yershova et al..
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "pRRTC Algorithm", "weight": 1.0} -->
+
+3:for i ← 1 … Nc c do in parallel thread-groups
+5: valid &amp;= COLLISION_CHECK(cc h e c k)
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-A SIMT Collision Checking", "weight": 1.0} -->
+
+As mentioned previously, collision checking (CC) is widely recognized as a major computational bottleneck in motion planning, particularly when validating long or numerous edges in high-dimensional configuration spaces. Many prior approaches aim to accelerate CC by spatially distributing checks along an edge using binary subdivision and SIMD parallelism. We build on these approaches and use GPU parallelism to check a set of discrete points along an edge simultaneously.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-A SIMT Collision Checking", "weight": 1.0} -->
+
+Each edge in our planner is discretized according to a pre-defined CC resolution, and the entire set of points along that edge is validated in parallel. Specifically, we assign a group of four threads to each configuration to exploit the 4×4 matrix operations required in forward kinematics (FK) inspired by past GPU designs. For example, if an edge is discretized into 32 configurations, the GPU block will contain ${32 \times 4} = 128$ threads. Since the maximum extension length is bounded by the planner's RRT range parameter, we can preallocate these threads at kernel launch time, avoiding iteration and synchronization overhead. Furthermore, unlike approaches that store all intermediate matrices, we minimize shared memory usage by overwriting intermediate results whenever possible. For high-DOF robots such as Baxter, this strategy reduces shared memory consumption by up to 7×, enabling a larger number of concurrent blocks per streaming multiprocessor (SM), critical to overall planning throughput.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-A SIMT Collision Checking", "weight": 1.0} -->
+
+We further accelerate this routine by enabling early exits. When a collision is detected along an edge, the candidate edge is invalidated and all checks along that edge are halted. While conceptually simple, implementing this efficiently on the GPU is challenging as synchronizing across all threads in a block introduces undesirable overheads. To avoid this, we leverage warp^44^4A "warp" represents 32 contiguous threads on the same GPU-core. These threads work in lock-step due to the design of NVIDIA GPU hardware and as such have native implicit synchronization at the hardware level. primitives, which allow fast coordination among groups of 32 threads through low-latency GPU memory. Since our implementation assigns four threads per CC, each warp can evaluate and efficiently enable early exit synchronization for eight checks in parallel. For environment collisions, where the workload is balanced, threads assume all peers remain active. For self-collisions, where workloads vary due to differing numbers of collision spheres, threads use a single-cycle active mask to identify which threads are active and share results only among them.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-A SIMT Collision Checking", "weight": 1.0} -->
+
+We use the foam tool to compute a set of bounding spheres representing the robot offline. These spheres are used at runtime in a two-stage collision checking process. First, a low-resolution FK and CC pass is run, flagging links that may be in collision. Only those links are re-checked using a high-resolution pass, which leverages finer-grained sphere models for more precise analysis. This hierarchical approach reduces expensive CC calls while preserving accuracy.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "III-A SIMT Collision Checking", "weight": 1.0} -->
+
+For static environments, such as those from MotionBenchMaker, we represent obstacles using primitive geometry. In these settings, the small number of obstacles allows the full set of environment primitives to be cached in low- or mid-level GPU memory throughout most of the planning process, enabling low-latency access across threads in each block. For real-world experiments, we integrate with Nvblox to perform CC against dynamically updated Euclidean Signed Distance Field (ESDF) maps.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "III-B Nearest-Neighbor (NN) Search", "weight": 1.0} -->
+
+We use divide-and-conquer parallelism to accelerate our NN search. Within a block of $n$ threads, pRRTC divides each NN query into $n$ subproblems, with each thread assigned to search a disjoint subset of the existing tree for a local NN. Once these are found, pRRTC constructs the final global NN using a tree-based parallel reduction. For a given tree of size $T$, serial NN requires $T$ comparisons while parallel NN requires $\lceil{{T/n} + {\log{({n/2})}}}\rceil$. This approach avoids significant computational overhead and remains competitive with serial approaches even with low total node counts.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "IV-A Methodology", "weight": 1.0} -->
+
+We evaluate pRRTC against state-of-the-art CPU and GPU baselines. On the CPU we use two CPU-based RRT-Connect implementations: the RRT-Connect provided by the Open Motion Planning Library (OMPL-RRTC) and the implementation provided by VAMP (VAMP-RRTC). To ensure a fair evaluation, OMPL-RRTC was built with VAMP as the motion validation backend, as VAMP has shown orders of magnitude speedup compared to the default setup of OMPL. We choose these implementations because they are known to be the best performing planners on the MotionBenchMaker dataset in terms of planning time and solution cost. We also compare against two state-of-the-art GPU-based planners: Curobo and Global Tensor Motion Planning (GTMP) with straight-line interpolation (GTMP Straight) and Akima splines (GTMP Akima). All experiments were conducted on an x86-based desktop computer with an AMD Ryzen Threadripper PRO 5965WX 24-Core CPU and an NVIDIA GeForce RTX 4090 GPU. We leverage all parallelism available in these planners whether on the CPU or GPU.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "IV-A Methodology", "weight": 1.0} -->
+
+Hyperparameters are controlled across planners to ensure equivalent implementations with identical collision checking resolution and motion extension range. Planner-specific hyperparameters are chosen to maximize percentage of problems solved and to minimize planning time. We measure the planning time of all algorithms excluding the environmental setup step for both the CPU and GPU to maintain a fair and consistent comparison. We use identical multi-dimensional Halton sequences for configuration sampling across pRRTC, VAMP-RRTC, and OMPL-RRTC, and default samplers for Curobo and GTMP.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "IV-A Methodology", "weight": 1.0} -->
+
+(a) MotionBenchMaker planning time and cost on 7 DoF Panda. All times are shown on a logarithmic scale. pRRTC achieves lower cost initial solutions while performing on the order or better than state of the art on the most difficult problems. pRRTC is the first planner to solve all problems, and only pRRTC and VAMP-RRTC achieve both sub-millisecond planning time and 100% solve rate.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "IV-A Methodology", "weight": 1.0} -->
+
+(b) MotionBenchMaker planning time and cost across all robots: the 7 DoF Panda, 8 DoF Fetch and 14 DoF Baxter. All times are shown on a logarithmic scale. As DoF and problem complexity grows, pRRTC performs better relative to VAMP-RRTC due to the speedups achieved via parallelism both in terms of average planning time as well as average final path cost.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-A Methodology", "weight": 1.0} -->
+
+We evaluated the planners on a set of realistic, challenging problems provided by the MotionBenchMaker dataset. The robots used were the 7 DoF Franka Emika Panda, 8 DoF Fetch, and 14 DoF Rethink Robotics Baxter. We compare all five planners on Panda. We also compare pRRTC and VAMP-RRTC on Fetch and Baxter. Curobo and GTMP are omitted from the Fetch and Baxter experiments as they do not support these robots. OMPL-RRTC is also omitted as it has been shown to be orders of magnitude slower than VAMP-RRTC on MotionBenchMaker and on our initial Franka evaluation. For Panda and Fetch, MotionBenchMaker incorporates a diverse set of seven environments each with 100 problems which test the planner's ability to operate on table surfaces, reach into varying positions of bookshelves, and reach in highly constrained environments. For Baxter the dataset includes three bookshelf reaching scenes each with 500 problems. These benchmarks align with those used. Visualizations of the environments are shown in Figure. Videos of our experiments are available online^55^5
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-B Software Benchmarks", "weight": 1.0} -->
+
+A summary of all results is shown in Table˜I. We present success rate versus performance curves of planning time and solution cost across all environments for the 7 DoF Panda robot using all baselines in Fig.˜3(a). We also present the comparison of pRRTC vs. VAMP-RRTC across all environments and robots in Fig.˜3(b).
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-B Software Benchmarks", "weight": 1.0} -->
+
+On the 7 DoF Panda problems (Fig.˜3(a)), pRRTC is on average 128× faster than Curobo, 5× faster than OMPL-RRTC, 3× slower than VAMP-RRTC, and 1.4× slower than GTMP. Compared to GTMP, pRRTC achieves a 100% solve rate, making pRRTC and VAMP the only planners that solved all problems while averaging sub-millisecond planning time. In addition, pRRTC has the best worst case performance, that is, it solves all problems in the fastest amount of time, and produces the lowest average cost paths.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-B Software Benchmarks", "weight": 1.0} -->
+
+As we scale to larger DoF problems (Fig.˜3(b)), pRRTC outperforms VAMP-RRTC on average planning time, consistency, and initial path cost. On average, for the 8 DoF Fetch, pRRTC offers 5× speedup compared to VAMP-RRTC. We also present the distribution of results per-environment in Fig.˜4 and observe that the benefit of pRRTC grows in more constrained environments. For example, on the *Cage* problem pRRTC provides a 10× improvement on average planning time. pRRTC also has an 8.4× decrease in the standard deviation of planning time compared to VAMP-RRTC across all environments. This demonstrates pRRTC is not only a faster planner on average, but it also offers much more reliable performance. The advantage of pRRTC's parallel design also extends to path cost. On average, pRRTC produces initial paths with a 1.4× decrease in cost compared to VAMP-RRTC while showing a 1.3× decrease in the standard deviation of cost. Thus, pRRTC consistently finds lower cost initial paths.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-B Software Benchmarks", "weight": 1.0} -->
+
+Finally, for the 14 DoF Baxter, we see a similar trend of performance with pRRTC providing a 3.9× average planning time speedup over VAMP-RRTC and achieving a faster planning time on 93% of problems.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-C Ablation Studies", "weight": 1.0} -->
+
+Fig.˜5 uses the 14 DoF Baxter for an ablation analysis of key design choices and optimizations we implement in pRRTC. We find that our design choices all individually contribute to our overall speedup in planning time. The most significant gain came from checking discretized motions in parallel rather than sequentially, which resulted in an average 9.4× speedup. Replacing CPU-based FK and collision checking routines with customized GPU-optimized kernels for pRRTC provided a 3.3× average speedup. Using four threads per configuration to perform FK and CC, rather than a single thread, improved performance by an average of 1.8×. Incorporating dynamic domain sampling contributed an average 1.3× gain. Enabling early termination of the CC routine upon detecting a collision led to an average 1.1× speedup. Finally, the combined impact of these optimizations is an average speedup of 41× over a naive baseline, showing how important careful co-design is for GPU-accelerated performance.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-C Ablation Studies", "weight": 1.0} -->
+
+In addition to exploiting parallelism for FK and CC subroutines, the general block level parallelism of concurrent sampling and expansion also contributes to the efficiency of pRRTC. As shown in Fig.˜6, we see the planning time decreases as the number of blocks rise from 8 to 256, with a 14× speedup attributed to using 256 concurrent blocks rather than 8. As the block count increase beyond 256, the system becomes saturated, with the overhead of managing block saturation leading to worse planning time. This again shows that careful hardware-software co-design is needed for maximal algorithmic performance.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "IV-D Hardware Validation", "weight": 1.0} -->
+
+In order to test the feasibility of pRRTC in real-time planning scenarios, we deployed it on dual 7 DoF Franka Panda arms, resulting in a total of 14 DoF. Our setup consists of the arms mounted on a platform, with an overhead Intel Realsense camera streaming depth images at 90 fps. We use Nvblox to continuously integrate depth images into a Euclidean Signed Distance Field (ESDF). For real-time planning, we adapt our collision checking to query the ESDF rather than check against geometric primitives. To test real-time replanning we have the robots sweep back and forth while obstructing their paths with dynamic obstacles. In our scenario, pRRTC is able to achieve real-time replanning, which, when paired with the perception routines, is able to achieve an end-to-end pipeline frequency of 7.7 Hz. The complete hardware demonstration can be viewed in the supplemental video submission.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+
+In this work, we present pRRTC, a GPU-based parallel RRT-Connect algorithm coupled with a SIMT-optimized parallel collision checker. pRRTC utilizes both low- and medium-level GPU parallelism, parallelizing both low-level primitives (collision checking and nearest neighbors) and expansion of the tree while introducing almost no additional computational or communication overhead. Compared to both CPU- and GPU-based state-of-the-art motion planners on the MotionBenchMaker dataset using robots with 7, 8, and 14 degrees of freedom, pRRTC provides as much as a 10× speedup and 5.4× reduction in planning time standard deviation while achieving a 1.4× reduction in average initial path cost compared to existing approaches. We deploy pRRTC onto dual 7 DoF Franka Panda arms and demonstrate real-time, collision-free motion planning with dynamic obstacles.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+
+Our future work includes transforming pRRTC into an almost-surely asymptotically optimal sampling-based planner, as the parallelization of framework iteration, collision checking, and nearest neighbor search translates naturally into the path optimization setting, particularly for planners that benefit from fast edge validation. We are also interested in leveraging real-time re-compilation to enable more dynamic co-designed optimizations and aim to further improve our full end-to-end pipeline for additional real-world demonstrations in future work.

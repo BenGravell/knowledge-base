@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Incremental Task and Motion Planning: A Constraint-Based Approach
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 We present a new algorithm for task and motion planning (TMP) and discuss the requirements and abstrac- tions necessary to obtain robust solutions for TMP in general. Our Iteratively Deepened Task and Motion Planning (IDTMP) method is probabilistically-complete and offers improved per- formance and generality compared to a similar, state-of-the- art, probabilistically-complete planner. The key idea of IDTMP is to leverage incremental constraint solving to efficiently add and remove constraints on motion feasibility at the task level. We validate IDTMP on a physical manipulator and evaluate scalability on scenarios with many objects and long plans, showing order-of-magnitude gains compared to the benchmark planner and a four-times self-comparison speedup from our extensions. Finally, in addition to describing a new method for TMP and its implementation on a physical robot, we also put forward requirements and abstractions for the development of similar planners in the future.

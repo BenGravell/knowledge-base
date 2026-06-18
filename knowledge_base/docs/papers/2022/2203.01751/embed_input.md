@@ -1,15 +1,191 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 BITKOMO: Combining Sampling and Optimization for Fast Convergence in Optimal Motion Planning
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Optimal sampling based motion planning and trajectory optimization are two competing frameworks to generate optimal motion plans. Both frameworks have complementary properties: Sampling based planners are typically slow to converge, but provide optimality guarantees. Trajectory optimizers, however, are typically fast to converge, but do not provide global optimality guarantees in nonconvex problems, e.g. scenarios with obstacles. To achieve the best of both worlds, we introduce a new planner, BITKOMO, which integrates the asymptotically optimal Batch Informed Trees (BIT*) planner with the K-Order Markov Optimization (KOMO) trajectory optimization framework. Our planner is anytime and maintains the same asymptotic optimality guarantees provided by BIT*, while also exploiting the fast convergence of the KOMO trajectory optimizer. We experimentally evaluate our planner on manipulation scenarios that involve high dimensional configuration spaces, with up to two 7-DoF manipulators, obstacles and narrow passages. BITKOMO performs better than KOMO by succeeding even when KOMO fails, and it outperforms BIT* in terms of convergence to the optimal solution.
 
-## Introduction
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Generating optimal motions plans is crucial for almost any robotic tasks ranging from typical manipulation tasks such as bin-picking to autonomous navigation of mobile robots. To solve such tasks, the robotics community relies on two powerful motion planning frameworks: Sampling-based planners and trajectory optimization.
 
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 Sampling-based planners like RRT\*, BIT\* or FMT\* converge asymptotically to optimal solutions and almost surely provide a solution if one exists. However, these planners are slow at converging to the optimal trajectory, because improvements to the current best solution only arise when we sample a state nearby, and often provide non-smooth trajectories that may require post-processing.
 
-Trajectory optimization methods like KOMO, CHOMP, STOMP and TrajOpt use optimization methods and can exploit gradient and second order information to converge to a local optimal solution. These optimization-based methods are typically fast at converging to the local optimum, however, due to the non-convexity of the problem, the optimizer might converge to a locally optimal or even an infeasible trajectory. These methods therefore do not have convergence guarantees, i.e. they may not converge to a solution even if one exists, and the feasibility of the solution often depends heavily on the initial trajectory.
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Discussion and Conclusion
+Trajectory optimization methods like KOMO, CHOMP, STOMP and TrajOpt use optimization methods and can exploit gradient and second order information to converge to a local optimal solution. These optimization-based methods are typically fast at converging to the local optimum, however, due to the non-convexity of the problem, the optimizer might converge to a locally optimal or even an infeasible trajectory. These methods therefore do not have convergence guarantees, i.e. they may not converge to a solution even if one exists, and the feasibility of the solution often depends heavily on the initial trajectory. Hence, these methods usually work well in environments with few obstacles or when provided with good initial guesses, e.g. for post-processing paths produced by sampling-based planners.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In order to combine the benefits of both frameworks, we propose to integrate the asymptotically optimal Batch Informed Trees (BIT\*) planner with K-Order Markov Optimization (KOMO). Combining sampling and optimization helps us play on the strengths of each framework and mitigate their weaknesses. Our novel algorithm, BITKOMO, uses BIT\* to iteratively generate non-optimal initial paths that are then optimized by KOMO, which results in quick convergence to local minima. The cost of the optimized path is then used by BIT\* to carry a more informed search. With this method, we maintain the asymptotic global optimality guarantees by BIT\* while also benefiting from the fast convergence of KOMO (Fig. 1).
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+At the core of BITKOMO lies a new relaxed edge collision checking method. Relaxed edge collision is an intermediate approach between full and lazy collision checking, where we allow partially-valid edges to remain, because the trajectory optimizer KOMO can often push invalid paths out of collision to converge to feasible solutions. Even though this modification allows for invalid edges, we do not sacrifice any of the asymptotic guarantees provided by BIT\*.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Relaxed edge collision checking: A method for BIT\* that allows edges partially in collision to be included in the motion tree.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+BITKOMO: A planner integrating BIT\* and KOMO. We integrate sampling and optimization to obtain fast convergence to the global optimum while maintaining the guarantees provided by the sampler.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Problem Definition", "weight": 1.0} -->
+
+We consider a motion planning problem in a configuration space $\mathcal{X} \subset {\mathbb{R}}^{n}$ of the form ($\mathcal{X}_{\text{free}},x_{\text{start}},x_{\text{goal}},c$) where $\mathcal{X}_{\text{free}} \subseteq \mathcal{X}$ is the free configuration space, $x_{\text{start}} \in \mathcal{X}_{\text{free}}$ is the start configuration, $x_{\text{goal}} \in \mathcal{X}_{\text{free}}$ is the goal configuration and $c:{\mathcal{P}\rightarrow{\mathbb{R}}}$ is the cost functional mapping a trajectory $p \in \mathcal{P}$ in the free configuration space to a real number.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Problem Definition", "weight": 1.0} -->
+
+Our goal is to find a trajectory $p:{{\lbrack 0,1\rbrack}\rightarrow\mathcal{X}_{\text{free}}}$ from ${p{}} = x_{\text{start}}$, to ${p{}} = x_{\text{goal}}$ that is optimal, i.e. the value of $c{(p)}$ is the lowest among all possible paths.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "BITKOMO", "weight": 1.0} -->
+
+BITKOMO integrates two state-of-the-art motion planners: BIT\* and KOMO. BIT\* is an anytime, asymptotically-optimal planner that samples collision-free configurations in batches and generates paths using the A\* graph search algorithm. KOMO is a non-linear trajectory optimizer that locally optimizes an initial trajectory (possibly in collision) to minimize a cost and fulfil collision avoidance and goal constraints. Our planner maintains the asymptotic optimality guarantees of BIT\* while converging faster to the global minimum by leveraging trajectory optimization. Since KOMO uses the Augmented Lagrangian algorithm for constrained optimization, it can sometimes push partially invalid paths out of collision. To exploit this feature, we introduce relaxed edge checking, which allows BIT\* to produce partially infeasible paths for subsequent optimization with KOMO when necessary.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "IV-A The BITKOMO Algorithm: An overview", "weight": 1.0} -->
+
+Our planner (Fig. 2) requires a valid start state ($x_{\text{start}}$), a goal state ($x_{\text{goal}}$) and the full information about the environment ($\mathcal{X}_{\text{free}}$). We also need to provide the Planner Termination condition ($PTC$) and the edge relaxation number ($\delta$). To begin, the BIT\* planner samples a batch of configurations $x \in \mathcal{X}_{\text{free}}$ and builds an edge-implicit Random Geometric Graph (RGG) \Block A in Fig.. The best edge that can possibly improve the cost to goal (as in A\*) is then chosen and passed to the Relaxed Edge Checker \[B\] to carry out the collision checking. The Relaxed Edge Checker performs a validity check and returns the collision penalty ($\mathcal{C}\mathcal{P}$), an integer that provides a proxy measure for the fraction of the edge that is in collision. The planner uses this integer to decide regarding the addition of the edge to the tree.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "IV-A The BITKOMO Algorithm: An overview", "weight": 1.0} -->
+
+If an improved path to the goal is found, it is passed to the KOMO optimizer \[D\] which locally optimizes the path and, if valid, returns the new cost to the BIT\* planner. BIT\* uses this path cost to prune the unnecessary vertices and edges and carry out a more focused search. When no new edges can be expanded, the Sample function \[C\] is called, which adds another batch of samples to the RGG.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "IV-A The BITKOMO Algorithm: An overview", "weight": 1.0} -->
+
+Input 𝒳free, xstart, xgoal, P T C, δ
+8: $X_{\text{uc}}\overset{+}{\leftarrow}\text{Prune\&amp;Sample}{(\mathcal{T},X_{\text{uc}},m,c_{i})}$;
+11: while BestValue (𝒬V) ≤ BestValue (𝒬E) do
+14: E = {vmin, xmin} ← PopBestInQueue (𝒬E);
+17: if 𝒞 𝒫 ≤ δ then ⊳ If true, Edge is used
+19: if EdgeImprovesCost (E,ci,cedge) then
+22: if ci &lt; cmax then ⊳ If path is feasible
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "IV-A The BITKOMO Algorithm: An overview", "weight": 1.0} -->
+
+Algorithm 1 describes in more detail the different parts of the planner. The highlighted lines are our addition to the BIT\* planner. Blue --- the Relaxed edge collision checking, Orange --- the interface between BIT\* and KOMO.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "IV-A1 Initialize (A)", "weight": 1.0} -->
+
+Vertex set ($\mathcal{V}$), Edge set ($\mathcal{E}$), Tree ($\mathcal{T}$), Vertex queue ($\mathcal{Q}_{V}$), Edge queue ($\mathcal{Q}_{E}$), Set of unconnected vertices ($X_{\text{uc}}$). Also initialize three important cost parameters: 1) $c_{i}$ --- cost used by the BIT\* tree, it includes infeasible paths; 2) $c_{\text{best}}$ --- the cost of the best feasible path; 3) $c_{\text{max}}$ --- a penalty cost higher than any feasible path BIT\* could converge to.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "IV-A2 Batch Addition (B)", "weight": 1.0} -->
+
+When we run out of the batch samples (line 7), we prune our graph using the ellipsoid method and add a new batch of samples.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "IV-A3 Edge Selection (C)", "weight": 1.0} -->
+
+(The A\* search) If expanding a vertex can help improving the cost of our solution, it is expanded, i.e., relevant vertices and edges are added to their respective queues (line 12)
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "IV-A4 Edge processing (D)", "weight": 1.0} -->
+
+Decides whether to add new edge to the tree. If the new edge can improve the overall cost to goal (line 15), and the edge is collision free / partially in collision (line 16, 17) such that it still is a good edge to add (line 19), it is added to the tree (line 20). $\text{AddEdgeToTree}{(.)}$ rewires the tree if necessary.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "IV-A5 KOMO Optimization (E)", "weight": 1.0} -->
+
+If the addition of the new edge provides us with a better path to goal, this solution path is optimized using KOMO (line 26). The resulting path ($optiPath$) is then checked for validity and the costs ($c_{i}$ and $c_{\text{best}}$) are updated accordingly. For completeness, we also check if the initial guess is valid by checking if the path cost is less than $c_{\text{max}}$ (line 22) and update $c_{\text{best}}$ if valid. The working of KOMO is explained in IV-C.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "IV-B Relaxed Edge Checking", "weight": 1.0} -->
+
+High dimensional spaces containing narrow passages are challenging for sampling based planners. This is because it is difficult to sample collision free edges through narrow passages. Since KOMO can push paths out of obstacles, we could allow paths partially in collision into the BIT\* tree. However, these edges need to be added with sufficient collision penalty to ensure that BIT\* does not mistake a path in collision to be of a lower cost than the true minima. We also want our collision checker to quickly guess the extent of collision so as to be quick in finding a solution for BIT\*. We solve this problem by introducing Relaxed Edge Checking which returns a number instead of a Boolean which is used to assign a collision penalty (line 18). It returns 0-if edge is collision free, 1-if it fails at the last level, 2-if it fails on the second to last level, and so. Adding the collision penalty this way also helps our planner to prefer collision free initial paths for optimization as the likelihood of finding a feasible trajectory from a collision-free path is higher.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "IV-B Relaxed Edge Checking", "weight": 1.0} -->
+
+Suppose for a given resolution, we need to check $n_{d}$ equally spaced points to confirm the edge to be collision-free. The Relaxed Edge Checker conducts a level wise collision checking (see Fig. 3 ‣ IV-A The BITKOMO Algorithm: An overview ‣ IV BITKOMO ‣ Multi-modal optimization for manipulation tasks")) whereby the resolution of checking is increased until the required resolution is reached or a collision is detected. We first check the mid point (level 1), then the quarter points (level 2) and so on by slowly doubling the resolution of checking. If a point fails in the validity check, an integer, collision penalty (${\mathcal{C}\mathcal{P}} = {{\mathcal{L} - \mathcal{L}_{c}} + 1}$) is returned. Where $\mathcal{L} = {\lceil{\log_{2}n_{d}}\rceil}$ is the total number of levels, and $\mathcal{L}_{c}$ is the level of the failed point.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "IV-B Relaxed Edge Checking", "weight": 1.0} -->
+
+This number provides a proxy measure for the fraction of the edge that is in collision.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "IV-C KOMO", "weight": 1.0} -->
+
+K-Order Markov Optimization (KOMO) is a trajectory optimization framework that represents a path with a discrete sequence of waypoints $\langle{x_{0}\ldotsx_{T}}\rangle$. Cost and constraints are evaluated, up to $k + 1$ consecutive waypoints (Markov assumption)
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "IV-C KOMO", "weight": 1.0} -->
+
+where $x_{{t - k}:t}$ is a $k + 1$ tuple of consecutive states. In our setting, where the goal is to minimize the path length, $k = 1$, and we use, as cost, the sum of squared distances $\sum{\|{x_{t} - x_{t - 1}}\|}^{2}$, which corresponds to ${f_{t}{(x_{t - 1},x_{t})}} = {x_{t} - x_{t - 1}}$.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "IV-C KOMO", "weight": 1.0} -->
+
+Inequality constraints correspond to collision avoidance and joint limits and equality constraints model the terminal goal condition $x_{T} = x_{\text{goal}}$. The optimization problem is solved with the Augmented Lagrangian algorithm for constrained optimization. The Markov structure, together with second order information, enables very efficient solving, with complexity linear on the number of waypoints and polynomial on the dimension of the configuration space.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "IV-D Convergence and Optimality Guarantees", "weight": 1.0} -->
+
+BITKOMO maintains the convergence and optimality guarantees of BIT\*. The additional trajectory optimization can only improve the solution proposed by BIT\* (lines 26-30 in Alg. 1). The relaxed edge checking assigns cost $c > c_{\text{max}}$ (line 18 in Alg. 1) to any edge in collision (recall that $c_{\text{max}}$ is an upper bound on the optimal solution cost, that can be chosen arbitrarily large). Even if the subsequent optimization fails, the edge cost does not prevent BIT\* and hence BITKOMO from finding a solution with cost $c < c_{\text{max}}$.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "V-A Scenarios", "weight": 1.0} -->
+
+We evaluate our algorithm on 6 different robotic scenarios^11^1 In all scenarios, the robot moves from the initial configuration (solid color) to the goal configuration (translucent color) (Fig. 4). The trajectories computed by BITKOMO and the baseline algorithms are shown in the supplementary video^22^2 We emphasize the challenges of each problem with the keywords: narrow passage, not informative heuristic and high-dimensional.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "V-A Scenarios", "weight": 1.0} -->
+
+Disc Robot in Rooms: A Disc Robot needs to move from the center of one room to another (Fig. 4(a)). The difficulty is that, to go to the other room, the robot first needs to come out of the starting room and then move to the target room. Challenges: narrow passages and not informative heuristic.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "V-A Scenarios", "weight": 1.0} -->
+
+Kuka to reach onto the shelf: The Kuka robot needs to reach the red object at level 1 from it's current position where the end-effector is at level 2 (Fig.4(b)). Challenges: High-dimensional.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "V-A Scenarios", "weight": 1.0} -->
+
+Kuka to reach into a box: The Kuka Robot needs to reach to the object inside the box that is located under a table while avoiding collision with the table or the box (Fig. 4(c)). Challenges: Narrow Passage, High Dimensional.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "V-A Scenarios", "weight": 1.0} -->
+
+Two Fixed Pandas: The robotic manipulators (Pandas) need to get to the base of the opposite robot while avoiding hitting each other (Fig. 4(d)). Challenges: High Dimensional.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "V-A Scenarios", "weight": 1.0} -->
+
+Two Mobile Pandas in cluttered environment: Two mobile panda robots need to move to the other side of the room while avoiding obstacles and also avoiding each other (Fig. 4(e)). Challenges: High Dimensional, Narrow Passages.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "V-A Scenarios", "weight": 1.0} -->
+
+One Mobile Panda to avoid large obstacle: The mobile panda needs to move to catch an object on the other side of the scene, with a large obstacle blocking it's way (Fig. 4(f)). Challenges: High Dimensional, Narrow Passages.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "V-B Baselines", "weight": 1.0} -->
+
+We compare our BITKOMO planner with BIT\*, KOMO and FMT\*. Path length minimization is used as the optimization objective for all the experiments. We used the Open Motion Planning Library (OMPL) framework for the implementations of the sampling based planners and for carrying out the benchmarks.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "V-B Baselines", "weight": 1.0} -->
+
+For the KOMO planner we use the sum of squares of the distances between waypoints as optimization objective, and an initialization with random noise around ${p{(t_{i})}} = {x_{\text{start}}{\forall t_{i}}}$. The trajectory is represented with a constant number of waypoints (20 points). Random initialization and optimization are executed iteratively until timeout, updating the path cost when a better path is found.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "V-C Metrics", "weight": 1.0} -->
+
+Success rate (%): The % of runs that have found a feasible solution at time $t$. This metric gives information about how fast the planner finds the first feasible path.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "V-C Metrics", "weight": 1.0} -->
+
+Cost: The average best cost of the planner at time $t$. This metric gives us an understanding about how the best cost solution of a planner evolves over time and the practical convergence speed before the timeout.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "V-D Experimental Results", "weight": 1.0} -->
+
+For getting unbiased results, all experiments were conducted on the same machine^33^3Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz having 16GB RAM. Every planner was executed 50 times on all the six example scenarios. The maximum execution time however was different for different scenarios depending on the difficulty. The edge relaxation number $\delta$ was set to 1 for all examples. The results of the benchmarks are shown in Fig. 5.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "V-D1 Success rate", "weight": 1.0} -->
+
+The success rate of BIT\* and BIKOMO were higher compared with other planners in all examples except the Two Mobile Pandas example. This scenario has narrow passages which makes it hard for sampling based planners, however, the optimal solution is very similar to a straight line path in the configurations space, making it very easy for KOMO to find a solution here. The relaxed edge checking helps BITKOMO in having a slightly better success rate than BIT\* here. The anomaly in BIKOMO success rate in Fig. 5(d) is because of a failed optimization. This failure is because of the thin obstacles in the C-Space arising due to collision between robots. This, however, is not a large time difference. Choosing a smaller edge relaxation number, $\delta$, will fix it. Overall, the success rates of BIT\* and BITKOMO were found to be very similar because they generate initial paths using the same base algorithm.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "V-D2 Cost", "weight": 1.0} -->
+
+BITKOMO decreases the cost significantly faster than BIT\*, with better convergence before the timeout. This is because the combination of sampling and optimization converges to the local minima quickly and consistently. We however see an abnormality in Fig.5(a). This is because --- 1) KOMO is not much faster than sampling for low dimensions, and 2) The waypoints maintain a certain minimum distance from the obstacles to avoid edge collisions.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "V-D2 Cost", "weight": 1.0} -->
+
+Overall, we conclude that our planner is mostly as good as BIT\* in finding the first feasible solution and slightly faster in high dimensional narrow passage problems, but much faster at converging to the global optimal solution.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Discussion and Conclusion", "weight": 1.5} -->
 
 Our planner, BITKOMO, combines BIT\* and KOMO to achieve fast convergence to the optimal solution while being anytime and asymptotically converging to the global minimum. Our experiments indicate that BITKOMO converges to the global optima, faster than BIT\*. It also provides convergence guarantees which KOMO does not. Using Relaxed Edge Checking, our planner exploits the ability of KOMO to move trajectories away from the obstacles that are in collision by allowing partially infeasible paths as initial guesses to the optimizer. This helps BITKOMO find motions through narrow passages faster than BIT\*.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Discussion and Conclusion", "weight": 1.5} -->
+
+Even though we observe faster convergence than BIT\* to optimal paths, our planner does not have a better success rate. A dedicated planner could be developed to generate improved initial guesses to the optimizer, resulting in an increased success rate. The optimization and sampling modules could also easily be parallelized, providing a higher speed-up. Calling the KOMO optimizer ahead of the BIT\* planner could increase the speed further.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Discussion and Conclusion", "weight": 1.5} -->
+
+Our experiments clearly demonstrate that BITKOMO can robustly achieve fast convergence to optimal motion plans. This is an important step towards making optimal motion planners converge as quickly as trajectory optimizers --- all while keeping asymptotic optimality guarantees.

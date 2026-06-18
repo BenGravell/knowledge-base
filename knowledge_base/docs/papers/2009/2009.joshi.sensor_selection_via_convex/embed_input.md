@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Sensor Selection via Convex Optimization
 
 Topics include Sensor selection, Convex optimization, Experiment design, Estimation, Sparse selection, Semidefinite programming.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Formulates sensor selection for estimation as a convex optimization problem with relaxations that choose informative subsets under resource constraints. The paper made sensor placement and selection accessible to standard convex-optimization tooling.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 We consider the problem of choosing a set of k sensor measurements, from a set of m possible or potential sensor measurements, that minimizes the error in estimating some parameters. Solving this problem by evaluating the performance for each of the ( m k ) possible choices of sensor measurements is not practical unless m and k are small. In this paper, we describe a heuristic, based on convex optimization, for approximately solving this problem. Our heuristic gives a subset selection as well as a bound on the best performance that can be achieved by any selection of k sensor measurements. There is no guarantee that the gap between the performance of the chosen subset and the performance bound is always small; but numerical experiments suggest that the gap is small in many cases. Our heuristic method requires on the order of m 3 operations; for m = 1000 possible sensors, we can carry out sensor selection in a few seconds on a 2-GHz personal computer.

@@ -1,25 +1,1244 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Dynamic Movement Primitives in Robotics: A Tutorial Survey
 
 Topics include Reinforcement learning, Optimal control, Robotics, Control, Learning.
 
-Biological systems, including human beings, have the innate ability to perform complex tasks in versatile and agile manner. Researchers in sensorimotor control have tried to understand and formally define this innate property. The idea, supported by several experimental findings, that biological systems are able to combine and adapt basic units of motion into complex tasks finally lead to the formulation of the motor primitives theory. In this respect, Dynamic Movement Primitives (DMPs) represent an elegant mathematical formulation of the motor primitives as stable dynamical systems, and are well suited to generate motor commands for artificial systems like robots. In the last decades, DMPs have inspired researchers in different robotic fields including imitation and reinforcement learning, optimal control,physical interaction, and human-robot co-working, resulting a considerable amount of published papers. The goal of this tutorial survey is two-fold. On one side, we present the existing DMPs formulations in rigorous mathematical terms,and discuss advantages and limitations of each approach as well as practical implementation details.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction
+Biological systems, including human beings, have the innate ability to perform complex tasks in versatile and agile manner. Researchers in sensorimotor control have tried to understand and formally define this innate property. The idea, supported by several experimental findings, that biological systems are able to combine and adapt basic units of motion into complex tasks finally lead to the formulation of the motor primitives theory. In this respect, Dynamic Movement Primitives (DMPs) represent an elegant mathematical formulation of the motor primitives as stable dynamical systems, and are well suited to generate motor commands for artificial systems like robots. In the last decades, DMPs have inspired researchers in different robotic fields including imitation and reinforcement learning, optimal control,physical interaction, and human-robot co-working, resulting a considerable amount of published papers. The goal of this tutorial survey is two-fold. On one side, we present the existing DMPs formulations in rigorous mathematical terms,and discuss advantages and limitations of each approach as well as practical implementation details. In the tutorial vein, we also search for existing implementations of presented approaches and release several others. On the other side, we provide a systematic and comprehensive review of existing literature and categorize state of the art work on DMP.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+The paper concludes with a discussion on the limitations of DMPs and an outline of possible research directions.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 *How biological systems, like humans and animals, execute complex movements in a versatile and creative manner?*
 
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 In the past decades, researchers of neurobiology and motor control have made a significant effort trying in to answer this research question and their experimental findings lead to the formulation of the motor or motion primitives theory. The motion primitives theory explains the execution of complex motion with the ability of biological systems of sequencing and adapting units of actions, the so-called motion primitives.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Dynamic Movement Primitives (DMPs) have their roots in the motor control of biological systems and can be seen as a rigorous mathematical formulation of the motion primitives as stable nonlinear dynamical systems.
 
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 *How artificial systems, like (humanoid) robots, can execute complex movements in a versatile and creative manner?*
 
-Beyond their biological motivation, DMPs have a simple and elegant formulation, guarantee convergence to a given target, are sufficiently flexible to create complex behaviors, are capable of reacting to external perturbations in real-time, and can be learned from data using efficient algorithms. These properties explain the "success" of DMPs in robotic applications, where they have established as a prominent tool for learning and generation of motor commands.
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Discussion
+Beyond their biological motivation, DMPs have a simple and elegant formulation, guarantee convergence to a given target, are sufficiently flexible to create complex behaviors, are capable of reacting to external perturbations in real-time, and can be learned from data using efficient algorithms. These properties explain the "success" of DMPs in robotic applications, where they have established as a prominent tool for learning and generation of motor commands. Since their formulation in the pioneering work from Ijspeert et al., DMPs have been successfully exploited in a variety of applications, becoming de facto the first approach that novices in the Imitation Learning (IL) field use on their robots.
 
-This section provides guidelines to choose, among the several discussed in this work, the most appropriate approach for a given application. A useful criterion to decide whether to use a particular approach is the availability of code that greatly simplifies the implementation. We have searched for open-source DMP implementations and listed them in a Git repository (see Section 6.2). To further contribute the community, we have also released the implementations listed in Table 4. This section ends with a discussion on the limitations inherent to the DMP formulation, the open issues, and the possible research directions.
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Existing surveys and tutorials", "weight": 1.0} -->
 
-## Limitations and open issues
+A tutorial that provides a unifying view on the two main approaches used to develop computational motor control theories, namely differential equations and optimal control. In this work, discrete and rhythmic DMPs are presented as a computational model of the motor primitives theory that unifies nonlinear differential equations and optimal control. The tutorial has a section dedicated to DMP parameters optimization beyond ILs. Schaal et al. show how to optimize DMP parameters to minimize various costs describing, for instance, the total jerk of the trajectory or the end-point variance.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Existing surveys and tutorials", "weight": 1.0} -->
+
+A tutorial on classical DMPs that presents both discrete and rhythmic formulations, mostly developed, and their application in IL and movement recognition. The tutorial also presents extensions of the classical DMP formulation to prevent high accelerations at the beginning of the motion, to avoid collisions with unforeseen obstacles, and to generalize both in space (e.g., reach a different goal) and time (e.g., produce longer/shorter trajectories).
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Existing surveys and tutorials", "weight": 1.0} -->
+
+A tutorial on classical DMPs that presents both discrete and rhythmic formulations, mostly developed. The tutorial also presents extensions of the classical DMP formulation to avoid collisions with unforeseen obstacles and to learn impedance control policies via RL. The key difference between this tutorial and the one from is the section dedicated to sensory association and online, context-aware adaptation of DMP trajectories using the associative skill memory framework developed.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Existing surveys and tutorials", "weight": 1.0} -->
+
+A tutorial on CMPs, a framework developed to generate compliant robot behaviors that accurately track a reference trajectory. CMPs exploit classical DMPs to generate the desired kinematic landscape and encode task-dependent dynamics as a combination of Gaussian basis functions (torque primitives). The tutorial show how to learn torque primitives from training data, how to generalize CMPs to new situations, and how to combine existing CMPs to synthesize new robot motions.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Existing surveys and tutorials", "weight": 1.0} -->
+
+• Reinforcement, deep, and lifelong learning
+This tutorial survey conducts a wide scan of the existing DMP literature with the aim of categorizing and presenting the published work in the field. The main objective of this comprehensive literature review is give the reader an exhausting overview on DMP related research, on its major achievements, as well as on open issues and possible research directions. Our tutorial survey also provides a structured and unified formulation for different methods developed starting from the classical DMPs proposed. We believe that such formulation contributes to easier the understanding of different methods and extension that can be found in the literature, clarifying connections and differences among the existing approaches. The tutorial survey also provides an analysis on pros and cons of various methods and a discussion with guidelines for different application scenarios.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Existing surveys and tutorials", "weight": 1.0} -->
+
+The popularity of DMPs resulted in a large amount of work that use, modify, or extend the original formulation of Ijspeert and colleagues. In this paper, we name classical DMPs the DMP formulation initially presented in and further refined. As shown in Table 1, some tutorials and surveys already tried to categorize and review existing work on DMPs.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Existing surveys and tutorials", "weight": 1.0} -->
+
+Schaal et al. presented the classical DMPs as an attempt to unify nonlinear dynamical systems and optimal control theory, i.e., the two prominent frameworks used to derive computational models of neuro-biological motor theories. In their tutorial paper, Ijspeert et al. presented a homogeneous formulation of rhythmic and discrete DMPs together with some extensions including coupling terms, generalization to different goal, and online adaptation for collision avoidance. They also described possible applications in IL and motion recognition methods. In the same year, Pastor et al. published their tutorial on classical DMPs with a special focus on online adaptation of the DMP attractor landscape by integrating the perceptual information into the action generation process. Later, Deniša et al. reviewed the so-called Compliant Movement Primitive (CMP), which was first introduced by Petrič et al.. Compliant Movement Primitives combine classical DMP to generate the desired kinematic path and torque primitives---a weighted summation of Gaussian basis functions---to generate task-specific dynamics.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Existing surveys and tutorials", "weight": 1.0} -->
+
+As shown in the review, CMPs are capable of accurately tracking the kinematic path in a compliant manner, which makes them well suited for tasks that require interaction of the robot with the environment.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Existing surveys and tutorials", "weight": 1.0} -->
+
+However the above-mentioned reviews and tutorials primarily focused on the methods and advancements within their respective research group and/or focused on a specific problem or field of application. On the other hand, the DMPs related literature is extensive and broad, with contributions from many research groups that made advancements in several important fields of application. Therefore, the proposed survey and tutorial on DMPs aims to scan a wider range and present a tutorial with unified and structured formulations for various DMPs methods and advancements up to date. This should make it clearer for the users to see the differences and connections between various methods, and can contribute to easier application. In addition, we provide a more comprehensive and categorised survey of all major DMPs application areas in robotics. This can help to inspire the readers to apply the DMPs in various areas.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Existing surveys and tutorials", "weight": 1.0} -->
+
+In the tutorial part, we present mathematical formulations, implementation details, and potential issues of existing DMP formulations starting from the classical DMPs presented in up to recent extensions of DMPs to Riemannian geometry and Symmetric Positive Definite (SPD) matrices. In the survey part, we meticulously review existing literature on DMPs in a comprehensive and methodological manner by focusing on the quality and significance of their continuations without putting a bias on any particular research group. Details on the systematic review procedure are given as follows.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Systematic review process", "weight": 1.0} -->
+
+We preformed am automatic search for documents containing the string
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Systematic review process", "weight": 1.0} -->
+
+in Scopus on $25$ November $2020$ returned $1223$ papers. We found that Scopus lists papers only from $2004$. Therefore, we manually track related work from $2001$ (preliminary work on DMPs) to $2003$. We further refined the search on $01$ February $2021$ to include last minute papers.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Systematic review process", "weight": 1.0} -->
+
+We manually inspect all the papers and removed the ones that do not explicitly use DMPs and that only compare against DMP in their literature review. The first and foremost selection criteria were the technical quality of work and the significance of the contribution with respect the DMP state-of-the-art prior to the publication of any particular paper. In other words, we asked the question 'did the paper make a significant step change in the field?'. Therefore, we discarded papers that presented similar (or same) ideas multiple times, or that made insignificant improvements to the state-of-the-art. If multiple papers presented the same/similar idea, we included the one with the most comprehensive technical quality, and if the quality was similar, the next deciding factors were publication in more prestigious journals/venues or the most cited ones. This manual selection led to the 276 papers on DMPs (out of a total of \\totalcitenum references) analyzed in this work.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "A taxonomy of DMP related research", "weight": 1.0} -->
+
+The systematic review of DMP literature lead to the taxonomy shown in Fig. 1, which also describes the structure of this paper. DMPs are placed at the root of the tree and branch into two nodes, namely the tutorial and the survey. In the tutorial part we present different DMP formulations and extensions in rigorous mathematical terms.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "A taxonomy of DMP related research", "weight": 1.0} -->
+
+The tutorial part spans Sections 2 and 3. Section 2 embraces DMPs formulations for discrete and periodic motions, orientation trajectories, and SPDs matrices. Section 3 discusses extensions of the DMP formalism to account for skills generalization, joining of multiple primitives, online adaptation based on force feedback or reference velocity. The section ends with a short description of DMP related formulations.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "A taxonomy of DMP related research", "weight": 1.0} -->
+
+The survey part spans Sections 4 and 5. Section 4 presents DMPs integration in larger executive frameworks for manipulation and variable impedance tasks, reinforcement, deep, and life-long learning. Section 5 presents DMPs in different robotic applications including physical interaction, co-manipulation, rehabilitation, teleoperation, motion recognition, humanoids and field robotics, and autonomous driving.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "A taxonomy of DMP related research", "weight": 1.0} -->
+
+The paper ends with a discussion (Section 6) of presented approaches with the aim of providing, where possible, guidelines to select the most suitable DMP approach for specific needs. We have also collected available DMP implementations (see Table 4) and contributed to the community with further open source implementations available at Section 6 terminates with a discussion on open issues and possible research directions.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Contribution overview", "weight": 1.0} -->
+
+Our paper has several key contributions that are summarized as follows.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Contribution overview", "weight": 1.0} -->
+
+We present the classical DMP formulation and existing variations of this formulation in a unified manner with rigorous mathematical terms, providing implementation details and discussing advantages and limitations of different approaches (Section 2).
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Contribution overview", "weight": 1.0} -->
+
+We describe advanced approaches where DMPs are integrated into sophisticated control and/or larger executive frameworks (Section 3).
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Contribution overview", "weight": 1.0} -->
+
+We release to the community several implementations of described approaches. Detailed information on these code repositories are provided in Table 4 and Section 6. Moreover, we search for existing open-source implementations of the presented formulations and list them in our repository (Section 6.2).
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Contribution overview", "weight": 1.0} -->
+
+We perform a systematic literature search to provide a comprehensive and unbiased review of the topic (Sections 4 and 5).
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Contribution overview", "weight": 1.0} -->
+
+We categorize existing work on DMPs into different streams and highlight prominent approaches in each category (Fig. 1 and Sections 4 and 5).
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Contribution overview", "weight": 1.0} -->
+
+We present guidelines to select the the most suitable approach for different applications, discuss limitations inherent to the DMP formalism, and highlight open issues and possible research directions (Section 6).
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+subscript for desired value
+quaternion related variable
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+rotation matrix related variable
+SPD related variable
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+time modulation parameter
+centers and widths of Gaussians
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+trajectory data and its 1st derivative
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+sigmoidal decay phase
+scaled velocity and acceleration
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+piece-wise linear phase
+attractor point (goal) in different spaces
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+$\mathcal{Q}_{t},{\overset{˙}{\mathcal{Q}}}_{t}$
+joint position, its 1st time-derivative
+intermediate attractor (via-goal)
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+$\mathbf{q},\overset{˙}{\mathbf{q}}$
+unit quaternion, its 1st time-derivative
+$\mathbf{R},\overset{˙}{\mathbf{R}}$
+rotation matrix, its 1st time-derivative
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+forcing term for different spaces
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+a function transforms Symm into ℝn using Mandel’s notation.
+a function transforms ℝn into Symm using Mandel’s notation.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+different forms of stiffness gains
+different forms of damping gains
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+mass and inertia matrices
+forces and external forces and torques
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+Locally Weighted Regression
+Gaussian Mixture Model
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+Probabilistic Movement Primitives
+Learning from Demonstration
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+Gaussian Process Regression
+Mixture of Motor Primitives
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+Variable Impedance Control
+Variable Impedance Learning Control
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+Policy Improvement with Path Integrals
+Covariance Matrix Adaptation-Evolution Strategies
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+Policy Learning by Weighting Exploration with the Returns
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "of datapoints", "weight": 1.0} -->
+
+Global Parametric Dynamic Movement Primitive
+Unmanned Areal Vehicle
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Formulation of DMPs types", "weight": 1.0} -->
+
+In this section, we will provide a complete description of the standard formulation of DMPs. Specifically, point attractors formulation---to encode discrete point-to point motions---in Section 2.1, and cycle attractors formulation---to encode rhythmic-patterns motions---in Section 2.2. For a better understanding, we have summarized the key notations and the used abbreviations in Table 2.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Discrete DMP", "weight": 1.0} -->
+
+The discrete DMP is used to encode a point-to-point motion into a stable dynamical system. In the following subsections, we will go through the formulation and main features of discrete DMPs starting by the classical one operating in $\mathbb{R}$ space (Section 2.1.1), then passing by Cartesian space---${\mathcal{S}}^{3}$ and ${\mathcal{S}}{\mathcal{O}}{}$---in Section 2.1.2, and ending by DMP formulation for SPD space (${\mathcal{S}}_{+ +}^{m}$) in Section 2.1.3.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+The classical discrete DMPs were first introduced by Ijspeert et al.. A DMP for a single DoF trajectory $y$ of a discrete movement (point-to-point) is defined by the following set of nonlinear differential equations
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+where $x$ is the phase variable and $z$ is an auxiliary variable. Parameters $\alpha_{z}$ and $\beta_{z}$ define the behavior of the second order system described by and. With the choice $\tau > 0$, $\alpha_{z} = {4\beta_{z}}$ and $\alpha_{x} > 0$, the convergence of the underlying dynamic system to a unique attractor point at $y = g$, $z = 0$ is ensured. Alternatively, the gains $\alpha_{z}$ and $\beta_{z}$ can be learned from training data while preserving the convergence of the system. In the DMP literature, equations --, as well as their periodic counterpart --, are called the transformation system, while (or ) is the canonical system. $f{(x)}$ is defined as a linear combination of $N$ nonlinear RBFs, which enables the robot to follow any smooth trajectory from the initial position $y_{0}$ to the final configuration $g$
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+where $c_{i}$ are the centers of Gaussian basis functions distributed along the phase of the movement and $h_{i}$ their widths. For a given $N$ and setting $\tau$ equal to the total duration of the desired movement, we can define $c_{i} = {\text{exp}\left( {- {\alpha_{x}\frac{i - 1}{N - 1}}} \right)}$, $h_{i} = \frac{1}{{({c_{i + 1} - c_{i}})}^{2}}$ and $h_{N} = h_{N - 1}$ where $i = {1,\ldots,N}$. For each DoF, the weights $w_{i}$ should be adjusted from the measured data so that the desired behavior is achieved. The selection of the number of weights should be based on the desired resolution of the trajectory.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+For controlling a robotic system with more than one DoF, we represent the movement of every DoF with its own equation system --, but with the common phase to synchronize them.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Learning the forcing term", "weight": 1.0} -->
+
+Locally Weighted Regression (LWR) is a popular approach used to update the weights $w_{i}$. LWR uses the error between the desired trajectory shape and currently learned shape and a forgetting factor $\lambda$ to update the weights as
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Learning the forcing term", "weight": 1.0} -->
+
+In the previous equations $\mathbf{w}_{\jmath} = {\mathbf{w}{(t_{\jmath})}}$ and ${\mathbf{φ}}_{\jmath}$ is the column vector obtained by transposing the $\jmath$-th row of. The initial value of the parameters is ${\mathbf{P}_{0} = \mathbf{I}},{\mathbf{w}_{0} = \mathbf{0}}$. A discrete DMP learned on synthetic data is shown in Figure 2.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Learning the forcing term", "weight": 1.0} -->
+
+LWR has been the standard method to learn the weights of DMPs and therefore $f{(x)}$. As an alternative to LWR, have shown that learning a forcing term defined as in can be formulated as a quadratic optimization problem and efficiently solved.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Learning the forcing term", "weight": 1.0} -->
+
+In general, the problem of learning and retrieving $f{(x)}$ can be in principle solved with any regression technique. For instance, Wang et al. modified $f{(x)}$ in by considering a bias term $b_{i}$, i.e., ${w_{i}x} + b_{i}$, and used truncated kernels ($\Psi_{i}$ vanishes if $x - c_{i}$ is smaller than a threshold). This formulation, called DMP+, produces more accurate trajectories than the original DMP. Moreover, a learned trajectory can be modified by updating only a subset of the weights. Other work focused on using multiple demonstrations to increase the generalization power of the learned primitive. To learn a suitable forcing term from multiple demonstrations, some authors used GMM and Gaussian Mixture Regression (GMR), while others adopted Gaussian Process (GP), or exploited a deep NN developed originally.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Phase stopping and goal switching", "weight": 1.0} -->
+
+The phase variable $x$ in provides the ability to manipulate time during the execution of DMP equations. Moreover, DMP provides the ability to slow-down or even stop the execution through the phase-stopping mechanism
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Phase stopping and goal switching", "weight": 1.0} -->
+
+Moreover, DMPs provide an elegant way to adapt the trajectory generation in real-time through goal switching mechanisms
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Phase stopping and goal switching", "weight": 1.0} -->
+
+DMPs in its standard formulation are not suitable for direct encoding of skills with specific geometry constraints, such as orientation profiles (represented in either unit quaternions or rotation matrices), stiffness/damping and manipulability profiles (encapsulated in full SPD matrices). For instance, direct integration of unit quaternions, does not ensure the unity of the quaternions norm. Any representation of orientation that does not contain singularities is non-minimal, which means that additional constraints need to be taken into account during integration.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Alternative phase variables", "weight": 1.0} -->
+
+Equation describes an exponential decaying phase variable that has been widely used in the DMP literature. The main drawback of the exponential decaying phase is that it rapidly drops to very small values towards the end of the motion. This "forces" the learning algorithm to exploit relatively high weights $w_{i}$ to accurately reproduce the last part of the demonstration. As an example, in Figure 3 the exponential decaying phase (brown dot-dashed line) is very small already after $0.6$s, while the expected time duration of the motion is $T = 1$s.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Alternative phase variables", "weight": 1.0} -->
+
+To overcome this limitation, Kulvicius et al. propose the sigmoidal decay phase $s$ (green solid line in Figure 3), obtained by integrating
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Alternative phase variables", "weight": 1.0} -->
+
+where $\alpha_{s}$ defines the steepness of $s$ centered at time $T$ and $\deltat$ is the sampling time. As shown in Figure 3, $s = 1$ for $t < {T - \delta_{s}}$, where the time $\delta_{s}$ depends on the steepness $\alpha_{s}$, and then it decays to $s = 0$.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Alternative phase variables", "weight": 1.0} -->
+
+The sigmoidal decay in Figure 3 has a tail effect since it vanishes after $T + \delta_{s}$s, where $\delta_{s}$ depends on the tunable parameter $\alpha_{s}$. The piece-wise linear phase $l$ (blue dashed line in Figure 3), proposed, linearly decays from $1$ to $0$ in exactly $T$s and then remains constant. $p$ is obtained by integrating
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Alternative phase variables", "weight": 1.0} -->
+
+where ${p{}} = 1$ and $T$ is the time duration of the motion.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Orientation DMP", "weight": 1.0} -->
+
+The classical DMP formulation described in Section 2.1.1 applies to single DoF motions. Multidimensional motions are generated independently and synchronized with a common phase. In other words, equations and are repeated for each DoF while the phase variable in is shared. This works when the evolution of different DoF is independent, like for joint space or Cartesian position trajectories. Unlike Cartesian position, the elements of orientation representations like unit quaternion or rotation matrix are constrained. In this section, we present approaches that extend the classical DMP formulation to represent Cartesian orientations.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Quaternion DMP", "weight": 1.0} -->
+
+Unit quaternion $\mathbf{q} = {+ \mathbf{u}} \in {\mathcal{S}}^{3}$ provides a representation of the orientation of the robot's end-effector. ${\mathcal{S}}^{3}$ is a unit sphere in ${\mathbb{R}}^{4}$, $\in {\mathbb{R}}$, and $\mathbf{u} \in {\mathbb{R}}^{3}$. Abu-Dakka et al. rewrote DMP equations and for direct unit quaternion encoding as follows
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Quaternion DMP", "weight": 1.0} -->
+
+where $\mathbf{g}_{q} \in {\mathcal{S}}^{3}$ denotes the goal orientation, the quaternion conjugation is defined as $\overline{\mathbf{q}} = \overline{+\mathbf{u}} = {- \mathbf{u}}$, and $\ast$ denotes the the quaternion product
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Quaternion DMP", "weight": 1.0} -->
+
+Early attempt to encode unit quaternion profiles using DMP was presented by Pastor et al.. Unlike Abu-Dakka et al.'s formulation, Pastor et al.'s does not take into account the geometry of ${\mathcal{S}}{\mathcal{O}}{}$ as they just used the vector part of the quaternion product $({\mathbf{g}_{q} \ast \overline{\mathbf{q}}})$ in instead of $2\text{Log}^{q}{({\mathbf{g}_{q} \ast \overline{\mathbf{q}}})}$ which defines the angular velocity $\mathbf{ω}$ that rotates quaternion $\mathbf{q}$ into $\mathbf{g}_{q}$ within a unit sampling time.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Quaternion DMP", "weight": 1.0} -->
+
+Both mappings become one-to-one, continuously differentiable and inverse to each other if the input domain of the mapping $\text{Log}^{q}{( \cdot )}$ is restricted to ${\mathcal{S}}^{3}$ except for $- 1 + {\lbrack 0\, 0\, 0\rbrack}^{\top}$, while the input domain of the mapping $\text{Exp}^{q}{({\mathbf{ω}})}$ should fulfill the constraint ${\|{\mathbf{ω}}\|} < \pi$. An exemplar unit quaternion DMP is shown in Figure 4.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Quaternion DMP", "weight": 1.0} -->
+
+Ude et al. extended DMP quaternions-based formulation by rewriting to include goal switching mechanism.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Quaternion DMP", "weight": 1.0} -->
+
+so that $\mathbf{g}_{q}$ is continuously changing onto $\mathbf{g}_{q,{new}}$ in real-time. Equation should be integrated using along with and.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Quaternion DMP", "weight": 1.0} -->
+
+As shown by Saveriano et al. using Lyapunov arguments, both the quaternion DMP formulations in and in asymptotically converge to the target quaternion $\mathbf{g}_{q}$ with zero velocity.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Rotation Matrix DMP", "weight": 1.0} -->
+
+In their work on orientation DMPs, Ude et al. extended DMPs formulation in order to encode orientation trajectories represented in the form of rotation matrices ${\mathbf{R}{(t)}} \in {{\mathcal{S}}{\mathcal{O}}{}}$. Therefore, they rewrote and in the form
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Rotation Matrix DMP", "weight": 1.0} -->
+
+where $\mathbf{R}_{g}$ represents the goal orientation. ${\lbrack{\mathbf{η}}\rbrack}_{\times}$ is a skew symmetric matrix, such as ${\lbrack{\mathbf{η}}\rbrack}_{\times} = {- {\lbrack{\mathbf{η}}\rbrack}_{\times}}$. The relation between the angular velocity and 1st-time-derivative of the rotation matrix is given by
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Rotation Matrix DMP", "weight": 1.0} -->
+
+The generated rotation matrices can be obtained by integrating as follows
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Rotation Matrix DMP", "weight": 1.0} -->
+
+where ${\theta{(t)}} = {t{\|{\mathbf{ω}}\|}}$ express the rotation angle within time $t$. An exemplar rotation matrix DMP is shown in Figure 5.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "SPD matrices", "weight": 1.0} -->
+
+Abu-Dakka and Kyrki generalized DMP formulation in order to encode robotic manipulation data profiles encapsulated in form of SPD matrices. By defining $\mathbf{X} \in {\mathcal{S}}_{+ +}^{m}$ as an arbitrary SPD matrix and $\mathbf{\Xi} = {\{ t_{\jmath},\mathbf{X}_{\jmath}\}}_{\jmath = 1}^{\mathfrak{T}}$ as the set of SPD matrices in one demonstration, where ${\mathcal{S}}_{+ +}^{m}$ defines the set of $m \times m$ SPD matrices. Afterwards, we can rewrite and as follows
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "SPD matrices", "weight": 1.0} -->
+
+Moreover, Abu-Dakka and Kyrki rewrote for smooth goal adaptation in case of sudden goal switching as follows
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Periodic DMP", "weight": 1.0} -->
+
+The periodic DMP (sometimes called rhythmic DMP) are used when the encoded motion follows a rhythmic pattern.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+The classical periodic (or rhythmic) DMPs were first introduced by Ijspeert et al., where they redefined the second order differential equation system described in and as follows
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+where $\Omega$ is the frequency and $y$ is the desired periodic trajectory that we want to encode with a DMP. The main difference between periodic DMPs and point-to-point DMPs is that the time constant related to trajectory duration is replaced by the frequency of trajectory execution (refer to for details). In addition, the periodic DMPs must ensure that the initial phase ($\phi = 0$) and the final one ($\phi = {2\pi}$) coincide in order to achieve smooth transition during the repetitions.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+Similar to, $f{(\phi)}$ is defined with $N$ Gaussian kernels according to the following equation
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+where the weights are uniformly distributed along the phase space, and $r$ is used to modulate the amplitude of the periodic signal (if not used, it can be set to $r = 1$ ).
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+A single DoF, discrete motion trajectory is encoded into a linear, second-order dynamical system with an additive, non-linear forcing term. Convergence to the desired goal g is ensured by a vanishing phase variable x.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+A quaternion-based orientation trajectory (3 DoFs) is encoded into a second-order dynamical system with an additive, non-linear forcing term. The error definition complies with the geometry of the unit quaternions space.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+An SPD matrices trajectory, m (m+1)/2 DoFs, is encoded into a second-order dynamical system with an additive, non-linear forcing term. The error definition complies with the geometry of the SPD matrices space.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+A single DoF, periodic motion trajectory is encoded into a linear, second-order dynamical system with an additive, non-linear forcing term. The resulting system generates a stable limit cycle.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+Similarly to discrete DMPs, LWR can be used to update the weight to learn a desired trajectory. In a standard periodic DMP setting, the desired shape $f_{d}$ is approximated by solving
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+where $y_{d}$ is some demonstrated input trajectory that needs to be encoded. The weights $w_{i}$ can be updated using the recursive least-squares method with forgetting factor $\lambda$ based on the error between the desired trajectory shape and currently learned shape
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+The initial value of the parameters is ${w_{i}{}} = 0$ and ${P_{i}{}} = 1$. The forgetting factor determines the rate of weight changes. Refer to for details on parameter setting. An exemplar rhythmic DMP is shown in Figure 7.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Classical DMP", "weight": 1.0} -->
+
+The classical periodic DMP described by -- does not encode the transit motion needed to start the periodic one. Transients are important in several applications like humanoid robot walking where usually the first step made from a rest position is a transient needed to start the periodic motion. To overcome this limitation, modify the classical formulation of periodic DMPs to explicitly consider transients as motion trajectory that converge towards the limit cycle (i.e., periodic) one.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Formulation summary", "weight": 1.0} -->
+
+A summary for the existence DMP formulations mentioned in the earlier sections is shown in Table 3. The table shows the variations of the formulation in its standard shape based on the space that they are applied to. However, the modifications of this standard shape (e.g., adding a coupling term) is discussed in the next section as an extension of the DMP formulations.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Generalization", "weight": 1.0} -->
+
+A desirable property of motion primitives is the ability to generalize to unforeseen situations. In this section, we present approaches that allow to adapt DMP motion trajectories to novel executive contexts.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Start, goal, and scaling", "weight": 1.0} -->
+
+Classical DMPs are time invariant, meaning that time scaling $\varsigma\tau$ with $\varsigma > 0$ generate topologically equivalent trajectories. Using a simple modification of the transformation system, namely substituting with
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Start, goal, and scaling", "weight": 1.0} -->
+
+Ijspeert et al. show that DMP are also scale invariant, meaning that the scaling of the movement amplitude $\varsigma{({g - y_{0}})}$ with $\varsigma > 0$ generates topologically equivalent trajectories. The purpose of the green color used in is to highlight differences w.r.t.. Apart from generating scaled---in time and space---versions of the demonstrated motion trajectory, classical DMPs also generalize to different initial/target states. However, the classical formulation---and its extension in ---may exhibit dangerous behaviors like over-amplification of the trajectory when reaching a different target and high accelerations when switching to a different target on-line. To alleviate the second issue, Ijspeert et al. replaced hard goal switches with the smooth switching law as. However, the over-amplification issue still remains.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Start, goal, and scaling", "weight": 1.0} -->
+
+Moreover, a DMP that uses fails to learn motions with the same initial and target states (i.e., ${g = y_{0}},{z_{0} = 0\rightarrow{y{(t)}} = y_{0} = {g{\forall t}}}$).
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Start, goal, and scaling", "weight": 1.0} -->
+
+In order to remedy those issues, Pastor et al. proposed to modify the transformation system as
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Start, goal, and scaling", "weight": 1.0} -->
+
+where the green color is used to highlight differences between and. The most important change in this formulation is the term ${({g - y_{0}})}x$ that has several benefits. It prevents high accelerations at the beginning of the motion (${g - y - {{({g - y_{0}})}x}} = 0$ for $t = 0$) or when the goal is close to the initial state. It allows to reproduce motions with the same initial and target states and it prevents over-amplifications and trajectory mirroring effects^11^1As discussed, a transformation system that uses generates a mirrored trajectory while reaching a new goal $g_{new}$ every time the signs of $({g_{new} - y_{0}})$ and $({g - y_{0}})$ differ. when changing the goal. Hoffmann et al. derived a multidimensional representation of from the behavior of the spinal force fields in frogs.
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Start, goal, and scaling", "weight": 1.0} -->
+
+The goal can also change over time and, in this case, the tracking performance of the DMP mostly depends on the gains $\alpha_{z}$ and $\beta_{z}$. As proposed, the tracking performance can be improved by adapting the temporal scaling $\tau$.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Start, goal, and scaling", "weight": 1.0} -->
+
+Dragan et al. showed that DMPs solve a trajectory optimization problem in order to minimize a particular Hilbert norm between the demonstration and the new trajectory subject to start and goal constraints. In this light, DMP adaptation capabilities to different start and goals can be improved by choosing (or learning) a proper Hilbert norm that reduces the deformation in the retrieved trajectory.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Via-points", "weight": 1.0} -->
+
+A via-point can be defined as a point in the state space where the trajectory has to pass. Failing to pass a via-point may cause the robot to fail the task execution. Therefore, having a motion primitive representation with the capability of modulating the via-points is of importance in robotic scenarios. It is not surprising that researchers have extended the DMP formulation to consider intermediate via-points in the trajectory generation process.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Via-points", "weight": 1.0} -->
+
+Ning et al. extend the classical DMP to satisfy position and velocity constraints at the beginning and at the end of a sample trajectory. Their approach to traverse via-points consists of creating a sample trajectory by combining locally-linear trajectories connecting the via-points. This sample trajectory is used to fit a DMP that is constrained to pass the via-points.
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Via-points", "weight": 1.0} -->
+
+Weitschat and Aschemann considered each via-point as an intermediate goal (via-goal) $g_{v}$ for $v = {1,\ldots,V}$ to reach. The last via-goal $g_{V}$ corresponded to the target state of the DMP. In their formulation, they defined a variable goal as
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Via-points", "weight": 1.0} -->
+
+where $\Psi_{v}{(x)}$ are the Gaussian basis function centered at the time corresponding to the $v -$th via-goal. The effectiveness of the approach is demonstrated in a task were the robot has to reach a different target while preventing possible self-collisions of the end-effector with the robot body. To this end, authors place the via-goals along the trajectory used to learn the DMP, forcing the generated trajectory to stay close to the demonstration while reaching the new target.
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Via-points", "weight": 1.0} -->
+
+The problem of generalizing to via-point close (interpolation) and far (extrapolation) from the demonstration is faced. Their approach, namely Via-points Movement Primitives, combines the benefits of DMP and Probabilistic Movement Primitivess. Authors assumed that the motion trajectory is generated as
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Via-points", "weight": 1.0} -->
+
+where $x$ is the phase variable defined as in and the elementary trajectory $e{(x)}$ can be defined as the linear attractor ${e{(x)}} = {{({y_{0} - g})}x}$. The shape modulation term $f_{vmp}{(x)}$ is defined as
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Via-points", "weight": 1.0} -->
+
+where the Gaussian kernels $\Psi_{i}{(x)}$ are defined as, $w_{i}$ are learnable weights, and $\epsilon_{f}$ is the Gaussian noise. As detailed, learning the shape modulation term $f_{vmp}{(x)}$ means Learning from Demonstrations the prior probability distribution of the weights $w_{i}$. Having separated the generated trajectory into two parts like in allows to adopt different strategies to pass a via-point $y_{v}$ at $x_{v}$. Zhou et al. proposed to modify the shape modulation term for interpolation cases--when the via-point is "close" to the demonstrations. In extrapolation cases, instead, the elementary trajectory $e{(x)}$ is rewritten as the polygonal line connecting $y_{0}$, $y_{v}$, and $g$. This approach easily generalizes to the case of multiple via-points. VMPs are experimentally compared with ProMPs, showing better performance especially in extrapolation cases.
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Task parameters", "weight": 1.0} -->
+
+Reaching a different goal, or passing through via-points, may not be enough to successfully execute a task in a different context. Approaches presented in this section adapt the DMP motion to new situations by adjusting the weights $w_{i}$ of the forcing term, that modifies the entire DMP trajectory.
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Task parameters", "weight": 1.0} -->
+
+Weitschat et al. considered that $L$ demonstrations are given, each encoded in a different DMP. In order to generalize, for instance, to a new goal $g_{new}$, they proposed to interpolate the weights of nearby DMPs, i.e., DMPs that reached points around $g_{new}$. In formulas
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Task parameters", "weight": 1.0} -->
+
+where $o$ represents the indices of the nearby DMPs for which it holds that $d_{o} < d_{max}$. $d_{o}$ is the distance (or, more generally, a cost) between $g_{new}$ and $g_{o}$, $d_{max}$ is the maximum distance to consider 2 DMPs close. $\mathbf{w}_{new} = {\lbrack w_{1,{new}},\cdots,w_{N,{new}}\rbrack}^{\top}$ and $\mathbf{w}_{o} = {\lbrack w_{1,o},\cdots,w_{N,o}\rbrack}^{\top}$ are the new weights and the weight of nearby DMPs, respectively.
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Task parameters", "weight": 1.0} -->
+
+The approach by Forte et al. also assumes that $L$ demonstrations are given and that each demonstration is encoded in a different DMP. Further, the authors exploited GP to learn a mapping between the query points $q_{l}$ for $l = {1,\ldots,L}$ (e.g., the goal of each DMP) and the DMP parameters $\lbrack\mathbf{w}_{l},g_{l},\tau_{l}\rbrack$. Given the new query point $q_{new}$, Gaussian Process Regression (GPR) is used to retrieve the new set of parameters $\lbrack\mathbf{w}_{new},g_{new},\tau_{new}\rbrack$, that can be used to generate a DMP motion. This approach builds on previous work where raw data from the $L$ demonstrations are stored in memory and LWR is used to generate new DMP weights. Alizadeh et al. extend the approach in to retrieve the DMP weights even when the task parameters are partially observable.
+
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Task parameters", "weight": 1.0} -->
+
+Finally, extend the approach in to consider task-specific costs while learning the mapping between query points and DMP weights.
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Task parameters", "weight": 1.0} -->
+
+Aforementioned approaches follow a $2$-steps procedure where first the shape parameters $\mathbf{w}$ are estimated given new task parameters and then execute the DMP. Matsubara et al. augmented the forcing term with a style parameter used to capture human variability across multiple demonstrations. Stulp et al. proposed a $1$-step procedure where the DMP forcing term is reformulated to explicitly depend on the task parameters. Their experiments shows that a $1$-step approach gives more freedom w.r.t. the used regression technique and increase the generalization performance. Along the same line, Pervez and Lee embedded task parameters directly in the forcing term. Authors proposed to use a mixture of Gaussians to learn the mapping between the task parameters (e.g., new goal, height of an obstacle, etc) and the forcing term. Given a new query task parameter, regression over the mixture of Gaussians is used to retrieve the forcing term parameters and generate the DMP motion. The approach is tested on a variety of tasks including sweeping and stricking and additionally compared with the approaches presented by showing better performance especially in extrapolation.
+
+<!-- chunk {"id": "body-0119", "role": "body", "section": "Task parameters", "weight": 1.0} -->
+
+A Mixture of Motor Primitives (MoMP) is proposed in and used to generalize table tennis skills like hitting and batting a ball. MoMP uses an augmented state that contains robot position and velocity as well as the meta-parameters of the table tennis task like the expected hitting position and velocity. The adapted motion is generated by the weighted summation of $L$ DMPs and the responsibility of each DMP, representing the probability that a particular DMP is the correct one for the sensed augmented state, is also learned from data.
+
+<!-- chunk {"id": "body-0120", "role": "body", "section": "Task parameters", "weight": 1.0} -->
+
+In high DoF systems, like humanoid robots, it is non trivial to find a relationship between the task and the DMP parameters. This is especially true when the DMPs are used to encode joint space trajectories. Bitzer and Vijayakumar showed that such a relationship is easier to find in a latent (lower dimensional) space obtained from training data. Therefore, they used dimensionality reduction techniques to find the latent space where to fit a DMP and show that interpolation of DMP weights in the latent space results in better generalization performance.
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Joining multiple DMPs", "weight": 1.0} -->
+
+An important and desired feature of any motion primitive representation is the possibility to combine basic movements to obtain more complex behaviors. We review here three prominent approaches developed to smoothly join a sequence of DMPs. In this tutorial, we name the approach by Pastor et al. as velocity threshold, that in as target crossing, and that in as basis functions overlay. Some of the presented approaches modify the DMP formulations in Section 2.1.1 and 2.1.2. The main differences are highlighted with green text. The $3$ approaches have been implemented in Matlab for both position (Section 2.1.1) and orientation (Section 2.1.2) DMPs. The source code is included in our public repository (see Table 4). Results on synthetic data are shown in Figures 8 to 11.
+
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Velocity threshold", "weight": 1.0} -->
+
+A properly designed DMP reaches the desired target with zero velocity and acceleration, i.e., once a DMP is fully executed the robot comes to a full stop. This also implies that the velocity "close" to the target is continuously decreasing. Using this property, Pastor et al. propose to combine successive DMPs by simply terminating the current DMP when the velocity is below a certain threshold and then starting the following primitive. When executing a single DMP, it is common practice to initialize its velocity to zero---the robot is assumed to be still. In principle, this initialization can be used to sequence multiple DMPs, but it may generate discontinuities if the robot does not fully stop in between two consecutive primitives. To prevent this discontinuities, Pastor et al. initialized the state of the current DMP with that of the previous one.
+
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Velocity threshold", "weight": 1.0} -->
+
+The velocity threshold approach is simple and effective since it directly applies to the DMP formulations in Sections 2.1.1 and 2.1.2. For instance, Saveriano et al. showed how to join multiple quaternion DMPs^22^2Saveriano et al. used the multi-dimensional DMP formulation developed in for both position and quaternion DMPs. In this review paper, we reformulate the merging approaches in to comply with the formulations in Section 2.1.1 and 2.1.2.1. (see Section 2.1.2.1) with the velocity threshold approach.
+
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Velocity threshold", "weight": 1.0} -->
+
+Results in Figure 8 are obtained when velocity threshold is applied to merge $2$ DMPs separately trained to fit minimum jerk trajectories (black dashed lines). Figures 8a--8e show the position and Figures 8f--8j the orientation (unit quaternion) parts of the motion. The merged trajectory is generated by following the first DMP until the distance from the via-point is below $0.01$\[m\] and $0.01$\[rad\]. As shown in Figures 8d and 8i, the switch occurs after about $4.7$\[s\]. Figures 8e and 8j shows that the desired trajectory is accurately reproduced. More or less accurate trajectories can be obtained by tuning the distance from the via-point. However, the value of this distance the time duration of the generated trajectory---a bigger (smaller) distance results in a shorter (longer) trajectory. For instance, in the considered case, the total motion ends after $9.5$\[s\] while the demonstration lasts for $10$\[s\].
+
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Velocity threshold", "weight": 1.0} -->
+
+Depending on the application, the time difference may cause failures, therefore, it has to be taken into account. Finally, the velocity threshold approach may generate discontinuities if the target of the current DMP is far from the demonstrated initial point of the following primitive.
+
+<!-- chunk {"id": "body-0126", "role": "body", "section": "Target crossing", "weight": 1.0} -->
+
+There exist movements like hitting or batting that are correctly executed only if the target is reached with a non-zero velocity. To this end, Kober et al. extend the classical DMP formulation in Section 2.1.1 to let the DMP to track a target moving at a given velocity. In their approach, the DMP passes the target with a given velocity exactly after $T$ seconds. To achieve this, the acceleration in is re-written as
+
+<!-- chunk {"id": "body-0127", "role": "body", "section": "Target crossing", "weight": 1.0} -->
+
+where ${\overset{˙}{\hat{y}}}_{m}$ is the desired velocity of the moving target $\hat{g}$, which is defined as
+
+<!-- chunk {"id": "body-0128", "role": "body", "section": "Target crossing", "weight": 1.0} -->
+
+By inspecting and, and considering that the term $- {{\tau{\ln{(x)}}}/\alpha_{x}}$ represents the elapsed time if $x$ is the phase defined, it is possible to show that the moving target $\hat{g}$ is designed to reach the goal $g$ after $T$ seconds, i.e., ${\hat{g}{(T)}} = g$ (Fig. 9-*left*). The initial position of the moving target $\hat{g}{}$ is obtained by moving the goal position $g$ for $T$ seconds at constant velocity $- \overset{˙}{\hat{y}}$. High accelerations at the beginning of the movement are avoided by the pre-factor $({1 - x})$ which is set to zero at the beginning of the motion (${x{}} = 1$). The approach by Nemec and Ude combines a moving target and a particular initialization of the subsequent DMP to ensure continuity of the movement up to second-order derivatives.
+
+<!-- chunk {"id": "body-0129", "role": "body", "section": "Target crossing", "weight": 1.0} -->
+
+Saveriano et al. extended this idea to quaternion DMP. The angular acceleration in is modified as
+
+<!-- chunk {"id": "body-0130", "role": "body", "section": "Target crossing", "weight": 1.0} -->
+
+where $\hat{\mathbf{ω}}$ is the angular velocity of the moving quaternion target ${\hat{\mathbf{g}}}_{q}$ and $2\text{Log}^{q}{({{\hat{\mathbf{g}}}_{q} \ast \overline{\mathbf{q}}})}$ measures the error between the current orientation $\mathbf{q}$ and ${\hat{\mathbf{g}}}_{q}$. The pre-factor $({1 - x})$ is used to avoid high angular accelerations at the beginning of the motion. The moving target for the quaternion DMPs is defined as
+
+<!-- chunk {"id": "body-0131", "role": "body", "section": "Target crossing", "weight": 1.0} -->
+
+where $\mathbf{g}_{q}$ is the goal quaternion, $T$ is the time duration of the DMP, and the exponential map $\text{Exp}^{q}{( \cdot )}$ is defined. As shown in Figure 9-*right*, the moving target ${\hat{\mathbf{g}}}_{q}$ reaches the goal orientation after $T$ seconds, i.e., ${{\hat{\mathbf{g}}}_{q}{(T)}} = \mathbf{g}_{q}$. This can be easily verified by considering that the initial value of the moving target ${\hat{\mathbf{g}}}_{q}{}$ is computed by moving the goal orientation $\mathbf{g}_{q}$ for $T$ seconds at the desired velocity $- \hat{\mathbf{ω}}$.
+
+<!-- chunk {"id": "body-0132", "role": "body", "section": "Target crossing", "weight": 1.0} -->
+
+The presented target crossing approach allows to cross the target after $T$ seconds. Assuming to have two DMPs with time duration $T^{1}$ and $T^{2}$ respectively, one can join them by running the first DMP for $T^{1}$ seconds and then switching to the second one. As for the velocity threshold approach, possible discontinuities at the switching point are prevented by initializing the state of DMP~2~ with the final state of DMP~1~. This procedure can be repeated to join $L \geq 2$ consecutive DMPs.
+
+<!-- chunk {"id": "body-0133", "role": "body", "section": "Target crossing", "weight": 1.0} -->
+
+Results in Figure 10 are obtained when the velocity threshold is applied for merging $2$ separately trained DMPs to fit the minimum jerk trajectories (black dashed lines). Figures 10a--10e show the position and Figures 10f--10j the orientation (unit quaternion) parts of the motion. The merged trajectory is generated by following the first DMP for $T^{1} = 5$s and then switch to the second one. The required intermediate velocity is set to $0.01$m/s (rad/s for the orientation) in each direction. The generated trajectory reaches the goal in $10$s, i.e., demonstration and execution times are the same. As required, the via-point is crossed at $T = 5$s with the desired velocity (Fig. 10c and 10h). However, the non-zero crossing velocity introduce a deformation in the first part of the trajectory (Fig. 10e and 10j).
+
+<!-- chunk {"id": "body-0134", "role": "body", "section": "Basis functions overlay", "weight": 1.0} -->
+
+The approach by Kulvicius et al. combines multiple DMPs into a complex one, guaranteeing a smooth transition between the primitives by ensuring that the basis functions composing $f{(x)}$ in overlap at the switching instances. First of all, Kulvicius et al. adopted a sigmoidal phase variable in instead of the exponentially decaying one. As discussed in Section 2.1.1.3, the sigmoidal phase is $\approx 1$ for the large part of the motion which makes it possible to use smaller forcing terms to reproduce the demonstrations. On the contrary, the exponential phase is close to zero already before $T$s (Fig. 3), which results in larger forcing terms.
+
+<!-- chunk {"id": "body-0135", "role": "body", "section": "Basis functions overlay", "weight": 1.0} -->
+
+The classical acceleration dynamics in is modified as
+
+<!-- chunk {"id": "body-0136", "role": "body", "section": "Basis functions overlay", "weight": 1.0} -->
+
+Similarly to target crossing, Kulvicius et al. used a moving target $\overset{\sim}{g}$ in the acceleration dynamics, but called it the delayed goal function. The $\overset{\sim}{g}$ term in is obtained by integrating
+
+<!-- chunk {"id": "body-0137", "role": "body", "section": "Basis functions overlay", "weight": 1.0} -->
+
+The non-linear forcing term $f{(s)}$ is in green in because it slightly differs from the classical one. $f{(s)}$ is defined as
+
+<!-- chunk {"id": "body-0138", "role": "body", "section": "Basis functions overlay", "weight": 1.0} -->
+
+where $\sigma_{i}$ is the width and $c_{i}$ is the center of the $i$-th basis function, and $s$ is obtained by integrating. The term ${t/\tau}T$ is used in instead of the the phase variable $x$. Being $0 \leq {{t/\tau}T} \leq 1$, the basis functions are equally spaced between $0$ and $1$. Finally, $\sigma_{i}$ are the widths of each kernel. They are constant and depend on the number of kernels.
+
+<!-- chunk {"id": "body-0139", "role": "body", "section": "Basis functions overlay", "weight": 1.0} -->
+
+Having presented the main differences with the canonical approach, it is possible to focus on how Kulvicius et al. solved the problem of joining $L \geq 2$ DMPs. In general, each of the $L$ DMPs has a different time duration $T^{l}$, desired target $g^{l}$, and initial position $y_{0}^{l}$, from which it is possible to compute the delayed goal functions by integrating
+
+<!-- chunk {"id": "body-0140", "role": "body", "section": "Basis functions overlay", "weight": 1.0} -->
+
+Note that, being ${{\overset{\sim}{g}}^{l}{}} = y_{0}$, the acceleration is smooth at the beginning of the motion. For this reason, the term $({1 - x})$ used in is not needed.
+
+<!-- chunk {"id": "body-0141", "role": "body", "section": "Basis functions overlay", "weight": 1.0} -->
+
+Assuming that $L$ DMPs have been trained and that each DMP has $N$ kernels, we can merge them into one DMP as follows. The centers of the joined DMP are computed as
+
+<!-- chunk {"id": "body-0142", "role": "body", "section": "Basis functions overlay", "weight": 1.0} -->
+
+where $T^{l}$ is the duration of the $l$-th DMP, and $T_{join} = {\sum_{l = 1}^{L}T^{l}}$ (duration of the joined motion). The widths of the joined DMP are computed as
+
+<!-- chunk {"id": "body-0143", "role": "body", "section": "Basis functions overlay", "weight": 1.0} -->
+
+The centers and widths computed in and respectively overlap at the transition points allowing for smooth transitions between consecutive DMPs. The weights of the joined DMP are obtained by stacking the $N$ weights of the $L$ DMPs. Therefore, the joined DMP has $N \ast L$ kernels and $N \ast L$ weights. The phase variable is modified to run for the duration $T_{join}$ of the joint motion.
+
+<!-- chunk {"id": "body-0144", "role": "body", "section": "Basis functions overlay", "weight": 1.0} -->
+
+Saveriano et al. extended the basis functions overlay approach to quaternion DMPs. Assuming that a sequence of $L$ quaternion DMPs is given. The angular acceleration in is reformulated for each DMP as
+
+<!-- chunk {"id": "body-0145", "role": "body", "section": "Basis functions overlay", "weight": 1.0} -->
+
+Results in Figure 11 are obtained when velocity threshold is applied to merge $2$ DMPs separately trained to fit the minimum jerk trajectories (black dashed lines). Figures 11a--11e show the position and Figures 11f--11j the orientation (unit quaternion) parts of the motion. This approach does not require a switching rule and automatically generates a smooth trajectory---with continuous velocity as shown in Figures 11c and 11h---that passes close to the via-point which favors the overall reproduction accuracy (Fig. 11e and 11j). However, the distance from the via-point depends on the weights of the joined primitives and cannot be separately decided. The trajectory generated with this approach tend to last longer than the demonstrations. This is due to the sigmoidal phase that vanishes after $T + \delta_{s}$s (Fig. 3). Depending on the application, the time difference may cause failures and has to be taken into account.
+
+<!-- chunk {"id": "body-0146", "role": "body", "section": "Online adaptation", "weight": 1.0} -->
+
+The standard periodic DMP learning approach approximates the shape $f_{d}{(t)}$ of the input trajectory $y_{d}$ in by changing the weights of the Gaussian kernel functions. Updating of the weights is performed in such a way that the difference between the reference trajectory and the DMP is reduced at every control step and gradually throughout the periodic repetitions. However, the DMP can also be reshaped by some external feedback function to achieve different functionalities for different applications, for instance, tasks that require trail-and-error approach, obstacle avoidance, coaching for robots, and adaptation of assistive exoskeleton behavior. Alternatively, the frequency of the existing periodic DMPs can be modulated online.
+
+<!-- chunk {"id": "body-0147", "role": "body", "section": "Robot obstacle avoidance and coaching", "weight": 1.0} -->
+
+In the detected obstacle was fitted with a potential field function to change the shape of the DMP to avoid it. More in details, Tan et al. used the potential field to compute a time-varying goal and modified the resulting DMP trajectory, while added and extra forcing term to the DMP. Similarly in the human arm was fitted with a potential field function, which was used to reshape the DMP to perform coaching.
+
+<!-- chunk {"id": "body-0148", "role": "body", "section": "Robot obstacle avoidance and coaching", "weight": 1.0} -->
+
+where $\mathcal{O}$ is the obstacle (or human pointing gesture) and $y$ is the robot position. Exponential and $\zeta$ functions determine the potential field, while function $d_{s}$ controls the distance at which the perturbation field should start affecting the DMP. For the full formulation of $C_{\mathcal{O}}$ and its parameters, see. In the method was extended to include generalization of the obstacle avoidance formulation.
+
+<!-- chunk {"id": "body-0149", "role": "body", "section": "Robot obstacle avoidance and coaching", "weight": 1.0} -->
+
+Alternatively, the faulty segment of collision DMP trajectory can also be directly adjusted online by the human demonstrator. On the other hand, the method in considers obstacle avoidance as a constraint of an optimization problem, which modifies the DMP trajectory to prevent collisions.
+
+<!-- chunk {"id": "body-0150", "role": "body", "section": "Robot adaptation based on force feedback", "weight": 1.0} -->
+
+Similarly as for obstacle avoidance, task dynamics can also be incorporated into DMP as coupling terms. In task dynamics were coupled on the acceleration and velocity level of the DMP. The presented method was utilized for interaction tasks, where the human changed the behavior of the robot based on the exerted dynamics on the manipulator.
+
+<!-- chunk {"id": "body-0151", "role": "body", "section": "Robot adaptation based on force feedback", "weight": 1.0} -->
+
+whereas the force coupling term $C_{f} = {\varsigmaF}$ is defined as a virtual or measured force $F$ and $\varsigma$ is a scaling factor, which essentially changes the dynamic behavior of the DMP, enabling the motion primitive to instantly react to the coupled force. Later, Zhou et al. introduced a PD controller based coupling term formulation $C_{PD} = {\varsigma{({{K^{\mathcal{P}}{({F_{d} - F^{e}})}} - {D^{\mathcal{V}}{\overset{˙}{F}}^{e}}})}}$ coupled to the velocity part of the DMP. In the formulation $F_{d}$ represents the desired force, $F^{e}$ is the measured force, $\varsigma$ is a scaling factor and $K^{\mathcal{P}}$ and $D^{\mathcal{V}}$ are the proportional and derivative gains of the Proportional Derivative (PD) controller.
+
+<!-- chunk {"id": "body-0152", "role": "body", "section": "Robot adaptation based on force feedback", "weight": 1.0} -->
+
+The coupling term formulation allows for controlled adaptation of robot motion to changes in the environment.
+
+<!-- chunk {"id": "body-0153", "role": "body", "section": "Robot adaptation based on force feedback", "weight": 1.0} -->
+
+In this approach was extended, with a force feedback loop coupled to the velocity and the goal $g$ of the DMP. The outcome of this approach is a similar behavior as an admittance controller, with an difference that the execution is directly on the trajectory generation level.
+
+<!-- chunk {"id": "body-0154", "role": "body", "section": "Robot adaptation based on force feedback", "weight": 1.0} -->
+
+Here ${\overset{˙}{C}}_{a} = {\varsigma{({F_{d} - F^{e}})}}$ is the first time-derivative of the admittance coupling term, which changes the velocity and consequently the integrated coupling term, the position output of the DMP. The described approach can be used for Cartesian space motion, where the forces have to be substituted for desired and measured torques. This approach can be implemented in robot tasks involving contact with the environment as well as contact with humans.
+
+<!-- chunk {"id": "body-0155", "role": "body", "section": "Exoskeleton joint torque adaptation", "weight": 1.0} -->
+
+In, human effort was used to provide the information about the direction in which the assistive exoskeleton joint torque DMP should change in order to minimize it.
+
+<!-- chunk {"id": "body-0156", "role": "body", "section": "Exoskeleton joint torque adaptation", "weight": 1.0} -->
+
+where $E{(t)}$ is the current effort measured by human muscle activity through Electromyography (EMG) signals^33^3Note that other feedback that measures human effort can be used instead of EMG, such as joint torque or limb forces.. Equations - and are used in the original form. Equations - are not used, since is used to modulate the weights in instead.
+
+<!-- chunk {"id": "body-0157", "role": "body", "section": "Exoskeleton joint torque adaptation", "weight": 1.0} -->
+
+The effort feedback term $U{(E)}$ closes the loop and acts as a feedback for adapting the weights of Gaussian kernels that define the shape of the trajectory. A positive $U{(E)}$ increases, while a negative $U{(E)}$ decreases the values of weights at a given section of the periodic DMP that encodes joint torque. If the shape of the DMP does not provide enough assistive power, the human has to exert effort (i.e., muscle activity) to produce the rest of the power required to achieve the desired task under given dynamics. In turn, muscle activity feedback then increases the magnitude of the DMP until the human effort term $U{(E)}$ is minimised. Note that each joint has its own torque DMP and $U{(E)}$ term. After that point, the DMPs do not change unless the task, dynamics or conditions change. If they change, the human has to compensate for the change by an additional muscle activity, which in turn adapts the DMPs to the new required joint torques.
+
+<!-- chunk {"id": "body-0158", "role": "body", "section": "Trajectory adaptation based on reference velocity", "weight": 1.0} -->
+
+In many LfD scenarios it is desired to modify both the spatial motion and the speed of the learned motion at any stage of the execution. Speed-scaled dynamic motion primitives first presented in Nemec et al. are applied for the underlying task representation. The original DMP formulation from and were extended by adding a temporal scaling factor $\upsilon$ on the velocity level of the DMP
+
+<!-- chunk {"id": "body-0159", "role": "body", "section": "Trajectory adaptation based on reference velocity", "weight": 1.0} -->
+
+Form and, it is evident that the velocity term is a function of phase, and therefore encoded with a set of RBFs similarly as. This method allows for modification of the spacial motion as well as the speed of the execution at any stage of the trajectory execution. The authors demonstrated the proposed method in a learning scenario, where after every learning cycle (using Iterative Learning Control (ILC)) a new velocity profile was encoded based on the wrench feedback, and thus converged to an optimal velocity for the specific task. Vuga et al. extended the approach by incorporating a compact representation for non-uniformly accelerated motion as well as simple modulation of the movement parameters.
+
+<!-- chunk {"id": "body-0160", "role": "body", "section": "Trajectory adaptation based on reference velocity", "weight": 1.0} -->
+
+Later, in Nemec et al. the authors extended the previous approach to also incorporate velocity scaling of the encoded orientation trajectories represented with unit quaternions. The outcome of the presented work is a unified approach to velocity scaling for tasks executed in Cartesian space. Furthermore, a reformulation of the velocity approach called AL-DMPs was presented by Gašpar et al.. In this work they present a method, where the spatial and temporal components of the motion are separated, by means of the arc-lenght based on the time parameterized trajectory. Arc-lenght, based on the differential geometry of curves, is related to the speed of the movement, given as the time derivative of the demonstrated trajectory. The approach is well suited when multiple demonstrations are compared for extraction of relevant information for learning. Weitschat and Aschemann add an extra forcing term to keep the velocity within a certain predefined limit. The aim of this work is to guaranty a safe execution of the robot task when interacting with humans, as well as providing a framework for safe interaction in a changing environment where the robot position and velocity have to change over time. For a full formulation of the coupling term see.
+
+<!-- chunk {"id": "body-0161", "role": "body", "section": "Trajectory adaptation based on reference velocity", "weight": 1.0} -->
+
+Additionally, Dahlin and Karayiannidis in their work proposed a temporal coupling based on a repulsive potential, keeping the DMP velocity within the predefined velocity limits while ensuring the path shape invariance.
+
+<!-- chunk {"id": "body-0162", "role": "body", "section": "Alternative formulations", "weight": 1.0} -->
+
+LfD is a wide research area and many different approaches have been developed to reproduce human demonstrations. As already mentioned, the aim of this tutorial survey is to provide a comprehensive overview of DMPs research and we intentionally skip the rich literature in the field of LfD. However, we found some representations that are closely related to the DMP formulation. This section briefly reviews them.
+
+<!-- chunk {"id": "body-0163", "role": "body", "section": "Alternative formulations", "weight": 1.0} -->
+
+Calinon et al. computed an acceleration command for the robot in a PD-like form
+
+<!-- chunk {"id": "body-0164", "role": "body", "section": "Alternative formulations", "weight": 1.0} -->
+
+where $\mathbf{K}^{\mathcal{P}}$ is a stiffness and $\mathbf{D}^{\mathcal{V}}$ a damping gain, $\mathbf{y}$ is the measured state of the robot and $\overset{˙}{\mathbf{y}}$ its time derivative (velocity), $\mathbf{y}_{d}$ and ${\overset{˙}{\mathbf{y}}}_{d}$ are desired position and velocity retrieved with GMR. Authors then shown that the acceleration command $\overset{¨}{\mathbf{y}}$ can be seen as a mixture of linear dynamics, each converging to a certain attractor. Despite later work like referred to this representation as "a modified version" of DMPs there are significant differences with the DMP formulation properly highlighted.
+
+<!-- chunk {"id": "body-0165", "role": "body", "section": "Alternative formulations", "weight": 1.0} -->
+
+Herzog et al. computed an acceleration command for the robot from the linear system
+
+<!-- chunk {"id": "body-0166", "role": "body", "section": "Alternative formulations", "weight": 1.0} -->
+
+where $\mathbf{y}$ is the measured state of the robot, $\mathbf{y}_{d}$ is a human demonstration, and $\mathbf{K}^{\mathcal{P}}$ is a control gain computed using the linear-quadratic regulator method. Then, a compact representation of the control input trajectory $\mathbf{u}$ is computed by means of Chebyshev polynomials. This representation does not require a vanishing phase variable to ensure convergence, but the generalization to different start/goal position requires the application of the linear-quadratic regulator method to find a new sequence of control inputs.
+
+<!-- chunk {"id": "body-0167", "role": "body", "section": "Alternative formulations", "weight": 1.0} -->
+
+Regarding periodic motions, proposed a dynamical system-based framework to learn rhythmic movements with an arbitrary shape and basin of attraction. They exploit phase-based scaling functions to represent the mapping between a known, base limit cycle and a desired periodic orbit. The basic limit cycle can be, for example, the one generated by a periodic DMPs, which makes the approach of a more general formulation of periodic primitives.
+
+<!-- chunk {"id": "body-0168", "role": "body", "section": "DMPs integration in complex frameworks", "weight": 1.0} -->
+
+This section reviews approaches where DMPs have been integrated into bigger executive frameworks. We categorize these approaches into five main research areas, namely grasping and manipulation, impedance learning, reinforcement learning, deep learning, and incremental and life-long learning
+
+<!-- chunk {"id": "body-0169", "role": "body", "section": "Manipulation tasks", "weight": 1.0} -->
+
+Successfully grasping an object is the first step towards robotic manipulation. Performing a grasping requires a (visual) perception of the environment to locate the object to grasp and decide the grasping points based on its geometry. In this setting, even small uncertainties may cause the object to drop and the grasp to fail. To improve the robustness of vision driven grasping, Krömer et al. augmented DMPs with a potential field based on visual descriptors that adapts hand and finger trajectories to the object's local geometry. This grasping strategy was integrated in a hierarchical control architecture where the upper level decides where to grasp the object and the lower level locally adapted the motion to robustly grasp the object. Stein et al. proposed a point cloud segmentation approach based on convexity and concavity of surfaces. The approach is particularly suited to recognize object handles and enables a robot to automatically grasp object.
+
+<!-- chunk {"id": "body-0170", "role": "body", "section": "Manipulation tasks", "weight": 1.0} -->
+
+The ability of grasping and using tools is also desirable to perform daily-life manipulation. In this respect, proposed the so-called tool movement primitives that transform the demonstrations in a tool affordance frame. The result is a motion that generalize to different tool poses and to tools that share the same affordance(s). Li and Fritz considered tool usage with low-cost, non-dexterous grippers and propose a framework to learn bi-manual strategies for tool usage and compensate for the lack of dexterity. Bi-manual robotic manipulation is a challenging task that requires precise coordination between the hand movements and adherence to the spatial constrains. Thota et al. developed a DMP-based control framework for bi-manual manipulation that ensures time synchronization of the two hands while being robust to spatial perturbations and goal changes.
+
+<!-- chunk {"id": "body-0171", "role": "body", "section": "Manipulation tasks", "weight": 1.0} -->
+
+Beyond the object grasping, everyday manipulation requires a precise execution of complex movements. Often such a complex movements are hard to encode into a single motion primitive, but they can be conveniently split into simpler motions (e.g., reach and grasp) that can be properly sequenced and executed (Fig. 12).
+
+<!-- chunk {"id": "body-0172", "role": "body", "section": "Manipulation tasks", "weight": 1.0} -->
+
+The possibility of exploiting DMPs as the building blocks of complex tasks was investigated. In these works, a human teacher demonstrated a relatively complex task consisting of several actions performed on different objects. The demonstration was then automatically segmented into $M$ basic motions used to fit $M$ DMPs. While Ramirez-Amaro et al. exploit semantic rules (e.g. reach an object with a knife means cut) to infer high-level human activities, Caccavale et al. built a hierarchical structure to schedule the execution of the complex task by selecting the proper DMP for the current executive context. They used kinesthetic teaching and verbal cues (open/close gripper commands) to provide task demonstrations. Lemme et al. organize segmented task demonstrations into a motion primitives library learned from self-generated trajectory patches. They also introduced a mechanism to remove unused skills and update the library. Kinesthetic teaching and haptic feedback were also used by Eiband et al. to segment and recognize basic motions or skills, and to build a tree describing geometric relationships---like reference frames and goal poses---between consecutive skills.
+
+<!-- chunk {"id": "body-0173", "role": "body", "section": "Manipulation tasks", "weight": 1.0} -->
+
+At run time, the robot performed haptic exploration to locate objects in the scene and update the skill tree. The transformations in the skill tree were then used to define initial and goal pose of the DMPs and execute the task. Finally, Wu et al. integrated DMPs into a dialogue system with speech and ontology to learn or re-learn a task using natural interaction modalities.
+
+<!-- chunk {"id": "body-0174", "role": "body", "section": "Manipulation tasks", "weight": 1.0} -->
+
+Collecting demonstrations becomes an issue of kinesthetic teaching or marker-based motion trackers cannot be used. The latter requires an expensive sensor infrastructure that is hard to build in real world scenarios like factory floors. Kinesthetic teaching needs torque controlled/collaborative robots that are still uncommon in industrial scenarios. To remedy this issue exploited a low-cost RGB-D camera and track the human hand using the markerless approach proposed. Collected data were then segmented into basic motions and used to fit DMPs.
+
+<!-- chunk {"id": "body-0175", "role": "body", "section": "Manipulation tasks", "weight": 1.0} -->
+
+Described approaches assumes that human teachers always provide consistent and noiseless task demonstrations. Ghalamzan E. et al. encoded noisy demonstrations into a GMM and computed a noise free trajectory using GMR. The noise free trajectory was then used to fit a DMP that generalized to different start, goal, and obstacle configurations. Niekum et al. designed a framework that learns from from unstructured demonstrations by segmenting the task demonstrations, recognizing similar skills, and generalizing the task execution. Interestingly, a user study on $10$ volunteers conducted by showed that existing strategies for segmentation and learning are sufficiently robust to enable automatic transfer of manipulation skills from humans to robots in a reasonable time. Finally, some work exploited transition graphs and trees to embed parts of a trajectory and search algorithms to discover sequence of partial parts and generate motions that have not been demonstrated.
+
+<!-- chunk {"id": "body-0176", "role": "body", "section": "Manipulation tasks", "weight": 1.0} -->
+
+Approaches that rely on a hierarchical, tree-like structure to represent the task that has limited task generalization capabilities. Lee and Suh used probabilistic inference and object affordances to infer the adequate skill that can handle uncertainties in the executive context. Beetz et al. learned stereotypical task solutions from observation and used task planning and symbolic reasoning to execute novel mobile manipulation tasks. A generative learning framework was proposed by to augment the robot's knowledge-base with missing information at different level of the cognitive architecture, including symbolic planning as well as object and action properties. used task and motion planning to generalize the execution of complex assembly tasks and proposed an learning by demonstration approach to ground symbolic actions. performed task and motion planning by combining an object-centric description of geometric relations between objects in the scene, a symbol to motion hierarchical decomposition depending on tree consecutive actions in the plan, and the LfD approach developed in (Fig. 12). A manipulation task was described at three different levels. The top-level provides a symbolic descriptions of actions, objects, and their relationships. The mid-level uses a finite state machine to generate a sequence of action primitives grounded by the lower level.
+
+<!-- chunk {"id": "body-0177", "role": "body", "section": "Manipulation tasks", "weight": 1.0} -->
+
+A common point among these approaches is that they use DMP to execute the task on real robots.
+
+<!-- chunk {"id": "body-0178", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+Impedance control can be used to achieve complaint motions, in which the controller resembles a virtual spring-damper system between the environment and robot end-effector. Such approach permits smooth, safe, and energy-efficient interaction between robots and environments (possibly humans). A standard model for such interaction is defined as
+
+<!-- chunk {"id": "body-0179", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+where and correspond to translational and rotational cases respectively, ${\mathfrak{M}},\mathbf{K}_{t}^{\mathcal{P}},{\text{and~}\mathbf{D}_{t}^{\mathcal{V}}}$ are the mass, stiffness and damping matrices, respectively, for translational motion, while ${\mathcal{I}},\mathbf{K}_{t}^{\mathcal{O}},{\text{and~}\mathbf{D}_{t}^{\mathcal{W}}}$ are the moment of inertia, stiffness and damping matrices, respectively, for rotational motion. ${\hat{\mathbf{R}},\mathbf{R}_{t}} \in {{\mathcal{S}}{\mathcal{O}}{}}$ are rotation matrices and correspond to desired rotation goal and actual orientation profile of the end-effector, respectively.
+
+<!-- chunk {"id": "body-0180", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+$\mathbf{f}_{t}^{e}$ and ${_{t}}^{e}$ represent the external force and torque applied to the robot end-effector.
+
+<!-- chunk {"id": "body-0181", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+In fact, VIC plays an important role when a robot needs to interact with any environment in order to avoid high impact forces and damage for the environment or the robot (i.e., change to low stiffness)Ajoudani et al.; Abu-Dakka et al.; Peternel et al.. On the other hand, it is important in rejecting unexpected and unpredictable perturbations from the environment to achieve a desired position tracking precision (i.e., change to high stiffness) Yang et al.. In addition, it is also important in coordination of human-robot collaborative movements Peternel et al.. However, a robotic system still needs to learn how to adapt such VIC to unseen situations while avoiding hard-coding. Such paradigm of learning is called Variable Impedance Learning Control (VILC). Interested readers can refer to our recent survey on VILC.
+
+<!-- chunk {"id": "body-0182", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+In this review, we will mention some of the works that integrate DMP with VIC in a VILC framework. Figure 13 shows a simple generic example where DMP is integrated in a VIC control scheme.
+
+<!-- chunk {"id": "body-0183", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+Buchli et al. proposed one of the earliest approaches that integrates DMP with Policy Improvement with Path Integrals (PI^2^) algorithm to learn movements (position and velocity presented by DMP) while optimizing impedance parameters. Later the authors exploited a diagonal stiffness matrix and expressed the variation (time derivative) of each diagonal entry as
+
+<!-- chunk {"id": "body-0184", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+where $j$ indicates the $j$-th joint, $k_{\vartheta_{j},t}$ is the stiffness of joint $j$, $\mathbf{\epsilon}_{j,t}$ is a time-dependent exploration noise, each $\curlywedge_{j}$ is a vector of $N$ Gaussian basis functions, and $\mathbf{\vartheta}_{j}$ are the learnable parameters for joint $j$. The stiffness parameterization in is also linear in the parameters and PI^2^ can be applied to find the optimal policy. Later, authors used PI^2^ to learn VIC in deterministic and stochastic force fields. Nakanishi et al. proposed a method that optimizes a periodic motion a long with a time-varying joint stiffness.
+
+<!-- chunk {"id": "body-0185", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+introduced an extension to DMP formulation by adding a second nonlinear function to cope with elastic robots as follow
+
+<!-- chunk {"id": "body-0186", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+where $f_{2}$ is defined as but without the phase variable $x$. The main purpose of $f_{2}$ is to compensate the gravitational influence on the moved DoF at the end of the movement time and beyond. Differently, Haddadin et al. used optimal-control to execute near-optimal motion of elastic robots.
+
+<!-- chunk {"id": "body-0187", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+Nemec et al. proposed a cooperative control scheme that enables dual arm robot to adapt its stiffness online along to the executed trajectory in order to provide accurate evolution. used GP along with DMPs (as proposed in ) to predict the trajectories. During the execution, their admittance controller adapts both stiffness and damping online. The energy-tanks passivity-based control method has been integrated with DMPs to enforce passivity in order to stably adapt to contacts in unknown environments by adapting the stiffness online.
+
+<!-- chunk {"id": "body-0188", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+Methods in designed different multi-modal interfaces to let the human to explicitly teach an impedance behavior to the robot. Most of them combined EMG-based variable impedance skill transfer with DMP-based motion sequence planning, inheriting the merits of these two aspects for robotic skill acquisition. Hu et al. used Covariance Matrix Adaptation-Evolution Strategies (CMA-ES) to update the parameters of DMPs and variable impedance controller in order to reduce the impact in during the robot motion in noisy environments. Dometios et al. integrated a Coordinate Change- (CC-DMP) with a vision-based motion planning method to adapt the reference path of a robot's end-effector and allow the execution of washing actions.
+
+<!-- chunk {"id": "body-0189", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+Travers et al. proposed a shape-based compliance controller for the first time in locomotion, by implementing amplitude compliance on a snake robot moving in complex environment with obstacles. Their approaches allow a snake-like robots to blindly adapt to such complex unstructured terrains thanks to their proprioceptive gait compliance techniques
+
+<!-- chunk {"id": "body-0190", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+Recently, an adaptive admittance controller is proposed which integrates GMR for the extraction of human motion characteristics, DMP to encode a generalizable robot motion, and a RBF-NN-based controller for trajectory-tracking during the reproduction phase.
+
+<!-- chunk {"id": "body-0191", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+Novel LfD approaches explicitly take into account that training data are possibly generated by certain Riemannian manifolds with associated metrics. Abu-Dakka and Kyrki reformulated DMPs based on Riemannian metrics, such that the resulting formulation can operate with SPD data in the SPD manifold. Their formulation is capable to adapt to a new goal-SPD-point.
+
+<!-- chunk {"id": "body-0192", "role": "body", "section": "Variable impedance learning control", "weight": 1.0} -->
+
+Recently, biomimetic controller has been integrated with DMPs in order to learn and adapt compliance skills.
+
+<!-- chunk {"id": "body-0193", "role": "body", "section": "Reinforcement Learning (RL)", "weight": 1.0} -->
+
+In RL, an agent tries to improve its behavior via trial-and-error by exploring different strategies (actions) and receiving a feedback (reward) on the outcome of its actions. Actions $a$ are drawn from a policy $\pi{(s,a)}$ that represent a mapping between states $s$ and actions $a$. The goal of RL is to find an optimal policy $\pi^{\star}$ that maximizes the cumulative expected reward, i.e., the sum of expected rewards over a possibly infinite time interval. When the agent is a robot performing tasks in the real world the state and actions spaces are inherently continuous. Moreover, the robotic agent is affected by imperfect (e.g., noisy) perception and inaccurate models (e.g., contacts). Finally, performing a large amount of interactions with the real word (rollouts) is expensive and possibly dangerous. As discussed, robotic specific challenges require specific solutions to make the RL problem feasible.
+
+<!-- chunk {"id": "body-0194", "role": "body", "section": "DMPs as control policies", "weight": 1.0} -->
+
+One possibility is to use parameterized policy and use RL to search for an optimal, finite set of policy parameters. In this respect, DMPs have been widely used as policy parametererization. The general idea is shown in Figure 14 ‣ 4 integration in complex frameworks ‣ Dynamic Movement Primitives in Robotics: A Tutorial Survey"). More in details, showed that various policy gradient and actor-critic RL approaches can be effectively applied to improve robotic skills parameterized as DMPs. Other research focused on developing policy search algorithms specifically for parameterized policies. Inspired by stochastic optimal control, Theodorou et al. proposed Policy Improvement with Path Integrals (PI^2^) which is an application of path integral optimal control to DMPs. PI^2^ and DMPs have been successfully applied in several domains including VILC Buchli et al. and in-contact tasks, grasping under state estimation uncertainties, bi-manual manipulation, and robot-assisted endovascular intervention. Kober and Peters derived from expectation-maximization the so-called Policy Learning by Weighting Exploration with the Returns (PoWER).
+
+<!-- chunk {"id": "body-0195", "role": "body", "section": "DMPs as control policies", "weight": 1.0} -->
+
+PoWER and DMPs have been successfully applied to perform highly dynamic tasks including ball-in-a-cup Kober and Peters and pancake flipping Kormushev et al..
+
+<!-- chunk {"id": "body-0196", "role": "body", "section": "Limit the search space", "weight": 1.0} -->
+
+Even with parameterized policies the number of rollouts needs to search for optimal policy parameters may become large, especially for robots with many DoFs. Dimensionality reduction techniques can be exploited to perform policy search in a reduced space. The effectiveness of this approach was demonstrated in the challenging task of clothes (i.e., soft tissues) manipulation. IL arises as an effective approach to policy initialization and to speed up policy search by reducing the number of rollouts. In this respect, Kober et al. augmented DMPs with a perceptual coupling term and propose to initialize the DMP via human imitation and to refine the motor skill via RL. IL can be eventually combined with dimensionality reduction and several rollouts can be performed firstly in simulation to further speed up the policy search. When multiple demonstrations are given, one can learn a mapping between policy parameters and query points (e.g. goal positions) and use the mapping to generalize to new situations (Section 3.1.3). This strategy was used by Nemec et al. to provide a good initial policy for a new situation which is then further refined using RL.
+
+<!-- chunk {"id": "body-0197", "role": "body", "section": "Limit the search space", "weight": 1.0} -->
+
+Being the mapping estimated using example query points, the search space can be effectively constrained within query points making the policy search more efficient. Vuga et al. combined this approach with a different DMP formulation to optimize the velocity of execution. The approach was tested on diverse tasks including pouring water in a cup, where it prevented the water to split from the cup during the motion. Schroecker et al. provided demonstrations in the form of soft via-points (Section 3.1.2) which reduce the search space to the neighborhood of the taught via-points. Multiple demonstrations were used by to build a parameterized skill memory that connects low-dimensional skill parameterization to motion primitive parameters. This low-dimensional embedding is then leveraged for efficient policy search. Instead of learning a mapping from task to policy parameters, Queißer et al. used data from the rollouts to incrementally learn a parametric skill (bootstrapping) and used it to generate a good initial policy for a new task.
+
+<!-- chunk {"id": "body-0198", "role": "body", "section": "DMPs generalization and sequencing", "weight": 1.0} -->
+
+Instead of using generalization to provide a better initial policy, some researchers exploit RL to improve and generalize the motion primitive. adapted DMP policies to walk on sloped terrains. Mülling et al. generalized to new situations using a mixture of DMPs. In their approach, RL was used to estimate the shape parameters as well as to estimate the optimal responsibility of each DMP. used episodic RL to estimate meta-parameters like the temporal and spacial interception point of the ball and the racket typical of table tennis tasks. Lundell et al. used parameterized kernel weights and RL to search for optimal parameters, while augmented the given demonstration using RL-based state space exploration to autonomously expand the robot's task knowledge. Metric RL was exploited by to smoothly switch between learned DMP policies and execute a task in new situations.
+
+<!-- chunk {"id": "body-0199", "role": "body", "section": "DMPs generalization and sequencing", "weight": 1.0} -->
+
+RL can be also applied to sequence multiple motion primitives and perform more complex task; a successful strategy when the robot has to perform, for instance, a manipulation task (Section 4.1). To sequence multiple primitives it is also of importance to learn the goal of each motion. Tamosiunaite et al. used continuous value function approximation to optimize the goal parameters of a DMP used to perform a pouring task. Kober et al. learned a meta-parameter function that maps the current state to a set of meta-parameters including goal and duration of the movement. Instead of separating shape and goal learning into different processes, extended PI^2^ to simultaneously learn shape and goal of a sequence of DMPs.
+
+<!-- chunk {"id": "body-0200", "role": "body", "section": "Skills transfer", "weight": 1.0} -->
+
+Learned skills can be potentially transferred across different tasks to speed up the learning process and increase robot autonomy. To this end, Fabisch and Metzen considered the case where the robot can actively choose which task to learn to make the best progress in learning. The process of actively selecting the task was considered as a non-stationary bandit problem for which suitable algorithmic solution exist while intrinsic motivation heuristics were exploited to reward the agent after the selection. defined the complexity of a motor skill based on temporal and spatial entropy of multiple demonstrations and used the measured complexity to generate an order for learning and transferring motor skills. Their experimental findings provided useful guidelines for skill learning and transfer. In short, humans have to demonstrate, when possible, the most complex task and then the robot is able to transfer the motor skills. Vice versa, if demonstrations are not given, it is more effective to start learning simple skills first and then transfer the simpler skills to more complex tasks.
+
+<!-- chunk {"id": "body-0201", "role": "body", "section": "Learning hierarchical skills", "weight": 1.0} -->
+
+RL often lacks scalability to high dimensional continuous state and action spaces. To remedy this issue, hierarchical RL exploits a divide et impera approach by decomposing a RL problem into a hierarchy of sub-tasks in order to reduce the search space. Different levels in the hierarchy represent information at different time and/or spatial scale.
+
+<!-- chunk {"id": "body-0202", "role": "body", "section": "Learning hierarchical skills", "weight": 1.0} -->
+
+Stulp and Schaal proposed to represent different options as DMPs to sequence. PI^2^ was extended to optimize shape and (sub-)goal of each DMP at different levels of temporal abstraction. In particular, the shape was adjusted based on the cost up to the next primitive in the sequence, while the sub-goal considers the cost of the entire sequence of two DMPs. Layered direct policy search in did not rely on a set of predefined sub-policies and/or sub-goals, but instead used information theoretic principles to uncover a set of diverse sub-policies and sub-goals.
+
+<!-- chunk {"id": "body-0203", "role": "body", "section": "Learning hierarchical skills", "weight": 1.0} -->
+
+Reducing the number of rollouts required to discover optimal policies is also important in Hierarchical (HRL). As already mentioned, IL is a valuable option to find good initial policies. However, there are applications like manipulation with multi-fingered robotics hands for which it is hard or impossible to provide expert demonstrations. To make policy search more efficient, Ojer De Andres et al. used HRL where the upper-level considers discrete action and state spaces to search for optimal finger gaiting and synchronization among the fingers. This information was passed to the lower-level where rhythmic DMPs and PI^2^ generated continuous commands for the fingers. Another possibility to increase data-efficiency is to use model-based approaches for RL. Colome et al. exploited a friction model to improve a DMP policy and manipulate soft tissues (a scarf). A model-based HRL approach was proposed by for data-efficient learning of upper-level policies that generalize well across different executive contexts. Finally, proposed a hybrid hierarchical framework where the higher-level computes optimal plans in Cartesian space and converts them to desired joint targets using an efficient solver.
+
+<!-- chunk {"id": "body-0204", "role": "body", "section": "Learning hierarchical skills", "weight": 1.0} -->
+
+The lower-level is then responsible to learn joint space trajectories under uncertainties using RL and DMPs.
+
+<!-- chunk {"id": "body-0205", "role": "body", "section": "Deep learning", "weight": 1.0} -->
+
+A popular method of machine learning are NNs. Due to their non-parametric nature, they can effectively represent nonlinear mappings. A major drawback of NNs in the past was their computational complexity of learning. In recent years there is a renewed interest in NNs. New deep learning approaches were successfully applied in machine vision and language processing.
+
+<!-- chunk {"id": "body-0206", "role": "body", "section": "Deep learning", "weight": 1.0} -->
+
+In recent years, deep learning has been applied also in robotics to learn task dynamics and movement dimensionality reduction. The authors introduced a framework called AutoEncoded (AEDMP) which uses deep auto-encoders to find a movements represented in latent feature space. In this space DMPs can optimally be generalized to new tasks, as well as the architecture enables the DMPs to be trained as a unit. Pervez et al. in their work coupled the vison perception data for object calcification with task specific movement definitions represented with DMPs. The data was modeled with Convolutional Neural Networks, where the images and the associated movements were directly processed by the deep NN, thus preserving the associated DMPs properties and eliminating the need for extracting the task parameters during motion reproduction. Later on Kim et al. combined deep RL with DMPs to learn and generalize robotic skills from demonstration. The framework builds on a RL approach to learn and optimize a new DMP skill based of a demonstration. The RL approach is backed up with a hierarchical search strategy, reducing the search space for the robot, which allows for more efficient learning of complex tasks.
+
+<!-- chunk {"id": "body-0207", "role": "body", "section": "Deep learning", "weight": 1.0} -->
+
+Furthermore, Pan and Manocha presented an deep learning approach form motion planning of high dimensional deformable robots in complex environments. The locomotion skills are encoded with DMPs and a NN is trained for obstacle avoidance and navigation. The data is further optimized with deep Q-Learning showing that the learned planner can efficiently plan and navigate tasks for high dimensional robots in real time.
+
+<!-- chunk {"id": "body-0208", "role": "body", "section": "Deep learning", "weight": 1.0} -->
+
+Pahic et al. proposed a deep learning approach for perception-action couplings, demonstrating the coupling between the vision based images and associated movement trajectories. Later on they extended the approach to incorporate CNNs and give a distinguishing property formulation for the approach, which utilizes a loss function to measure the physical distance between the movement trajectories as opposed to measuring the distance between the DMPs parameters which have no physical meaning, leading to better performance of the algorithm. Recently, they extended the usage of GPR to create a database needed to train autoencoder NNs for dimensionality reduction.
+
+<!-- chunk {"id": "body-0209", "role": "body", "section": "Lifelong/Incremental learning", "weight": 1.0} -->
+
+Lifelong (incremental) learning is a framework which provides continuous learning of tasks arriving sequentially. The essential component of this framework is a database which maintains the knowledge acquired from previously learned tasks ${TSK_{1}},{TSK_{2}},\cdots,{TSK_{N - 1}}$. Incremental learning starts from the task manager assigning a new task $TSK_{N}$ to a learning agent. In this case, the agent exploits the knowledge in the DB as prior data for enhancing the generalization performance of its model on the new task. After the new task $TSK_{N}$ is learned, database is updated with the knowledge obtained from learning $TSK_{N}$. In fact, the incremental learning framework provides an agent with three capabilities: (*i*) continuous learning, (*ii*) knowledge accumulation, and (*iii*) re-using previous knowledge for future learning enhancements. Figure 15 shows general structure of DMP integrated in a lifelong framework.
+
+<!-- chunk {"id": "body-0210", "role": "body", "section": "Lifelong/Incremental learning", "weight": 1.0} -->
+
+Churchill and Fernando proposed a cognitive architecture capable of accumulating adaptations and skills over multiple tasks in a manner which allows recombination and re-use of task specific competences. Lemme et al. segmented demonstrations based on geometric similarities, and subsequently created a motion primitives library. The library is updated by removing unused skills and including new ones. Multiple demonstrations are used by to build a parameterized skill memory that connects low-dimensional skill parameterization to motion primitive parameters. This low-dimensional embedding is then leveraged for efficient policy search. Piece-wise linear phase is used to improve incremental learning performance. Duminy et al. designed a framework for learning which data collection strategy is most efficient for acquiring motor skills to achieve multiple outcomes, and generalize over its experience to achieve new outcomes for cumulative learning.
+
+<!-- chunk {"id": "body-0211", "role": "body", "section": "Lifelong/Incremental learning", "weight": 1.0} -->
+
+A generative learning framework is proposed to augment the robot's knowledge-base with missing information at different level of the cognitive architecture including symbolic planning as well as object and action properties.
+
+<!-- chunk {"id": "body-0212", "role": "body", "section": "Lifelong/Incremental learning", "weight": 1.0} -->
+
+Wang et al. proposed a modified formulation of DMPs called as DMP+ which capable of efficiently modify learned trajectories by improving the usability of existing primitives and reducing user fatigue during IL. Later, DMP+ had been integrated into a dialogue system with speech and ontology to learn or re-learn a task using natural interaction modalities.
+
+<!-- chunk {"id": "body-0213", "role": "body", "section": "Lifelong/Incremental learning", "weight": 1.0} -->
+
+In literature, it has been shown that incremental learning provides better generalization than the isolated learning approaches in terms of interpolation, extrapolation and the speed of learning. Hazara and Kyrki improved their Global Parametric Dynamic Movement Primitive (GPDMP) in order to construct, incrementally, a database of motion primitives, which aims to improve the generalization to new tasks. Furthermore, it has been transferred incrementally from simulation to the real world. Moreover, authors endow incremental learning with a task manager, which capable of selecting a new task by maximizing future learning while considering the current task performance.
+
+<!-- chunk {"id": "body-0214", "role": "body", "section": "DMPs in Application Scenarios", "weight": 1.0} -->
+
+We categorize the applications into several subsections based on different topics. We first separate the use of DMPs for robot interaction with the passive environment (e.g., tools, objects, surfaces, etc) and for interaction with an agent that involve co-manipulation (e.g., human, another robot, etc). Additionally, we examine several other major application areas, such as human body augmentation/rehabilitation with exoskeletons, teleoperation, motion analysis/recognition, high DoF robots, and autonomous driving and field robotics.
+
+<!-- chunk {"id": "body-0215", "role": "body", "section": "Robots in contact with passive environment", "weight": 1.0} -->
+
+Most of the daily tasks that the robots perform involve some kind of physical interaction with the environment that requires control of forces or positions. Nevertheless, simultaneous control of force and position in the same axis is not possible ^44^4There is a duality in impedance-admittance, i.e. the force produce motion and motion produces force, therefore if one is the input, the other can only be the output of the control system Peternel et al.., and therefore the control approaches have to make a compromise between prioritizing position control or force control. The key to such control is for the robot to learn appropriate force or position reference trajectories that can lead to the desired task performance in interaction with the environment.
+
+<!-- chunk {"id": "body-0216", "role": "body", "section": "Demonstration of interaction tasks", "weight": 1.0} -->
+
+A common approach to teaching robot motion trajectories is kinesthetic guidance (Fig. 16-*Left*), where the human operator holds the robot arm and shows the appropriate movements to be encoded by DMPs. Recently, the technology is protruding into high risk fields such as invasive surgery, where high-dimensional fine human-like manipulation skills are being demonstrated and executed with robots. In, the human held the robot arm and used kinesthetic guidance to teach the position and orientation trajectories necessary to perform ironing and door opening task. In the second stage the corresponding forces and torques were recorded with a haptic device in a teleoperation setup. For setups where the robot arm is equipped with multiple force/torque senors, the two demonstration steps with additional control policies can be combined into one.
+
+<!-- chunk {"id": "body-0217", "role": "body", "section": "Demonstration of interaction tasks", "weight": 1.0} -->
+
+An alternative to learning force trajectories is to learn the impedance of the robot by learning the desired stiffness trajectories. The ability to change the impedance of the arm is crucial to simplify the physical interaction in unpredictable and unstructured environments. In teleoperation was used with a push-button interface to command the robot impedance, which was learned by DMPs that enabled the robot to perform various collaborative assembly tasks. For example, the learned position and stiffness DMPs were used to insert a peg in a groove to bind the two parts, or to screw a bolt. A similar approach was used in to learn DMPs used for vegetable cutting task.
+
+<!-- chunk {"id": "body-0218", "role": "body", "section": "Demonstration of interaction tasks", "weight": 1.0} -->
+
+While teleoperation based methods are very effective to teach the robot DMPs for interaction tasks, it usually involves a complex and expensive system. The method in enabled the robot to learn stiffness profiles through measurement of interaction force with the environment to perform valve turning task. The method in Peternel et al. used human demonstration and EMG to learn stiffness DMPs from human muscle activity measurements in order to perform sawing and wiping (Fig. 17) tasks.
+
+<!-- chunk {"id": "body-0219", "role": "body", "section": "Demonstration of interaction tasks", "weight": 1.0} -->
+
+Nevertheless, adaptation of a single trajectory is unlikely to generate an appropriate solution for more general cases, where the task execution needs to change significantly. After learning the initial DMP motion trajectories through kinesthetic guidance, the robot can then adapt them based on the measured force of interaction while performing the task. Pastor et al. introduced a method for real-time adaptation of demonstrated DMPs trajectories depending on the measured sensory data. They developed an adaptive regulator for trajectory adaptation based on estimated and actual force data. Recently, Prakash et al., extended the real-time adaptation approach incorporating a fuzzy fractional order sliding mode controller in order to efficiently and stably adapt the demonstrated DMP trajectory to fast movements, such as a ping pong swing.
+
+<!-- chunk {"id": "body-0220", "role": "body", "section": "Demonstration of interaction tasks", "weight": 1.0} -->
+
+Sutanto et al. presented a data-driven framework for learning a feedback model from demonstrations. They used an - (RBF-NN) to represent the feedback model for the movement primitive. Similarly to this research, Gams et al. proposed a method for adaptation of demonstrated movements depending on the desired force, with which the robot should act on the environment. Thus, they ensured the adaptation of the learned movements to different surfaces. This approach was later expanded to provide the statistically most likely force-torque profile and furthermore, force-torque data was used for training a classifier in order to modulate the demonstrated trajectory for the use with delicate tasks such as tissue or fruit cutting.
+
+<!-- chunk {"id": "body-0221", "role": "body", "section": "Demonstration of interaction tasks", "weight": 1.0} -->
+
+Moving onward form policy learning, Do et al. presented an adaptation framework, where not only the desired adaptation force or trajectory, but the entire skill can be learned. They demonstrated the method with a wiping task under different environmental conditions.
+
+<!-- chunk {"id": "body-0222", "role": "body", "section": "Assembly tasks", "weight": 1.0} -->
+
+Assembly presents one of the more challenging tasks to automate, where not only position trajectories but also task dynamics have to be taken into account. To deal with this challenge, various methods were proposed. Abu-Dakka et al. proposed a method that can learn the orientation aspect of the complex physical interaction, like the peg-in-the-hole assembly tasks (Fig. 18). The proposed method was integrated in an industrial assembly framework where the key challenge was to adapt to uncertainties presented by the assembly task.
+
+<!-- chunk {"id": "body-0223", "role": "body", "section": "Assembly tasks", "weight": 1.0} -->
+
+Complex assembly tasks that are subject to change cannot be demonstrated and executed on the fly therefore, adaptation methods are required for ensuring a successful execution. Nemec et al. used exception strategies for dealing with complex assembly cases. Sloth et al. presented an exception strategy framework, combining discrete and periodic DMP, coupled with force control to learn an assembly task under tight tolerances. Gašpar et al. presented several industrial assembly challenges and focused on fast and efficient setup of industrial tasks with the emphasis on LfD. Angelov et al. incorporated several different control policies by taking into account the dynamics and sequencing of the task.
+
+<!-- chunk {"id": "body-0224", "role": "body", "section": "Assembly tasks", "weight": 1.0} -->
+
+In some cases, active exploration and autonomous database expansion can be used for learning assembly policies automatically. In the proposed algorithm can build and combine CMP motion knowledge from a database in an autonomous manner.
+
+<!-- chunk {"id": "body-0225", "role": "body", "section": "Assembly tasks", "weight": 1.0} -->
+
+Complementary to assembly tasks, disassembly is also challenging by solely using the demonstrated trajectories. As described, DMPs have a unique point attractor in the specified goal parameter of the movement, essentially repelling the idea of reversibility. Therefore, Nemec et al. proposed a framework, where the disassembly challenge was tackled by learning two separate DMPs from a single demonstrated motion; one forwards and one backwards. San Juan et al. took the idea further and reformulated the DMPs phase system with a logistic differential equation to obtain two stable point attractors. This approach provided a reversibility formulation of the dynamical system and demonstrated the effectiveness of the algorithm on a peg-in-hole assembly task.
+
+<!-- chunk {"id": "body-0226", "role": "body", "section": "Learning methods for contact adaptation", "weight": 1.0} -->
+
+Desired force-torque profiles can be tracked using ILC. In repetitive robotic tasks, iterative learning has been gaining increased popularity due to its effectiveness and robustness. However, in order to achieve effective results, a careful tuning of learning parameters is required. Norrlöf and Tayebi presented an adaptive learning approach for automated tuning of learning parameters.
+
+<!-- chunk {"id": "body-0227", "role": "body", "section": "Learning methods for contact adaptation", "weight": 1.0} -->
+
+Another approach is to use RL to adapt DMPs. For example, in stiffness parameters were adjusted during the task execution by RL.
+
+<!-- chunk {"id": "body-0228", "role": "body", "section": "Learning methods for contact adaptation", "weight": 1.0} -->
+
+Alternatives to feedback-based adaptation of DMPs and RL are scalability and generalization approaches. Matsubara et al. proposed an algorithm for the generation of new control policies from existing knowledge, thereby achieving an extended scalability of DMPs, while mixture of motor primitives were used for generation of table tennis swings. On the other hand, generalization of DMPs was combined with model predictive control by Krug and Dimitrov or applied to DMP coupling terms, which were learned and later added to a demonstrated trajectory to generate new joint space trajectories.
+
+<!-- chunk {"id": "body-0229", "role": "body", "section": "Learning methods for contact adaptation", "weight": 1.0} -->
+
+Stulp et al. proposed to learn a function approximator with one regression in the full space of phase and tasks parameters, bypassing the need for two consecutive regressions. Forte et al. performed a comparison study of LWR and GPR for trajectory generalization. This work shows that higher accuracy can be achieved with LWR trajectory approximation. Koropouli et al. presented a generalization approach for force control policies. By learning both the policy and the policy difference data using LWR, they could estimate the policy at new inputs through superposition of the training data.
+
+<!-- chunk {"id": "body-0230", "role": "body", "section": "Learning methods for contact adaptation", "weight": 1.0} -->
+
+used GPR based generalization over combined joint position trajectories and torque commands in the framework of CMPs. To showcase the versatility of the approach, applied it for robot based assembly tasks. Finally, Kramberger et al. extended the approach to account for variations of the desired tasks, e.g., assembly of similar objects. This enables the robot movements to be automatically generated with the use of LWR from a demonstrated database of successful task executions, which include kinematic and dynamic demonstrated trajectories encoded with DMPs. The newly obtained data is used to account for the changes in the work-space. Nevertheless, a major problem in statistical learning is how to efficiently deal with singularity free representations of orientation trajectories. To resolve this issue, Kramberger et al. proposed a formulation for Cartesian space DMPs where orientations are represented with unit quaternion.
+
+<!-- chunk {"id": "body-0231", "role": "body", "section": "Human--robot co-manipulation", "weight": 1.0} -->
+
+While control of robot interaction with the passive environment can solve majority of the tasks, in some cases the robot needs to interact with an active agent (e.g., human, another robot, etc.). Human-robot collaboration is becoming one of the key fields in robotics. To perform a successful physical human-robot collaboration, the robot must be able to control complex movements in coordination with the human partner. In this direction, the ability to modulate the impedance is important to coordinate the physical interaction during human-robot co-manipulation of tools. DMPs offer an elegant solution to encode such coordinated dynamic movements.
+
+<!-- chunk {"id": "body-0232", "role": "body", "section": "Human--robot co-manipulation", "weight": 1.0} -->
+
+In the collaborative robot was thought online through teleoperation how to perform collaborative sawing with a human co-worker. The impedance was commanded to the robot through muscle activity measurement using EMG. DMPs were used to encode coordinated phase-dependent motion and impedance as demonstrated by the human teleoperator. Teaching though teleoperation is an effective way to convey the physical interaction skill to the collaborative robot, however the setup can be expensive and is not widely available.
+
+<!-- chunk {"id": "body-0233", "role": "body", "section": "Human--robot co-manipulation", "weight": 1.0} -->
+
+An intuitive alternative to teleperation is for the robot to learn the skill directly though physical interaction with the human partner while they are collaborating. Numerous methods have focused on learning the synchronized motion between collaborative partners. For example, in the interactive movements were encoded with DMPs and adapted them based on the measured force arising from the disagreements between agents during co-manipulation. Similarly, in the collaborative movements were encoded with DMPs and adapted using force feedback and ILC. The approach in combines two DMPs to encode the movements of each partner's arm, which are coupled in a leader-follower manner.
+
+<!-- chunk {"id": "body-0234", "role": "body", "section": "Human--robot co-manipulation", "weight": 1.0} -->
+
+Besides adapting the collaborative movements, in the robot used DMPs to also learn the impedance online directly from the co-manipulation with the human (Fig. 19). The robot started with a basic skill set that enabled it to collaborate with the human in a pure follower role. Thorough the collaborative task execution the robot then learned the motion and impedance trajectories online and encoded them with DMPs. When the human became fatigued, the robot used the learned advanced skill to take over majority of the task execution.
+
+<!-- chunk {"id": "body-0235", "role": "body", "section": "Human--robot co-manipulation", "weight": 1.0} -->
+
+The method in proposed an upgraded version of standard DMPs called Interaction Primitives that can account for a probabilistic nature of collaborative movements. Rather than having a single value of weights, the DMP includes weight distributions. This distribution enabled the robot to learn the inherent correlations of cooperative actions and infer the behavior of the human partner during the cooperation. used visual information to extract context related parameters that augment the interaction primitives to increase the robustness during the task execution.
+
+<!-- chunk {"id": "body-0236", "role": "body", "section": "Human--robot co-manipulation", "weight": 1.0} -->
+
+There are also other types of co-manipulation scenarios, such within-hand bi-manipulation or human-robot object handover. For example, in DMPs were used to perform bi-manipulation, while in DMPs were used for human-robot object handover.
+
+<!-- chunk {"id": "body-0237", "role": "body", "section": "Human--robot co-manipulation", "weight": 1.0} -->
+
+When the environment is hazardous for the human workers or when there are too many robots compared to the number of human workers, the obvious solution is to make robot collaborate between themselves. The method in used DMPs to make novice robots learn from the expert robot through co-manipulation. Initially the novice robot remained compliant to let the expert robot lead the task execution. In the first stage, the novice robot learned the reference motion through DMPs. In the second stage, it became stiff to perform the newly learned motion, while the expert robot initiated stiff/compliant phases expected in the collaborative task execution. Finally, the novice robot then learned in which phases of the task to increase or decrease the impedance and encoded this impedance behavior with DMPs.
+
+<!-- chunk {"id": "body-0238", "role": "body", "section": "Human assistance, augmentation, and rehabilitation", "weight": 1.0} -->
+
+The most common type of co-manipulation is the classic human-robot collaboration, where a human and a robotic agent are physically performing industrial or daily tasks. Another type of co-manipulation occurs when a human is wearing an exoskeleton. In most cases, the exoskeleton simply amplifies the current human motion. However, in some cases we want the exoskeleton to execute pre-defined trajectories in order to perform a physical therapy on patients, or to completely offload a repetitive motion of healthy human workers.
+
+<!-- chunk {"id": "body-0239", "role": "body", "section": "Human assistance, augmentation, and rehabilitation", "weight": 1.0} -->
+
+The methods in obtained DMPs in offline by learning by demonstration, which were then used by an arm exoskeleton to support human movements. In the control method employed DMPs to interactively adapt the joint torques required to perform the arm exoskeleton movements and compensate all the underlying dynamics (Fig. 21-*Left*). The phase-dependent toque trajectory updated online in order to minimise the muscle activity feedback measured by EMG. In the robot encoded the assistive motion with DMPs and then adapted it by taking into account aspects of human motor control through the Fitts' law.
+
+<!-- chunk {"id": "body-0240", "role": "body", "section": "Human assistance, augmentation, and rehabilitation", "weight": 1.0} -->
+
+Gait related rehabilitation with exoskeletons is a very common application of DMPs and there are numerous examples. In a parallel robot was used for ankle rehabilitation, where the movements were generated by DMPs (Fig. 20). In DMPs were used to learn the gait motion trajectories for a lower-body exoskeleton. This approach was then extended with a RL method to adapt a force coupling term (similar to earlier approaches presented in Section 3.3.2) to enable online adaption of motion trajectories.
+
+<!-- chunk {"id": "body-0241", "role": "body", "section": "Human assistance, augmentation, and rehabilitation", "weight": 1.0} -->
+
+Besides normal gait, DMPs were also applied for stair-ascend and sit-to-stand assistive movements of lower-body exoskeletons. In, a robotic arm was used to assist humans with putting the cloths on their body, where the movements were generated by DMPs.
+
+<!-- chunk {"id": "body-0242", "role": "body", "section": "Human assistance, augmentation, and rehabilitation", "weight": 1.0} -->
+
+Besides assistive body movement and rehabilitation, DMPs were also applied for relaxation purposes. For example, in a robotic arm provided massage movement through DMPs.
+
+<!-- chunk {"id": "body-0243", "role": "body", "section": "Teleoperation", "weight": 1.0} -->
+
+Teleoperation is one of the major fields of robotics and enables a human to have a direct and real-time control over a (remote) robot. Typically the control is done through interfaces that can capture the human commands to be sent to the robot and that can provide haptic feedback from the robot. While teleoperation focuses on giving the human operator a full or shared control over the robot, DMPs are used to encode autonomous robot behaviors. Therefore, here we mostly examine cases where teleoperation is used to teach the robot new autonomous behavior encoded by DMPs.
+
+<!-- chunk {"id": "body-0244", "role": "body", "section": "Teleoperation", "weight": 1.0} -->
+
+In a combination of kinesthetic teaching and teleoperation was employed to form the DMP-based robot skill for ironing. After the motion trajectories were learned through kinesthetic guidance, the corresponding forces were recorded by using haptic device and a teleoperation system. In teleoperation was used to teach the robot how to physically collaborate with another human. Since there was no haptic feedback, the teleoepration setup was unilateral, but the human was able teach also the impedance of the robot in addition to motion. The former was commanded by muscle activity measurement through EMG, while the latter was was commanded by the movement of the human operator's arm as measured by an optical motion capture system.
+
+<!-- chunk {"id": "body-0245", "role": "body", "section": "Teleoperation", "weight": 1.0} -->
+
+In the human operator thought the robot through teleoperation how to perform autonomous assembly actions (Fig. 16-*Right*). DMPs were used to encode the commanded impedance and motion, however a more practical push-button based impedance command interface was employed. More importantly, the teleoperation setup was bilateral and the haptic interface provided the human operator the feedback about the forces the robot felt. Similarly, teleoperation approaches were used.
+
+<!-- chunk {"id": "body-0246", "role": "body", "section": "Teleoperation", "weight": 1.0} -->
+
+Real robot is not always necessary to acquire new skills. In the robot and the environment were simulated and the human operator used a virtual reality system. A combination of DMPs and RL was used to form an adaptive skill. The scenario proposed in was teleoperation in its basis, however the human demonstrator did not just pretend that he/she is embodied in the robot, but the robot task environment was cloned at the human side (Fig. 16-*Right*). This removed the need for force feedback and haptic device, since the human felt the real environment on his/her side, while the motion was captured by non-contact based sensory system (i.e., magnetic trackers) and then mirrored on the robot.
+
+<!-- chunk {"id": "body-0247", "role": "body", "section": "Teleoperation", "weight": 1.0} -->
+
+Multiple demonstrations through teleoperation can be inconsistent, especially if done in a multi-agent shared-control setting. The method proposed in can synchronize inconsistent demonstration through shared-control teleoperation and encode them with DMPs.
+
+<!-- chunk {"id": "body-0248", "role": "body", "section": "High DoF robots", "weight": 1.0} -->
+
+DMPs provide an elegant and fast way to deal with systems with high-dimensional space by sharing one canonical system among all DoFs and maintain only a separate set of transformation systems. By high-dimensional space we are referring to systems with 10 or more DoFs (i.e., Walk-man humanoid robot in Figure 21-*Right*). In this section, we will quickly mention some of the potential works with high number of DoFs.
+
+<!-- chunk {"id": "body-0249", "role": "body", "section": "High DoF robots", "weight": 1.0} -->
+
+Ijspeert et al. used DMPs in an IL framework to learn tennis forehand, a tennis backhand, and rhythmic drumming using 30-DoFs humanoid robot. Pastor et al. used DMPs to encode a 10-DoFs exoskeleton robot arm. Luo et al. integrated DMPs with stochastic policy gradient RL and GPR in order to design an online adaptive push recovery control strategy. The approach had been applied to PKU-HR5 humanoid robot with 20-DoFs. André et al. implemented a predictive model of sensor traces that enables early failure detection for humanoids based on an associative skill memory to periodic movements and DMPs. They applied their algorithm on DARwIn-OP with 20-DoFs in simulation. Pfeiffer and Angulo represented gestures by applying DMPs on REEM robotic platform with 23-DoFs. Nah et al. proposed an approach to optimize DMP parameters in order to deal with the complexity of of high DoF system like a whip. They tested their approach in simulation for 10-, 15-, 20-, and 25-DoFs systems.
+
+<!-- chunk {"id": "body-0250", "role": "body", "section": "High DoF robots", "weight": 1.0} -->
+
+In order to reduce the number of required rollouts for adaptation to new task conditions, Queißer and Steil used CMA-ES to optimize DMPs parameters. In addition, they introduced a hybrid optimization method that combines a fast coarse optimization on a manifold of policy parameters with a fine grained parameter search in the unrestricted space of actions. The approach was successfully illustrated in simulation using a 10-DoFs robot arm. Liu et al. proposed DMP-based trajectory generation to enable a full-body humanoid robot with 10-DoFs (for the two legs) to realize adaptive walking.
+
+<!-- chunk {"id": "body-0251", "role": "body", "section": "High DoF robots", "weight": 1.0} -->
+
+Travers et al. proposed a framework that integrates DMP with Gaussian-shaped spatial activation windows in order to plan the motion for high DoF robotic systems (e.g., snake-like robot) in complex environment (with obstacles) by linking low-level controllers to high-level planners.
+
+<!-- chunk {"id": "body-0252", "role": "body", "section": "Motion analysis and recognition", "weight": 1.0} -->
+
+DMPs tend to fit topologically similar trajectories with similar shape parameters $w_{i}$. This behavior, due to the temporal and spatial invariance of DMPs, makes the shape parameters a useful descriptor to recognize similar motions. Indeed, have shown that the shape parameters computed for $5$ repetitions of $4$ classes of discrete hand gestures---measured with a $3$ DoFs accelerometer---are linearly separable, i.e., easy to classify. Lantz and Murray-Smith draw similar conclusions for $10$ classes of periodic hand gestures. Xu et al. used the correlation between the parameter vectors of two DMPs to measure the similarity between the original motion and recognize gait patterns. Similarly, used the correlation between parameter vectors to recognize the $26$ letters of the Graffiti alphabet.
+
+<!-- chunk {"id": "body-0253", "role": "body", "section": "Motion analysis and recognition", "weight": 1.0} -->
+
+The shape parameters $w_{i}$ are also suitable to fit more sophisticated classifiers like support vector machines. This strategy was used to successfully classify gestures observed with a monocular Liu et al. or a binocular camera. Instead of considering a fixed number of basis function (number of shape parameters), used fast dynamic time warping to align parameter vectors of different length and then used $K$-nearest neighbors to classify different motions.
+
+<!-- chunk {"id": "body-0254", "role": "body", "section": "Motion analysis and recognition", "weight": 1.0} -->
+
+Motion recognition can also be used to determine whether the robot is correctly executing a task by comparing sensed data with a movement template. In this respect, used an associative skill memory, like the one, as a predictive model of sensor traces that enables early failure detection. In this work, DMPs were used to compactly encode the associative skill memory and speed up the failure detection. Described approaches demonstrate that DMPs are a valuable option for gesture recognition especially for systems with limited computational power.
+
+<!-- chunk {"id": "body-0255", "role": "body", "section": "Motion analysis and recognition", "weight": 1.0} -->
+
+Humans tend to perform the same task in slightly different manners. Sometimes differences in the execution style contain useful information to adapt the motion to difference executive context. This is the case, for instance, of a reaching motion with and without an obstacle on the way. To capture the execution style augmented the forcing term of the DMP with a style parameter learned from multiple demonstrations. At run time, different style parameters can be used to smoothly interpolate between demonstrated behaviors. Zhao et al. employed movements with different styles, but also learned a smooth mapping between style parameters and goal to improve the generalization.
+
+<!-- chunk {"id": "body-0256", "role": "body", "section": "Motion analysis and recognition", "weight": 1.0} -->
+
+When humans provide seamless demonstrations, DMPs can be used for online segmentation and recognition. To this end, assumed that a library of DMPs is given and used it to recognize motion segments during a task demonstration. Instead of using exemplar templates for each class of primitives, segmented a video stream using motion to non-motion transitions, fitted DMPs on segmented data, and performed clustering to group similar motion segments in an unsupervised fashion. Song et al. performed unsupervised trajectory segmentation using the concept of key points, i.e., shared features across different task demonstrations. segmented whole-body motions by detecting contacts with the environment and used them to build a probabilistic language model where words represent the poses and sentences sequences of poses. The learned language model was used to plan whole-body motion trajectories executed by joining multiple DMPs (see Section 3.2).
+
+<!-- chunk {"id": "body-0257", "role": "body", "section": "Motion analysis and recognition", "weight": 1.0} -->
+
+DMPs have been developed as a computational model of the neurobiological motor primitives. Experimental findings from neurophisiology related to the spinal force fields in frog have inspired the modification of DMPs formulation. As discussed in Section 3.1.1, this multidimensional representation overcomes limitations of classical DMPs like trajectory overshooting and dependence of the trajectory from the reference frame used to describe the motion. Hoffmann et al. also derived a collision avoidance strategy for DMPs, inspired by the way human avoid collisions during arm motion. investigated the human ability to cope with to changes in the arm dynamics and kinematic structure during motion control. They proposed a spiking neuron model of the motor control system that uses DMPs to implement the preparation and planning functionalities of the premotor cortex. The effects of changes in the robot's dynamic parameters on the tracking performance of a DMP trajectory were studied. Their findings suggests that the change in the body parameters should be explicitly considered in the DMP learning process. Hotson et al. augmented a brain-machine interface that captures neural signals with a DMP model of the endpoint trajectories executed by a non-human primate.
+
+<!-- chunk {"id": "body-0258", "role": "body", "section": "Motion analysis and recognition", "weight": 1.0} -->
+
+The system was used to decode real trajectories form a primate manipulating four different objects.
+
+<!-- chunk {"id": "body-0259", "role": "body", "section": "Autonomous driving and field robotics", "weight": 1.0} -->
+
+DMPs can be utilized in various autonomous non stationary fields of robotics. Perk and Slotine utilized DMPs for defining flight paths and obstacle avoidance for Unmanned Areal Vehicles, where the trajectories were generated based on the joystick movements controlling the throttle of the UAV motors. Later, extended the approach to encode user demonstrated UAV data, extracting and encoding the rhythmic and linear segments of the flight trajectory, and combining them into a flight control skill. Furthermore, formulated the UAV movements as a optimal control problem. The output of the optimal control solver was encoded with DMPs, enabling them to generalize and apply in-flight modifications to the UAV flight trajectories in real-time. Similarly, Lee et al.; Kim et al. presented a framework for UAV cooperative areal manipulation tasks, based on an adaptive controller which adapts the movement of the UAV in relation to the mass and inertial properties of the payload. In addition, DMPs were incorporated in the control scheme to modify the flight trajectories and avoid obstacles on the fly. The approach was later extended to incorporate path optimization, where DMPs play a significant tole for real time obstacle avoidance.
+
+<!-- chunk {"id": "body-0260", "role": "body", "section": "Autonomous driving and field robotics", "weight": 1.0} -->
+
+As mentioned before, DMPs represent a versatile movement representation, which can be implemented in various tasks and scenarios. One of the recent applications in this field are also Autonomous Underwater Vehicles. Carrera et al. integrated the DMPs in a learning by demonstration scenario for an AUV. The demonstrated data consisted of the manipulator and vehicle sensory outputs, which were efficiently used to demonstrate an underwater valve turning task.
+
+<!-- chunk {"id": "body-0261", "role": "body", "section": "Autonomous driving and field robotics", "weight": 1.0} -->
+
+DMPs are also represented in the autonomous driving domain. In the recent work of, the authors propose a framework which decomposes the complex driving data into a more elementary composition of driving skills represented as motion primitives. In the proposed framework, DMPs are utilized to represent the driver's trajectory with acceptable accuracy and can be generalized to different situations.
+
+<!-- chunk {"id": "body-0262", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+This section provides guidelines to choose, among the several discussed in this work, the most appropriate approach for a given application. A useful criterion to decide whether to use a particular approach is the availability of code that greatly simplifies the implementation. We have searched for open-source DMP implementations and listed them in a Git repository (see Section 6.2). To further contribute the community, we have also released the implementations listed in Table 4. This section ends with a discussion on the limitations inherent to the DMP formulation, the open issues, and the possible research directions. These are summarized in Table 5.
+
+<!-- chunk {"id": "body-0263", "role": "body", "section": "Guidelines for different applications", "weight": 1.0} -->
+
+Previous sections present different DMP formulations and extensions together with possible application scenarios. As usual, there is not a single formulation that serves all the scopes and purposes, and the suitable approach to use depends on the goal to achieve and conditions of application. For this reason, we present some guidelines to guide the user in the process of selecting the formulation to use.
+
+<!-- chunk {"id": "body-0264", "role": "body", "section": "Discrete vs periodic", "weight": 1.0} -->
+
+For a task with distinct starting and ending points, discrete DMPs are a logical option to encode the movement trajectories between them. Examples of these tasks include: reaching and pick-and-place specific actions of assembly and cutting.
+
+<!-- chunk {"id": "body-0265", "role": "body", "section": "Discrete vs periodic", "weight": 1.0} -->
+
+When the starting and ending points coincide, periodic DMPs are the logical option, since the encoded movements can be repeated over and over again. Good examples of their application are repetitive tasks such as locomotion, human body augmentation/rehabilitation, wiping a surface and sawing. Nevertheless, even typically non-repetitive tasks that are executed just once every now and then can still be encoded with periodic DMPs when the starting and ending points coincide.
+
+<!-- chunk {"id": "body-0266", "role": "body", "section": "Discrete vs periodic", "weight": 1.0} -->
+
+There are cases where it is not possible to clearly distinguish if the motion is periodic or discrete. For instance, have shown that the first step in a gait of a humanoid robot is a transients towards a periodic motion. Their representation is a good candidate to encode transients converging to a limit cycle trajectories. Finally, in some cases like in complex assembly, the task requires a combination of discrete and periodic DMPs.
+
+<!-- chunk {"id": "body-0267", "role": "body", "section": "Space representation", "weight": 1.0} -->
+
+The original formulation of DMPs were and are still successfully applied to multidimensional independent data with each DoF $\in {\mathbb{R}}$ (Section 2.1.1 and 2.2.1). These data can be joint or Cartesian positions, forces, torques, etc, where every DoF of the data can be evolved independently form the rest. However, such formulation is not enough to successfully encode data with specific geometry constraints without pre- and/or post-processing the data. Examples of such data are: *i*) orientation, where data are tight up by additional constraints (i.e., the orthogonality in case of rotation matrix representation or the unit norm of the quaternion representation); *ii*) full stiffness/damping matrices and manipulability matrices are encapsulated in an SPD matrices.
+
+<!-- chunk {"id": "body-0268", "role": "body", "section": "Space representation", "weight": 1.0} -->
+
+In many early works, orientation trajectories were learned and adapted without considering its geometry constraints, leading to improper orientation and hence requiring an additional re-normalization. In a different example, Umlauft et al. used eigendecomposition for impedance adaptation.
+
+<!-- chunk {"id": "body-0269", "role": "body", "section": "Space representation", "weight": 1.0} -->
+
+In order to comply with such geometry constraints, researchers provided new formulation of DMPs that ensures proper unit quaternions or rotation matrices over the course of orientation adaptation Abu-Dakka et al.; Ude et al.; Saveriano et al.; Koutras and Doulgeri, and proper SPD matrices over the course of the adaptation of SPD profiles (e.g., stiffness or manipulability ellipsoids). We believe that using these geometry-aware DMPs is preferable to encode data with underlying geometry constraints.
+
+<!-- chunk {"id": "body-0270", "role": "body", "section": "Weights learning method", "weight": 1.0} -->
+
+DMPs represent motion trajectories as stable dynamical systems with learnable weights that define the shape of the motion. In the LfD paradigm, DMP weights are usually learned in a supervised manner using human demonstrations. The procedure used to transform human demonstrations into training data for the DMP forcing term is highlighted in Section 2.1.1.1. Given the training data, different techniques can be used to fit the weights.
+
+<!-- chunk {"id": "body-0271", "role": "body", "section": "Weights learning method", "weight": 1.0} -->
+
+LWR is widely used when the forcing term is a combination of RBFs as. If multiple demonstrations are given, one can exploit GMM/GMR as in or GPR as in to represent the forcing term and use expectation--maximization to fit the (hyper-)parameters. Deep NNs, typically trained via back-propagation, seem an appealing possibility to map input images into forcing terms, mimicking the human perception-action loop. Although appealing, the possibility of exploiting deep learning techniques as motion primitives requires further investigations.
+
+<!-- chunk {"id": "body-0272", "role": "body", "section": "Weights learning method", "weight": 1.0} -->
+
+An implementation for discrete DMP based on the work.
+
+<!-- chunk {"id": "body-0273", "role": "body", "section": "Weights learning method", "weight": 1.0} -->
+
+An implementation for periodic DMP based on the work.
+
+<!-- chunk {"id": "body-0274", "role": "body", "section": "Weights learning method", "weight": 1.0} -->
+
+Unit quaternion DMP
+An implementation for unit quaternion DMP and goal switching based on the work.
+
+<!-- chunk {"id": "body-0275", "role": "body", "section": "Weights learning method", "weight": 1.0} -->
+
+An implementation for SPD DMP and goal switching based on the work.
+
+<!-- chunk {"id": "body-0276", "role": "body", "section": "Weights learning method", "weight": 1.0} -->
+
+An implementation for joining multiple DMPs based on the work.
+
+<!-- chunk {"id": "body-0277", "role": "body", "section": "Weights learning method", "weight": 1.0} -->
+
+An implementation for discrete DMPs and force coupling terms based on the work.
+
+<!-- chunk {"id": "body-0278", "role": "body", "section": "Weights learning method", "weight": 1.0} -->
+
+In real applications, there can be a misplacement between the DMP trajectory and the robot motion. Typical examples include assembly or other tasks that require physical interaction with the environment (see Section 5.1). In this situations, the DMP motion can be incrementally adjusted to improve the robot performance. ILC arises as an interesting approach to iteratively update the DMP weights as it ensures a rapid convergence to the desired performance. However, ILC assumes that a target behavior to reproduce is given. When the target behavior cannot be easily specified and the robot performance is not satisfactory, RL solutions have to be adopted. As detailed in Section 4.3 ‣ 4 integration in complex frameworks ‣ Dynamic Movement Primitives in Robotics: A Tutorial Survey"), DMPs are effective control policies and, combined with policy search algorithms like PI^2^ or PoWER, are able to solve complex and highly dynamic tasks.
+
+<!-- chunk {"id": "body-0279", "role": "body", "section": "Online adaptation", "weight": 1.0} -->
+
+Performing robotic tasks in the real world requires adaptation capabilities. When adaptation of DMPs based on some feedback is required, one of the extension methods should be applied. For example, to change the existing movement based a detected obstacle, the method in can be used (see Section 3.3.1). If it is necessary to adaptively learn the movement dynamics based on real-time effort feedback, the method in can be employed (see Section 3.3).
+
+<!-- chunk {"id": "body-0280", "role": "body", "section": "Online adaptation", "weight": 1.0} -->
+
+Furthermore, for industrial tasks, such as assembly or polishing, adaptation strategies combining force control with demonstrated trajectories can be applied, ensuring the system will follow the predefined trajectory and adapt to the environmental uncertainties. For online adaptation DMPs can be used as a trajectory generator, which output represents an input to the force control algorithm, on the other hand, force feedback can directly be incorporated as a coupling term in the DMPs formulation (see Section 3.3.2), eliminating the need for an additional force controller. Similar approach can also be utilized for velocity based adaptation of the movements (see Section 3.3.4).
+
+<!-- chunk {"id": "body-0281", "role": "body", "section": "Impedance vs force", "weight": 1.0} -->
+
+In physical interaction tasks, DMPs can be used to either learn force or impedance. If the task requires position control, then the impedance should be learned with DMPs in combination with the reference position. If the task requires to control a specific force, e.g., pushing on a surface during the wiping and drilling, either force or impedance is feasible. However, if safety is the most critical aspect, the DMPs should be used to learn impedance control so that the robot can be made soft.
+
+<!-- chunk {"id": "body-0282", "role": "body", "section": "Impedance vs force", "weight": 1.0} -->
+
+Furthermore, to overcome any undesirable movements, the control policy can be augmented with a tank-based passivity approach. This approach monitors the energy flow between the modeled sub-systems, e.g., DMPs trajectory generation, impedance control, environment. In an event of an energy violation, the system will first try to passively compensate for the violation and subsequently if the violation cannot be compensated e.g. the energy tank is depleted, stop the system. In cases, where the task characteristics are not fully known, a learning policy can be added on top of the passivity approach in-order to learn the overall energy requirements for the task.
+
+<!-- chunk {"id": "body-0283", "role": "body", "section": "Resources and codes", "weight": 1.0} -->
+
+Availability of code and datasets is useful to speed-up the setup of novel applications without the need of re-implementing a promising approach from scratch. We have searched for available DMP implementation and found out that several researchers published their DMP codes in various open-source repositories. We decided to list the available implementations on the Git repository that accompanies this paper. For each implementation, we mention the type of DMP, the author, the url to download the code, and the used programming language. We also provide a short description of the key features.
+
+<!-- chunk {"id": "body-0284", "role": "body", "section": "Resources and codes", "weight": 1.0} -->
+
+Apart from listing existing approaches, the Git repository that accompanies this paper contains implementation that we decided to release to the community. The list of provided implementations is given in Table 4.
+
+<!-- chunk {"id": "body-0285", "role": "body", "section": "Limitations and open issues", "weight": 1.5} -->
 
 As any motion primitive representation, DMPs have strengths but also inherent limitations. The advantages of the DMPs have been widely discussed in previous sections. Here, we present the main limitations of the DMPs and discuss open issues that require further investigation. A summary of these limitations is presented in Table 3.
+
+<!-- chunk {"id": "body-0286", "role": "body", "section": "Implicit time dependency", "weight": 1.0} -->
+
+The phase variable used to suppress the non-linear forcing term and ensure convergence to a given goal introduces an implicit time dependency in the DMP formulation. The reason for representing the time dependency implicitly as a dynamical system is that such a phase variable can be conveniently manipulated. For example, in Section 2.1.1.2, we have seen how to manipulate the phase variable to slow-down (or even stop) the execution. A drawback of the time dependency is that the shape of the DMP motion is significantly affected by the time evolution of the phase variable. If the phase vanishes too early, the last part of the trajectory is executed with a linear dynamics converging to the goal. If the phase lasts too long, the trajectory may overshoot and fail to reach the goal within the desired time. In both cases, the DMP motion may significantly deviate from the demonstration. A properly designed phase stopping mechanism can remedy the issue, but the proper phase stopping to adopt depends on the specific application.
+
+<!-- chunk {"id": "body-0287", "role": "body", "section": "Implicit time dependency", "weight": 1.0} -->
+
+In order to overcome this limitation, several authors focused on learning stable and time-independent (or autonomous) dynamical systems from demonstrations. A globally stable and autonomous system generates a vector field that converges to the given goal from any initial state. Without the need of a phase variable, the generated motion depends only of the current state of the system. Notable approaches to learn stable and autonomous systems exploit Lyapunov theory, contraction theory, diffeomorphic transformations, and passivity considerations. These approaches have been effectively used to learn complex movements from demonstrations.
+
+<!-- chunk {"id": "body-0288", "role": "body", "section": "Implicit time dependency", "weight": 1.0} -->
+
+In general, autonomous systems have the potential to represent much more complex movements than DMPs. For example, autonomous systems can encode different motions in different regions of the state-space. In this respect, DMPs can only generate a stereotypical trajectory connecting the start to the goal, regardless where the initial state is placed in the state-space. However, the stereotypical motion generation is also an advantage of DMPs since it makes easier to predict the generated motion in regions of the state-space poorly covered by training data. On the contrary, it is hard to predict how an autonomous system generalizes where only few or no training data are available. DMPs are know to scale well in high-dimensional spaces since the learned forcing term always depends on a shared, scalar phase variable. Autonomous systems perform learning directly on the high-dimensional state-space, which poses numerical challenges and requires much more training data. In synthesis, each representation has its own advantages and disadvantages and the choice between time-dependant and autonomous motion primitives depends on the specific application.
+
+<!-- chunk {"id": "body-0289", "role": "body", "section": "Stochastic information", "weight": 1.0} -->
+
+Representing the demonstrated motion as a probability distribution has several advantages. For example, in a probabilistic framework the generalization to new a goal (or a via-point) is achieved using conditioning on the new goal (via-point), while the covariance computed from the probabiltiy distribution can represent couplings between different DoFs. As a matter of fact, classical DMPs are deterministic and lack the stochastic information on the modelled motion.
+
+<!-- chunk {"id": "body-0290", "role": "body", "section": "Stochastic information", "weight": 1.0} -->
+
+Ben Amor et al. proposed an approach to estimate the predictive distribution $\mathcal{P}{(\left. \mathbf{w} \middle| y_{1:{\mathfrak{T}}} \right.)}$ that relates the DMP weights $\mathbf{w}$ and a partial trajectory $y_{1:{\mathfrak{T}}}$ observed for $\mathfrak{T}$ time instants. $\mathcal{P}{(\left. \mathbf{w} \middle| y_{1:{\mathfrak{T}}} \right.)}$ is used to estimate the most likely weights given a partial movement and to reconstruct the missing part of the trajectory. However, a full probabilistic characterization of DMPs is still missing.
+
+<!-- chunk {"id": "body-0291", "role": "body", "section": "Stochastic information", "weight": 1.0} -->
+
+The ProMP framework proposed an alternative movement primitive representation that contains information about the variability across different demonstrations as well as different DoFs in the form of a covariance matrix. This enables to explicitly encode the couplings between different directions and to increase the generalization by conditioning on a desired goal, via-point, or intermediate velocity. The covariance computed by ProMPs represent the variability and the correlation in the demonstrations. In other representations, like GPR, the covariance is a measure of the model uncertainty due to the lack of training data. Kernelized Movement Primitives offer the possibility of modelling variability, correlation, and uncertainty in the same framework. However, KMP's computational cost can be elevated compared to DMP in longer trajectories due to the computation of the inverse of the kernel matrix.
+
+<!-- chunk {"id": "body-0292", "role": "body", "section": "Closed-loop implementation and issues", "weight": 1.0} -->
+
+A vast majority of methods employ DMPs only as a reference trajectory generator for the closed-loop controller, which then actually executes it. However, the DMPs can also be used as a part of the close-loop controller itself and only a few methods explored this concept. For example, in Peternel et al. the DMPs are directly torque generators for exoskeleton actuators in the control loop, which is closed by a feedback from the human user's muscle activity. Nevertheless, in such scenario the closed-loop stability and passivity become crucial considerations that have to be addressed and resolved before the wide-spread application.
+
+<!-- chunk {"id": "body-0293", "role": "body", "section": "Coping with high-dimensional inputs", "weight": 1.0} -->
+
+One of the main limitations of DMP is that it encodes human and robot trajectories explicitly with the time (i.e., 1--D input) which may lead to a synchronization issues since human motions in the new evaluations could be significantly different (e.g., faster/slower velocity) from the demonstrated ones. In order to avoid synchronization problem, Ben Amor et al. designed a time-alignment strategy, while estimated the phase signal during the training using expectation-maximization.
+
+<!-- chunk {"id": "body-0294", "role": "body", "section": "Coping with high-dimensional inputs", "weight": 1.0} -->
+
+As the DMP models trajectories using basis functions, this works effectively when learning time-driven trajectories (i.e., 1--D input). However, when demonstrations comprise high-dimensional inputs, specifying the center vectors and widths of basis functions becomes quite cumbersome. Specifically, as discussed in the number of basis functions often increases exponentially when the dimension of inputs increases. To alleviate this limitation, some approaches investigated modern deep learning techniques. Pahič et al. used a deep NN to synthesize DMP weights from an input image. The classical DMP formulation is then used to generate motion trajectories. Pervez et al. used a CNN to predict 2--D task parameters (e.g., the position of a target) from an input image and a fully connected NN to retrieve the forcing term from the 2--D parameters and the phase variable. The CNN and the fully connected NN are trained in two separate stages. The approach is promising, but the separate training of the two networks increases the pre-processing and complicates the learning process.
+
+<!-- chunk {"id": "body-0295", "role": "body", "section": "Coping with high-dimensional inputs", "weight": 1.0} -->
+
+Alternative approaches in literature, such as GMM/GMR, Task-Parameterized (TP-GMM), KMP, can be directly applied for learning demonstrations comprising high-dimensional inputs.
+
+<!-- chunk {"id": "body-0296", "role": "body", "section": "Coping with high-dimensional inputs", "weight": 1.0} -->
+
+❙555The referred work extended the classical DMP to different space like 𝒮 𝒪 or 𝒮++m. Although formally similar, the extention to other Riemannian manifolds like the Grassmannian or the Hyperbolic manifolds is non-trivial and still not fully addressed.
+
+<!-- chunk {"id": "body-0297", "role": "body", "section": "Multi-attractor systems", "weight": 1.0} -->
+
+The well known second-order dynamic properties of the DMPs, strive towards a single attractor system. The properties, e.g., convergence and modulation of the motion, are well studied and implementations can be found in many research papers. Because of the second-order dynamics, the system becomes unstable if for example the motion is reversed during the execution. In the past years, two main approaches describing the reversibility problem have been introduced. In the first approach, reversibility is considered as leaning two separate primitives, one for each direction of the motion. The approach is promising, but does not reflect true reversibility, because it uses one attractor point for each primitive.
+
+<!-- chunk {"id": "body-0298", "role": "body", "section": "Multi-attractor systems", "weight": 1.0} -->
+
+On the other hand, introduced an alternative formulation with two stable attractor systems. The first attractor is defined at the starting point $y_{0}$ of the trajectory and the subsequent one at the goal $g$, the dynamical system between them guaranties a stable convergence depending on the selected attractor. The approach demonstrated true reversibility, while keeping all the DMPs properties. Nevertheless, all questions have not been resolved yet, the approach was evaluated on tasks and joint space position trajectories. A proper formulation for dealing with orientations e.g. quaternions in task space is still missing,
+
+<!-- chunk {"id": "body-0299", "role": "body", "section": "Concluding remarks", "weight": 1.0} -->
+
+Since their introduction in early 2000's, DMPs have established as one of the most used and popular approaches for motor commands generator system in robotics. Several authors have exploited and extended the classical formulation to overcome some limitations and fulfill different requirements. Their research resulted in a large amount of papers published over the last two decades.
+
+<!-- chunk {"id": "body-0300", "role": "body", "section": "Concluding remarks", "weight": 1.0} -->
+
+One of the aims of this paper is to categorize and review the vast literature on DMPs. We took a systematic review approach and automatically searched for DMP related papers in a popular database. A manual inspection of the resulting papers, guided by clear and unbiased criteria, led to the papers included on this tutorial survey.
+
+<!-- chunk {"id": "body-0301", "role": "body", "section": "Concluding remarks", "weight": 1.0} -->
+
+Another aim of our work is to provide a tutorial on DMPs that presents the classical formulation and the key extensions in rigorous mathematical terms. We made an effort to unify the notation among different approaches in order to make them easier to understand. Moreover, we provide useful guidelines that guide the reader to select the right approach for a given application. In the tutorial vein, we have also searched for open-source implementation of the described approaches and released to the community several implementations of DMP-based approaches.
+
+<!-- chunk {"id": "body-0302", "role": "body", "section": "Concluding remarks", "weight": 1.0} -->
+
+Advantages of DMPs have been discussed as well as their limitations and the open-issues. We have summarized them in Table 5 where we also indicate the solved issues and the one that require further investigation. In this respect, as research on DMP is still very active, we provide a comprehensive discussion that will help the reader to understand what has been done in the field and where he can put his research focus.
+
+<!-- chunk {"id": "body-0303", "role": "body", "section": "Concluding remarks", "weight": 1.0} -->
+
+CHIST-ERA project IPALM (Academy of Finland decision 326304).
+
+<!-- chunk {"id": "body-0304", "role": "body", "section": "Concluding remarks", "weight": 1.0} -->
+
+The Austrian Research Foundation (Euregio IPN 86-N30, OLIVER).
+
+<!-- chunk {"id": "body-0305", "role": "body", "section": "Concluding remarks", "weight": 1.0} -->
+
+Innovation Fund Denmark (Research and innovation project MADE FAST).

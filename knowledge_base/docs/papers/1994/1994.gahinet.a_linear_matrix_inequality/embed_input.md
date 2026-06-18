@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 A Linear Matrix Inequality Approach to H∞ Control
 
 Topics include H-infinity control, Linear matrix inequalities, Robust control, Riccati inequalities, Controller synthesis, Reduced-order control.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Reformulates continuous- and discrete-time H-infinity control in terms of linear matrix inequalities, replacing traditional indefinite Riccati-equation conditions with convex feasibility problems and controller parametrizations. The LMI viewpoint also exposes controller-order and Lyapunov-function structure, opening practical design routes for robust and reduced-order controllers.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 The continuous-time and discrete-time H∞ control problems are solved via elementary manipulations on linear matrix inequalities (LMI). Two interesting new features emerge through this approach: solvability conditions valid for both regular and singular problems, and an LMI-based parametrization of all H∞-suboptimal controllers, including reduced-order controllers.The solvability conditions involve Riccati inequalities rather than the usual indefinite Riccati equations. Alternatively, these conditions can be expressed as a system of three LMIs. Efficient convex optimization techniques are available to solve this system. Moreover, its solutions parametrize the set of H∞ controllers and bear important connections with the controller order and the closed-loop Lyapunov functions. Thanks to such connections, the LMI-based characterization of H∞ controllers opens new perspectives for the refinement of H∞ design. Applications to cancellation-free design and controller order reduction are discussed and illustrated by examples.

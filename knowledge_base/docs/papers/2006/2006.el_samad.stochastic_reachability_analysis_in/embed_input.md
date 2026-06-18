@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Stochastic Reachability Analysis in Complex Biological Networks
 
 Topics include Stochastic reachability, Biological networks, Sum of squares, Safety verification, Cellular dynamics, Noise analysis.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Applies stochastic reachability tools to biological networks, estimating the probability that noisy biochemical dynamics enter important target or unsafe sets. The contribution is methodological as much as biological: it shows how convex and SOS-style verification can reduce reliance on brute-force stochastic simulation.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 The impact of noise on cellular networks and its interplay with their rich dynamics are increasingly being characterized as important phenomena that must be thoroughly investigated for a useful understanding of biological dynamics. At the same time, the mathematical modeling and analysis of these networks in a stochastic setting presents a number of challenges, such as the need for a large number of computationally expensive stochastic simulations to collect statistics about the occurrence of important events or correlate their occurrence with the noise intensity. In this paper, we demonstrate the use of new techniques of stochastic reachability analysis to address these problems. Specifically, we study the problem of computing bounds on the probability of a biological stochastic process to reach certain parts of the state space in a finite time. The techniques presented are based on the algorithmic construction of barrier certificates using convex optimization, and are illustrated through the use of a biologically important system: the bacteriophage lambda genetic switch

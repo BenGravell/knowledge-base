@@ -1,21 +1,367 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Interpretable Machine Learning: Definitions, Methods, and Applications
 
 Topics include Attention mechanisms, Accuracy, Learning, Interpretable machine learning, PDR.
 
-Machine-learning models have demonstrated great success in learning complex patterns that enable them to make predictions about unobserved data. In addition to using models for prediction, the ability to interpret what a model has learned is receiving an increasing amount of attention. However, this increased focus has led to considerable confusion about the notion of interpretability. In particular, it is unclear how the wide array of proposed interpretation methods are related, and what common concepts can be used to evaluate them. We aim to address these concerns by defining interpretability in the context of machine learning and introducing the Predictive, Descriptive, Relevant (PDR) framework for discussing interpretations. The PDR framework provides three overarching desiderata for evaluation: predictive accuracy, descriptive accuracy and relevancy, with relevancy judged relative to a human audience. Moreover, to help manage the deluge of interpretation methods, we introduce a categorization of existing techniques into model-based and post-hoc categories, with sub-groups including sparsity, modularity and simulatability.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction
+Machine-learning models have demonstrated great success in learning complex patterns that enable them to make predictions about unobserved data. In addition to using models for prediction, the ability to interpret what a model has learned is receiving an increasing amount of attention. However, this increased focus has led to considerable confusion about the notion of interpretability. In particular, it is unclear how the wide array of proposed interpretation methods are related, and what common concepts can be used to evaluate them. We aim to address these concerns by defining interpretability in the context of machine learning and introducing the Predictive, Descriptive, Relevant (PDR) framework for discussing interpretations. The PDR framework provides three overarching desiderata for evaluation: predictive accuracy, descriptive accuracy and relevancy, with relevancy judged relative to a human audience. Moreover, to help manage the deluge of interpretation methods, we introduce a categorization of existing techniques into model-based and post-hoc categories, with sub-groups including sparsity, modularity and simulatability. To demonstrate how practitioners can use the PDR framework to evaluate and understand interpretations, we provide numerous real-world examples.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+These examples highlight the often under-appreciated role played by human audiences in discussions of interpretability. Finally, based on our framework, we discuss limitations of existing methods and directions for future work. We hope that this work will provide a common vocabulary that will make it easier for both practitioners and researchers to discuss and choose from the full range of interpretation methods.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Machine learning (ML) has recently received considerable attention for its ability to accurately predict a wide variety of complex phenomena. However, there is a growing realization that, in addition to predictions, ML models are capable of producing knowledge about domain relationships contained in data, often referred to as interpretations. These interpretations have found uses both in their own right, e.g. medicine, policy-making, and science, as well as in auditing the predictions themselves in response to issues such as regulatory pressure and fairness.
 
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 In the absence of a well-formed definition of interpretability, a broad range of methods with a correspondingly broad range of outputs (e.g. visualizations, natural language, mathematical equations) have been labeled as interpretation. This has led to considerable confusion about the notion of interpretability. In particular, it is unclear what it means to interpret something, what common threads exist among disparate methods, and how to select an interpretation method for a particular problem/audience.
 
-In this paper, we attempt to address these concerns. To do so, we first define interpretability in the context of machine learning and place it within a generic data science life cycle. This allows us to distinguish between two main classes of interpretation methods: model-based^11^1For clarity, throughout the paper we use the term to refer to both machine-learning models and algorithms. and post hoc.
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Defining interpretable machine learning
+In this paper, we attempt to address these concerns. To do so, we first define interpretability in the context of machine learning and place it within a generic data science life cycle. This allows us to distinguish between two main classes of interpretation methods: model-based^11^1For clarity, throughout the paper we use the term to refer to both machine-learning models and algorithms. and post hoc. We then introduce the Predictive, Descriptive, Relevant (PDR) framework, consisting of three desiderata for evaluating and constructing interpretations: predictive accuracy, descriptive accuracy, and relevancy, where relevancy is judged by a human audience. Using these terms, we categorize a broad range of existing methods, all grounded in real-world examples^22^2Examples were selected through a non-exhaustive search of related work.. In doing so, we provide a common vocabulary for researchers and practitioners to use in evaluating and selecting interpretation methods. We then show how our work enables a clearer discussion of open problems for future research.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Defining interpretable machine learning", "weight": 1.0} -->
 
 On its own, interpretability is a broad, poorly defined concept. Taken to its full generality, to interpret data means to extract information (of some form) from it. The set of methods falling under this umbrella spans everything from designing an initial experiment to visualizing final results. In this overly general form, interpretability is not substantially different from the established concepts of data science and applied statistics.
 
-## Future work
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Defining interpretable machine learning", "weight": 1.0} -->
+
+Instead of general interpretability, we focus on the use of interpretations in the context of ML as part of the larger data-science life cycle. We define interpretable machine learning as the use of machine-learning models for the extraction of relevant knowledge about domain relationships contained in data. Here, we view knowledge as being relevant if it provides insight for a particular audience into a chosen domain problem. These insights are often used to guide communication, actions, and discovery. Interpretation methods use ML models to produce relevant knowledge about domain relationships contained in data. This knowledge can be produced in formats such as visualizations, natural language or mathematical equations, depending on the context and audience. For instance, a doctor who must diagnose a single patient will want qualitatively different information than an engineer determining if an image classifier is discriminating by race.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Causal inference", "weight": 1.0} -->
+
+Causal inference is a subject from statistics which is related, but distinct, from interpretable machine learning. Causal inference methods focus solely on extracting causal relationships from data, i.e. statements that altering one variable will cause a change in another. In contrast, interpretable ML, and most other statistical techniques, are generally used to describe non-causal relationships, or relationships in observational studies.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Causal inference", "weight": 1.0} -->
+
+In some instances, researchers use both interpretable machine learning and causal inference in a single analysis. One form of this is where the non-causal relationships extracted by interpretable ML are used to suggest potential causal relationships. These relationships can then be further analyzed using causal inference methods, and fully validated through experimental studies.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Stability", "weight": 1.0} -->
+
+Stability, as a generalization of robustness in statistics, is a concept that applies throughout the entire data-science life cycle, including interpretable ML). The stability principle requires that each step in the life cycle is stable with respect to appropriate perturbations, such as small changes in the model or data. Recently, stability has been shown to be important in applied statistical problems, for example when trying to make conclusions about a scientific problem and in more general settings. Stability can be helpful in evaluating interpretation methods and is a prerequisite for trustworthy interpretations. That is, one should not interpret parts of a model which are not stable to appropriate perturbations to the model and data. This is demonstrated through examples in the text.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Interpretation in the data science life cycle", "weight": 1.0} -->
+
+Before discussing interpretation methods, we first place the process of interpretable ML within the broader data-science life cycle. Fig 1 presents a deliberately general description of this process, intended to capture most data-science problems. What is generally referred to as interpretation largely occurs in the modeling and post hoc analysis stages, with the problem, data and audience providing the context required to choose appropriate methods.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Problem, data, and audience", "weight": 1.0} -->
+
+At the beginning of the cycle, a data-science practitioner defines a domain problem that they would like to understand using data. This problem can take many forms. In a scientific setting, the practitioner may be interested in relationships contained in the data, such as how brain cells in a particular area of the visual system relate to visual stimuli. In industrial settings, the problem often concerns the predictive performance or other qualities of a model, such as how to assign credit scores with high accuracy, or do so fairly with respect to gender and race. The nature of the problem plays a role in interpretability, as the relevant context and audience are essential in determining what methods to use.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Problem, data, and audience", "weight": 1.0} -->
+
+After choosing a domain problem, the practitioner collects data to study it. Aspects of the data-collection process can affect the interpretation pipeline. Notably, biases in the data (i.e. mismatches between the collected data and the population of interest) will manifest themselves in the model, restricting one's ability to make interpretations regarding the problem of interest.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Model", "weight": 1.0} -->
+
+Based on the chosen problem and collected data, the practitioner then constructs a predictive model. At this stage, the practitioner processes, cleans, and visualizes data, extracts features, selects a model (or several models) and fits it. Interpretability considerations often come into play in this step related to the choice between simpler, easier to interpret models and more complex, black-box models, which may fit the data better. The model's ability to fit the data is measured through predictive accuracy.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Post hoc analysis", "weight": 1.0} -->
+
+Having fit a model (or models), the practitioner then analyzes it for answers to the original question. The process of analyzing the model often involves using interpretability methods to extract various (stable) forms of information from the model. The extracted information can then be analyzed and displayed using standard data analysis methods, such as scatter plots and histograms. The ability of the interpretations to properly describe what the model has learned is denoted by descriptive accuracy.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Iterate", "weight": 1.0} -->
+
+If sufficient answers are uncovered after the post hoc analysis stage, the practitioner finishes. Otherwise, they update something in the chain (problem, data, and/or model) and iterate, potentially multiple times. Note that they can terminate the loop at any stage, depending on the context of the problem.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Interpretation methods within the PDR framework", "weight": 1.0} -->
+
+In the framework described above, most interpretation methods fall either in the modeling or post hoc analysis stages. We call interpretability in the modeling stage model-based interpretability (Sec 4). This part of interpretability is focused upon constraining the form of ML models so that they readily provide useful information about the uncovered relationships. As a result of these constraints, the space of potential models is smaller, which can result in lower predictive accuracy. Consequently, model-based interpretability is best used when the underlying relationship is relatively simple.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Interpretation methods within the PDR framework", "weight": 1.0} -->
+
+We call interpretability in the post hoc analysis stage post hoc interpretability (Sec 5). These interpretation methods take a trained model as input, and extract information about what relationships the model has learned. They are most helpful when the underlying relationship is especially complex, and practitioners need to train an intricate, black-box model in order to achieve a reasonable predictive accuracy.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Interpretation methods within the PDR framework", "weight": 1.0} -->
+
+After discussing desiderata for interpretation methods, we investigate these two forms of interpretations in detail and discuss associated methods.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "The PDR desiderata for interpretations", "weight": 1.0} -->
+
+In general, it is unclear how to select and evaluate interpretation methods for a particular problem and audience. To help guide this process, we introduce the PDR framework, consisting of three desiderata that should be used to select interpretation methods for a particular problem: predictive accuracy, descriptive accuracy, and relevancy.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Accuracy", "weight": 1.0} -->
+
+The information produced by an interpretation method should be faithful to the underlying process the practitioner is trying to understand. In the context of ML, there are two areas where errors can arise: when approximating the underlying data relationships with a model (predictive accuracy) and when approximating what the model has learned using an interpretation method (descriptive accuracy). For an interpretation to be trustworthy, one should try to maximize both of the accuracies. In cases where the accuracy is not very high, the resulting interpretations may still be useful. However, it is especially important to check their trustworthiness through external validation, such as running an additional experiment.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Predictive accuracy", "weight": 1.0} -->
+
+The first source of error occurs during the model stage, when an ML model is constructed. If the model learns a poor approximation of the underlying relationships in the data, any information extracted from the model is unlikely to be accurate. Evaluating the quality of a model's fit has been well-studied in standard supervised ML frameworks, through measures such as test-set accuracy. In the context of interpretation, we describe this error as predictive accuracy.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Predictive accuracy", "weight": 1.0} -->
+
+Note that in problems involving interpretability, one often requires a notion of predictive accuracy that goes beyond just average accuracy. The distribution of predictions matters. For instance, it could be problematic if the prediction error is much higher for a particular class. Moreover, the predictive accuracy should be stable with respect to reasonable data and model perturbations. For instance, one should not trust interpretations from a model which changes dramatically when trained on a slightly smaller subset of the data.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Descriptive accuracy", "weight": 1.0} -->
+
+The second source of error occurs during the post hoc analysis stage, when interpretation methods are used to analyze a fitted model. Oftentimes, interpretation methods provide an imperfect representation of the relationships learned by a model. This is especially challenging for complex black-box models such as deep neural networks, which store nonlinear relationships between variables in non-obvious forms.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Descriptive accuracy", "weight": 1.0} -->
+
+$\rhd$ Definition We define descriptive accuracy, in the context of interpretation, as the degree to which an interpretation method objectively captures the relationships learned by machine learning models.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "A common conflict: predictive vs descriptive accuracy", "weight": 1.0} -->
+
+In selecting what model to use, practitioners are often faced with a trade-off between predictive and descriptive accuracy. On the one hand, the simplicity of model-based interpretation methods yields consistently high descriptive accuracy, but can sometimes result in lower predictive accuracy on complex datasets. On the other hand, in complex settings such as image analysis, complicated models generally provide high predictive accuracy, but are harder to analyze, resulting in a lower descriptive accuracy.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Relevancy", "weight": 1.0} -->
+
+When selecting an interpretation method, it is not enough for the method to have high accuracy - the extracted information must also be relevant. For example, in the context of genomics, a patient, doctor, biologist, and statistician may each want different (yet consistent) interpretations from the same model. The context provided by the problem and data stages in Fig 1 guides what kinds of relationships a practitioner is interested in learning about, and by extension the methods that should be used.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Relevancy", "weight": 1.0} -->
+
+$\rhd$ Definition We define an interpretation to be relevant if it provides insight for a particular audience into a chosen domain problem.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Relevancy", "weight": 1.0} -->
+
+Relevancy often plays a key role in determining the trade-off between predictive and descriptive accuracy. Depending on the context of the problem at hand, a practitioner may choose to focus on one over the other. For instance, when interpretability is used to audit a model's predictions, such as to enforce fairness, descriptive accuracy can be more important. In contrast, interpretability can also be used solely as a tool to increase the predictive accuracy of a model, for instance, through improved feature engineering.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Relevancy", "weight": 1.0} -->
+
+Having outlined the main desiderata for interpretation methods, we now discuss how they link to interpretation in the modeling and post hoc analysis stages in the data-science life cycle. Fig 2 draws parallels between our desiderata for interpretation techniques introduced in Sec 3 and our categorization of methods in Sec 4 and Sec 5. In particular, both post hoc and model-based methods aim to increase descriptive accuracy, but only model-based affects the predictive accuracy. Not shown is relevancy, which determines what type of output is helpful for a particular problem and audience.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Model-based interpretability", "weight": 1.0} -->
+
+We now discuss how interpretability considerations come into play in the modeling stage of the data science life cycle (see Fig 1). At this stage, the practitioner constructs an ML model from the collected data. We define model-based interpretability as the construction of models that readily provide insight into the relationships they have learned. Different model-based interpretability methods provide different ways of increasing descriptive accuracy by constructing models which are easier to understand, sometimes resulting in lower predictive accuracy. The main challenge of model-based interpretability is to come up with models that are simple enough to be easily understood by the audience, yet sophisticated enough to properly fit the underlying data.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Model-based interpretability", "weight": 1.0} -->
+
+In selecting a model to solve a domain problem, the practitioner must consider the entirety of the PDR framework. The first desideratum to consider is predictive accuracy. If the constructed model does not accurately represent the underlying problem, any subsequent analysis will be suspect. Second, the main purpose of model-based interpretation methods is to increase descriptive accuracy. Finally, the relevancy of a model's output must be considered, and is determined by the context of the problem, data, and audience. We now discuss some widely useful types of model-based interpretability methods.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Sparsity", "weight": 1.0} -->
+
+When the practitioner believes that the underlying relationship in question is based upon a sparse set of signals, they can impose sparsity on their model by limiting the number of non-zero parameters. In this section, we focus on linear models, but sparsity can be helpful more generally. When the number of non-zero parameters is sufficiently small, a practitioner can interpret the variables corresponding to those parameters as being meaningfully related to the outcome in question, and can also interpret the magnitude and direction of the parameters. However, before one can interpret a sparse parameter set, one should check for stability of the parameters. For example, if the set of sparse parameters changes due to small perturbations in the data set, the coefficients should not be interpreted.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Sparsity", "weight": 1.0} -->
+
+When the practitioner is able to correctly incorporate sparsity into their model, it can improve all three interpretation desiderata. By reducing the number of parameters to analyze, sparse models can be easier to understand, yielding higher descriptive accuracy. Moreover, incorporating prior information in the form sparsity into a sparse problem can help a model achieve higher predictive accuracy and yield more relevant insights. Note that incorporating sparsity can often be quite difficult, as it requires understanding the data-specific structure of the sparsity and how it can be modelled.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Sparsity", "weight": 1.0} -->
+
+Methods for obtaining sparsity often utilize a penalty on a loss function, such as LASSO and sparse coding, or on a model selection criteria such as AIC or BIC. Many search-based methods have been developed to find sparse solutions. These methods search through the space of non-zero coefficients using classical subset-selection methods (e.g. orthogonal matching pursuit ). Model sparsity is often useful for high-dimensional problems, where the goal is to identify key features for further analysis. As a result, sparsity penalties have been incorporated into complex models such as random forests to identify a sparse subset of important features.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Sparsity", "weight": 1.0} -->
+
+In the following example from genomics, sparsity is used to increase the relevancy of the produced interpretations by reducing the number of potential interactions to a manageable level.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Sparsity", "weight": 1.0} -->
+
+$\rhd$ Ex. Identifying interactions among regulatory factors or biomolecules is an important question in genomics. Typical genomic datasets include thousands or even millions of features, many of which are active in specific cellular or developmental contexts. The massive scale of such datasets make interpretation a considerable challenge. Sparsity penalties are frequently used to make the data manageable for statisticians and their collaborating biologists to discuss and identify promising candidates for further experiments.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Sparsity", "weight": 1.0} -->
+
+For instance, one recent study uses a biclustering approach based on sparse canonical correlation analysis (SCCA) to identify interactions among genomic expression features in Drosophila melanogaster (fruit flies) and Caenorhabditis elegans (roundworms). Sparsity penalties enable key interactions among features to be summarized in heatmaps which contain few enough variables for a human to analyze. Moreover, this study performs stability analysis on their model, finding it to be robust to different initializations and perturbations to hyperparameters.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Simulatability", "weight": 1.0} -->
+
+A model is said to be simulatable if a human (for whom the interpretation is intended) is able to internally simulate and reason about its entire decision-making process (i.e. how a trained model produces an output for an arbitrary input). This is a very strong constraint to place on a model, and can generally only be done when the number of features is low, and the underlying relationship is simple. Decision trees are often cited as a simulatable model, due to their hierarchical decision-making process. Another example is lists of rules, which can easily be simulated. Due to their simplicity, simulatable models have very high descriptive accuracy. When they can also provide reasonable predictive accuracy, they can be very effective. In the following example, a novel simulatable model is able to produce high predictive accuracy, while maintaining the high levels of descriptive accuracy and relevancy normally attained by rules-based models.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Simulatability", "weight": 1.0} -->
+
+$\rhd$ Ex. In medical practice, when a patient has been diagnosed with atrial fibrillation, caregivers often want to predict the risk that the particular patient will have a stroke in the next year. Moreover, given the potential ramifications of medical decisions, it is important that these predictions are not only accurate, but interpretable to both the caregivers and patients.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Simulatability", "weight": 1.0} -->
+
+To make the prediction, uses data from 12,586 patients detailing their age, gender, history of drugs and conditions preceding their diagnosis, and whether they had a stroke within a year of diagnosis. In order to construct a model that has high predictive and descriptive accuracy, introduce a method for learning lists of if-then rules that are predictive of one year stroke risk. The resulting classifier, displayed in Fig 3, requires only seven if-then statements to achieve competitive accuracy, and is easy for even non-technical practitioners to quickly understand.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Modularity", "weight": 1.0} -->
+
+We define an ML model to be modular if a meaningful portion(s) of its prediction-making process can be interpreted independently. While modular models are not as easy to understand as sparse or simulatable models, they can still be useful in increasing descriptive accuracy to provide insights into the relationships the model has learned.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Modularity", "weight": 1.0} -->
+
+A wide array of models satisfy modularity to different degrees. Generalized additive models force the relationship between variables in the model to be additive. In deep learning, specific methods such as attention and modular network architectures provide limited insight into a network's inner workings. Probabilistic models can enforce modularity by specifying a conditional independence structure which makes it easier to reason about different parts of a model independently.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Modularity", "weight": 1.0} -->
+
+The following example uses modularity to produce relevant interpretations for use in diagnosing biases in training data.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Modularity", "weight": 1.0} -->
+
+$\rhd$ Ex. When prioritizing patient care for pneumonia patients in a hospital, one possible method is to predict the likelihood of death within 60 days, and focus on the patients with a higher mortality risk. Given the potential life and death consequences, being able to explain the reasons for hospitalizing a patient or not is very important.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Modularity", "weight": 1.0} -->
+
+A recent study uses a dataset of 14,199 pneumonia patients, with 46 features including from demographics (e.g. age and gender), simple physical measurements (e.g. heart rate, blood pressure) and lab tests (e.g. white blood cell count, blood urea nitrogen). To predict mortality risk, they use a generalized additive model with pairwise interactions, displayed below. The univariate and pairwise terms ($f_{j}{(x_{j})}$ and $f_{ij}{(x_{i},x_{j})}$) can be individually interpreted in the form of curves and heatmaps respectively.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Modularity", "weight": 1.0} -->
+
+By inspecting the individual modules, the researchers found a number of counterintuitive properties of their model. For instance, the fitted model learned that having asthma is associated with a lower risk of dying from pneumonia. In reality, the opposite is true - patients with asthma are known to have a higher risk of death from pneumonia. Because of this, in the collected data all patients with asthma received aggressive care, which was fortunately effective at reducing their risk of mortality relative to the general population.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Modularity", "weight": 1.0} -->
+
+In this instance, if the model were used without having been interpreted, pneumonia patients with asthma would have have been de-prioritized for hospitalization. Consequently, the use of ML would increase their likelihood of dying. Fortunately, the use of an interpretable model enabled the researchers to identify and correct errors like this one, better ensuring that the model could be trusted in the real world.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Domain-based feature engineering", "weight": 1.0} -->
+
+While the type of model is important in producing a useful interpretation, so are the features that are used as inputs to the model. Having more informative features makes the relationship that needs to be learned by the model simpler, allowing one to use other model-based interpretability methods. Moreover, when the features have more meaning to a particular audience, they become easier to interpret.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Domain-based feature engineering", "weight": 1.0} -->
+
+In many individual domains, expert knowledge can be useful in constructing feature sets that are useful for building predictive models. The particular algorithms used to extract features are generally domain-specific, relying both on the practitioner's existing domain expertise and insights drawn from the data through exploratory data analysis. For example, in natural language processing, documents are embedded into vectors using tf-idf and in computer vision mathematical transformations have been developed to produce useful representations of images. In the example below, domain knowledge about cloud coverage is exploited to design three simple features that increase the predictive accuracy of a model while maintaining the high descriptive accuracy of a simple predictive model.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Domain-based feature engineering", "weight": 1.0} -->
+
+$\rhd$ Ex. When modelling global climate patterns, an important quantity is the amount and location of arctic cloud coverage. Due to the complex, layered nature of climate models, it is beneficial to have simple, easily auditable, cloud coverage models for use by down-stream climate scientists.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Domain-based feature engineering", "weight": 1.0} -->
+
+In, the authors use an unlabeled dataset of arctic satellite imagery to build a model predicting whether each pixel in an image contains clouds or not. Given the qualitative similarity between ice and clouds, this is a challenging prediction problem. By conducting exploratory data analysis and utilizing domain knowledge through interactions with climate scientists, the authors identify three simple features that are sufficient to cluster whether or not images contain clouds. Using these three features as input to quadratic discriminant analysis, they achieve both high predictive accuracy and transparency when compared with expert labels (which were not used in developing the features and the QDA clustering method).
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Model-based feature engineering", "weight": 1.0} -->
+
+There are a variety of automatic approaches for constructing interpretable features. Two examples are unsupervised learning and dimensionality reduction. Unsupervised methods, such as clustering, matrix factorization, and dictionary learning, aim to process unlabelled data and output a description of their structure. These structures often shed insight into relationships contained within the data and can be useful in building predictive models. Dimensionality reduction focuses on finding a representation of the data which is lower-dimensional than the original data. Methods such as principal components analysis, independent components analysis, and canonical correlation analysis can often identify a few interpretable dimensions, which can then be used as input to a model or to provide insights in their own right. Using fewer inputs can not only improve descriptive accuracy, but can increase predictive accuracy by reducing the number of parameters to fit. In the following example, unsupervised learning (non-negative matrix factorization) is used to represent images in a low-dimensional, genetically meaningful, space.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Model-based feature engineering", "weight": 1.0} -->
+
+$\rhd$ Ex. Heterogeneity is an important consideration in genomic problems and associated data. In many cases, regulatory factors or biomolecules can play a specific role in one context, such as a particular cell type or developmental stage, and have a very different role in other contexts. Thus, it is important to understand the "local" behavior of regulatory factors or biomolecules.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Model-based feature engineering", "weight": 1.0} -->
+
+A recent study, uses unsupervised learning to learn spatial patterns of gene expression in Drosophila (fruit fly) embryos. In particular, they use stability driven nonnegative matrix factorization to decompose images of complex spatial gene expression patterns into a library of $21$ "principal patterns", which can be viewed as pre-organ regions This decomposition, which is interpretable to biologists, allows the study of gene-gene interactions in pre-organ regions of the developing embryo.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Post hoc interpretability", "weight": 1.0} -->
+
+We now discuss how interpretability considerations come into play in the post hoc analysis stage of the data-science life cycle. At this stage, the practitioner analyzes a trained model in order to provide insights into the learned relationships. This is particularly challenging when the model's parameters do not clearly show what relationships the model has learned. To aid in this process, a variety of post hoc interpretability methods have been developed to provide insight into what a trained model has learned, without changing the underlying model. These methods are particularly important for settings where the collected data is high-dimensional and complex, such as with image data. Once the information has been extracted from the fitted model, it can be analyzed using standard, exploratory data analysis techniques, such as scatter plots and histograms.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Post hoc interpretability", "weight": 1.0} -->
+
+When conducting post hoc analysis, the model has already been trained, so its predictive accuracy is fixed. Thus, under the PDR framework, a researcher must only consider descriptive accuracy and relevancy (relative to a particular audience). Improving on each of these criteria are areas of active research.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Post hoc interpretability", "weight": 1.0} -->
+
+Most widely useful post hoc interpretation methods fall into two main categories: prediction-level and dataset-level interpretations, which are sometimes referred to as local and global interpretations, respectively. Prediction-level interpretation methods focus on explaining individual predictions made by models, such as what features and/or interactions led to the particular prediction. Dataset-level approaches focus on the global relationships the model has learned, such as what visual patterns are associated with a predicted response. These two categories have much in common (in fact, dataset-level approaches often yield information at the prediction-level), but we discuss them separately, as methods at different levels are meaningfully different.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Dataset-level interpretation", "weight": 1.0} -->
+
+When a practitioner is interested in more general relationships learned by a model, e.g. relationships that are relevant for a particular class of responses or subpopulation, they use dataset-level interpretations.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Interaction and feature importances", "weight": 1.0} -->
+
+Feature importance scores, at the dataset-level, try to capture how much individual features contribute, across a dataset, to a prediction. These scores can provide insights into what features the model has identified as important for which outcomes, and their relative importance. Methods have been developed to score individual features in many models including neural networks, random forests and generic classifiers.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Interaction and feature importances", "weight": 1.0} -->
+
+In addition to feature importances, methods have been developed to extract important interactions between features. Interactions are important as ML models are often highly nonlinear and learn complex interactions between features. Methods exist to extract interactions from a variety of ML models including random forests and neural networks. In the following example, the descriptive accuracy of random forests is increased by extracting Boolean interactions (a problem-relevant form of interpretation) from a trained model.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Interaction and feature importances", "weight": 1.0} -->
+
+$\rhd$ Ex. High-order interactions among regulatory factors or genes play an important role in defining cell-type specific behavior in biological systems. As a result, extracting such interactions from genomic data is an important problem in biology.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Interaction and feature importances", "weight": 1.0} -->
+
+A previous line of work considers the problem of searching for biological interactions associated with important biological processes. To identify candidate biological interactions, the authors train a series of iteratively re-weighted RFs and search for stable combinations of features that frequently co-occur along the predictive RF decision paths. This approach takes a step beyond evaluating the importance of individual features in an RF, providing a more complete description of how features influence predicted responses. By interpreting the interactions used in RFs, the researchers identified gene-gene interactions with 80% accuracy in the Drosophila embryo and identify candidate targets for higher-order interactions.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Statistical feature importances", "weight": 1.0} -->
+
+In some instances, in addition to the raw value, we can compute statistical measures of confidence as feature importance scores, a standard technique taught in introductory statistics classes. By making assumptions about the underlying data generating process, models like linear and logistic regression can compute confidence intervals and hypothesis tests for the values, and linear combinations, of their coefficients. These statistics can be helpful in determining the degree to which the observed coefficients are statistically significant. It is important to note that the assumptions of the underlying probabilistic model must be fully verified before using this form of interpretation. Below we present a cautionary example where different assumptions lead to opposing conclusions being drawn from the same dataset.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Statistical feature importances", "weight": 1.0} -->
+
+$\rhd$ Ex. Here, we consider the lawsuit Students for Fair Admissions, Inc. v. Harvard regarding the use of race in undergraduate admissions to Harvard University. Initial reports by Harvard's Office of Institutional Research used logistic regression to model the probability of admission using different features of an applicant's profile, including their race. This analysis found that the coefficient associated with being Asian (and not low income) had a coefficient of -0.418 with a significant p-value (\<0.001). This negative coefficient suggested that being Asian had a significant negative association with admission probability.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Statistical feature importances", "weight": 1.0} -->
+
+Subsequent analysis from both sides in the lawsuit attempted to analyze the modeling and assumptions to decide on the significance of race in the model's decision. The plaintiff's expert report suggested that race was being unfairly used by building on the original report from Harvard's Office of Institutional Research. It also incorporates analysis on more subjective factors such as "personal ratings" which seem to hurt Asian students' admission. In contrast, the expert report supporting Harvard University finds that by accounting for certain other variables, the effect of race on Asian students acceptance is no longer significant. Significances derived from statistical tests in regression or logistic regression models at best establish association, but not causation. Hence the analyses from both sides are flawed. This example demonstrates the practical and misleading consequences of statistical feature importances when used inappropriately.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Visualizations", "weight": 1.0} -->
+
+When dealing with high-dimensional datasets, it can be challenging to quickly understand the complex relationships that a model has learned, making the presentation of the results particularly important. To help deal with this, researchers have developed a number of different visualizations which help to understand what a model has learned. For linear models with regularization, plots of regression coefficient paths show how varying a regularization parameter affects the fitted coefficients. When visualizing convolutional neural networks trained on image data, work has been done on visualizing filters, maximally activating responses of individual neurons or classes, understanding intra-class variation, and grouping different neurons. For Long Short Term Memory Networks (LSTMs), researchers have focused on analyzing the state vector, identifying individual dimensions that correspond to meaningful features (e.g. position in line, within quotes), and building tools to track the model's decision process over the course of a sequence.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Visualizations", "weight": 1.0} -->
+
+In the following example, relevant interpretations are produced by using maximal activation images for identifying patterns that drive the response of brain cells.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Visualizations", "weight": 1.0} -->
+
+$\rhd$ Ex. A recent study visualizes learned information from deep neural networks to understand individual brain cells. In this study, macaque monkeys were shown images while the responses of brain cells in their visual system (area V4) were recorded. Neural networks were trained to predict the responses of brain cells to the images. These neural networks produce accurate fits, but provide little insight into what patterns in the images increase the brain cells response without further analysis. To remedy this, the authors introduce DeepTune, a method which provides a visualization, accessible to neuroscientists and others, of the patterns which activate a brain cell. The main intuition behind the method is to optimize the input of a network to maximize the response of a neural network model (which represent a brain cell).
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Visualizations", "weight": 1.0} -->
+
+The authors go on to analyze the major problem of instability. When post hoc visualizations attempt to answer scientific questions, the visualizations must be stable to reasonable perturbations (e.g. the choice of model); if there are changes in the visualization due to the choice of a model, it is likely not meaningful. The authors address this explicitly by fitting eighteen different models to the data and using a stable optimization over all the models to produce a final consensus DeepTune visualization.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Analyzing trends and outliers in predictions", "weight": 1.0} -->
+
+When interpreting the performance of an ML model, it can be helpful to look not just at the average accuracy, but also at the distribution of predictions and errors. For example, residual plots can identify heterogeneity in predictions, and suggest particular data points to analyze, such as outliers in the predictions, or examples which had the largest prediction errors. Moreover, these plots be used to analyze trends across the predictions. For instance, in the example below, influence functions are able to efficiently identify mislabelled data points.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Analyzing trends and outliers in predictions", "weight": 1.0} -->
+
+$\rhd$ Ex. This kind of analysis can also be used to identify mislabeled training data. A recently introduced method uses the classical statistical concept of influence functions to identify points in the training data which contribute to predictions made by ML models. By searching for training data points which contribute the most amount to individual predictions, they were able to find mislabelled data points without having to look at too much data. Correcting these mislabeled training points subsequently improved the test accuracy.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Prediction-level interpretation", "weight": 1.0} -->
+
+Prediction-level approaches are useful when a practitioner is interested in understanding how individual predictions are made by a model. Note that prediction-level approaches can sometimes be aggregated to yield dataset-level insights.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Feature importance scores", "weight": 1.0} -->
+
+The most popular approach to prediction-level interpretation has involved assigning importance scores to individual features. Intuitively, a variable with a large positive (negative) score made a highly positive (negative) contribution to a particular prediction. In the deep learning literature, a number of different approaches have been proposed to address this problem, with some methods for other models as well. These are often displayed in the form of a heat map highlighting important features. Note that feature importance scores at the prediction-level can offer much more information than feature importance scores at the dataset-level. This is a result of heterogeneity in a nonlinear model: the importance of a feature can vary for different examples as a result of interactions with other features. In the following example, feature importance scores are used to increase the descriptive accuracy of black-box models in order to validate their fairness.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Feature importance scores", "weight": 1.0} -->
+
+$\rhd$ Ex. When using ML models to predict sensitive outcomes, such as whether a person should receive a loan or a criminal sentence, it is important to verify that the algorithm is not discriminating against people based on protected attributes, such as race or gender. This problem is often described as ensuring ML models are "fair". In, the authors introduce a variable importance measure designed to isolate the contributions of individual variables, such as gender, among a set of correlated variables.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Feature importance scores", "weight": 1.0} -->
+
+Based on these variable importance scores, the authors construct transparency reports, such as the one displayed in Fig 4. This figure displays the importance of features used to predict that \"Mr. Z\" is likely to be arrested in the future (an outcome which is often used in predictive policing), with each bar corresponding to a feature provided to the classifier, and the y axis displaying the importance score for that feature. In this instance, the race feature is the largest value, indicating that the classifier is indeed discriminating based on race. Thus, in this instance, prediction-level feature importance scores are able to identify that a model is unfairly discriminating based on race.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Alternatives to feature importances", "weight": 1.0} -->
+
+While feature importance scores can provide useful insights, they also have a number of limitations. For instance, they are unable to capture when algorithms learn interactions between variables. There is currently an evolving body of work centered around uncovering and addressing these limitations. These methods focus on explicitly capturing and displaying the interactions learned by a neural network, alternative forms of interpretations such as textual explanations, identifying influential data points, and analyzing nearest neighbors.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Future work", "weight": 1.5} -->
 
 Having introduced the PDR framework for defining and discussing interpretable machine learning, we now leverage it to frame what we feel are the field's most important challenges moving forward. Below, we present open problems tied to each of the paper's three main sections: interpretation desiderata (Sec 3), model-based interpretability (Sec 4), and post hoc interpretability (Sec 5).
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Measuring interpretation desiderata", "weight": 1.0} -->
+
+Currently, there is no clear consensus in the community around how to evaluate interpretation methods, although some recent work has begun to address it. As a result, the standard of evaluation varies considerably across different work, making it challenging both for researchers in the field to measure progress, and for prospective users to select suitable methods. Within the PDR framework, to constitute an improvement, a new interpretation method must improve at least one desideratum (predictive accuracy, descriptive accuracy, or relevancy) without unduly harming the others. While improvements in predictive accuracy are easy to measure, measuring improvements in descriptive accuracy and relevancy remains a challenge. Less important areas for improvement include computational cost and ease of implementation.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Measuring descriptive accuracy", "weight": 1.0} -->
+
+One way to measure an improvement to an interpretation method is to demonstrate that its output better captures what the ML model has learned, i.e. its descriptive accuracy. However, unlike predictive accuracy, descriptive accuracy is generally very challenging to measure or quantify. As a fall-back, researchers often show individual, cherry-picked, interpretations which seem "reasonable". These kinds of evaluations are limited and unfalsifiable. In particular, these results are limited to the few examples shown, and not generally applicable to the entire dataset.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Measuring descriptive accuracy", "weight": 1.0} -->
+
+While the community has not settled on a standard evaluation protocol, there are some promising directions. In particular, the use of simulation studies presents a partial solution. In this setting, a researcher defines a simple generative process, generates a large amount of data from that process, and trains their ML model on that data. Assuming a proper simulation setup, a sufficiently powerful model to recover the generative process, and sufficiently large training data, the trained model should achieve near-perfect generalization accuracy. To compute an evaluation metric, they can then check whether their interpretations recover aspects of the original generative process. For example, train neural networks on a suite of generative models with certain built-in interactions, and test whether their method successfully recovers them. Here, due to the ML model's near-perfect generalization accuracy, we know that the model is likely to have recovered some aspects of the generative process, thus providing a ground truth against which to evaluate interpretations. In a related approach, when an underlying scientific problem has been previously studied, prior experimental findings can serve as a partial ground truth to retrospectively validate interpretations.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Demonstrating relevancy to real-world problems", "weight": 1.0} -->
+
+Another angle for developing improved interpretation methods is to improve the relevancy of interpretations for some audience or problem. This is normally done by introducing a novel form of output, such as feature heatmaps, rationales, feature hierarchies or identifying important elements in the training set. A common pitfall in the current literature is to focus exclusively on the novel output, ignoring what real-world problems it can actually solve. Given the abundance of possible interpretations, it is particularly easy for researchers to propose novel methods which do not actually solve any real-world problems.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Demonstrating relevancy to real-world problems", "weight": 1.0} -->
+
+There have been two dominant approaches for demonstrating improved relevancy. The first, and strongest, is to directly use the introduced method in solving a domain problem. For instance, in one example discussed above, the authors evaluated a new interpretation method (iterative random forests) by demonstrating that it could be used to identify meaningful biological Boolean interactions for use in experiments. In instances like this, where the interpretations are used directly to solve a domain problem, their relevancy is indisputable. A second, less direct, approach is the use of human studies, often through services like Amazon's Mechanical Turk. Here, humans are asked to perform certain tasks, such as evaluating how much they trust a model's predictions. While challenging to properly construct and perform, these studies are vital to demonstrate that new interpretation methods are, in fact, relevant to any potential practitioners. However, one shortcoming of this approach is that it is only possible to use a general audience of AMT crowdsourced workers, rather than a more relevant, domain-specific audience.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Model-based", "weight": 1.0} -->
+
+Now that we have discussed the general problem of evaluating interpretations, we highlight important challenges for the two main sub-fields of interpretable machine learning: model-based and post hoc interpretability. Whenever model-based interpretability can achieve reasonable predictive accuracy and relevancy, by virtue of its high descriptive accuracy it is preferable to fitting a more complex model, and relying upon post hoc interpretability. Thus, the main focus for model-based interpretability is increasing its range of possible use cases by increasing its predictive accuracy through more accurate models and transparent feature engineering. It is worth noting that sometimes a combination of model-based and post hoc interpretations is ideal.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Building accurate and interpretable models", "weight": 1.0} -->
+
+In many instances, model-based interpretability methods fail to achieve a reasonable predictive accuracy. In these cases, practitioners are forced to abandon model-based interpretations in search of more accurate models. Thus, an effective way of increasing the potential uses for model-based interpretability is to devise new modeling methods which produce higher predictive accuracy while maintaining their high descriptive accuracy and relevance. Promising examples of this work include the previously discussed examples on estimating pneumonia risk from patient data and Bayesian models for generating rule lists to estimate a patient's risk of stroke. Detailed directions for this work are suggested.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Tools for feature engineering", "weight": 1.0} -->
+
+When we have more informative and meaningful features, we can use simpler modeling methods to achieve a comparable predictive accuracy. Thus, methods that can produce more useful features broaden the potential uses of model-based interpretations. The first main category of work lies in improved tools for exploratory data analysis. By better enabling researchers to interact with and understand their data, these tools (combined with domain knowledge) provide increased opportunities for them to identify helpful features. Examples include interactive environments, tools for visualization, and data exploration tools. The second category falls under unsupervised learning, which is often used as a tool for automatically finding relevant structure in data. Improvements in unsupervised techniques such as clustering and matrix factorization could lead to more useful features.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Post hoc", "weight": 1.0} -->
+
+In contrast to model-based interpretability, much of post hoc interpretability is relatively new, with many foundational concepts still unclear. In particular, we feel that two of the most important questions to be answered are what an interpretation of an ML model should look like, and how post hoc interpretations can be used. One of the most promising potential uses of post hoc interpretations is to increase the predictive accuracy of a model. In related work, it has been pointed out that in high stakes decisions practitioners should be very careful when applying post hoc methods with unknown descriptive accuracy.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "What should an interpretation of a black-box look like", "weight": 1.0} -->
+
+Given a black-box predictor and real-world problem, it is generally unclear what format, or combination of formats, is best to fully capture a model's behavior. Researchers have proposed a variety of interpretation forms, including feature heatmaps, feature hierarchies and identifying important elements in the training set. However, in all instances there is a gap between the relatively simple information provided by these interpretations and what the complex model has actually learned. Moreover, it is unclear if any of the current interpretation forms can fully capture a model's behaviour, or if a new format altogether is needed. How to close that gap, while producing outputs relevant to a particular audience/problem, is an open problem.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Using interpretations to improve predictive accuracy", "weight": 1.0} -->
+
+In some instances, post hoc interpretations uncover that a model has learned relationships a practitioner knows to be incorrect. For instance, prior interpretation work has shown that a binary husky vs. wolf classifier simply learns to identify whether there is snow in the image, ignoring the animals themselves. A natural question to ask is whether it is possible for the practitioner to correct these relationships learned by the model, and consequently increase its predictive accuracy. Given the challenges surrounding simply generating post hoc interpretations, research on their uses has been limited. However, as the field of post hoc interpretations continues to mature, this could be an exciting avenue for researchers to increase the predictive accuracy of their models by exploiting prior knowledge, independently of any other benefits of interpretations.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Using interpretations to improve predictive accuracy", "weight": 1.0} -->
+
+This research was supported in part by grants ARO W911NF1710005, ONR N00014-16-1-2664, NSF DMS-1613002, and NSF IIS 1741340, an NSERC PGS D fellowship, and an Adobe research award. We thank the Center for Science of Information (CSoI), a US NSF Science and Technology Center, under grant agreement CCF-0939370. Reza Abbasi-Asl would like to thank the Allen Institute founder, Paul G. Allen, for his vision, encouragement and support.

@@ -1,5 +1,11 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Data-driven Distributionally Robust MPC for Constrained Stochastic Systems
 
 Topics include Optimal control, Robustness, Online algorithms, Optimization, Control, Learning, Robust optimization, Robust control.
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 In this paper we introduce a novel approach to distributionally robust optimal control that supports online learning of the ambiguity set, while guaranteeing recursive feasibility. We introduce conic representable risk, which is useful to derive tractable reformulations of distributionally robust optimization problems. Specifically, to illustrate the techniques introduced, we utilize risk measures constructed based on data-driven ambiguity sets, constraining the second moment of the random disturbance. In the optimal control setting, such moment-based risk measures lead to tractable optimal controllers when combined with affine disturbance feedback. Assumptions on the constraints are given that guarantee recursive feasibility. The resulting control scheme acts as a robust controller when little data is available and converges to the certainty equivalent controller when a large sample count implies high confidence in the estimated second moment. This is illustrated in a numerical experiment.

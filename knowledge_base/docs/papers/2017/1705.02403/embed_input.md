@@ -1,19 +1,203 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Group Marching Tree: Sampling-Based Approximately Optimal Motion Planning on GPUs
 
 Topics include Motion planning, Kinodynamic planning, Sampling-based planning, Real-time planning, Approximate optimality, Graphics processing unit, Parallelized, GMT*, FMT*.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 GMT* adapts FMT*'s lazy dynamic-programming tree expansion for massively parallel execution on GPUs by replacing the sequential expansion of the single minimum-cost sample with simultaneous expansion of the entire group of active samples whose cost falls below an increasing threshold. This group approximation introduces a bounded suboptimality constant but eliminates sequential data structures and reduces thread divergence. Achieves ~10 ms planning on desktop GPUs and ~30 ms on embedded GPUs.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This paper presents a novel approach, named the Group Marching Tree (GMT*) algorithm, to planning on GPUs at rates amenable to application within control loops, allowing planning in real-world settings via repeated computation of near-optimal plans. GMT*, like the Fast Marching Tree (FMT) algorithm, explores the state space with a "lazy" dynamic programming recursion on a set of samples to grow a tree of near-optimal paths. GMT*, however, alters the approach of FMT with approximate dynamic programming by expanding, in parallel, the group of all active samples with cost below an increasing threshold, rather than only the minimum cost sample. This group approximation enables low-level parallelism over the sample set and removes the need for sequential data structures, while the "lazy" collision checking limits thread divergence - all contributing to a very efficient GPU implementation. While this approach incurs some suboptimality, we prove that GMT* remains asymptotically optimal up to a constant multiplicative factor.
 
-## Introduction
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-Robotic systems are increasingly operating in real-world settings---away from the structure, repetition, and certainty of the factory floor---that require a robot to not only sense its environment and state in real time, but to react accordingly. Acting in these paradigms often necessitates motion plans be computed on the basis of limited state and environmental knowledge, both of which may vary rapidly as information is gathered and the robot's surroundings change.
+We show solutions for complex planning problems under differential constraints can be found in ~10 ms on a desktop GPU and ~30 ms on an embedded GPU, representing a significant speed up over the state of the art, with only small losses in performance. Finally, we present a scenario demonstrating the efficacy of planning within the control loop (~100 Hz) towards operating in dynamic, uncertain settings.
 
-*Statement of Contributions.* In this work, we propose the use of approximate dynamic programming (ADP) methods that leverage algorithm parallelism for greater speed while incurring only a bounded degree of suboptimality. We present the Group Marching Tree (GMT^∗^) algorithm that, like the Fast Marching Tree algorithm (FMT^∗^), performs a "lazy" dynamic programming recursion on a set of samples in the state space to grow a tree of near-optimal cost-to-arrive paths.
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Conclusion
+Robotic systems are increasingly operating in real-world settings---away from the structure, repetition, and certainty of the factory floor---that require a robot to not only sense its environment and state in real time, but to react accordingly. Acting in these paradigms often necessitates motion plans be computed on the basis of limited state and environmental knowledge, both of which may vary rapidly as information is gathered and the robot's surroundings change. A major challenge in this approach is thus replanning quickly, ideally up to the bound of the control feedback loop frequency (\~100 Hz), particularly for systems governed by dynamic constraints operating in complex environments.
 
-We have introduced and analyzed a novel planning algorithm, the Group Marching Tree algorithm (GMT^∗^), that trades off parallelism for optimality in order to leverage GPU hardware. The computational speed of GMT^∗^ allows us to approach the problem of planning in real-world settings---particularly focusing on the uncertain, dynamic environments that naturally arise from active robot sensing and the uncertain, disturbed motion of systems in the field---by replanning at rates commensurate with the control loop frequency.
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-This paper leaves several important research avenues open. Foremost, we plan to validate this approach experimentally on a platform with state and environmental sensing. We further plan to provide a more detailed theoretical analysis of GMT^∗^, such as providing time and space complexity analysis and potentially proving tighter suboptimality bounds. We additionally plan to explore extensions to other planning paradigms, which the computational speed of GMT^∗^ may enable.
+Sampling-based motion planning has emerged as an especially successful paradigm for rapid planning in complex, high-dimensional, and unstructured environments, and it has been shown to extend well to planning with differential constraints. These methods probe the state space with a set of samples to be connected, under the supervision of a collision detection module, to form a traversable graph representation of the free state space. Sampling-based roadmap methods, such as the probabilistic roadmap algorithm (PRM) and its asymptotically optimal variant PRM^∗^, initially construct a graph where samples are connected to each of their near neighbors, provided the connection is collision-free. A shortest path search is performed on the resulting roadmap to yield solutions (up to the resolution constraints of the underlying graph) to the optimal planning problem. As these methods are limited in their speed by the initial graph building stage, variants have been developed that simultaneously construct the graph edges while searching, e.g., Lazy PRM, which avoid performing any collision checks that are not required during the roadmap shortest path computation.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The Fast Marching Tree algorithm (FMT^∗^) further reduces collision checking by implementing direct dynamic programming (as opposed to full shortest path search) while constructing a tree subgraph of a disk graph defined by connection cost, increasing performance particularly in complex, high-dimensional spaces. Yet even with these advances, path plan computation times are often over an order of magnitude greater than the periods of controller loops and with the slowing growth rate of CPU computational power (due primarily to limited clock frequency), it is unlikely raw CPU power will soon bridge this gap. We instead propose algorithm development for a different paradigm: parallel computing, with a particular focus on development for the interplay between algorithmic design and the many thousand core architectures of GPUs. Unfortunately, while we seek a solution inspired by the dynamic programming literature for a single pair of start/goal states (the use case relevant to control loop planning), the inherently sequential nature of dynamic programming's minimum cost node expansion, which, e.g., FMT^∗^ is built, complicates the necessary massive parallelization.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+*Statement of Contributions.* In this work, we propose the use of approximate dynamic programming (ADP) methods that leverage algorithm parallelism for greater speed while incurring only a bounded degree of suboptimality. We present the Group Marching Tree (GMT^∗^) algorithm that, like the Fast Marching Tree algorithm (FMT^∗^), performs a "lazy" dynamic programming recursion on a set of samples in the state space to grow a tree of near-optimal cost-to-arrive paths. GMT^∗^, however, varies from the approach of FMT^∗^ with ADP by expanding the tree, in parallel, from the group of all active samples with cost below a threshold, rather than only the minimum cost sample (essentially locally relaxing the principle of optimality). This group approximation enables low-level parallelism over the sample set and removes the need for sequential data structures, allowing for massive parallelization on GPUs. The "lazy" collision checking further facilitates GPU implementation by limiting thread divergence at the lowest levels.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+While these approximations do introduce some suboptimality, we prove that GMT^∗^ remains asymptotically optimal up to a constant multiplicative factor and demonstrate through numerical experiments that the empirical loss is well below the theoretical bound.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We further discuss the implementation of GMT^∗^ on GPU architectures and show its application to several illustrative motion planning problems with differential constraints, for which we consider kinodynamic and nonholonomic planning. These numerical experiments show that solution trajectories can be computed in \~10 ms on a consumer grade GPU and \~30 ms on an embeddable GPU; achieving computation times two orders of magnitude faster than a state-of-the-art CPU algorithm and an order of magnitude faster than a state-of-the-art GPU algorithm, again with only small performance losses. Lastly, we demonstrate the efficacy of planning within the control loop on a simplified quadrotor in a collapsing cave environment, with state disturbances and environmental dynamism.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+*Related Work.* Previous works have addressed planning in real-world settings through a number of methods. One approach is that of feedback motion planning, which traditionally defines a policy over the state space to allow the current state to be fed back into the controller. Unfortunately, the ephemeral nature of the planning environment complicates this process; while ideally these feedback plans would always reflect the current knowledge state, they may become quickly outdated and inaccurate if updating or recomputing plans is too computationally intensive. Some methods exist to simplify this computation, such as, which computes a field of guiding vectors over the entire free state space, however they generally must interpolate over the state space to define the local action and assume the state space can be easily represented. The high-frequency replanning approach of uses a similar approach to our own by quickly replanning full trajectories. This work leverages parallelism to generate many rapidly-exploring random tree (RRT) trajectories, selecting the trajectory with the lowest collision probability at each computation step. Our work focuses on construction of a single tree to allow planning within the loop at rates of \~100 Hz, rather than the 4 Hz considered.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Other works, e.g., RRT$^{\text{X}}$, have accelerated the replanning approach by iteratively rewiring a single tree as new information becomes available. By reusing the previous tree at each time step, these methods are limited in scenarios where the environment changes drastically. Furthermore, the RRT$^{\text{X}}$ tree is rooted at the goal state to enable use in scenarios with disturbances, but this limits its utility in problems with a changing goal state.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Another approach to planning in changing environments is to couple low-frequency global planners with high-frequency reactive controllers that determine actions which are collision-free and optimal in a local sense. Using methods such as precomputed trajectory libraries and funnels, learning, and potential fields, this approach has shown practical success in many settings, however, its focus on the local region can ignore variations in global reachability resulting from actions (e.g., not accounting for momentum or nonholonomic constraints) and their use of heuristics to inform actions may incur suboptimality (e.g., in maze-like environments). In this work GMT^∗^ is shown to be capable of computing motion plans in a tempo comparable to reactive controllers, lessening the need for consideration of only local actions. GMT^∗^ can further be used in concert with reactive controllers to better inform actions via accurate cost-to-go computations, thus potentially benefiting from properties like the robustness.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+A main tenet of our work is the use of approximate dynamic programming (ADP) to allow parallelism while exploring the state space. Similar search methodologies, i.e., expanding wavefronts in low-cost groups, have been used successfully for graph search to allow parallelism and complexity reduction. Dial's algorithm implements Dijkstra's algorithm on graphs with integer weights by stepping through buckets, exactly solving for the shortest paths. The $\Delta$-stepping algorithm generalizes Dial's algorithm to solve exactly the single source shortest path problem on non-negative real-value weighted graphs by successively relaxing edges while stepping through buckets with width $\Delta$, however it performs extra work by revisiting edges to maintain exactness. The Group Marching Method builds on the Fast Marching Method (an inspiration for FMT^∗^) to solve the eikonal equations by advancing a group of points together in two iterations, the first forward and the second backwards to correct for instabilities. Our work employs a similar expansion strategy, but abandons any additional computation necessary to maintain exactness, instead leveraging the underlying disk graph to maintain asymptotic optimality within a constant factor.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Parallelization too has been applied successfully to motion planning by a number of researchers, finding significant algorithm accelerations. An early result in sampling-based motion planning showed that probabilistic roadmap methods are embarrassingly parallel, which was later extended to implementation on GPUs. The focus of PRM-based approaches on entire graph construction however can be prohibitively slow even with GPUs. Common approaches to parallelization of sampling-based planning include focusing only on algorithm subroutines (such as collision checking and nearest neighbor search), adapting serial algorithms via AND/OR-parallelism, or using load balancing and domain decomposition. GMT^∗^'s ADP is parallel at the sample level, meaning many of these methodologies (e.g., collision checking, domain decomposition) are applicable in implementation. Furthermore, this low-level parallelism enables massive parallelization for use on GPUs.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+*Organization.* The remainder of this document is organized as follows. Section II describes the problem setup. Section III discusses the GMT^∗^ algorithm and proves its asymptotic optimality up to a constant multiplicative factor. Section IV discusses its implementation on GPUs. Section V demonstrates the performance of GMT^∗^ with motion planning problems under differential constraints. Lastly, Section VI summarizes our findings and proposes directions for future work.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Problem Setup", "weight": 1.0} -->
+
+In this section and the next (which contains the description and analysis of the GMT^∗^ algorithm), for ease of exposition we consider the geometric planning problem---the problem, loosely speaking, of computing the shortest free path from an initial state to a goal region where any two states can be connected by a straight line. The problem is briefly overviewed here, but a full, detailed problem formulation can be found. Let $\mathcal{X} = {\lbrack 0,1\rbrack}^{d}$ be the state space, where ${d \in {\mathbb{N}}},{d \geq 2}$.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Problem 1 (Optimal path planning)", "weight": 1.0} -->
+
+For Section III we consider the cost measure $c{(\sigma)}$ as the arc length of $\sigma$ with respect to the Euclidean metric and write $\|{y - x}\|$ to denote the cost of the shortest path between ${x,y} \in \mathcal{X}$.^11^1To accommodate alternative dynamics/costs we may instead consider $d{(x,y)}$, the result of solving an optimal two-point boundary value problem connecting $x$ to $y$, and replace any discussion of connection balls in Section III with the notion of bounded-cost reachable sets. Though this is arguably the simplest formulation of robotic motion planning, we note the analytical distinction between (a) determining, for more general problem setups with differential constraints or alternative costs, whether a sample set in $\mathcal{X}$ admits a near-optimal trajectory as a sequence of local connections, and (b) arguing that a planning algorithm is capable of identifying such a high-quality solution given a sample set.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Problem 1 (Optimal path planning)", "weight": 1.0} -->
+
+We refer the reader to our previous works for discussion on the first point, including expressions for local connection radii under both randomized and deterministic state space sampling, and abbreviate the relevant discussion (Theorems 1. ‣ III-B GMT∗ Approximate Asymptotic Optimality ‣ III The Group Marching Tree Algorithm ‣ Group Marching Tree: Sampling-Based Approximately Optimal Motion Planning on GPUs") and 3. ‣ III-B GMT∗ Approximate Asymptotic Optimality ‣ III The Group Marching Tree Algorithm ‣ Group Marching Tree: Sampling-Based Approximately Optimal Motion Planning on GPUs")) in the present work. The novel theoretical contribution of this paper is establishing that GMT^∗^, which achieves a high degree of parallelism in a single query approach unlike the FMT^∗^ and PRM^∗^ algorithms analyzed in those works, still recovers asymptotically optimal paths (up to a constant factor) under the same sampling and connection radius assumptions (Theorem 2. ‣ III-B GMT∗ Approximate Asymptotic Optimality ‣ III The Group Marching Tree Algorithm ‣ Group Marching Tree: Sampling-Based Approximately Optimal Motion Planning on GPUs")).
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Problem 1 (Optimal path planning)", "weight": 1.0} -->
+
+Our numerical experiments in Section V consider both kinodynamic and nonholonomic planning problems, specifically double integrator and Dubins airplane dynamics.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "III-A GMT^∗^", "weight": 1.0} -->
+
+We now detail the Group Marching Tree algorithm (GMT^∗^) to be used to approximately solve the optimal path planning problem. GMT^∗^ performs a "lazy", approximate dynamic programming recursion to grow a tree of paths in cost-to-arrive space. This amounts to iteratively attempting to expand all samples in the tree branches below a constantly increasing cost threshold, rather than expanding only the minimum cost sample. The resulting algorithm enables simultaneous graph building and exploration of the state space, in a manner amenable to complex planning problems, such as high-dimensional, cluttered environments and differential constraints.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "III-A GMT^∗^", "weight": 1.0} -->
+
+A description of the algorithm is given in Alg. 1, with a single iteration visualized in Fig. 1. The algorithm takes as input the planning problem $(\mathcal{X}_{\text{free}},x_{init},\mathcal{X}_{\text{goal}})$, a sample set $V_{unexplored}$ of $n$ samples in $\mathcal{X}_{\text{free}}$ (at least one in $\mathcal{X}_{\text{goal}}$), a connection radius $r$, and a group cost threshold factor $\lambda \in {(0,1\rbrack}$. Together, $\lambda$ and $r$ define the group cost threshold increment $\delta$, equal to $\lambdar$. We refer to nodes (or interchangeably, samples) as neighbors if the connection cost between them is less than the connection radius $r$, as defined in Theorem 1.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-A GMT^∗^", "weight": 1.0} -->
+
+‣ III-B GMT∗ Approximate Asymptotic Optimality ‣ III The Group Marching Tree Algorithm ‣ Group Marching Tree: Sampling-Based Approximately Optimal Motion Planning on GPUs"); $r = {4{({1 + \eta})}^{1/d}\left( {1/d} \right)^{1/d}\left( {{\mu{(\mathcal{X}_{\text{free}})}}/\zeta_{d}} \right)^{1/d}\left( {\log{n/n}} \right)^{1/d}}$ where $\eta \geq 0$ is a tuning parameter, $\mu{(\mathcal{X}_{\text{free}})}$ denotes the $d$-dimensional Lebesgue measure of $\mathcal{X}_{\text{free}}$, and $\zeta_{d}$ denotes the volume of the unit ball in $d$-dimensional Euclidean space.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-A GMT^∗^", "weight": 1.0} -->
+
+This $r$ applies for geometric planning with Euclidean cost and $V_{unexplored}$ sampled uniformly randomly from $\mathcal{X}_{\text{free}}$; smaller $r$ may be considered if $V_{unexplored}$ is sampled with low-dispersion, deterministic sequences.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-A GMT^∗^", "weight": 1.0} -->
+
+0: connection radius r, group cost threshold factor λ, set Vunexplored of n samples in 𝒳free, at least one in 𝒳goal
+1: Place xinit in Vopen, set i = 0 and δ = λ r
+2: Initialize tree with root node xinit
+3: Find nodes 𝒢 in Vopen with cost ≤ i δ
+4: For each unexplored neighbor, x, of any node in 𝒢:
+5: Find neighbor nodes y in Vopen
+6: Find locally-optimal connection to x from a node in y
+7: If that connection is collision-free:
+8: Add edge to tree
+9: Remove x from Vunexplored and add to Vopen
+10: Remove 𝒢 from Vopen and add to Vclosed
+12: Skip to Line 3 until either: a: Vopen is empty ⇒ return failure b: A node in 𝒢 is in 𝒳goal⇒ return min cost path to 𝒳goal
+Algorithm 1 Group Marching Tree Algorithm
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-A GMT^∗^", "weight": 1.0} -->
+
+The algorithm proceeds by expanding a tree of paths outward through the state space, maintaining the samples in three sets: $V_{unexplored}$, $V_{open}$, and $V_{closed}$. $V_{unexplored}$ consists of samples not yet added to the tree. $V_{open}$ consists of samples added to the tree and still considered for expansion; intuitively these are the samples on the tree's outer "branches", i.e., close to the wavefront. $V_{closed}$ consists of samples added to the tree and no longer considered for expansion; intuitively these are the samples too far from the edge of the expanding tree to make any new connections. The algorithm begins by adding only $x_{init}$ to $V_{open}$, setting $V_{closed}$ empty, and initializing the tree of paths with $x_{init}$ at its root (Lines 1-2).
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-A GMT^∗^", "weight": 1.0} -->
+
+At each iteration $i$, all nodes in $V_{open}$ with cost below $i\lambdar$ ($i\delta$) are placed into a set $\mathcal{G}$, denoting the group of samples to be expanded in parallel (Line 3). The amount of parallelism of this step is controlled by a tuning parameter $\lambda$, referred to as the group cost threshold factor, which represents a trade-off between parallelism and potential unconsidered optimal connections; $\lambda\rightarrow 1$ represents expanding all nodes in the open set at once, resulting in nearly a breadth first search, while $\lambda\rightarrow 0$ represents expanding only the minimum cost nodes in a given iteration, resulting in the same final solution as FMT^∗^. The other side of the tradeoff, the unconsidered optimal connections, arises when multiple nodes along the optimal path are considered in the same group expansion, meaning they cannot connect to each other. They may also occur when paths formed from the concatenation of several short connections fall behind the wavefront.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-A GMT^∗^", "weight": 1.0} -->
+
+These effects, however, are curtailed by the $\lambda$ factor, the underlying disk graph's structure, and the notion that longer steps will generally be more favorable than many short steps. Even with this suboptimality, we show in Theorem 3. ‣ III-B GMT∗ Approximate Asymptotic Optimality ‣ III The Group Marching Tree Algorithm ‣ Group Marching Tree: Sampling-Based Approximately Optimal Motion Planning on GPUs") that asymptotic optimality within a constant multiplicative factor is maintained; furthermore, the performance loss observed in practice is studied in Section III-C and shown to be small. With the group of samples $\mathcal{G}$ in hand, all neighbors of $\mathcal{G}$ in $V_{unexplored}$ are considered for addition to the tree (Line 4).
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "III-A GMT^∗^", "weight": 1.0} -->
+
+Denoting each unexplored neighbor of samples in $\mathcal{G}$ by $x$ and the neighbors of $x$ in $V_{open}$ by $y$, GMT^∗^ then selects the locally-optimal connection, where locally-optimal is defined as the connection with the lowest cost for the previously computed path to $y$ concatenated with the straight line path from $y$ to $x$ (Line 6). Note that while this step potentially introduces suboptimal connections by *lazily* ignoring the presence of obstacles, as in FMT^∗^, these connections become vanishingly rare as the number of samples goes to infinity, as discussed and proven. If the selected connection is collision-free, it is added to the tree and $x$ is removed from $V_{unexplored}$ and added to $V_{open}$ (Lines 7-9). When all samples have been considered, $i$ is incremented and the samples in $\mathcal{G}$ are removed from $V_{open}$ and added to $V_{closed}$ (Lines 10-11).
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "III-A GMT^∗^", "weight": 1.0} -->
+
+The algorithm then moves to the next iteration, beginning at Line 3, or terminates if either $V_{open}$ is empty or a node in $\mathcal{G}$ is in $\mathcal{X}_{\text{goal}}$ (Line 12).
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "III-B GMT^∗^ Approximate Asymptotic Optimality", "weight": 1.0} -->
+
+Our analysis of GMT^∗^ begins with the concept of *probabilistic exhaustivity* as applied in related work establishing asymptotic optimality for a range of geometric and differentially constrained batch-processing, sampling-based motion planning algorithms. Briefly, probabilistic exhaustivity is the notion that within a sufficiently large set of uniformly sampled states, a sequence of samples approximating *any* path arbitrarily well may be found. This property may be used to construct sample sequences approaching the optimal solution that are amenable for recovery by a planning algorithm.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "III-B GMT^∗^ Approximate Asymptotic Optimality", "weight": 1.0} -->
+
+In the subsequent analysis, we define ${\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}}{(n)}$ to be a function that returns $n$ points sampled independently and identically from the uniform distribution on $\mathcal{X}_{\text{free}}$, at least one of which is in $\mathcal{X}_{\text{goal}}$. We define a path $\sigma:{{\lbrack 0,1\rbrack}\rightarrow\mathcal{X}}$ and a path $y:{{\lbrack 0,1\rbrack}\rightarrow\mathcal{X}}$ that sequentially connects the sequence of waypoints ${\{ y_{m}\}}_{m = 0}^{M} \in \mathcal{X}$ with line segments.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "III-B GMT^∗^ Approximate Asymptotic Optimality", "weight": 1.0} -->
+
+We say the sequence of waypoints $\{ y_{m}\}$ ${(\epsilon,r)} - {traces}$ the path $\sigma$ if the following conditions hold: (i) ${|{|{y_{m} - y_{m + 1}}|}|} \leq r$ for all $m$, (ii) the cost of $y$ is bounded as ${c{(y)}} \leq {{({1 + \epsilon})}c{(\sigma)}}$, and (iii) the distance from any point $y$ to $\sigma$ is no more than $r$. We formally state this in Theorem 1. ‣ III-B GMT∗ Approximate Asymptotic Optimality ‣ III The Group Marching Tree Algorithm ‣ Group Marching Tree: Sampling-Based Approximately Optimal Motion Planning on GPUs") (proven as Theorem IV.5 in ).
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "III-C Numerical Experiments: Suboptimality Introduced", "weight": 1.0} -->
+
+To complement the above theoretical bounds, in this subsection we examine the suboptimality incurred in practice through numerical experiments. While we will later describe implementation details and timing results in a few representative problems, this section's focus is solely on the amount of suboptimality resulting from the group expansion. Our figure of merit is thus only the percentage cost increase compared to FMT^∗^, i.e., from the group expansion.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "III-C Numerical Experiments: Suboptimality Introduced", "weight": 1.0} -->
+
+Table I lists results for two geometric planning problems over a variety of dimensions (2D to 10D), the first of which is shown in Fig. 2. This obstacle set was mapped to dimensions greater than two by expanding obstacles to fully fill the space. Fig. 2(b), in particular, shows the wave-like structure of the parallel expansion. The second planning problem listed in Table I is a maze environment requiring exploration in all dimensions. For each planning problem, the same setup is run with varying $\lambda$ (values of $0.2$, $0.5$, and $1.0$) and with sufficiently high sample counts to nearly converge to the optimal. In each case, the suboptimality is significantly below the proven bound, and often below 5%. We observe the expected increase in cost error with increasing $\lambda$, and an additional increase with increasing dimension.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "GPU Implementation", "weight": 1.0} -->
+
+We begin this section with a brief discussion of GPU architectures, as the ability of GMT^∗^ to exploit the computational capabilities of many-core GPUs is fundamental to this work and has driven much of the algorithm design and implementation. We particularly focus here on the CUDA enabled GPUs used in this work. CUDA C functions running on GPUs are organized in a three level thread-hierarchy. At the lowest level, threads run in groups of 32 that execute one common instruction at a time, i.e., any divergence will cause branches to execute serially. A level above this, thread groups are combined into blocks, each of which can utilize a small, low-latency shared memory block and executes concurrently on the same multiprocessor, but is allowed to diverge without causing serial execution. Finally, at the highest level, blocks are formed in grids to be dispatched to the device. A more detailed discussion can be found.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "GPU Implementation", "weight": 1.0} -->
+
+We highlight here three properties of GMT^∗^ that, along with the sample-level parallelism, allow efficient application to GPU architectures. First, the use of lazy collision checking limits thread divergence at low levels by only attempting to connect new samples to the tree once per iteration. Second, the design of GMT^∗^ is such that the sample set is partitioned into $V_{unexplored}$, $V_{open}$, and $V_{closed}$, with a sample always a member of one and only one set, allowing for little overlap of memory access and easy memory representation as Boolean masks. Our work accesses these sets with thread identifiers assigned via prefix sums, a strategy described. The use of this algorithmic primitive allows fast reorganization of sparse and uneven workloads into dense uniform ones. Third, as the set of samples considered for expansion, $\mathcal{G}$, can be represented as a set of cost-thresholded buckets, there is no need for the use of serial data structures, e.g., min-heaps.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "V-A Numerical Experiment Setup", "weight": 1.0} -->
+
+As our goal is to show planning in changing, uncertain settings with dynamic systems, in this section we apply GMT^∗^ to the problem of planning under differential constraints with a 6D double integrator ($\overset{¨}{x} = u$) and a Dubins airplane (Dubins car with altitude ). The double integrator planning problems consider a mixed time/quadratic control effort cost function, while the Dubins airplane problems consider an Euclidean distance cost function. The algorithm was implemented in CUDA C (example code may be accessed at [github.com/StanfordASL/GMT](github.com/StanfordASL/GMT)) and run on an NVIDIA GeForce GTX 980 GPU on a Unix system with a 3.0 GHz CPU. We additionally provide comparison with an embeddable GPU, the NVIDIA Jetson TX1, to show these performance gains are similarly available for onboard computation. Our implementation of GMT^∗^ samples the state space using the deterministic, low-dispersion Halton sequence, to achieve best performance, following the discussion.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "V-A Numerical Experiment Setup", "weight": 1.0} -->
+
+Sampling and computation of nearest neighbor connections (edge discretization and neighbor sets) were performed offline in a precomputation phase.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "V-B Planning Under Differential Constraints", "weight": 1.0} -->
+
+Through several motion planning problems, detailed in Fig. 3 and Table II, we demonstrate GMT^∗^ achieves one to two orders of magnitude speed up with relatively small performance losses compared to an implementation of FMT^∗^ on a CPU and an implementation of PRM^∗^ on a GPU. For each simulation, we pick a value for the connection radius $r$ appropriate for the dynamics and set $\lambda$ to 1, which we have found allows simple implementation, maximum parallelization, and performance losses on the order of 10%. The obstacles in our simulation are represented by unions of axis-aligned bounding boxes, as commonly used for a broad phase collision checking phase. This methodology can provide increasingly accurate representations of obstacle sets as more are used (e.g., as in Fig. 3(b) or with octree-based representations as in Fig. 3(c)).
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "V-B Planning Under Differential Constraints", "weight": 1.0} -->
+
+The first problem (Fig. 3(b)) was built from point cloud data collected in for an indoor office environment, with individual environmental elements bounded by boxes. The second planning problem (Fig. 3(c)) represents a cave system consisting of two maze-like levels connected by three passageways. Finally, our third planning problem (Fig. 3(d)) represents a forest environment. To show the results extend to systems with nonlinear dynamics (and nonholonomic planning), this last simulation uses Dubins airplane dynamics rather than double integrator dynamics. Our Dubins airplane consists of a planar Dubins car augmented with a single integrator in the third dimension, with bounded control on turning rate, unbounded altitude control, and a Euclidean distance cost function.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "V-B Planning Under Differential Constraints", "weight": 1.0} -->
+
+As shown in Table II, in all problems a solution trajectory is found by GMT^∗^ in \~10 ms, a speed increase of two orders of magnitude over CPU FMT^∗^ and one order of magnitude over GPU PRM^∗^. The algorithm also performs well on the embedded platform, only slowing by a factor of two, compared to PRM^∗^, which slows down by approximately a factor of five. This demonstrates GMT^∗^'s lightweight approach of building a single tree is particularly amenable to onboard computation. We also note that the cost increase incurred is less than 12% for all cases despite the high group cost threshold factor.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "V-B Planning Under Differential Constraints", "weight": 1.0} -->
+
+Table III further demonstrates the algorithm's scaling with sample and obstacle counts. The small increases in computation time with increasing sample count are a result of the GPU not being fully utilized at every iteration with lower sample counts, i.e., the group size may be too small to use every GPU core. The obstacle scaling too shows only slight increases in computation time with increased obstacle resolution, approximately doubling for each order of magnitude increase, however, if obstacles and complexity of the space becomes a significant bottleneck, GMT^∗^ is amenable to space partitioning structures, e.g., k-d trees, or parallelization at the obstacle level.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "V-C Planning in the Loop", "weight": 1.0} -->
+
+The numerical experiments in Section V-B have shown that it is possible to plan at rates amenable to implementation within control loops by allowing some performance loss in exchange for parallelism. We now demonstrate that this strategy is beneficial through numerical experiments for a system operating in a dynamic environment with random state disturbances. The setup mimics a collapsing cave system (Fig. 3(c)), which a quadrotor modeled as a double integrator must escape. A successful escape requires high performance actions to minimize time spent in the degrading cave as well as actions that account for state disturbances and variations in the environment. The collapse is modeled as randomly placed box obstacles added to the environment, with the rates representing the number of obstacles added each second. Fig. 4 shows the success rate over 50 runs of a quadrotor using a waypoint tracking controller, which tracks trajectories generated with FMT^∗^ and GMT^∗^ (replanning as quickly as possible). The results for FMT^∗^ show that, as expected, success rate decreases quickly with increased noise and environmental degradation. Replanning with GMT^∗^, however, shows little variation in failure rate with increased noise level.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "V-C Planning in the Loop", "weight": 1.0} -->
+
+The results further show significantly higher success rates for replanning with GMT^∗^ than replanning with FMT^∗^. Note that these planning problems may not be possible to solve for every instance, as the collapses can happen anywhere within the environment (and very quickly), potentially trapping the quadrotor. Experiment videos are available at
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+We have introduced and analyzed a novel planning algorithm, the Group Marching Tree algorithm (GMT^∗^), that trades off parallelism for optimality in order to leverage GPU hardware. The computational speed of GMT^∗^ allows us to approach the problem of planning in real-world settings---particularly focusing on the uncertain, dynamic environments that naturally arise from active robot sensing and the uncertain, disturbed motion of systems in the field---by replanning at rates commensurate with the control loop frequency. Simulation results show planning times on the order of 10 ms (for a 6D double integrator and Dubins airplane) and demonstrate the efficacy of planning at these rates in difficult environments.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+This paper leaves several important research avenues open. Foremost, we plan to validate this approach experimentally on a platform with state and environmental sensing. We further plan to provide a more detailed theoretical analysis of GMT^∗^, such as providing time and space complexity analysis and potentially proving tighter suboptimality bounds. We additionally plan to explore extensions to other planning paradigms, which the computational speed of GMT^∗^ may enable. To merge planning and game playing, we plan to use GMT^∗^ as a default simulation policy when many actions must be considered, such as in algorithms like Monte Carlo tree search. We also plan to show that GMT^∗^ may be used to construct policies in decision making frameworks through fast approximation of the cost-to-go. Finally, we plan to demonstrate extensions to planning with a probabilistic state belief by utilizing a backwards search in cost-to-go space. In this way we can define actions over regions of the state space, with the same computation times shown above, and select actions from criteria such as best worst-case or maximum expected performance.

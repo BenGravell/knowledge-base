@@ -1,7 +1,19 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Gradient Methods for Minimizing Composite Functions
 
 Topics include Composite optimization, Gradient method, Proximal gradient, Nesterov acceleration, Black-box oracles, Smooth plus simple, Convex optimization.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Develops gradient methods for convex composite objectives whose smooth part is accessed through a first-order oracle and whose nonsmooth or simple part is handled through structured prox-like subproblems. The paper is a key reference for accelerated proximal-gradient thinking, giving complexity bounds and method variants for the smooth-plus-simple template that underlies much of modern first-order convex optimization.
 
-In this paper we analyze several new methods for solving optimization problems with the objective function formed as a sum of two terms: one is smooth and given by a black-box oracle, and another is a simple general convex function with known structure. Despite the absence of good properties of the sum, such problems, both in convex and nonconvex cases, can be solved with efficiency typical for the first part of the objective. For convex problems of the above structure, we consider primal and dual variants of the gradient method (with convergence rate O(1 over k) ), and an accelerated multistep version with convergence rate O(1 over k^), where k is the iteration counter. For nonconvex problems with this structure, we prove convergence to a point from which there is no descent direction. In contrast, we show that for general nonsmooth, nonconvex problems, even resolving the question of whether a descent direction exists from a point is NP-hard.
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+In this paper we analyze several new methods for solving optimization problems with the objective function formed as a sum of two terms: one is smooth and given by a black-box oracle, and another is a simple general convex function with known structure. Despite the absence of good properties of the sum, such problems, both in convex and nonconvex cases, can be solved with efficiency typical for the first part of the objective. For convex problems of the above structure, we consider primal and dual variants of the gradient method (with convergence rate O(1 over k) ), and an accelerated multistep version with convergence rate O(1 over k^), where k is the iteration counter. For nonconvex problems with this structure, we prove convergence to a point from which there is no descent direction. In contrast, we show that for general nonsmooth, nonconvex problems, even resolving the question of whether a descent direction exists from a point is NP-hard. For all methods, we suggest some efficient “line search” procedures and show that the additional computational work necessary for estimating the unknown problem class parameters can only multiply the complexity of each iteration by a small constant factor.
+
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+We present also the results of preliminary computational experiments, which confirm the superiority of the accelerated scheme.

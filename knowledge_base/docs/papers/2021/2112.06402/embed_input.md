@@ -1,14 +1,162 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 MotionBenchMaker: A Tool to Generate and Benchmark Motion Planning Datasets
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Recently, there has been a wealth of development in motion planning for robotic manipulation new motion planners are continuously proposed, each with their own unique strengths and weaknesses. However, evaluating new planners is challenging and researchers often create their own ad-hoc problems for benchmarking, which is time-consuming, prone to bias, and does not directly compare against other state-of-the-art planners. We present MotionBenchMaker, an open-source tool to generate benchmarking datasets for realistic robot manipulation problems. MotionBenchMaker is designed to be an extensible, easy-to-use tool that allows users to both generate datasets and benchmark them by comparing motion planning algorithms. Empirically, we show the benefit of using MotionBenchMaker as a tool to procedurally generate datasets which helps in the fair evaluation of planners. We also present a suite of 40 prefabricated datasets, with 5 different commonly used robots in 8 environments, to serve as a common ground to accelerate motion planning research.
 
-## Introduction
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Motion planning is a core component of robotic manipulation. For example, motion planning is essential in pick-and-place tasks, finding geometrically-constrained motions such as opening drawers and doors, and as a tool in task and motion planners to evaluate the feasibility of long-horizon plans. The multitude of applications of motion planning has given rise to a multitude of motion planners to tackle these specific problems, each employing their own heuristics to address the challenging general problem.
 
-We introduce MotionBenchMaker, a tool that facilitates the creation of motion planning datasets to ease the evaluation of motion planning algorithms in "realistic" manipulation tasks. MotionBenchMaker was inspired by common issues found in evaluating sampling-based planners on high-dof robots. Unlike most existing benchmarking resources, which are designed for low-dof robots or free-flying systems (see Sec. I), MotionBenchMaker is intended for modern high-dof robots in "realistic" scenes, and its capabilities are broadly useful to other types of planners, e.g., classical, optimization-based, and learning-based.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-The rest of the paper is organized as follows. In Sec. II we review other works in robotic benchmarking and dataset. In Sec. III we describe the modules of MotionBenchMaker and in Sec. IV, we show how MotionBenchMaker facilitates the generation of motion planning datasets incorporating new robots into existing scenes without much effort. In Sec. V-A, we show that it is possible to infer an incorrect conclusion when comparing motion planning algorithms due to limited data, emphasizing the importance of MotionBenchMaker's problem generation.
+Despite the plethora of planning methods proposed over the years, little emphasis has been placed on creating a common ground to evaluate these planners---there are no shared benchmarking datasets tailored to manipulation problems that are commonly found in the literature. The lack of shared environments for evaluation often forces researchers to create their own, making it challenging for practitioners to understand the advantages or disadvantages of a particular method if not directly compared. Additionally, crafting bespoke planning problems to evaluate a method is very time consuming, and could lead to incorrect conclusions due to unintentional biases in design. Finally, with the advent of learning-based planning methods (e.g., ), there has been an increased need for readily available open-source datasets that can be used for training and testing.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We introduce MotionBenchMaker, a tool that facilitates the creation of motion planning datasets to ease the evaluation of motion planning algorithms in "realistic" manipulation tasks. MotionBenchMaker was inspired by common issues found in evaluating sampling-based planners on high-dof robots. Unlike most existing benchmarking resources, which are designed for low-dof robots or free-flying systems (see Sec. I), MotionBenchMaker is intended for modern high-dof robots in "realistic" scenes, and its capabilities are broadly useful to other types of planners, e.g., classical, optimization-based, and learning-based. MotionBenchMaker consists of a set of tools in the form of modules Fig. 1, which can be utilized by user scripts and human-readable configuration files. The two main use cases for MotionBenchMaker are the generation of motion planning datasets and subsequent evaluation of motion planners on these datasets. We also provide 40 prefabricated datasets ($5$ different robots in $8$ different environments) which are open source along with MotionBenchMaker ^11^1 A video is also provided that visually presents this work ^22^2
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+MotionBenchMaker specifies motion planning problems as *robot-agnostic manipulation queries* which depend only on the environment geometry---with this, it is easy to integrate new problems and new robots to create new datasets (e.g., see Fig. 6). Planning problems within a dataset are randomly generated given a nominal environment and a set of tunable parameters. These parameters specify how objects in the environment can vary in their pose and control how new samples of planning problems are be procedurally generated. MotionBenchMaker also provides the ability to convert scenes described with geometric primitives and meshes to a "sensed" representation, i.e., point clouds and octomaps. MotionBenchMaker is fully compatible with the ROS ecosystem of tools and interfaces such as visualization with RViz and motion planning through MoveIt and Robowflex. To summarize, with MotionBenchMaker we contribute a tool which
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+has a modular and open architecture to facilitate creating new datasets,
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+procedurally generates new datasets by randomly varying scenes,
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+can convert scenes to "sensed" representations,
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+and is easy to integrate into the existing ROS ecosystem.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The rest of the paper is organized as follows. In Sec. II we review other works in robotic benchmarking and dataset. In Sec. III we describe the modules of MotionBenchMaker and in Sec. IV, we show how MotionBenchMaker facilitates the generation of motion planning datasets incorporating new robots into existing scenes without much effort. In Sec. V-A, we show that it is possible to infer an incorrect conclusion when comparing motion planning algorithms due to limited data, emphasizing the importance of MotionBenchMaker's problem generation. In Sec. V-B we show that the prefabricated datasets in MotionBenchMaker are challenging even for fine-tuned planners, and no sampling-based planner rules over all.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Multi-Agent Path-Find Benchmark
+\xintFor #1 in 0,1,0,0,0,0 \do \xintifForFirst&amp; ×
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Roboturk (Teleoperation database)
+\xintFor #1 in 0,0,0,1,1,1 \do \xintifForFirst&amp; ×
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+ACRV picking benchmark
+\xintFor #1 in 0,1,0,1,1,1 \do \xintifForFirst&amp; ×
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Brown Planning Benchmarks
+\xintFor #1 in 1,1,0,1,0,1 \do \xintifForFirst&amp; ×
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Bimanual Manipulation Benchmark
+\xintFor #1 in 0,1,0,1,1,1 \do \xintifForFirst&amp; ×
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In-hand manipulation benchmark
+\xintFor #1 in 0,0,0,1,0,1 \do \xintifForFirst&amp; ×
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Well-maintained datasets such as ImageNet or Tencent ML-Images are fundamental for algorithmic breakthroughs in research fields like computer vision. To achieve similar feats, the robotics community has developed several high-quality datasets. We give a brief overview of the most popular ones with a focus on datasets for manipulation planning. A more detailed overview can be found. We compare datasets with each other based on six desirable properties. First, we compare if a dataset is procedurally generated, meaning if there exists an algorithmic generation of problems from a given scenario. Second, we compare planner benchmarking capabilities, meaning if there exists a tool to benchmark different motion planning algorithms on the dataset. Third, if a dataset is procedurally generated, we check if there is an interface with tunable parameters, i.e., if users can influence the generation process. Fourth, we check if the dataset is high-dof, i.e., if there exist robots with more than 6-dof. Fifth, we check if the dataset contains sensed representations, i.e., if there exist environments in the dataset which are built from sensor information.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Finally, we check for articulated robots, i.e., if the datasets contain robots that are beyond rigid bodies in 2D or 3D. Other properties could be examined, but we consider these properties necessary for a tool that focuses on manipulation. As can be seen in Sec. I, we divide the datasets into three categories. The first category is datasets for vehicle navigation. Several high-quality datasets exists like common road, bench mobile robot and the benchmark for autonomous robot navigation (BARN). Similar datasets concentrate on indoor-navigation, 2D multi-agent path-finding, discrete point-robot path finding in 2D and 3D, free-flying robots or drones. Our paper is complementary to vehicle navigation in that we concentrate on robot manipulation tasks. The second category of datasets is focused on general robotics. These works aim at covering broad robotic categories like providing datasets and tools for remote teleoperation or object rearrangement. While many papers are concentrating on learning-based approaches, there is also a trend towards more reproducibility, for example by using containerization to ease comparison over different operating systems or configurations. However, several tools in robotics have been developed specifically for manipulation tasks.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+While the data generation is often similar, approaches differ by focusing either on learning-based algorithms or on planning-based algorithms. In learning-based approaches like RobotNet, the focus is more on generating diverse camera streams. In planning-based approaches like the Brown planning benchmark the focus is more on creating mesh-based representations of the world useful to benchmark motion planners. Other frameworks like ProbRobScene are independent of the algorithm used and focus instead on generating scenes automatically. A particular dataset aimed at grasping is GraspNet, which concentrates on using the YCB dataset of objects to generate large sets of grasping poses. Similar datasets and benchmark utilities concentrate on specific aspects of manipulation. This involves tasks like bimanual manipulation, in-hand manipulation, cloth manipulation, aerial manipulation, or solving Rubik’s cube. MotionBenchMaker differs from all those approaches by (a) focusing on benchmarks specifically for motion planning algorithms, (b) having an incremental generation tool to create diverse sets of manipulation tasks, and (c) by concentrating on broad manipulation capabilities for diverse high-dimensional robotic arms.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This involves not only single gripper grasps but also bimanual manipulation (e.g., using the Baxter robot) and multi-finger manipulation (e.g., using the ShadowHand robot). III Library Modules
+MotionBenchMaker is a flexible modular library composed of four basic modules, shown in Fig. 1. The Scene Sampler shown in Fig. 2, creates variations of a given nominal scene. The Octomap Generator, shown in Fig. 3, converts a geometric scene to a point cloud and subsequently an octomap. The Problem Generator generates motion planning problems given a scene, robot, and necessary configuration files. Finally, the Setup module enables the easy creation and usage of the generated datasets. III-A Scene Sampler
+Given variation parameters, the Scene Sampler module procedurally generates multiple scenes by randomly changing the nominal scene. Currently, two complementary types of sampling are provided namely and URDF sampling as shown in Fig. 2. For se sampling, the nominal scene is a set of collision objects with se poses relative to the global frame (shown in Fig. 2a). New scenes are generated by adding random noise to the se poses of the collision objects.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The pose of the collision objects in the nominal scene serves as the mean of the sampling distribution and the variance (Gaussian) or bounds (Uniform) parameters are specified through a configuration file. Finally, the random perturbations to the collision objects’ poses can happen both globally, e.g., the shelf in Fig. 2a is moved with respect to the global frame, and locally, e.g., the cylinders in Fig. 2a are perturbed with respect to the local frame of the shelf. Examples of samples drawn are shown on the right side of Fig. 2a. III-A2 URDF sampling
+In this type of sampling, the nominal scene is specified as a URDF (Unified Robot Description Format) file. The URDF specifies the number of joints that describe the kinematic relations of objects in the scene. By sampling valid configurations of this URDF (that is, collision-free with itself), we can generate different scenes. This type of sampling emulates movements of objects subject to kinematic constraints such as cabinets opening and closing, shown in Fig. 2b. III-B Octomap Generator
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Octomap Generator is an optional module that provides a way to convert geometric scene representations (i.e., geometric primitives and meshes) to point clouds and octomaps, as shown in Fig. 3. The point cloud is generated by specifying in the frame(s) of the depth camera which is simulated with gl_depth_sim333 This point cloud is later converted to an octomap. When a dataset is generated, all three representations (geometric, point cloud, octomap) can be simultaneously produced. Note that for motion planning, an octomap representation usually has a much higher collision checking time and is an over-approximation of the geometry, leading to harder motion planning problems. Nevertheless, we consider the sensed representation more “realistic” since it can be provided from any RGB-D camera, and is often used in practice.
+III-C Problem Generator
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+One critical idea in MotionBenchMaker is the fact that motion planning problems can be easily generated for any robot-scene pair. When done by hand, this process can be challenging and time-consuming since valid start and goal joint configurations in a motion planning problem depend on both the robot and the scene. The Problem Generator provides this functionality by defining a set of start and goal manipulation queries. These queries are specified as pose offsets expressed in the frame of collision objects in the nominal scene. For example as seen in Fig. 4, the query expresses how the blue cup can be grasped. This is achieved by defining appropriate object-centric offsets that are robot agnostic. This specification is conceptually similar to the affordance templates proposed. Finally, objects in the scene can be attached to the end-effector(s) to emulate pick and place tasks. The Problem Generator creates full-motion planning requests (i.e., start/goal configurations in joint space) by performing collision-aware inverse kinematics. These requests can be readily used together with a scene, to create a varied set of motion planning problems.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Note that there can be multiple queries defined for a scene, but the generated requests will consist of a single start-goal pair. During generation, a planner can optionally be used to verify the feasibility of a problem. As an additional feature, the Problem Generator supports the specification of manipulation queries for multiple end-effectors in the kinematic chain, e.g., multi-tip queries. This is useful for applications in bimanual manipulation and when planning for dexterous hand robots such as the bookshelf with Baxter and the Shadowhand examples respectively (see Fig. 6).
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+1 // Load the dataset given a meta-data file 2 auto setup = std::make_shared&lt;Setup&gt;("conf.yaml"); 3 auto robot = setup→getRobot; 4 auto planner = setup→createPlanner("planner"); 5 Experiment experiment("exp", Profiler::Options); 7 for (int i = 1; i &lt;= setup→getNumSamples; i++) 9 // Load the ith scene in the dataset 10 auto scene = std::make_shared&lt;Scene&gt;(robot); 11 setup→loadGeometricScene(i, scene); 13 for (auto planner_name: {"PRM", "BiEST"}) 15 // Load the start and goal configuration 16 auto request = setup→createRequest; 17 setup→loadRequest(i, request); 19 // Set planner.e.g., PRM, BiEST 20 request→setConfig(planner_name); 22 planner_name, scene, planner, request); 26 auto data =
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+experiment.benchmark; 27 OMPLPlanDataSetOutputter output("results.log"); 28 output.dump(*data); Figure 5: A code snippet demonstrating how to load a dataset and benchmark different planners through the Setup module.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+A convenient Setup class provides an easy-to-use interface to load created datasets and create planner, scene and robot. An example script with Setup is shown in Fig. 5. A dataset created by MotionBenchMaker comes with a meta-data manifest (line 2, “conf.yaml”). This manifest contains all the relevant parameters that define the dataset and allow the user to access the sampled scenes and requests. Once loaded, Setup can create instances of a robot (line 3) and a planner (line 4). Our library takes advantage of the Robowflex library to provide these constructs—Robowflex encapsulates the MoveIt library for motion planning and provides capabilities for planning inside simple scripts.
+The Setup class also provides a simple way to access each scene (line 11) and corresponding request (line 17) within a dataset. After creating an experiment (line 5), it is easy to add this specific problem (a scene and request, line 22) to the set of problems to benchmark. After a benchmark is executed (line 26), the collected data can be output into a variety of formats, e.g., a SQL database compatible with PlannerArena.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The user interacts with MotionBenchMaker in two ways: by creating C++ scripts that call library modules or by specifying values in configuration files to define new problems. The first case of using C++ scripts was shown in Sec. III-D. There (shown in Fig. 5) the user loads an existing dataset in MotionBenchMaker to benchmark different motion planners— benchmarking results can be plotted and analyzed through PlannerArena. The second case considered is a user who desires to create a new dataset with a robot or scene not currently in MotionBenchMaker. The user simply needs to provide a robot description and scene description file along with the required offsets (Sec. III-C). Given these files, MotionBenchMaker through a script will procedurally generate varied motion planning problems, without the burden of manually creating valid start/goal configurations and scene samples for different problems. For example, we used this script for the 40 different prefabricated datasets, shown in Fig. 6.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We created 8 nominal scenes and specified the end-effector and base offsets of the following 5 robots: a Fetch (7-8-dof) a Panda (7-dof), a UR5 (6-dof), a Baxter (7-14-dof) and a ShadowHand mounted on a KUKA arm (31-dof). To verify that each generated problem is feasible, we used a highly-tuned sampling-based planner with a large timeout (60 seconds) and discarded problems that could not be solved in time. For each dataset, an arbitrary number of motion planning problems can be generated but for our purposes, we created 100 motion planning problems for each dataset. Finally, MotionBenchMaker has already been used to create a diverse set of datasets suitable for learning-based methods, for hyper-parameter tuning methods, for planning under uncertainty, for planning in partially observable environments and for planning on different abstraction levels. In this section, we present two evaluations to showcase the efficacy of MotionBenchMaker. In Sec. V-A we demonstrate how using few motion planning problems can potentially lead to wrong conclusions, for example when comparing two motion planners.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In Sec. V-B we demonstrate that many of the prefabricated datasets are challenging and no specific planner outperforms the other ones.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 V-A Wrong Hypothesis
-Undoubtedly, in any research field, it is necessary to compare the performance of different methods. In motion planning research, it is often the case that a practitioner has a specific robot and target application in mind, which begets the need to manually construct an appropriate benchmark. Creating a benchmark from scratch without the appropriate tools is both time-consuming and challenging since a large number of problems might be required to achieve statistical significance.
+Undoubtedly, in any research field, it is necessary to compare the performance of different methods. In motion planning research, it is often the case that a practitioner has a specific robot and target application in mind, which begets the need to manually construct an appropriate benchmark. Creating a benchmark from scratch without the appropriate tools is both time-consuming and challenging since a large number of problems might be required to achieve statistical significance. We note here that the designed experiments highlight the importance of using a large number of problems when comparing different planners and should not be interpreted as an indication of which planner is best. Unless indicated, planners are using default parameters from OMPL. Consider the following hypothetical scenario: a practitioner wants to compare different planners on a picking task. Specifically, the problem of interest involves a UR5 robot tasked with picking a cylinder from a shelf, shown in Fig. 7a. Say the practitioner either samples or chooses specific instances of this scene: in Fig. 7b and Fig. 7c, we present the worst case scenarios for this practitioner (for 5, 10, 50, and 100 problem instances) in terms of drawing conclusions on their planner’s performance.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We generated 100 feasible motion planning problems as described in Sec. IV and benchmarked planning time for biest and rrtConnect (we use rrtConnect with two different “range” values, 0.05 and 0.5, which controls the 𝒞-space expansion step). For each specific problem (an instance of the scene), the problem was solved 20 times (with a 60 seconds timeout), for a total of 2000 data points given 100 scenes. In figures Fig. 7b and Fig. 7c you can see two different adversarial orderings of the data. That is, for both of these plots, we sorted the same motion planning problems in the dataset such that problems early in the dataset have the largest difference in average planning time between the two compared planners. In Fig. 7b biest and rrtConnect with range 0.5 are compared. The x-axis denotes how many problems from the sorted problems are considered. Here, biest is better when considering only 5 or 10 problems, while when considering the entire dataset (100 problems) it is clear that rrtConnect is more performant.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In Fig. 7c, the same effect is demonstrated between biest and rrtConnect with a range parameter of 0.05, with biest faster only after aggregating the results from all 100 problems. This empirically shows the danger in considering only a few problem instances for evaluation. MotionBenchMaker provides the tools necessary to easily create varied datasets to help avoid this problem. Beyond planning time, this phenomenon could occur when comparing other planner metrics, e.g., comparing the best cost over time for asymptotically-optimal sampling-based planners, as shown in Fig. 8. Here the experiment entails a Panda robot grasping a cylinder from the box with similar variation as in Fig. 7. In this example cost is defined as joint path length, but different costs suchs as clearance or cartesian length can be specified through the MoveIt interface. We show the median of the best normalized cost found for rrt*, bit*, and ait*. Each planner is run 5 times per problem, with a given 180 seconds planning time. Fig. 8c and Fig. 8d indicate two different conclusions about which planner performs best when considering a single problem instance.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+As above, incorrect conclusions would be drawn about planner performance in this domain if only based on a specific problem instance—Fig. 8b shows the aggregated results over all 100 problems, which provides a stronger conclusion. Note that in general all datasets are prone to bias, but procedurally generating more instances ameliorates this bias. V-B Benchmarking Results of Datasets
+In this section, we analyze the results of benchmarking 12 out of the 40 datasets on both the geometric and sensed (octomap) representations to demonstrate the difficulty of the provided datasets. We benchmarked three bidirectional tree-based planners, namely biest, rrtConnect, and bkpiece for different values of their range parameter as shown on the x-axis of each subplot in Fig. 9. We choose these planners, as among sampling-based planners they are typically highly performant in such tasks. Additionally, the range parameter (used by each planner to control the rate of expansion in 𝒞-space) is empirically known to have a significant influence on planning performance. Results are shown in Fig. 9.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We first note that these problems demonstrate a broad range of planning performance—each of these planners varies in performance according to environment and robot and there is no clear winner across the full spectrum of problems. In several cases, even the most performant planner has more than 1 second of average planning time indicating the difficulty of the datasets. Moreover, note that planner performance is comparable between the geometric and the sensed problems, with a small performance hit in the sensed representation. Finally, we verify that these planners are sensitive to the range parameter, as there are clear performance peaks for the planners at specific range values for different problems. In this paper, we have presented MotionBenchMaker, a new open-source tool to procedurally generate and benchmark motion planning datasets. MotionBenchMaker supports a robot-agnostic specification of environments, sampling new planning problems from a specified distribution, and can generate “sensed” representations for realistic, challenging problems. Through our experiments, we show the importance of procedurally generating datasets, as using only a few hand-designed problems could potentially lead to incorrect conclusions.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In the future, we would like to continue extending the repository of generated datasets with the help of the community, with more robots and environments as well as supporting sequential motion planning problems, such as in task and motion planning. We would also like to add features that help users profile their dataset with a set of metrics or features, e.g., space expansiveness, to help understand what are the challenging aspects of the proposed problem. Some of the limitations of this work are that se and URDF sampling are only approximations of the variability of the real world, no camera data can be given to the planner for visual planning, and only geometric constraints are considered. We hope to continuously improve this tool and that it will help the community advance the field of motion planning by supporting researchers to design and share benchmarking datasets.

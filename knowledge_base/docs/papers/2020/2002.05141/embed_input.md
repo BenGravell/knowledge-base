@@ -1,17 +1,282 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Online Learning of the Kalman Filter with Logarithmic Regret
 
-In this paper, we consider the problem of predicting observations generated online by an unknown, partially observed linear system, which is driven by stochastic noise. For such systems the optimal predictor in the mean square sense is the celebrated Kalman filter, which can be explicitly computed when the system model is known. When the system model is unknown, we have to learn how to predict observations online based on finite data, suffering possibly a non-zero regret with respect to the Kalman filter's prediction. We show that it is possible to achieve a regret of the order of polylog(N) with high probability, where N is the number of observations collected. Our work is the first to provide logarithmic regret guarantees for the widely used Kalman filter. This is achieved using an online least-squares algorithm, which exploits the approximately linear relation between future observations and past observations. The regret analysis is based on the stability properties of the Kalman filter, recent statistical tools for finite sample analysis of system identification, and classical results for the analysis of least-squares algorithms for time series.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction
+In this paper, we consider the problem of predicting observations generated online by an unknown, partially observed linear system, which is driven by stochastic noise. For such systems the optimal predictor in the mean square sense is the celebrated Kalman filter, which can be explicitly computed when the system model is known. When the system model is unknown, we have to learn how to predict observations online based on finite data, suffering possibly a non-zero regret with respect to the Kalman filter's prediction. We show that it is possible to achieve a regret of the order of polylog(N) with high probability, where N is the number of observations collected. Our work is the first to provide logarithmic regret guarantees for the widely used Kalman filter. This is achieved using an online least-squares algorithm, which exploits the approximately linear relation between future observations and past observations. The regret analysis is based on the stability properties of the Kalman filter, recent statistical tools for finite sample analysis of system identification, and classical results for the analysis of least-squares algorithms for time series. Our regret analysis can also be applied for state prediction of the hidden state, in the case of unknown noise statistics but known state-space basis.
 
-The celebrated Kalman filter has been a fundamental approach for estimation and prediction of time-series data, with diverse applications ranging from control systems and robotics to computer vision and economics. Given a known system model with known noise statistics, the Kalman filter predicts future observations of a *partially observable* dynamical process by filtering past observations. When the underlying process is linear and the noise is Gaussian, the Kalman filter is optimal in the sense that it minimizes the mean square prediction error.
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+A fundamental technical contribution is that our bounds hold even for the class of non-explosive systems, which includes the class of marginally stable systems, which was an open problem for the case of online prediction under stochastic noise.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The celebrated Kalman filter has been a fundamental approach for estimation and prediction of time-series data, with diverse applications ranging from control systems and robotics to computer vision and economics. Given a known system model with known noise statistics, the Kalman filter predicts future observations of a *partially observable* dynamical process by filtering past observations. When the underlying process is linear and the noise is Gaussian, the Kalman filter is optimal in the sense that it minimizes the mean square prediction error. Since Kalman's seminal paper, the stability and statistical properties of the Kalman filter have been well studied when the system model is known.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Learning to predict unknown partially observed systems is a significantly more challenging problem. Even in the case of linear systems, learning directly the model parameters of the system results in nonlinear, non-convex problems. Adaptive filtering algorithms address the problem of making observation predictions when the system model or the noise statistics are unknown or changing. These adaptive filtering approaches are usually based on variations of extended least squares. Despite the importance of adaptive filtering in applications such as GPS, the regret of online filtering algorithms has not been considered in this classical literature.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 In this paper, we consider the problem of predicting observations generated by an unknown, partially observable linear dynamical system in state-space form. We assume that the system dynamics and observation map are corrupted by Gaussian noise. Our goal is to find an online prediction algorithm that has provable regret bounds with respect to the Kalman filter that has access to the full system model.
 
-Logarithmic regret for the Kalman filter: We present the first online prediction algorithm with provable logarithmic regret upper bounds for the classical Kalman filter. In fact, we prove that with high probability the regret of our algoritm is of the order of $\overset{\sim}{O}{}$, where $\overset{\sim}{O}$ hides ${poly}{\log N}$ terms, where $N$ is the number of observations collected. Our algorithm has polynomial time complexity, requires linear memory, and is based on subspace system identification techniques.
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Conclusion and Future Work
+System theoretic regret: We define a notion of regret that has a natural, system theoretic interpretation. The prediction error of an online prediction algorithm is compared against the prediction error of the Kalman filter that has access to the exact model, which is allowed to be arbitrary. Previous regret definitions required the model to lie in a finite set.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Logarithmic regret for the Kalman filter: We present the first online prediction algorithm with provable logarithmic regret upper bounds for the classical Kalman filter. In fact, we prove that with high probability the regret of our algoritm is of the order of $\overset{\sim}{O}{}$, where $\overset{\sim}{O}$ hides ${poly}{\log N}$ terms, where $N$ is the number of observations collected. Our algorithm has polynomial time complexity, requires linear memory, and is based on subspace system identification techniques. Instead of optimizing over the state-space parameters, which is a non-convex problem, we convexify the problem by establishing an approximate regression between the next observation and past observations. Our analysis is based on the stability properties of the Kalman filter, tools for self-normalized martingales and matrices, and additional results for persistency of excitation developed in this paper.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Logarithmic regret for non-explosive systems: Our regret guarantees hold for the class of non-explosive systems, which includes marginally stable linear systems as well as as systems where the state can grow at a polynomial rate. This settles an open question and conludes that online prediction performance does not depend on the system stability gap^11^1$1/{({1 - \rho})}$, where $\rho$ is the spectral radius of the system of the system. Although it was recently shown that the stability gap does not affect system identification, whether the stability gap affects online prediction under stochastic noise was an open problem.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Regret analysis for other predictors: Our approach directly carries over to various interesting online predictors. For example, our analysis can be directly extended to the case of $f -$step ahead prediction of observations. Another extension focuses on the regret of hidden state predictors when the state-space basis representation is known a priori. The latter situation arises, for example, when the state-space model is known but the noise statistics are unknown. All these predictors enjoy similar logarithmic regret bounds.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Gap between model-free LQR and Kalman filter: One of the implications of our bounds is that learning to predict observations like the Kalman filter is provably easier than solving the online Linear Quadratic Regulator (LQR) problem, which in general requires $O{(\sqrt{N})}$ regret. In fact, recent results suggest that in the LQR case, the regret is lower bounded by $\Omega{(\sqrt{N})}$. This might not be surprising due to the fact that, in the absence of exogenous inputs, we cannot inject exploratory signals into the system.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+where $x_{k} \in {\mathbb{R}}^{n}$ is the state, $y_{k}, \in {\mathbb{R}}^{m}$ are the observations (outputs), $A \in {\mathbb{R}}^{n \times n}$ is the system matrix and $C \in {\mathbb{R}}^{m \times n}$ is the observation matrix. The time series $w_{k},v_{k}$ represent the process and measurement noise respectively and are modeled as zero mean i.i.d. Gaussian variables, independent of each other, with covariances $Q$ and $R$ respectively. The initial state is zero mean Gaussian with covariance $\Sigma_{0}$ and independent of the noises. The following assumption holds throughout this paper.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Assumption 1", "weight": 1.0} -->
+
+System is non-explosive^22^2This class includes marginally stable systems as well as systems with polynomial state growth., namely the spectral radius is ${\rho{(A)}} \leq 1$.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Assumption 1", "weight": 1.0} -->
+
+where $e_{k} \triangleq {y_{k} - {C{\hat{x}}_{k}}}$ is the innovation noise process. Matrix $K \in {\mathbb{R}}^{n \times m}$ is called the Kalman filter gain, and can be computed based on $A,C,Q,R$--see (7. ‣ 2.1 Kalman Filter Background ‣ 2 Problem Formulation ‣ Online Learning of the Kalman Filter with Logarithmic Regret")) in Subection 2.1.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Assumption 1", "weight": 1.0} -->
+
+Although the Kalman filter gives the optimal mmse prediction, it requires the system matrices $A,C$ and noise covariances $Q,R$ to be known. In this paper, we seek online learning algorithms that can predict observations based only on past observation data, without any knowledge of system matrices of noise covariances. To quantify the online prediction performance, we define the regret of our online learning algorithm with respect to the Kalman filter that has full knowledge of system model. Our goal is to achieve sublinear regret, as defined in the following problem statement.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Problem 1", "weight": 1.0} -->
+
+Assume that $A,C,Q,R$ in system model are unknown. Consider a sequence $y_{0},{y_{1}\ldots}$ of observations generated by system. Let ${\overset{\sim}{y}}_{k} \in \mathcal{F}_{k - 1}$ be the prediction of an online learning algorithm based on the history $y_{k - 1},\ldots,y_{0}$ and ${\hat{y}}_{k}$ be the Kalman filter prediction that has full knowledge of model.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Problem 1", "weight": 1.0} -->
+
+where $o{(N)}$ does not depend on $\delta$.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Problem 1", "weight": 1.0} -->
+
+Our regret definition has a natural system theoretic interpretation since it is defined with respect to the Kalman filter. In Section 5, we discuss an alternative regret definition.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Problem 1", "weight": 1.0} -->
+
+In the following subsection we provide some background on the Kalman filter and specify some standard assumptions, which guarantee that the Kalman filter is well-defined.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Kalman Filter Background", "weight": 1.0} -->
+
+The Kalman filter enjoys two critical properties, namely closed-loop stability and innovation orthogonality, that are now reviewed. The following standard assumption holds throughout the paper and guarantees that the Kalman filter is well-defined.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
+
+The system matrix pair $(A,C)$ is observable, i.e.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
+
+has rank $n$ for all $k \geq n$. The pair $(A,Q^{1/2})$ is controllable, i.e. the controllability matrix
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
+
+has rank $n$ for all $k \geq n$, and $R$ is strictly positive definite.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Assumption 2", "weight": 1.0} -->
+
+The following result shows that under Assumption 2, the closed loop matrix $A - {KC}$ of the Kalman filter is stable.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Assumption 3", "weight": 1.0} -->
+
+We assume that the initial state covariance is $\Sigma_{0} = P$, where $P$ is defined in (7. ‣ 2.1 Kalman Filter Background ‣ 2 Problem Formulation ‣ Online Learning of the Kalman Filter with Logarithmic Regret")).
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Assumption 3", "weight": 1.0} -->
+
+If $\Sigma_{0} \neq P$, then we have to consider time-varying gains $K_{k}$. The condition $\Sigma_{0} = P$ guarantees that the Kalman filter has stabilized to its steady-state so that the gain $K$ is constant. Since the Kalman filter converges exponentially fast to its steady-state Anderson and Moore, this is a very mild assumption; it is also standard Knudsen.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Assumption 3", "weight": 1.0} -->
+
+The next assumption makes sure that system is minimal.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Assumption 4", "weight": 1.0} -->
+
+The following assumption is for notational simplicity. It assumes that the largest eigenvalue of $A - {KC}$ is simple.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Assumption 5", "weight": 1.0} -->
+
+If the largest eigenvalue has larger multiplicity then we can just consider ${\rho{({A - {KC}})}} + \epsilon$ in the above bound, for sufficiently small $\epsilon$.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Assumption 5", "weight": 1.0} -->
+
+In addition to the previous stability properties, the other nice property of the Kalman Filter is that the innovation sequence $e_{k} = {y_{k} - {\hat{y}}_{k}}$ is orthogonal (uncorrelated) and, by Gaussianity, also i.i.d. By the law of large numbers, this implies that the $\ell_{2}$ accumulative error $\sum_{k = 0}^{N}\left\| {y_{k} - {\hat{y}}_{k}} \right\|_{2}^{2}$ will be of the order of $O{(N)}$ almost surely. Predicting the true observations exactly is impossible in the stochastic noise setting, even if we know the system model.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Assumption 5", "weight": 1.0} -->
+
+Note that both systems, can generate the same observations $y_{k}$, i.e. the noise parameterization is not unique Van Overschee and De Moor. Another source of ill-posedness is that the state space parameterization is non-unique. Any similarity transformation $S^{- 1}AS$, $CS$, $S^{- 1}QS^{- \ast}$ generates the same observations. In the following section, we will address these problems by considering an alternative system representation.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Online Prediction Algorithm", "weight": 1.0} -->
+
+The main idea of our online prediction algorithm is based on a system representation that has been used in the subspace system identification Bauer et al.. Let $p$ be an integer that represents how far we look into the past.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Online Prediction Algorithm", "weight": 1.0} -->
+
+Define also the matrix of closed-loop responses
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Online Prediction Algorithm", "weight": 1.0} -->
+
+By expanding the Kalman filter $p$-steps into the past, the observation at time $k$ can be rewritten as
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Online Prediction Algorithm", "weight": 1.0} -->
+
+Instead of optimizing over system parameters $A,C,K$, which results in a non-convex optimization problem, we optimize over (the higher dimensional) $G_{p}$, which makes the problem convex. From an online learning perspective, this technique is also known as improper learning.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Online Prediction Algorithm", "weight": 1.0} -->
+
+as long as the past $p$ is kept constant.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Online Prediction Algorithm", "weight": 1.0} -->
+
+Due to the stability properties of the Kalman filter (Section 2.1), if we consider $p$ past observations, then the bias term in equation is of the order of $\rho{({A - {KC}})}^{p}\left\| {\hat{x}}_{x - p} \right\|_{2}$. Notice that for non-explosive systems the state ${\hat{x}}_{k - p}$ can grow polynomially fast in the worst case. Even if ${\hat{x}}_{k - p}$ remains bounded, keeping the past $p$ constant would lead to a non-vanishing bias error (linear regret). Thus, to make sure that the prediction error decreases, we need to gradually increase the past horizon $p$. For this reason, inspired by the "doubling trick\" Cesa-Bianchi and Lugosi, we divide the learning in epochs, where every epoch is twice longer than the previous one. During every epoch we keep the past horizon constant.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Online Prediction Algorithm", "weight": 1.0} -->
+
+Since $\rho{({A - {KC}})}^{p}$ is exponentially decreasing, it is sufficient to slowly increase the past as $p = {O{({\log T})}}$, where $T$ is the epoch duration.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Online Prediction Algorithm", "weight": 1.0} -->
+
+The pseudo-code of our online prediction approach can be found in Algorithm 1. Each epoch lasts from time $T_{i},\ldots,{{2T_{i}} - 1}$, where ${i = {1,\ldots}},$ is the epoch, $T_{i} = {2^{i - 1}T_{\text{init}}}$, and $T_{\text{init}}$ is a design parameter (the length of the first epoch). During every epoch, we keep the past $p_{i} = {\beta{\log{(T_{i})}}}$ constant, where $\beta$ is a design parameter. Initially, from time $0$ to $T_{\text{init}} - 1$, we have a warm-up phase where we gather enough observations to start predicting. To make sure that $p_{i} < T_{i}$, we tune $T_{\text{init}}$ accordingly.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Online Prediction Algorithm", "weight": 1.0} -->
+
+Within an epoch, the least squares based predictor can be implemented in a recursive way, which requires polynomial complexity and at most $O{({\log T_{i}})}$ memory. In the beginning of an epoch, when $p_{i}$ is updated, we re-initialize the recursive predictor based on the whole past, which requires polynomial complexity and $O{(T_{i})}$ memory. Hence, in total, after $N$ collected samples, the computational complexity is polynomial and the memory requirement is $O{(N)}$. In Section 6, we discuss ways to modify the initialization when changing epochs without using the whole past, which can reduce the memory to $O{({\log N})}$.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Online Prediction Algorithm", "weight": 1.0} -->
+
+An important property of Algorithm 1 is that no knowledge about the dynamics or even the state dimension $n$ is required. Note that there is a tradeoff between the bias error and statistical efficiency. Increasing the past horizon by selecting larger $\beta$ leads to smaller bias error, but increases the sample complexity of learning $G_{p}$ since we have more unknowns; it is also harder to achieve persistency of excitation, i.e. to have a large enough smallest singular value of ${\overline{V}}_{k}$.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Regret Analysis", "weight": 1.0} -->
+
+In this section, we prove that with high probability the prediction regret is not only sublinear, but also of the order of ${poly}{\log N}$ (or $\overset{\sim}{O}{}$), where $N$ is the number of observations collected so far. The challenge in the non-explosive regime is that the observations grow unbounded polynomially fast ($\Omega{(\sqrt{N})}$). Meanwhile, recent work in finite sample analysis of system identification Oymak and Ozay; Simchowitz et al.; Tsiamis and Pappas; Sarkar et al. shows that the model parameters can be learned at a slower rate ($O{({1/\sqrt{N}})}$). Therefore these system identification results cannot be directly applied to obtain regret bounds for our problem. Nonetheless, we show that our online Algorithm 1 mitigates the effect of unbounded observations. As a result, the logarithmic regret bound of $\overset{\sim}{O}{}$ remains valid even as we approach instability.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Regret Analysis", "weight": 1.0} -->
+
+We provide two results, one for non-explosive systems (${\rho{(A)}} \leq 1$) and one for stable systems $({{\rho{(A)}} < 1})$. Before we present the regret results, let us introduce some standard notions. Let ${a{(s)}} = {s^{d} - {a_{d - 1}s^{d - 1}\cdots} - a_{0}}$ be the minimal polynomial of matrix $A$, i.e. the minimum degree polynomial such that ${a{(A)}} = 0$. Denote its degree by $d$. We define the $\ell_{1}$ norm of its coefficients as $\left\| a \right\|_{1} \triangleq {\sum_{i = 0}^{d - 1}\left| a_{i} \right|}$; the $\ell_{2}$ norm $\left\| a \right\|_{2}$ is defined in a similar way.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Regret Analysis", "weight": 1.0} -->
+
+Let $\kappa$ be the dimension of the largest Jordan block of $A$ that is a associated with an eigenvalue on the unit circle (i.e. ${\rho{(A)}} = 1$). Let $\kappa\max$ be the largest Jordan block among all eigenvalues. In general, $\kappa \leq \kappa_{\max} \leq d \leq n$.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Regret analysis overview", "weight": 1.0} -->
+
+Recall the definition of the innovation error $e_{k} = {y_{k} - {\hat{y}}_{k}}$. For brevity, we also define the error ${\overset{\sim}{e}}_{k} \triangleq {{\overset{\sim}{y}}_{k} - {\hat{y}}_{k}}$ between the online prediction of Algorithm 1 and the Kalman Filter prediction. By adding and subtracting ${\hat{y}}_{k}$ in the first term, we obtain
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Regret analysis overview", "weight": 1.0} -->
+
+is logarithmic in $N$. Because the innovations are i.i.d., we have a martingale structure for the second term since $e_{k} \in \mathcal{F}_{k}$, while ${\overset{\sim}{e}}_{k} \in \mathcal{F}_{k - 1}$. The martingale term will in general be small and can be bounded in terms of the square loss $\mathcal{L}_{N}$. In particular, the quantity
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Regret analysis overview", "weight": 1.0} -->
+
+is a self-normalized martingale and can be analyzed based on the techniques of Abbasi-Yadkori et al.; Sarkar and Rakhlin, which imply that
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Regret analysis overview", "weight": 1.0} -->
+
+with high probability. Hence, we will focus on bounding the square loss $\mathcal{L}_{N}$.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Regret analysis overview", "weight": 1.0} -->
+
+For the remaining section, we will assume that we are within one epoch $i$ so that the past horizon $p = p_{i}$ and $T = {2^{i - 1}T_{init}}$ are kept constant. For brevity, we omit the subscript $p$ from all variables and write $G,{\overset{\sim}{G}}_{k},Z_{k}$ instead of $G_{p},{\overset{\sim}{G}}_{k,p},Z_{k,p}$.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Regret analysis overview", "weight": 1.0} -->
+
+The regression term is due to the noise $e_{k}$ entering the system. The truncation bias is due to using only $p$ past observations and not all of them.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Regret analysis overview", "weight": 1.0} -->
+
+The key ingredients to analyze the cumulative error $\mathcal{L}_{N}$ are i) the stability properties of the closed-loop matrix $A - {KC}$; ii) self-normalization properties of predictor; and iii) persistency of excitation for the past observations with high probability. By persistency of excitation we mean that the least singular value of the Gram matrix ${\overline{V}}_{k}$ is increasing as fast as $O{(k)}$ with high probability.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Regret analysis overview", "weight": 1.0} -->
+
+The first term, $S_{k - 1}{\overline{V}}_{k - 1}^{- {1/2}}$ is again a self-normalized martingale and can be analyzed based on the techniques of Abbasi-Yadkori et al.; Sarkar and Rakhlin, which imply that the term $\sup_{T \leq k \leq {{2T} - 1}}\left\| {S_{k - 1}{\overline{V}}_{k - 1}^{- {1/2}}} \right\|_{2}^{2}$ grows logarithmically with $T$. The martingale property again comes from the fact that the innovation process $e_{k}$ of the Kalman Filter is i.i.d.--see Section 2.1.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Regret analysis overview", "weight": 1.0} -->
+
+The second term, ${\overline{V}}_{k - 1}^{- {1/2}}Z_{k}$, is almost self-normalized since ${\overline{V}}_{k - 1}$ is the Gram matrix of $Z_{k - 1},\ldots,Z_{p}$. It could be bounded using the following lemma which is inspired by Lai and Wei.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Extensions", "weight": 1.0} -->
+
+In this section, we discuss generalizations of Algorithm 1 and the regret analysis.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Alternative regret definition", "weight": 1.0} -->
+
+Denote the system responses by $g_{t} = {C{({A - {KC}})}^{t - 1}K}$, for $t \geq 0$. Let $g \triangleq \left\{ {{g_{t},t} \geq 0} \right\}$ be the sequence of system responses. Then, a parameterization for online prediction could be
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Alternative regret definition", "weight": 1.0} -->
+
+Let $\mathcal{G}_{\rho,L} \triangleq \left\{ g:{{\| g_{t}\|}_{2} \leq {L\rho^{t}}} \right\}$ be the set of system responses which decay exponentially for some $L$ and $\rho < 1$, which are larger than $M,{\rho{({A - {KC}})}}$ in Assumption 5. This set can include for example, stable IIR filters or FIR filters.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Alternative regret definition", "weight": 1.0} -->
+
+The above definition captures the one in Kozdoba et al., where the unknown system lies in a finite set.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Alternative regret definition", "weight": 1.0} -->
+
+Since the observations increase at most polynomially fast and due to the properties of the Kalman filter, we can show that the difference ${\overset{\sim}{\mathcal{R}}}_{N} - \mathcal{R}_{N}$ depends on logarithmic terms of $N$. Hence our definition, which does not require any model restriction is general. The details can be found in the Appendix.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "$f$-steps ahead predictor", "weight": 1.0} -->
+
+An immediate generalization of Algorithm 1 is to consider the $f -$steps ahead predictor, where $f$ is some future horizon. Instead of predicting only the next observation, we predict the sequence $y_{k}$, $\ldots$, $y_{{k + f} - 1}$.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "$f$-steps ahead predictor", "weight": 1.0} -->
+
+where ${\mathcal{K}_{p} \triangleq \begin{bmatrix}
+\end{bmatrix}},$ and $\mathcal{T}_{f}$ is a lower triangular block Toeplitz matrix generated by $I,{CK},\ldots,{CA^{f - 2}K}$. The optimal Kalman filter predictor in this case is
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "$f$-steps ahead predictor", "weight": 1.0} -->
+
+Hence, the regret can be defined as, with the lowercase $y$ replaced with uppercase $Y$.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "$f$-steps ahead predictor", "weight": 1.0} -->
+
+where ${\overset{\sim}{G}}_{k,f,p}$ is obtained similar to by regressing future observations $Y_{t}$ to past observations $Z_{t}$ from time $p$ up to $k - f$. The logarithmic regret guarantees of $\overset{\sim}{O}{}$ also hold with the final bound depending polynomially on $f$ and $\left\| \mathcal{T}_{f} \right\|_{2}$.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "State prediction", "weight": 1.0} -->
+
+If we have some knowledge about the state, e.g. the state space basis and the state space dimension $n$, then we can use the $f -$step ahead predictor to predict the hidden state ${\hat{x}}_{k}$.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "State prediction", "weight": 1.0} -->
+
+where ${\overset{\sim}{Y}}_{k}$ is our $f -$step ahead prediction and $\dagger$ denotes the pseudo-inverse.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "State prediction", "weight": 1.0} -->
+
+will enjoy the same logarithmic guarantees. Hence, our algorithm can be used to solve the adaptive Kalman filter problem posed in Mehra; Anderson and Moore, where the dynamics $A,C$ are known but the noise statistics $Q,R$ are unknown, with logarithmic regret.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "State prediction", "weight": 1.0} -->
+
+If we do not know $A,C$, then we could estimate the range space of $\mathcal{O}_{f}$ by performing singular value decomposition on ${\overset{\sim}{G}}_{k,f,p}$. However, there are infinite representations $\mathcal{O}_{f}S$, for any invertible $S$, all of which can explain the same observations. The definition is ill-posed since $x_{k}$ and ${\overset{\sim}{x}}_{k}$ might be based on different transformations $S$. Finding an alternative regret definition is subject of future work.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Logarithmic memory", "weight": 1.0} -->
+
+It is possible to achieve the logarithmic regret guarantees with logarithmic $O{({\log N})}$ memory, by modifying the initialization step in the beginning $T$ of every epoch $i$ in Algorithm 1. For stable systems, we could just reset ${\overset{\sim}{G}}_{T - 1}$ and ${\overline{V}}_{T - 1}$ to zero and $\lambdaI$ respectively. This might not work for non-explosive systems, since $Z_{T,p}$ can be polynomially large in $T$.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Logarithmic memory", "weight": 1.0} -->
+
+In this case, based on the regret analysis, we could initialize ${\overset{\sim}{G}}_{T - 1},{\overline{V}}_{T - 1}$ with the recent history $Z_{{T - 1},p},\ldots,Z_{{T - \hat{d}},p}$ and $y_{T - 1},\ldots,y_{T - \hat{d}}$, where $\hat{d}$ is an upper bound for the degree of the minimal polynomial $a$. This gives us control over ${\overline{V}}_{T - 1}^{- {1/2}}Z_{T,p}$--see Section 4, and requires only $O{({\log T})}$ memory.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 In this paper, we provided the first logarithmic regret upper bounds for learning the classical Kalman filter of an unknown system with unknown stochastic noise. Our regret analysis holds for non-explosive systems and our bounds do not degrade with the system stability gap.
 
-Going forward, our paper opens up several research directions. An open question that is whether we can define an appropriate regret notion in the case of state prediction, when matrices $A,C$ are unknown, and prove logarithmic bounds. Another interesting direction is to study how the learning performance is affected by system theoretic properties, such as the exponential quantity $d^{\kappa}$ in the case of systems with long chain structure, e.g. $\kappa$-order integrators. Analyzing the regret of other online algorithms, e.g. extended least squares, is also an open problem.
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+
+Going forward, our paper opens up several research directions. An open question that is whether we can define an appropriate regret notion in the case of state prediction, when matrices $A,C$ are unknown, and prove logarithmic bounds. Another interesting direction is to study how the learning performance is affected by system theoretic properties, such as the exponential quantity $d^{\kappa}$ in the case of systems with long chain structure, e.g. $\kappa$-order integrators. Analyzing the regret of other online algorithms, e.g. extended least squares, is also an open problem. Another challenging problem for both prediction and system identification is the case of explosive systems. Although in the fully observed case, this problem has been studied, it remains open in the case of partially observable systems. Finally, in this work we considered that the state is only driven by stochastic noise. A more general problem to study is when we also have exogenous inputs. One of the challenges is that it is harder to prove persistency of excitation in the case of closed-loop systems.

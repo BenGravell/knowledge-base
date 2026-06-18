@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 A Nonlinear MPC Scheme for Output Tracking without Terminal Ingredients
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 In this article, we propose a novel nonlinear model predictive control (MPC) scheme without terminal ingredients for output tracking. The control objective is to steer the output of the controlled system toward some desired set, or toward the best reachable set, in the case of unreachable targets. The considered MPC formulation combines a stabilizing MPC scheme without terminal ingredients with an output tracking formulation using an artificial steady state. In addition, we propose an offset cost that is applicable to general nonconvex steady-state manifolds. The resulting MPC scheme is simple to implement since it does not require the design of terminal ingredients (i.e., terminal controller, terminal cost, and terminal region) and is applicable to general (possibly unreachable) output specifications. We show the benefits of the proposed approach by means of a numerical example where we compare it with the state-of-the-art tracking MPC formulation.

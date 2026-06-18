@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 DeepRacing: A Framework for Autonomous Racing
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 We consider the challenging problem of high speed autonomous racing in realistic dynamic environments. DeepRacing is a novel end-to-end framework, and a virtual testbed for training and evaluating algorithms for autonomous racing. The virtual testbed is implemented using the realistic Formula One (F1) Codemasters game, which is used by many F1 drivers for training. We present AdmiralNet - a Convolution Neural Network (CNN) integrated with Long Short-Term Memory (LSTM) cells that can be tuned for the autonomous racing task in the highly realistic F1 game. We evaluate AdmiralNet's performance on unseen race tracks, and also evaluate the degree of transference between the simulation and the real world by implementing end-to-end racing on a physical 1/10 scale autonomous racecar.

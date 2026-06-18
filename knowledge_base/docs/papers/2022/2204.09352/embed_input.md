@@ -1,17 +1,189 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Differentiable Collision Avoidance Using Collision Primitives
 
 Topics include Trajectory optimization, Motion planning, Robotics, Optimization, Planning, Collision primitives, Collision avoidance.
 
-A central aspect of robotic motion planning is collision avoidance, where a multitude of different approaches are currently in use. Optimization-based motion planning is one method, that often heavily relies on distance computations between robots and obstacles. These computations can easily become a bottleneck, as they do not scale well with the complexity of the robots or the environment. To improve performance, many different methods suggested to use collision primitives, i.e. simple shapes that approximate the more complex rigid bodies, and that are simpler to compute distances to and . However, each pair of primitives requires its own specialized code, and certain pairs are known to suffer from numerical issues. In this paper, we propose an easy-to-use, unified treatment of a wide variety of primitives. We formulate distance computation as a minimization problem, which we solve iteratively. We show how to take derivatives of this minimization problem, allowing it to be seamlessly integrated into a trajectory optimization method. Our experiments show that our method performs favourably, both in terms of timing and the quality of the trajectory.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction
+A central aspect of robotic motion planning is collision avoidance, where a multitude of different approaches are currently in use. Optimization-based motion planning is one method, that often heavily relies on distance computations between robots and obstacles. These computations can easily become a bottleneck, as they do not scale well with the complexity of the robots or the environment. To improve performance, many different methods suggested to use collision primitives, i.e. simple shapes that approximate the more complex rigid bodies, and that are simpler to compute distances to and . However, each pair of primitives requires its own specialized code, and certain pairs are known to suffer from numerical issues. In this paper, we propose an easy-to-use, unified treatment of a wide variety of primitives. We formulate distance computation as a minimization problem, which we solve iteratively. We show how to take derivatives of this minimization problem, allowing it to be seamlessly integrated into a trajectory optimization method. Our experiments show that our method performs favourably, both in terms of timing and the quality of the trajectory. The source code of our implementation will be released upon acceptance.
+
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Collision avoidance is an integral part of robotic motion planning. Cluttered environments like construction sites, where many potential collisions may occur, are burdened with great computational load. Planning paths for multiple robots requires *dynamic* and flexible collision avoidance, making the problem more difficult. Furthermore, where human collaborators are involved, robots need to plan ahead while treating the humans as unpredictable, moving obstacles. Indeed, the increasing complexity of tasks that robots are expected to perform certainly requires an equal increase in the efficiency of motion planning algorithms.
 
-Our goal in this paper is to derive a simple, yet robust and *customizable* approach for collision avoiding trajectory optimization. A common practice with this approach is to utilize distance functions between obstacles and define motion planning as a constrained optimization problem. In that sense, the distance functions are used to penalize proximity of the robot to obstacles. Computing the true distance to an obstacle, however, can be computationally demanding. Instead, previous approaches opted to use approximations in the form of collision primitives.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Our approach is to formulate distance computation as a low-level, *differentiable* optimization problem, where we explicitly handle numerical issues for all primitive pairs by adding a simple regularization term. We combine this approach with a straight-forward parameterization of different collision primitives, resulting in a light-weight and easy-to-understand implementation, and we will release the corresponding code written in C++ upon acceptance. We show how to take derivatives of the distance computation by leveraging sensitivity analysis.
+Our goal in this paper is to derive a simple, yet robust and *customizable* approach for collision avoiding trajectory optimization. A common practice with this approach is to utilize distance functions between obstacles and define motion planning as a constrained optimization problem. In that sense, the distance functions are used to penalize proximity of the robot to obstacles. Computing the true distance to an obstacle, however, can be computationally demanding. Instead, previous approaches opted to use approximations in the form of collision primitives. That is, they replace the complex geometry of robots and obstacles by simpler shapes, such as spheres, that are easy to compute distances to. However, the accuracy of the approximation depends on the number of collision primitives used. Indeed, an oblong shape such as the links in a robot's arm might only be faithfully represented by a multiplicity of spheres, depending on their length and widths. Follow up work suggested using alternative primitives, such as ellipsoids, capsules, boxes, and their combinations, that can better fit to different geometries, and thus reduce the number of primitives necessary.
 
-## Discussion
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-To summarize, our approach provides a unified, straight-forward framework that can be applied to various collision primitives, and safely handles numerical issues that can arise when computing distances and its derivatives. Therefore, our distance computation scheme can seamlessly be integrated into other path planners that profit from these properties. In terms of limitations, our overall trajectory optimization framework suffers from the same drawbacks as other gradient-based methods: it can only find a local minimum.
+However, this typically requires specialized code that computes distances for every type of primitive pair, which could be cumbersome to maintain, especially when using gradient-based methods. In addition, some of the computations involved are known to be numerically sensitive, which can cause numerical issues throughout the planning process, especially when derivatives are required.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our approach is to formulate distance computation as a low-level, *differentiable* optimization problem, where we explicitly handle numerical issues for all primitive pairs by adding a simple regularization term. We combine this approach with a straight-forward parameterization of different collision primitives, resulting in a light-weight and easy-to-understand implementation, and we will release the corresponding code written in C++ upon acceptance. We show how to take derivatives of the distance computation by leveraging sensitivity analysis. Finally, we integrate this approach into a high-level trajectory optimization problem for collision-free multi-robot motion planning with dynamic obstacles. We evaluate the efficacy of our method based on a variety of simulated and real-world experiments, involving single- as well as multi-robot scenarios.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Method", "weight": 1.0} -->
+
+To simplify the exposition, we first describe our approach using a simple example of two rigid bodies. The method is easily generalized to multiple robots and obstacles, both stationary or mobile, which we discuss at the end of this section.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "III-A Collision-Free Motion Planning", "weight": 1.0} -->
+
+Our goal is to plan a smooth, collision-free trajectory for two free-floating rigid bodies denoted by $\mathcal{B}^{A}$ and $\mathcal{B}^{B}$, respectively. We formulate this as a *time-discretized* trajectory optimization problem. To this end, let $\mathbf{x}_{i}^{A}$ and $\mathbf{x}_{i}^{B}$ be the corresponding states of $\mathcal{B}^{A}$ and $\mathcal{B}^{B}$, comprising of a rotation and a translation in world coordinates at a specific trajectory step $i$. We represent the entire state by stacking both states into one vector $\mathbf{x}_{i} = {(\mathbf{x}_{i}^{A},\mathbf{x}_{i}^{B})}$.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "III-A Collision-Free Motion Planning", "weight": 1.0} -->
+
+Then, $\mathbf{x}:={(\mathbf{x}_{1},\ldots,\mathbf{x}_{N})}$ represents the entire state trajectory that we want to optimize, consisting of a total number of $N$ steps. Furthermore, let $\mathcal{D}^{AB}{(\mathbf{x}_{i})}$ be the squared distance between the two rigid bodies at trajectory step $i$, defined as the *shortest* squared distance between any pair of points on the two rigid bodies in their respective states. We include a safety margin with each of the individual rigid bodies, which we denote by $r^{A}$ and $r^{B}$, respectively. Collision avoidance is formulated as an inequality constraint, which forces the shortest distance between the rigid bodies the be greater than the sum of their safety margins. With these definitions, we write the trajectory optimization problem as
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "III-A Collision-Free Motion Planning", "weight": 1.0} -->
+
+with objective $\mathcal{O}$, which typically consists of two terms. The first term expresses a goal objective, which matches the state of the rigid bodies at a given trajectory step $i$ to a predefined target ${\overline{\mathbf{x}}}_{i}$. The second term is a regularization term that encourages smooth motions by penalizing high accelerations throughout the trajectory. We discretize the acceleration as ${\overset{¨}{\mathbf{x}}}_{i} \approx \frac{{\mathbf{x}_{i} - {2\mathbf{x}_{i - 1}}} + \mathbf{x}_{i - 2}}{h^{2}}$, where $h$ is the step duration. The objective (1a) is then
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "III-A Collision-Free Motion Planning", "weight": 1.0} -->
+
+where $I$ is the set of fixed target states ${\overline{\mathbf{x}}}_{i}$, and $w_{S}$ denotes the regularization weight.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "III-B Collision Primitives", "weight": 1.0} -->
+
+The problem stated in Eq. is an idealized one, as $\mathcal{D}^{AB}$ is set to compute the *true* distance between the two bodies $\mathcal{B}^{A}$ and $\mathcal{B}^{B}$. However, this is often not practical since the computation of this distance -- and its derivatives -- can be expensive for general shapes. Instead, a common practice is to approximate rigid bodies using simple collision primitives, which are endowed with simpler distance computation routines. The simplest primitives used (for trajectory optimization) are perhaps spheres. They can be seen as points with a safety margin corresponding to the radius, and therefore require only point-to-point distances. Furthermore, when a rigid body has a shape that can not be approximated by one sphere sufficiently well, several smaller spheres can easily be used together to obtain a better approximation. The drawback, however, is that some shapes require *too* many spheres to be approximated well, offsetting the computational benefit of using them in the first place.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "III-B Collision Primitives", "weight": 1.0} -->
+
+In these cases, more elaborate primitive shapes such as ellipsoids, capsules, or boxes can be used at the cost of slightly increased computation times, as mentioned in Sec. II. Therefore, creating an efficient approximation of an object using collision primitives requires balancing the complexity of the primitives with their numbers. To simplify the process, we propose a unified formulation for a set of different collision primitives. This formulation is based on the simple observation that common primitives can be described *parametrically* using a point $\mathbf{p}$ and a varying number of vectors $\mathbf{v}_{l}$, each scaled by a parameter $t_{l}$. Hereby, the number of vectors and scale parameters depends on the type of primitive. For example, a primitive with no scaled vector simply results in a point $\mathbf{p}$, which, combined with its radius as a safety margin, results in a sphere collision primitive.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "III-B Collision Primitives", "weight": 1.0} -->
+
+In the same manner, a point and one scaled vector ${{\mathbf{p} + {t_{1}\mathbf{v}_{1}}},0} \leq t_{1} \leq 1$ describes a line segment, which can be used as a capsule primitive by choosing its radius as a safety margin again.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "III-B Collision Primitives", "weight": 1.0} -->
+
+We now extend this formulation for the general case: For a rigid body $\mathcal{B}$ with state $\mathbf{x}_{i}$, let $\mathbf{t}_{i}$ be the set of parameters stacked into one vector that describe all points lying on the corresponding collision primitive. In the following, we neglect the subscript $i$ for brevity, and consequently use $\mathbf{x}$ to represent the state of a single trajectory step. Let $\mathbf{P}{(\mathbf{x},\mathbf{t})}$ be a function that returns a specific point on the primitive as a function of $\mathbf{x}$ and $\mathbf{t}$. In this work, we select a set of collision primitives that can all be described by
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "III-B Collision Primitives", "weight": 1.0} -->
+
+where $\mathbf{p}{(\mathbf{x})}$ is a point on the primitive, and $\mathbf{v}_{l}{(\mathbf{x})}$ denote a varying number $L$ of vectors, depending on the type of primitive. All primitive shapes used in this work are visualized in Table I. We find that this set of simple primitives is sufficient for our application. Nevertheless, we note that more constraints can be added to create different shapes, e.g. ${\sum_{l = 1}^{L}t_{l}} \leq 1$ for a simplex. Additionally, any convex collision primitive that can be described parametrically in a continuously differentiable manner with respect to both $\mathbf{x}$ and $\mathbf{t}$ can be used as well.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "III-C Shortest Distance Computation", "weight": 1.0} -->
+
+This problem can be solved analytically for the cases we discuss in this paper. However, this must be done in a case-by-case manner, and additionally can result in some numerical issues, especially when computing derivatives. For example, for two capsule primitives parameterized as line segments, these issues occur when the two lines are close to being parallel, as the closest points between them go to infinity. Similar issues arise for other pairs of primitives as well, and we find that they frequently occur in practice. Instead of treating each individual case, we propose a more generic approach: We solve Eq. using iterative numerical optimization. This also allows us to include regularization terms, and to make the collision constraints *soft*, which in turn makes collision avoidance more robust. Concretely, we add a regularization term
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "III-C Shortest Distance Computation", "weight": 1.0} -->
+
+which regularizes the $\mathbf{t}$'s such that the resulting points on the primitives are closer to their center. This simple term effectively avoids the numerical issues described above. In addition, we replace the box constraints $0 \leq \mathbf{t} \leq 1$ in Eq. by soft barrier constraints. Specifically, we define two unilateral quadratic barrier functions as
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "III-C Shortest Distance Computation", "weight": 1.0} -->
+
+Thus, we rewrite the optimization problem as
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "III-C Shortest Distance Computation", "weight": 1.0} -->
+
+where $w_{R},w_{C}$ are the regularization and penalty weights. We solve this unconstrained optimization problem using Newton's method.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "III-D Computing Derivatives", "weight": 1.0} -->
+
+To solve the motion planning problem, we want to be able to compute the derivatives of the distance function $\mathcal{D}$ w.r.t. to $\mathbf{x}$. Following the derivation above, $\mathcal{D}$ is not only a function of $\mathbf{x}$, but also of $\mathbf{t}$, which in turn has to be seen as a function of $\mathbf{x}$ as well. Consequently, ${\mathcal{D}{(\mathbf{x})}}:={\mathcal{D}{(\mathbf{x},{\mathbf{t}{(\mathbf{x})}})}}$, and computing the gradient requires the use of the chain rule
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "III-D Computing Derivatives", "weight": 1.0} -->
+
+The Jacobian $\frac{d\mathbf{t}}{d\mathbf{x}}$ is known as the *sensitivity matrix*, as it describes how $\mathbf{t}$ changes with respect to changes in $\mathbf{x}$. Since $\mathbf{t}$ is computed numerically by solving the optimization problem, there is no direct analytical expression to compute $\frac{d\mathbf{t}}{d\mathbf{x}}$. However, as described, we can readily compute this Jacobian by leveraging the implicit function theorem. For our particular application, it can be applied when the gradient of the optimization problem is zero, i.e. $\frac{\partial\mathcal{U}^{AB}}{\partial\mathbf{t}} = 0$. This is the case when the optimization has been solved. Then, by using the resulting solution for $\mathbf{t}$, the sensitivity matrix can be computed analytically as
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "III-D Computing Derivatives", "weight": 1.0} -->
+
+We refer the reader to for a full derivation, and simply state the Hessian for our particular use-case. Just as, we use an approximation of the true Hessian, as it avoids the costly computation the higher-order terms. This results in the expression
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-D Computing Derivatives", "weight": 1.0} -->
+
+where we can re-use the Jacobian from the gradient computation.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-E Extension to Robot Motion Planning", "weight": 1.0} -->
+
+As a final step, we extend our formulation from two rigid bodies to the case of robotic motion planning. To this end, we model a robot as a kinematic arm with floating base: Let $\mathbf{x}_{i} \in {\mathbb{R}}^{n + 6}$ denote the state of a robot at trajectory step $i \in {\lbrack 1,\ldots,N\rbrack}$, where $N$ and $n$ denote the total number of trajectory steps and joint angles, respectively. The state $\mathbf{x}_{i}$ consists of the position and orientation of the base, as well as the joint angles of the arm. Same as before, we describe the entire robot trajectory by stacking all states $\mathbf{x}_{i}$ into one vector $\mathbf{x}:={(\mathbf{x}_{1},\ldots,\mathbf{x}_{N})}$. Using these definitions, we can now extend the optimization problem presented in Eq..
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "III-E Extension to Robot Motion Planning", "weight": 1.0} -->
+
+Since we are now handling kinematic arms, it is more convenient to include end-effector targets into our formulation: Let $\mathbf{z}_{i}$ be the target pose in global coordinates for the robot's end-effector at a predefined trajectory step $i$. Let $\mathcal{K}{(\mathbf{x}_{i},\mathbf{l})}$ be the forward kinematics function that transforms the local coordinates $\mathbf{l}$ of the end-effector into its global pose at state $\mathbf{x}_{i}$. We can then formulate an inverse kinematics (IK) objective as
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-E Extension to Robot Motion Planning", "weight": 1.0} -->
+
+for each end-effector and trajectory step we wish to set a target. Furthermore, physical limitations of an individual robot like joint, velocity and acceleration limits need to be considered for motion planning. This can be included into the formulation in form of box constraints
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-E Extension to Robot Motion Planning", "weight": 1.0} -->
+
+where $\mathbf{b}_{l}$ and $\mathbf{b}_{u}$ denote the lower and upper bounds, respectively, and $\mathbf{h}{(\mathbf{x}_{i})}$ returns the corresponding value at trajectory step $i$. Velocities and accelerations are approximated using finite differences.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "III-E Extension to Robot Motion Planning", "weight": 1.0} -->
+
+In order to apply collision avoidance, a robot can be approximated by different collision primitives in the same manner as in the single rigid body case. Examples for two different robots are given in Fig. 2. This can be done conveniently by expressing a specific collision primitive in local coordinates of the body it approximates. Since the robot's bodies are connected via a kinematic chain, the formulation as presented in (1b) needs to be slightly adjusted, as the world coordinates of the collision primitives have to be computed using the forward kinematics function $\mathcal{K}$. Therefore, the inequality constraints are written as
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "III-E Extension to Robot Motion Planning", "weight": 1.0} -->
+
+where $\mathbf{c}^{a}$ and $\mathbf{c}^{b}$ denote the local coordinates of collision primitive $a$ and $b$, respectively, and $\mathbb{C}$ includes all collision primitives used in the scene. These constraints formulate self-collision avoidance of an individual robot for all trajectory steps. In case primitives are used to approximate static obstacles, the dependency on $\mathcal{K}$ can be dropped, as the state of the obstacle can be written directly in world coordinates.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "III-E Extension to Robot Motion Planning", "weight": 1.0} -->
+
+This formulation can easily be extended to plan motions for multiple robots. To this end, we simply stack the states of all robots in the scene into one large optimization vector $\mathbf{x}$. Then, the inequality constraints not only cover self-collision avoidance, but also avoidance between different robots. We solve this multi-robot motion planning problem using Newton's method. To this end, we convert all inequality constraints into soft constraints using barrier functions as presented in Eq.. Then, we can compute the gradient and Hessian of the total objective $\mathcal{O}{(\mathbf{x})}$ in order to apply Newton steps until convergence. An overview of the overall solving strategy is given in Algorithm 1. We note that in practice, we only compute the exact distance and its derivatives between individual primitive pairs if they are in close proximity to another. To this end, we first roughly estimate the distances between each pair according to the distance of their center points.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "III-E Extension to Robot Motion Planning", "weight": 1.0} -->
+
+Input: Total objective 𝒪 (x) (including collision avoidance constraints as soft constraints), initial x
+Output: Optimal motion trajectories x*
+while convergence criterion not reached do
+Compute t by solving optimization problem for each primitive pair in close proximity using Newton’s method
+Compute gradient $\frac{d\mathcal{O}}{d\mathbf{x}}$ and Hessian $\frac{d^{2}\mathcal{O}}{{d\mathbf{x}}^{2}}$ (includes the use of Eq. and by following the chain rule)
+Compute search direction Δ x by solving linear system ${\frac{d^{2}\mathcal{O}}{{d\mathbf{x}}^{2}}\Delta\mathbf{x}} = {- \frac{d\mathcal{O}}{d\mathbf{x}}}$
+Run backtracking line search on α in x:= x + α Δ x
+Algorithm 1 Collision-free multi-robot kinematic trajectory optimization using Newton’s method
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Results", "weight": 1.0} -->
+
+We evaluate the efficacy of our method on a variety of simulated and real-world experiments. These comprise of path planning tasks for different robotic platforms in both single- and multi-robot scenarios. Our method outputs collision-free, smooth motion trajectories for every robot in the scene. It avoids self-collision for a single robot, collisions between two different robots, and collisions with obstacles. We encourage the reader to watch the accompanying video, where all conducted experiments are shown. An extended version of this video can be found online^11^1Accompanying video: More quantitative information about the individual experiments can be found in Table II. An Intel Core i7-7709K 4.2Ghz PC has been used to record all measurements.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "IV-A Experiments", "weight": 1.0} -->
+
+Interactive Avoidance. We demonstrate our collision avoidance method in an interactive, real-world setting using a dual-armed YuMi robot. Two users move around obstacles that tracked by a motion capture system and approximated by collision spheres in the planning framework. The robot successfully avoids the obstacles while ensuring that its two arms do not collide with each other. Motion planning in this case is run in a receding horizon fashion. The motion optimization objective for the robot contains a regularization term that encourages the robot to return to its rest pose when it is undisturbed by the obstacles.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-A Experiments", "weight": 1.0} -->
+
+Legged Armada. This experiment demonstrates kinematic path planning for the bases of multiple legged robots. We use the simulation model of several Boston Dynamics' Spot robots, which are modeled as floating bases with pose and velocity constraints that resemble those of the physical Spot. The accompanying video and Fig. 1 show different scenarios where the robots are tasked with switching positions while avoiding each other as well as some large world obstacles. We note that motion planning is only conducted for the robot's bases, but leg motions are kinematically computed in post-processing for visualization purposes.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-A Experiments", "weight": 1.0} -->
+
+Package Packing. A statically mounted robot arm picks up a package, and places it in a slightly larger, empty box. The empty box is approximated by four rectangular collision primitives, one for each closed side. This experiment is also conducted in the real world by passing the nominal trajectories computed in simulation onto the physical robot in an open-loop manner. We use a Kinova Gen3 7Dof robot equipped with a Sake EZGripper to do so. Fig. 3 show different frames of this experiment.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-A Experiments", "weight": 1.0} -->
+
+Table Reach. A Kinova arm mounted on a Spot robot (see ) is tasked with retrieving an object that lies under a table. The table is modeled by five box primitives, one for each leg, and one for the plate. The grasp maneuver is shown in simulation in the video, and is depicted in Fig. 4.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-A Experiments", "weight": 1.0} -->
+
+Gap Handover. The YuMi robot is used to hand over a package from one gripper to the other through a gap in a wall. The wall is modeled with four rectangle collision primitives. The video shows the experiment both in simulation and performed on the physical robot.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-A Experiments", "weight": 1.0} -->
+
+House Assembly. This demonstration employs a kinematic model of the Robotic Fabrication Lab (RFL) setup at ETH Zurich, which includes four large robotic arms connected by bridges. These robot arms cooperatively assemble a simplified house by planning collision-free paths around each other as well as the structure that has already been built. While a robot is holding a building block in its gripper, the corresponding collision primitive becomes part of the robot, and otherwise it is treated as an obstacle. The assembly is broken down into individual pick and place tasks, where the assembly order and task assignment is done by the user. Fig. 5 shows different scenes from the assembly process.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-A Experiments", "weight": 1.0} -->
+
+## Robots
+## Primitives
+## Traj. Steps
+## Iterations
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-B Primitive Configuration", "weight": 1.0} -->
+
+Generally, using more primitives has the greater potential to better approximate the shape of a body. However, more primitives lead to a higher computational cost. We illustrate this using a simple example shown in Fig. 6. There, we solve a trajectory optimization problem involving two cube-shaped obstacles. We approximate one cube using a varying number of spheres and capsules to compare the timings. We show that using more primitives reduces the approximation error, given here by the Hausdorff distance, but increases the computation time per iteration. We can see that for the same Hausdorff distance, fewer capsules than spheres are needed, and despite the slight increase in distance computation time per capsule, the overall time is significantly shorter. Naturally, using the cube itself as the primitive is the ideal choice, and this is also evident in the figure. We additionally show in Table III the times required to compute the shortest distance between different primitive pairs using our method. Again, making the primitive higher-dimensional introduces additional Newton steps, which also contributes to higher computation times, but the overall effect for the path planning problem is a reduction in time.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "IV-C Comparison to Other Motion Planners", "weight": 1.0} -->
+
+We conducted several experiments in order to compare our method to three well-known motion planners: OMPL, CHOMP, and STOMP. Hereby, we used the default parameter settings (including initialization procedures) set in their individual ROS implementations. The experimental setup involved a Kinova arm tasked with finding a collision-free path around an obstacle modeled by either a sphere, a capsule (a cylinder in ROS), or a box. We ran the experiment multiple times, where we gradually increased the size of the individual obstacles to make the path planning problem more elaborate. All methods usually succeeded in finding a feasible path around the obstacle. An overview of the individual measurements is given in Table IV. We note that the overall computation time is dependent on the convergence criteria of the individual planners. When using the default settings, the computation times of all methods were usually comparable. However, we noticed a difference in the quality of the solution. Especially for larger obstacles, some of the planners seemed to struggle to find a smooth path. Our method usually provided a smoother and more direct path, both in terms of joint angles (see Fig. 7) as well as for the robot's end-effector (see Table IV).
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+To summarize, our approach provides a unified, straight-forward framework that can be applied to various collision primitives, and safely handles numerical issues that can arise when computing distances and its derivatives. Therefore, our distance computation scheme can seamlessly be integrated into other path planners that profit from these properties. In terms of limitations, our overall trajectory optimization framework suffers from the same drawbacks as other gradient-based methods: it can only find a local minimum. Consequently, in very cluttered environments and tight spaces, our method might fail to find a collision-free trajectory without a proper initialization. One solution would be to find an initial trajectory using a sampling-based method and use it as a starting point for the optimization. However, due to the relatively quick iteration time and predictable behaviour, we believe it to be simpler for a user to provide input and guide the process toward a feasible solution. Additionally, we experimented with an automatic continuation method that shows promising results. With these methods, infeasible cases can be resolved by starting the optimization in an obstacle-free environment, such that an initial, collision-free trajectory can be generated. Then, obstacles are gradually introduced into the scene while keeping the optimization process running.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Discussion", "weight": 1.5} -->
+
+Further analysis in this regard will be part of future investigations. Another avenue to explore is the automatic generation of primitives that would cover the objects. Currently, this is done manually based on previous experience. However, we believe that finding an optimal configuration of primitives that achieves the best performance would be of great value.

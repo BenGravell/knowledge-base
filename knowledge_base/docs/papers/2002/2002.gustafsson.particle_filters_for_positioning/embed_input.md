@@ -1,7 +1,19 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Particle Filters for Positioning, Navigation, and Tracking
 
 Topics include Particle filters, Sequential Monte Carlo, Navigation, Tracking, Map matching, Rao-blackwellization, Sensor fusion.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Develops a particle-filter framework for positioning, navigation, and tracking that marginalizes linear position-derivative states into Kalman filters so the particle dimension stays small. The paper demonstrates real-time map matching and tracking applications where nonlinear models and non-Gaussian noise outperform classical Kalman-filter approaches.
 
-A framework for positioning, navigation, and tracking problems using particle filters (sequential Monte Carlo methods) is developed. It consists of a class of motion models and a general nonlinear measurement equation in position. A general algorithm is presented, which is parsimonious with the particle dimension. It is based on marginalization, enabling a Kalman filter to estimate all position derivatives, and the particle filter becomes low dimensional. This is of utmost importance for high-performance real-time applications. Automotive and airborne applications illustrate numerically the advantage over classical Kalman filter-based algorithms. Here, the use of nonlinear models and non-Gaussian noise is the main explanation for the improvement in accuracy. More specifically, we describe how the technique of map matching is used to match an aircraft's elevation profile to a digital elevation map and a car's horizontal driven path to a street map. In both cases, real-time implementations are available, and tests have shown that the accuracy in both cases is comparable with satellite navigation (as GPS) but with higher integrity.
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+A framework for positioning, navigation, and tracking problems using particle filters (sequential Monte Carlo methods) is developed. It consists of a class of motion models and a general nonlinear measurement equation in position. A general algorithm is presented, which is parsimonious with the particle dimension. It is based on marginalization, enabling a Kalman filter to estimate all position derivatives, and the particle filter becomes low dimensional. This is of utmost importance for high-performance real-time applications. Automotive and airborne applications illustrate numerically the advantage over classical Kalman filter-based algorithms. Here, the use of nonlinear models and non-Gaussian noise is the main explanation for the improvement in accuracy. More specifically, we describe how the technique of map matching is used to match an aircraft's elevation profile to a digital elevation map and a car's horizontal driven path to a street map. In both cases, real-time implementations are available, and tests have shown that the accuracy in both cases is comparable with satellite navigation (as GPS) but with higher integrity. Based on simulations, we also argue how the particle filter can be used for positioning based on cellular phone measurements, for integrated navigation in aircraft, and for target tracking in aircraft and cars.
+
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Finally, the particle filter enables a promising solution to the combined task of navigation and tracking, with possible application to airborne hunting and collision avoidance systems in cars.

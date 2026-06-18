@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 A Method for Registration of 3-D Shapes
 
 Topics include Iterative closest point, Point cloud registration, 3D shape registration, Rigid registration, Closest point matching, Mean-square distance, Six degree-of-freedom pose estimation, Shape inspection, Computer vision.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Formalizes the classical Iterative Closest Point algorithm as a representation-independent procedure for rigid 3D shape registration. The paper matters because it gave ICP its canonical point-correspondence/minimum-distance iteration, convergence framing, and broad applicability across point sets, curves, and surfaces.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This paper describes a general-purpose, representation-independent method for the accurate and computationally efficient registration of 3-D shapes including free-form curves and surfaces. The method handles the full six degrees of freedom and is based on the iterative closest point (ICP) algorithm, which requires only a procedure to find the closest point on a geometric entity to a given point. The ICP algorithm always converges monotonically to the nearest local minimum of a mean-square distance metric, and the rate of convergence is rapid during the first few iterations. Therefore, given an adequate set of initial rotations and translations for a particular class of objects with a certain level of "shape complexity," one can globally minimize the mean-square distance metric over all six degrees of freedom by testing each initial registration. One important application of this method is to register sensed data from unfixtured rigid objects with an ideal geometric model, prior to shape inspection. Experimental results show the capabilities of the registration algorithm on point sets, curves, and surfaces.

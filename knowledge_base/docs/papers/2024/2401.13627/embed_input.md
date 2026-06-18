@@ -1,19 +1,159 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Scaling up to Excellence: Practicing Model Scaling for Photo-Realistic Image Restoration in the Wild
 
 Topics include Image restoration, Image super-resolution, Real-world restoration, Generative prior, Model scaling, Text-guided restoration, Negative-quality prompts, Restoration-guided sampling, SUPIR.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 SUPIR scales generative image restoration with a large annotated high-quality image corpus, prompt-aware restoration, negative-quality prompts, and restoration-guided sampling. It is notable less as a narrow architecture tweak and more as evidence that low-level restoration benefits strongly from data and model scale.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 We introduce SUPIR (Scaling-UP Image Restoration), a groundbreaking image restoration method that harnesses generative prior and the power of model scaling up. Leveraging multi-modal techniques and advanced generative prior, SUPIR marks a significant advance in intelligent and realistic image restoration. As a pivotal catalyst within SUPIR, model scaling dramatically enhances its capabilities and demonstrates new potential for image restoration. We collect a dataset comprising 20 million high-resolution, high-quality images for model training, each enriched with descriptive text annotations. SUPIR provides the capability to restore images guided by textual prompts, broadening its application scope and potential. Moreover, we introduce negative-quality prompts to further improve perceptual quality. We also develop a restoration-guided sampling method to suppress the fidelity issue encountered in generative-based restoration. Experiments demonstrate SUPIR's exceptional restoration effects and its novel capacity to manipulate restoration through textual prompts.
 
-## Introduction
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-The development of image restoration (IR) has greatly elevated expectations for both the perceptual effects and the intelligence of IR results. IR methods based on generative priors leverage powerful pre-trained generative models to introduce high-quality generation and prior knowledge into IR, bringing significant progress in these aspects. Continuously improving the capabilities of the generative prior is key to achieving better IR results, with model scaling being a crucial and effective approach. There are many tasks that have obtained astonishing improvements from scaling, such as SAM and large language models (LLMs).
+The development of image restoration (IR) has greatly elevated expectations for both the perceptual effects and the intelligence of IR results. IR methods based on generative priors leverage powerful pre-trained generative models to introduce high-quality generation and prior knowledge into IR, bringing significant progress in these aspects. Continuously improving the capabilities of the generative prior is key to achieving better IR results, with model scaling being a crucial and effective approach. There are many tasks that have obtained astonishing improvements from scaling, such as SAM and large language models (LLMs). This further drives our pursuit of constructing large-scale, intelligent IR models that can produce ultra-high-quality images. However, due to engineering constraints such as computing resources, model architecture, training data, and the cooperation of generative models and IR, scaling up IR models is challenging.
 
-In this work, we introduce SUPIR (Scaling-UP IR), the largest-ever IR method, aimed at exploring greater potential in restoration visual effects and intelligence. Specifically, SUPIR employs StableDiffusion-XL (SDXL) as a powerful generative prior, which contains 2.6 billion parameters. To effectively deploy this model in IR, we design and train a large-scale adaptor that incorporates a novel component named the ZeroSFT connector. To maximize the benefits of model scaling, we collect a dataset of over 20 million high-quality, high-resolution images, each accompanied by detailed descriptive text.
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Our work goes far beyond simply scaling. While pursuing an increase in model scale, we face a series of complex challenges. First, existing adaptor designs either too simple to meet the complex requirements of IR or are too large to train together with SDXL. To solve this problem, we trim the ControlNet and designed a new connector called ZeroSFT to work with the pre-trained SDXL, aiming to efficiently implement the IR task while reducing computing costs.
+In this work, we introduce SUPIR (Scaling-UP IR), the largest-ever IR method, aimed at exploring greater potential in restoration visual effects and intelligence. Specifically, SUPIR employs StableDiffusion-XL (SDXL) as a powerful generative prior, which contains 2.6 billion parameters. To effectively deploy this model in IR, we design and train a large-scale adaptor that incorporates a novel component named the ZeroSFT connector. To maximize the benefits of model scaling, we collect a dataset of over 20 million high-quality, high-resolution images, each accompanied by detailed descriptive text. We utilize a 13-billion-parameter multi-modal language model to provide image content prompts, greatly improving the accuracy and intelligence of our method. The proposed SUPIR model demonstrates exceptional performance in a variety of IR tasks, achieving the best visual quality, especially in complex and challenging real-world scenarios. Additionally, the model offers flexible control over the restoration process through textual prompts, vastly broadening the possibility of IR. Fig. 1 illustrates the effects by our model.
 
-## Conclusion
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our work goes far beyond simply scaling. While pursuing an increase in model scale, we face a series of complex challenges. First, existing adaptor designs either too simple to meet the complex requirements of IR or are too large to train together with SDXL. To solve this problem, we trim the ControlNet and designed a new connector called ZeroSFT to work with the pre-trained SDXL, aiming to efficiently implement the IR task while reducing computing costs. In order to enhance the model's ability to accurately interpret the content of low-quality images, we fine-tune the image encoder to improve its robustness to variations in image degradation. These measures make scaling the model feasible and effective, and greatly improve its stability. Second, we collect 20 million high-quality, high-resolution images with descriptive text annotations, providing a solid foundation for the model's training. We employ a counter-intuitive approach by integrating poor-quality samples into our training process. This allows us to enhance visual effects by utilizing prompts to guide the model away from negative qualities. Finally, powerful generative prior is a double-edged sword. Uncontrolled generation may reduce restoration fidelity, making IR no longer faithful to the input image.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To address the issue of low fidelity, we introduce the concept of restoration-guided sampling. By integrating these strategies with efficient engineering practices, we not only facilitate the scaling up of SUPIR but also push the frontiers of advanced IR.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Image Restoration", "weight": 1.0} -->
+
+The goal of IR is to convert degraded images into high-quality degradation-free images. In the early stage, researchers independently explored different types of image degradation, such as super-resolution (SR), denoising, and deblurring. However, these methods are often based on specific degradation assumptions and therefore lack generalization ability to other degradations \[ gu2024interpretability\]. Over time, the need for blind IR methods that are not based on specific degradation assumptions has grown. In this trend, some methods synthesize real-world degradation by more complex degradation models, and are well-known for handling multiple degradation with a single model. DiffBIR unifies different restoration problems into a single model. In this paper, we adopt a similar setting to DiffBIR and use a single model to achieve effective processing of various severe degradations.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Generative Prior", "weight": 1.0} -->
+
+Generative priors are adept at capturing the inherent structures of the image, enabling the generation of images that follow natural image distribution. The emergence of GANs has underscored the significance of generative priors in IR. Various approaches employ generative priors, including GAN inversion, GAN encoders, or using GAN as the core module for IR. Beyond GANs, other generative models can also serve as priors. Our work primarily focuses on generative priors derived from diffusion models, which excel in controllable generation and model scaling. Diffusion models have also been effectively used as generative priors in IR. However, these diffusion-based IR methods' performance is constrained by the scale of the used generative models, posing challenges in further enhancing their effectiveness.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Model Scaling", "weight": 1.0} -->
+
+is an important means to further improve the capabilities of deep-learning models. The most typical examples include the scaling of language models, text-to-image generation models, and image segmentation models. The scale and complexity of these models have increased dramatically, now encompassing billions of parameters. This increase in parameters has also resulted in significant performance enhancements, showcasing the immense potential of model scaling. However, scaling up is a systematic problem, involving model design, data collection, computing resources, and other limitations. Many other tasks have not yet been able to enjoy the substantial performance improvements brought by scaling up. IR is one of them.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Method", "weight": 1.0} -->
+
+An overview of the proposed SUPIR method is shown in Fig. 2. We introduce our method from three aspects: Sec. 3.1 introduces our network designs and training method; Sec. 3.2 introduces the collection of training data and the introduction of textual modality; and Sec. 3.3 introduces the diffusion sampling method for IR.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Generative Prior", "weight": 1.0} -->
+
+There are not many choices for the large-scale generative models. The only ones to consider are Imagen, IF, and SDXL. Our selection settled on SDXL for the following reasons. Imagen and IF prioritize text-to-image generation and rely on a hierarchical approach. They first generate small-resolution images and then hierarchically upsample them. SDXL aligns with our objectives by directly generating high-resolution images without a hierarchical design, effectively using its parameters to improve image quality rather than focusing on text interpretation. Additionally, SDXL employs a Base-Refine strategy. In the Base model, diverse but lower-quality images are generated. Subsequently, the Refine model, utilizing training images of significantly higher quality but lesser diversity than those used by the Base model, enhances the images' quality. Given our approach of training with a vast dataset of high-quality images, the dual-phase design of SDXL becomes redundant for our objectives. We opt for the Base model, which has a greater number of parameters, making it an ideal generative prior.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Degradation-Robust Encoder", "weight": 1.0} -->
+
+In SDXL, the diffusion generation process is performed in the latent space. The image is first mapped to the latent space through a pre-trained encoder. To effectively utilize the pre-trained SDXL, our LQ image $x_{LQ}$ should also be mapped to the same latent space. However, since the original encoder has not been trained on LQ images, using it for encoding will affect the model's judgment of LQ image content, and then misunderstand artifacts as image content.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Large-Scale Adaptor Design", "weight": 1.0} -->
+
+Considering the SDXL model as our chosen prior, we need an adaptor that can steer it to restore images according to the provided LQ inputs. The Adaptor is required to identify the content in the LQ image and to finely control the generation at the pixel level. LoRA, T2I adaptor, and ControlNet are existing diffusion model adaptation methods, but none of them meet our requirements: LoRA limits generation but struggles with LQ image control; T2I lacks capacity for LQ image content identification; and ControlNet's direct copy is challenging for the SDXL model scale. To address this issue, we design a new adaptor with two key features, as shown in Fig. 3(a). First, we keep the high-level design of ControlNet but employ network trimming to directly trim some blocks within the trainable copy, achieving an engineering-feasible implementation. Each block within the encoder module of SDXL is mainly composed of several Vision Transformer (ViT) blocks. We identified two key factors contributing to the effectiveness of ControlNet: large network capacity and efficient initialization of the trainable copy.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Large-Scale Adaptor Design", "weight": 1.0} -->
+
+Notably, even partial trimming of blocks in the trainable copy retains these crucial characteristics in the adaptor. Therefore, we simply trim half of the ViT blocks from each encoder block, as shown in Fig. 3(b). Second, we redesign the connector that links the adaptor to SDXL. While SDXL's generative capacity delivers excellent visual effects, it also renders pixel-level control challenging. ControlNet employs zero convolution for generation guidance, but relying solely on residuals is insufficient for the control required by IR. To amplify the influence of LQ guidance, we introduced a ZeroSFT module, as depicted in Fig. 3(c). Building based on zero convolution, ZeroSFT encompasses an additional spatial feature transfer (SFT) operation and group normalization.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Image Collection", "weight": 1.0} -->
+
+The scaling of the model requires a corresponding scaling of the training data. But there is no large-scale high-quality image dataset available for IR yet. Although DIV2K and LSDIR offer high image quality, they are limited in quantity. Larger datasets like ImageNet (IN), LAION-5B, and SA-1B contain more images, but their image quality does not meet our high standards. To this end, we collect a large-scale dataset of high-resolution images, which includes 20 million 1024$\times$`<!-- -->`{=html}1024 high-quality, texture-rich images. A comparison on the scales of the collected dataset and the existing dataset is shown in Fig. 3. We also included an additional 70K unaligned high-resolution facial images from the FFHQ-raw dataset to improve the model's face restoration performance. In Fig. 5(a), we show the relative size of our data compared to other well-known datasets.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Multi-Modality Language Guidance", "weight": 1.0} -->
+
+Diffusion models are renowned for their ability to generate images based on textual prompts. We believe that textual prompts can also aid IR: Understanding image content is crucial for IR. Existing frameworks often overlook or implicitly handle this understanding. By incorporating textual prompts, we explicitly convey the understanding of LQ images to the IR model, facilitating targeted restoration of missing information. In cases of severe degradation, even the best IR models struggle to recover completely lost information. In such cases, textual prompts can serve as a control mechanism, enabling targeted completion of missing information based on user preferences. We can also describe the desired image quality through text, further enhancing the perceptual quality of the output. See Fig. 1(b) for some examples. To this end, we make two main modifications. First, we revise the overall framework to incorporate the LLaVA multi-modal LLM into our pipeline, as shown in Fig. 2.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Multi-Modality Language Guidance", "weight": 1.0} -->
+
+LLaVA takes the degradation-robust processed LQ images $x_{LQ}^{\prime} = {\mathcal{D}{({\mathcal{E}_{dr}{(x_{LQ})}})}}$ as input and explicitly understands the content within the images, outputting in the form of textual descriptions. These descriptions are then used as prompts to guide the restoration. This process can be automated during testing, eliminating the need for manual intervention. Secondly, following the approach of PixART, we also collect textual annotations for all the training images, to reinforce the role of textual control during the training of out model. These two changes endow SUPIR with the ability to understand image content and to restore images based on textual prompts.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Negative-Quality Samples and Prompt", "weight": 1.0} -->
+
+Classifier-free guidance (CFG) provides another way of control by using negative prompts to specify undesired content for the model. We can use this feature to specify the model NOT to produce low-quality images.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Negative-Quality Samples and Prompt", "weight": 1.0} -->
+
+where $\mathcal{H}{( \cdot )}$ is our diffusion model with adaptor, $\sigma_{t}$ is the variance of the noise at time-step $t$, and $\lambda_{cfg}$ is a hyper-parameter. In our framework, $pos$ can be the image description with positive words of quality, and $neg$ is the negative words of quality, *e.g*., "oil painting, cartoon, blur, dirty, messy, low quality, deformation, low resolution, over-smooth". Accuracy in predicting both positive and negative directions is crucial for the CFG technique. However, the absence of negative-quality samples and prompts in our training data may lead to a failure of the fine-tuned SUPIR in understanding negative prompts. Therefore, using negative-quality prompts during sampling may introduce artifacts, see Fig. 4 for an example. To address this problem, we used SDXL to generate 100K images corresponding to the negative-quality prompts.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Negative-Quality Samples and Prompt", "weight": 1.0} -->
+
+We counter-intuitively add these low-quality images to the training data to ensure that negative-quality concept can be learned by the proposed SUPIR model.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Restoration-Guided Sampling", "weight": 1.0} -->
+
+Powerful generative prior is a double-edged sword, as too much generation capacity will in turn affect the fidelity of the recovered image. This highlights the fundamental difference between IR tasks and generation tasks. We need means to limit the generation to ensure that the image recovery is faithful to the LQ image. We modified the EDM sampling method and proposed a restoration-guided sampling method to solve this problem. We hope to selectively guide the prediction results $z_{t - 1}$ to be close to the LQ image $z_{LQ}$ in each diffusion step. The specific algorithm is shown in Sec. 3.3, where $T$ is the total step number, ${\{\sigma_{t}\}}_{t = 1}^{T}$ are the noise variance for $T$ steps, $c$ is the additional text prompt condition.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Restoration-Guided Sampling", "weight": 1.0} -->
+
+$\tau_{r}$, $S_{churn}$, $S_{noise}$, $S_{\min}$, $S_{\max}$ are five hyper-parameters, but only $\tau_{r}$ is related to the restoration guidance, the others remain unchanged compared to the original EDM method. For better understanding, a simple diagram is shown in Fig. 5(b). We perform weighted interpolation between the predicted output ${\hat{z}}_{t - 1}$ and the LQ latent $z_{LQ}$ as the restoration-guided output $z_{t - 1}$. Since the low-frequency information of the image is mainly generated in the early stage of diffusion prediction (where $t$ and $\sigma_{t}$ are relatively large, and the weight $k = {({\sigma_{t}/\sigma_{T}})}^{\tau_{r}}$ is also large), the prediction result is closer to $z_{LQ}$ to enhance fidelity.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Restoration-Guided Sampling", "weight": 1.0} -->
+
+In the later stages of diffusion prediction, mainly high-frequency details are generated. There should not be too many constraints at this time to ensure that detail and texture can be adequately generated. At this time, $t$ and $\sigma_{t}$ are relatively small, and weight $k$ is also small. Therefore, the predicted results will not be greatly affected Through this method, we can control the generation during the diffusion sampling process to ensure fidelity.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Restoration-Guided Sampling", "weight": 1.0} -->
+
+SUPIR (ours) Low-Quality Input Real-ESRGAN+ StableSR DiffBIR PASD SUPIR (ours)
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Restoration-Guided Sampling", "weight": 1.0} -->
+
+SUPIR (ours). Low-Quality Input Real-ESRGAN+ StableSR DiffBIR PASD SUPIR (ours)
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Model Training and Sampling Settings", "weight": 1.0} -->
+
+For training, the overall training data includes 20 million high-quality images with text descriptions, 70K face images and 100K negative-quality samples, together their corresponding prompts. To enable a larger batch size, we crop images into 512$\times$`<!-- -->`{=html}512 patches during training. We train our model using a synthetic degradation model, following the setting used by Real-ESRGAN, the only difference is that we resize the produced LQ images to 512$\times$`<!-- -->`{=html}512 for training. We use the AdamW optimizer with a learning rate of $0.00001$. The training process spans 10 days and is conducted on 64 Nvidia A6000 GPUs, with a batch size of 256. For testing, the hyper-parameters are $T$=100, $\lambda_{cfg}$=7.5, and $\tau_{r} = 4$. Our method is able to process images with the size of 1024$\times$`<!-- -->`{=html}1024.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Model Training and Sampling Settings", "weight": 1.0} -->
+
+We resize the short side of the input image to 1024 and crop a 1024$\times$`<!-- -->`{=html}1024 sub-image for testing, and then resize it back to the original size after restoration. Unless stated otherwise, prompts will not be provided manually -- the processing will be entirely automatic.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Comparison with Existing Methods", "weight": 1.0} -->
+
+Our method can handle a wide range of degradations, and we compare it with the latest methods with the same capabilities, including BSRGAN, Real-ESRGAN, StableSR, DiffBIR and PASD. Some of them are constrained to generating images of 512$\times$`<!-- -->`{=html}512 size. In our comparison, we crop the test image to meet this requirement and downsample our results. We conduct comparisons on both synthetic data and real-world data.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Synthetic Data", "weight": 1.0} -->
+
+To synthesize LQ images for testing, we follow previous works and demonstrate our effects on several representative degradations, including both single degradations and complex mixture degradations. Specific details can be found in Tab. 1. We selected the following metrics for quantitative comparison: full-reference metrics PSNR, SSIM, LPIPS, and the non-reference metrics ManIQA, ClipIQA, MUSIQ. It can be seen that our method achieves the best results on all non-reference metrics, which reflects the excellent image quality of our results. At the same time, we also note the disadvantages of our method in full-reference metrics. We present a simple experiment that highlights the limitations of these full-reference metrics, see Fig. 7. It can be seen that our results have better visual effects, but they do not have an advantage in these metrics. This phenomenon has also been noted in many studies as well. We argue that with the improving quality of IR, there is a need to reconsider the reference values of existing metrics and suggest more effective ways to evaluate advanced IR methods. We also show some qualitative comparison results in Fig. 6.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Synthetic Data", "weight": 1.0} -->
+
+Even under severe degradation, our method consistently produces highly reasonable and high-quality images that faithfully represent the content of the LQ images.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Restoration in the Wild", "weight": 1.0} -->
+
+We also test our method on real-world LQ images. We collect a total of 60 real-world LQ images from RealSR, DRealSR and online sources, featuring diverse content including animals, plants, faces, buildings, and landscapes. We show the qualitative results in Fig. 10, and the quantitative results are shown in LABEL:tab:real. These results indicate that the images produced by our method have the best perceptual quality. We also conduct a user study comparing our method on real-world LQ images, with 20 participants involved. For each set of comparison images, we instructed participants to choose the restoration result that was of the highest quality among these test methods. The results are shown in Fig. 8, revealing that our approach significantly outperformed state-of-the-art methods in perceptual quality.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Controlling Restoration with Textual Prompts", "weight": 1.0} -->
+
+After training on a large dataset of image-text pairs and leveraging the feature of the diffusion model, our method can selectively restore images based on human prompts. Fig. 1(b) illustrates some examples. In the first case, the bike restoration is challenging without prompts, but upon receiving the prompt, the model reconstructs it accurately. In the second case, the material texture of the hat can be adjusted through prompts. In the third case, even high-level semantic prompts allow manipulation over face attributes. In addition to prompting the image content, we can also prompt the model to generate higher-quality images through negative-quality prompts. Fig. 11(a) shows two examples. It can be seen that the negative prompts are very effective in improving the overall quality of the output image. We also observed that prompts in our method are not always effective. When the provided prompts do not align with the LQ image, the prompts become ineffective, see Fig. 11(b). We consider this reasonable for an IR method to stay faithful to the provided LQ image. This reflects a significant distinction from text-to-image generation models and underscores the robustness of our approach.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Connector", "weight": 1.0} -->
+
+We compare the proposed ZeroSFT connector with zero convolution. Quantitative results are shown in LABEL:tab:connectors. Compared to ZeroSFT, zero convolution yields comparable performance on non-reference metrics and much lower full-reference performance. In Fig. 9, we find that the drop in non-reference metrics is caused by generating low-fidelity content. Therefore, for IR tasks, ZeroSFT ensures fidelity without losing the perceptual effect.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Training data scaling", "weight": 1.0} -->
+
+We trained our large-scale model on two smaller datasets for IR, DIV2K and LSDIR. The qualitative results are shown in Fig. 12, which clearly demonstrate the importance and necessity of training on large-scale high-quality data.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Negative-quality samples and prompt", "weight": 1.0} -->
+
+LABEL:tab:prompts shows some quantitative results under different settings. Here, we use positive words describing image quality as "positive prompt", and use negative quality words and the CFG methods described in Sec. 3.2 as negative prompt. It can be seen that adding positive prompts or negative prompts alone can improve the perceptual quality of the image. Using both of them simultaneously yields the best perceptual results. If negative samples are not included for training, these two prompts will not be able to improve the perceptual quality. Fig. 4 and Fig. 11(a) demonstrate the improvement in image quality brought by using negative prompts.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Restoration-guided sampling method", "weight": 1.0} -->
+
+The proposed restoration-guided sampling method is mainly controlled by $\tau_{r}$. The larger $\tau_{r}$ is, the fewer corrections are made to the generation at each step. The smaller $\tau_{r}$ is, the more generated content will be forced to be closer to the LQ image. Please refer to Fig. 13 for a qualitative comparison. When $\tau_{r} = 0.5$, the image is blurry because its output is limited by the LQ image and cannot generate texture and details. When $\tau_{r} = 6$, there is not much guidance during generation. The model generates a lot of texture that is not present in the LQ image, especially in flat area. Fig. 8(a) illustrates the quantitative results of restoration as a function of the variable $\tau_{r}$. As shown in Fig. 8(a), decreasing $\tau_{r}$ from 6 to 4 does not result in a significant decline in visual quality, while fidelity performance improves.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Restoration-guided sampling method", "weight": 1.0} -->
+
+As restoration guidance continues to strengthen, although PSNR continues to improve, the images gradually become blurry with loss of details, as depicted in Fig. 13. Therefore, we choose $\tau_{r} = 4$ as the default parameter, as it doesn't compromise image quality while effectively enhancing fidelity.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We propose SUPIR as a pioneering IR method, empowered by model scaling, dataset enrichment, and advanced design features, expanding the horizons of IR with enhanced perceptual quality and controlled textual prompts.

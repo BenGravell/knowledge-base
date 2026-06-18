@@ -1,19 +1,471 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 End-to-End Autonomous Driving: Challenges and Frontiers
 
 Topics include Autonomous driving, End-to-end planning, Surveys, Perception and planning, Closed-loop evaluation, Foundation models.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Surveys the shift from modular autonomous-driving stacks toward end-to-end systems that jointly optimize perception, prediction, and planning. The paper maps current datasets, closed-loop evaluation issues, and open frontiers, making it a good orientation point for learning-based driving planners.
 
-The autonomous driving community has witnessed a rapid growth in approaches that embrace an end-to-end algorithm framework, utilizing raw sensor input to generate vehicle motion plans, instead of concentrating on individual tasks such as detection and motion prediction. End-to-end systems, in comparison to modular pipelines, benefit from joint feature optimization for perception and planning. This field has flourished due to the availability of large-scale datasets, closed-loop evaluation, and the increasing need for autonomous driving algorithms to perform effectively in challenging scenarios. In this survey, we provide a comprehensive analysis of more than 270 papers, covering the motivation, roadmap, methodology, challenges, and future trends in end-to-end autonomous driving. We delve into several critical challenges, including multi-modality, interpretability, causal confusion, robustness, and world models, amongst others. Additionally, we discuss current advancements in foundation models and visual pre-training, as well as how to incorporate these techniques within the end-to-end driving framework.
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction
+The autonomous driving community has witnessed a rapid growth in approaches that embrace an end-to-end algorithm framework, utilizing raw sensor input to generate vehicle motion plans, instead of concentrating on individual tasks such as detection and motion prediction. End-to-end systems, in comparison to modular pipelines, benefit from joint feature optimization for perception and planning. This field has flourished due to the availability of large-scale datasets, closed-loop evaluation, and the increasing need for autonomous driving algorithms to perform effectively in challenging scenarios. In this survey, we provide a comprehensive analysis of more than 270 papers, covering the motivation, roadmap, methodology, challenges, and future trends in end-to-end autonomous driving. We delve into several critical challenges, including multi-modality, interpretability, causal confusion, robustness, and world models, amongst others. Additionally, we discuss current advancements in foundation models and visual pre-training, as well as how to incorporate these techniques within the end-to-end driving framework. we maintain an active repository that contains up-to-date literature and open-source projects at
 
-Conventional autonomous driving systems adopt a modular design strategy, wherein each functionality, such as perception, prediction, and planning, is individually developed and integrated into onboard vehicles. The planning or control module, responsible for generating steering and acceleration outputs, plays a crucial role in determining the driving experience. The most common approach for planning in modular pipelines involves using sophisticated rule-based designs, which are often ineffective in addressing the vast number of situations that occur on road.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We define end-to-end autonomous driving systems as fully differentiable programs that take raw sensor data as input and produce a plan and/or low-level control actions as output. Fig. (a)-(b) illustrates the difference between the classical and end-to-end formulation. The conventional approach feeds the output of each component, such as bounding boxes and vehicle trajectories, directly into subsequent units (dashed arrows). In contrast, the end-to-end paradigm propagates feature representations across components (gray solid arrow).
+Conventional autonomous driving systems adopt a modular design strategy, wherein each functionality, such as perception, prediction, and planning, is individually developed and integrated into onboard vehicles. The planning or control module, responsible for generating steering and acceleration outputs, plays a crucial role in determining the driving experience. The most common approach for planning in modular pipelines involves using sophisticated rule-based designs, which are often ineffective in addressing the vast number of situations that occur on road. Therefore, there is a growing trend to leverage large-scale data and to use learning-based planning as a viable alternative.
 
-## Conclusion and Outlook
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We define end-to-end autonomous driving systems as fully differentiable programs that take raw sensor data as input and produce a plan and/or low-level control actions as output. Fig. (a)-(b) illustrates the difference between the classical and end-to-end formulation. The conventional approach feeds the output of each component, such as bounding boxes and vehicle trajectories, directly into subsequent units (dashed arrows). In contrast, the end-to-end paradigm propagates feature representations across components (gray solid arrow). The optimized function is set to be, for example, the planning performance, and the loss is minimized via back-propagation (red arrow). Tasks are jointly and globally optimized in this process.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this survey, we conduct an extensive review of this emerging topic. Fig. provides an overview of our work. We begin by discussing the motivation and roadmap for end-to-end autonomous driving systems. End-to-end approaches can be broadly classified into imitation and reinforcement learning, and we give a brief review of these methodologies. We cover datasets and benchmarks for both closed and open-loop evaluation. We summarize a series of critical challenges, including interpretability, generalization, world models, causal confusion, etc. We conclude by discussing future trends that we think should be embraced by the community to incorporate the latest developments from data engines, and large foundation models, amongst others. Note that this review is mainly orchestrated from a theoretical perspective. Engineering efforts such as version control, unit testing, data servers, data cleaning, software-hardware co-design, etc., play crucial roles in deploying the end-to-end technology. Publicly available information regarding the latest practices on these topics is limited. We invite the community towards more openness in future discussions.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Motivation of an End-to-end System", "weight": 1.0} -->
+
+In the classical pipeline, each model serves a standalone component and corresponds to a specific task (e.g., traffic light detection). Such a design is beneficial in terms of interpretability and ease of debugging. However, since the optimization objectives across modules are different, with detection pursuing mean average precision (mAP) while planning aiming for driving safety and comfort, the entire system may not be aligned with a unified target, i.e., the ultimate planning/control task. Errors from each module, as the sequential procedure proceeds, could be compounded and result in an information loss. Moreover, compared to one end-to-end neural network, the multi-task, multi-model deployment which involves multiple encoders and message transmission systems, may increase the computational burden and potentially lead to sub-optimal use of compute.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Motivation of an End-to-end System", "weight": 1.0} -->
+
+In contrast to its classical counterpart, an end-to-end autonomous system offers several advantages. (a) The most apparent merit is its simplicity in combining perception, prediction, and planning into a single model that can be jointly trained. (b) The whole system, including its intermediate representations, is optimized towards the ultimate task. (c) Shared backbones increase computational efficiency. (d) Data-driven optimization has the potential to improve the system by simply scaling training resources.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Motivation of an End-to-end System", "weight": 1.0} -->
+
+Note that the end-to-end paradigm does not necessarily indicate one black box with only planning/control outputs. It could have intermediate representations and outputs (Fig. (b)) as in classical approaches. In fact, several state-of-the-art systems propose a modular design but optimize all components together to achieve superior performance.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Roadmap", "weight": 1.0} -->
+
+\par\put(71.3,5.8){\scriptsize~{}\cite[cite]{[\@@bibref{Number}{ppgeo}{}{}]}} \par\put(89.7,5.8){\scriptsize~{}\cite[cite]{[\@@bibref{Number}{uniad}{}{}]}} \end{overpic} Figure 2: Roadmap of End-to-end Autonomous Driving.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Roadmap", "weight": 1.0} -->
+
+We present the key milestones chronologically, grouping similar works under the same theme. The representative or first work is shown in bold with an illustration, while the date of the rest of the literature in the same theme may vary. We also display the score for each year’s top entry in the CARLA leaderboard (DS, ranging from 0 to 100) and the recent nuPlan challenge (Score ranging from 0 to 1).
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Roadmap", "weight": 1.0} -->
+
+Fig. depicts a chronological roadmap of critical achievements in end-to-end autonomous driving, where each part indicates an essential paradigm shift or performance boost. The history of end-to-end autonomous driving dates back to 1988 with ALVINN, where the input was two "retinas" from a camera and a laser range finder, and a simple neural network generated steering output. NVIDIA designed a prototype end-to-end CNN system, which reestablished this idea in the new era of GPU computing. Notable progress has been achieved with the development of deep neural networks, both in imitation learning and reinforcement learning. The policy distillation paradigm proposed in LBC and related approaches has significantly improved closed-loop performance by mimicking a well-behaved expert. To enhance generalization ability due to the discrepancy between the expert and learned policy, several papers have proposed aggregating on-policy data during training.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Roadmap", "weight": 1.0} -->
+
+A significant turning point occurred around 2021. With diverse sensor configurations available within a reasonable computational budget, attention was focused on incorporating more modalities and advanced architectures to capture global context and representative features, as in TransFuser and many variants. Combined with more insights about the simulation environment, these advanced designs resulted in a substantial performance boost on the CARLA benchmark. To improve the interpretability and safety of autonomous systems, approaches explicitly involve various auxiliary modules to better supervise the learning process or utilize attention visualization. Recent works prioritize generating safety-critical data, pre-training a foundation model or backbone curated for policy learning, and advocating a modular end-to-end planning philosophy. Meanwhile, the new and challenging CARLA v2 and nuPlan benchmarks have been introduced to facilitate research into this area.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Comparison to Related Surveys", "weight": 1.0} -->
+
+We would like to clarify the difference between our survey and previous related surveys. Some prior surveys cover content similar to ours in the sense of an end-to-end system. However, they do not cover new benchmarks and approaches that arose with the significant recent transition in the field, and place a minor emphasis on frontiers and challenges. The others focus on specific topics in this domain, such as imitation learning or reinforcement learning. In contrast, our survey provides up-to-date information on the latest developments in this field, covering a wide span of topics and providing in-depth discussions of critical challenges.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Contributions", "weight": 1.0} -->
+
+\(a\) We provide a comprehensive analysis of end-to-end autonomous driving for the first time, including high-level motivation, methodologies, benchmarks, and more. Instead of optimizing a single block, we advocate for a philosophy to design the algorithm framework as a whole, with the ultimate target of achieving safe and comfortable driving.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Contributions", "weight": 1.0} -->
+
+\(b\) We extensively investigate the critical challenges that concurrent approaches face. Out of the more than 270 papers surveyed, we summarize major aspects and provide in-depth analysis, including topics on generalizability, language-guided learning, causal confusion, etc.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Contributions", "weight": 1.0} -->
+
+\(c\) We cover the broader impact of how to embrace large foundation models and data engines. We believe that this line of research and the large scale of high-quality data it provides could significantly advance this field. To facilitate future research, we maintain an active repository updated with new literature and open-source projects.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Methods", "weight": 1.0} -->
+
+This section reviews fundamental principles behind most existing end-to-end self-driving approaches. Sec. 2.1 discusses methods using imitation learning and provides details on the two most popular sub-categories, namely behavior cloning and inverse optimal control. Sec. 2.2 summarizes methods that follow the reinforcement learning paradigm.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Imitation Learning", "weight": 1.0} -->
+
+Imitation learning (IL), also referred to as learning from demonstrations, trains an agent to learn the policy by imitating the behavior of an expert. IL requires a dataset $D = {\{\xi_{i}\}}$ containing trajectories collected under the expert's policy $\pi_{\beta}$, where each trajectory is a sequence of state-action pairs. The goal of IL is to learn an agent policy $\pi$ that matches $\pi_{\beta}$.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Imitation Learning", "weight": 1.0} -->
+
+The policy $\pi$ can output planned trajectories or control signals. Early works usually adopt control outputs, due to the ease of collection. However, predicting controls at different steps could lead to discontinuous maneuvers and the network inherently specializes to the vehicle dynamics which hinders generalization to other vehicles. Another genre of works predicts waypoints. It considers a relatively longer time horizon. Meanwhile, converting trajectories for vehicles to track into control signals needs additional controllers, which is non-trivial and involves vehicle models and control algorithms. Since no clear performance gap has been observed between these two paradigms, we do not differentiate them explicitly in this survey. An interesting and more in-depth discussion can be found.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Imitation Learning", "weight": 1.0} -->
+
+One widely used category of IL is behavior cloning (BC), which reduces the problem to supervised learning. Inverse Optimal Control (IOC), also known as Inverse Reinforcement Learning (IRL) is another type of IL method that utilizes expert demonstrations to learn a reward function. We elaborate on these two categories below.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Behavior Cloning", "weight": 1.0} -->
+
+In BC, matching the agent's policy with the expert's is accomplished by minimizing planning loss as supervised learning over the collected dataset: $\mathbb{E}_{(s,a)}{\ell{({\pi_{\theta}{(s)}},a)}}$. Here, $\ell{({\pi_{\theta}{(s)}},a)}$ represents a loss function that measures the distance between the agent action and the expert action.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Behavior Cloning", "weight": 1.0} -->
+
+Early applications of BC for driving utilized an end-to-end neural network to generate control signals from camera inputs. Further enhancements, such as multi-sensor inputs, auxiliary tasks, and improved expert design, have been proposed to enable BC-based end-to-end driving models to handle challenging urban scenarios.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Behavior Cloning", "weight": 1.0} -->
+
+BC is advantageous due to its simplicity and efficiency, as it does not require hand-crafted reward design, which is crucial for RL. However, there are some common issues. During training, it treats each state as independently and identically distributed, resulting in an important problem known as covariate shift. For general IL, several on-policy methods have been proposed to address this issue. In the context of end-to-end autonomous driving, DAgger has been adopted. Another common problem with BC is causal confusion, where the imitator exploits and relies on false correlations between certain input components and output signals. This issue has been discussed in the context of end-to-end autonomous driving. These two challenging problems are further discussed in Sec. 4.9 and Sec. 4.8, respectively.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Inverse Optimal Control", "weight": 1.0} -->
+
+Traditional IOC algorithms learn an unknown reward function $R{(s,a)}$ from expert demonstrations, where the expert's reward function can be represented as a linear combination of features. However, in continuous, high-dimensional autonomous driving scenarios, the definition of the reward is implicit and difficult to optimize.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Inverse Optimal Control", "weight": 1.0} -->
+
+Generative adversarial imitation learning is a specialized approach in IOC that designs the reward function as an adversarial objective to distinguish the expert and learned policies, similar to the concept of generative adversarial networks. Recently, several works propose optimizing a cost volume or cost function with auxiliary perceptual tasks. Since a cost is an alternative representation of the reward, we classify these methods as belonging to the IOC domain. We define the cost learning framework as follows: end-to-end approaches learn a reasonable cost $c{( \cdot )}$ and use algorithmic trajectory samplers to select the trajectory $\tau^{\ast}$ with the minimum cost, as illustrated in Fig..
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Inverse Optimal Control", "weight": 1.0} -->
+
+Regarding cost design, it has representations including a learned cost volume in a bird's-eye-view (BEV), joint energy calculated from other agents' future motion, or a set of probabilistic semantic occupancy or freespace layers. On the other hand, trajectories are typically sampled from a fixed expert trajectory set or processed by parameter sampling with a kinematic model. Then, a max-margin loss is adopted as in classic IOC methods to encourage the expert demonstration to have a minimal cost while others have high costs.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Inverse Optimal Control", "weight": 1.0} -->
+
+Several challenges exist with cost learning approaches. In particular, in order to generate more realistic costs, HD maps, auxiliary perception tasks, and multiple sensors are typically incorporated, which increases the difficulty of learning and constructing datasets for multi-modal multi-task frameworks. Nevertheless, the aforementioned cost learning methods significantly enhance the safety and interpretability of decisions (see Sec. 4.6), and we believe that the industry-inspired end-to-end system design is a viable approach for real-world applications.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
+
+Reinforcement learning (RL) is a field of learning by trial and error. The success of deep Q networks (DQN) in achieving human-level control on the Atari benchmark has popularized deep RL. DQN trains a neural network called the critic (or Q network), which takes as input the current state and an action, and predicts the discounted return of that action. The policy is then implicitly defined by selecting the action with the highest predicted return.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
+
+RL requires an environment that allows potentially unsafe actions to be executed, to collect novel data (e.g., via random actions). Additionally, RL requires significantly more data to train than IL. For this reason, modern RL methods often parallelize data collection across multiple environments. Meeting these requirements in the real world presents great challenges. Therefore, almost all papers that use RL in driving have only investigated the technique in simulation. Most use different extensions of DQN. The community has not yet converged on a specific RL algorithm.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
+
+RL has successfully learned lane following on a real car on an empty street. Despite this encouraging result, it must be noted that a similar task was already accomplished by IL three decades prior. To date, no report has shown results for end-to-end training with RL that are competitive with IL. The reason for this failure likely is that the gradients obtained via RL are insufficient to train deep perception architectures (i.e., ResNet) required for driving. Models used in benchmarks like Atari, where RL succeeds, are relatively shallow, consisting of only a few layers.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
+
+RL has been successfully applied in end-to-end driving when combined with supervised learning (SL). Implicit affordances pre-train the CNN encoder using SL with tasks like semantic segmentation. In the second stage, this encoder is frozen, and a shallow policy head is trained on the features from the frozen encoder with a modern version of Q-learning. RL can also be used to finetune full networks that were pre-trained using IL.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
+
+RL can also been effectively applied, if the network has access to privileged simulator information.. Privileged RL agents can be used for dataset curation. Roach trains an RL agent on privileged BEV semantic maps and uses the policy to automatically collect a dataset with which a downstream IL agent is trained. WoR employs a Q-function and tabular dynamic programming to generate additional or improved labels for a static dataset.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Reinforcement Learning", "weight": 1.0} -->
+
+A challenge in the field is to transfer the findings from simulation to the real world. In RL, the objective is expressed as reward functions, and many algorithms require them to be dense and provide feedback at each environment step. Current works typically use simple objectives, such as progress and collision avoidance. These simplistic designs potentially encourage risky behaviors. Devising or learning better reward functions remains an open problem. Another direction would be to develop RL algorithms that can handle sparse rewards, enabling the optimization of relevant metrics directly. RL can be effectively combined with world models, though this presents specific challenges (See Sec. 4.3). Current RL solutions for driving rely heavily on low-dimensional representations of the scene, and this issue is further discussed in Sec. 4.2.2.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Benchmarking", "weight": 1.0} -->
+
+Autonomous driving systems require a comprehensive evaluation to ensure safety. Researchers must benchmark these systems using appropriate datasets, simulators, metrics, and hardware to accomplish this. This section delineates three approaches for benchmarking end-to-end autonomous driving systems: real-world evaluation, online or closed-loop evaluation in simulation, and offline or open-loop evaluation on driving datasets. We focus on the scalable and principled online simulation setting and summarize real-world and offline assessments for completeness.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Real-world Evaluation", "weight": 1.0} -->
+
+Early efforts on benchmarking self-driving involved real-world evaluation. Notably, DARPA initiated a series of races. The first event offered \$1M in prize money for autonomously navigating a 240km route through the Mojave desert, which no team achieved. The final series event, called the DARPA Urban Challenge, required vehicles to navigate a 96km mock-up town course, adhering to traffic laws and avoiding obstacles. These races fostered important developments in self-driving, such as LiDAR sensors. Following this spirit, the University of Michigan established MCity, a large controlled real-world environment to facilitate testing autonomous vehicles. However, such academic ventures have not been widely employed for end-to-end systems due to a lack of data and vehicles. In contrast, industries with the resources to deploy fleets of driverless vehicles could rely on real-world evaluation to benchmark improvements in their algorithms.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Online/Closed-loop Simulation", "weight": 1.0} -->
+
+Conducting tests of self-driving systems in the real world is costly and risky. To address this challenge, simulation is a viable alternative. Simulators facilitate rapid prototyping and testing, enable the quick iteration of ideas, and provide low-cost access to diverse scenarios for unit testing. In addition, simulators offer tools for measuring performance accurately. However, their primary disadvantage is that the results obtained in a simulated environment do not necessarily generalize to the real world (Sec. 4.9.3).
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Online/Closed-loop Simulation", "weight": 1.0} -->
+
+Closed-loop evaluation involves building a simulated environment that closely mimics a real-world driving environment. The evaluation entails deploying the driving system in simulation and measuring its performance. The system has to navigate safely through traffic while progressing toward a designated goal location. There are four main sub-tasks involved in developing such simulators: parameter initialization, traffic simulation, sensor simulation, and vehicle dynamics simulation. We briefly describe these sub-tasks below, followed by a summary of currently available open-source simulators for closed-loop benchmarks.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Parameter Initialization", "weight": 1.0} -->
+
+Simulation offers the benefit of a high degree of control over the environment, including weather, maps, 3D assets, and low-level attributes such as the arrangement of objects in a traffic scene. While powerful, the number of these parameters is substantial, resulting in a challenging design problem.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Parameter Initialization", "weight": 1.0} -->
+
+Procedural Generation: Traditionally, initial parameters are hand-tuned by 3D artists and engineers. This limits scalability. Recently, some of the simulation properties can be sampled from a probabilistic distribution with computer algorithms, which we refer to as procedural generation. Procedural generation algorithms combine rules, heuristics, and randomization to create diverse road networks, traffic patterns, lighting conditions, and object placements. Due to its efficiency compared to fully manual design, it has become one of the most commonly used methods of initialization for video games and simulations. Nevertheless, the process still needs pre-defined parameters and algorithms to control generation reliability, which is time-consuming and requires a lot of expertise.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Parameter Initialization", "weight": 1.0} -->
+
+Data-Driven: Data-driven approaches for simulation initialization aim to learn the required parameters. Arguably, the simplest way is to sample from real-world driving logs, where parameters such as road maps or traffic patterns are directly extracted from pre-recorded datasets. The advantage of log sampling is its ability to capture the natural variability present in real-world data, leading to more realistic simulation scenarios. However, it may not encompass rare situations that are critical for testing the robustness of autonomous driving systems. The initial parameters can be optimized to increase the representation of such scenarios. Another advanced data-driven approach to initialization is generative modeling, where machine learning algorithms are utilized to learn the underlying structure and distributions of real-world data. They can then generate novel scenarios that resemble the real world but were not included in the original data.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Traffic Simulation", "weight": 1.0} -->
+
+Traffic simulation involves generating and positioning virtual entities in the environment with realistic motion. These entities often include vehicles (such as cars, motorcycles, bicycles, etc.) and pedestrians. Traffic simulators must account for the effects of speed, acceleration, braking, obstructions, and the behavior of other entities. Moreover, traffic light states must be periodically updated to simulate realistic city driving. There are two popular approaches for traffic simulation, which we describe below.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Traffic Simulation", "weight": 1.0} -->
+
+Rule-Based: Rule-based traffic simulators use pre-defined rules to generate the motion of traffic entities. The most prominent implementation of this concept is the Intelligent Driver Model (IDM). IDM is a car-following model that computes acceleration for each vehicle based on its current speed, the speed of the leading vehicle, and a desired safety distance. Although widely used and straightforward, this approach may be inadequate to simulate realistic motion and complex interactions in urban environments.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Traffic Simulation", "weight": 1.0} -->
+
+Data-Driven: Realistic human traffic behavior is highly interactive and complex, including lane changing, merging, sudden stopping, etc. To model such behavior, data-driven traffic simulation utilizes data collected from real-world driving. These models can capture more nuanced, realistic behavior but require significant amounts of labeled data for training. A wide variety of learning-based techniques have been proposed for this task.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Sensor Simulation", "weight": 1.0} -->
+
+Sensor simulation is crucial for evaluating end-to-end self-driving systems. This involves generating simulated raw sensor data, such as camera images or LiDAR scans that the driving system would receive from different viewpoints in the simulator. This process needs to take into account noise and occlusions to realistically assess the autonomous system. There are two main branches of ideas concerning sensor simulation, as described below.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Sensor Simulation", "weight": 1.0} -->
+
+Graphics-Based: Recent computer graphics simulators use 3D models of the environment, along with traffic entity models, to generate sensor data via approximations of physical rendering processes in the sensors. For example, this can involve occlusions, shadows, and reflections present in real-world environments while simulating camera images. However, the realism of graphics-based simulation is often subpar or comes at the cost of heavy computation, making parallelization non-trivial. It is closely tied to the quality of the 3D models and the approximations used in modeling the sensors. A comprehensive survey of graphics-based rendering for driving data is provided.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Sensor Simulation", "weight": 1.0} -->
+
+Data-Driven: Data-driven sensor simulation leverages real-world sensor data to create the simulation where both the ego vehicle and background traffic may move differently from the way they did in recordings. Popular methods are Neural Radiance Fields (NeRF) and 3D Gaussian Splatting, which can generate novel views of a scene by learning an implicit representation of the scene's geometry and appearance. These methods can produce more realistic sensor data visually than graphics-based approaches, but they have limitations such as high rendering times or requiring independent training for each scene being reconstructed. Another approach to data-driven sensor simulation is domain adaptation, which aims to minimize the gap between real and graphics-based simulated sensor data. Deep learning techniques such as GANs can be employed to improve realism (Sec. 4.9.3).
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Vehicle Dynamics Simulation", "weight": 1.0} -->
+
+The final aspect of driving simulation pertains to ensuring that the simulated vehicle adheres to physically plausible motion. Most existing publicly available simulators use highly simplified vehicle models, such as the unicycle model or the bicycle model. However, in order to facilitate seamless transfer of algorithms from simulation to the real world, it is essential to incorporate more accurate physical modeling of vehicle dynamics. For instance, CARLA adopts a multi-body system approach, representing a vehicle as a collection of sprung masses on four wheels. For a comprehensive review, please refer to.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Vehicle Dynamics Simulation", "weight": 1.0} -->
+
+CoRL, noCrash LAV, Roach, Longest6, Leaderboard v1 and v2
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Benchmarks", "weight": 1.0} -->
+
+We give a succinct overview of end-to-end driving benchmarks available up to date in Table I. In 2019, the original benchmark released with CARLA was solved with near-perfect scores. The subsequent NoCrash benchmark involves training on a single CARLA town under specific weather conditions and testing generalization to another town and set of weathers. Instead of a single town, the benchmark involves training on all available towns while withholding for testing. Similarly, the LAV benchmark trains on all towns except and, which are both reserved for testing. Roach uses a setting with 3 test towns, albeit all seen during training, and without the safety-critical scenarios in and LAV. Finally, the Longest6 benchmark uses 6 test towns. Two online servers, the leaderboard (v1 and v2), ensure fair comparisons by keeping evaluation routes confidential. Leaderboard v2 is highly challenging due to the long route length (over 8km on average, as opposed to 1-2km on v1) and a wide variety of new traffic scenarios.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Benchmarks", "weight": 1.0} -->
+
+The nuPlan simulator is currently accessible for evaluating end-to-end systems via the NAVSIM project. Further, there are two benchmarks on which agents input maps and object properties via the data-driven parameter initialization for nuPlan (Sec. 3.2.1)., proposed, uses a validation split of nuPlan. The leaderboard, a submission server with the private test set, was used in the 2023 nuPlan challenge, but it is no longer public for submissions.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Offline/Open-loop Evaluation", "weight": 1.0} -->
+
+Open-loop evaluation mainly assesses a system's performance against pre-recorded expert driving behavior. This method requires evaluation datasets that include sensor readings, goal locations, and corresponding future driving trajectories, usually obtained from human drivers. Given sensor inputs and goal locations as inputs, performance is measured by comparing the system's predicted future trajectory against the trajectory in the driving log. Systems are evaluated based on how closely their trajectory predictions match the human ground truth, as well as auxiliary metrics such as the collision probability with other agents. The advantage of open-loop evaluation is that it is easy to implement using realistic traffic and sensor data, as it does not require a simulator. However, the key disadvantage is that it does not measure performance in the actual test distribution encountered during deployment. During testing, the driving system may deviate from the expert driving corridor, and it is essential to verify the system's ability to recover from such drift (Sec. 4.9.2). Furthermore, the distance between the predicted and the recorded trajectories is not an ideal metric in a multi-modal scenario.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Offline/Open-loop Evaluation", "weight": 1.0} -->
+
+For example, in the case of merging into a turning lane, both the options of merging immediately or later could be valid, but open-loop evaluation penalizes the option that was not observed in the data. Therefore, besides measuring collision probability and prediction errors, a few metrics were proposed to cover more comprehensive aspects such as traffic violations, progress, and driving comfort.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Offline/Open-loop Evaluation", "weight": 1.0} -->
+
+This approach requires comprehensive datasets of trajectories to draw. The most popular datasets for this purpose include nuScenes, Argoverse, Waymo, and nuPlan. All of these datasets comprise a large number of real-world driving traversals with varying degrees of difficulty. However, open-loop results do not provide conclusive evidence of improved driving behavior in closed-loop, due to the aforementioned drawbacks. Overall, a realistic closed-loop benchmarking, if available and applicable, is recommended in future research.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Challenges", "weight": 1.0} -->
+
+Following each topic illustrated in Fig., we now walk through current challenges, related works or potential resolutions, risks, and opportunities. We start with challenges in handling different input modalities in Sec. 4.1, followed by a discussion on visual abstraction for efficient policy learning in Sec. 4.2. Further, we introduce learning paradigms such as world model learning (Sec. 4.3), multi-task frameworks (Sec. 4.4), and policy distillation (Sec. 4.5). Finally, we discuss general issues that impede safe and reliable end-to-end autonomous driving, including interpretability in Sec. 4.6, safety guarantees in Sec. 4.7, causal confusion in Sec. 4.8, and robustness in Sec. 4.9.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Sensing and Multi-sensor Fusion", "weight": 1.0} -->
+
+Sensing: Though early work successfully achieved following a lane with a monocular camera, this single input modality cannot handle complex scenarios. Therefore, various sensors in Fig. have been introduced for recent self-driving vehicles. Particularly, RGB images from cameras replicate how humans perceive the world, with abundant semantic details; LiDARs or stereo cameras provide accurate 3D spatial knowledge. Emerging sensors like mmWave radars and event cameras excel at capturing objects' relative movement. Additionally, vehicle states from speedometers and IMUs, together with navigation commands, are other lines of input that guide the driving system. However, various sensors possess distinct perspectives, data distributions, and huge price gaps, thereby posing challenges in effectively designing the sensory layout and fusing them to complement each other for autonomous driving.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Sensing and Multi-sensor Fusion", "weight": 1.0} -->
+
+Multi-sensor fusion has predominantly been discussed in perception-related fields, e.g., object detection and semantic segmentation, and is typically categorized into three groups: early, mid, and late fusion. End-to-end autonomous driving algorithms explore similar fusion schemes. Early fusion combines sensory inputs before feeding them into shared feature extractors, where concatenation is a common way for fusion. To resolve the view discrepancy, some works project point clouds on images or vice versa (predicting semantic labels for LiDAR points ). On the other hand, late fusion combines multiple results from multi-modalities. It is less discussed due to its inferior performance. Contrary to these methods, middle fusion achieves multi-sensor fusion within the network by separately encoding inputs and then fusing them at the feature level. Naive concatenation is also frequently adopted. Recently, works have employed Transformers to model interactions among features. The attention mechanism in Transformers has demonstrated great effectiveness in aggregating the context of different sensor inputs and achieving safer end-to-end driving.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Sensing and Multi-sensor Fusion", "weight": 1.0} -->
+
+Inspired by the progress in perception, it is beneficial to model modalities in a unified space such as BEV. End-to-end driving also requires identifying policy-related contexts and discarding irrelevant details. We discuss perception-based representations in Sec. 4.2.1. Besides, the self-attention layer, interconnecting all tokens freely, incurs a significant computational cost and cannot guarantee useful information extraction. Advanced Transformer-based fusion mechanisms in the perception field, such as, hold promise for application to the end-to-end driving task.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Language as Input", "weight": 1.0} -->
+
+Humans drive using both visual perception and intrinsic knowledge which together form causal behaviors. In areas related to autonomous driving such as embodied AI, incorporating natural language as fine-grained knowledge and instructions to control the visuomotor agent has achieved notable progress. However, compared to robotic applications, the driving task is more straightforward without the need for task decomposition, and the outdoor environment is much more complex with highly dynamic agents but few distinctive anchors for grounding.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Language as Input", "weight": 1.0} -->
+
+To incorporate linguistic knowledge into driving, a few datasets are proposed to benchmark outdoor grounding and visual language navigation tasks. HAD takes human-to-vehicle advice and adds a visual grounding task. Sriram et al. translate natural language instructions into high-level behaviors, while directly ground the texts. CLIP-MC and LM-Nav utilize CLIP to extract both linguistic knowledge from instructions and visual features from images.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Language as Input", "weight": 1.0} -->
+
+Recently, observing the rapid development of large language models (LLMs), works encode the perceived scene into tokens and prompt them to LLMs for control prediction and text-based explanations. Researchers also formulate the driving task as a question-answering problem and construct corresponding benchmarks. They highlight that LLMs offer opportunities to handle sophisticated instructions and generalize to different data domains, which share similar advantages to applications in robotic areas. However, LLMs for on-road driving could be challenging at present, considering their long inference time, low quantitative accuracy, and instability of outputs. Potential resolutions could be employing LLMs on the cloud specifically for complex scenarios and using them solely for high-level behavior prediction.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Dependence on Visual Abstraction", "weight": 1.0} -->
+
+End-to-end autonomous driving systems roughly have two stages: encoding the state into a latent feature representation, and then decoding the driving policy with intermediate features. In urban driving, the input state, i.e., the surrounding environment and ego state, is much more diverse and high-dimensional compared to common policy learning benchmarks such as video games, which might lead to the misalignment between representations and necessary attention areas for policy making. Hence, it is helpful to design "good" intermediate perception representations, or first pre-train visual encoders using proxy tasks. This enables the network to extract useful information for driving effectively, thus facilitating the subsequent policy stage. Furthermore, this can improve the sample efficiency for RL methods.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Representation Design", "weight": 1.0} -->
+
+Naive representations are extracted with various backbones. Classic convolutional neural networks (CNNs) still dominate, with advantages in translation equivariance and high efficiency. Depth-pre-trained CNNs significantly boost perception and downstream performance. In contrast, Transformer-based feature extractors show great scalability in perception tasks while not being widely adopted for end-to-end driving yet. For driving-specific representations, researchers introduce the concept of bird's-eye-view (BEV), fusing different sensor modalities and temporal information within a unified 3D space. It also facilitates easy adaptions to downstream tasks. In addition, grid-based 3D occupancy is developed to capture irregular objects and used for collision avoidance in planning. Nevertheless, the dense representation brings huge computation costs compared to BEV methods.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Representation Design", "weight": 1.0} -->
+
+Another unsettled problem is representations of the map. Traditional autonomous driving relies on HD Maps. Due to the high cost of availability of HD Maps, online mapping methods have been devised with different formulations, such as BEV segmentation, vectorized lanlines, centerlines and their topology, and lane segments. However, the most suitable formulation for end-to-end systems remains unvalidated.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Representation Design", "weight": 1.0} -->
+
+Though various representation designs offer possibilities of how to design the subsequent decision-making process, they also place challenges as co-designing both parts is necessary for a whole framework. Besides, given the trends observed in several simple yet effective approaches with scaling up training resources, the ultimate necessity of explicit representations such as maps is uncertain.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Representation Learning", "weight": 1.0} -->
+
+Representation learning often incorporates certain inductive biases or prior information. There inevitably exist possible information bottlenecks in the learned representation, and redundant context unrelated to decisions may be removed.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Representation Learning", "weight": 1.0} -->
+
+Some early methods directly utilize semantic segmentation masks from off-the-shelf networks as the input representation for subsequent policy training. SESR further encodes segmentation masks into class-disentangled representations through a VAE. In, predicted affordance indicators, such as traffic light states, offset to the lane center, and distance to the leading vehicle, are used as representations for policy learning.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Representation Learning", "weight": 1.0} -->
+
+Observing that results like segmentation as representations can create bottlenecks defined by humans and result in loss of useful information, some have chosen intermediate features from pre-training tasks as effective representations for RL training. In, latent features in VAE are augmented by attention maps obtained from the diffused boundary of segmentation and depth maps to highlight important regions. TARP utilizes data from a series of previous tasks to perform different tasks-related prediction tasks to acquire useful representations. In, the latent representation is learned by approximating the $\pi$-bisimulation metric, which is comprised of differences of rewards and outputs from the dynamics model. ACO learns discriminative features by adding steering angle categorization into the contrastive learning structure. Recently, PPGeo proposes to learn effective representation through motion prediction together with depth estimation in a self-supervised way on uncalibrated driving videos. ViDAR utilizes the raw image-point cloud pairs and pretrains the visual encoder with a point cloud forecasting pre-task. These works demonstrate that self-supervised representation learning from large-scale unlabeled data for policy learning is promising and worthy of future exploration.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Complexity of World Modeling for Model-based RL", "weight": 1.0} -->
+
+Besides the ability to better abstract perceptual representations, it is essential for end-to-end models to make reasonable predictions about the future to take safe maneuvers. In this section, we mainly discuss the challenges of current model-based policy learning works, where a world model provides explicit future predictions for the policy model.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Complexity of World Modeling for Model-based RL", "weight": 1.0} -->
+
+Deep RL typically suffers from the high sample complexity, which is pronounced in autonomous driving. Model-based reinforcement learning (MBRL) offers a promising direction to improve sample efficiency by allowing agents to interact with the learned world model instead of the actual environment. MBRL methods employ an explicit world (environment) model, which is composed of transition dynamics and reward functions. This is particularly helpful in driving, as simulators like CARLA are relatively slow.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Complexity of World Modeling for Model-based RL", "weight": 1.0} -->
+
+However, modeling the highly dynamic environment is a challenging task. To simplify the problem, Chen et al. factor the transition dynamics into a non-reactive world model and a simple kinematic bicycle model. In, a probabilistic sequential latent model is used as the world model. To address the potential inaccuracy of the learned world model, Henaff et al. train the policy network with dropout regularization to estimate the uncertainty cost. Another approach uses an ensemble of multiple world models to provide uncertainty estimation, based on which imaginary rollouts could be truncated and adjusted accordingly. Motivated by Dreamer, ISO-Dream decouples visual dynamics into controllable and uncontrollable states, and trains the policy on the disentangled states.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Complexity of World Modeling for Model-based RL", "weight": 1.0} -->
+
+It is worth noting that learning world models in raw image space is non-trivial for autonomous driving. Important small details, such as traffic lights, would easily be missed in predicted images. To tackle this, a few works employ the prevailing diffusion technique. MILE incorporates the Dreamer-style world model learning in the BEV segmentation space as an auxiliary task besides imitation learning. SEM2 also extends the Dreamer structure but with BEV map inputs, and uses RL for training. Besides directly using the learned world model for MBRL, DeRL combines a model-free actor-critic framework with the world model, by fusing self-assessments of the action or state from both models.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Complexity of World Modeling for Model-based RL", "weight": 1.0} -->
+
+World model learning for end-to-end autonomous driving is an emerging and promising direction as it greatly reduces the sample complexity for RL, and understanding the world is helpful for driving. However, as the driving environment is highly complex and dynamic, further study is still needed to determine what needs to be modeled and how to model the world effectively.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Reliance on Multi-Task Learning", "weight": 1.0} -->
+
+Multi-task learning (MTL) involves jointly performing several related tasks based on a shared representation through separate heads. MTL provides advantages such as computational cost reduction, the sharing of relevant domain knowledge, and the ability to exploit task relationships to improve model's generalization ability. Consequently, MTL is well-suited for end-to-end driving, where the ultimate policy prediction requires a comprehensive understanding of the environment. However, the optimal combination of auxiliary tasks and appropriate weighting of losses to achieve the best performance presents a significant challenge.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Reliance on Multi-Task Learning", "weight": 1.0} -->
+
+In contrast to common vision tasks where dense predictions are closely correlated, end-to-end driving predicts a sparse signal. The sparse supervision increases the difficulty of extracting useful information for decision-making in the encoder. For image input, auxiliary tasks such as semantic segmentation and depth estimation are commonly adopted in end-to-end autonomous driving models. Semantic segmentation helps the model gain a high-level understanding of the scene; depth estimation enables the model to capture the 3D geometry of the environment and better estimate distances to critical objects. Besides auxiliary tasks on perspective images, 3D object detection is also useful for LiDAR encoders. As BEV becomes a natural and popular representation for autonomous driving, tasks such as BEV segmentation are included in models that aggregate features in BEV space. Moreover, in addition to these vision tasks, also predict visual affordances including traffic light states, distances to opposite lanes, etc. Nonetheless, constructing large-scale datasets with multiple types of aligned and high-quality annotations is non-trivaial for real-world applications, which remain as a great concern due to current models' reliance on MTL.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Inefficient Experts and Policy Distillation", "weight": 1.0} -->
+
+As imitation learning, or its predominant sub-category, behavior cloning, is simply supervised learning that mimics expert behaviors, corresponding methods usually follow the "Teacher-Student" paradigm. There lie two main challenges: Teachers, such as the handcrafted expert autopilot provided by CARLA, are not perfect drivers, though having access to ground-truth states of surrounding agents and maps. Students are supervised by the recorded output with sensor input only, requiring them to extract perceptual features and learn policy from scratch simultaneously.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Inefficient Experts and Policy Distillation", "weight": 1.0} -->
+
+A few studies propose to divide the learning process into two stages, i.e., training a stronger teacher network and then distilling the policy to the student. In particular, Chen et al. first employ a privileged agent to learn how to act with access to the state of the environment, then let the sensorimotor agent (student) closely imitate the privileged agent with distillation at the output stage. More compact BEV representations as input for the privileged agent provide stronger generalization abilities and supervision than the original expert. The process is depicted in Fig..
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Inefficient Experts and Policy Distillation", "weight": 1.0} -->
+
+Apart from solely supervising planning results, several works also distill knowledge at the feature level. For example, FM-Net employs segmentation and optical flow models as auxiliary teachers to guide feature training. SAM adds L2 feature loss between teacher and student networks, while CaT aligns features in BEV. WoR learns a model-based action-value function and then uses it to supervise the visuomotor policy. Roach trains a stronger privileged expert with RL, eliminating the upper bound of BC. It incorporates multiple distillation targets, i.e., action distribution, values/rewards, and latent features. By leveraging the powerful RL expert, TCP achieves a new state-of-the-art on the CARLA leaderboard with a single camera as visual input. DriveAdpater learns a perception-only student and adapters with the feature alignment objective. The decoupled paradigm fully enjoys the teacher's knowledge and student's training efficiency.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Inefficient Experts and Policy Distillation", "weight": 1.0} -->
+
+Though huge efforts have been devoted to designing a robust expert and transferring knowledge at various levels, the teacher-student paradigm still suffers from inefficient distillation. For instance, the privileged agent has access to ground-truth states of traffic lights, which are small objects in images and thus hard to distill corresponding features. As a result, the visuomotor agents exhibit large performance gaps compared to their privileged agents. It may also lead to causal confusion for students (see Sec. 4.8). It is worth exploring how to draw more inspiration from general distillation methods in machine learning to minimize the gap.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Lack of Interpretability", "weight": 1.0} -->
+
+Interpretability plays a critical role in autonomous driving. It enables engineers to better debug the system, provides performance guarantees from a societal perspective, and promotes public acceptance. Achieving interpretability for end-to-end driving models, which are often referred to as "black boxes", is more essential and challenging.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Lack of Interpretability", "weight": 1.0} -->
+
+Given trained models, some post-hoc X-AI (explainable AI) techniques could be applied to gain saliency maps. Saliency maps highlight specific regions in the visual input on which the model primarily relies for planning. However, this approach provides limited information, and its effectiveness and validity are difficult to evaluate. Instead, we focus on end-to-end frameworks that directly enhance interpretability in their model design. We introduce each category of interpretability in Fig. below.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Lack of Interpretability", "weight": 1.0} -->
+
+Attention Visualization: The attention mechanism provides a certain degree of interpretability. In, a learned attention weight is applied to aggregate important features from intermediate feature maps. Attention weights can also adaptively combine ROI pooled features from different object regions or a fixed grid. NEAT iteratively aggregates features to predict attention weights and refine the aggregated feature. Recently, Transformer attention blocks are employed to better fuse different sensor inputs, and attention maps display important regions in the input for driving decisions. In PlanT, attention layers process features from different vehicles, providing interpretable insights into the corresponding action. Similar to post-hoc saliency methods, although attention maps offer straightforward clues about models' focus, their faithfulness and utility remain limited.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Lack of Interpretability", "weight": 1.0} -->
+
+Interpretable Tasks: Many IL-based works introduce interpretability by decoding the latent feature representations into other meaningful information besides policy prediction, such as semantic segmentation, depth estimation, object detection, affordance predictions, motion prediction, and gaze map estimation. Although these methods provide interpretable information, most of them only treat these predictions as auxiliary tasks, with no explicit impact on final driving decisions. Some do use these outputs for final actions, but they are incorporated solely for performing an additional safety check.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Lack of Interpretability", "weight": 1.0} -->
+
+Rules Integration and Cost Learning: As discussed in Sec. 2.1.2, cost learning-based methods share similarities with traditional modular systems and thus exhibit a certain level of interpretability. NMP and DSDNet construct the cost volume in conjunction with detection and motion prediction results. P3 combines predicted semantic occupancy maps with comfort and traffic rules constraints to construct the cost function. Various representations, such as probabilistic occupancy and temporal motion fields, emergent occupancy, and freespace, are employed to score sampled trajectories. In, human expertise and pre-defined rules including safety, comfort, traffic rules, and routes based on perception and prediction outputs are explicitly included to form the cost for trajectory scoring, demonstrating improved robustness and safety.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Lack of Interpretability", "weight": 1.0} -->
+
+Linguistic Explainability: As one aspect of interpretability is to help humans understand the system, natural language is a suitable choice for this purpose. Kim et al. and Xu et al. develop datasets pairing driving videos or images with descriptions and explanations, and propose end-to-end models with both control and explanation outputs. BEEF fuses the predicted trajectory and the intermediate perception features to predict justifications for the decision. ADAPT proposes a Transformer-based network to jointly estimate action, narration, and reasoning. Recently, resort to the progress of multi-modality and foundation models, using LLMs/VLMs to provide decision-related explanations, as discussed in Sec. 4.1.2.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Lack of Interpretability", "weight": 1.0} -->
+
+Uncertainty Modeling: Uncertainty is a quantitative approach for interpreting the dependability of deep learning model outputs, which can be helpful for designers and users to identify uncertain cases for improvement or necessary intervention. For deep learning, there are two types of uncertainty: aleatoric uncertainty and epistemic uncertainty. Aleatoric uncertainty is inherent to the task, while epistemic uncertainty is due to limited data or modeling capacity. In, authors leverage certain stochastic regularizations in the model to perform multiple forward passes as samples to measure the uncertainty. However, the requirement of multiple forward passes is not feasible in real-time scenarios. Loquercio et al. and Filos et al. propose capturing epistemic uncertainty with an ensemble of expert likelihood models and aggregating the results to perform safe planning. Regarding methods modeling aleatoric uncertainty, driving actions/planning and uncertainty (usually represented by variance) are explicitly predicted. Such methods directly model and quantify the uncertainty at the action level as a variable for the network to predict. The planner would generate the final action based on the predicted uncertainty, either choosing the action with the lowest uncertainty from multiple actions or generating a weighted combination of proposed actions based on the uncertainties.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Lack of Interpretability", "weight": 1.0} -->
+
+Currently, predicted uncertainty is mainly utilized in combination with hard-coded rules. Exploring better ways to model and utilize uncertainty for autonomous driving is necessary.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Lack of Safety Guarantees", "weight": 1.0} -->
+
+Ensuring safety is of utmost importance when deploying autonomous driving systems in real-world scenarios. However, the learning-based nature of end-to-end frameworks inherently lacks precise mathematical guarantees regarding safety, unlike traditional rule-based approaches.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Lack of Safety Guarantees", "weight": 1.0} -->
+
+Nevertheless, it should be noted that modular driving stacks have already incorporated specific safety-related constraints or optimizations within their motion planning or speed prediction modules to enforce safety. These mechanisms can potentially be adapted for integration into end-to-end models as post-process steps or safety checks, thereby providing additional safety guarantees. Furthermore, the intermediate interpretability predictions, as discussed in Sec. 4.6, such as detection and motion prediction results, can be utilized in post-processing procedures.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Causal Confusion", "weight": 1.0} -->
+
+Driving is a task that exhibits temporal smoothness, which makes past motion a reliable predictor of the next action. However, methods trained with multiple frames can become overly reliant on this shortcut and suffer from catastrophic failure during deployment. This problem is referred to as the copycat problem in some works and is a manifestation of causal confusion, where access to more information leads to worse performance.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "Causal Confusion", "weight": 1.0} -->
+
+Causal confusion in imitation learning has been a persistent challenge for nearly two decades. One of the earliest reports of this effect was made by LeCun et al.. They used a single input frame for steering prediction to avoid such extrapolation. Though simplistic, this is still a preferred solution in current state-of-the-art IL methods. Unfortunately, using a single frame makes it hard to extract the motion of surrounding actors. Another source of causal confusion is speed measurement. Fig. showcases an example of a car waiting at a red light. The action of the car could highly correlate with its speed because it has waited for many frames where the speed is zero and the action is the brake. Only when the traffic light changes from red to green does this correlation break down.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Causal Confusion", "weight": 1.0} -->
+
+There are several approaches to combat the causal confusion problem when using multiple frames. In, the authors attempt to remove spurious temporal correlations from the bottleneck representation by training an adversarial model that predicts the ego agent's past action. Intuitively, the resulting min-max optimization trains the network to eliminate its past from intermediate layers. It works well in MuJoCo but does not scale to complex vision-based driving. OREO maps images to discrete codes representing semantic objects and applies random dropout masks to units that share the same discrete code, which helps in confounded Atari. In end-to-end driving, ChauffeurNet addresses the causal confusion issue by using the past ego-motion as intermediate BEV abstractions and dropping out it with a 50% probability during training. Wen et al. propose upweighting keyframes in the training loss, where a decision change occurs (and hence are not predictable by extrapolating the past). PrimeNet improves performance compared to keyframes by using an ensemble, where the prediction of a single-frame model is given as additional input to a multi-frame model.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Causal Confusion", "weight": 1.0} -->
+
+Chuang et al. do the same but supervise the multi-frame network with action residuals instead of actions. In addition, the problem of causal confusion can be circumvented by using only LiDAR histories (with a single frame image) and realigning point clouds into one coordinate system. This removes ego-motion while retaining information about other vehicles' past states. This technique has been used in multiple works, though it was not motivated this way.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Causal Confusion", "weight": 1.0} -->
+
+However, these studies have used environments that are modified to simplify studying the causal confusion problem. Showing performance improvements in state-of-the-art settings as mentioned in Sec. 3.2.5 remains an open problem.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Long-tailed Distribution", "weight": 1.0} -->
+
+One important aspect of the long-tailed distribution problem is dataset imbalance, where a few classes make up the majority, as shown in Fig. (a). This poses a big challenge for models to generalize to diverse environments. Various methods mitigate this issue with data processing, including over-sampling, under-sampling, and data augmentation. Besides, weighting-based approaches are also commonly used.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Long-tailed Distribution", "weight": 1.0} -->
+
+In the context of end-to-end autonomous driving, the long-tailed distribution issue is particularly severe. Most drives are repetitive and uninteresting e.g., following a lane for many frames. Conversely, interesting safety-critical scenarios occur rarely but are diverse in nature, and hard to replicate in the real world for safety reasons. To tackle this, some works rely on handcrafted scenarios to generate more diverse data in simulation. LBC leverages the privileged agent to create imaginary supervisions conditioned on different navigational commands. LAV includes trajectories of non-ego agents for training to promote data diversity. In, a simulation framework is proposed to apply importance-sampling strategies to accelerate the evaluation of rare-event probabilities.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Long-tailed Distribution", "weight": 1.0} -->
+
+Another line of research generates safety-critical scenarios in a data-driven manner through adversarial attacks. In, Bayesian Optimization is employed to generate adversarial scenarios. Learning to collide represents driving scenarios as the joint distribution over building blocks and applies policy gradient RL methods to generate risky scenarios. AdvSim modifies agents' trajectories to cause failures, while still adhering to physical plausibility. KING proposes an optimization algorithm for safety-critical perturbations using gradients through differentiable kinematics models.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Long-tailed Distribution", "weight": 1.0} -->
+
+In general, efficiently generating realistic safety-critical scenarios that cover the long-tailed distribution remains a significant challenge. While many works focus on adversarial scenarios in simulators, it is also essential to better utilize real-world data for critical scenario mining and potential adaptation to simulation. Besides, a systematic, rigorous, comprehensive, and realistic testing framework is crucial for evaluating end-to-end autonomous driving methods under these long-tailed distributed safety-critical scenarios.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Covariate Shift", "weight": 1.0} -->
+
+As discussed in Sec. 2.1, one important challenge for behavior cloning is covariate shift. The state distributions from the expert's policy and those from the trained agent's policy differ, leading to compounding errors when the trained agent is deployed in unseen testing environments or when the reactions from other agents differ from training time. This could result in the trained agent being in a state that is outside the expert's distribution for training, leading to severe failures. An illustration is presented in Fig. (b).
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Covariate Shift", "weight": 1.0} -->
+
+DAgger (Dataset Aggregation) is a common solution for this issue. DAgger is an iterative training process. The current trained policy is rolled out in each iteration to collect new data, and the expert is used to label the visited states. This enriches the dataset by adding examples of how to recover from suboptimal states that an imperfect policy might visit. The policy is then trained on the augmented dataset, and the process repeats. However, one downside of DAgger is the need for an available expert to query online.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Covariate Shift", "weight": 1.0} -->
+
+For end-to-end autonomous driving, DAgger is adopted with an MPC-based expert. To reduce the cost of constantly querying the expert, SafeDAgger extends the original DAgger algorithm by learning a safety policy that estimates the deviation between the current policy and the expert policy. The expert is only queried when the deviation is large. MetaDAgger uses meta-learning with DAgger to aggregate data from multiple environments. LBC adopts DAgger and resamples the data with higher loss more frequently. In DARB, to better utilize failure or safety-related samples, it proposes several mechanisms, including task-based, policy-based, and policy & expert-based mechanisms, to sample such critical states.
+
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Domain Adaptation", "weight": 1.0} -->
+
+Domain adaptation (DA) is a type of transfer learning in which the target task is the same as the source task, but the domains differ. Here we discuss scenarios where labels are available for the source domain while there are no labels or a limited amount of labels available for the target domain.
+
+<!-- chunk {"id": "body-0103", "role": "body", "section": "Domain Adaptation", "weight": 1.0} -->
+
+Sim-to-real: the large gap between simulators used for training and the real world used for deployment.
+
+<!-- chunk {"id": "body-0104", "role": "body", "section": "Domain Adaptation", "weight": 1.0} -->
+
+Geography-to-geography: different geographic locations with varying environmental appearances.
+
+<!-- chunk {"id": "body-0105", "role": "body", "section": "Domain Adaptation", "weight": 1.0} -->
+
+Weather-to-weather: changes in sensor inputs caused by weather conditions such as rain, fog, and snow.
+
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Domain Adaptation", "weight": 1.0} -->
+
+Day-to-night: illumination variations in visual inputs.
+
+<!-- chunk {"id": "body-0107", "role": "body", "section": "Domain Adaptation", "weight": 1.0} -->
+
+Sensor-to-sensor: possible differences in sensor characteristics, e.g., resolution and relative position.
+
+<!-- chunk {"id": "body-0108", "role": "body", "section": "Domain Adaptation", "weight": 1.0} -->
+
+Note that the aforementioned cases often overlap.
+
+<!-- chunk {"id": "body-0109", "role": "body", "section": "Domain Adaptation", "weight": 1.0} -->
+
+Typically, domain-invariant feature learning is achieved with image translators and discriminators to map images from two domains into a common latent space or representations like segmentation maps. LUSR and UAIL adopt a Cycle-Consistent VAE and GAN, respectively, to project images into a latent representation comprised of a domain-specific part and a domain-general part. In SESR, class disentangled encodings are extracted from a semantic segmentation mask to reduce the sim-to-real gap. Domain randomization is also a simple and effective sim-to-real technique for RL policy learning, which is further adapted for end-to-end autonomous driving. It is realized by randomizing the rendering and physical settings of the simulators to cover the variability of the real world during training.
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Domain Adaptation", "weight": 1.0} -->
+
+Currently, sim-to-real adaptation through source target image mapping or domain-invariant feature learning is the focus. Other DA cases are handled by constructing a diverse and large-scale dataset. Given that current methods mainly concentrate on the visual gap in images, and LiDAR has become a popular input modality for driving, specific adaptation techniques tailored for LiDARs must also be designed. Besides, traffic agents' behavior gaps between the simulator and the real world should be noticed as well. Incorporating real-world data into simulation through techniques such as NeRF is another promising direction.
+
+<!-- chunk {"id": "body-0111", "role": "body", "section": "Future Trends", "weight": 1.0} -->
+
+Considering the challenges and opportunities discussed, we list some crucial directions for future research that may have a broader impact in this field.
+
+<!-- chunk {"id": "body-0112", "role": "body", "section": "Zero-shot and Few-shot Learning", "weight": 1.0} -->
+
+It is inevitable for autonomous driving models to eventually encounter real-world scenarios that lie beyond the training data distribution. This raises the question of whether we can successfully adapt the model to an unseen target domain where limited or no labeled data is available. Formalizing this task for the end-to-end driving domain and incorporating techniques from the zero-shot/few-shot learning literature are the key steps toward achieving this.
+
+<!-- chunk {"id": "body-0113", "role": "body", "section": "Modular End-to-end Planning", "weight": 1.0} -->
+
+The modular end-to-end planning framework optimizes multiple modules while prioritizing the ultimate planning task, which enjoys the advantages of interpretability as indicated in Sec. 4.6. This is advocated in recent literature and certain industry solutions (Tesla, Wayve, etc.) have involved similar ideas. When designing these differentiable perception modules, several questions arise regarding the choice of loss functions, such as the necessity of 3D bounding boxes for object detection, whether opting for BEV segmentation over lane topology for static scene perception, or the training strategies with limited modules' data.
+
+<!-- chunk {"id": "body-0114", "role": "body", "section": "Data Engine", "weight": 1.0} -->
+
+The importance of large-scale and high-quality data for autonomous driving can never be emphasized enough. Establishing a data engine with an automatic labeling pipeline could greatly facilitate the iterative development of both data and models. The data engine for autonomous driving, especially modular end-to-end planning systems, needs to streamline the process of annotating high-quality perception labels with the aid of large perception models in an automatic way. It should also support mining hard/corner cases, scene generation, and editing to facilitate the data-driven evaluations discussed in Sec. 3.2 and promote diversity of data and the generalization ability of models (Sec. 4.9). A data engine would enable autonomous driving models to make consistent improvements.
+
+<!-- chunk {"id": "body-0115", "role": "body", "section": "Foundation Model", "weight": 1.0} -->
+
+Recent advancements in foundation models in both language and vision have proved that large-scale data and model capacity can unleash the immense potential of AI in high-level reasoning tasks. The paradigm of finetuning or prompt learning, optimization in the form of self-supervised reconstruction or contrastive pairs, etc., are all applicable to the end-to-end driving domain. However, we contend that the direct adoption of LLMs for driving might be tricky. The output of an autonomous agent requires steady and accurate measurements, whereas the generative output in language models aims to behave like humans, irrespective of its accuracy. A feasible solution to develop a "foundation" driving model is to train a world model that can forecast the reasonable future of the environment, either in 2D, 3D, or latent space. To perform well on downstream tasks like planning, the objective to be optimized for the model needs to be sophisticated enough, beyond frame-level perception.
+
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Conclusion and Outlook", "weight": 1.5} -->
 
 In this survey, we provide an overview of fundamental methodologies and summarize various aspects of simulation and benchmarking. We thoroughly analyze the extensive literature to date, and highlight a wide range of critical challenges and promising resolutions.
 
-Outlook: The industry has dedicated considerable effort over the years to develop advanced modular-based systems capable of achieving self-driving on highways. However, these systems face significant challenges when confronted with complex scenarios, e.g., inner-city streets and intersections. Therefore, an increasing number of companies have started exploring end-to-end autonomous driving techniques specifically tailored for these environments.
+<!-- chunk {"id": "body-0117", "role": "body", "section": "Conclusion and Outlook", "weight": 1.5} -->
+
+Outlook: The industry has dedicated considerable effort over the years to develop advanced modular-based systems capable of achieving self-driving on highways. However, these systems face significant challenges when confronted with complex scenarios, e.g., inner-city streets and intersections. Therefore, an increasing number of companies have started exploring end-to-end autonomous driving techniques specifically tailored for these environments. It is envisioned that with extensive high-quality data collection, large-scale model training, and the establishment of reliable benchmarks, the end-to-end approach will have enormous potential over modular stacks in terms of performance and effectiveness. In summary, end-to-end autonomous driving faces great opportunities and challenges simultaneously, with the ultimate goal of building generalist agents. In this era of emerging technologies, we hope this survey could serve as a starting point to shed new light on this domain.

@@ -1,21 +1,126 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Multi-Modal Model Predictive Path Integral Control for Collision Avoidance
 
 Topics include Model predictive path integral control, Trajectory optimization, Collision avoidance, Multimodal, Sampling-based control.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Extends MPPI to handle multimodal trajectory distributions for collision avoidance, enabling the controller to simultaneously explore multiple qualitatively different trajectory groups (homotopy classes) rather than collapsing to a single mode.
 
-This paper proposes a novel approach to motion planning and decision-making for automated vehicles, using a multi-modal Model Predictive Path Integral control algorithm. The method samples with Sobol sequences around the prior input and incorporates analytical solutions for collision avoidance. By leveraging multiple modes, the multi-modal control algorithm explores diverse trajectories, such as manoeuvring around obstacles or stopping safely before them, mitigating the risk of sub-optimal solutions. A non-linear single-track vehicle model with a Fiala tyre serves as the prediction model, and tyre force constraints within the friction circle are enforced to ensure vehicle stability during evasive manoeuvres. The optimised steering angle and longitudinal acceleration are computed to generate a collision-free trajectory and to control the vehicle.
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction
+This paper proposes a novel approach to motion planning and decision-making for automated vehicles, using a multi-modal Model Predictive Path Integral control algorithm. The method samples with Sobol sequences around the prior input and incorporates analytical solutions for collision avoidance. By leveraging multiple modes, the multi-modal control algorithm explores diverse trajectories, such as manoeuvring around obstacles or stopping safely before them, mitigating the risk of sub-optimal solutions. A non-linear single-track vehicle model with a Fiala tyre serves as the prediction model, and tyre force constraints within the friction circle are enforced to ensure vehicle stability during evasive manoeuvres. The optimised steering angle and longitudinal acceleration are computed to generate a collision-free trajectory and to control the vehicle. In a high-fidelity simulation environment, we demonstrate that the proposed algorithm can successfully avoid obstacles, keeping the vehicle stable while driving a double lane change manoeuvre on high and low-friction road surfaces and occlusion scenarios with moving obstacles, outperforming a standard Model Predictive Path Integral approach.
 
-The ability to design and select a safe trajectory during an evasive manoeuvre at high and low-friction conditions is a critical factor for the success of automated vehicles. Tyre nonlinearities, combined with the complexity of dynamic environments and the uncertainty of the road friction coefficient, make this problem particularly challenging. The complexity of motion planning also arises from the two interconnected tasks which must be addressed.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Multi-Modal Model Predictive Path Integral Control
+The ability to design and select a safe trajectory during an evasive manoeuvre at high and low-friction conditions is a critical factor for the success of automated vehicles. Tyre nonlinearities, combined with the complexity of dynamic environments and the uncertainty of the road friction coefficient, make this problem particularly challenging. The complexity of motion planning also arises from the two interconnected tasks which must be addressed. First, it involves making a high-level decision on how to avoid a potential collision, such as overtaking the obstacle (from the right or left side) or stopping the vehicle before reaching the obstacle. Second, it requires performing local (low-level) motion planning, generating a trajectory that avoids collisions with obstacles while adhering to vehicle stability constraints and actuator feasibility.\
+A typical approach involves explicitly addressing these two levels of motion planning by developing a Topology-Driven Model Predictive Control (T-MPC) framework. The T-MPC is divided into two components: a global or guidance planner based on Visibility-Probabilistic Road Maps, which computes simple trajectories within different homotopy classes, and a local planner based on Model Predictive Control (MPC), which optimises each trajectory in parallel.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+While the T-MPC successfully mitigates the issue of local optimality often encountered in optimisation algorithms, it has certain limitations. The vehicle dynamics is oversimplified, and the need to run a local motion planner to optimise multiple trajectories in real-time restricts the complexity of the prediction model to ensure real-time feasibility. These limitations are particularly problematic at low-friction conditions, where inaccuracies in the prediction model significantly impact trajectory optimisation. To address the challenges of solving high-dimensional, non-linear optimisation problems in real-time, a technique called Model Predictive Path Integral Control (MPPI) has recently demonstrated its effectiveness in motion planning for automated vehicles. MPPI employs a sampling-based strategy to determine the safest trajectory by forward sampling and simulating many trajectories, which are then evaluated based on a cost function. This evaluation can be performed efficiently using parallel processing. The MPPI approach inherently explores a wide range of trajectories, including those valid also with model inaccuracies and road friction variation. Standard MPPI samples control inputs from a Gaussian distribution, using the previously computed input sequence as the mean.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+However, this approach may lead the algorithm to converge to local minima, limiting its ability to explore alternative control input sequences. One solution is to bias the MPPI sampling using ancillary controllers. Another extends MPPI by propagating both mean and covariance of the system dynamics via the unscented transform, and can be extended with probabilistic collision checking. While this enhances state-space exploration, its performance deteriorates as system dimensionality increases.\
+This paper proposes a novel multi-modal MPPI approach that samples trajectories using a Sobol sequence and incorporates both prior inputs and analytical collision avoidance solutions as means. This enables the MPPI to explore diverse trajectories, preventing the algorithm from achieving only local minimum solutions. Additionally, the objective function of each mode is customised to align with its corresponding analytical solution. For example, the vehicle can brake and stop before colliding with an obstacle without incurring a significant velocity tracking error. The prediction model is a nonlinear single-track vehicle model with a Fiala tyre formulation, and tyre force constraints are enforced via the friction circle to ensure stability.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We assess the proposed approach's performance in a high-fidelity simulation environment, optimising the trajectory of a double lane change in high and low-friction conditions and an occlusion scenario with moving obstacles.\
+The contributions of this paper are twofold. First, it introduces the first multi-modal MPPI, which samples trajectories using a Sobol sequence and incorporates both prior input sequences and analytical solutions to collision avoidance problems as means. This enables the proposed approach to successfully perform collision avoidance manoeuvres without colliding with obstacles, outperforming standard MPPI methods for motion planning. Second, it presents a motion planner capable of executing evasive manoeuvres up to the vehicle's handling limits, using a nonlinear single-track model with Fiala tyre dynamics and friction-circle constraints. In contrast, standard methods remain limited to the linear operating regime.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Multi-Modal Model Predictive Path Integral Control", "weight": 1.0} -->
 
 This section explains how the Multi-Modal MPPI is formulated and proposed.
 
-## Model Predictive Path Integral Control
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
 
 MPPI control is a sampling-based stochastic optimal control algorithm to solve a non-linear optimisation problem subject to non-linear dynamics and non-convex constraints. The MPPI utilises Monte Carlo sampling to explore a large number of control sequences, which are propagated through the discrete-time model $(f)$ over a finite time horizon, and the obtained state trajectories' performance is evaluated using a cost function $(J)$. The computed cost for state trajectories is used to weight each sampled control sequence (or rollout), forming a path integral estimate of the optimal control input.
 
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
+
 where $\omega$ is the weight for each rollout $k \in {\lbrack 1,K\rbrack}$, $K$ is the total number of rollouts, $\eta$ is the normalization constant to ensure ${\sum_{k = 1}^{K}\omega_{k}} = 1$, $S_{k}$ is the trajectory cost for each rollout, and $\rho$ is the minimum cost $S_{k}$ which is used to avoids large exponents that could cause underflow. Regarding $\lambda$, it is the temperature parameter which regulates the selectivity of the weighting, a small $\lambda$ prioritises the lowest-cost trajectories, so it favours exploitation, vice versa, a large $\lambda$ favours exploration, flattening the cost rollouts.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
+
+Finally, the sampling weights are used to approximate the optimal control sequence, which is propagated to the discrete-time model $f$ to compute the optimum collision-free trajectory.\
+A core element of sampling-based algorithms is how the $K$ control rollouts are sampled from a stochastic distribution because it is the only tool that the MPPI have to explore different solutions and trajectories. MPPI relies critically on the efficiency and quality of trajectory exploration. Thus, we propose to use Sobol sequences, a class of quasi-random low-discrepancy sequences, which offer several advantages over conventional stochastic sampling techniques. First, Sobol sequences provide more uniform coverage of the sampling space, especially in high-dimensional settings, than pseudo-random Gaussian sampling. Second, Sobol sequences exhibit superior scalability with dimensionality compared to other low-discrepancy sequences such as Halton sequences, making them well-suited for motion planning in complex multi-input systems with long prediction horizons.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Model Predictive Path Integral Control", "weight": 1.0} -->
+
+where $T$ is the length of the prediction horizon (50 steps), $\mathbf{x}$ and $\mathbf{u}$ are, respectively, the vehicle states and the vehicle inputs. The objective function $J$ includes path tracking and motion planning costs, velocity error term, and penalties on the inputs. The initial conditions are imposed by eq. 2b, and the vehicle dynamics by eq. 2c.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Vehicle Prediction Model", "weight": 1.0} -->
+
+A non-linear single-track vehicle model is adopted in the Multi-Modal MPPI. The vehicle state vector $\left( {x = {\lbrack X,Y,\phi,v_{x},v_{y},r,\theta,\delta,a_{x}\rbrack}} \right)$ describes the position and orientation of the vehicle's centre of gravity (CoG) in a Cartesian frame, including longitudinal $(X)$, lateral $(Y)$ positions, and heading angle $(\psi)$. Velocity states consist of longitudinal $\left( v_{x} \right)$ and lateral $\left( v_{y} \right)$ velocities, yaw rate $\left( \overset{˙}{r} \right)$, and the travelled distance $(\theta)$, the latter is used to evaluate position relative to a reference path. Steering angle $(\delta)$ and longitudinal acceleration $\left( \overset{˙}{a_{x}} \right)$ are integrated from the control inputs.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Vehicle Prediction Model", "weight": 1.0} -->
+
+where $F_{xi}$ and $F_{yi}$ are, respectively, the longitudinal and lateral tyre forces, $i$ stands for front $(f)$ or rear $(r)$, $l_{f}$ and $l_{r}$ are the distance from the CoG to axles, $I_{zz}$ is the vehicle yaw inertia, $m$ is the vehicle mass and $F_{drag}$ is the aerodynamic drag resistance. The vehicle model inputs $\left( u_{v} \right)$ are the road-wheel angle rate $(\overset{˙}{\delta})$, and the longitudinal jerk applied at the CoG $({\overset{˙}{a}}_{x})$. The control input rates are integrated into the prediction model before being applied to the vehicle. A Fiala tyre model computes the lateral tyre force for each axle, while the longitudinal force is computed using an input of the system. The non-linear coupling between the tyre longitudinal and lateral tyre forces is captured via the friction circle.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Vehicle Prediction Model", "weight": 1.0} -->
+
+The tyre parameters are optimised through quasi-steady-state circular driving in a high-fidelity simulation based on a Delft-Tyre model 6.1. Vehicle and obstacles are represented by circles for efficient computation of Euclidean distances: two circles model the vehicle, and a single circle represents each obstacle.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Cost Function", "weight": 1.0} -->
+
+The proposed Multi-Modal MPPI utilises a non-linear cost function to iteratively solve an optimal control problem, enabling the vehicle to drive at the limit of handling while avoiding obstacles. The cost function objectives include maintaining safe distances from obstacles and road edges, tracking a reference mission path, optimising longitudinal velocity, ensuring stability by limiting yaw rate and sideslip angle, and enforcing physical actuator constraints (maximum steering angle and acceleration).
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Cost Function", "weight": 1.0} -->
+
+where $T$ is the prediction horizon, $N_{obs}$ the number of obstacles, $N_{edg} = 2$ the road edges, and $q_{\ast}$ the tuning weights. These are optimised to minimise longitudinal velocity errors and reduce sideslip peaks. The reference mission path is tracked using contouring $\left( e_{Con} \right)$ and lag errors $\left( e_{Lag} \right)$.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Cost Function", "weight": 1.0} -->
+
+where $v_{x}$ is the vehicle's longitudinal velocity and $v_{x,{des}}$ the desired velocity from the mission planner. Eq. blends quadratic and linear penalties, enabling smooth tracking while tolerating larger deviations for collision avoidance. Input smoothness and feasibility are enforced via penalties on input rates $\left( \overset{˙}{\delta} {\overset{˙}{a}}_{x} \right)$. Actuator limits are treated as soft constraints due to MPPI limitations, with maximum steering and acceleration set by $\left( \delta_{max} {\overset{˙}{a}}_{x_{max}} \right)$. The cost terms related to yaw rate $r$, sideslip angle $\beta$, and longitudinal tyre forces $F_{xj}$ ensure vehicle stability by limiting the maximum allowable yaw rate $r_{max}$ and sideslip angle $\beta_{max}$.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Cost Function", "weight": 1.0} -->
+
+Stability is maintained by restricting the total tyre force available at each axle according to the tyre friction circle, represented by the weight $q_{Tf}$. Specifically, longitudinal force $F_{xj}$ is constrained by $F_{xj} < {S_{c}\muF_{zj}}$, where $\mu$ is the road friction coefficient. Due to estimation uncertainties, a safety factor $S_{c}$ of 0.95 is applied to reduce the maximum allowable longitudinal force.\
+The controller dynamically adjusts the mission planner trajectory to maintain safe distances from obstacles and road edges. It calculates the vehicle-to-obstacle (V2O) distance error as $\left( {e_{V20} = {D_{V2O} - D_{{Sft},O}}} \right)$, where $D_{V2O}$ is the actual distance and $D_{{Sft},O}$ is a predefined safe distance.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Cost Function", "weight": 1.0} -->
+
+If $D_{V2O}$ exceeds $D_{{Sft},O}$, the associated weight $q_{V2O}$ is zero. However, when $D_{V2O}$ falls below the safety threshold, the error is penalised to facilitate a safe margin. A similar logic applies to maintaining safe distances from road edges, using the vehicle-to-edge error $\left( {e_{V2E} = {D_{V2E} - D_{{Sft},E}}} \right)$, where $D_{V2E}$ and $D_{{Sft},E}$ represent the actual and safe distances to the road edge, respectively.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Multi-Modal Sampling", "weight": 1.0} -->
+
+A standard MPPI algorithm utilises a single stochastic distribution centred around the previously optimised control sequence, shifted forward in time. Despite its effectiveness in many applications, this approach often concentrates sampled trajectories within high-cost regions or lacks sufficient diversity, making MPPI susceptible to local minima and increasing the risk of collisions with obstacles. This occurs because standard MPPI tends to become trapped in local minima, struggling to alter its decisions quickly enough to avoid obstacles.\
+To address this issue, we propose a Multi-Modal MPPI algorithm that samples around four distinct solutions. The first follows the previously optimised control input sequence, as in standard MPPI. The other three are activated when the Time to Closest Point of Approach (TCPA) falls below $2\ s$, and correspond to maximum braking, maximum acceleration, and an evasive manoeuvre based on the wary approach. By concurrently exploring multiple strategies, our method increases trajectory diversity and reduces sensitivity to local minima. Each mode computes its own set of importance weights, which are combined to produce a final control sequence, allowing smooth transitions between strategies.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+The proposed approach is implemented on a PC equipped with an Intel Xeon W-2223 quad-core CPU, 32 GB RAM, and an NVIDIA TITAN X (Pascal) GPU. The Multi-Modal MPPI algorithm runs on the GPU, while the high-fidelity vehicle model works on the CPU. The prediction model is discretised using a Runge-Kutta 2 method. A sampling time of $0.05\ s$, a prediction horizon of $50\ $ steps, and a total amount of 2600 samples are chosen to ensure real-time feasibility. The optimisation problem involves parallel evaluation of numerous trajectories generated by Monte Carlo simulations. To exploit this inherent parallelism, the Multi-Modal MPPI controller is developed in MATLAB and deployed onto the GPU using CUDA via MATLAB GPU Coder. This setup achieves an average solving time of $25.4\ {ms}$ and a maximum of $31.6\ {ms}$, although mathematical guarantees for convergence within real-time constraints are not provided. The vehicle plant model runs independently at $1000\ {Hz}$ on a separate CPU core.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
+
+It employs a high-fidelity third-generation Toyota Prius vehicle model integrated with the IPG CarMaker simulation platform. Tyre dynamics are modelled using Delft-Tyre 6.1, and actuator dynamics are represented via second-order transfer functions to enhance simulation accuracy.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Results", "weight": 1.0} -->
+
+This section presents the performance of the proposed Multi-Modal MPPI approach compared to a standard MPPI baseline in various driving scenarios.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Double Lane Change with High-Friction Conditions", "weight": 1.0} -->
+
+Fig. shows the planned and executed vehicle trajectories for both the proposed Multi-Modal MPPI and the standard MPPI baseline. In this scenario, the vehicle encounters two static obstacles that appear with a time-to-collision (TTC) of $2\ s$, requiring a double lane change. Both planners successfully avoid collision, but they achieve this through different decision-making processes. As shown in Fig.1(a), when the obstacles first appear, the baseline planner immediately plans an evasive manoeuvre. In contrast, the proposed Multi-Modal MPPI evaluates multiple strategies, including both an evasive manoeuvre and a harsh braking to stop the vehicle before the first obstacle. Figs.1(b) and 1(c) demonstrate that after evaluating the feasibility of braking, the proposed planner selects a similar evasive manoeuvre to the baseline, successfully completing the double lane change.\
+Fig. shows the same double lane change scenario, now with obstacles appearing at a reduced TTC of $1.7\ s$.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Double Lane Change with High-Friction Conditions", "weight": 1.0} -->
+
+In this case, the proposed planner excludes a full stop due to insufficient braking distance but considers both harsh braking and an evasive manoeuvre, enabling broader cost function exploration. As a result, the vehicle decelerates more before initiating the lane change. In contrast, the baseline planner gets trapped in a local minimum, failing to decelerate adequately before steering. As seen in Fig.2(b), it initiates the second lane change at a higher speed without further braking, compromising stability. Consequently, the baseline exits the road boundaries (Fig.2(c)). The proposed Multi-Modal MPPI, by dynamically adapting its strategy, completes the manoeuvre successfully and demonstrates superior performance.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Obstacle Occlusion Scenario", "weight": 1.0} -->
+
+Fig. shows the vehicle trajectories in an occlusion scenario. A static barrier occludes the perception of two crossing dynamic obstacles, simulating vulnerable road users. This scenario presents a critical situation where the vehicle cannot come to a full stop or execute a typical evasive manoeuvre. Instead, acceleration becomes the only viable strategy to avoid a collision. Initially, as shown in Fig.3(a), both planners attempt to decelerate in response to the perceived obstacles. However, as it becomes clear that stopping is not feasible, the proposed Multi-Modal MPPI avoids being trapped in a local minimum. Fig.3(b) shows that the proposed planner shifts strategy and begins accelerating to safely pass in front of the crossing obstacles. In contrast, the baseline planner fails to adapt its plan in time, remaining in a suboptimal deceleration mode. Fig.3(c) confirms that only the proposed approach successfully completes the manoeuvre, while the baseline fails to avoid the collision. This result highlights the advantage of multi-modal sampling, where alternative strategies must be considered to ensure safety.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Double Lane Change with Low-Friction Conditions", "weight": 1.0} -->
+
+Fig. presents the same double lane change scenario, but under low-friction conditions, and a vehicle's initial velocity of $60\ {{km}/h}$. The proposed planner is the only one to consider a harsh braking action in front of the first obstacle. Fig.4(b) reveals a key difference in behaviour. The proposed Multi-Modal MPPI decides to brake aggressively and brings the vehicle to a complete stop before reaching the first obstacle. Vice versa, the baseline planner initiates an evasive manoeuvre without sufficient deceleration. Due to the reduced friction, the baseline loses stability and collides with the second obstacle during the lane change. Fig.4(c) confirms that the proposed planner successfully avoids both obstacles by stopping the vehicle in time. This demonstrates the benefit of including a harsh braking strategy among the sampled control modes, especially in low-adhesion scenarios.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+
+This paper presented a novel approach to motion planning and decision-making for automated vehicles using a Multi-Modal MPPI. By sampling input trajectories via Sobol sequences centred around both previously optimised inputs and analytical solutions, the method explores multiple minima of the cost function and adapts to complex scenarios. In a double lane change manoeuvre under high-friction conditions with a TTC of $2\ s$, both the proposed and baseline planners generate similar evasive trajectories. However, the proposed method evaluates a broader set of alternatives, including harsh braking. This proves critical when TTC is reduced to $1.7\ s$, where only the proposed planner decelerates sufficiently to complete the manoeuvre safely, unlike the baseline, which fails to stay in the road boundaries. Similar advantages are seen in scenarios with occluded obstacles and under low-friction conditions, where the proposed method adapts via acceleration and braking, while the baseline remains stuck in local minima. Future work will involve validation on a real vehicle at a test track, with results to be presented at the conference.

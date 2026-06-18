@@ -1,7 +1,19 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Controllability of Complex Networks
 
 Topics include Network controllability, Complex networks, Structural controllability, Maximum matching, Driver nodes, Graph theory, Network science.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Connects structural controllability of directed networks to maximum matching, yielding a way to identify the minimum set of driver nodes needed to control a networked linear system. The surprising empirical message is that sparse, heterogeneous networks are hardest to control and that driver nodes often avoid hubs rather than coincide with them.
 
-The ultimate proof of our understanding of natural or technological systems is reflected in our ability to control them. Although control theory offers mathematical tools for steering engineered and natural systems towards a desired state, a framework to control complex self-organized systems is lacking. Here we develop analytical tools to study the controllability of an arbitrary complex directed network, identifying the set of driver nodes with time-dependent control that can guide the system’s entire dynamics. We apply these tools to several real networks, finding that the number of driver nodes is determined mainly by the network’s degree distribution. We show that sparse inhomogeneous networks, which emerge in many real complex systems, are the most difficult to control, but that dense and homogeneous networks can be controlled using a few driver nodes. Counterintuitively, we find that in both model and real systems the driver nodes tend to avoid the high-degree nodes. Control theory can be used to steer engineered and natural systems towards a desired state, but a framework to control complex self-organized systems is lacking. Can such networks be controlled?
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+The ultimate proof of our understanding of natural or technological systems is reflected in our ability to control them. Although control theory offers mathematical tools for steering engineered and natural systems towards a desired state, a framework to control complex self-organized systems is lacking. Here we develop analytical tools to study the controllability of an arbitrary complex directed network, identifying the set of driver nodes with time-dependent control that can guide the system’s entire dynamics. We apply these tools to several real networks, finding that the number of driver nodes is determined mainly by the network’s degree distribution. We show that sparse inhomogeneous networks, which emerge in many real complex systems, are the most difficult to control, but that dense and homogeneous networks can be controlled using a few driver nodes. Counterintuitively, we find that in both model and real systems the driver nodes tend to avoid the high-degree nodes. Control theory can be used to steer engineered and natural systems towards a desired state, but a framework to control complex self-organized systems is lacking. Can such networks be controlled? Albert-László Barabási and colleagues tackle this question and arrive at precise mathematical answers that amount to 'yes, up to a point'.
+
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+They develop analytical tools to study the controllability of an arbitrary complex directed network using both model and real systems, ranging from regulatory, neural and metabolic pathways in living organisms to food webs, cell-phone movements and social interactions. They identify the minimum set of driver nodes whose time-dependent control can guide the system's entire dynamics. Surprisingly, these are not usually located at the network hubs.

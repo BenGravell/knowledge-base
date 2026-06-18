@@ -1,15 +1,209 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 SpatialVLM: Endowing Vision-Language Models with Spatial Reasoning Capabilities
 
-Understanding and reasoning about spatial relationships is a fundamental capability for Visual Question Answering (VQA) and robotics. While Vision Language Models (VLM) have demonstrated remarkable performance in certain VQA benchmarks, they still lack capabilities in 3D spatial reasoning, such as recognizing quantitative relationships of physical objects like distances or size differences. We hypothesize that VLMs' limited spatial reasoning capability is due to the lack of 3D spatial knowledge in training data and aim to solve this problem by training VLMs with Internet-scale spatial reasoning data. To this end, we present a system to facilitate this approach. We first develop an automatic 3D spatial VQA data generation framework that scales up to 2 billion VQA examples on 10 million real-world images. We then investigate various factors in the training recipe, including data quality, training pipeline, and VLM architecture. Our work features the first internet-scale 3D spatial reasoning dataset in metric space. By training a VLM on such data, we significantly enhance its ability on both qualitative and quantitative spatial VQA.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction
+Understanding and reasoning about spatial relationships is a fundamental capability for Visual Question Answering (VQA) and robotics. While Vision Language Models (VLM) have demonstrated remarkable performance in certain VQA benchmarks, they still lack capabilities in 3D spatial reasoning, such as recognizing quantitative relationships of physical objects like distances or size differences. We hypothesize that VLMs' limited spatial reasoning capability is due to the lack of 3D spatial knowledge in training data and aim to solve this problem by training VLMs with Internet-scale spatial reasoning data. To this end, we present a system to facilitate this approach. We first develop an automatic 3D spatial VQA data generation framework that scales up to 2 billion VQA examples on 10 million real-world images. We then investigate various factors in the training recipe, including data quality, training pipeline, and VLM architecture. Our work features the first internet-scale 3D spatial reasoning dataset in metric space. By training a VLM on such data, we significantly enhance its ability on both qualitative and quantitative spatial VQA. Finally, we demonstrate that this VLM unlocks novel downstream applications in chain-of-thought spatial reasoning and robotics due to its quantitative estimation capability.
 
-Vision language models (VLMs) have made significant progress in recent years across a variety of tasks including image captioning, visual question answering (VQA), embodied planning, action recognition, and more. While VLMs are powerful general-purpose models for a wide range of tasks, most state-of-the-art VLMs still struggle with *spatial* reasoning, i.e. tasks that require understanding the position of objects in 3D space, or spatial relationships between them. Spatial reasoning capabilities are useful in their own right, but also for downstream applications such as in robotics or AR.
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Vision language models (VLMs) have made significant progress in recent years across a variety of tasks including image captioning, visual question answering (VQA), embodied planning, action recognition, and more. While VLMs are powerful general-purpose models for a wide range of tasks, most state-of-the-art VLMs still struggle with *spatial* reasoning, i.e. tasks that require understanding the position of objects in 3D space, or spatial relationships between them. Spatial reasoning capabilities are useful in their own right, but also for downstream applications such as in robotics or AR. For example, a spatial reasoning-imbued VLM can be used as a better general-purpose reward annotator and success detector.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The exploration of foundation models like VLMs is often inspired by human capabilities. Humans, through embodied experiences and evolutionary development, possess innate spatial reasoning skills. We effortlessly determine spatial relationships, such as the positioning of objects relative to each other or estimating distances and sizes, without complex chain-of-thoughts or mental computations. This natural proficiency in direct spatial reasoning tasks contrasts with the current limitations of VLMs and thus prevents them from accomplishing real-world tasks that requires multiple steps of spatial reasoning. This gap leads us to a compelling research question: can we imbue VLMs with spatial reasoning abilities akin to those of humans?
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Therefore, we hypothesize that the limited the spatial reasoning abilities of current VLMs is not due to a fundamental limitation of their architecture, but rather is a limitation in common datasets available at scale on which such models are trained. For example, many VLMs are trained on internet-scale datasets characterized by image-caption pairs, which contain limited spatial information. This is partially due to the difficulties of obtaining spatial-information-rich embodied data or high-quality human annotations for 3D-aware queries.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Automatic data generation and augmentation techniques are one approach to deal with the data limitation problem. However, most previous data generation efforts focus on rendering photorealistic images with ground truth semantic annotation but overlook the richness of objects and 3D relationships. In contrast, we focus on extracting spatial information directly from real world data in order to capture the diversity and complexity of the true 3D world.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Our key insight is that recent advancement in off-the-shelf vision models can automatically generate rich 3D spatial annotations from 2D images. To this end, we propose a system called SpatialVLM that enables data generation and training of VLMs to enhance their spatial reasoning capabilities. Concretely, by combining 1) open-vocabulary detection, 2) metric depth estimation, 3) semantic segmentation and 4) object-centric captioning models, we can densely annotates real world data at scale. SpatialVLM converts the data generated by vision models into a format can be used to train VLMs on a mixture of captioning, VQA and spatial reasoning data.
 
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Through experiments, we find our trained VLM exhibit many desirable capabilities. First, its ability to answer qualitative spatial questions is greatly enhanced. Secondly, it can perform quantitative estimation reliably despite noisy training data. Such capability not only gives it common sense knowledge about object sizes but also makes it useful as a open-vocabulary reward annotator for rearrangement tasks. Thirdly, we find this spatial Vision Language Model, benefiting from its natural language interface, can perform spatial chain-of-thought to solve complex spatial reasoning tasks when combined with a powerful Large Language Model.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We endow VLMs quantitative spatial reasoning capability, which is a fundamental capability of humans.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We design a framework to automatically label 3D spatial reasoning VQA data based on real world images at the Internet scale.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We study various training recipes: data quality, training pipeline, freeze/unfreeze visual encoder, etc, and investigate how they affect the learning quality.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 We demonstrate new capabilities of SpatialVLM in complex reasoning and robotics unlocked by the introduced task and method.
 
-## Conclusion
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Learning Spatial Reasoning", "weight": 1.0} -->
 
-In conclusion, our research addresses the challenge of infusing spatial reasoning to VLMs, and approach it by constructing a framework for automatic generation of 3D spatial reasoning VQA data based on Internet-scale real-world images. We ablate different design choices in the recipes for training VLMs, such as training with large amount of noisy data and unfreezing ViT. While our direct spatial queries are built on a finite set of templates, we show SpatialVLM can be extended to tackle more complicated chain-of-thought reasoning that requires spatial reasoning components.
+Spatial distance estimation has been traditionally addressed as a part of broader tasks, such as SLAM or depth estimation. When applying these spatial concepts to reasoning, prior works often focus on explicit spatial scene memories or spatial scene graphs. Scene graphs allow interpretable, structured, statistical relation learning based on the spatial structures they encode. To answer spatial problems in VQA formats, they must handle it explicitly as a pathfinding problem on said scene graph. VLMs, on the other hand, are pretrained on large amounts of loosely structured information from vision-language datasets. Unlike scene graphs, the spatial understanding is encoded *implicitly*. We can infuse the depth and 3D structure into the weights with an auxiliary task, capturing the relational information. In our work, we address the spatial relationship problem directly in the VLM, without an explicit underlying scene graph. In addition to understanding relative relationships in qualitative terms, we also explore estimating explicit metric distance relationships between objects in a scene.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Grounding Vision-Language Models", "weight": 1.0} -->
+
+Large language models (LLMs) are trained on internet-scale data, making them effective commonsense reasoners. However, LLMs (and by extension VLMs) may lack the necessary grounding to perform well at social reasoning, physical reasoning, physics reasoning, embodied tasks, and spatial reasoning tasks. Though language model with interactive world experience show grounding improvements, the introduction of large vision models, such as Flamingo, PaLI, or PaLM-E, has enabled a leap in performance. These visually-grounded models have been used for several downstream tasks, such as in robotic success detection, action prediction, and reward prediction. In this work we approach the problem of spatial reasoning through finetuning a VLM on a generated VQA dataset. By directly finetuning a VLM on this task, we inherit the generality and reasoning capabilities of the underlying VLM as well as show how this approach is capable of tasks like reward generation.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Spatial Information in Vision-Language Datasets", "weight": 1.0} -->
+
+Many prior works have focused on benchmarking VLMs, considering tasks like VQA (e.g. VQAv2, OK-VQA, COCO, or Visual Genome ). Others have focused on fine-grained scene understanding, such as semantic segmentation, object detection, or object identification. Others have focused specifically on spatial reasoning as a task, answering questions about object spatial relations (e.g., above, below, left, right) in real or simulated scenes. Real data in this domain can be limited by the amount generated by human labelers, while synthetic data has inherently bounded expressivity. In this work we consider how to automatically generate real data, and focus on the problem of not just spatial relations, but metric spatial distances, which can be directly applied to many downstream tasks.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "SpatialVLM", "weight": 1.0} -->
+
+To equip VLMs with both qualitatively and quantitatively spatial reasoning capabilities, we propose to generate a large-scale spatial VQA dataset, which is used to train VLMs. Concretely, we design a comprehensive data generation framework which first leverages off-the-shelf computer vision models including open-vocabulary detection, metric depth estimation, semantic segmentation and object-centric captioning models to extract object-centric contexts, and then adopts template-based approach to generate massive spatial VQA data of reasonable quality. We train our SpatialVLM using the generated dataset to learn direct spatial reasoning capabilities, which we can then combine with the high-level commonsense reasoning embedded in LLMs to unlock chain-of-thoughts spatial reasoning.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Spatial Grounding from 2D Images", "weight": 1.0} -->
+
+We hypothesize that the reason for the lack of spatial reasoning capabilities of today's VLMs is not their architecture, but the lack of spatial reasoning training data. Following this insight, we design a pipeline that generates VQA data containing spatial reasoning questions. The pipeline is summarized in in Figure 2 and described in detail as follows.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Semantic Filtering", "weight": 1.0} -->
+
+While internet-scale image-captioning datasets have been widely used in VLM training, many images in these datasets are not suitable for synthesizing spatial reasoning QA, due to the fact that they either consist of a single object or don't have a scene background (e.g. product pictures on shopping websites or screenshots of computer screen). Therefore, as the first step in our data synthesis pipeline, we adopt a CLIP-based open-vocabulary classification model to classify all images and rule out those that are not suitable.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Object-centric Contexts Extraction from 2D Images", "weight": 1.0} -->
+
+In order to extract object-centric spatial contexts from 2D images, we leverage a series of off-the-shelf expert models, including region proposal, region captioning, and semantic segmentation modules to extract object-centric information. With this step, we obtain object-centric entities consisting of pixel clusters as well as open-vocabulary caption descriptions.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Lifting 2D Contexts to 3D Contexts", "weight": 1.0} -->
+
+Traditional spatial VQA datasets generated using object detection and bounding box positioning are limited to the 2D image plane (lack of depth or altitude contexts) and pixel-level reasoning (lack of metric-scale size and distance contexts). We perform depth estimation to lift monocular 2D pixels to metric-scale 3D point clouds. We further canonicalize the camera coordinate system of the point cloud into a geodetic coordinate system, which is done by horizontal surface (e.g. "floor", "table top") segmentation and frame transfer. To the best of our knowledge, we are the first to lift internet-scale images to object-centric 3D point clouds and use it to synthesize VQA data embedded with 3D spatial reasoning supervision.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Ambiguity Resolution", "weight": 1.0} -->
+
+Sometimes there are multiple objects of similar categories in one image, leading to ambiguities of their caption labels. For example, one same caption label "cake" can refer to multiple different cakes in a same image. Therefore, before we can ask questions about these objects, we need to make sure the reference expressions are not ambiguous.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Ambiguity Resolution", "weight": 1.0} -->
+
+We deliberately choose to avoid common object detectors, which tend to produce fixed and coarse categories such as "cake", and adopt FlexCap, a user-configurable object-centric captioning approach. In practice, for each object we can sample a random caption of a variable length between $1 - 6$ words. As a result, our object annotations are fine-grained, such as "cake shaped like a house" and "cup cake in plastic container"
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Ambiguity Resolution", "weight": 1.0} -->
+
+We design a semantic-oriented post-processing algorithm that further remove ambiguities by augmenting or rejecting object captions. Details of this algorithm are shown in Appendix A.2.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Large-Scale Spatial Reasoning VQA Dataset", "weight": 1.0} -->
+
+As motivated in Section 3, we focus our study on infusing "straightforward" spatial reasoning capabilities into VLMs by pretraining with synthetic data. Therefore, we synthesize spatial-reasoning QA pairs that involve no more than two objects (denoted "A" and "B") in the image and consider the two following categories of questions.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Qualitative questions", "weight": 1.0} -->
+
+those that ask for judgement of some spatial relations. Examples are "Given two objects A and B, which is more towards the left?", "Is object A more elevated than object B?" and "Among A and B, which is bigger in width?".
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Quantitative questions", "weight": 1.0} -->
+
+those that ask for more fine-grained answers that include numbers and units. Examples include "how much to the left is object A compared to object B?", "How far is object A from the B?", "Find out how far A is positioned behind B relative to the camera.". Similar to the aforementioned examples, such questions can be synthesized using a main question template, and one can fill the object name entries using the object captions after disambiguation. This property allows us to do template-based generation, an approach commonly adopted by instruction tuning works. The answers to the questions are obtained through appropriate functions that we develop, which take as input the segmented point clouds and 3D bounding boxes of the relevant objects.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Quantitative questions", "weight": 1.0} -->
+
+We designate $38$ different types of qualitative and quantitative spatial reasoning questions, each featuring around $20$ question templates and $10$ answer templates (we show examples in Appendix. A.3). We also add bias the sampling to encourage concise answers. Finally we introduce a human-aligned rounding mechanism in Appendix A.2 to make number roundings in a human-like way. Using such an approach, we are able to generate ample question answering data pairs for the monocular camera images in webli and vqa datasets. Fig 3 shows several example synthetic question answering pairs we obtained. In total, we create a massive dataset with $10$ million images and $2$ billion direct spatial reasoning QA pairs, featuring $50\%$ qualitative questions and $50\%$ quantitative questions. Thanks to the diversity of object captions and distance units, our synthetic dataset features significant diversity in terms of object description, question type and phrasing.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Direct Spatial Reasoning", "weight": 1.0} -->
+
+is defined as following, a Vision-Language Model takes as input an image $\mathcal{I}$ and a query $\mathcal{Q}$ of a spatial task, and output an answer $\mathcal{A}$, in the format of a text string, without using external tools or interacting with other large models. We adopt the same architecture and training procedure of PaLM-E except replacing PaLM backbone with PaLM 2-S, a smaller variant. We then train our model using a mixture of the original PaLM-E dataset and our dataset, with $5\%$ of tokens dedicated to spatial reasoning tasks. Similar to PaLM-E, our method has the ability to perform VQA as well as basic embodied planning when combined. The key difference is that it can answer spatial reasoning questions about both binary predicates and quantitative estimations.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Chain-of-Thought Spatial Reasoning", "weight": 1.0} -->
+
+Many real-world tasks require multiple steps of spatial reasoning. For example, to determine if object A can fit into object B, one would need to reason about sizes and constraints. Sometimes one would need to reason over grounded spatial concept (e.g. the counter in the image is 1 meter high) and common sense knowledge (so that a toddler cannot reach it). SpatialVLM provides a *natural language* interface to query with grounded concepts, when combined with a powerful LLM, we can perform complex spatial reasoning.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Chain-of-Thought Spatial Reasoning", "weight": 1.0} -->
+
+We call this method "Chain-of-Thought Spatial Reasoning\". While our synthesized data only contains direct spatial reasoning questions, it's easy for a VLM to compose them together to solve complex questions that require multi-hop chain-of-thought reasoning. Similar to the method in Socratic Models and LLM as coordinator, we utilize an LLM (text-davinci-003) to coordinate and communicate with our SpatialVLM to solve complex problems with Chain-of-Thought prompting as shown in Fig. 4. The LLM can break down complex questions into simple questions, query the VLM, and put the reasoning together to derive the result.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Q1 Does our spatial VQA data generation and training pipeline improve VLM's general spatial reasoning capabilities? And how well does it perform?
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Q2 How does the noisy synthetic spatial VQA data and different training strategies affect the learning performance?
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Q3 Does the VLM equipped with "direct" spatial reasoning capabilities unlock new capabilities such as chain-of-thought reasoning and embodied planning?
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+We train our model using a mixture of PaLM-E training set and our spatial VQA dataset. To verify whether VLM's limitation in spatial reasoning is a data problem, we choose the following state-of-the-art VLMs as baselines, all trained on mixtures in which semantic-captioning tasks occupy a heavy weight, and without our spatial VQA dataset.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+GPT-4V^11^1Accessed Nov 2023 via OpenAI API. GPT-4V is a version of GPT-4 that supports multimodal input, it achieves state-of-the-art performance in many vision-language tasks.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+PaLI. An encoder-decoder VLM trained on multi-lingual corpora, it shows state-of-the-art performance on captioning and visual-question answering tasks. We used PaLI-X 55B variant in our experiments.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+PaLM-E. A VLM trained on internet-scale vision, language, and vision-language data, as well as robotics data. It shows state-of-the-art performance in OKVQA benchmark, as well as being capable of robot planning tasks. We used PaLM-E 12B across our experiments.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+PaLM 2-E The vanilla PaLM 2-E is an updated version of PaLM-E with exact same training procedure but a more recent LLM backbone. Due to the shared network architecture and training procedure with SpatialVLM, vanilla PaLM 2-E naturally serves as the baseline to study the effect of generated data. In the rest of the paper, unless specifically noted, PaLM 2-E corresponds to PaLM 2-S in terms of parameter count following the naming convention in PaLM 2 technical report.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Finally, we consider open source models like LLaVA-1.5 and InstructBLIP.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Spatial VQA performance", "weight": 1.0} -->
+
+To stress-test the VLM's spatial reasoning capabilities, a spatial reasoning VQA benchmark with guaranteed performance grounding is required. However, there is not such a proper benchmark available in the literature. Therefore, we created a benchmark by having human annotators label a diverse set of "direct" qualitative and quantitative VQAs on a subset of WebLI images, which are unseen to all VLMs during the training phase. The benchmark questions and answers are diverse and freeform, following the synthetic data generation pattern described in Section 3.2 (details in Appendix. A.1). We annotated $331$ qualitative spatial reasoning VQA pairs and $215$ quantitative spatial reasoning VQA pairs.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Qualitative Spatial VQA", "weight": 1.0} -->
+
+For such questions, both the human annotated answers and VLM outputs are freeform natural language. Therefore, to evaluate the performance of the VLMs, we use human raters to determine if an answer is correct, and show the success rates of the VLMs in Table. 1. It is shown that SpatialVLM is able to achieve significantly higher accuracy compared to all baselines that are not trained using the synthetic spatial VQA data, surpassing other vision-language models including GPT-4V. Among the baselines, the second best model is LLaVA-1.5, which might be caused by their use of bounding boxes and corresponding captions in visual instruction tuning. Anecdotally, we found LLaVA-1.5 performs well in 2D spatial relationship inference, but inferior to our models in 3D spatial reasoning. This experiment suggests that large and high-quality spatial reasoning data is key to spatial reasoning capabilities, which are not present in pretraining datasets of state-of-the-art VLMs.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Quantitative Spatial VQA", "weight": 1.0} -->
+
+For these questions, both human annotator answers and the VLM outputs are natural language descriptions of distance, height, elevation, etc, using their preferred units. We design two metrics for evaluating the performance of the VLM. First, we use the success rate of the VLM to produce a number to reflect if the VLM is able to understand the quantitative spatial reasoning question. Second, since the answer can range widely from centimeters to kilometers, we use percentages of the VLM answers that fall into half to twice of the ground truth value to represent how accurate the VLM's estimates are. The results are shown in Table. 2, and it is shown that our model performs better on both metrics than baselines with large margins. We observed that baseline VLMs are reluctant to give answers consisting of numbers. For example, replying "No.\" to questions like "Can you tell me the distance between...\". This is likely due the the distribution of the training data.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Quantitative Spatial VQA", "weight": 1.0} -->
+
+Additionally, we find that state-of-the-art VLM GPT-4V often refrain from generating answers about distance in SI units with a disclaimer text "I'm sorry, but I cannot provide an exact distance as the image does not offer precise references for measurement..\". Our approach SpatialVLM achieves significantly higher success rate than all baselines, achieving in-range results on almost half of the questions. This performance is remarkable given that the human annotations are noisy, and agreement among annotators are not often guaranteed (Appendix. A.1). To better understand our model's performance and limitations, we visualized the relative error against the ground truth value in Fig. 11 in the Appendix. We found that SpatialVLM does well on medium range scenes like those with objects $1 - 10$ meters from the camera. This coincides with the range where our monocular depth estimator reliably outputs metric accurate depth estimations, which indicates that our method inherits the biases and limitations from expert vision models in the data synthesis pipeline.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Effect of Spatial VQA Data to General VQA", "weight": 1.0} -->
+
+The second question we want to answer is: since we co-train with a considerable amount of spatial VQA data, whether the performance of VLM in other tasks will degrade as a result. We compared our model with the vanilla PaLM 2-E trained without the spatial VQA dataset on general VQA benchmarks, and as summarized in Table. 3, our model achieves comparable performance as PaLM 2-E on the OKVQA benchmark, in which limited spatial reasoning questions are included, and performs slightly better on VQA-v2 test-dev benchmark, which includes spatial reasoning questions. This seem to suggest that VLMs are generally underfitting in the distribution of tasks close to spatial reasoning, and can benefit from spatial VQA supervisions without hurting their general VQA capabilities.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Effect of Visual Transformer (ViT) Encoder in Spatial Reasoning", "weight": 1.0} -->
+
+Does a frozen ViT (trained on contrastive objective) encode enough information to perform spatial reasoning? To study this, we start at the 110k training step and branch into two training runs, one with the ViT frozen, the other with ViT unfrozen. We train both models for 70k steps, and evaluate percentages of answers from both models that fall into various ranges of the ground truth value in Table 4 Encoder in Spatial Reasoning ‣ 4 Experiments ‣ SpatialVLM: Endowing Vision-Language Models with Spatial Reasoning Capabilities").
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Effect of Visual Transformer (ViT) Encoder in Spatial Reasoning", "weight": 1.0} -->
+
+It is shown that for larger scale and less fine-grained distance estimation, such as making a rough estimation with in the half-to-twice range of the ground truth, training without freezing ViT performs slightly worse but comparable with unfrozen ViT. However, for more fine-grained distance estimation like estimating accurate quantitative values, the model with unfrozen ViT performed considerably better. We hypothesize that the pretrained ViT (with contrastive or classification loss) is lossy in its fine-grained spatial information. Our model achieves $8.4\%$ accuracy for predicting a value $0.9 \times$ to $1.1 \times$ range of human annotation. This is remarkable since humans annotations are noisy. In fact, human sometimes tend to give noisy estimations, as they prefer to round an estimation of $0.8$ meter to $1$ meter. It remains challenging to evaluate quantitative spatial reasoning capabilities of vision-language models in broad domains.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Effect of Noisy Quantitative Spatial Answers", "weight": 1.0} -->
+
+Since the quantitative answers of the spatial VQA dataset are noisy, we study if VLMs can learn generalizable quantitative estimations from a large amount of noisy training data. To do so, we first come up with a domain where we are able to generate high quality quantitative answers. As discussed in Section 4.1 the monocular depth estimation is one of the steps in the data generation pipeline that induce the most noises. Therefore, we leverage our robotic manipulation dataset, which provides near-ground-truth depth information captured using a depth camera. As a result, the generated quantitative answers are more accurate. We train VLM using this dataset, and find the model able to perform fine-grained distance estimation in the manipulation domain (Fig. 5), which further demonstrates the data accuracy.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Effect of Noisy Quantitative Spatial Answers", "weight": 1.0} -->
+
+To study how noisy data affects VLM training, we add Gaussian noises upon the quantitative answers of the accurate manipulation spatial VQA dataset, and obtain a series of noisy datasets of different noise level. We train VLMs using the noisy datasets and evaluate them using a human annotated quantitative spatial VQA benchmark for manipulation. Table. 5 Encoder in Spatial Reasoning ‣ 4 Experiments ‣ SpatialVLM: Endowing Vision-Language Models with Spatial Reasoning Capabilities") compares how different Gaussian noise standard deviations affect the overall VLM performance on quantitative spatial VQA. Since the objects in the manipulation VQA datasets are within 1 meter range, we added the mean squared error (MSE) as a metric to evaluate the VLM performance, as well as the half-to-twice percentage which is defined in Section 4.1. It is shown that VLMs trained on datasets of different noise levels achieve similar spatial reasoning accuracy. We speculate this is due to the noisy nature of the training data and the manually annotated evaluation benchmark, and that VLM can learn a spatial reasoning common-sense despite noisy data. We observed this interesting phenomenon in robotics experiments as well.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Effect of Noisy Quantitative Spatial Answers", "weight": 1.0} -->
+
+In Fig. 6, the distance estimation is exhibit a bias towards the mean since the model is heavily regularized.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "as a Dense Reward Annotator", "weight": 1.0} -->
+
+One important application of VLM is robotics. Recently, works have shown that VLMs and LLMs can serve as universal open-vocabulary reward annotators and success detector for robotics tasks, which can be used to derive useful control policies. However, the reward annotation ability of VLMs are often limited by lack of spatial awareness. Since SpatialVLM is able to quantitatively estimate distances or sizes from image, it's uniquely suited as a dense reward annotator. We conduct a real robot experiment where we specify a task in nature language and ask SpatialVLM to annotate a reward for each frame in a trajectory. In Figure 6, each dot illustrates an object location and their color indicates the annotated reward. As the robot makes progress towards the specified goal, we can see the reward increase monotonically, indicating the ability of SpatialVLM to serve as a dense reward annotator.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Chain-of-Thought Spatial Reasoning", "weight": 1.0} -->
+
+In this section, we investigate whether SpatialVLM can be used to do tasks requiring multi-step reasoning, given its enhanced ability to answer elemental spatial questions. We demonstrate a few examples in Figure 1 and Figure 4. A large language model, in this case GPT-4, when equipped with SpatialVLM as a spatial reasoning submodule, can perform complex spatial reasoning tasks, such as answering if 3 objects in the environment can form a "isosceles triangle\".
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+In conclusion, our research addresses the challenge of infusing spatial reasoning to VLMs, and approach it by constructing a framework for automatic generation of 3D spatial reasoning VQA data based on Internet-scale real-world images. We ablate different design choices in the recipes for training VLMs, such as training with large amount of noisy data and unfreezing ViT. While our direct spatial queries are built on a finite set of templates, we show SpatialVLM can be extended to tackle more complicated chain-of-thought reasoning that requires spatial reasoning components. SpatialVLM is also demonstrated to be useful for robotics tasks, where we show that a 3D spatial-aware VLM could be used as a reward annotator for robotics tasks. Additional study of more nuanced geometric primitives can also help fully ground spatial reasoning in 3D geometry.

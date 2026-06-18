@@ -1,15 +1,281 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Fitting a Linear Control Policy to Demonstrations with a Kalman Constraint
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 We consider the problem of learning a linear control policy for a linear dynamical system, from demonstrations of an expert regulating the system. The standard approach to this problem is policy fitting, which fits a linear policy by minimizing a loss function between the demonstrations and the policy's outputs plus a regularization function that encodes prior knowledge. Despite its simplicity, this method fails to learn policies with low or even finite cost when there are few demonstrations. We propose to add an additional constraint to policy fitting, that the policy is the solution to some LQR problem, i.e., optimal in the stochastic control sense for some choice of quadratic cost. We refer to this constraint as a Kalman constraint. Policy fitting with a Kalman constraint requires solving an optimization problem with convex cost and bilinear constraints. We propose a heuristic method, based on the alternating direction method of multipliers (ADMM), to approximately solve this problem. Numerical experiments demonstrate that adding the Kalman constraint allows us to learn good, i.e., low cost, policies even when very few data are available.
 
-## Fitting a linear policy to demonstrations
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Fitting a linear policy to demonstrations", "weight": 1.0} -->
 
 Typically, we find a control policy for a task as follows. We first design a cost function that encodes the desired outcomes of the task, then find a control policy that minimizes that cost function, and finally we observe or simulate the behavior of this control policy on the true system. We repeat this process until we are content with the control policy's performance, either in simulation or in the real world.
 
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Fitting a linear policy to demonstrations", "weight": 1.0} -->
+
 This procedure (optimization-based control) has been successfully applied to many tasks. However, for complex tasks, it is often difficult to find a cost function that precisely captures the desired task outcomes and can be optimized effectively. For example, in autonomous driving, it is difficult, if not impossible, to construct a cost function that reliably generates "comfortable" driving behavior. For such tasks, the established procedure mentioned above is very expensive, time-consuming, and tedious, if it works at all.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Fitting a linear policy to demonstrations", "weight": 1.0} -->
 
 Returning to the autonomous driving example, while it may be difficult to choose a cost function that captures "comfortable" driving behavior, it is relatively straightforward for human operators to provide demonstrations of such behavior. Similarly, for many other tasks, it is easier to collect demonstrations of (nearly) optimal behavior than it is to define a good cost function. This line of thought has motivated a long line of research on learning from demonstrations.
 
-## Conclusion
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Fitting a linear policy to demonstrations", "weight": 1.0} -->
 
-In this paper, we introduced a method for learning policies from demonstrations in linear systems and showed in numerical experiments that this method outperforms a widely-used baseline. Our method, which is based on convex optimization, is easy to implement and consistently produces reliable results, in contrast to gradient-based methods that are difficult to make work. We believe that this method and its extensions (see §5) have wide-ranging practical applications, especially in the domain of autonomous driving; indeed, a rigorous examination of this claim is the subject of future work.
+Despite this, there has been comparatively little work on learning from demonstrations in linear systems. This is surprising, since there are many practical applications of linear systems. Indeed, many systems can be modeled as linear systems, and we typically find control policies for nonlinear systems by first approximating these systems as linear systems. Much progress in control theory has come from studying linear systems, and we aim to continue that tradition here by considering the problem of learning a policy from demonstrations on a linear system.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Fitting a linear policy to demonstrations", "weight": 1.0} -->
+
+In this paper, we consider the problem of learning a linear policy for a known stochastic linear system from demonstrations of an expert regulating the system (i.e., trying to keep the state and input small). The simplest method to fit a linear policy to demonstrations is (linear) policy fitting, where we minimize a loss function that measures our fit to the demonstrations plus a regularization function over linear policies. Despite its simplicity, policy fitting can lead to unstable and highly undesirable linear policies when there are few demonstrations.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Fitting a linear policy to demonstrations", "weight": 1.0} -->
+
+Our key insight is the following: since we are trying to learn a policy for a linear system, the learned policy should be optimal for *some* quadratic cost function, i.e., some linear quadratic regulator (LQR) problem. To standard policy fitting we add a *Kalman constraint*, which requires that the policy be optimal for some LQR problem. Our name for this constraint refers to the famous paper by Kalman, *"When is a control system optimal?"*, which poses the question of determining when a given linear control policy is LQR optimal for some choice of weights. This procedure guarantees that the learned policy will retain all the desirable properties of optimal policies for LQR problems, such as stability and robustness. We can think of the Kalman constraint as a very specific form of regularization, one that is highly tuned to learning a linear control policy that is meant to regulate a system.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Fitting a linear policy to demonstrations", "weight": 1.0} -->
+
+We formulate policy fitting with a Kalman constraint as a bi-convex optimization problem, with a convex objective and bi-affine constraints. From this formulation we derive a heuristic, based on the alternating direction method of multipliers (ADMM), that can (approximately) solve this problem by solving a small number of convex optimization problems. We show through numerical experiments that this method can recover stable, low-cost policies using very few demonstrations.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Inverse optimal control", "weight": 1.0} -->
+
+In optimal control, we are given the cost function and our goal is to find the optimal policy. In inverse optimal control, we are given the optimal policy and asked to find the cost function. This topic dates back to Kalman's seminal work in 1964, where he characterized a sufficient and necessary condition for a linear policy to be optimal for a given LQR problem. (Our idea of using a Kalman constraint to regularize the policy learning procedure is directly inspired by this work.) More recently, it was shown that we can recover the cost function associated with an optimal policy for an LQR problem by solving a particular semidefinite program (SDP) \[7, §10.6\]. Unlike these methods, we do not assume access to the optimal policy and our focus is not on recovering the cost function but on learning an effective policy.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Inverse reinforcement learning", "weight": 1.0} -->
+
+In inverse reinforcement learning, the goal is to learn a cost function from (noisy) demonstrations of the optimal policy. We can then find a policy by optimizing the learned cost function. (Some argue that by learning the cost function first, we get the added benefit of interpretability.) Unlike in inverse optimal control however, here, we do not assume access to the system dynamics. Much of the work in this space considers systems with a finite number of states and inputs. More recent work has extended this work to the continuous state and input space setting by leveraging advances in deep learning. These methods demonstrate astonishing results at times but make very few (if any) assumptions and thus typically require large numbers of demonstrations to produce sensible results. Instead, our focus here is specifically on known linear systems and the low data regime.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Imitation learning", "weight": 1.0} -->
+
+In imitation learning, which we refer to as policy fitting, the goal is to find a policy directly from (noisy) demonstrations of the optimal policy. Imitation learning (or direct policy learning or behavior cloning) typically involves learning a mapping from states to inputs via supervised learning. However, standard imitation learning methods are prone to instability when only a few demonstrations are available -- a fact we confirm empirically in this work. Much like standard imitation learning methods, we attempt to learn a policy directly from states to inputs in this work; however, unlike prior work, we focus specifically on linear systems, leveraging their structure to add prior knowledge. Indeed, our method can be interpreted as a stability-regularized imitation learning method for linear systems.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Stable system identification", "weight": 1.0} -->
+
+Another related problem is learning dynamics from measurements of a dynamical system. The standard approach to this problem, system identification, frames this problem as a regression task. Recent work in this space has explored the idea of leveraging prior knowledge that the system to be identified is stable. For example, in the problem of fitting dynamics matrices, subject to the constraint that the dynamics are asymptotically stable, is framed as a convex optimization problem. This work has also been extended to nonlinear systems.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Outline", "weight": 1.0} -->
+
+In §2, we introduce the problem of learning from demonstrations on a linear system via policy fitting. In §3, we introduce the Kalman constraint, combine policy fitting with the Kalman constraint, and give an approximate solution method. In §4, we illustrate our method on several numerical examples. In §5, we describe some natural extensions and variations. In §6, we conclude.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Dynamics", "weight": 1.0} -->
+
+We consider a fully-observable linear dynamical system of the form
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Policy", "weight": 1.0} -->
+
+A *policy* $\pi:{\text{R}^{n}\rightarrow\text{R}^{m}}$ is a function that maps the current state $x_{t}$ to the control input $u_{t}$ that we will apply to the system,
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Policy", "weight": 1.0} -->
+
+Equations and together define the closed-loop system. We will consider the case where $\pi$ is linear, or
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Policy", "weight": 1.0} -->
+
+where $K \in \text{R}^{m \times n}$ in the gain matrix. The closed-loop dynamics are then
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "\"Expert\" demonstrations", "weight": 1.0} -->
+
+We consider the case where we observe some "expert" regulating the system, i.e., trying to keep the state $x_{t}$ and input $u_{t}$ small. We receive $N$ demonstrations, $(x^{i},u^{i})$, $i = {1,\ldots,N}$. These state input pairs need not be ordered in time, optimal in any sense, or even deterministic (i.e., we can have pairs with the same state and different inputs). We do assume, however, that the expert is attempting in good faith to regulate the system, i.e., keep $x_{t}$ and $u_{t}$ small, in some sense.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Linear policy fitting", "weight": 1.0} -->
+
+The goal in linear policy fitting is to fit a linear policy $K$ to the demonstrations.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Linear policy fitting", "weight": 1.0} -->
+
+We also assume that we have a convex regularization function $r:{\text{R}^{m \times n}\rightarrow{\text{R} \cup {\{{+ \infty}\}}}}$ that encodes prior knowledge on $K$. Infinite values of $r$ can be interpreted as constraints on $K$.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Linear policy fitting", "weight": 1.0} -->
+
+To fit the policy, we solve the problem
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Linear policy fitting", "weight": 1.0} -->
+
+with variable $K$. This optimization problem is convex, and so can be solved efficiently. We denote a solution to by $K^{pf}$.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Linear policy fitting", "weight": 1.0} -->
+
+The objective function in consists of two parts: the demonstration loss $L$ and the regularization function $r$. The first term here encourages a good fit to the demonstrations, and the second term encourages the policy to be simpler or to be consistent with prior knowledge.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Linear policy fitting", "weight": 1.0} -->
+
+If the expert is indeed using a linear policy, i.e., $x^{i} = {K^{expert}u^{i}}$, then we will recover $K^{expert}$ using $n$ demonstrations with high probability, with any reasonable choice of $l$, and without regularization. However, in general, policy fitting does not perform well when there are only a few demonstrations. Often, $K^{pf}$ does not even stabilize the system, let alone mimic the expert's policy well in closed-loop simulation (see §4 and ).
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Linear quadratic regulator", "weight": 1.0} -->
+
+The well-known linear quadratic regulator (LQR) problem chooses a policy $\pi$ that minimizes the average of a quadratic cost function,
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Linear quadratic regulator", "weight": 1.0} -->
+
+where $Q \in \text{S}_{+}^{n}$ (the set of symmetric $n \times n$ positive semi-definite matrices) and $R \in \text{S}_{+ +}^{m}$ (the set of symmetric $m \times m$ positive definite matrices) are the state and control weight matrices, respectively, subject to the dynamics and $u_{t} = {\pi{(x_{t})}}$. Here the expectation is taken over the initial state $x_{0}$ and disturbances $\omega_{0},\omega_{1},\ldots$.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Linear quadratic regulator", "weight": 1.0} -->
+
+It is well known that (assuming some reasonable technical conditions hold) the optimal policy $\pi$ is linear, of the form
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Linear quadratic regulator", "weight": 1.0} -->
+
+where $K^{\star} \in \text{R}^{m \times n}$ is the *optimal gain matrix*. The optimal gain matrix $K^{\star}$ depends on $Q$ and $R$, as well as $A$ and $B$, but not $W$.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "When is a linear policy optimal for given $Q$ and $R$?", "weight": 1.0} -->
+
+Suppose we are given a linear policy $K$, and want to know if $K$ is optimal for the cost, given the quadratic cost matrices $Q$ and $R$. This is the case when
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "When is a linear policy optimal for given $Q$ and $R$?", "weight": 1.0} -->
+
+where $P$ is the unique positive semi-definite solution of the algebraic Riccati equation
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "When is a linear policy optimal for *some* $Q$ and $R$?", "weight": 1.0} -->
+
+Suppose we are given a linear policy $K$, and want to know if $K$ is optimal for the cost for *some* quadratic cost matrices $Q$ and $R$, which we are free to choose. This question was addressed in \[7, §10.6\], where the authors showed that we can answer this question, and get $Q$ and $R$, by solving the (convex) semidefinite feasibility problem
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "When is a linear policy optimal for *some* $Q$ and $R$?", "weight": 1.0} -->
+
+with variables $P$, $Q$, and $R$, where $\succeq$ denotes matrix inequality, i.e., with respect to the semidefinite cone. If problem is feasible, then $K$ is optimal for the quadratic cost matrices $Q$ and $R$. On the other hand, if is infeasible, then $K$ is not optimal for any LQR problem.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Kalman constraint", "weight": 1.0} -->
+
+We refer to the constraints in as a *Kalman constraint* on $K$, in tribute to Kalman's seminal work on optimal control, entitled "*When is a linear control system optimal?*". A Kalman constraint on $K$ implies that $K$ must be optimal for some quadratic cost matrices $Q$ and $R$. Policies that satisfy a Kalman constraint retain all the desirable properties of an LQR-optimal policy, such as stability and robustness.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Policy fitting with a Kalman constraint", "weight": 1.0} -->
+
+We add a Kalman constraint to the regularization function $r$ in the standard policy fitting problem. This new policy fitting problem has the form
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Policy fitting with a Kalman constraint", "weight": 1.0} -->
+
+with variables $P$, $Q$, $R$, and $K$. Note that the optimal gain matrix $K^{\star}$ is invariant to the relative scale of the $(Q,R)$ matrices, i.e., if $K$ is optimal for $(Q,R)$, it is also optimal for $({\alphaQ},{\alphaR})$ for any $\alpha > 0$. Thus, we can replace the (open) constraint $R \succ 0$ in with the (closed) constraint $R \succeq I$ by suitable scaling.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Policy fitting with a Kalman constraint", "weight": 1.0} -->
+
+This problem is nonconvex and so, in general, difficult to solve exactly. However, we note that this problem is bi-convex in $(P,Q,R)$ and $K$. In §3.3, we derive a heuristic method that finds an approximate or local solution.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Interpretability", "weight": 1.0} -->
+
+Previous work in inverse reinforcement learning suggests that by recovering the (unknown) cost function, we will be able to better interpret the expert's policy. Indeed, our method does recover a cost function that, at least approximately, explains the observed demonstrations. However, we note that, even in linear systems, for a given linear policy, the quadratic cost function is not unique, even up to a scale factor. The problem of recovering a cost function from a given policy is under-determined, so even if we recover the true policy, the stage cost coefficients $Q$ and $R$, and the cost-to-go matrix $P$ may not converge to the true $Q$ and $R$, if they even exist. Therefore, all we can hope to do is recover a stable and desirable policy. (If we do care about the recovered $Q$ and $R$, and have some prior knowledge about them, we can add a suitable regularization term on $Q$, $R$, or $P$.)
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "ADMM", "weight": 1.0} -->
+
+We observe that the objective in is convex, and that the bi-convexity of the problem comes from the bi-affine constraints. Therefore, we propose to use the alternating direction method of multipliers (ADMM), which is guaranteed to converge to a (not necessarily optimal) stationary point for this problem, provided the penalty parameter is sufficiently large.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "ADMM", "weight": 1.0} -->
+
+The augmented Lagrangian of is the extended function
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "ADMM", "weight": 1.0} -->
+
+where $Y$ is the dual variable for the constraints,
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "ADMM", "weight": 1.0} -->
+
+The ADMM algorithm alternates between minimizing the augmented Lagrangian over $K$, minimizing the augmented Lagrangian over $(P,Q,R)$, and performing a dual update to $Y$. The full procedure is summarized in algorithm 3.3 below.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "ADMM", "weight": 1.0} -->
+
+Algorithm 3.1 *Learning from demonstrations in linear systems via ADMM.*
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "$K$ step", "weight": 1.0} -->
+
+The update for $K$ can be expressed as the solution to the convex optimization problem
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "$K$ step", "weight": 1.0} -->
+
+where $Y^{k} = {(Y_{1}^{k},Y_{2}^{k})}$. This step can be interpreted as performing policy fitting with an additional term in the regularization function that suggests that $K$ should be approximately optimal for the LQR control problem with cost matrices $Q^{k}$, $R^{k}$, and cost-to-go matrix $P^{k}$.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "$(P,Q,R)$ step", "weight": 1.0} -->
+
+The update for $(P,Q,R)$ can be expressed as the solution to the convex optimization problem
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "$(P,Q,R)$ step", "weight": 1.0} -->
+
+which can be interpreted as finding the cost matrices and cost-to-go-matrix of an LQR problem such that $K^{k + 1}$ is approximately optimal for that problem.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Termination criterion", "weight": 1.0} -->
+
+We can either run the algorithm for a fixed number of iterations ($n_{iter}$ in algorithm 3.3) or until the Frobenius between successive values of $K$ is less than some chosen value $\epsilon$.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Convergence", "weight": 1.0} -->
+
+This algorithm is only guaranteed to converge if the penalty parameter is large enough; even when it does converge, it need not converge to an optimal value. It is simply a sophisticated heuristic for finding an effective, stable policy.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Examples", "weight": 1.0} -->
+
+We illustrate our method and compare it with linear regression on several problems. In all of our experiments we use $\rho = 1$, and run ADMM with a zero initialization and 5 random initializations, ultimately using the $K$ with the lowest value of ${L{(K)}} + {r{(K)}}$. We use CVXPY to implement algorithm 3.3.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Imperfect LQR", "weight": 1.0} -->
+
+We first consider the case where the expert is performing imperfect regulation in an LQR problem. That is, our demonstrations have the form
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Imperfect LQR", "weight": 1.0} -->
+
+where $K^{\star}$ is the solution to an LQR problem with cost matrices $Q^{true}$ and $R^{true}$ and $\Sigma \succ 0$. We consider loss and regularization functions
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Small random example", "weight": 1.0} -->
+
+We consider a system with $n = 4$ states and $m = 2$ inputs. The data is generated according to
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Small random example", "weight": 1.0} -->
+
+and the matrix $A$ is scaled so that its spectral radius is one. We ran policy fitting with and without a Kalman constraint on varying numbers of demonstrations, and averaged the results over ten random seeds. In figure 1 we show the expected cost (when it is finite) of policy fitting and our method versus the number of demonstrations, as well as the expected cost incurred by the expert and the optimal policy. Whereas our method never incurred infinite cost, standard policy fitting did; figure 2 shows the fraction of the time that the cost for policy fitting was finite.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Aircraft example", "weight": 1.0} -->
+
+We consider the control of a 747 aircraft during level flight at an elevation of 40000 feet, traveling at 774 feet per second. The states and inputs represent deviations from operating or trim conditions. The states are $u$, the velocity of the aircraft along the body axis (in ft/s), $v$, the velocity of the aircraft perpendicular to the body axis (in ft/s), $\theta$, the angle between the body axis and horizontal (in crad), and $q = \overset{˙}{\theta}$, the pitch rate (in crad/s). The inputs are $\delta_{e}$, the elevator angle (in crad), and $\delta_{t}$, the thrust.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Aircraft example", "weight": 1.0} -->
+
+The linearized dynamics, discretized at an interval of 0.01 seconds, have the form
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Aircraft example", "weight": 1.0} -->
+
+where the disturbance $\omega_{t}$ is caused by wind, with covariance
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Aircraft example", "weight": 1.0} -->
+
+We use the cost matrices $Q = I$, $R = I$, incentivizing us to keep the 747 at the trim condition while keeping the thrust and elevator angle at the nominal levels. We also use the observation noise $\Sigma = {{}I}$. We ran policy fitting with and without a Kalman constraint on varying numbers of demonstrations, and averaged the results over ten random seeds. In figure 3 we show the expected cost (when it is finite) of policy fitting (PF) and our method versus the number of demonstrations, as well as the expected cost incurred by the expert and the optimal policy. Whereas our method never incurred infinite cost, standard policy fitting did; figure 4 shows the fraction of the time that the cost for policy fitting was finite.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "LQR with outliers", "weight": 1.0} -->
+
+We consider an LQR problem, with demonstrations generated according to
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "LQR with outliers", "weight": 1.0} -->
+
+where $K^{\star}$ is the solution to an LQR problem with cost matrices $Q^{true}$ and $R^{true}$, and $\Sigma \succ 0$. For each entry of $u^{i}$, $i = {1,\ldots,N}$, we flip its sign with probability $0.1$. (The entries that are flipped are called outliers.)
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "LQR with outliers", "weight": 1.0} -->
+
+We employ the following loss and regularization functions
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "LQR with outliers", "weight": 1.0} -->
+
+where $\phi$ is the Huber penalty function, with parameter $M$,
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "LQR with outliers", "weight": 1.0} -->
+
+(We use the Huber loss function because it is robust to outliers \[8, §6.1\].)
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Numerical example", "weight": 1.0} -->
+
+We consider the same data as the small random problem in §4.1, and with $M = 0.5$. We ran policy fitting with and without a Kalman constraint on varying numbers of demonstrations, and averaged the results over ten random seeds. In figure 5 we show the expected cost (when it is finite) of policy fitting and our method versus the number of demonstrations, as well as the expected cost incurred by the expert and the optimal policy. Whereas our method never incurred infinite cost, standard policy fitting did; figure 6 shows the fraction of the time that the cost for policy fitting was finite.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "General quadratic cost problem", "weight": 1.0} -->
+
+In this paper, in the interest of clarity, we focused on the regulation of linear systems, where the goal is to keep the state and input small. However, our method can be easily adapted for a more general class of problems, such as tracking problems, where the goal is not to keep the state and input small but to keep the state close to a given trajectory. To do so, we simply need to define the quadratic stage cost in its more general form
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "General quadratic cost problem", "weight": 1.0} -->
+
+where $Q \in \text{S}_{+}^{n + m + 1}$. We can then replace the constraints in with the appropriate Riccati equation.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Finite-horizon problem", "weight": 1.0} -->
+
+Similarly, in this paper, we only considered the time-invariant, infinite horizon problem, where the dynamics function is as given. However, our method can be easily extended for time-varying, finite-horizon problems, where the dynamics function is given by
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Finite-horizon problem", "weight": 1.0} -->
+
+where $T$ is the horizon of the problem. (In this problem, the cost function is similarly truncated to T steps and is also time-varying). Here, our goal is to learn a policy for each time-step, $K_{0}^{\star},K_{1}^{\star},\ldots,K_{T}^{\star}$ instead of a single policy.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Finite-horizon problem", "weight": 1.0} -->
+
+To solve this problem using our method, we first need replace the constraints in with constraints for each time-step. (There are thus $T$ times as many constraints.) We can then adapt our algorithm to solve this problem by following the same steps outlined in §3.3.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+In this paper, we introduced a method for learning policies from demonstrations in linear systems and showed in numerical experiments that this method outperforms a widely-used baseline. Our method, which is based on convex optimization, is easy to implement and consistently produces reliable results, in contrast to gradient-based methods that are difficult to make work. We believe that this method and its extensions (see §5) have wide-ranging practical applications, especially in the domain of autonomous driving; indeed, a rigorous examination of this claim is the subject of future work. We are very optimistic about the potential of convex optimization to solve modern control problems and believe that this space will re-emerge as a fruitful area for research in the coming years.

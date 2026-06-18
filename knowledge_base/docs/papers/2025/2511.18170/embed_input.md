@@ -1,5 +1,11 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Time-aware Motion Planning in Dynamic Environments with Conformal Prediction
 
 Topics include Motion planning, Path planning, Safety, Robustness, Uncertainty, Online algorithms, Planning, CP, SIPP.
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Safe navigation in dynamic environments remains challenging due to uncertain obstacle behaviors and the lack of formal prediction guarantees. We propose two motion planning frameworks that leverage conformal prediction (CP): a global planner that integrates Safe Interval Path Planning (SIPP) for uncertainty-aware trajectory generation, and a local planner that performs online reactive planning. The global planner offers distribution-free safety guarantees for long-horizon navigation, while the local planner mitigates inaccuracies in obstacle trajectory predictions through adaptive CP, enabling robust and responsive motion in dynamic environments. To further enhance trajectory feasibility, we introduce an adaptive quantile mechanism in the CP-based uncertainty quantification. Instead of using a fixed confidence level, the quantile is automatically tuned to the optimal value that preserves trajectory feasibility, allowing the planner to adaptively tighten safety margins in regions with higher uncertainty. We validate the proposed framework through numerical experiments conducted in dynamic and cluttered environments. The project page is available at

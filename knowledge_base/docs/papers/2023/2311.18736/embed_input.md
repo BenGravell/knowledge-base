@@ -1,19 +1,373 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Controlgym: Large-Scale Control Environments for Benchmarking Reinforcement Learning Algorithms
 
 Topics include Reinforcement learning, Stability analysis, Robustness, Benchmarks, Scalability, Control, Learning, Controlgym, Partial differential equation, L4DC.
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 We introduce controlgym, a library of thirty-six industrial control settings, and ten infinite-dimensional partial differential equation (PDE)-based control problems. Integrated within the OpenAI Gym/Gymnasium (Gym) framework, controlgym allows direct applications of standard reinforcement learning (RL) algorithms like stable-baselines3. Our control environments complement those in Gym with continuous, unbounded action and observation spaces, motivated by real-world control applications. Moreover, the PDE control environments uniquely allow the users to extend the state dimensionality of the system to infinity while preserving the intrinsic dynamics. This feature is crucial for evaluating the scalability of RL algorithms for control. This project serves the learning for dynamics & control (L4DC) community, aiming to explore key questions: the convergence of RL algorithms in learning control policies; the stability and robustness issues of learning-based controllers; and the scalability of RL algorithms to high- and potentially infinite-dimensional systems. We open-source the controlgym project at
 
-## Introduction
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 The intersection of machine learning (ML), reinforcement learning (RL), and control theory has garnered significant attention in recent years, giving rise to the learning for dynamics & control (L4DC) research community (Recht Vamvoudakis et al. Brunke et al. Hu et al., ). L4DC has the naturally driven mission to unlock the power of learning-based methods for control and establish a rigorous theoretical foundation. This mission could only be fulfilled with joint forces and close collaboration between theorists and practitioners from ML, control theory, and optimization.
 
-To address these requirements, we introduce controlgym, a lightweight and versatile Python library that offers a spectrum of environments spanning from linear systems to chaotic, large-scale systems governed by partial differential equations (PDEs). Specifically, controlgym features thirty-six linear industrial control environments, encompassing sectors like aerospace, cyber-physical systems, ground and underwater vehicles, and power systems. Additionally, controlgym includes ten large-scale control environments governed by fundamental PDEs in fluid dynamics and physics.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Leveraging its strengths, controlgym is a testbed for exploring three essential aspects of applying RL to continuous control. First, it aims to probe whether RL algorithms can consistently converge in learning control policies. Second, it examines the stability and robustness of the policy and training process, motivated by real-world safety-critical applications. Lastly, it assesses the scalability of RL algorithms in high-dimensional and potentially infinite-dimensional systems.
+Theorists are keen to validate their algorithms and theories in real-world scenarios but encounter challenges with OpenAI Gym/Gymnasium (Gym) environments (Brockman et al. Towers et al., ). Specifically, most Gym environments feature highly nonlinear dynamics, often involving contacts, and offer very limited parameter customization options, making them ill-suited testbeds for control theory research. Meanwhile, control textbook examples lack the complexity for cutting-edge ML/RL research that prioritizes efficiency and scalability.
 
-## Conclusion
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To address these requirements, we introduce controlgym, a lightweight and versatile Python library that offers a spectrum of environments spanning from linear systems to chaotic, large-scale systems governed by partial differential equations (PDEs). Specifically, controlgym features thirty-six linear industrial control environments, encompassing sectors like aerospace, cyber-physical systems, ground and underwater vehicles, and power systems. Additionally, controlgym includes ten large-scale control environments governed by fundamental PDEs in fluid dynamics and physics. These PDEs are discretized in space by custom solvers, yielding user-tunable state-space dimensions without affecting the dynamics of the environment, a key aspect for assessing the scalability of RL algorithms. All environments comply with Gym and support standard RL algorithms (Sutton et al. Kakade Schulman et al. Mnih et al. Sutton and Barto, ), e.g., as seen in stable-baselines3.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our primary contribution is the introduction of a diverse array of control environments characterized by continuous and unbounded action-observation spaces, designed for large-scale systems. These environments, detailed in Tables and, enhance Gym's collection and are highly customizable to support theoretical advancement in L4DC. For example, users can manipulate the open-loop dynamics of PDEs by adjusting physical parameters, with explicit formulas relating parameters and eigenvalues available in linear PDE environments (cf., Section 3.1). Moreover, our PDE environments uniquely allow the users to extend system dimensionality to infinity while preserving the intrinsic dynamics. The PDE solvers implemented to power controlgym are innovative, employing state-of-the-art schemes with exponential spatial convergence and high-order temporal accuracy masked behind a user-friendly discrete-time state-space formulation. Specifically for linear PDE environments, we have developed novel state-space models to evolve the PDE dynamics.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Leveraging its strengths, controlgym is a testbed for exploring three essential aspects of applying RL to continuous control. First, it aims to probe whether RL algorithms can consistently converge in learning control policies. Second, it examines the stability and robustness of the policy and training process, motivated by real-world safety-critical applications. Lastly, it assesses the scalability of RL algorithms in high-dimensional and potentially infinite-dimensional systems. With controlgym, we bridge the theoretical development and practical applicability of L4DC by providing a research platform that supports the establishment of a rigorous foundation. Initial deployments of controlgym include RL for PDE control and toward a foundational control transformer.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Related works. The COMP$l_{e}$ib project (Leibfritz Leibfritz and Lipinski, ) pioneered in offering standard control tasks, as MATLAB files, for analyzing model-based control algorithms. In the era of ML and RL, Gym (Brockman et al. Towers et al., ) has become the standard platform for developing and benchmarking RL algorithms for continuous control, offering a variety of environments such as cart pole, inverted pendulum, and robotic tasks powered by Mujoco. Numerous follow-up projects that implement RL algorithms on Gym environments include rllab/garage, RLlib, dm$\_$control, deluca, stable-baselines3, safe-control-gym, realworldrl-suite, tianshou, and TorchRL. Very recently, HydroGym provided fluid dynamics environments for testing RL algorithms for flow control.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Complying with Gym's framework, we offer a spectrum of control environments designed to support the foundational theoretical developments in RL for linear optimal control (Fazel et al. Bu et al., 2019a; Tu and Recht Mohammadi et al. Yang et al. Dean et al. Malik et al. Furieri et al. Simchowitz and Foster Simchowitz et al. Hambly et al. Chen and Hazan Perdomo et al. Li et al. Zhao and You Jansch-Porto et al. Ozaslan et al. Ju et al. Lale et al. Duan et al. Zhang and Başar Tang et al. Tsiamis et al. Ziemann et al. Duan et al., ), linear robust control and dynamic games, estimation and filtering, and PDE control (Pan et al. Bucci et al. Liu and Wang Degrave et al. Zeng et al. Vignon et al. Mowlavi et al. Werner and Peitz Peitz et al., ).
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Notations. In the paper, we follow the list of notations in the following table.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+system state and control input/action at discrete time k, respectively
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+stochastic noise or deterministic uncertainty at discrete time k
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+dimensionalities of state, action, and observation, respectively
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+physical domain, domain length, spatial coordinates, and spatial field of PDE, respectively
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+time-invariant forcing support function for the ith control input ai
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+sampling time and numerical integration time step, respectively
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+total number of discrete time steps
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+discrete Fourier transform (DFT) matrix
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Identity and zero matrices of appropriate dimensions, respectively
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+velocity in the convection-diffusion-reaction (CDR) and wave equations
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+diffusivity constant in CDR, Burgers’, Fisher, Allen-Cahn, and Cahn-Hilliard equations
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+reaction constant in CDR and Fisher equations
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Planck constant and particle mass, respectively, in the Schrödinger equation
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+potential constant in Schrödinger and Allen-Cahn equations
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+surface tension constant in the Cahn-Hilliard equation
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+local change rate of u(x,t) in the wave equation
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+real and imaginary parts of u(x,t) in the Schrödinger equation, respectively
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Linear Control Environments", "weight": 1.0} -->
+
+We incorporate $36$ linear control environments from various industries, as detailed in Table. We select and organize these continuous-time linear systems from the pioneering COMP$l_{e}$ib project (Leibfritz Leibfritz and Lipinski, ), and provide them as standard Gym environments. These environments span control applications ranging from aircraft, helicopters, jet engines, reactor models, decentralized cyber-physical systems, binary distillation towers, ground and underwater autonomous vehicles, power systems, compact disk (CD) players, and large space structures. Additionally, the scope of our environments extends to control problems within projects such as the International Space Station and the Los Angeles Hospital.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Linear Control Environments", "weight": 1.0} -->
+
+With the user-selected sampling time $\Delta t$, we assume the control input is constant over each $\Delta t$ and generate the discrete-time system dynamics as
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Linear Control Environments", "weight": 1.0} -->
+
+where $s_{k} \in {\mathbb{R}}^{n_{s}}$ is the state, $a_{k}$ is the control/action input, $w_{k}$ is the disturbance input that could be either stochastic or adversarial, $z_{k} \in {\mathbb{R}}^{n_{z}}$ is the output, $y_{k} \in {\mathbb{R}}^{n_{y}}$ is the observation, and $A$, $B_{1}$, $B_{2}$, $C_{1}$, $C$, $D_{11}$, $D_{12}$, $D_{21}$ are the discretized system matrices with appropriate dimensions. These linear control environments are directly applicable to support theoretical research of RL for the fundamental linear control, games, and estimation tasks.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Linear Control Environments", "weight": 1.0} -->
+
+Linear control objectives. For each linear control task in Table, we define a regulation task whose primary objective is to steer the system's dynamics toward the zero vector. The reward function (to be maximized) is formulated as the negative sum of the linear-quadratic (LQ) stage cost
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+In this section, we describe one-dimensional PDE control environments with periodic boundary conditions and spatially distributed control inputs. We first define a spatial domain $\Omega = {\lbrack 0,L\rbrack} \subset {\mathbb{R}}$ and a continuous field ${u{(x,t)}}:{{\Omega \times {\mathbb{R}}^{+}}\rightarrow{\mathbb{R}}}$, where $x$ and $t$ represent spatial and temporal coordinates, respectively, and $L$ is the length of the domain. Each PDE control task listed in Table then takes the general continuous form
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+where $\mathcal{F}$ is a linear or nonlinear differential operator (see Sections 2.2.1-2.2.10 for specific definitions for each PDE) that contains spatial derivatives of various orders and depends on various physical constants, and $a$ is a distributed control force defined as
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+The control force consists of $n_{a}$ scalar control inputs $a_{j}{(t)}$, each acting over a specific subset of $\Omega$ defined by its corresponding forcing support function $\Phi_{j}{(x)}$, as illustrated in Figure. Such a control force can be used to model the addition of energy to the system or other external influences that affect the PDE dynamics. We use periodic boundary conditions in all of our PDE control tasks, meaning that $u$ and all its spatial derivatives are equal at both ends of the domain $\Omega$.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+Discretization of space and time. To solve the PDEs listed in Table, we first need to discretize space and time in the continuous form (2.1). For a state dimension $n_{s}$ that is even and a sampling time ${\Delta t} \in {\mathbb{R}}^{+}$, both selected by the user, we define a state vector $s_{k} \in {\mathbb{R}}^{n_{s}}$ that contains the values of $u$ at $n_{s}$ equally-spaced points in $\Omega$ and at discrete time $k \in {\mathbb{N}}$ corresponding to the simulation time $t = {k\Delta t}$. The total simulation time is $K\Delta t$, where $K \in {\mathbb{N}}$ is an input parameter specifying the total number of discrete-time steps.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+We also assume that the scalar control inputs $a_{i}{(t)}$ are piecewise constant over each discrete-time step of duration $\Delta t$ so that they can be concatenated into a discrete-time vector $a_{k} \in {\mathbb{R}}^{n_{a}}$ for all $k \in {\{ 0,\cdots,{K - 1}\}}$.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+Numerical solver for nonlinear PDEs. After discretizing space and time, the dynamics of the nonlinear PDEs can be approximated by a discrete-time finite-dimensional nonlinear system
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+where $f:{{{\mathbb{R}}^{n_{s}} \times {\mathbb{R}}^{n_{a}}}\rightarrow{\mathbb{R}}^{n_{s}}}$ is a time-invariant mapping contingent on the physical parameters of each specific PDE and forcing support functions $\Phi_{i}$, and $w_{k}$ is an optional stochastic process noise. To compute the mapping $f$, we numerically approximate the space and time derivatives in (2.1) using, respectively, a pseudo-spectral method and a fourth-order exponential time differencing Runge-Kutta (ETDRK4) scheme (Cox and Matthews Kassam and Trefethen, ). We then integrate numerically the dynamics over one discrete-time step of duration $\Delta t$ using an internal integration time step $dt$. The mapping $f$ is therefore not obtained explicitly; rather, its action is evaluated through a numerical integration loop.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+The sampling time $\Delta t$ may be selected as large as desired, but it should be an integer multiple of the integration time step $dt$.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+In general, one should choose $n_{s}$ to be sufficiently large and $dt$ to be sufficiently small to ensure the accuracy of the discretized system (2.3). Due to the exponential convergence rate of the pseudo-spectral method as well as the high convergence rate of the ETDRK4 scheme, $n_{s}$ larger than about 50 is sufficient in most cases, except the Korteweg de Vries and Kuramoto-Sivashinsky PDEs that require $n_{s}$ larger than about 200 for accurate solutions. For all PDEs, the presence of small-scale (i.e., high wavenumber) spatial features in the initial condition may necessitate higher values of $n_{s}$.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+Explicit state-space model for linear PDEs. After space and time discretization, the linear PDEs listed in Table can be approximated by a discrete-time linear state-space model of the form
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+where $A \in {\mathbb{R}}^{n_{s} \times n_{s}}$ is a time-invariant transition matrix contingent on the physical parameters of each specific PDE, $B_{2} \in {\mathbb{R}}^{n_{s} \times n_{a}}$ is a time-invariant control matrix, and $w_{k} \sim {\mathcal{N}{(0,\Sigma_{w})}}$ is an optional process noise. The $A$ matrix in (2.4) is constructed from a spectral approximation of the space derivatives in (2.1) combined with an analytical temporal integration of the continuous-time linear dynamics over one discrete-time step of duration $\Delta t$ (see Sections 2.2.1-2.2.3 for detailed treatments of each case). Contrary to the case of nonlinear PDEs where evaluating the mapping $f$ in (2.3) requires an internal numerical integration loop, the availability of matrix $A$ in explicit form for linear PDEs allows for the direct application of model-based linear controllers.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+Similar to nonlinear PDEs, due to the numerical approximation of the spatial derivatives, one should choose $n_{s}$ to be sufficiently large to ensure the accuracy of the state-space model (2.4), with $n_{s}$ greater than about 50 sufficient in most cases. Due to the analytical temporal integration of the dynamics, there is no internal integration time step $dt$ to select. As in the nonlinear case, the sampling time $\Delta t$ may be chosen as large as desired.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+Since the state-space model (2.4) is derived from a PDE, the eigenvalues and eigenvectors of the $A$ matrix can be analyzed explicitly. This method allows for a clearer understanding of the impact of the PDE's physical parameters on the system dynamics, such as open-loop stability. By adjusting these parameters, users can tailor the system dynamics to better assess their algorithms. We demonstrate this process with the convection-diffusion-reaction equation in Section 3.1, illustrating the relationships between its physical parameters and open-loop system dynamics.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+Observation process. For all PDEs listed in Table, we place $n_{y}$ sensors uniformly throughout the domain $\Omega$, where each sensor measures the unscaled value of the state at its location, perturbed by additive zero-mean Gaussian white noise. That is, the observation $y_{k}$ at time $k$ is computed by $y_{k} = {{Cs_{k}} + v_{k}}$, where $C \in {\mathbb{R}}^{n_{y} \times n_{s}}$ is structured with a single $1$ per row and zeros elsewhere, and $v_{k} \sim {\mathcal{N}{(0,\Sigma_{v})}}$. Both $n_{y}$ and $\Sigma_{v}$ are user-configurable parameters.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+PDE control objectives. For all PDEs listed in Table, we define a control task whose primary objective is to steer the system's dynamics toward a user-defined target state $s_{ref} \in {\mathbb{R}}^{n_{s}}$. The reward function is formulated as the negative sum of the LQ stage cost
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "PDE Control Environments", "weight": 1.0} -->
+
+where $Q$ and $R$ are positive-definite weighting matrices that balance tracking performance and control effort. When the target state is the zero vector, the tracking problem reduces to the LQ regulation problem.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Convection-Diffusion-Reaction Equation", "weight": 1.0} -->
+
+The convection-diffusion-reaction (CDR) equation models the transfer of particles, energy, or other physical quantities within a system due to convection, diffusion, and reaction processes. The temporal dynamics of the continuous concentration function $u{(x,t)}$ in one spatial dimension is given by
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Convection-Diffusion-Reaction Equation", "weight": 1.0} -->
+
+where $c$ is the convection velocity, $\nu > 0$ is the diffusivity constant, $r$ is the reaction constant, and $a{(x,t)}$ is a source term defined in (2.2) that models the addition of energy to the system or other external influences that affect the PDE dynamics. The scalar physical parameters of the CDR equation characterize the strength of convection, diffusion, and reaction processes. When $c = r = 0$, the CDR equation (2.5) reduces to the heat equation. The CDR equation with $r = 0$ has been used to validate the global convergence of RL algorithms in Kalman filtering. We visualize the uncontrolled solution of the CDR equation for a specific choice of parameters and initial condition in Figure.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Convection-Diffusion-Reaction Equation", "weight": 1.0} -->
+
+After discretizing space and time, the CDR equation can be approximated by the linear state-space model (2.4) with
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Convection-Diffusion-Reaction Equation", "weight": 1.0} -->
+
+The scaled conjugate transpose of $W$, denoted by $W^{\dagger}/n_{s}$, is the inverse DFT matrix. In Section 3.1, we present the analytical eigenvalues and eigenvectors of the $A$ matrix in (2.7), derived as functions of the physical parameters of the CDR equation.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Wave Equation", "weight": 1.0} -->
+
+The wave equation is a fundamental linear PDE in physics and engineering, describing the propagation of various types of waves through a homogeneous medium. The temporal dynamics of the perturbed scalar quantity $u{(x,t)}$ propagating as a wave through one-dimensional space is given by
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Wave Equation", "weight": 1.0} -->
+
+where $c$ is a constant representing the wave's speed in the medium, and $a{(x,t)}$ is a source term defined in (2.2) that models the effect of a force or other external influences acting on the system. We visualize the uncontrolled solution of the wave equation for a specific choice of parameters and initial condition in Figure.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Wave Equation", "weight": 1.0} -->
+
+We solve the wave equation by first transforming (2.9) into a coupled system of two PDEs with first-order time derivatives. Specifically, we introduce a second continuous field ${\psi{(x,t)}}:{{\Omega \times {\mathbb{R}}^{+}}\rightarrow{\mathbb{R}}}$ representing the rate at which the scalar quantity $u{(x,t)}$ is changing locally. Then, we can write (2.9) in the equivalent form
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Wave Equation", "weight": 1.0} -->
+
+We next discretize space and time by introducing a state vector $s_{k}$ that concatenates the values of both $u$ and $\psi$, each sampled at $n_{s}^{\prime} = {n_{s}/2}$ equally-spaced points in $\Omega$ so that $s_{k}$ contains $n_{s}$ components. The wave equation in the form (2.10) can then be approximated by the state-space model (2.4) with
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Schrödinger Equation", "weight": 1.0} -->
+
+The Schrödinger equation is fundamental in quantum mechanics, describing how the quantum state of an isolated quantum-mechanical system, a complex-valued wave function, changes over time. For a single non-relativistic particle in a constant potential, the Schrödinger equation for the wave function $u{(x,t)}$ is given by
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Schrödinger Equation", "weight": 1.0} -->
+
+where $i$ is the imaginary unit, $\hslash$ is the Planck constant, $V$ is the real potential constant, and $a{(x,t)}$ is a real-valued source term defined in (2.2) that models a force acting on the system or other external influences that affect the PDE dynamics. We visualize the uncontrolled solution of the Schrödinger equation for a specific choice of parameters and initial condition in Figure.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Schrödinger Equation", "weight": 1.0} -->
+
+We solve the Schrödinger equation by first transforming (2.21) into a coupled system of two PDEs with first-order time derivatives, similar to the approach adopted for the wave equation. Specifically, we introduce two continuous fields ${\xi{(x,t)}}:{{\Omega \times {\mathbb{R}}^{+}}\rightarrow{\mathbb{R}}}$ and ${\eta{(x,t)}}:{{\Omega \times {\mathbb{R}}^{+}}\rightarrow{\mathbb{R}}}$ that represent the real and imaginary parts of the complex-valued scalar quantity $u{(x,t)}$, respectively. Then, we rewrite (2.9) in the equivalent form
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Schrödinger Equation", "weight": 1.0} -->
+
+We now discretize space and time by introducing a state vector $s_{k}$ that concatenates the values of both $\xi$ and $\eta$, each sampled at $n_{s}^{\prime} = {n_{s}/2}$ equally-spaced points in $\Omega$ so that $s_{k}$ contains $n_{s}$ components. The Schrödinger equation in the form (2.10) can then be approximated by the state-space model (2.4) with
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Burgers' Equation", "weight": 1.0} -->
+
+Burgers' equation is a simplified version of nonlinear PDEs arising in fluid dynamics and captures key features of water waves and gas dynamics such as shock formation. The temporal dynamics of the velocity $u{(x,t)}$ is
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Burgers' Equation", "weight": 1.0} -->
+
+where $\nu > 0$ is the diffusivity (or viscosity) parameter and $a{(x,t)}$ is a source term defined in (2.2) that models a force acting on the system or other external influences that affect the PDE dynamics. At the inviscid limit of $\nu = 0$, Burgers' equation predicts discontinuous shocks; at low $\nu$ values, Burgers' equation exhibits shock-like behavior but remains smooth; and with high values of $\nu$, Burgers' equation mirrors the dissipative nature of the heat equation. The behavior of the uncontrolled solution for a specific choice of parameters and initial condition is shown in Figure.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Kuramoto-Sivashinsky Equation", "weight": 1.0} -->
+
+The Kuramoto-Sivashinsky (KS) equation is a nonlinear PDE applied to studying pattern formation and instability in fluid dynamics, combustion, and plasma physics. The temporal dynamics of $u{(x,t)}$ in one spatial dimension is provided by
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Kuramoto-Sivashinsky Equation", "weight": 1.0} -->
+
+where $a{(x,t)}$ is a source term defined in (2.2) that models a force acting on the system or other external influences that affect the dynamics. The nonlinear convection term, the second-order diffusion term, and the fourth-order dispersion term interact to produce complex spatial patterns and temporal chaos when the domain length $L$ is large enough. Figure displays the behavior of the uncontrolled solution of the KS equation for a specific initial condition and $L = {32\pi}$, well into the chaotic regime. Due to the chaotic nature of the dynamics, the specific choice of initial condition has negligible influence on the qualitative properties of the solution.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Fisher Equation", "weight": 1.0} -->
+
+The Fisher equation is a nonlinear PDE employed in biology, ecology, and epidemiology to model gene propagation, invasions, and population dynamics. The temporal dynamics of $u{(x,t)}$ in one spatial dimension is described by
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Fisher Equation", "weight": 1.0} -->
+
+where $\nu > 0$ is the diffusivity constant, $r$ is the reaction constant, and $a{(x,t)}$ is a source term defined in (2.2) that models external influences affecting the PDE dynamics. The term ${r \cdot u}{({1 - u})}$ captures population expansion limited by carrying capacity, with $r$ as the intrinsic growth rate. The uncontrolled solution of the Fisher equation for a specific choice of parameters and initial condition is depicted in Figure.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Allen-Cahn Equation", "weight": 1.0} -->
+
+The Allen-Cahn equation is a nonlinear PDE modeling phase separation in binary alloy systems in materials science. The temporal dynamics of $u{(x,t)}$ in one spatial dimension, with $u = {\pm 1}$ indicating the presence of one phase or the other, is given by
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Allen-Cahn Equation", "weight": 1.0} -->
+
+where $\nu > 0$ is the diffusivity constant, $V$ is the potential constant, and $a{(x,t)}$ is a source term defined in (2.2) that models external influences affecting the PDE dynamics. We visualize the uncontrolled solution of the Allen-Cahn equation for a specific choice of parameters and initial condition in Figure.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Korteweg-de Vries Equation", "weight": 1.0} -->
+
+The Korteweg-de Vries (KdV) equation is a nonlinear PDE pivotal in understanding nonlinear wave dynamics, modeling solitary wave propagation across shallow water surfaces, with applications extending to plasma physics, nonlinear optics, and quantum mechanics. The temporal dynamics of $u{(x,t)}$ with an additional source term $a{(x,t)}$ that models external influences is given by
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Korteweg-de Vries Equation", "weight": 1.0} -->
+
+We visualize the uncontrolled solution of the KdV equation for a specific choice of parameters and an initial condition that leads to two solitons propagating at different speeds in Figure.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Cahn-Hilliard Equation", "weight": 1.0} -->
+
+The Cahn-Hilliard equation is a nonlinear PDE modeling phase separation in alloys and polymers in materials science. The temporal dynamics of $u{(x,t)}$ in one spatial dimension, with $u = {\pm 1}$ indicating the presence of one phase or the other, is described by
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Cahn-Hilliard Equation", "weight": 1.0} -->
+
+where $\nu > 0$ is the diffusivity constant, $\Gamma$ is the constant surface tensor coefficient, and $a{(x,t)}$ is a source term defined in (2.2) that models external influences affecting the PDE dynamics. We visualize the uncontrolled solution of the Cahn-Hilliard equation for a specific choice of parameters and initial condition in Figure.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Ginzburg-Landau Equation", "weight": 1.0} -->
+
+The Ginzburg-Landau equation is a nonlinear PDE describing the evolution of disturbances near the onset of instability in various physical systems. The temporal dynamics of the amplitude $u{(x,t)}$ of a disturbance in one spatial dimension is governed by
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Ginzburg-Landau Equation", "weight": 1.0} -->
+
+where $a{(x,t)}$ is a source term defined in (2.2) that models external influences affecting the PDE dynamics. We visualize the uncontrolled solution of the Ginzburg-Landau equation for a specific choice of parameters and initial condition in Figure.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Examples of Using controlgym", "weight": 1.0} -->
+
+This section provides several examples for using controlgym. In particular, we include a detailed analysis of how users can design the open-loop dynamics of linear PDEs by selecting physical parameters in Section 3.1. Sections 3.2 and 3.3 provide code examples of applying a model-based controller (as baseline) and an RL-based controller to a helicopter environment, respectively. Lastly, we demonstrate in Section 3.4 how to obtain the uncontrolled PDE trajectories displayed in Figures - using a code example.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Analysis of the Open-Loop Dynamics of Linear PDEs", "weight": 1.0} -->
+
+Evaluating learning algorithms effectively involves designing and tuning the open-loop dynamics of control environments, for adjusting the control difficulties. Precisely, in linear PDE environments, the open-loop dynamics is entirely specified by the spectral properties of matrix $A$ in (2.4). Using the CDR equation from Section 2.2.1 as a case study, we demonstrate the analytical derivation of the open-loop system dynamics and its connection to the physical parameters $c$, $\nu$, and $r$ in the corresponding PDE (2.5). The methodology that we follow is applicable to any linear PDEs with constant physical parameters (Cross and Hohenberg Schmid and Henningson, ).
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Analysis of the Open-Loop Dynamics of Linear PDEs", "weight": 1.0} -->
+
+First, we rewrite the uncontrolled CDR equation (2.5) as
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Analysis of the Open-Loop Dynamics of Linear PDEs", "weight": 1.0} -->
+
+Eigenvalues $\omega$ and eigenfunctions $\alpha{(x)}$ of the linear differential operator $\mathcal{L}$ are defined by the relation ${\mathcal{L}\alpha} = {\omega\alpha}$. For a PDE with constant physical parameters in a periodic domain with length $L$, all eigenfunctions $\alpha{(x)}$ have the form of ${\alpha{(x)}} = e^{ikx}$, where the admissible wavenumbers $k$ are calculated by $k = {pk_{0}}$ with $p \in {\mathbb{N}}$ and $k_{0} = \frac{2\pi}{L}$. The corresponding eigenvalues $\omega$ are obtained by applying $\mathcal{L}$ to $\alpha$; that is,
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Analysis of the Open-Loop Dynamics of Linear PDEs", "weight": 1.0} -->
+
+Equation (3.3) shows that the eigenfunction $e^{ikx}$ either grows or decays exponentially at rate $\omega_{r}$ and propagates spatially with a phase speed of $- {\omega_{i}/k}$. This allows us to employ the spectral properties of $\mathcal{L}$ to characterize the behavior of solutions to (3.1).
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Analysis of the Open-Loop Dynamics of Linear PDEs", "weight": 1.0} -->
+
+To determine the eigenvalues and eigenvectors of matrix $A$ in the discrete-time state-space model (2.4), we discretize space and time in (3.3). Spatial discretization transforms the continuous eigenfunctions into eigenvectors defined by the values of $e^{ikx}$ at $n_{s}$ evenly distributed points within $\Omega$, where the admissible wavenumbers $k$ are the entries of the vector $k_{x}$ from Section 2.2.1. Temporally, $\omega$ is replaced with its discrete-time analogue $\lambda = e^{\omega\Delta t}$. Consequently, the eigenvalues of $A$ are $\lambda = e^{{({{{- {ick}} - {\nu k^{2}}} + r})}\Delta t}$, where $k$ is an element of $k_{x}$.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Model-Based Controllers as Baselines", "weight": 1.0} -->
+
+import controlgym as gym
+env = gym.make("he1")
+lqg = gym.controllers.LQG(env)
+gym.save(lqg)
+Figure 14: LQG controller applied to environment “he1”. Left: Python code snippet for setting up the environment and controller. Right: Plot of the system states against time.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Model-Based Controllers as Baselines", "weight": 1.0} -->
+
+In Figure, we show a code example of implementing the linear-quadratic-Gaussian (LQG) controller to the helicopter environment "he1". In this example, we set the sampling time $\Delta t$ to be $0.1$ and construct the environment using the function call controlgym.make. Other environments could be set up similarly with environment IDs from Tables - and optional keyword arguments. In addition to the LQG controller, we implement LQR and the state-feedback $H_{2}/H_{\infty}$ controllers in controlgym. For examples of applying baseline model-based controllers to linear PDE environments, we refer the readers to the example notebook file in our GitHub repository.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Model-Free RL Algorithms", "weight": 1.0} -->
+
+import controlgym as gym
+env = gym.make("he1")
+ppo = gym.controllers.PPO(env,
+actor_hidden_dim = 64,
+critic_hidden_dim = 64, lr = 1e-5)
+ppo.train(num_train_iter=100,
+num_episodes_per_iter=64,
+episode_length=100, sgd_epoch_num=4,
+mini_batch_size=5, cov_param=0.05)
+gym.save(ppo)
+Figure 15: PPO controller applied to the helicopter environment “he1”
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Model-Free RL Algorithms", "weight": 1.0} -->
+
+Other than the baseline model-based controllers, we also implement the proximal policy optimization (PPO) algorithm in controlgym. At the same time, all our environments support standard RL algorithms (Sutton et al. Kakade Schulman et al. Mnih et al. Sutton and Barto, ), e.g., as seen in stable-baselines3.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Model-Free RL Algorithms", "weight": 1.0} -->
+
+We trained the PPO algorithm over 100 iterations, using the parameters detailed in the code snippet in Figure. Observations drawn from the graph on the right of Figure reveal that the PPO controller, upon convergence, successfully steers three of the four state variables towards zero. However, one state variable settles at approximately $- 0.1$, deviating from the target value, which is not ideal. We provide additional examples of applying PPO to a PDE environment and RL algorithms from stable-baselines3 to a linear control environment in our GitHub repository.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Generate Uncontrolled PDE Trajectories", "weight": 1.0} -->
+
+In Figure, we show how to generate uncontrolled PDE trajectories (Figures -) using a zero controller, exemplified through the CDR equation environment. This approach is instrumental for exploring the open-loop dynamics of PDEs, particularly in tuning physical parameters (cf., Section 3.1) and testing various initial conditions to identify the optimal experimental settings.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Generate Uncontrolled PDE Trajectories", "weight": 1.0} -->
+
+import controlgym as gym
+env = gym.make("convection_diffusion_reaction")
+zero = gym.controllers.Zero(env)
+gym.save(zero)
+Figure 16: Applying a zero controller to the CDR environment to evaluate the open-loop trajectory
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have presented controlgym, a library designed to support the research efforts of L4DC. The controlgym project facilitates a deeper investigation into the performance of RL algorithms, particularly focusing on their convergence, the stability and robustness of RL-based controllers, and the scalability of RL algorithms to systems with high and infinite state dimensionality.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 The research of XZ, WM, and TB were supported in part by the US Army Research Laboratory (ARL) Cooperative Agreement W911NF-17-2-0181, in part by the Army Research Office (ARO) MURI Grant AG285, and in part by the ARO Grant W911NF-24-1-0085. SM and MB were supported solely by MERL.

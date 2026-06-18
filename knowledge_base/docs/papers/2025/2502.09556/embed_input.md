@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Real-Time Fast Marching Tree for Mobile Robot Motion Planning in Dynamic Environments
 
 Topics include Motion planning, Sampling-based planning, Dynamic environments, Replanning, FMT*, Real-time planning.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Basically makes FMT* operable in real-time fashion. Essentially the FMT* version of RT-RRT*.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This paper proposes the Real-Time Fast Marching Tree (RT-FMT), a real-time planning algorithm that features local and global path generation, multiple-query planning, and dynamic obstacle avoidance. During the search, RT-FMT quickly looks for the global solution and, in the meantime, generates local paths that can be used by the robot to start execution faster. In addition, our algorithm constantly rewires the tree to keep branches from forming inside the dynamic obstacles and to maintain the tree root near the robot, which allows the tree to be reused multiple times for different goals. Our algorithm is based on the planners Fast Marching Tree (FMT*) and Real-time Rapidly-Exploring Random Tree (RT-RRT*). We show via simulations that RT-FMT outperforms RT- RRT* in both execution cost and arrival time, in most cases. Moreover, we also demonstrate via simulation that it is worthwhile taking the local path before the global path is available in order to reduce arrival time, even though there is a small possibility of taking an inferior path.

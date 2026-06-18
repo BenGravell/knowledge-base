@@ -1,3 +1,13 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Reinforcement Learning with Misspecified Model Classes
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 Real-world robots commonly have to act in complex, poorly understood environments where the true world dynamics are unknown. To compensate for the unknown world dynamics, we often provide a class of models to a learner so it may select a model, typically using a minimum prediction error metric over a set of training data. Often in real-world domains the model class is unable to capture the true dynamics, due to either limited domain knowledge or a desire to use a small model. In these cases we call the model class misspecified, and an unfortunate consequence of misspecification is that even with unlimited data and computation there is no guarantee the model with minimum prediction error leads to the best performing policy. In this work, our approach improves upon the standard maximum likelihood model selection metric by explicitly selecting the model which achieves the highest expected reward, rather than the most likely model. We present an algorithm for which the highest performing model from the model class is guaranteed to be found given unlimited data and computation.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Empirically, we demonstrate that our algorithm is often superior to the maximum likelihood learner in a batch learning setting for two common RL benchmark problems and a third real-world system, the hydrodynamic cart-pole, a domain whose complex dynamics cannot be known exactly.

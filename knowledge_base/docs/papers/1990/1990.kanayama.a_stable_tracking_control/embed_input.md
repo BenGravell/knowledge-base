@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 A Stable Tracking Control Method for an Autonomous Mobile Robot
 
 Topics include Mobile robot tracking, Nonholonomic vehicles, Wheeled mobile robots, Lyapunov stability, Velocity control, Path tracking, Yamabico.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Gives a Lyapunov-stable tracking controller for nonholonomic mobile robots that maps a reference pose and reference velocities into target linear and angular velocity commands. The velocity and acceleration limiting scheme makes the method practically relevant for real wheeled robots and helped establish a standard tracking-error model for mobile robot control.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 A stable tracking control rule is proposed for nonholonomic vehicles. The stability of the rule is proved through the use of a Liapunov function. Inputs to the vehicle are a reference posture (x_r, y_r, theta_r)^t and reference velocities (nu_r, omega_r)^t. The major objective of this study is to propose a control rule to find reasonable target linear and rotational velocities (nu, omega)^t. Linearizing the system's differential equation is useful for deciding parameters for critical damping for a small disturbance. In order to avoid slippage, a velocity/acceleration limitation scheme is introduced. Several simulation results are presented with or without the velocity/acceleration limiter. The control rule and limiting method proposed are robot independent and hence can be applied to various kinds of mobile robots with a dead reckoning ability. This method was implemented on the autonomous mobile robot Yamabico-11. Experimental results obtained are close to the results with the velocity/acceleration limiter.

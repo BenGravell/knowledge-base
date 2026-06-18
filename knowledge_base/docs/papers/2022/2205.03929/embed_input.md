@@ -1,17 +1,213 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 RobotCore: An Open Architecture for Hardware Acceleration in ROS 2
 
-Hardware acceleration can revolutionize robotics, enabling new applications by speeding up robot response times while remaining power-efficient. However, the diversity of acceleration options makes it difficult for roboticists to easily deploy accelerated systems without expertise in each specific hardware platform. In this work, we address this challenge with RobotCore, an architecture to integrate hardware acceleration in the widely-used ROS 2 robotics software framework. This architecture is target-agnostic (supports edge, workstation, data center, or cloud targets) and accelerator-agnostic (supports both FPGAs and GPUs). It builds on top of the common ROS 2 build system and tools and is easily portable across different research and commercial solutions through a new firmware layer. We also leverage the Linux Tracing Toolkit next generation (LTTng) for low-overhead real-time tracing and benchmarking. To demonstrate the acceleration enabled by this architecture, we use it to deploy a ROS 2 perception computational graph on a CPU and FPGA.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction
+Hardware acceleration can revolutionize robotics, enabling new applications by speeding up robot response times while remaining power-efficient. However, the diversity of acceleration options makes it difficult for roboticists to easily deploy accelerated systems without expertise in each specific hardware platform. In this work, we address this challenge with RobotCore, an architecture to integrate hardware acceleration in the widely-used ROS 2 robotics software framework. This architecture is target-agnostic (supports edge, workstation, data center, or cloud targets) and accelerator-agnostic (supports both FPGAs and GPUs). It builds on top of the common ROS 2 build system and tools and is easily portable across different research and commercial solutions through a new firmware layer. We also leverage the Linux Tracing Toolkit next generation (LTTng) for low-overhead real-time tracing and benchmarking. To demonstrate the acceleration enabled by this architecture, we use it to deploy a ROS 2 perception computational graph on a CPU and FPGA. We employ our integrated tracing and benchmarking to analyze bottlenecks, uncovering insights that guide us to improve FPGA communication efficiency.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+In particular, we design an intra-FPGA ROS 2 node communication queue to enable faster data flows, and use it in conjunction with FPGA-accelerated nodes to achieve a 24.42% speedup over a CPU.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Recent work has seen an explosion of specialized robotics acceleration on nontraditional computing platforms such as GPUs, FPGAs, and ASICs. This has been sparked by the decline of Moore's Law and Dennard Scaling, which limits the performance of traditional CPU computing, positioning hardware acceleration as an emerging solution to achieve high performance and power efficiency in robotics applications.
 
-To address this challenge, we present *RobotCore*, an *open architecture for hardware acceleration* that extends the Robot Operating System (ROS), the *de facto* standard for robot application development. ROS is widely used by academia and industry, and early work has demonstrated its potential for hardware-accelerated robotics applications. We facilitate this emerging direction by implementing a vendor and platform-agnostic abstraction layer for hardware acceleration in robotics (Fig. 1).
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+However, this increased diversity of computing platforms leads to a dramatic growth in design space complexity that makes it difficult for users to easily deploy robotics applications on hardware accelerators without substantial expertise in each specific accelerator platform. The Open Computing Language (OpenCL) is an effort to standardize hardware acceleration under a common language, but its adoption across silicon vendors has been uneven and support for it varies. As a result, current hardware acceleration usage is often tied to a particular vendor's solutions and platforms. This not only impedes interoperability and reuse of acceleration kernels, but presents yet another layer of complexity that users must overcome while implementing robotic systems that use acceleration kernels. A key obstacle is that each hardware acceleration vendor provides their own framework for development, but these are often disconnected from the common tools and libraries in robotics, and mostly aimed at hardware engineers, not roboticists.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To address this challenge, we present *RobotCore*, an *open architecture for hardware acceleration* that extends the Robot Operating System (ROS), the *de facto* standard for robot application development. ROS is widely used by academia and industry, and early work has demonstrated its potential for hardware-accelerated robotics applications. We facilitate this emerging direction by implementing a vendor and platform-agnostic abstraction layer for hardware acceleration in robotics (Fig. 1). Starting with a popular robotics API as the foundation, our ROS 2-based acceleration architecture provides a common ground for both academic researchers and silicon vendors alike to develop specialized robotics acceleration kernels, and deploy them for easy usage by a large, established user base.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Once roboticists can easily harness hardware acceleration across multiple platforms, the next major challenge is profiling and benchmarking the application. Benchmarking is needed to determine the best mapping of the robotics computational graph to the different hardware resources available to optimize overall robot system performance. This is a difficult task, however, since every application is different and deployment scenarios are widespread. Full end-to-end system analysis is required to understand how different implementation tradeoffs impact overall performance. To enable this analysis, we demonstrate how to leverage prior work to benchmark accelerated ROS 2 kernels with a low-overhead framework for real-time tracing based on the Linux Tracing Toolkit next generation (LTTng). We demonstrate analysis of a case study deployment using CPU and FPGA nodes for a simple perception pipeline.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Using our framework and benchmarking, we diagnose that substantial latency bottlenecks in this computational graph come from inter-node interactions across ROS 2 layers in the CPU. We recognize this as an opportunity for design optimization in hardware accelerators, because interaction with the CPU should not be necessary for dataflow between nodes co-located on the same non-CPU platform (e.g., FPGA).
 
-## Conclusion and Future Work
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In this work we present a new open infrastructure to introduce hardware acceleration in ROS 2 in a scalable and technology-agnostic manner. Our architecture allows us to increase the performance of robotics applications through the *integration of hardware acceleration* with ROS 2 APIs and its conventional flows. We do so by extending ROS 2 in a way that is *portable across accelerator platforms* (e.g., FPGAs, GPUs) and system deployments (e.g., edge devices, workstations, data centers, and cloud).
+Based on the benchmarking analysis, we demonstrate two novel separate paths toward *hardware acceleration*: kernel fusion, and improved message passing. Kernel fusion results in the highest speedup, an average of $26.96\%$, but it requires manual redesign of the underlying kernels. To avoid manual redesign entirely and improve design re-use and portability, we alternatively develop an intra-FPGA ROS 2 node communication queue template that leverages AXI4-Stream interfaces and transfers data in a sequential streaming manner directly between acceleration kernels. Using this design pattern improves the overall inter-node performance in our computational graph by $24.42\%$ on average, while requiring no change in the accelerated kernels. This template extends to applications beyond our case study, since it can be reused for any ROS 2 inter- or intra-process communication by adapting its data types.
 
-We use our open architecture and our tracing and benchmarking infrastructure to demonstrate a principled design methodology for ROS 2 hardware acceleration, exposing insights into how to optimize overall system-wide performance by analyzing a CPU baseline, and comparing accelerator design iterations to that original baseline. We examine a case study using the Xilinx Kria KV260 platform to demonstrate FPGA acceleration of one of the most popular packages in the ROS perception pipeline: image_pipeline.
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Create a new open infrastructure to increase the performance of robotics applications by enabling *integration of hardware acceleration* into ROS 2 that is *flexible across accelerator platforms* (e.g., FPGAs, GPUs) and system deployments (e.g., edge devices, workstations, data centers, and cloud);
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Expose insights into how to optimize overall system-wide performance by extending and providing a template API for *low-overhead tracing and benchmarking framework* to analyze application performance across hardware accelerated ROS 2 computational graphs, laying foundation to analyze mixed-platform systems (e.g., combinations of CPU and FPGA-based nodes); and
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Increase ROS 2 node-to-node dataflow performance to achieve an average overall accelerator speedup of $24.42\%$ over CPU in our experiments by designing a template for *intra-FPGA ROS 2 node communication queues*, based on insights uncovered using our open acceleration infrastructure and low-overhead benchmarking on a case study of a simple perception graph.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "II-A ROS and ROS 2", "weight": 1.0} -->
+
+The Robot Operating System (ROS) is an open-source collection of software frameworks and tools designed to provide a *structured communications layer* for robotics applications running on heterogenous computer hardware.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "II-A ROS and ROS 2", "weight": 1.0} -->
+
+ROS applications are designed around event driven graphs of *Nodes* which communicate through *Messages* on various *Topics*, *Services*, and *Actions*. Each Node can be thought of as a software process which applies an algorithm to the input message and then broadcasts the resulting output message. By managing all inter-Node communications across abstraction layers (e.g., rclcpp, rcl, rmw), ROS simplifies the robotic system deployment process and enables roboticists to quickly develop and test new algorithms. ROS also provides substantial infrastructure to facilitate the automatic building, evaluation, and deployment of robotic systems, including dependency managers, package managers, build systems and tools, simulators, and visualizers.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "II-A ROS and ROS 2", "weight": 1.0} -->
+
+ROS 2 is a re-design of ROS that modernizes and updates all of its components while adhering to its core design principles. ROS 2 provides a stronger partitioning of the communication middleware from the robotics logic, enabling more flexibility, scalability, and reliability. ROS 2 also provides an updated build system, ament, and a new universal build tool, colcon. This provides a single simple interface for managing the building and deployment of complete robotics applications. Leveraging these tools, roboticists can write new algorithms and rely on ROS 2 to handle all lower level operations and middleware management.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "II-B Hardware Acceleration for ROS and ROS 2", "weight": 1.0} -->
+
+There has been previous work that has focused on ways to accelerate robotics applications by developing tools and methodologies to help roboticists leverage hardware acceleration for select ROS Nodes and to optimize the ROS computational graph through adaptive computing. There has also been some work to accelerate the scheduling and communication layers used by ROS and ROS 2. Unfortunately, the majority of these efforts assume an end-user has substantial experience with embedded systems and embedded hardware flows, or is customized to a specific hardware acceleration board or deployment scenario.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "II-B Hardware Acceleration for ROS and ROS 2", "weight": 1.0} -->
+
+state/.style= rectangle, rounded corners, draw=gray!80, fill=gray!20, thick, minimum height=2em, inner sep=10pt, text centered, state2/.style= rectangle, rounded corners, draw=black, fill=gray!70, thick, minimum height=2em, inner sep=10pt, text centered, epath/.style=draw, ¡-¿, shorten ¡=1pt, shorten ¿=1pt, cir/.style=draw, circle, fill, inner sep=2.5pt, text=white {tikzpicture}[-¿, ¿=latex, line width=0.75pt] \draw[fill=white, color=white] (-10.8,-4.5) rectangle (9.2,4.5); [text width=4cm] (mug) at (-12.9,9.) ROS 2 Stack; \node[text width=15cm] (mug) at (2.5,9.) Open Architecture for Hardware Acceleration; [rotate=90] (site) at
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "II-B Hardware Acceleration for ROS and ROS 2", "weight": 1.0} -->
+
+(-10.6,1) github.com/ros-acceleration; [state, text width=7cm, text ragged] (buildsystem) at (-6.4, 5.) Build System (ament) ; \node[state, text width=7cm, text ragged, fill=green!10] (amentacceleration) at (-6.4, 3.75) \tikz[baseline=(char.base)] \node[shape=circle,draw,inner sep=1pt, minimum height=12pt] (char) A; ament_acceleration [state, text width=2.2cm, text height=0.6cm, text ragged, fill=green!10] (amentvitis) at (-8.8, 2.2) \tikz[baseline=(char.base)] \node[shape=circle,draw,inner sep=1pt, minimum height=12pt] (char) A; ament_vitis [state, text width=2.6cm, text height=0.6cm, fill=gray!5, text ragged]
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "II-B Hardware Acceleration for ROS and ROS 2", "weight": 1.0} -->
+
+(amentrocm) at (-5.6, 2.2) \tikz[baseline=(char.base)] \node[shape=circle,draw,inner sep=1pt, minimum height=12pt] (char) A; ament_jetpack [state, text width=0.6cm, text height=1cm, fill=gray!5] (amentmore) at (-3.2, 2.2).
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "II-B Hardware Acceleration for ROS and ROS 2", "weight": 1.0} -->
+
+[state, text width=4.6cm, text ragged] (colcon) at (0.2, 5.) Build Tools (colcon) [state, text width=4.6cm, text ragged, fill=green!10] (colconaccel) at (0.2, 3.75) \tikz[baseline=(char.base)] \node[shape=circle,draw,inner sep=1pt, minimum height=12pt] (char) B; colcon-acceleration [state, text width=1.85cm, text height=0.6cm, text ragged] (vitis) at (-1.15, 2.2) Xilinx [state, text width=1.85cm, text height=0.6cm, text ragged, fill=gray!5] (cuda) at (1.5, 2.2) Nvidia [state, text width=10cm, text ragged, fill=green!10] (firmware) at (8.3, 5.) \tikz[baseline=(char.base)] \node[shape=circle,draw,inner
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "II-B Hardware Acceleration for ROS and ROS 2", "weight": 1.0} -->
+
+sep=1pt, minimum height=12pt] (char) C; Firmware ; \node[state, text width=10cm, text ragged, fill=green!10] (accelerationfirmware) at (8.3, 3.75) \tikz[baseline=(char.base)] \node[shape=circle,draw,inner sep=1pt, minimum height=12pt] (char) C; acceleration_firmware ; \node[state, text width=3.5cm, text height=0.5cm, text ragged, fill=green!10] (accelerationfirmwarekv260) at (5.0, 2.2) \tikz[baseline=(char.base)] \node[shape=circle,draw,inner sep=1pt, minimum height=12pt] (char) C; acceleration_ firmware_kv260; \node[state, text width=3.5cm, text height=0.5cm, text ragged, fill=green!10] (accelerationfirmwarejetson) at (9.3, 2.2)
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "II-B Hardware Acceleration for ROS and ROS 2", "weight": 1.0} -->
+
+\tikz[baseline=(char.base)] \node[shape=circle,draw,inner sep=1pt, minimum height=12pt] (char) C; acceleration_ firmware_jetson; \node[state, text width=1.2cm, text height=1cm, fill=gray!5] (accelerationfirmwaremore) at (12.45, 2.2)...; [state, text height=0.15cm, text width=23.2cm, text ragged, fill=green!10] (tracing) at (1.7, 6.3) \tikz[baseline=(char.base)] \node[shape=circle,draw,inner sep=1pt, minimum height=12pt] (char) D; Integrated Tracing and Benchmarking ; \node[state, text width=23.2cm, text ragged] (accelerationexamples) at (1.7, 7.5) Applications (e.g., image_pipeline) [state, text width=3.2cm, text height=2.2cm] (userland) at (-12.9,
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "II-B Hardware Acceleration for ROS and ROS 2", "weight": 1.0} -->
+
+7.) userland ; \node[state, text width=3.2cm, text height=3.2cm] (tooling) at (-12.9, 3.4) tooling [state, text width=3.2cm] (rcl) at (-12.9, 0.8) rclcpp [state, text width=3.2cm] (rcl) at (-12.9, -0.25) rcl ; \node[state, text width=3.2cm] (rmw) at (-12.9,-1.25) rmw ; \node[state, text width=3.2cm] (adapter) at (-12.9,-2.3) adapter ; \node[state, text width=3.2cm] (middleware) at (-12.9,-3.4) middleware [text width=23.5cm] (pilar1) at (2,-1.25) Extensions to ROS 2 are highlighted in green and include: \tikz[baseline=(char.base)]
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "II-B Hardware Acceleration for ROS and ROS 2", "weight": 1.0} -->
+
+\node[shape=circle,draw,inner sep=1pt, minimum height=12pt] (char) A; Extensions to the build system (ament); \tikz[baseline=(char.base)] \node[shape=circle,draw,inner sep=1pt, minimum height=12pt] (char) B; Extensions to the build tools (colcon); \tikz[baseline=(char.base)] \node[shape=circle,draw,inner sep=1pt, minimum height=12pt] (char) C; A new firmware pillar for workspaces, simplifying the production and deployment of acceleration kernels; \tikz[baseline=(char.base)] \node[shape=circle,draw,inner sep=1pt, minimum height=12pt] (char) D; Low-overhead real-time tracing and benchmarking based on Linux Tracing Toolkit next generation (LTTng), extending prior work with tracepoint insertion for hardware accelerated nodes.; Figure 2: Overview of the components of the open architecture for hardware acceleration in ROS 2.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "II-B Hardware Acceleration for ROS and ROS 2", "weight": 1.0} -->
+
+Our proposed open architecture takes a ROS-centric approach to integrate the hardware and embedded flows directly into the core ROS 2 ecosystem. This enables a separation between those who produce accelerated kernels and those who use them by providing end-users with a build and deployment experience for hardware accelerators similar to the standard, non-accelerated ROS 2 experience.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "An Open Architecture for Hardware Acceleration in ROS 2", "weight": 1.0} -->
+
+Our open architecture (Fig. 2) extends the core ROS 2 build system and tools to provide platform-agnostic (i.e., supports edge, workstation, data center, or cloud targets) and technology-agnostic (i.e., supports FPGAs and GPUs), hardware-accelerated ROS 2 capabilities for roboticists. We: A) extend the ROS 2 build system, ament; B) extend the ROS 2 meta build tool, colcon; and C) develop integrated ROS 2 firmware extensions. We also D) integrate a low-overhead tracing and benchmarking framework to enable the analysis of holistic application performance across ROS graphs. This section describes these extensions in detail.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-A Extending the ROS 2 Build System", "weight": 1.0} -->
+
+The first pillar of our open architecture, Fig. 2 \\tikz\[baseline=(char.base)\] \\node\[shape=circle,draw,inner sep=1pt, minimum height=12pt\] (char) A allows roboticists to generate acceleration kernels directly from the ROS 2 build system (ament) in the same way they generate CPU binaries. To do so, the ament_acceleration ROS 2 package and its extensions abstract the ROS build system from vendor-specific accelerators (e.g. FPGAs or GPUs), including their frameworks and software platforms. This allows the build system to easily support hardware acceleration across commercial solutions while using the same syntax, simplifying the work of ROS 2 package maintainers.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-A Extending the ROS 2 Build System", "weight": 1.0} -->
+
+Under the hood, each hardware-specific extension of ament_acceleration abstracts away the corresponding vendor-specific firmware. For example, ament_vitis^11^1github.com/ros-acceleration/ament_vitis relies on the proprietary Xilinx Vitis and on the Xilinx Runtime (XRT) library. This simplifies the creation of acceleration kernels and separates firmware concerns from algorithm development. This way, robotics engineers can focus on improving their computational graphs with a ROS-centric development flow. Separately, hardware experts, potentially sponsored by silicon vendors, can improve acceleration kernels for a particular commercial solution. Overall, these extensions help achieve the objective of simplifying the creation and integration of acceleration kernels from different vendors into ROS 2 computational graphs.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "III-A Extending the ROS 2 Build System", "weight": 1.0} -->
+
+Fig. 2 depicts the build system extensions showing how ament_acceleration abstracts the build system from vendor-specific solutions. As an example of an alternative acceleration technology supported, ament_jetpack is included and illustrates the integration of Nvidia JetPack.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "III-B Extending the ROS 2 Build Tools", "weight": 1.0} -->
+
+The second pillar of our open architecture, Fig. 2 \\tikz\[baseline=(char.base)\] \\node\[shape=circle,draw,inner sep=1pt, minimum height=12pt\] (char) B extends the colcon ROS 2 meta build tool to integrate hardware acceleration flows into the ROS 2 Command Line Interface (CLI) commands. Examples of these extensions include the selection of the target accelerator and build-time through mixins, emulation capabilities to speed-up the development process and facilitate design without access to the real hardware, raw disk image production tools, and simplified configuration of hypervisors. These extensions are implemented by the colcon-acceleration^22^2github.com/ros-acceleration/colcon-acceleration ROS 2 package. As in Section III-A, colcon_acceleration further enables roboticists to leverage hardware accelerators while using standard ROS 2 commands and flows.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "III-C Adding Firmware Extensions", "weight": 1.0} -->
+
+Represented by the abstract acceleration_firmware ROS package and its corresponding specializations (e.g. acceleration_firmware_kv260^33^3github.com/ros-acceleration/acceleration_firmware_kv260 for the Xilinx Kria KV260 board), the third pillar of our open architecture, Fig. 2 \\tikz\[baseline=(char.base)\] \\node\[shape=circle,draw,inner sep=1pt, minimum height=12pt\] (char) C firmware extensions, are meant to provide firmware artifacts for each supported technology solution. This again simplifies the process for ROS package consumers and maintainers, and further aligns hardware acceleration workflows with typical ROS development flows. Each ROS 2 workspace can leverage multiple firmware packages, but can only use one at a time.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "III-C Adding Firmware Extensions", "weight": 1.0} -->
+
+As colcon_acceleration supports the selection of the active firmware in the ROS workspace, by separating the firmware out into their own packages, our open architecture enables silicon vendors to maintain an acceleration_firmware\_\<solution\> package that automatically integrates into standard ROS 2 workflows.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "III-D Low-Overhead Real-Time Tracing & Benchmarking", "weight": 1.0} -->
+
+In the context of hardware acceleration in robotics, it is fundamental to be able to inspect performance improvements. To that end, it is important to benchmark and trace the system. Benchmarking is the process of running a computer program to assess its relative performance, whereas tracing is a technique used to understand what is happening in a system while it is running. Tracing helps determine which pieces of a Node are consuming more compute cycles or generating indeterminism, and are thereby good candidates for hardware acceleration. Benchmarking instead helps investigate the relative performance of an acceleration kernel versus its CPU scalar computing baseline. Similarly, benchmarking also helps with comparing acceleration kernels across different hardware acceleration technology solutions (e.g., Kria KV260 vs. Jetson Nano) and across kernel implementations within the same hardware acceleration technology solution.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "III-D Low-Overhead Real-Time Tracing & Benchmarking", "weight": 1.0} -->
+
+In order to trace and evaluate the relative performance of both ROS 2 individual Nodes and complete computational graphs, we leverage Linux Tracing Toolkit next generation (LTTng ) for tracing and benchmarking, Fig. 2 \\tikz\[baseline=(char.base)\] \\node\[shape=circle,draw,inner sep=1pt, minimum height=12pt\] (char) D;. Building upon prior work, LTTng provides a collection of flexible tracing tools and multipurpose instrumentation for ROS 2 that allow collecting runtime execution information in real-time in distributed systems using low-overhead tracers. For example, when enabling all ROS 2 instrumentation, end-to-end message latency overhead is below $5.5$us, making it suitable for a wide variety of hardware acceleration use cases. Building on top of this foundation, we developed a tracing and benchmarking template that enables roboticists to easily instrument both their accelerated and non-accelerated code in a vendor-agnostic manner.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "III-D Low-Overhead Real-Time Tracing & Benchmarking", "weight": 1.0} -->
+
+This infrastructure also lays a foundation for future integration with platform-specific performance counters and tracing tools that can extend analysis to more fine-grained introspection and profiling of the kernels running onboard an accelerator device.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Case Study: Accelerating ROS 2 Perception", "weight": 1.0} -->
+
+For our case study, we trace, benchmark, and accelerate a subset of image_pipeline, one of the most popular packages in the ROS 2 ecosystem, and a core piece of the ROS perception stack. We compose a simple computational graph consisting of two nodes, resize and rectify, as shown in Fig. 3. We then leverage our open architecture for hardware acceleration (Section III) to benchmark, trace and accelerate our computational graph, comparing a CPU to an FPGA implementation. In this section we describe the methodology of our approach, and analyze our timing results, presenting a case study for how our open architecture can help enable hardware accelerated applications in ROS 2.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-A Methodology", "weight": 1.0} -->
+
+We propose the following steps to analyze a ROS 2 application and design appropriate acceleration: (i) instrument both the core components of ROS 2 and the target kernels; (ii) trace and benchmark the kernels on the CPU to establish a baseline; (iii) develop a hardware accelerated implementation on alternate hardware (e.g., GPU, FPGA); and (iv) trace, benchmark against the CPU baseline, and improve the accelerated implementation.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-A Methodology", "weight": 1.0} -->
+
+Following this methodology, in our case study we begin by instrumenting both ROS 2 and our target kernels with LTTng probes. Reusing past work and probes allows us to easily get a grasp of the dataflow interactions within rmw, rcl, and rclcpp ROS 2 layers. We then also instrument the ResizeNode and RectifyNode components of the image_pipeline package used in our case study. The relevant tracepoints placed in our computational graph across ROS 2 stack layers are listed in Fig. 4 and 5 (full list in Pull Request $717$ in the image_pipeline repository ). On the CPU, these tracepoints enable us to isolate the latency of computation within a node from the time it takes ROS 2 to package and pass information between nodes.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-A Methodology", "weight": 1.0} -->
+
+In the following sections we report timing results from using a Xilinx Kria® KV260 Vision AI Starter Kit, which has an onboard integrated Quad-core Arm® Cortex®-A53 CPU and an FPGA containing 256K System Logic Cells and 1.2K DSP Slices. All benchmark results report the mean value obtained from a $60$ second continuous run of the computational graph. The FPGA kernels are synthesized, placed and routed with a $250$MHz clock.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-B CPU-Only Tracing Results", "weight": 1.0} -->
+
+Fig. 4 demonstrates the results of instrumenting and tracing our target computational graph (Fig. 3) across multiple ROS 2 stack layers on the CPU, and Fig. 5 summarizes the breakdown of timing results across operations, establishing the CPU baseline for our application. The breakdown in Fig. 5 shows the time taken to do the computations within each node, as well as the time taken by the ROS 2 lower-level message-passing system across the various abstraction layers. We find that the message-passing overhead in our application consumes more than $73.3\%$ of the total time and is therefore a large bottleneck in the total computation time of the full graph. We next explore FPGA hardware acceleration options, comparing performance to the CPU baseline.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "IV-C Accelerating and Benchmarking CPU & FPGA", "weight": 1.0} -->
+
+In this section, we explore hardware acceleration options for an FPGA for our case study application (Fig. 3). In Section IV-C1, we first explore hardware acceleration kernels for the core logic of each of the Nodes (*rectify* and *resize*), harnessing our open architecture for implementation. In Section IV-C2, we then explore two different FPGA designs to accelerate the computational graph by optimizing dataflow interactions between FPGA-based nodes, addressing the ROS 2 *communication infrastructure* performance bottleneck revealed by the CPU baseline in Section IV-B.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "IV-C1 Accelerating Nodes & Components on an FPGA", "weight": 1.0} -->
+
+We first accelerate the computations at each one of the graph nodes. The RectifyNode and ResizeNode *Components* of Fig. 3 are accelerated using Xilinx's HLS, XRT, and OpenCL targeting the Kria KV260^44^4github.com/ros-acceleration/image_pipeline/blob/ros2/image_proc/src/ {rectify,resize}\_fpga.cpp. Each ROS 2 *Component* has an associated acceleration kernel^55^5github.com/ros-acceleration/image_pipeline/tree/ros2/image_proc/src/ image_proc that leverages the Vitis Vision Library, a computer vision library optimized for Xilinx silicon solutions and based on OpenCV APIs. These accelerated *Components* and their kernels easily integrate with the rest of the ROS meta-package through our open architecture (Fig. 2), and are openly available to the public.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "IV-C1 Accelerating Nodes & Components on an FPGA", "weight": 1.0} -->
+
+Building the accelerators is abstracted away from roboticist end-users, and takes no significant additional effort than the standard build of the image_pipeline.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "IV-C1 Accelerating Nodes & Components on an FPGA", "weight": 1.0} -->
+
+After benchmarking the accelerated *Components* using the trace points of Section IV-B, we observe an average $6.22\%$ speedup in the total computation time of the perception pipeline when offloading tasks to the FPGA (see Fig. 6). For this case study example, it is not surprising that accelerating the computational nodes and components alone only gives a modest performance increase because, as we saw in Section IV-B, the performance bottleneck in the baseline CPU system was communication overhead, not computation.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "IV-C2 Accelerating the Computational Graph on an FPGA", "weight": 1.0} -->
+
+In our case study application, message-passing overheads across the ROS 2 abstraction layers far outweigh other operations, so in this section we focus on optimizing these dataflows. Addressing performance bottlenecks in our system leads to overall lower computational graph latency, and to faster robots. To seize this acceleration opportunity in our case study example, we optimize the dataflow within the computational graph and across ROS 2 Nodes and Components through two different design approaches: (a) kernel fusion, and (b) dedicated streaming queues.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "IV-C2 Accelerating the Computational Graph on an FPGA", "weight": 1.0} -->
+
+The speedup obtained by integrating both ROS *Components* on the FPGA into a *single unified kernel* is shown in Fig. 6. The benefits of doing this are two-fold. First, we avoid any message-passing between the *Rectify* and *Resize* Nodes' *Components*. Second, we avoid the compute cycles wasted while memory is mapped back and forth between the host CPU and the FPGA. This results in an overall latency speedup of $26.96\%$ over the CPU. In addition to speeding up the perception stage, another added benefit of this improvement is that such speedups make room for other robot tasks in a complete end-to-end system. Note, however, that this improvement required the construction of an entirely new ROS Node and unified acceleration kernel on the FPGA.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "IV-C2 Accelerating the Computational Graph on an FPGA", "weight": 1.0} -->
+
+We then develop a template for an *accelerated ROS 2 message passing* interface on the FPGA. This interface is *Node* and *Component*-agnostic and can be leveraged by roboticists to accelerate the communication channels of any computational graph on an FPGA. This is done by leveraging an AXI4-Stream interface to create an intra-FPGA ROS 2 communication queue template which is then used to pass data across Nodes in the FPGA without sending messages to the CPU^66^6AXI4-Stream interfaces are data-type specific and as such our template may require type adaptations for other use cases depending on the Node-to-Node data interactions.. This allows us to completely bypass the original CPU-centric ROS 2 message-passing system and optimizes dataflow, achieving an overall latency improvement of $24.42\%$ over the CPU in our application (see Fig. 6).
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "IV-C2 Accelerating the Computational Graph on an FPGA", "weight": 1.0} -->
+
+Based on these results, for this case study, we show that implementing FPGA-accelerated versions of key ROS 2 *Components* is easily feasible, and that addressing the right bottleneck is key to improving performance. Tracing and benchmarking the CPU baseline suggested that communication is the bottleneck in our case study. In fact, independent examination of, e.g., a single run of the fused-kernel accelerator using the Xilinx Vitis Analyzer, confirms that this is also the case on the FPGA---we note that integrating device-specific profiling tools into our foundational tracing infrastructure in future work can further automate this type of fine-grained introspection of kernels onboard accelerator devices. We can achieve overall performance improvements by either combining Nodes or streamlining intra-FPGA communication. While combining nodes may result in slightly higher performance, it is a much more labor-intensive design effort. By contrast, our accelerated intra-FPGA-Node communication queue template can be applied by any roboticist, to any computational graph.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+
+In this work we present a new open infrastructure to introduce hardware acceleration in ROS 2 in a scalable and technology-agnostic manner. Our architecture allows us to increase the performance of robotics applications through the *integration of hardware acceleration* with ROS 2 APIs and its conventional flows. We do so by extending ROS 2 in a way that is *portable across accelerator platforms* (e.g., FPGAs, GPUs) and system deployments (e.g., edge devices, workstations, data centers, and cloud). We also present a *template for low-overhead tracing and benchmarking* to analyze performance across both hardware accelerated and standard ROS 2 computational graphs.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+
+We use our open architecture and our tracing and benchmarking infrastructure to demonstrate a principled design methodology for ROS 2 hardware acceleration, exposing insights into how to optimize overall system-wide performance by analyzing a CPU baseline, and comparing accelerator design iterations to that original baseline. We examine a case study using the Xilinx Kria KV260 platform to demonstrate FPGA acceleration of one of the most popular packages in the ROS perception pipeline: image_pipeline. We first demonstrate a modest performance speedup of $6.22\%$ from offloading perception tasks to the FPGA, and then increased speedup by additionally addressing the communication overheads that we identified as bottlenecks by analyzing our CPU baseline. We achieved a speedup of $26.96\%$ from re-architecting the graph to combine nodes and avoid inter-FPGA-node communication delays inflicted by interactions with the CPU, but this approach requires substantial effort from users to re-architect their graphs.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+
+Instead, to avoid this overhead and stay in alignment with the ROS 2 programming model, we then design a novel *template for intra-FPGA ROS 2 Node communication queues* that allows ROS *Nodes* and *Components* to deliver faster dataflows, achieving a $24.42\%$ speedup over a CPU without excessive manual per-kernel design effort.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+
+We contribute our open architecture to the ROS community, so that future work can use our infrastructure and extend to new applications beyond our case study example. Promising directions for future work include: benchmarking computational graphs with other hardware solutions (e.g., GPUs) to establish consistent cross-accelerator comparisons; extending our tracing and benchmarking approach to include additional tracing information (e.g., profiling within FPGA or GPU devices) for more fine-grained introspection of kernels running onboard accelerators; and applying our open architecture and analysis to other ROS 2 packages.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+
+Our code is disclosed under a commercially friendly open-source license and is available and maintained at the ROS 2 Hardware Acceleration Working Group GitHub organization: This work is being further integrated into the ROS ecosystem through a community standardization effort, REP-2008.

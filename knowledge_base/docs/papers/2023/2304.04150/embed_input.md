@@ -1,19 +1,153 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 RoboPianist: Dexterous Piano Playing with Deep Reinforcement Learning
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Replicating human-like dexterity in robot hands represents one of the largest open problems in robotics. Reinforcement learning is a promising approach that has achieved impressive progress in the last few years; however, the class of problems it has typically addressed corresponds to a rather narrow definition of dexterity as compared to human capabilities. To address this gap, we investigate piano-playing, a skill that challenges even the human limits of dexterity, as a means to test high-dimensional control, and which requires high spatial and temporal precision, and complex finger coordination and planning. We introduce RoboPianist, a system that enables simulated anthropomorphic hands to learn an extensive repertoire of 150 piano pieces where traditional model-based optimization struggles. We additionally introduce an open-sourced environment, benchmark of tasks, interpretable evaluation metrics, and open challenges for future study. Our website featuring videos, code, and datasets is available at
 
-## Introduction
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Despite decades-long research into replicating the dexterity of the human hand, high-dimensional control remains a grand challenge in robotics. This topic has inspired considerable research from both mechanical design and control theoretic points of view. Learning-based approaches have dominated the recent literature, demonstrating proficiency with in-hand cube orientation and manipulation and have scaled to a wide variety of geometries. These tasks, however, correspond to a narrow set of dexterous behaviors relative to the breadth of human capabilities.
+Despite decades-long research into replicating the dexterity of the human hand, high-dimensional control remains a grand challenge in robotics. This topic has inspired considerable research from both mechanical design and control theoretic points of view. Learning-based approaches have dominated the recent literature, demonstrating proficiency with in-hand cube orientation and manipulation and have scaled to a wide variety of geometries. These tasks, however, correspond to a narrow set of dexterous behaviors relative to the breadth of human capabilities. In particular, most tasks are well-specified using a single goal state or termination condition, limiting the complexity of the solution space and often yielding unnatural-looking behaviors so long as they satisfy the goal state. How can we bestow robots with artificial embodied intelligence that exhibits the same precision and agility as the human motor control system?
 
-In this work, we seek to challenge our methods with tasks commensurate with this complexity and with the goal of emergent human-like dexterous capabilities. To this end, we introduce a family of tasks where success exemplifies many of the properties that we seek in high-dimensional control policies. Our unique desiderata are (i) spatial and temporal precision, (ii) coordination, and (iii) planning.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We propose RoboPianist, an end-to-end system that leverages deep reinforcement learning (RL) to synthesize policies capable of playing a diverse repertoire of musical pieces on the piano. We show that a combination of careful system design and human priors (in the form of fingering annotations) is crucial to its performance. Furthermore, we introduce RoboPianist-repertoire-150, a benchmark of 150 songs, which allows us to comprehensively evaluate our proposed system and show that it surpasses a strong model-based approach by over $83\%$.
+In this work, we seek to challenge our methods with tasks commensurate with this complexity and with the goal of emergent human-like dexterous capabilities. To this end, we introduce a family of tasks where success exemplifies many of the properties that we seek in high-dimensional control policies. Our unique desiderata are (i) spatial and temporal precision, (ii) coordination, and (iii) planning. We thus built an anthropomorphic simulated robot system, consisting of two robot hands situated at a piano, whose goal is to play a variety of piano pieces, i.e., correctly pressing sequences of keys on a keyboard, conditioned on sheet music, in the form of a Musical Instrument Digital Interface (MIDI) transcription (see Figure 1). The robot hands exhibit high degrees of freedom (22 actuators per hand, for a total of 44), and are partially underactuated, akin to human hands.
 
-## Experimental Setup
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Controlling this system entails sequencing actions so that the hands are able to hit exactly the right notes at exactly the right times; simultaneously achieving multiple different goals, in this case, fingers on each hand hitting different notes without colliding; planning how to press keys in anticipation of how this would enable the hands to reach later notes under space and time constraints.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We propose RoboPianist, an end-to-end system that leverages deep reinforcement learning (RL) to synthesize policies capable of playing a diverse repertoire of musical pieces on the piano. We show that a combination of careful system design and human priors (in the form of fingering annotations) is crucial to its performance. Furthermore, we introduce RoboPianist-repertoire-150, a benchmark of 150 songs, which allows us to comprehensively evaluate our proposed system and show that it surpasses a strong model-based approach by over $83\%$. Finally, we demonstrate the effectiveness of multi-task imitation learning in training a single policy capable of playing multiple songs. To facilitate further research and provide a challenging benchmark for high-dimensional control, we open source the piano-playing environment along with RoboPianist-repertoire-150 at
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Experimental Setup", "weight": 1.0} -->
 
 In this section, we introduce the simulated piano-playing environment as well as the musical suite used to train and evaluate our agent.
 
-## Limitations
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Simulation details", "weight": 1.0} -->
 
-While RoboPianist produces agents that push the boundaries of bi-manual dexterous control, it does so in a simplified simulation of the real world. For example, the velocity of a note, which modulates the strength of the key press, is ignored in the current reward formulation. Thus, the dynamic markings of the composition are ignored. Furthermore, our RL training approach can be considered wasteful, in that we learn by attempting to play the entire piece at the start of every episode, rather than focusing on the parts of the song that need more practicing.
+We build our simulated piano-playing environment (depicted in Figure 1) using the open-source MuJoCo physics engine. The piano model is a full-size digital keyboard with 52 white keys and 36 black keys. We use a Kawai manual as reference for the keys' positioning and dimensions. Each key is modeled as a joint with a linear spring and is considered "active" when its joint position is within $0.5{^\circ}$ of its maximum range, at which point a synthesizer is used to generate a musical note. We also implement a mechanism to sustain the sound of any currently active note to mimic the mechanical effect of a sustain pedal on a real piano. The left and right hands are Shadow Dexterous Hand models from MuJoCo Menagerie, which have been designed to closely reproduce the kinematics of the human hand.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Musical representation", "weight": 1.0} -->
+
+We use the Musical Instrument Digital Interface (MIDI) standard to represent a musical piece as a sequence of time-stamped messages corresponding to note-on or note-off events. A message carries additional pieces of information such as the pitch of a note and its velocity. We convert the MIDI file into a time-indexed note trajectory (a.k.a, piano roll), where each note is represented as a one-hot vector of length 88. This trajectory is used as the goal representation for the agent, informing it which keys must be pressed at each time step.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Musical evaluation", "weight": 1.0} -->
+
+We use precision, recall, and F1 scores to evaluate the proficiency of our agent. These metrics are computed by comparing the state of the piano keys at every time step with the corresponding ground-truth state, averaged across all time steps. If at any given time there are keys that should be "on" and keys that should be "off", precision measures how good the agent is at not hitting any of the "off" keys, while recall measures how good the agent is at hitting the "on" keys. The F1 score combines precision and recall into one metric, and ranges from 0 (if either precision or recall is 0) to 1 (perfect precision and recall). We primarily use the F1 score for our evaluations as it is a common heuristic accuracy score in the audio information retrieval literature, and we found empirically that it correlates with qualitative performance on our tasks.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "MDP formulation", "weight": 1.0} -->
+
+We model piano-playing as a finite-horizon Markov Decision Process (MDP) defined by a tuple $(\mathcal{S},\mathcal{A},\rho,p,r,\gamma,H)$ where $\mathcal{S} \subset {\mathbb{R}}^{n}$ is the state space, $\mathcal{A} \subset {\mathbb{R}}^{m}$ is the action space, $\rho{( \cdot )}$ is the initial state distribution, $p{( \cdot |s,a)}$ governs the dynamics, $r:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$ defines the rewards, $\gamma \in {\lbrack 0,1)}$ is the discount factor, and $H$ is the horizon.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "MDP formulation", "weight": 1.0} -->
+
+The goal of an agent is to maximize its total expected discounted reward over the horizon: $\mathbb{E}\left\lbrack {\sum_{t = 0}^{H}{\gamma^{t}r{(s_{t},a_{t})}}} \right\rbrack$.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "MDP formulation", "weight": 1.0} -->
+
+The agent's observations consist of proprioceptive and goal state information. The proprioceptive state contains hand and keyboard joint positions. The goal state information contains a vector of key goal states obtained by indexing the piano roll at the current time step, as well as a discrete vector indicating which fingers of the hands should be used at that timestep. To successfully play the piano, the agent must be aware of at least a few seconds' worth of its next goals in order to be able to plan appropriately. Thus the goal state is stacked for some lookahead horizon $L$. A detailed description of the observation space is given in Table 1. The agent's action is 45 dimensional and consists of target joint angles for the hand with an additional scalar value for the sustain pedal. The agent predicts target joint angles at 20Hz and the targets are converted to torques using PD controllers running at 500Hz. Since the reward function is crucial for learning performance, we discuss its design in Section 4.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Fingering labels and dataset", "weight": 1.0} -->
+
+Piano fingering refers to the assignment of fingers to notes, e.g., "C4 played by the index finger of the right hand". Sheet music will typically provide sparse fingering labels for the tricky sections of a piece to help guide pianists, and pianists will often develop their own fingering preferences for a given piece. Since fingering labels aren't available in MIDI files by default, we used annotations from the PIG dataset to create a corpus of $150$ annotated MIDI files for use in the simulated environment. Overall this dataset we call REPERTOIRE-150 contains piano pieces from $24$ Western composers spanning baroque, classical and romantic periods. The pieces vary in difficulty, ranging from relatively easy (e.g., Mozart's Piano Sonata K 545 in C major) to significantly harder (e.g., Scriabin's Piano Sonata No. 5) and range in length from tens of seconds to over 3 minutes.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "RoboPianist System Design", "weight": 1.0} -->
+
+Our aim is to enable robots to exhibit sophisticated, high-dimensional control necessary for successfully performing challenging musical pieces. Mastery of the piano requires (i) spatial and temporal precision (hitting the right notes, at the right time), (ii) coordination (simultaneously achieving multiple different goals, in this case, fingers on each hand hitting different notes, without colliding), and (iii) planning (how a key is pressed should be conditioned on the expectation of how it would enable the policy to reach future notes). These behaviors do not emerge if we solely optimize with a sparse reward for pressing the right keys at the right times. The main challenge is exploration, which is further exacerbated by the high-dimensional nature of the control space.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "RoboPianist System Design", "weight": 1.0} -->
+
+We overcome this challenge with careful system design and human priors, which we detail in this section. The main results are illustrated in Figure 2. We pick 3 songs in increasing difficulty from RoboPianist-repertoire-150. We note that "Twinkle Twinkle" is the easiest while "Nocturne" is the hardest. We train for 5M samples, 3 seeds. We evaluate the F1 every 10K training steps for 1 episode (no stochasticity in the environment).
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Human priors", "weight": 1.0} -->
+
+We found that the agent struggled to play the piano with a sparse reward signal due to the exploration challenge associated with the high-dimensional action space. To overcome this issue, we incorporated the fingering labels within the reward formulation (Table 2). When we remove this prior and only reward the agent for the key press, the agent's F1 stays at zero and no substantial learning progress is made. We suspect that the benefit of fingering comes not only from helping the agent achieve the current goal, but facilitating key presses in subsequent timesteps. Having the policy discover its own preferred fingering, like an experienced pianist, is an exciting direction for future research.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Reward design", "weight": 1.0} -->
+
+We first include a reward proportional to how depressed the keys that should be active are. We then add a constant penalty if any inactive keys are pressed hard enough to produce sound. This gives the agent some leeway to rest its fingers on inactive keys so long as they don't produce sound. We found that giving a constant penalty regardless of the number of false positives was crucial for learning; otherwise, the agent would become too conservative and hover above the keyboard without pressing any keys. In contrast, the smooth reward for pressing active keys plays an important role in exploration by providing a dense learning signal. We introduce two additional shaping terms: (i) we encourage the fingers to be spatially close to the keys they need to press (as prescribed by the fingering labels) to help exploration, and (ii) we minimize energy expenditure, which reduces variance (across seeds) and erratic behavior control policies trained with RL are prone to generate. The total reward at a given time step is a weighted sum over the aforementioned components. A detailed description of the reward function can be found in Appendix B.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Peeking into the future", "weight": 1.0} -->
+
+We observe additional improvements in performance and variance from including future goal states in the observation, i.e., increasing the lookahead horizon $L$. Intuitively, this allows the policy to better plan for future notes -- for example by placing the non-finger joints (e.g., the wrist) in a manner that allows more timely reaching of notes at the next timestep.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Constraining the action space", "weight": 1.0} -->
+
+To alleviate exploration even further, we explore disabling degrees of freedom in the Shadow Hand that either do not exist in the human hand (e.g., the little finger being opposable) or are not strictly necessary for most songs. We additionally reduce the joint range of the thumb. While this speeds up learning considerably, we observe that with additional training time, the full action space eventually achieves similar F1 performance.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Results", "weight": 1.0} -->
+
+In this section, we present our experimental findings on RoboPianist-etude-12, a subset of RoboPianist-repertoire-150 consisting of 12 songs. The results on the full RoboPianist-repertoire-150 can be found in Appendix C.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Results", "weight": 1.0} -->
+
+How does our method compare to a strong baseline in being able to play individual pieces?
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Results", "weight": 1.0} -->
+
+How can we enable a single policy to learn to play more than one song?
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Results", "weight": 1.0} -->
+
+What effects do our design decisions have on the feasibility of acquiring highly complex, dexterous control policies?
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Specialist Policy Learning", "weight": 1.0} -->
+
+For our policy optimizer, we use a state-of-the-art model-free RL algorithm DroQ, one of several regularized variants of the widely-used Soft-Actor-Critic algorithm. We evaluate online predictive control (MPC) as a meaningful point of comparison. Specifically, we use the implementation from Howell et al. that leverages the physics engine as a dynamics model, and which was shown to solve previously-considered-challenging dexterous manipulation tasks in simulation. Amongst various planner options, we found the most success with Predictive Sampling, a derivative-free sampling-based method. A detailed discussion of this choice of baseline and its implementation can be found in Appendix F. Our method uses 5 million samples to train for each song using the same set of hyperparameters, and the MPC baseline is run at one-tenth of real-time speed to give the planner adequate search time.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Specialist Policy Learning", "weight": 1.0} -->
+
+The quantitative results are shown in Figure 4. We observe that the RoboPianist agent significantly outperforms the MPC baseline, achieving an average F1 score of $0.79$ compared to $0.43$ for MPC. We hypothesize that the main bottleneck for MPC is compute: the planner struggles with the large search space which means the quality of the solutions that can be found in the limited time budget is poor. Qualitatively, our learned agent displays remarkably skilled piano behaviors such as simultaneously controlling both hands to reach for notes on opposite ends of the keyboard, playing chords by precisely and simultaneously hitting note triplets, and playing trills by rapidly alternating between adjacent notes (see Figure 3). We encourage the reader to listen to these policies on the supplementary website^11^1
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Multitask RL", "weight": 1.0} -->
+
+Ideally, a single agent should be able to learn how to play all songs. Secondly, given enough songs to practice, we would like this agent to zero-shot generalize to new ones. To investigate whether this is possible, we create a multi-task environment where the number of tasks in the environment corresponds to the number of songs available in the training set. Note that in this multi-song setting, environments of increasing size are additive (i.e., a 2-song environment contains the same song as the 1-song environment plus an additional one). We use Für Elise as the base song and report the performance of a single agent trained on increasing amounts of training songs in Figure 5. We observe that training on an increasing amount of songs is significantly harder than training specialist policies on individual songs. Indeed, the F1 score on Für Elise continues to drop as the number of training songs increases, from roughly 0.7 F1 for 1 song (i.e., the specialist) to almost 0 F1 for 16 songs.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Multitask RL", "weight": 1.0} -->
+
+We also evaluate the agent's zero-shot performance (i.e., no fine-tuning) on RoboPianist-etude-12 (which does not have overlap with the training songs) to test our RL agent's ability to generalize. We see, perhaps surprisingly, that multitask RL training fails to positively transfer on the test set regardless of the size of the pre-training tasks.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Multitask RL", "weight": 1.0} -->
+
+(a) Scaling songs for a model with a hidden dimension of 1024.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Multitask RL", "weight": 1.0} -->
+
+(b) Scaling the model size trained on 64 songs.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Multitask RL", "weight": 1.0} -->
+
+As we increase the model size, the F1 score on the training song improves, suggesting that larger models can better capture the complexity of the piano playing task across multiple songs.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Multitask Behavioral Cloning", "weight": 1.0} -->
+
+Since multitask training with RL is challenging, we instead distill the specialist RL policies trained in Subsection 5.1 into a single multitask policy with Behavioral Cloning (BC). To do so, we collect $100$ trajectories for each song in the RoboPianist-repertoire-150, hold out 2 for validation, and use the RoboPianist-etude-12 trajectories for testing. We then train a feed-forward neural network to predict the expert actions conditioned on the state and goal using a mean squared error loss. For a more direct comparison with multi-task RL, the dataset subsets use trajectories from the same songs used in the equivalently sized multi-task RL experiments. We observe in 6(a) ‣ Figure 6 ‣ Multitask RL ‣ 5.2 Multi-Song Policy Learning ‣ 5 Results ‣ RoboPianist: Dexterous Piano Playing with Deep Reinforcement Learning") that as we increase the number of songs in the training dataset, the model's ability to generalize improves, resulting in higher test F1 scores.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Multitask Behavioral Cloning", "weight": 1.0} -->
+
+We note that for a large model (hidden size of 1024), training on too few songs results in overfitting because there isn't enough data. Using a smaller model alleviates this issue, as shown in the more detailed multitask BC results found in Appendix E, but smaller models are unable to perform well on multiple songs. Despite having better generalization performance than RL, zero-shot performance on RoboPianist-etude-12 falls far below the performance achieved by the specialist policy. Additionally, we investigate the effect of model size on the multitask BC performance. We train models with different hidden dimensions (fixing the number of hidden layers) on a dataset of 64 songs. As shown in 6(b) ‣ Figure 6 ‣ Multitask RL ‣ 5.2 Multi-Song Policy Learning ‣ 5 Results ‣ RoboPianist: Dexterous Piano Playing with Deep Reinforcement Learning"), a smaller hidden dimension results in lower F1 performance which most likely indicates underfitting.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Further analysis", "weight": 1.0} -->
+
+In this section, we discuss the effect of certain hyperparameters on the performance of the RL agent.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Further analysis", "weight": 1.0} -->
+
+Control frequency and lookahead horizon: Figure 8 illustrates the interplay between the control frequency (defined as the reciprocal of control timestep) and the lookahead horizon $L$, and their effect on the F1 score. Too large of a control timestep can make it impossible to play faster songs, while a smaller control timestep increases the effective task horizon, thereby increasing the computational complexity of the task. Lookahead on the other hand controls how far into the future the agent can see goal states. We observe that as the control timestep decreases, the lookahead must be increased to maintain the agent ability to see and reason about future goal states. A control frequency of 20Hz (0.05 seconds) is a sweet spot, with notably 100Hz (0.01 seconds) drastically reducing the final score. At 100Hz, the MDP becomes too long-horizon, which complicates exploration, and at 10Hz, the discretization of the MIDI file becomes too coarse, which negatively impacts the timing of the notes.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Further analysis", "weight": 1.0} -->
+
+Discount factor: As shown in Figure 8, the discount factor has a significant effect on the F1 score. We sweep over a range of discount factors on two songs of varying difficulty. Notably, we find that discounts in the range $0.84$ to $0.92$ produce policies with roughly the same performance and high discount factors (e.g., 0.99, 0.96) result in lower F1 performance. Qualitatively, on Für Elise, we noticed that agents trained with higher discounts were often conservative, opting to skip entire note sub-segments. However, agents trained with lower discount factors were willing to risk making mistakes in the early stages of training and thus quickly learned how to correctly strike the notes and attain higher F1 scores.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
+While RoboPianist produces agents that push the boundaries of bi-manual dexterous control, it does so in a simplified simulation of the real world. For example, the velocity of a note, which modulates the strength of the key press, is ignored in the current reward formulation. Thus, the dynamic markings of the composition are ignored. Furthermore, our RL training approach can be considered wasteful, in that we learn by attempting to play the entire piece at the start of every episode, rather than focusing on the parts of the song that need more practicing. Finally, our results highlight the challenges of multitask learning especially in the RL setting.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+In this paper, we introduced RoboPianist, which provides a simulation framework and suite of tasks in the form of a corpus of songs, together with a high-quality baseline and various axes of evaluation, for studying the challenging high-dimensional control problem of mastering piano-playing with two hands. Our results demonstrate the effectiveness of our approach in learning a broad repertoire of musical pieces, and highlight the importance of various design choices required for achieving this performance. There is an array of exciting future directions to explore with RoboPianist including: leveraging human priors to accelerate learning (e.g., motion priors from YouTube), studying zero-shot generalization to new songs, incorporating multimodal data such as sound and touch. We believe that RoboPianist serves as a valuable platform for the research community, enabling further advancements in high-dimensional control and dexterous manipulation.

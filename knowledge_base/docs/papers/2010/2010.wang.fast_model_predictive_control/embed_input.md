@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Fast Model Predictive Control Using Online Optimization
 
 Topics include Model predictive control, Online optimization, Real-time control, Interior-point methods, Structure exploitation, Embedded optimization, Quadratic programming.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Shows that MPC can be run at much higher rates when the online optimization method is specialized to the fixed structure of the control problem. The paper combines warm starts, custom linear algebra, and tailored primal-dual iterations to make medium-sized constrained MPC problems run roughly two orders of magnitude faster than generic solvers.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 A widely recognized shortcoming of model predictive control (MPC) is that it can usually only be used in applications with slow dynamics, where the sample time is measured in seconds or minutes. A well-known technique for implementing fast MPC is to compute the entire control law offline, in which case the online controller can be implemented as a lookup table. This method works well for systems with small state and input dimensions (say, no more than five), few constraints, and short time horizons. In this paper, we describe a collection of methods for improving the speed of MPC, using online optimization. These custom methods, which exploit the particular structure of the MPC problem, can compute the control action on the order of 100 times faster than a method that uses a generic optimizer. As an example, our method computes the control actions for a problem with 12 states, 3 controls, and horizon of 30 time steps (which entails solving a quadratic program with 450 variables and 1284 constraints) in around 5 ms, allowing MPC to be carried out at 200 Hz.

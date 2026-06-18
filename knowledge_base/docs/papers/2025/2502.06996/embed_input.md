@@ -1,5 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 A View on Learning Robust Goal-conditioned Value Functions: Interplay between RL and MPC
 
 Topics include Reinforcement learning, Model predictive control, Predictive control, Safety, Robustness, Uncertainty, Benchmarks, Online algorithms, Offline algorithms, Optimization, Planning, Control, Learning, Markov decision process.
 
-Reinforcement learning (RL) and model predictive control (MPC) offer a wealth of distinct approaches for automatic decision-making under uncertainty. Given the impact both fields have had independently across numerous domains, there is growing interest in combining the general-purpose learning capability of RL with the safety and robustness features of MPC. To this end, this paper presents a tutorial-style treatment of RL and MPC, treating them as alternative approaches to solving Markov decision processes. In our formulation, RL aims to learn a global value function through offline exploration in an uncertain environment, whereas MPC constructs a local value function through online optimization. This local-global perspective suggests new ways to design policies that combine robustness and goal-conditioned learning. Robustness is incorporated into the RL and MPC pipelines through a scenario-based approach. Goal-conditioned learning aims to alleviate the burden of engineering a reward function for RL.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Reinforcement learning (RL) and model predictive control (MPC) offer a wealth of distinct approaches for automatic decision-making under uncertainty. Given the impact both fields have had independently across numerous domains, there is growing interest in combining the general-purpose learning capability of RL with the safety and robustness features of MPC. To this end, this paper presents a tutorial-style treatment of RL and MPC, treating them as alternative approaches to solving Markov decision processes. In our formulation, RL aims to learn a global value function through offline exploration in an uncertain environment, whereas MPC constructs a local value function through online optimization. This local-global perspective suggests new ways to design policies that combine robustness and goal-conditioned learning. Robustness is incorporated into the RL and MPC pipelines through a scenario-based approach. Goal-conditioned learning aims to alleviate the burden of engineering a reward function for RL. Combining the two leads to a single policy that unites a robust, high-level RL terminal value function with short-term, scenario-based MPC planning for reliable constraint satisfaction.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+This approach leverages the benefits of both RL and MPC, the effectiveness of which is demonstrated on classical control benchmarks.

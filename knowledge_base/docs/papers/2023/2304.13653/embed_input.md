@@ -1,15 +1,337 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Learning Agile Soccer Skills for a Bipedal Robot with Deep Reinforcement Learning
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 We investigate whether Deep Reinforcement Learning (Deep RL) is able to synthesize sophisticated and safe movement skills for a low-cost, miniature humanoid robot that can be composed into complex behavioral strategies in dynamic environments. We used Deep RL to train a humanoid robot with 20 actuated joints to play a simplified one-versus-one (1v1) soccer game. The resulting agent exhibits robust and dynamic movement skills such as rapid fall recovery, walking, turning, kicking and more; and it transitions between them in a smooth, stable, and efficient manner. The agent's locomotion and tactical behavior adapts to specific game contexts in a way that would be impractical to manually design. The agent also developed a basic strategic understanding of the game, and learned, for instance, to anticipate ball movements and to block opponent shots. Our agent was trained in simulation and transferred to real robots zero-shot. We found that a combination of sufficiently high-frequency control, targeted dynamics randomization, and perturbations during training in simulation enabled good-quality transfer.
 
-## Introduction
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Although the robots are inherently fragile, basic regularization of the behavior during training led the robots to learn safe and effective movements while still performing in a dynamic and agile way - well beyond what is intuitively expected from the robot. Indeed, in experiments, they walked 181% faster, turned 302% faster, took 63% less time to get up, and kicked a ball 34% faster than a scripted baseline, while efficiently combining the skills to achieve the longer term objectives.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Creating general embodied intelligence, that is, creating agents that can act in the physical world with agility, dexterity, and understanding---as animals or humans do---is one of the long-standing goals of AI researchers and roboticists alike. Animals and humans are not just masters of their bodies, able to perform and combine complex movements fluently and effortlessly, but they also perceive and understand their environment and use their bodies to effect complex outcomes in the world.
 
-Attempts at creating intelligent embodied agents with sophisticated motor capabilities go back many years, both in simulation and in the real world. Progress has recently accelerated considerably, and learning-based approaches have contributed substantially to this acceleration ( ). In particular, deep reinforcement learning (deep RL) has proven capable of solving complex motor control problems for both simulated characters ( ) and physical robots.
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Limitations
+Attempts at creating intelligent embodied agents with sophisticated motor capabilities go back many years, both in simulation and in the real world. Progress has recently accelerated considerably, and learning-based approaches have contributed substantially to this acceleration. In particular, deep reinforcement learning (deep RL) has proven capable of solving complex motor control problems for both simulated characters and physical robots. High-quality quadrupedal legged robots have become widely available and have been used to demonstrate behaviors, ranging from robust; and agile; locomotion to fall recovery, climbing, and basic soccer skills such as dribbling shooting, intercepting or catching a ball, and simple manipulation with legs. On the other hand, much less work has been dedicated to the control of humanoids and bipeds, which impose additional challenges around stability, robot safety, number of degrees of freedom, and availability of suitable hardware. The existing learning-based work has been more limited and focused on learning and transfer of distinct basic skills such as walking, running, stair climbing, and jumping. The state-of-the-art in humanoid control uses targeted model-based predictive control, thus limiting the generality of the method.
 
-Our work provides a step towards practical use of deep RL for agile control of humanoid robots in a dynamic multi-agent setting. However, there are several topics that could be addressed further. First, our learning pipeline relies on some domain-specific knowledge and domain randomization, as is common in the robot learning literature ( ). Domain-specific knowledge is used for reward function design and for training the get-up skill, which requires access to hand-designed key poses, which can be difficult or impractical to choose for more dynamic platforms.
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Our current system could be improved in a number of ways. We found that tracking a ball with motion capture was particularly challenging: detection of the reflective tape markers is sensitive to the angle at which they face the motion capture cameras; only the markers on the upper hemisphere of the ball can be registered; and the walls of the soccer pitch can occlude the markers, especially near the corners. We believe moving away from motion capture is an important avenue for future work and discuss potential avenues for this in Future Work.
+Our work focuses on learning-based full-body control of humanoids for long-horizon tasks. In particular, we used deep RL to train low-cost off-the-shelf robots to play multi-robot soccer well beyond the level of agility and fluency that is intuitively expected from this type of robot. Sports like soccer showcase many of the hallmarks of human sensorimotor intelligence, which has been recognized in the robotics community, especially through the RoboCup initiative. We consider a subset of the full soccer problem, and trained an agent to play simplified one-vs-one (1v1) soccer in simulation and directly deployed the learned policy on real robots (Figure 1). We focused on sensorimotor full-body control from proprioceptive and motion capture observations.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The trained agent exhibited agile and dynamic movements, including walking, side stepping, kicking, fall recovery, ball interaction and more, and composed these skills smoothly and flexibly. The agent discovers surprising strategies which make more use of the full capabilities of the system than scripted alternatives, and which we may not even conceive of. An example of this is the emergent turning behavior, in which the robot pivots on the corner of a foot and spins, which would be challenging to script, and outperforms the more conservative baseline (see Comparison to Scripted Baseline Controllers). One further problem in robotics generally and robot soccer in particular is the fact that optimal behaviors are often context dependent in a way that can be hard to predict and manually implement. We demonstrate that the learning approach can discover behaviors which are optimized to the specific game situation. Examples include context-dependent agile skills such as kicking a moving ball, emergent tactics such as subtle defensive running patterns, and footwork which adapts to the game situation such as taking shorter steps when approaching an attacker in possession of the ball compared to when chasing a loose ball (see Behavior Analysis).
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+The agent learned to make predictions about the ball and the opponent, to adapt movements to the game context, and to coordinate them over long timescales for scoring, while being reactive to ensure dynamic stability. Our results also indicate that with appropriate regularization, domain randomization, and noise injected during training, safe sim-to-real transfer is possible even for low-cost robots.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Our training pipeline consists of two stages: In the first stage, we trained two skill policies; one for getting up from the ground, and another for scoring a goal against an untrained opponent. In the second stage, we trained agents for the full 1v1 soccer task by distilling the skills and using multi-agent training in a form of self-play, where the opponent was drawn from a pool of partially-trained copies of the agent itself. Thus in the second stage, the agent learned to combine previously learned skills, refine them to the full soccer task, and predict and anticipate the opponent's behavior. We utilized a small set of shaping rewards, domain randomization, and random pushes and perturbations to improve exploration and to facilitate safe transfer to real robots. An overview of the learning method is shown in Figure 2, Movie 1, discussed in Materials and Methods.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We found that pre-training separate soccer and get-up skills was the minimal set needed to succeed at the task. Learning end-to-end without separate soccer and get-up skills resulted in two degenerate solutions depending on the exact set-up: converging to either a poor locomotion local optimum of rolling on the ground or focusing on standing upright and failing to learn to score; see Ablations for more details. Using a pre-trained get-up skill simplified the reward design and exploration problem, and avoids poor locomotion local optima. More skills could be used, but we use pre-trained skills only when necessary since using a minimal set of skills allows emergent behaviors to be discovered by the agent and optimized for specific contexts (highlighted in Comparison to Scripted Baseline Controllers and Behavior Analysis), rather than learning to sequence pre-specified behaviors.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Results", "weight": 1.0} -->
+
+We evaluated the agent in a 1v1 soccer match on physical Robotis OP3 miniature humanoid robots, and analyzed the emergent behaviors. We isolated certain behaviors (walking, turning, getting up, and kicking), compared them to corresponding scripted baseline controllers (Comparison to Scripted Baseline Controllers), and qualitatively analyzed the behaviors in a latent space (Behavior Embeddings). To assess reliability, gauge performance gaps between simulation and reality, and study the sensitivity of the policy to game state, we also investigated selected set pieces (Behavior Analysis). Finally, we investigated the agent's sensitivity to the observations of the ball, goal, and the opponent using value function analyses (Value Function Analysis).
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Selected extracts from the 1v1 matches can be seen in Figure 3 and Movie 2. The agent exhibited a variety of emergent behaviors, including agile movement behaviors such as getting up from the ground, quick recovery from falls, running, and turning; object interaction such as ball control and shooting, kicking a moving ball, and blocking shots; and strategic behaviors such as defending by consistently placing itself between the attacking opponent and its own goal, and protecting the ball with its body. During play the agents transitioned between all of these behaviors fluidly.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Comparison to Scripted Baseline Controllers", "weight": 1.0} -->
+
+Certain key locomotion behaviors, including getting up, kicking, walking, and turning are available for the OP3 robot, and we used these as baselines. The baselines are parameterized open-loop trajectories. For example, the walking controller, which can also perform turning, has tunable step length, step angle, step time, and joint offsets. We optimized the behaviors by performing a grid search over step length (for walking), step angle (for turning), and step time (for both) on a real robot. We adjusted the joint offsets where necessary to prevent the robot from losing balance or the feet colliding with each other. The kick and the get-up controllers are specifically designed for this robot and have no tunable parameters. To measure how well the learned deep RL agent performed on these key behaviors, we compared it both quantitatively and qualitatively against the baselines. See Movie 3 for an illustration of the baselines and a side-by-side comparison with the corresponding learned behaviors.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Comparison to Scripted Baseline Controllers", "weight": 1.0} -->
+
+Scoring success rate
+Mean time to first touch
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Comparison to Scripted Baseline Controllers", "weight": 1.0} -->
+
+mean (std. err.)
+mean (std. err.)
+mean (std. err.)
+mean (std. err.)
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Comparison to Scripted Baseline Controllers", "weight": 1.0} -->
+
+Details of the comparison experiments are given in Suppl. Baseline Behavior Comparisons: Experiment Details, and results are given in Table 1. The learned policy performed better than the specialized manually-designed controller: it walked 181 % faster, turned 302 % faster, and took 63 % less time to get up. When initialized near the ball, the learned policy kicked the ball with 3 % less speed; both achieved a ball speed of around 2 m/s. However, with an additional run-up approach to the ball, the learned policy's mean kicking speed was 2.8 m/s (34 % faster than the scripted controller) and the maximum kicking speed across episodes was 3.4 m/s. As well as outperforming the scripted get-up behavior, in practice the learned policy also reacts to prevent falling in the first instance, see Suppl. Movie S4.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Comparison to Scripted Baseline Controllers", "weight": 1.0} -->
+
+Close observation of the learned policy (as shown in Movie 3, Movie 4, Suppl. Figure S5, and Suppl. Figure S6) reveals it has learned to use a highly dynamic gait. Unlike the scripted controller, which centers the robot's weight over the feet and keeps the foot plates almost parallel to the ground, the learned policy leans forward and actively pushes off from the edges of the foot plate at each step, landing on the heels.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Comparison to Scripted Baseline Controllers", "weight": 1.0} -->
+
+The forward running speed of 0.57 m/s and turning speed of 2.85 rad/s achieved by the learned policy on the real OP3 compare favorably with the values of 0.45 m/s and 2.01 rad/s reported, on simulated OP3 robots. This latter work optimized parametric controllers of the type used by top-performing RoboCup teams. It was evaluated only in the RoboCup simulation, and the authors note that the available OP3 model featured unrealistically powerful motors. Although those results are not precisely comparable due to methodological differences, this gives an indication of how our learned policy compares to parameterized controllers implemented on the OP3 in simulation.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Behavior Embeddings", "weight": 1.0} -->
+
+A motivation for adopting end-to-end learning for the 1v1 soccer task was to obtain a policy that could blend many behaviors continuously, to react smoothly during play. To illustrate how the learned policy does this, we took inspiration from the analysis of Drosophila motion, and treated the motions as paths through 20-dimensional joint space. We used Uniform Manifold Approximation and Projection (UMAP) to approximately embed these paths into three-dimensional space to better visualize the behaviors.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Behavior Embeddings", "weight": 1.0} -->
+
+Finally, Figure 4C shows embeddings for long episodes of 1v1 play. The figure reveals a wide range of different cyclic gaits that map in a dense ball in this low-dimensional embedding space. However, kicking and getting up shows much less variation, resulting in four distinct loops. This could be a result of the regularization to the scripted get-up controller: even though the final policy could in principle converge to any behavior, regularization steers learning towards a specific way of getting up. On the other hand, kick motion is dominated by swinging one of the legs as fast as possible, allowing less room for variations.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Reliability and Sim-to-Real Analysis", "weight": 1.0} -->
+
+To gauge the reliability of the learned agent, we designed a get-up-and-shoot set piece, implemented in both the simulation (training) environment and the real environment. This set piece is a short episode of 1v1 soccer in which the agent must get up from the ground and score within 10 seconds; see Suppl. Set Piece: Experiment Details for full details.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Reliability and Sim-to-Real Analysis", "weight": 1.0} -->
+
+We played 50 episodes of the set piece each in the simulation and the real environment. In the real environment, the robot scored 29 out of 50 (58 %) of goals, and was able to get up from the ground and kick the ball every time. In simulation, the agent scored more consistently, scoring 35 out of 50 (70 %) of goals. This indicates a drop in performance due to transfer to the real environment, but the robot was still able to reliably get up, kick the ball, and score the majority of the time. Results are given in Figure 5A and Table 1.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Reliability and Sim-to-Real Analysis", "weight": 1.0} -->
+
+To further gauge the sim-to-real gap, we also analyzed the four behaviors discussed in Comparison to Scripted Baseline Controllers (walking, turning, getting up and kicking) in simulation and compared the results to those obtained using the real OP3. Results are shown in Table: when implemented on the real robot the learned policy walked (13 %) faster, turned (11 %) more slowly, took (28 %) more time to get up, and kicked (5 %) more slowly than when implemented in simulation. These results indicate no extreme sim-to-real gap in the execution of any behavior. The gap with the baseline behavior performance is substantially larger, for instance. The turning behavior is highly optimized (pivoting on a corner of the foot) and can be seen both in simulation and on the real robot in Movie 4.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Opponent Awareness", "weight": 1.0} -->
+
+To gauge the learned behavior's reaction to the opponent in a controlled setting, we implemented interception and opponent-obstacle set pieces in the simulation and real environments respectively.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Opponent Awareness", "weight": 1.0} -->
+
+The interception set piece is an 8 second episode of 1v1 soccer in which the opponent is initialized in possession of the ball, and remains stationary throughout the episode. In 10 trials the agent first walked to the path between the ball and its own goal, to block a potential shot from the opponent, before turning towards the ball and approaching the ball and opponent. This type of defensive behavior is manually implemented in some RoboCup teams to defend the goal against an attacker with possession. Our learned policy, in contrast, discovered this tactic "on its own" by optimizing for task reward (which includes minimizing opponent scoring), rather than via manual specification. In 10 control trials the opponent was initialized away from the ball, and in these situations the agent approached the ball directly.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Opponent Awareness", "weight": 1.0} -->
+
+The opponent-obstacle set piece is a 10 second episode of 1v1 soccer in which the opponent is initialized midway between the ball and the agent, 1.5 m from each, and remains stationary throughout the episode, and the ball is 1.5 m from the goal. In 10 trials the agent walked around the opponent every time in order to reach the ball, and scored in 9 out of 10 trials. In 14 control trials, the opponent was initialized to either side of the pitch, not obstructing the agent's path to the ball, and in this case the agent approached the ball directly, and scored in 13 of the 14 trials.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Opponent Awareness", "weight": 1.0} -->
+
+These results demonstrate that behaviors which subtly adapt to the position of the opponent emerge during training, resulting in a policy that is optimized for specific contexts. Results and initial configurations are given in Figure 5B-C.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Adaptive Footwork", "weight": 1.0} -->
+
+In the adaptive footwork set piece, the opponent is initialized in possession of the ball and remains stationary throughout the episode, and the agent is placed in a defensive position. In 10 trials the agent took an average of 30 short footsteps to approach the attacker and ball. In comparison, in 10 control trials, in which the opponent is positioned away from the ball, the agent took an average of 20 longer strides as it rushed to the ball. The particular short-stepping tactic discovered by the agent is reminiscent of human 1v1 defensive play in which short quick steps are preferred to long strides in order to maximize reactivity. Although the reason for using short footsteps is unclear in our environment (it could be, for example, that the agent takes extra care to stay on the path between ball and goal and so moves more slowly), this result demonstrates that the agent adapts its gait to the specific context of the game. Results are illustrated in Figure 5D.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Adaptive Footwork", "weight": 1.0} -->
+
+To further demonstrate the efficiency and fluidity of the discovered gait, we analyzed the footstep pattern of the agent in a turn-and-kick set piece. In this task the agent is initialized near the sideline and facing parallel with it, with the ball in the center. The natural strategy for the agent to score is therefore to turn to face the ball, then walk around the ball and turn again to kick, in a roughly mirrored "S" pattern. As seen in Figure 5E, the agent achieved this with only 10 footsteps. Turning, walking and kicking were seamlessly combined, and the agent adapted its footwork by taking a single penultimate shorter step to position itself to turn and kick.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Value Function Analysis", "weight": 1.0} -->
+
+Next, we investigated the learned value function in several setups, to understand what game states the agent perceives as advantageous versus disadvantageous. For Figure 6A, we created a synthetic observation with the robot located centrally on the court at coordinates $$, facing toward the opponent goal with the ball 0.1 m in front of it at location $(0.1,0)$. The opponent was placed to one side, at location $(0,1.5)$. The plot shows the predicted value as a function of the ball's velocity vector; high value is assigned to ball velocities directed toward the goal, and also to ball velocities consistent with keeping the ball in the area under the agent's control.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Value Function Analysis", "weight": 1.0} -->
+
+A similar analysis shows that the value function also captures that the opponent impedes scoring (Figure 6B). We used the same positions for the agent and ball, and plot the predicted value as a function of the opponent position. States in which the opponent is positioned between the ball and the goal have a much lower value.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Value Function Analysis", "weight": 1.0} -->
+
+Figures C-D plot the predicted value as a function of the agent's location, in scenarios like those used for the interception behavior described above in Behavior Analysis. When the opponent is far from the ball, the agent prefers to be in a position from which it can shoot, and contour gradients tend to point directly toward this location. In contrast, when the opponent is near the ball, the agent's preferred positions are between the ball and the defended goal, and the rigid contours favor curved paths that guide the agent to this defensive line. This behavior was seen in the interception set piece in Figure 5B.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Comparison to Robot Learning Literature", "weight": 1.0} -->
+
+Reinforcement learning for robots has been studied for decades (see for an overview), but has only recently gained more popularity due to the development of better hardware and algorithms;. In particular, high-quality quadrupedal robots have become widely available, which have been used to demonstrate robust, efficient, and practical locomotion in a variety of environments. For example, Lee et al. applied zero-shot sim-to-real deep RL to deploy learned locomotion policies in natural environments, including mud, snow, vegetation, and streaming water. Our work similarly relies on zero-shot sim-to-real transfer and model randomization, but instead focuses on a range of dynamic motions, stability, long horizon tasks, object manipulation, and multi-agent competitive play. Indeed, the vast majority of recent work in this area relies on some form of sim-to-real transfer, which can help to reduce the safety and data efficiency concerns associated with training directly on hardware. A common theme is that a surprisingly small number of techniques can be sufficient to reduce the sim-to-real gap which is also supported by our results. However, there have also been successful attempts at training legged robots to walk with deep RL directly on hardware.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Comparison to Robot Learning Literature", "weight": 1.0} -->
+
+Training on hardware can lead to better performance, but the range of behaviors that can be learned has so far been limited due to safety and data efficiency concerns. Similar to our work, prior work has shown that learned gaits can achieve higher velocities compared to scripted gaits. However, the gaits have been specifically trained to attain high speeds, instead of emerging as a result of optimizing for a higher level goal.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Comparison to Robot Learning Literature", "weight": 1.0} -->
+
+Quadrupedal platforms constitute the majority of legged locomotion research, but an increasing number of works consider bipedal platforms. Recent works have produced behaviors including walking and running, stair climbing, and jumping. Most recent works have focused on high-quality, full-sized bipeds and humanoids, with a much smaller number targeting more basic platforms whose simpler and less precise actuators and sensors pose additional challenges in terms of sim-to-real transfer. Additionally, there is a growing interest in whole body control, that is, tasks in which the whole body is used in flexible ways to interact with the environment. Examples include getting-up from the ground and manipulation of objects with legs. Recently, reinforcement learning has been applied to learn simple soccer skills, including goalkeeping, ball manipulation, and shooting. These works focus on a narrower set of skills than the 1v1 soccer game, and the quadrupedal platform is inherently more stable and therefore presents an easier learning challenge.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Comparison to RoboCup", "weight": 1.0} -->
+
+Robot soccer has been a longstanding grand challenge for AI and robotics, since at least the formation of the RoboCup competition; in 1996, and it has also inspired our 1v1 soccer task. The OP3 robot has been used for the humanoid RoboCup league, but our environment and task are substantially simpler than the full RoboCup problem. The main differences are that we focused on 1v1 soccer instead of multi-player teams; our environment does not align with the field or ball specifications nor follow the rules of RoboCup (for example, the kick-off, player substitutions, explicit communication channels, fouls, and game length); and we use full state information rather than rely solely on vision.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Comparison to RoboCup", "weight": 1.0} -->
+
+The majority of successful reinforcement learning approaches to RoboCup focus on learning specific components of the system and often feature manually designed components or high-level strategies. In Simulation 2D League, reinforcement learning has been used to learn various ball handling skills and multi-agent behaviors such as defense and ball control. One successful learning-based approach applied to the Simulation 3D League is Layered Learning;. There, RL was used to train multiple skills, including ball control and pass selection, which were combined via a pre-defined hierarchy. Our system pre-defines fewer skills (leaving the agent to discover useful skills like kicking) and we focused on learning to combine the skills seamlessly. Additionally, RL has been used for fast running, but compared to our work, the learned behaviors were not demonstrated on hardware. A smaller set of works has focused on applying RL to real robots. Policy gradient methods have been used to optimize parameterized walking and kicking on a quadrupedal robot for the RoboCup Four-Legged League. Riedmiller et al. applied RL to learn low-level motor speed control, as well as a separate dribbling controller for the wheeled Middle Size League.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Comparison to RoboCup", "weight": 1.0} -->
+
+Simulation grounding by sim-to-real transfer for humanoids has also been investigated by Farchy et al.. However, they focus on learning the parameters of a manually designed walk engine, whereas we learn a neural network policy to output joint angles for the full soccer task directly.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
+Our work provides a step towards practical use of deep RL for agile control of humanoid robots in a dynamic multi-agent setting. However, there are several topics that could be addressed further. First, our learning pipeline relies on some domain-specific knowledge and domain randomization, as is common in the robot learning literature. Domain-specific knowledge is used for reward function design and for training the get-up skill, which requires access to hand-designed key poses, which can be difficult or impractical to choose for more dynamic platforms. In addition, the distillation step assumes we can manually choose the correct skill (either get-up or soccer) for each state, although a method in which the distillation target is automatically selected has been demonstrated in prior work, which we anticipate would work in this application. Second, we do not leverage real data for transfer; instead, our approach relies solely on sim-to-real transfer. Fine-tuning on real robots or mixing in real data during training in simulation could help improve transfer and enable an even wider spectrum of stable behaviors. Third, we applied our method to a small robot and did not consider additional challenges that would be associated with a larger form factor.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
+Our current system could be improved in a number of ways. We found that tracking a ball with motion capture was particularly challenging: detection of the reflective tape markers is sensitive to the angle at which they face the motion capture cameras; only the markers on the upper hemisphere of the ball can be registered; and the walls of the soccer pitch can occlude the markers, especially near the corners. We believe moving away from motion capture is an important avenue for future work and discuss potential avenues for this in Future Work. We also found that the performance of the robots degraded quickly over time, mainly due to the hip joints becoming loose or the joint position encoders becoming miscalibrated; thus we needed to regularly perform robot maintenance routines. Further, our control stack was not optimized for speed. Our nominal control time step was 25 ms, but in practice the agent often failed to produce an action within that time. The time step was selected as a compromise between speed and consistency, but we believe that a higher control rate would result in improved performance. Finally, we did not model the servo motors in simulation, but instead approximated them with ideal actuators that can produce the exact torque requested by a position feedback controller.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
+As a consequence, for example, we found that the agent's behaviors are very sensitive to the battery charge level, limiting the operation time per charge to 5 to 10 minutes in practice.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Limitations", "weight": 1.5} -->
+
+On the training side, we found our self-play setup sometimes resulted in unstable learning. A population-based training scheme could have improved stability and led to better multi-agent performance. Second, our method includes several auxiliary reward terms, some of which are needed for improved transfer (for example, upright reward and knee torque penalty), and some for better exploration (for example, forward speed). We chose to use a weighted average of the different terms as the training reward, and tuned the weights via an extensive hyperparameter search. However, multi-objective RL or constrained RL might be able to obtain better solutions.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Future Work", "weight": 1.5} -->
+
+Multi-agent Soccer: An exciting direction of future work would be to train teams of two or more agents. It is straightforward to apply our proposed method to train agents in this setting. In our preliminary experiments for 2v2 soccer, we saw that the agent learned division of labor, a simple form of collaboration: if its teammate was closer to the ball, the agent did not approach the ball. However, it also learned less agile behaviors. Insights from prior work in simulation could be applied to improve performance in this setting.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Future Work", "weight": 1.5} -->
+
+Playing Soccer from Raw Vision: Another important direction for future work is learning from on-board sensors only, without external state information from a motion capture system. In comparison to state-based agents that have direct access to the ball, goal, and opponent locations, vision-based agents need to infer information from a limited history of high-dimensional egocentric camera observations, and integrate the partial state information over time, which makes the problem significantly harder.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Future Work", "weight": 1.5} -->
+
+As a first step, we investigated how to train vision-based agents that only use onboard RGB camera and proprioception. We created a visual rendering of our lab using a Neural Radiance Field (NeRF) model based on the approach introduced by Byravan et al.. The robot learned behaviors including ball tracking and situational awareness of the opponent and goal. See Suppl. Playing Soccer from Raw Vision for our preliminary results with this approach.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Environment", "weight": 1.0} -->
+
+We trained the agent in simulation in a custom soccer environment and then transferred to a corresponding real environment as shown in Figure 1. The simulation environment uses the MuJoCo physics engine and is based on the DeepMind Control Suite. The environment consists of a soccer pitch that is 5 m long by 4 m wide, and two goals that each have an opening width of 0.8 m. In both the simulated and real environments, the pitch is bordered by ramps, which ensures that the ball returns to the bounds of the pitch. The real pitch is covered with rubber floor tiles to reduce the risk of falls damaging the robots and to increase the ground friction.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Environment", "weight": 1.0} -->
+
+The agent acts at 40 Hz. The action is 20-dimensional and corresponds to the joint position set points of the robot. The actions are clipped to a manually selected range (see Suppl. Environment Details) and passed through an exponential action filter to remove high frequency components: ${\mathbf{u}}{}_{}^{}0.8{\mathbf{u}}{}_{t - 1}^{}0.2\mathit{and}$, where ${\mathbf{u}}_{t}$ is the filtered control applied to the robot at time step $t$, and $\mathit{and}$ is the action output by the policy. The filtered actions are fed to PID controllers that then drive the joints (torques in simulation and voltages on the real robot) to attain the desired positions.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Environment", "weight": 1.0} -->
+
+The agent's observations consist of proprioception and game state information. The proprioception consists of joint positions, linear acceleration, angular velocity, gravity direction, and the state of the exponential action filter. The game state information, obtained via a motion capture setup in the real environment, consists of the agent's velocity, ball location and velocity, opponent location and velocity, and location of the two goals, which enables the agent to infer its global position. The locations are given as two-dimensional vectors corresponding to horizontal coordinates in the egocentric frame, and the velocities are obtained via finite differentiation from the positions. All proprioceptive observations, as well as the observation of the agent's velocity, are stacked over the five most recent timesteps to account for delays and potentially noisy or missing observations. We found stacking of proprioceptive observations to be sufficient for learning high-performing policies, so we chose not to stack the game state (opponent, ball, and goal observations) to reduce the size of the observation space. However, including a full observation history could be important for improving the agent's ability to react and adapt to the opponent in more subtle ways.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Environment", "weight": 1.0} -->
+
+A more detailed description of the observations is given in Suppl. Environment Details.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Robot Hardware and Motion Capture", "weight": 1.0} -->
+
+We used the Robotis OP3 robot, which is a low-cost battery-powered, miniature humanoid platform. It is 51 cm tall, weighs 3.5 kg, and is actuated by 20 Robotis Dynamixel XM430-350-R servomotors. We controlled the servos by sending target angles using position control mode with only proportional gain (in other words, without any integral or derivative terms). Each actuator has a magnetic rotary encoder that provides the joint position observations to the agent. The robot also has an inertial measurement unit (IMU), which provides angular velocity and linear acceleration measurements. We found that the default robot control software was sometimes unreliable and caused nondeterministic control latency, so we wrote a custom driver that allows the agent to communicate directly and reliably with the servos and IMU via the Dynamixel SDK Python API. The control software runs on an embedded Intel Core i3 dual-core NUC with Linux. The robot lacks GPUs or other dedicated accelerators, so all neural network computations were run on the CPU.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Robot Hardware and Motion Capture", "weight": 1.0} -->
+
+The robot's "head" is a Logitech C920 web camera, which can optionally provide an RGB video stream at 30 frames per second.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Robot Hardware and Motion Capture", "weight": 1.0} -->
+
+The robot and ball positions and orientations were provided by a motion capture system based on Motive 2 software. This system uses 14 Optitrack PrimeX 22 Prime cameras mounted on a truss around the soccer pitch. We tracked the robots using reflective passive markers attached to a 3D printed "vest" covering the robot torso, and tracked the ball using attached reflective stickers (Figure 1). The positions of these three objects were streamed over the wireless network using the VRPN protocol and made available to the robots via ROS.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Robot Hardware and Motion Capture", "weight": 1.0} -->
+
+We made small modifications to the robot to reduce damage from the evaluation of a wide range of prototype agent policies. We added 3D-printed safety bumpers at the front and rear of the torso, to reduce the impact of falls. We also replaced the original sheet metal forearms with 3D-printed alternatives, with the shape based on the convex hull of the original arms, because the original hook-shaped limbs would sometimes snag on the robot's own cabling. We also made small mechanical modifications to the hip joints to spread the off-axis loads more evenly, to minimize fatigue breakages.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Policy Optimization", "weight": 1.0} -->
+
+We modeled the soccer environment as a Partially Observable Markov Decision Process (POMDP) defined by $(\mathcal{S},\mathcal{A},\mathcal{P},r,\mu_{0},\gamma)$, with states $s \in \mathcal{S}$, actions $a \in \mathcal{A}$, transition probabilities $\mathcal{P}{(\left. {\mathbf{s}}^{\prime} \middle| {{\mathbf{s}},{\mathbf{a}}} \right.)}$, reward function $r{({\mathbf{s}})}$, distribution over initial states $\mu_{0}$, and discount factor $\gamma \in {\lbrack 0,1)}$.
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Policy Optimization", "weight": 1.0} -->
+
+At each timestep $t$, the agent observes features ${\mathbf{o}}{}_{}^{}\phi{({\mathbf{s}}{}_{}^{}}$, extracted from the state ${\mathbf{s}}{}_{}^{}\mathcal{S}$ as described in Environment. Actions are 20-dimensional and continuous, corresponding to the desired positions of the robot's joints. The reward is a weighted sum of $K$ reward components, ${r{({\mathbf{s}})}} = {\sum_{k = 1}^{K}{\alpha_{k}{\hat{r}}_{k}{({\mathbf{s}})}}}$; Suppl. Reward Functions describes the components we use for each stage of training.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Policy Optimization", "weight": 1.0} -->
+
+We parameterized the policy as a deep feed-forward neural network with parameters $\theta$, that outputs the mean and diagonal covariance of a multivariate Gaussian. We trained this policy to optimize Equation 1 using Maximum a posteriori Policy Optimization (MPO), which is an off-policy actor-critic RL algorithm. MPO alternates between policy evaluation and policy improvement.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Policy Optimization", "weight": 1.0} -->
+
+We use a distributional critic, and refer to the overall algorithm as Distributional MPO, or DMPO. In the policy improvement step, the actor (or policy) is trained to improve in performance with respect to the $Q$-values predicted by the critic. Details of the DMPO algorithm, learning hyperparameters, and the agent architecture are given in Suppl. Agent Training and Architecture.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Policy Optimization", "weight": 1.0} -->
+
+Note that the choice of opponent affects the transition probabilities $\mathcal{P}$, and thus the trajectory distribution $\mu_{\pi}$. When training the soccer skill, the opponent is fixed, but when training the full 1v1 agent in the second stage, we sampled the opponent from a pool of previous snapshots of the agent, rendering the objective both non-stationary and partially observed. In practice though, the agent was able to learn and eventually converge to a well-performing policy. Similar approaches have been explored in prior work on multi-agent deep RL.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Training", "weight": 1.0} -->
+
+Our training pipeline has two stages. This is because directly training agents on the full 1v1 task leads to sub-optimal behavior, as described in Ablations. In the first stage, separate skill policies for scoring goals and getting up from the ground are trained. In the second stage, the skills are distilled into a single 1v1 agent, and the agent is trained via self-play. Distillation to skills stops after the agent's performance surpasses a pre-set threshold, which enabled the final behaviors to be more diverse, fluent, and robust than simply composing the skills. Self-play provides an automatic curriculum, and expands the set of environment states encountered by the agent. Suppl. Training Curves contains learning curves and training times for each of the skills and the full 1v1 agent.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Soccer Skill Training", "weight": 1.0} -->
+
+The soccer skill is trained to score as many goals as possible. Episodes terminate when the agent falls over, goes out of bounds, enters the goal penalty area (marked with red in Figure 1), the opponent scores, or a timelimit of 50 seconds is reached. At the start of each episode, the players and the ball are initialized randomly on the pitch. Both players are initialized in a default standing pose. The opponent is initialized with an untrained policy, which falls almost immediately and remains on the ground. The reward is a weighted sum over reward components. This included components to encourage forward velocity and ball interaction, to make exploration easier, as well as components to improve sim-to-real transfer and reduce robot breakages, as discussed in Regularization for Safe Behaviors.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Get-Up Skill Training", "weight": 1.0} -->
+
+The get-up skill is trained using a sequence of target poses, to bias the policy towards a stable and collision-free trajectory. We used the pre-programmed get-up trajectory to extract three key poses for getting up from either the front or the back (see Suppl. Get-up Skill Training for an illustration of the key poses).
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Get-Up Skill Training", "weight": 1.0} -->
+
+We trained the get-up skill to reach any target pose interpolated between the key poses. We conditioned both the actor and critic on the target pose, which consists of target joint angles $\mathbf{p}_{target}$ and target torso orientation $\mathbf{g}_{target}$. The target torso orientation is expressed as the gravity direction in the egocentric frame. This is independent of the robot yaw angle (heading), which is irrelevant for the get-up task. Conditioning on the joint angles steers the agent towards collision free and stable poses, whereas conditioning on the gravity direction ensures the robot intends to stand up rather than just matching the target joint angles while lying on the ground. The robot is initialized on the ground, and a new target pose is sampled uniformly at random every 1.5 seconds on average. The sampling intervals are exponentially distributed, to make the probability of a target pose switch independent of time, in order to preserve the Markov property.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Get-Up Skill Training", "weight": 1.0} -->
+
+$\mathbf{p}_{t}$ and $\mathbf{g}_{t}$ are the actual joint positions and gravity direction at timestep $t$, respectively.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Get-Up Skill Training", "weight": 1.0} -->
+
+Conditioning the converged policy on the last key pose, corresponding to standing, makes the agent get up. We used this conditioned version as a get-up skill in the next stage of training.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Stage 2: Distillation and Self-Play", "weight": 1.0} -->
+
+In the second stage, the agent competes against increasingly stronger opponents, while initially regularizing its behavior to the skill policies. This resulted in a single 1v1 agent that is capable of a range of soccer skills: walking, kicking, getting up from the ground, scoring, and defending. The setup is the same as for training the soccer skill, except episodes terminate only when either the agent or the opponent scores, or after 50 seconds. When the agent is on the ground, out of bounds, or in the goal penalty area, it receives a fixed penalty per timestep and all positive reward components are ignored. For instance, if the agent is on the ground when a goal is scored, then it receives a zero for the scoring reward component. At the beginning of an episode, the agent is initialized either laying on the ground on its front, on its back, or in a default standing pose, with equal probability.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Distillation", "weight": 1.0} -->
+
+We use policy distillation to enable the agent to learn from the skill policies, by adding a regularization term that encourages the output of the agent's policy to be similar to that of the skills'. This approach is related to prior work that regularizes a student policy to either a common shared policy across tasks or a default policy that receives limited state information, as well as work on kickstarting and reusing learned skills for humanoid soccer in simulation.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Distillation", "weight": 1.0} -->
+
+Unlike most prior work, in our setting the skill policies are useful in mutually exclusive sets of states: the soccer skill is useful only when the agent is standing up, otherwise the get-up skill is more useful. Thus in each state, we regularize the agent's policy $\pi_{\theta}$ to only one of the two skills.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Distillation", "weight": 1.0} -->
+
+where $\mathcal{U}$ is the set of all states in which the agent is upright.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Distillation", "weight": 1.0} -->
+
+To enable the agent to outperform the skill policies, the weights $\lambda_{s}$ and $\lambda_{g}$ are adaptively adjusted such that there is no regularization once the predicted Q-values are above the pre-set thresholds $Q_{s}$ and $Q_{g}$, respectively. This approach was proposed by Abdolmaleki et al. for a similar setting and is closely related to the Lagrangian multiplier method used in constrained RL. Specifically, $\lambda_{s}$ (or $\lambda_{g}$) is updated by stochastic gradient descent to minimize
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Distillation", "weight": 1.0} -->
+
+using a softplus transform and clipping to enforce that $0 \leq \lambda_{s} \leq 1$. When the agent's predicted return is less than $Q_{s}$, then $\lambda_{s}$ increases to $1$, at which point the agent effectively performs behavioral cloning to the soccer skill. Once the agent's predicted return surpasses $Q_{s}$, then $\lambda_{s}$ decreases to $0$, at which point the agent learns using pure RL on the soccer training objective. This enabled the agent to improve beyond any simple scheduling of the skill policies; our agents learned effective transitions between the two skills and finetuned the skills themselves.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Self-Play", "weight": 1.0} -->
+
+The performance and learned strategy of an agent depends on its opponents during training. The soccer skill plays against an untrained opponent, and thus this policy had limited awareness of the opponent. To improve agents' high level game play, we used self-play, where the opponent is drawn from a pool of partially trained copies of the agent itself. Snapshots of the agent are regularly saved, and the first quarter of the snapshots is included in the pool, along with an untrained agent. We found that using the first quarter, rather than all snapshots, improved stability of training by ensuring that the performance of the opponent improves slowly over time. In our experiments, self-play training led to agents that were agile and defended against the opponent scoring.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Self-Play", "weight": 1.0} -->
+
+Playing against a mixture of opponents results in significant partial observability due to aliasing with respect to the opponent in each episode. This can cause significant problems for critic learning, since value functions fundamentally depend upon the opponent's strategy and ability. To address this, we condition the critic on an integer identification of the opponent.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Sim-to-Real Transfer", "weight": 1.0} -->
+
+Our approach relies on zero-shot transfer of trained policies to real robots. This section details the approaches we took to maximize the success of zero-shot transfer: we reduced the sim-to-real gap via simple system identification, improved the robustness of the policies via domain randomization and perturbations during training, and included shaping reward terms to obtain behaviors that are less likely to damage the robot.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "System Identification", "weight": 1.0} -->
+
+We identified the actuator parameters by applying a sinusoidal control signal of varying frequencies to a motor with a known load attached to it, and optimized over the actuator model parameters in simulation to match the resulting joint angle trajectory. For simplicity, we chose a position controlled actuator model with torque feedback and with only damping (1.084 Nm/(rad/s)), armature (0.045 kg m$^{2}$), friction (0.03), maximum torque (4.1 Nm), and proportional gain (21.1 N/rad) as free parameters. The values in parentheses correspond to the final values after applying this process. This model does not exactly correspond to the servos' operating mode, which controls the coil voltage instead of output torque, but we found it matched the training data sufficiently well. We believe this is because using a position control mode hides model mismatch from the agent by applying fast stabilizing feedback at a high frequency. Indeed, we also experimented with direct current control, but found the sim-to-real gap was too large, which caused zero-shot transfer to fail.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "System Identification", "weight": 1.0} -->
+
+We expect that the sim-to-real gap could be further reduced by considering a more accurate model.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Domain Randomization and Perturbations", "weight": 1.0} -->
+
+To further improve transfer, we applied domain randomization and random perturbations during training. Domain randomization helps overcome the remaining sim-to-real gap and the inherent variation in dynamics across robots, due to wear and other factors such as battery state. We selected a small number of axes to vary, since excess randomization could result in a conservative policy, which would reduce the overall performance. Specifically, we randomized the floor friction (0.5 to 1.0) and joint angular offsets ($\pm$ 2.9$^{\circ}$); varied the orientation (up to 2$^{\circ}$) and position (up to 5 mm) of the IMU; and attached a random external mass (up to 0.5 kg) to a randomly chosen location on the robot torso. We also added random time delays (10 to 50 ms) to the observations to emulate latency in the control loop. These domain randomization settings were re-sampled at the beginning of each episode and then kept constant for the whole episode.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Domain Randomization and Perturbations", "weight": 1.0} -->
+
+In addition to domain randomization, we found that applying random perturbations to the robot during training substantially improved the robustness of the agent, leading to better transfer. Specifically, we applied an external impulse force of 5 to 15 Nm lasting for 0.05 to 0.15 s, to a randomly selected point on the torso every 1 to 3 s.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Domain Randomization and Perturbations", "weight": 1.0} -->
+
+Zero-shot transfer did not work for agents trained without domain randomization and perturbations: when deployed on physical robots, these agents would fall over with every one or two steps, and were unable to score.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Regularization for Safe Behaviors", "weight": 1.0} -->
+
+We limited the range of possible actions for each joint to allow sufficient range of motion while minimizing the risk of self-collisions (Table S1 in Suppl. Environment Details). We also included two shaping reward terms to improve sim-to-real transfer and reduce robot breakages (see Table S3 in Suppl. Training Details). In particular, we found that highly dynamic gaits and kicks often led to excessive stress on the knee joints from the impacts between the feet and the ground or the ball, which caused gear breakage. We mitigated this by regularizing the policies via a penalty term to minimize the time integral of torque peaks (thresholded above 5 Nm) as calculated by MuJoCo for the constraint forces on the targeted joints. In addition to the knee breakages, we noticed the agent would often lean forward when walking. This made the gait faster and more dynamic, but when transferred to a real robot, it would often cause the robot to loose balance and fall forward. To mitigate this effect we added a reward term for keeping an upright pose within the threshold of 11.5$^{\circ}$.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Regularization for Safe Behaviors", "weight": 1.0} -->
+
+Incorporating these two reward components led to robust policies for transfer that rarely broke knee gears, and performed well at scoring goals and defending against the opponent.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Ablations", "weight": 1.0} -->
+
+We ran ablations to investigate the importance of regularization to skill policies and using self-play, described below. We also ran ablations on the reward components (Suppl. Reward Ablations).
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Importance of Regularization to Skill Policies", "weight": 1.0} -->
+
+First, we trained agents without regularization to skill policies. When we gave agents a sparse reward, only for scoring or conceding goals, they learned a local optimum of rolling to the ball and knocking it into the goal with a leg (Figure 7, right). Whereas with the reward shaping used in our method, with a penalty for being on the ground, agents only learned to get up and stand still. They never learned to walk around or score, despite the inclusion of shaping reward terms for walking forward and towards the ball. These results suggest that in this setting, the exploration problem was too difficult when the agent needed to learn to both get up and play soccer. Our method overcomes this by first separately training policies for these two skills.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Importance of Self-Play", "weight": 1.0} -->
+
+We also ablated the use of self-play in the second stage, while keeping the skill policy regularization and the shaped reward the same. For evaluation, we played agents against a fixed set of six diverse opponents, trained with a variety of approaches; this set includes the final 1v1 agent trained with our full pipeline. Figure 7 shows a comparison of our full training method against two alternatives: training directly against the fixed set of opponents throughout learning, rather than using self-play, and using self-play but sampling opponents from all previous snapshots of the policy, rather than the first quarter. The latter led to unstable learning and converged to poor performance. The former, interestingly, performed slightly worse than agents trained with our self-play method, despite having the advantage of training directly against the opponents used for evaluation.

@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Sampling-based Motion Planning via Control Barrier Functions
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Robot motion planning is central to real-world autonomous applications, such as self-driving cars, persistence surveillance, and robotic arm manipulation. One challenge in motion planning is generating control signals for nonlinear systems that result in obstacle free paths through dynamic environments. In this paper, we propose Control Barrier Function guided Rapidly-exploring Random Trees (CBF-RRT), a sampling-based motion planning algorithm for continuoustime nonlinear systems in dynamic environments. The algorithm focuses on two objectives: efficiently generating feasible controls that steer the system toward a goal region, and handling environments with dynamical obstacles in continuous time. We formulate the control synthesis problem as a Quadratic Program (QP) that enforces Control Barrier Function (CBF) constraints to achieve obstacle avoidance. Additionally, CBF-RRT does not require nearest neighbor or explicit collision checks during sampling.

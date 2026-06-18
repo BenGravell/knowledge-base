@@ -1,19 +1,407 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Motion Forecasting for Autonomous Vehicles: A Survey
 
 Topics include Motion forecasting, Autonomous vehicles, Survey, Trajectory prediction.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Comprehensive survey of motion forecasting methods for autonomous vehicles, covering classical physics-based approaches through modern deep learning methods, with discussion of datasets, metrics, and open problems.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 In recent years, the field of autonomous driving has attracted increasingly significant public interest. Accurately forecasting the future behavior of various traffic participants is essential for the decision-making of Autonomous Vehicles (AVs). In this paper, we focus on both scenario-based and perception-based motion forecasting for AVs. We propose a formal problem formulation for motion forecasting and summarize the main challenges confronting this area of research. We also detail representative datasets and evaluation metrics pertinent to this field. Furthermore, this study classifies recent research into two main categories: supervised learning and self-supervised learning, reflecting the evolving paradigms in both scenario-based and perception-based motion forecasting. In the context of supervised learning, we thoroughly examine and analyze each key element of the methodology. For self-supervised learning, we summarize commonly adopted techniques. The paper concludes and discusses potential research directions, aiming to propel progress in this vital area of AV technology.
 
-## Introduction
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Motion Forecasting is vital in the functionality of autonomous driving systems. It assists these vehicles in planning their forthcoming actions and mitigates the risk of accidents. This survey addresses motion forecasting in autonomous vehicles, focusing on the two main approaches: Scenario-based Motion Forecasting and Perception-based Motion Forecasting.
 
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
 Scenario-based Motion Forecasting predicts future states of traffic agents (TAs) by analyzing past states and relevant environmental context, such as high-definition maps (HDMaps) and the historical states of surrounding agents (SAs). This approach emphasizes structured, predefined inputs like agents' locations and HDMaps, intentionally excluding raw sensor data like RGB images, LiDAR point clouds, or semantic segmentation maps. By limiting input features to these structured elements, scenario-based forecasting models achieve a focused analysis of the traffic environment and agent interactions.
 
-## Conclusion and Prospect
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-In this paper, we present a comprehensive review of the recent advancements in motion forecasting for autonomous vehicles. We begin by introducing the formulation of motion forecasting and then move on to an overview of diverse, widely-utilized datasets. This is followed by a detailed explanation of evaluation metrics specifically designed for motion forecasting. State-of-the-art prediction models have made significant strides, employing advanced techniques such as attention mechanisms, GNNs, transformers, and self-supervised architectures. Despite these technological advances, the field still faces substantial challenges.
+Perception-based Motion Forecasting, on the other hand, directly utilizes raw perception data, including camera images, LiDAR point clouds, and other sensor outputs, to predict agents' future trajectories. This approach bypasses intermediate feature engineering steps, allowing the model to learn relevant representations directly from raw data. Perception-based methods aim to leverage richer environmental cues, making them suitable for scenarios where comprehensive scene understanding is crucial.
 
-Fusion of more prior information. Recent research has integrated HDMaps into motion forecasting models. This integration specifically involves incorporating lane information to ensure predicted trajectories are aligned with the road topology. In real-world scenarios, other factors also play a crucial role. These include traffic light status, various traffic signs, and additional elements that influence the movement and interactions of traffic participants. However, many current methodologies tend to overlook these aspects. This oversight results in limitations in the mechanistic understanding of motion forecasting models.
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Multiple approaches have been suggested to tackle the prediction problem, including physics-based models, rule-based models, and deep learning-based models. Among these, physics-based models offer a distinct approach by utilizing physical principles to predict vehicle trajectories over the short term. These models incorporate factors such as current position, acceleration, and turn rate to estimate future movements. To elaborate, Constant Velocity (CV) models operate under the assumption that a vehicle maintains its speed in the same direction without acceleration. Similarly, Constant Acceleration (CA) models predict movement based on unchanging acceleration in the current direction. For scenarios involving both constant speed and constant turn rate, Constant Turn Rate and Velocity (CTRV) models are applied. Meanwhile, Constant Turn Rate and Acceleration (CTRA) models anticipate that a vehicle will maintain both its acceleration and turn rate consistently. Implementing these physics-based approaches is relatively straightforward, requiring minimal computing resources. However, these models have limitations, notably their overlook of environmental factors and interactions with other agents.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+As a result, while they are efficient for short-term predictions in uncomplicated environments, their applicability is limited by the complexity of the environment and the presence of multiple dynamic agents, underlining the necessity for more sophisticated models in certain contexts. Rule-based models leverage known traffic rules and human prior knowledge, predicting the future trajectory of vehicles with a structured approach. Initially, models confirm the current state of target agents, a task typically handled by the tracking module that outputs to the prediction module. Following this, the current lane of the vehicle is determined based on its present position and direction. Subsequently, the future lane is predicted according to the vehicle's current state. The final step involves generating the trajectory based on two scenarios: maintaining the current lane or changing lanes. The simplicity and intuitiveness of this method stem from the use of predefined rules, which also contribute to its low computational complexity, ease of adjustment, and reliability. These advantages make rule-based models adapt to various scenarios. However, the inflexibility and limited generalization capabilities of rule-based models pose significant challenges. Since the rules are hard-coded, adapting to new and unseen scenes becomes problematic.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Furthermore, capturing and quantifying complex scenes or non-linear interactions is difficult, escalating the complexity of maintaining such a rule-based approach as the number of unforeseen scenarios increases. Deep learning-based models have significantly advanced motion forecasting for the long term as Figure, leveraging the capabilities of sequential neural networks to extract complex patterns and relationships from extensive datasets.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+These models excel at integrating a wide range of factors, including those related to physics, road conditions, and vehicle interactions, making them exceptionally adaptable to the intricate dynamics of traffic environments. Among the diverse approaches, RNN-based networks, Graph-based networks, and Transformer-based networks stand out, each offering unique strengths in analyzing temporal and spatial data complexities. All these methodologies are based on supervised learning, which has traditionally dominated the field. However, the challenge of acquiring high-precision, labeled trajectory data suitable for autonomous driving prediction has prompted a shift toward innovative solutions. In the last two years, self-supervised learning has emerged as a promising direction in the realm of autonomous vehicles. This approach aims to mitigate the scarcity of high-quality data by using strategies such as data augmentation to enhance and diversify available datasets. These self-supervised techniques represent a proactive response to the limitations of traditional supervised learning, offering a pathway to refine motion forecasting despite the hurdles posed by data constraints.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+This survey aims to provide a comprehensive review of the latest research in motion forecasting for AVs, covering the general pipelines of both scenario-based and perception-based methods. The structure of the survey is outlined as follows: Section 2 introduces the problem formulation of trajectory prediction, laying out the foundational concepts. Section 3 delves into the main challenges faced in the motion forecasting task, highlighting key areas of difficulty. Section 4 offers a comparison of commonly used motion forecasting datasets and elaborates on the corresponding three levels of evaluation metrics. Sections 5 and 6 are dedicated to discussing the motion forecasting sequence network, with Section 5 focusing on approaches based on supervised learning and Section 6 on those utilizing self-supervised learning. The survey concludes with Section 7, where we present our conclusion and explore potential directions for future research, as Figure.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+This section introduces some important definitions and formally formulates the problem of motion forecasting.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Traffic Participants", "weight": 1.0} -->
+
+Target Agents (TAs). Target Agents represent the objects that are crucial for analysis and prediction in autonomous vehicle systems. Their future behavior or trajectory is of utmost importance for the safe and efficient operation of autonomous vehicles.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Traffic Participants", "weight": 1.0} -->
+
+Ego Agent (EA). Ego Agent refers to an autonomous vehicle whose behavior is influenced by its surrounding environment. This includes the behavior of TAs, road conditions, and other similar factors.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Traffic Participants", "weight": 1.0} -->
+
+Surrounding Agents (SAs). Surrounding Agents refer to objects such as other vehicles, bicycles, pedestrians, and similar entities that can potentially impact the future behavior of TAs. Different studies use varied criteria for selecting SAs, depending on the specific assumptions underlying their models. The visualization of their relationship in the traffic scene is shown in Figure.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Input Representation", "weight": 1.0} -->
+
+Motion forecasting can be divided based on different types of input data, each providing unique information that can enhance prediction accuracy. In this section, we review motion forecasting methods categorized by their input types: trajectory and HDMap data, Bird's Eye View (BEV) representation, and raw perception data. Each category leverages distinct characteristics of the environment and agent dynamics, offering varied advantages in predicting future trajectories.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Input Representation", "weight": 1.0} -->
+
+Raw Perception Data. Raw perception data serves as an essential component in motion forecasting tasks, providing unprocessed sensor information directly from the environment. In the context of autonomous driving, this data typically comes from sensors like LiDAR, radar, and cameras, offering a richer and more detailed view of the surroundings compared to structured data like trajectories or HD maps. The raw perception data includes point clouds, visual images, and radar reflections, which capture both the static and dynamic aspects of the scene.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Input Representation", "weight": 1.0} -->
+
+where $(x,y,z)$ represents the 3D position of each point in space, and $r$ is the reflectance value indicating the intensity of the return signal. The number of points, $M$, may vary based on the environment and the sensor's resolution.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Input Representation", "weight": 1.0} -->
+
+Similarly, camera images provide 2D pixel information, capturing visual elements such as road signs, obstacles, or pedestrians.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Input Representation", "weight": 1.0} -->
+
+where $I_{r,g,b}$ denotes the RGB values for each pixel located at width $w$ and height $h$ of the image. Radar data, though less detailed than LiDAR or camera, can detect the velocity of objects with higher accuracy and provides valuable complementary information for forecasting.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Input Representation", "weight": 1.0} -->
+
+Integrating raw perception data into motion forecasting models presents both challenges and opportunities. The high dimensionality and unstructured nature of raw sensor data require sophisticated feature extraction techniques, such as deep learning-based methods, to transform the data into a form suitable for trajectory prediction. Methods like voxelization of point clouds or the extraction of salient features from images are commonly used to handle these raw inputs.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Input Representation", "weight": 1.0} -->
+
+Scenario Representation. For an autonomous vehicle motion prediction problem, the scene representation consists of two parts: High Definition (HD) Map and the states of SAs during past $T_{obs}$ time.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Input Representation", "weight": 1.0} -->
+
+where $(x,y$) and $Attr$ represent the position and attribute of the lane segment (such as intersection or not, speed limit or not), respectively. $L$ is the number of lane segments. $Lights_{l}$ represents the change in traffic light status for lane segment $l$, which is a discrete variable containing three elements: "Red", "Yellow", and "Green".
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Input Representation", "weight": 1.0} -->
+
+where $X$ represents physical state characteristics of $N$ surrounding agents in the past $T_{obs}$ time, such as the position, velocity, heading, etc.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Input Representation", "weight": 1.0} -->
+
+BEV Representation. Bird's Eye View (BEV) representations convert raw sensor data, such as LiDAR point clouds or camera images, into a 2D grid format that simplifies the processing and modeling of spatial relationships. This transformation enables motion forecasting models to efficiently capture interactions between agents and their environment, as well as improve the prediction of future trajectories.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Input Representation", "weight": 1.0} -->
+
+where $(x_{bev},y_{bev})$ are the 2D coordinates in the BEV plane, and $f{(x_{bev},y_{bev})}$ represents various features extracted from the input data, such as occupancy, velocity, or semantic information (e.g., lane markings, drivable areas). The grid size and resolution of the BEV representation determine the trade-off between computational efficiency and prediction accuracy.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Input Representation", "weight": 1.0} -->
+
+BEV representations have gained popularity due to their ability to encode complex spatial information and facilitate the modeling of multi-agent interactions. Many state-of-the-art motion forecasting models leverage BEV to predict the future paths of both the ego vehicle and surrounding agents in a unified manner.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Prediction Types", "weight": 1.0} -->
+
+where $p{(s_{i})}$ represents the predicted trajectory distribution of agent $i$ in the future, which is related to the historical states of agent $i$, the historical states of agent $j$, and the HDMap.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Prediction Types", "weight": 1.0} -->
+
+Joint Multi-Agent Prediction.Unlike marginal trajectory prediction, joint multi-agent prediction is more complex and essential as it requires predicting the future trajectories of multiple vehicles while considering their mutual interactions and influences, as shown in Figure. This prediction method integrates the states and intentions of all vehicles, better reflecting the dynamic changes in real traffic environments.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Prediction Types", "weight": 1.0} -->
+
+Compared to the marginal prediction, $p{(s_{i})}$ is also related to the future prediction trajectory of agent $j$.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Problem Formulation", "weight": 1.0} -->
+
+Motion forecasting pipelines can generally be categorized into two main approaches based on the data flow and processing stages: Scenario-based Motion Forecasting and Perception-based Motion Forecasting. The pipelines for these two approaches are illustrated in Figure.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Scenario-based Motion Forecasting", "weight": 1.0} -->
+
+The primary objective of motion forecasting is to predict the future states of TAs, considering their past states as well as the surrounding traffic scenes. These traffic scenes encompass various elements, including HDMaps, past states of SAs, and other relevant factors. In contrast to survey focusing on vision-based prediction models in AVs, the scenario-based motion forecasting model restricts its input features to agents' location information and HDMaps. These models specifically exclude other types of data such as RGB images, Lidar point clouds, semantic segmentation maps, and any other additional data.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Scenario-based Motion Forecasting", "weight": 1.0} -->
+
+where $Others$ represents the other information such as traffic congestion of the current lane, lighting status of SAs, and the planned trajectory of EA, etc.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Scenario-based Motion Forecasting", "weight": 1.0} -->
+
+The forecasting process then predicts the future trajectories of the target agents based on this structured input.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Scenario-based Motion Forecasting", "weight": 1.0} -->
+
+where $(x_{{ta},{t + i}},y_{{ta},{t + i}})$ represents the position of the target agent at each future time step $t + i$, and $T$ is the prediction horizon.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Scenario-based Motion Forecasting", "weight": 1.0} -->
+
+By focusing on structured inputs such as HD maps and past agent states, scenario-based motion forecasting aims to leverage the explicit representations of the environment and agent dynamics to achieve accurate trajectory predictions.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Perception-based Motion Forecasting", "weight": 1.0} -->
+
+Perception-based motion forecasting refers to the approach of directly predicting the future trajectories of agents from raw perception data, such as camera images, LiDAR point clouds, and other raw sensor data. without the need for artificially designed intermediate features or steps.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Perception-based Motion Forecasting", "weight": 1.0} -->
+
+Mathematically, the end-to-end motion forecasting process can be described as learning a function $f$, which maps the raw perception data $Z_{t}$ (e.g.,
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Perception-based Motion Forecasting", "weight": 1.0} -->
+
+where $Z_{t} = {\{ Z_{LiDAR},Z_{camera},Z_{radar},\ldots\}}$ represents the raw sensor data at time $t$, and $X_{t + T}$ is the predicted trajectory of the target agent(s) over the future time horizon $T$.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Perception-based Motion Forecasting", "weight": 1.0} -->
+
+where each future state $X_{t + i}$ typically includes information such as position, velocity, and heading of the agent at time $t + i$.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Perception-based Motion Forecasting", "weight": 1.0} -->
+
+By training the model end-to-end with this objective, it learns to capture the intricate dynamics of the environment and agent interactions, directly from the raw perception data, enabling accurate and robust motion forecasting.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Perception-based Motion Forecasting", "weight": 1.0} -->
+
+By bypassing intermediate steps like handcrafted feature extraction or external map information, these models can potentially avoid the error propagation often seen in staged pipelines. Furthermore, end-to-end approaches allow the model to learn implicit representations of the environment, agents, and their interactions from raw data, potentially leading to richer and more nuanced predictions.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Challenges", "weight": 1.0} -->
+
+In the domain of autonomous driving, motion forecasting for TAs is very supportive of the EA's next move. However, accurate motion forecasting for TAs remains a challenging task due to the complexity and flexible traffic environment.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Challenges", "weight": 1.0} -->
+
+Fusion of road information. To advance the autonomous driving field, researchers utilize more detailed features and achieve centimeter-level accuracy for vehicle behavior prediction by constructing HDMaps. These HDMaps provide rich contextual information, such as lane boundaries, traffic signs, and road geometry, which are crucial for making precise and reliable predictions. However, the absence of unified standards in HDMaps' data formats and content poses significant challenges. How to establish data alignment and association between HDMaps and agents' trajectories, and effectively integrate this information in vehicle behavior prediction is a huge challenge.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Challenges", "weight": 1.0} -->
+
+Dynamic interactions between different vehicles. The influence of road environments on vehicle behavior is static, whereas the interaction between SAs and TAs is dynamic and uncertain, posing significant challenges in capturing this complex interplay. For instance, a vehicle's decision to turn right at an intersection involves interacting with the static environment of the right-turn lane. However, the dynamic and variable nature of interactions between SAs and TAs adds complexity, making the analysis and interpretation of these interaction patterns significantly more challenging.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Challenges", "weight": 1.0} -->
+
+Multimodality of vehicle behavior. In autonomous driving, understanding the behaviors of TAs and SAs is critical due to their inherent multimodality, meaning a single historical trajectory can lead to multiple potential future trajectories. The combination of an agent's trajectory with road information provides valuable insights into the driver's style, especially their familiarity with specific road sections. A deeper analysis of the agent's historical movement patterns enables the identification of various possible future behaviors. Consequently, an effective motion forecasting module in an autonomous driving system should be able to recognize all these potential future behaviors. This capability is essential to ensure the system operates reliably and safely.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Challenges", "weight": 1.0} -->
+
+Lack of interpretability. Many existing motion forecasting models adopt data-driven methodologies to learn trajectory distributions. While these approaches can achieve high levels of accuracy by leveraging large datasets, they often result in a lack of interpretability in the decision-making processes of traffic participants. This black-box nature makes it challenging to understand or explain why a model predicts certain behaviors, which is crucial for both safety and trust in autonomous systems. Moreover, the reliance on purely data-driven techniques can lead to overfitting specific scenarios or biases present in the data, potentially reducing the generalizability and robustness of the models in diverse and dynamic real-world environments. As a result, there is an increasing need for approaches that not only predict motion accurately but also offer clear insights into the underlying factors influencing these predictions.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Training and Evaluation", "weight": 1.0} -->
+
+In this section, we introduce several open datasets utilized in motion forecasting for autonomous vehicles, as well as commonly used metrics.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Datasets", "weight": 1.0} -->
+
+A summary of public motion forecasting datasets for AVs is shown in Table. Details are described below.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Datasets", "weight": 1.0} -->
+
+Argoverse, developed by Argo AI, offers a comprehensive collection of urban driving scenarios, extensively annotated for research in 3D tracking and forecasting. Building on the foundation of its predecessor, Argoverse 2 motion forecasting dataset expands upon the original dataset with a larger volume of data, including 250,000 scenarios, each scenario provides a local vector map and 11 seconds of trajectory data (recorded at 10 Hz). The first 5 seconds of data represent the observation window, while the following 6 seconds correspond to the forecast horizon. Waymo Open Motion Dataset, created by Waymo, encompasses a wide array of driving conditions and scenarios, making it one of the most comprehensive resources available. It comprises over 100,000 scenes, each 20 seconds long and sampled at 10 Hz. This amounts to more than 570 hours of unique data, covering over 1750 km of roadways. The Interaction dataset is distinct in its focus on interactive driving scenarios, particularly those involving complex urban intersections and roundabouts. The Interaction dataset includes a rich collection of real-world driving scenarios with a significant number of vehicle trajectories, totaling over 41,000 across all categories and covering more than 990 minutes of driving behavior.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Datasets", "weight": 1.0} -->
+
+The nuScenes dataset is notable for its extensive coverage of varied driving environments, encompassing 1,000 scenes that span across various weather conditions and times of the day collected in Boston and Singapore. This rich collection of sensor data not only enhances the realism of the driving scenarios but also provides invaluable insights for the development and refinement of motion forecasting models, making nuScenes a pivotal tool for researchers in the field.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Datasets", "weight": 1.0} -->
+
+Scene-transformer, M2I, MTR, Wayformer, HDGT, JFP, GameFormer, MotionLM, MotionDiffuser, MTR++, T4P
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Datasets", "weight": 1.0} -->
+
+Trajectron++, MHA-JAM, AgentFormer, AutoBot, PreTraM, Forecast-PEFT, T4P
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Datasets", "weight": 1.0} -->
+
+Vectornet, LaneGCN, Scene transformer, TNT, DenseTNT, LaneRCNN HOME, GOHOME, Hivt, SSL-Lanes, Traj-MAE, ADAPT, Forecast-PEFT, SmartRefine
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Datasets", "weight": 1.0} -->
+
+Forecast-MAE, POP, SEPT, QCNet, QCNext, SmartRefine, Forecast-PEFT
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
+
+Standardized evaluation settings and commonly used metrics are essential for a data-driven approach to obtain quantitative results. The quantitative results allow different models to compare with each other from diverse perspectives. The metrics used frequently in motion forecasting can be summarized from the following three levels.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
+
+Geometry-level Metric. Geometric measurement serves as a crucial index for assessing the similarity between predicted and actual trajectories, effectively representing accuracy.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
+
+1\) The minimum Average Displacement Error (minADE): ADE measures the averaged L2 distance of all future timesteps. MinADE is used to evaluate multimodal trajectory prediction, which measures the L2 distance in meters between the best-predicted trajectory and the ground truth trajectory averaged over all future timesteps. The best-predicted trajectory is defined as the one that has the minimum endpoint error.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
+
+where ${\hat{y}}_{i}^{t,{(k)}}$ represents the predicted states of target agent $i$ at time $t$ in the $k$-th sample, and $y_{i}^{t}$ is the corresponding ground truth.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
+
+2\) The minimum Final Displacement Error (minFDE): FDE measures the endpoint L2 distance of all future timesteps. MinFDE is used to evaluate multimodal trajectory prediction, which measures the error between the best-predicted trajectory and the ground truth trajectory at the final future time step.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
+
+3\) Miss Rate (MR): The number of scenarios in which all predicted trajectories deviate by more than 2.0 meters from the ground truth, as measured by endpoint error.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
+
+Probabilistic-level Metric. The different versions of Negative Log Likelihood (NLL) can be used as a probability measurement, comparing the distribution of the generated trajectories against the ground truth to evaluate uncertainty, especially for multimodal output distributions.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
+
+where $P{( \cdot | \cdot )}$ represents the probability density function of Laplace distribution, ${\hat{b}}_{i}^{t}$ is the uncertainties of the best-predicted trajectory for agent $i$.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
+
+Task-level Metric. Task measurement is used to evaluate the impact of trajectory prediction on the downstream planning module. The planning-informed (PI) versions of accuracy-based metrics (e.g.,
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Evaluation Metrics", "weight": 1.0} -->
+
+where $Metric$ represents the accuracy-based metrics (e.g., ADE and FDE) and the function $f$ enables the application of various schemes for assigning weights. For each agent $a \in \mathcal{A}$, $\mathbf{s}_{a}^{({t:T})}$ and ${\hat{\mathbf{s}}}_{a}^{({t:T})}$ are the predicted positions in the next $T$ timestamps and the ground truth positions, respectively.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Temporal-Spatial Encoding", "weight": 1.0} -->
+
+During the encoding, both temporal and spatial features need to be extracted. Spatially, the agent-to-lane and agent-to-agent interactions could be modeled. Temporally, the dynamics of these interactions along with time are captured through designed components.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Temporal-Spatial Encoding", "weight": 1.0} -->
+
+Rasterized-based Encoder. Rasterized-based approaches rasterize the map information and agent states of each timestep into an image. Then, a scenario can be modeled into a time series of images. Existing methods employ CNNs to learn effective representations from spatial and temporal perspectives. For instance,
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Temporal-Spatial Encoding", "weight": 1.0} -->
+
+One of the early typical explorations in this area involved the FAF model, which converts LiDAR point cloud data into a top-down bird's-eye view. This data is then processed by a target detection network equipped with a CNN-based multi-frame information fusion module to extract spatio-temporal correlations from the perception sequence. To enhance the model's performance, a trajectory regression loss function was incorporated into the detection head, allowing for the end-to-end optimization of object localization and future trajectory prediction. FAF not only enables joint 3D object detection and trajectory prediction from LiDAR point cloud data, but also demonstrates that incorporating the prediction task improves the accuracy of object detection.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Temporal-Spatial Encoding", "weight": 1.0} -->
+
+Based on FaF, IntentNet enhances vehicle intent detection by generating additional outputs within a unified detection and prediction framework, where intent is defined as short-term motion states and lane-related actions.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Temporal-Spatial Encoding", "weight": 1.0} -->
+
+Similarly, Multipath employs CNNs to extract features from raster images, followed by predicting probabilities across K-predefined anchor trajectories and calculating regressed offsets from the anchor states. CoverNet also utilizes CNNs for feature extraction from raster images. This approach offers a comprehensive pixel-level visual context, enabling models to discern and assimilate diverse visual patterns directly. However, it is noteworthy that converting traffic scenes into pixel format might result in losing some intrinsic topological information. Consequently, recent research has predominantly utilized graph-based and attention-based methods, as discussed below.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Temporal-Spatial Encoding", "weight": 1.0} -->
+
+Graph-based Encoder. Graph-based encoding approaches generally initiate with vectorized representations of HDMaps and agents, integrating additional attribute data into these vectors. These approaches ensure the comprehensive retention of information about HDMaps and agents within the graph data structure.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Temporal-Spatial Encoding", "weight": 1.0} -->
+
+Graph-based neural networks are utilized for feature extraction following the vectorized representation of traffic scene components. These include Graph Attention Networks (GAT), which focus on interactive feature extraction, and Graph Convolutional Networks (GCN), aimed at extracting road topological features. Vectornet introduces an innovative hierarchical graph network structure. In its first level, this network aggregates spatial information based on polylines, while the second level is dedicated to modeling complex interrelationships between polylines. Simultaneously, additional tasks are proposed to augment the second-level graph's capability in capturing interactions between various agents and other elements represented in the HDMap. Following this, LaneGCN utilizes an attention mechanism to capture complex interactions. In contrast, LaneRCNN employs a global graph-based module specifically designed to learn the dynamic relationships between different agents in the system. When it comes to end-to-end motion forecasting frameworks, SpAGNN introduces a graph neural network into the joint detection and prediction framework, leveraging graph models from trajectory data research to account for the interactions between multiple agents, thereby generating more accurate predicted trajectories.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Temporal-Spatial Encoding", "weight": 1.0} -->
+
+Attention-based Encoder. The advent of transformers has marked a significant breakthrough in multi-modal prediction within recent years. Its unique attention-based module can fully explore the interaction between vehicles in highly dynamic scenarios and effectively model the multi-modal distribution of trajectories. introduced an innovative approach that utilizes multi-head attention to create a joint representation of static scenes and surrounding agents. Each attention head in this model is designed to represent a potential interaction pattern between the target agent and the combined context features. AgentFormer designed a spatio-temporal transformer along with better multi-modal properties. It incorporates all observable agent sequences in a scene to perform complex cross-sequence input processing, facilitated by end-to-end training. features three separate stacked Transformer models that aggregate historical tracks, road information, and interaction details. Scene transformer unifies motion prediction and goal-conditioned motion prediction. It employs diverse agent/time masking strategies and alternating types of attention between different modalities to capture interactions effectively. proposes a multi-modal attention transformer encoder. This model adapts the multi-head attention mechanism to accommodate multi-modal attention, where each predicted trajectory is influenced by a unique attention mode.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Temporal-Spatial Encoding", "weight": 1.0} -->
+
+AutoBot proposes a transformer-based network utilizing an axial attention mechanism to learn the temporal and spatial correlations among agents and road topology. Furthermore, HiVT, QCNet, and QCNext focus on modeling both local and global contexts in a translation and rotation invariant transformer network. GameFormer leverages hierarchical game theory and transformer architectures to tackle the challenge of interaction prediction for autonomous vehicles. Through a structured learning process and iterative refinement of predictions, the model achieves superior accuracy and performance, significantly advancing the state-of-the-art in the field.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Visual Encoding", "weight": 1.0} -->
+
+Some models leveraging a single neural network to jointly address both detection and prediction tasks, known as "perception-based motion forecasting," have been proposed to enhance computational efficiency and accuracy. These approaches typically begin by quantizing the 3D world into a voxel grid and assigning a binary indicator to each voxel to denote whether it is occupied. Convolutional operations are then performed on this grid to extract feature information and predict future behavior. While these methods incorporate the characteristics of sensor detection and prediction, they fail to utilize the rich temporal information associated with traffic agents. PnPNet overcomes this limitation by encoding long-term historical data through a combination of online tracking and the extraction of trajectory-level agent representations, resulting in enhanced performance across all tasks. AffiniPred and perform implicit data association by using detections and their affinity matrices as inputs instead of working on past trajectories. These studies have a special focus on the tracking error while tackling a subset of imperfections with an adversarial scene or object generation. Differently, focus on understanding the impacts of real-world inputs from various state-of-the-art perception methods on the different motion forecasting paradigms.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Visual Encoding", "weight": 1.0} -->
+
+While many approaches integrate sensor detection and prediction, they often overlook the temporal richness of traffic agents. ViP3D addresses this by encoding agent dynamics with 3D queries, capturing both visual and motion features from multi-view images through cross-attention. The queries are stored in a memory bank to track agents over time, and interact with HD maps for final trajectory prediction, ensuring end-to-end differentiability. UniAD further builds on these ideas by offering a unified approach to autonomous driving, integrating perception, prediction, and planning into a single framework. It leverages task-specific queries and transformer modules to synchronize key tasks like tracking, motion forecasting, and planning, ensuring consistent outputs across them.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Trajectory Decoding", "weight": 1.0} -->
+
+With the representations containing both spatial-temporal features and interaction features between traffic agents, a decoder needs to be devised to generate multi-modal future trajectories. There are two decoding ways, anchor-conditioned and anchor-free.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Trajectory Decoding", "weight": 1.0} -->
+
+Anchor-Conditioned Decoding. The anchor-conditioned decoding approach typically incorporates prior knowledge from the dataset as an input component of the network, facilitating the generation of multi-modal trajectories, essentially conditional probabilities. Based on these various prior anchors, the final output trajectory can be constrained within a set. However, the effectiveness of this method largely depends on the quality and relevance of these predefined anchors. Depending on the type of anchor, this type of decoding approach further includes: goal-based decoder, heatmap-based decoder, and intention-based decoder.
+
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Trajectory Decoding", "weight": 1.0} -->
+
+Goal-based Decoder. Recently, goal-based multi-trajectory prediction methods have proven to be effective. These methods operate on the principle that the endpoint carries most of the uncertainty of the trajectory, so they first predict the agent's target and then further complete the corresponding full trajectory for each target. The final target position is obtained by classifying and regression the predefined sparse anchor points. TNT defines an anchor point as a location sampled on the centerline of a lane segment. The offsets on the x and y axes are predicted based on the candidate anchor point, and the expected end point is obtained by combining the offset with the anchor. The trajectory is then finalized based on this endpoint. LaneRCNN uses lane segments as anchors and predicts a goal for each lane segment. devises a sampling strategy aimed at predicting the potential future paths of vehicles. This method involves generating various paths through different sampling techniques. Each path is then associated with a specific motion mode, characterized by an introduced latent variable typically modeled as a normal distribution. DenseTNT directly outputs a set of trajectories from dense goal candidates. However, the method's reliance on an online optimization strategy for these dense goal candidates is highly computationally demanding.
+
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Trajectory Decoding", "weight": 1.0} -->
+
+Building on the concepts from TNT and DenseTNT, ADAPT proposes an innovative method for the concurrent prediction of trajectories for all agents within a scene. This is achieved through dynamic weight learning. The process begins with the prediction of a potential set of endpoints. Each endpoint is then refined by predicting an offset, and finally, the complete trajectories are determined based on these endpoints. However, such anchor-conditioned decoders rely heavily on the density of the goal. In scenarios where the density of goals is high, the required computational power can exceed practical limits.
+
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Trajectory Decoding", "weight": 1.0} -->
+
+Heatmap-based Decoder. HOME introduces an approach that utilizes probabilistic heatmaps as the output format for trajectory prediction. This methodology employs a full convolutional model, but it is constrained by the limitations of a fixed image size. Building upon the foundations laid by HOME, GOHOME advances this concept by proposing a motion prediction framework that is predicated entirely on graph manipulation optimization. THOMAS adopts the same graph encoder, sampling algorithm, and full trajectory generation mechanism as GOHOME. However, it incorporates an efficient layered heatmap process, which is scalable for making concurrent predictions of multiple bodies. In addition, a scenario consistency module has been added to recombine the marginal prediction output into a federated prediction.
+
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Trajectory Decoding", "weight": 1.0} -->
+
+Intention-based Decoder. IntentNet manually defined several intentions for autonomous vehicles, such as turning left and changing lanes, and learned a separate motion predictor for each intention. Multipath considers the uncertainty of trajectory comes from two parts: the uncertainty of intention and the uncertainty of control. The uncertainty of intention is managed through a fixed set of future state-sequence anchors that represent various modes of trajectory distribution. Once an intention is identified, the control aspect also introduces uncertainty about future predictions. This uncertainty is modeled as a normal distribution at each time step and is represented by a parameterized offset relative to the anchor trajectory. Thus, a single forward inference can yield the future distribution of multimodal trajectories. CoverNet approaches trajectory prediction as a classification challenge within a discrete set of trajectory clusters. These clusters are designed to encompass the possible state space while adhering to the constraints of vehicle dynamics. Additionally, the trajectory clusters are tailored to align with the current kinematic state of the vehicle, such as not turning around at high speed, making small turns, etc.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Trajectory Decoding", "weight": 1.0} -->
+
+Anchor-Free Decoding. Compared with the anchor-conditioned decoding approach, the ordinary non-anchor approach does not set the anchor prior based on data in advance and takes the anchor prior as input, but directly outputs the forecast trajectory from the decoder. However, this approach lacks spatial prior information from the data, the prediction results tend to learn the modes with the highest frequency, while the mode with the lowest frequency is not sufficiently learned, and its accuracy will decline in long-term prediction tasks. Therefore, a novel paradigm of learnable anchor decoding has been proposed, which takes into account the advantages of both anchor-based and non-anchor solutions. MTR designed a motion query pair that combines global intention localization and local movement refinement, implementing a "global first, local second" approach, achieving better prediction results. Multipath++ learn anchor embeddings as an integral part of the overall model training, rather than being pre-set data elements. This method establishes a direct correlation between the potential space of anchor embeddings and the multimodal output of the mixed Gaussian distribution. QCNet devises a two-stage prediction strategy.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Trajectory Decoding", "weight": 1.0} -->
+
+The first stage encompasses a coarse prediction phase, where a recurrent and anchor-free proposal module is employed to generate adaptive trajectory anchors. Following this, the second stage involves an anchor-based module that refines these proposed trajectory anchors, enhancing the accuracy and specificity of the predictions. Building on the foundations of QCNet, QCNext recognizes that QCNet is primarily tailored for marginal trajectory prediction. To address this limitation, QCNext proposes a new DETR-like decoder that can capture future social interactions for multi-agent joint prediction tasks.
+
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Self-Supervised Learning-based Architecture", "weight": 1.0} -->
+
+Self-Supervised Learning (SSL) is widely applied in natural language processing and computer vision, benefiting from the availability of large-scale unlabeled data. There are already studies proving that SSL is effective in helping models learn a more comprehensive representation for downstream tasks. Hence, SSL has begun to be explored in motion forecasting, aiming for more transferable and robust representation learning. Figure illustrates the general pipeline of SSL-based Architecture in motion forecasting.
+
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Preliminary Exploration", "weight": 1.0} -->
+
+Vectornet's introduction of a graph-based completion auxiliary task represents a pioneering exploration in motion forecasting for autonomous driving, utilizing a self-supervised learning approach. This innovation serves as a foundational step in applying self-supervision techniques in this field, potentially paving the way for future advancements. PreTraM considers that the limited availability of trajectory data restricts SSL's applicability in motion forecasting. To mitigate this, it introduces a method for generating supplementary rasterized map patches, derived from localized areas of comprehensive HDMaps, for the training of a robust map encoder through contrastive learning. Furthermore, PreTraM innovatively employs a pre-training strategy for both map and trajectory encoders, which involves the pairing of batches of training instances to effectively enhance the encoders' ability to learn the complex relationship between maps and trajectories. SSL-Lanes proposes a comprehensive set of four pretraining tasks focusing on one specific input modality, including lane masking. These tasks encompass intersection distance calculation, maneuver classification, and success/failure classification. SSL-Lanes illustrates that the strategic design of pretext tasks can significantly enhance performance.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Preliminary Exploration", "weight": 1.0} -->
+
+This enhancement is primarily achieved through the extraction of more complex features from existing data, eliminating the need for additional datasets.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Data Augmentation", "weight": 1.0} -->
+
+develops an innovative method to augment and diversify the limited motion data available for trajectory prediction. This approach involves an auxiliary task utilizing HDMaps to generate potential trajectories for traffic agents. These trajectories are constructed using synthetic speeds and by leveraging the interconnectedness of graph nodes. The overarching objective is to achieve precise motion prediction, a goal that remains constant from the pre-training stage through to the fine-tuning phase. Nevertheless, the implementation of this approach requires intricate modeling of agent positions and the generation of synthetic velocities, a process that becomes particularly challenging when dealing with non-annotated data. considers that the methodology developed, which entails generating pseudo trajectories that rigorously adhere to lane structures for pre-training purposes, introduces an innovative data generation strategy. This strategy is designed to generate realistic synthetic trajectories, bridging the domain gap between synthetic and real-world data. employs a dual-phase training approach for several transformer models aimed at motion prediction. The pre-training phase involves the use of basic map data, to align with the Barlow Twins paradigm by learning embeddings for augmented yet similar views of this map data.
+
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Data Augmentation", "weight": 1.0} -->
+
+The fine-tuning phase is distinct, utilizing samples annotated with historical data of traffic agents to specifically enhance the model's accuracy in motion forecasting tasks.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "MAE-based Approach", "weight": 1.0} -->
+
+Following the significant progress in image-based self-supervised representation learning, Masked AutoEncoder (MAE) has attracted considerable interest across various fields. The core mechanism of this approach is to mask part of the input data, followed by the application of an autoencoder structure aimed at reconstructing the masked tokens, thereby enhancing learning efficiency.
+
+<!-- chunk {"id": "body-0091", "role": "body", "section": "MAE-based Approach", "weight": 1.0} -->
+
+Traj-MAE first presents a novel and efficient masked trajectory autoencoder specifically for self-supervised trajectory prediction, designs two independent mask-reconstruction tasks on trajectories and road map input to train its trajectory and map encoder separately. The research further explores various masking strategies, including both social and temporal aspects, to facilitate the trajectory encoder in capturing latent semantic information from multiple perspectives. However, the methodology exhibits a significant limitation: the spatial relationship between agents and roads is insufficiently emphasized during the pretraining phase. Forecast-MAE devises a scene reconstruction task employing a novel masking strategy during the pre-training phase. This involves masking the historical trajectory of some agents, the future trajectory of others, and applying a random masking method for lanes. This approach enables the model to effectively capture agents' behavior patterns, road environment features, and their interactions.
+
+<!-- chunk {"id": "body-0092", "role": "body", "section": "Auxiliary task Design", "weight": 1.0} -->
+
+POP identifies the critical challenge of performance degradation when utilizing prediction algorithms in the case of insufficient observations. To mitigate this, it develops a reconstruction branch, which focuses on reconstructing the obscured historical elements of partially observed datasets. This reconstruction is facilitated through an advanced masking procedure coupled with a reconstruction head. SEPT integrates three self-supervised masking-reconstruction tasks focusing on scene inputs, which encompass both agents' trajectories and the road network. These tasks are designed to pre-train the scene encoder, enabling it to effectively capture the kinematics inherent within a trajectory, comprehend the spatial structure of the road network, and recognize interactions between roads and agents.
+
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Language Modeling Methods", "weight": 1.0} -->
+
+Inspired by the success of large language models in addressing complex tasks through model scaling, several approaches discretizes continuous trajectories into sequences of motion tokens, representing agent actions as selections from a finite vocabulary. This design allows reformulating trajectory generation problems as a unified sequence modeling task, aligning them with other sequence modeling problems such as language modeling.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Language Modeling Methods", "weight": 1.0} -->
+
+STR arranges all components of motion prediction and planning into a single sequence, including map information, past trajectories of other road users, future states, etc. The core of STR is a causal transformer backbone, specifically using the GPT-2 model. This choice enables easy scaling of the model size and incorporation of recent developments in language modeling. AMP employs tailored position encodings to handle complex spatial-temporal relations, including relative spatial position encoding, temporal position encoding, and rotary position encoding (RoPE). This design allows AMP to unify input and output representations in an ego-centric coordinate system and perform autoregressive prediction in a GPT-style manner, while addressing the unique challenges of the autonomous driving domain. MotionLM consists of: (a) A scene encoder that processes multimodal inputs including roadgraph elements, traffic light states, and features describing road agents and their recent histories. (b) A trajectory decoder that autoregressively generates sequences of discrete motion tokens for multiple agents. It is trained using a maximum likelihood objective over multi-agent action sequences.
+
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Language Modeling Methods", "weight": 1.0} -->
+
+At inference time, the model can sample diverse trajectory rollouts, which are then aggregated to produce a set of representative joint modes for evaluation. This architecture allows MotionLM to capture complex interactions between agents while maintaining temporal causality in its predictions.
+
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Conclusion and Prospect", "weight": 1.5} -->
+
+In this paper, we present a comprehensive review of the recent advancements in motion forecasting for autonomous vehicles. We begin by introducing the formulation of motion forecasting and then move on to an overview of diverse, widely-utilized datasets. This is followed by a detailed explanation of evaluation metrics specifically designed for motion forecasting. State-of-the-art prediction models have made significant strides, employing advanced techniques such as attention mechanisms, GNNs, transformers, and self-supervised architectures. Despite these technological advances, the field still faces substantial challenges. Understanding motion forecasting is pivotal for autonomous driving, as it greatly enhances the interpretation of road scenarios, thereby playing a crucial role in improving the safety standards of future autonomous driving technologies.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Conclusion and Prospect", "weight": 1.5} -->
+
+Fusion of more prior information. Recent research has integrated HDMaps into motion forecasting models. This integration specifically involves incorporating lane information to ensure predicted trajectories are aligned with the road topology. In real-world scenarios, other factors also play a crucial role. These include traffic light status, various traffic signs, and additional elements that influence the movement and interactions of traffic participants. However, many current methodologies tend to overlook these aspects. This oversight results in limitations in the mechanistic understanding of motion forecasting models. As a consequence, the impact of traffic indication information on the behavior of traffic participants remains a relatively underexplored area.
+
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Conclusion and Prospect", "weight": 1.5} -->
+
+Model robustness under incomplete scenario. The majority of motion forecasting models operate under the presumption that all observational data is fully accessible. However, this assumption rarely holds true in real-world traffic scenarios, where various factors can limit the availability and quality of observational data. Sensor constraints, such as limited range or resolution, and environmental factors, such as weather conditions or low lighting, can impair the sensors' ability to capture all relevant information. Additionally, object occlusion, where vehicles, pedestrians, or other objects block the sensors' line of sight, can result in significant portions of the scene going unobserved. In these cases, the EA may only partially observe TAs and SAs, leading to gaps in the data that are critical for accurate motion forecasting. This incomplete observation can degrade the performance of conventional models, which often rely on the assumption of comprehensive data to make accurate predictions. Therefore, there is a pressing need to develop more advanced motion forecasting models that can function robustly even when faced with incomplete observation data.
+
+<!-- chunk {"id": "body-0099", "role": "body", "section": "Conclusion and Prospect", "weight": 1.5} -->
+
+Alignment of evaluation metrics. Despite significant advancements by joint perception-to-forecasting models such as ViP3D and UniAD, these models have not been directly compared to established pure motion forecasting models. This lack of direct comparison is primarily due to inherent differences in their methodological approaches and evaluation criteria. To bridge this gap, it is crucial to develop an adapted evaluation protocol that considers the cascading impact of upstream errors in the perception-to-forecasting pipeline. Implementing such a protocol would enable a more balanced and informative comparison.
+
+<!-- chunk {"id": "body-0100", "role": "body", "section": "Conclusion and Prospect", "weight": 1.5} -->
+
+Exploration of novel pretext tasks. The robust representational learning and transferability exhibited by pre-train and fine-tune paradigms in the fields of computer vision and natural language processing have inspired recent works to incorporate these approaches into motion forecasting for autonomous vehicles. These works typically involve designing various reconstruction tasks as pretext tasks and subsequently fine-tuning the model for downstream motion forecasting. Thus, the exploration of novel pretext tasks within the self-supervised learning domain presents promising avenues for further advancements in motion forecasting.
+
+<!-- chunk {"id": "body-0101", "role": "body", "section": "Conclusion and Prospect", "weight": 1.5} -->
+
+Diffusion Models for Controllable Multi-Agent Trajectory Prediction. Recent research has introduced diffusion models to the realm of multi-agent trajectory prediction, emphasizing controllability and realistic inter-agent interactions. This framework enables modeling a joint distribution of agent trajectories, allowing the generation of collision-free, contextually adaptive predictions in complex environments. Despite its promise, current implementations are limited by simplified assumptions and lack comprehensive contextual factors, such as diverse traffic scenarios or dynamic road elements. Exploring ways to integrate richer contextual data and agent-specific behavior could significantly enhance the versatility and accuracy of these models. This emerging direction highlights diffusion models as a powerful yet underexplored tool in achieving robust, adaptable multi-agent motion forecasting.

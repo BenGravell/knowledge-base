@@ -1,15 +1,318 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Deep-PANTHER: Learning-Based Perception-Aware Trajectory Planner in Dynamic Environments
 
-This paper presents Deep-PANTHER, a learning-based perception-aware trajectory planner for unmanned aerial vehicles (UAVs) in dynamic environments. Given the current state of the UAV, and the predicted trajectory and size of the obstacle, Deep-PANTHER generates multiple trajectories to avoid a dynamic obstacle while simultaneously maximizing its presence in the field of view (FOV) of the onboard camera. To obtain a computationally tractable real-time solution, imitation learning is leveraged to train a Deep-PANTHER policy using demonstrations provided by a multimodal optimization-based expert. Extensive simulations show replanning times that are two orders of magnitude faster than the optimization-based expert, while achieving a similar cost. By ensuring that each expert trajectory is assigned to one distinct student trajectory in the loss function, Deep-PANTHER can also capture the multimodality of the problem and achieve a mean squared error (MSE) loss with respect to the expert that is up to 18 times smaller than state-of-the-art (Relaxed) Winner-Takes-All approaches.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-## Introduction and Related Work
+This paper presents Deep-PANTHER, a learning-based perception-aware trajectory planner for unmanned aerial vehicles (UAVs) in dynamic environments. Given the current state of the UAV, and the predicted trajectory and size of the obstacle, Deep-PANTHER generates multiple trajectories to avoid a dynamic obstacle while simultaneously maximizing its presence in the field of view (FOV) of the onboard camera. To obtain a computationally tractable real-time solution, imitation learning is leveraged to train a Deep-PANTHER policy using demonstrations provided by a multimodal optimization-based expert. Extensive simulations show replanning times that are two orders of magnitude faster than the optimization-based expert, while achieving a similar cost. By ensuring that each expert trajectory is assigned to one distinct student trajectory in the loss function, Deep-PANTHER can also capture the multimodality of the problem and achieve a mean squared error (MSE) loss with respect to the expert that is up to 18 times smaller than state-of-the-art (Relaxed) Winner-Takes-All approaches. Deep-PANTHER is also shown to generalize well to obstacle trajectories that differ from the ones used in training.
 
-Trajectory planning for UAVs in unknown dynamic environments is extremely challenging due to the need for gaining information about the obstacles while avoiding them at the same time. Perception-aware planning has emerged as one promising approach for this, where the translation and/or rotation of the UAV are optimized to maximize the presence of the obstacles in the FOV of the onboard camera while flying towards the goal.
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
 
-One possible approach is to use Mixture Density Networks to learn the parameters of a Gaussian mixture model. Mixture Density networks are however known to suffer from numerical instability and mode collapse. Another option is to design multimodal losses^11^1In this paper we use the term multimodal to refer to the fact that the set of predicted trajectories can contain more than one trajectory. Intuitively, this means that the planned trajectories capture the fact that we can go right, left, up,... (see Fig. 1). Unimodal approaches, on the contrary, are able to generate only one trajectory.
+Trajectory planning for UAVs in unknown dynamic environments is extremely challenging due to the need for gaining information about the obstacles while avoiding them at the same time. Perception-aware planning has emerged as one promising approach for this, where the translation and/or rotation of the UAV are optimized to maximize the presence of the obstacles in the FOV of the onboard camera while flying towards the goal. The dynamic nature of these environments requires very fast replanning times, which are usually achieved by simplifying the optimization problem by fixing some variables (such as the time allocation or the planes that separate the UAV from the obstacles) beforehand or by ignoring the multimodality of the problem. While these simplifications help reduce the computation time, that is often achieved at the expense of more conservative planned trajectories. This leaves open the question of whether or not it is possible to obtain faster computation times while achieving less conservative trajectories.
+
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Towards this end, Imitation Learning (IL) has recently gained interest due to its ability to train a computationally-cheap neural network (the student) to approximate the solution of a computationally-expensive algorithm (the expert). IL has been successfully used to compress MPC policies and/or to learn path planning policies. Compared to other IL-based trajectory planning works, which typically either assume static worlds or do not take into account perception awareness, our work proposes to use IL to obtain perception-aware trajectories that perform obstacle avoidance in dynamic environments.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+When performing obstacle avoidance, capturing the multimodality of the trajectory planning problem is crucial to reduce the conservativeness. Indeed, for a given scenario, there may be $n_{e} \geq 1$ locally-optimal expert trajectories that avoid the obstacle(s) (e.g., see Fig. 1), where $n_{e}$ may change between different scenarios. The use of a unimodal student that produces a single trajectory either introduces an artificial bias towards a specific direction of the space, or averages together the different expert trajectories, which can be catastrophic in obstacle avoidance scenarios. The challenge is then how to design and train a neural network capable of generating a multimodal trajectory prediction.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+One possible approach is to use Mixture Density Networks to learn the parameters of a Gaussian mixture model. Mixture Density networks are however known to suffer from numerical instability and mode collapse. Another option is to design multimodal losses^11^1In this paper we use the term multimodal to refer to the fact that the set of predicted trajectories can contain more than one trajectory. Intuitively, this means that the planned trajectories capture the fact that we can go right, left, up,... (see Fig. 1). Unimodal approaches, on the contrary, are able to generate only one trajectory. that are able to compare a set of predicted trajectories with a set of target trajectories. For example, the Winner-Takes-All (WTAr or WTAc) losses (see Fig. 2) use an binary assignment matrix $\mathbf{A}$ that weighs the contribution of each (target, prediction) pair in the loss. In WTAr (Winner-Takes-All-row), each target label is assigned to the closest prediction, while in WTAc (Winner-Takes-All-column), each prediction is assigned to the closest target label.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Other works propose instead the use of the relaxed losses RWTAr (Relaxed-Winner-Takes-All-row) and RWTAc (Relaxed-Winner-Takes-All-column), where the constraint of $\mathbf{A}$ being a binary matrix is relaxed (see Fig. 2). These relaxed costs typically address the mode collapse problem (which happens when all the predictions of the network after training are close to the same target label), but due to the nonzero weights between all the predictions and all the target labels, the predictions of these relaxed costs may reach an equilibrium position that does not represent any of the target labels.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
 
 In contrast to these approaches, and inspired by the multi-object detection and tracking algorithms, we propose to use (in the loss) the optimal assignment matrix $\mathbf{A}$ found by solving the linear sum assignment (LSA) problem, which minimizes the total assignment cost and guarantees that all the target labels are assigned to a distinct prediction (see Fig. 2). This ensures that a target label is not assigned to multiple predictions (reducing therefore the mode collapse problem) and that each prediction is not assigned to multiple target labels (being therefore less prone to equilibrium issues).
 
-## Conclusion and Future Work
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
 
-This work derived Deep-PANTHER, a learning-based perception-aware trajectory planner in dynamic environments. Deep-PANTHER is able to achieve a similar cost as the optimization-based expert, while having a computation time two orders of magnitude faster. The multimodality of the problem is captured by the design of a loss function that assigns a distinct student trajectory to each expert trajectory. This leads to MSE losses with respect to the expert up to 18 times smaller than the (Relaxed) Winner-Takes-All approaches.
+Novel multimodal learning-based trajectory planning framework able to generate collision-free trajectories that avoid a dynamic obstacle while maximizing its presence in the FOV.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Computation times two orders of magnitude faster than a multimodal optimization-based planner, while achieving a similar total cost (as defined in Section II-E).
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Multimodal loss that achieves an MSE of the predicted trajectories with respect to the expert trajectories up to $18$ times smaller than the (Relaxed) Winner-Takes-All approaches.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Deep-PANTHER also presents a very good generalization to environments where the obstacle is following a different trajectory than the one used in training.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Set of clamped uniform splines with dimension d, degree p, and m + 1 knots.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Point expressed in the frame a. For the definitions of this table that include the sentence “expressed in the world frame”, the notation of the frame is omitted.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+FOV, MSE, LSA
+Field of View, Mean Squared Error, linear sum assignment.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Position of the body frame expressed in the world frame. I.e., p:= tbw.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Acceleration of the body frame w.r.t. the world frame, and expressed in the world frame.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Mean of the predicted position of obstacle, expressed in the world frame.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Relative acceleration, expressed in the world frame: ${\mathbf{ξ}}:=\begin{bmatrix}
+\mathbf{a}_{x} &amp; \mathbf{a}_{y} &amp; {\mathbf{a}_{z} + g}
+\end{bmatrix}^{T}$. We will assume ξ ≠ 0.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+q_{w} &amp; q_{x} &amp; q_{y} &amp; q_{z}
+Components of a unit quaternion.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+World frame (w), body frame (b) and camera frame (c)
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+b3 = (ξ)n due to the perpendicularity of the total thrust with respect to the plane spanned by b1 and b2.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Velocity and Acceleration of the body w.r.t. the world frame, and expressed in the frame f. ∈ ℝ3.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Opening angle of the cone that approximates the FOV.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+n:= m − p − 1. n + 1 is the number of control points of the spline.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Index of the control point. l ∈ Lp for p (t), l ∈ Lψ for ψ (t).
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Position B-Spline control point (∈ℝ3), ψ B-Spline control point (∈ℝ).
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+{ψl}l ∈ Lψ. In other words, the ψ B-Spline control points (with respect to frame f) of the planned trajectory for the UAV.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+B-Spline control points of a spline fit to the future predicted trajectory of obstacle. The future predicted trajectory of the obstacle can be obtained using a prediction module as.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Length of each side of the axis-aligned bounding box of the obstacle. ∈ ℝ3.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Length of each side of the axis-aligned bounding box of the UAV. ∈ ℝ3.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Prediction time for the future trajectory of the obstacle(s).
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+Number of trajectories produced by the student. It is a user-chosen parameter, and it is fixed (i.e., does not change between replanning steps).
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+The optimization problem of the expert is run nruns times (with different initial guesses), producing nsols ≤ nruns distinct trajectories. The trajectories produced by the expert are then the best ne = min (nsols,ns) trajectories obtained.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+gterm is the terminal goal, and is the current position of the UAV.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+is the trajectory the UAV is currently executing.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+is the trajectory the UAV is currently planning, t ∈ [tin,tf].
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+d is a point, used as the initial position of.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+g is the projection of gterm onto the sphere ℳ.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Introduction and Related Work", "weight": 1.5} -->
+
+T is the total time of the planned trajectory. I.e., T:= tf − tin.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Deep-PANTHER", "weight": 1.0} -->
+
+Deep-PANTHER is a multimodal trajectory planner able to generate a trajectory that avoids a dynamic obstacle, while trying to keep it in the FOV. To achieve very fast computation times, we leverage imitation learning, where Deep-PANTHER is the student (a neural network) that is trained to imitate the position trajectories generated by an optimization-based expert (Section II-A). Both the student and the expert have an observation as input and an action as output (Section II-B). The multimodality is captured through the design of the loss function (Section II-C), and the trajectories for the extra degree of freedom of the rotation ($\psi$) can then be obtained from the position trajectories (Section II-D). The final trajectory chosen for execution is obtained according to the cost and the constraint satisfaction (Section II-E). This paper uses the notation shown in Table I.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "II-A Expert and Student", "weight": 1.0} -->
+
+Our prior work developed PANTHER, an optimization-based perception-aware trajectory planner able to avoid dynamic obstacles while keeping them in the FOV. However, and as discussed in Section I, real-time computation was achieved at the expense of conservative solutions.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "II-A Expert and Student", "weight": 1.0} -->
+
+The planes that separate the trajectory of the UAV from the obstacles and the total time of the planned trajectory $T$ are included as decision variables. To ensure that $T$ does not go beyond the prediction horizon, the constraint $0 \leq T \leq T_{\text{pred}}$ is imposed for both the expert and the student. Here, $T_{\text{pred}}$ is the total time of the future predicted trajectory of the obstacle, and it is a user-chosen parameter.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "II-A Expert and Student", "weight": 1.0} -->
+
+The future predicted trajectory of the obstacle is a spline whose control points are $\mathcal{Q}_{\mathbf{p},\text{obst}}$.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "II-A Expert and Student", "weight": 1.0} -->
+
+The optimization problem is run $n_{\text{runs}}$ times (with different initial guesses obtained by running the OSA ), and $n_{\text{sols}} \leq n_{\text{runs}}$ distinct trajectories are obtained.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "II-A Expert and Student", "weight": 1.0} -->
+
+The student (Deep-PANTHER) consists of a fully connected feedforward neural network with two hidden layers, 64 neurons per layer, and with the ReLU activation function. The student produces a total of $n_{s}$ trajectories, where $n_{s}$ is a user-chosen parameter. Note that the trajectories produced by the expert are then the best $n_{e} = {\text{min}{(n_{\text{sols}},n_{s})}}$ trajectories obtained in the optimization.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "II-B Observation and Action", "weight": 1.0} -->
+
+${\mathbf{g}}_{\text{term}}$, and the control points of a spline fit to the future predicted trajectory of the obstacle.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "II-B Observation and Action", "weight": 1.0} -->
+
+All of these quantities are expressed in the frame $f$. $\overset{˙}{\psi} \in {\mathbb{R}}$ is the derivative of $\psi{(t)}$. ${\mathbf{s}}_{\text{obst}} \in {\mathbb{R}}^{3}$ contains the length of each side of the axis-aligned bounding box of the obstacle. In this work, we use a spline in $\mathcal{S}_{3,13}^{3}$ for the predicted trajectory of the obstacle, which means that $\mathcal{Q}_{\mathbf{p},\text{obst}}$ contains 10 position control points, each one in ${\mathbb{R}}^{3}$. This leads to an observation size of $43$.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "II-B Observation and Action", "weight": 1.0} -->
+
+The action is given by ${(\mathcal{T}_{k})}_{k \in {\{ 0,\ldots,{\beta - 1}\}}}$, where $\beta = n_{s}$ for the student, and $\beta = n_{e}$ for the expert, and where ${\mathcal{T}_{k}:=\left( \left( {\hat{\mathcal{Q}}}_{\mathbf{p}} \right)_{k},T_{k} \right)}.$ As defined in Table I, ${\hat{\mathcal{Q}}}_{\mathbf{p}}$ contains all the B-Spline control points of the planned trajectory expressed in frame $f$ except the first three and the last two, while $T$ is the total time of the planned trajectory. Note that the first three and the last two control points need not to be included in the action because they are determined directly from the total time $T$ and the initial and final conditions.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "II-B Observation and Action", "weight": 1.0} -->
+
+We model the planned trajectories (for both the expert and the student) as splines in $\mathcal{S}_{3,12}^{3}$, leading to an action size of $13\beta$. The relationship between $n_{s}$ and $n_{e}$ is explained in Section II-A and Table I.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "II-B Observation and Action", "weight": 1.0} -->
+
+The key advantage of using ${\hat{\mathcal{Q}}}_{\mathbf{p}}$ instead of $\mathcal{Q}_{\mathbf{p}}$ is that every trajectory generated by the student will satisfy by construction the initial and final conditions for any given observation. It also helps reduce the action size. Moreover, the advantage of using the B-Spline position control points, instead of sampled future positions as, is that every trajectory generated by the student is smooth by construction ($\mathcal{C}^{2}$-continuous in our case), and it also avoids the need of a post-projection step into polynomial space.
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "II-C Loss: Capturing Multimodality", "weight": 1.0} -->
+
+As discussed in Section I and Fig. 1, the number of trajectories found by the expert changes depending on the specific observation. To train a neural network with a fixed-size output ($n_{s}$ trajectories) to predict the varying-size output of the expert ($n_{e}$ trajectories), we propose to use the approach shown in Fig. 3. The observation is passed through the neural network of the student to generate $n_{s}$ trajectories, and through the expert to produce $n_{e}$ trajectories. We then define ${\mathbf{D}}_{\mathbf{p}}$ as a matrix whose element $(i,j)$ is the mean squared error (MSE) between the position control points of the $i$-th trajectory of the expert and the position control points of the $j$-th trajectory of the student. A similar definition applies to ${\mathbf{D}}_{T}$, but using the total time of the trajectory instead of the control points.
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "II-C Loss: Capturing Multimodality", "weight": 1.0} -->
+
+Letting $\mathbf{A}$ denote the assignment matrix (whose $(i,j)$ element is 1 if the $i$-th trajectory of the expert has been assigned to the $j$-th trajectory of the student, and 0 otherwise), we then find the optimal $\mathbf{A}$ that minimizes the assignment cost $\mathbf{1}^{T}\left( {{\mathbf{A}} \odot {\mathbf{D}}_{\mathbf{p}}} \right)\mathbf{1}$, and that assigns a distinct student trajectory to every expert trajectory. Here, $\odot$ denotes the element-wise product and $\mathbf{1}$ is a column vector of ones. This is an instance of the linear sum assignment (LSA) problem, and the optimal $\mathbf{A}$ can be obtained leveraging the Jonker-Volgenant algorithm (a variant of the Hungarian algorithm ).
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "II-C Loss: Capturing Multimodality", "weight": 1.0} -->
+
+As we have that $n_{e} \leq n_{s}$, all the rows of $\mathbf{A}$ sum up to 1, $n_{e}$ columns sum up to 1, and $({n_{s} - n_{e}})$ columns sum up to 0. To penalize only the MSE of the optimally-assigned student-expert pairs, the loss is then computed as
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "II-C Loss: Capturing Multimodality", "weight": 1.0} -->
+
+Our approach ensures that all the expert trajectories have exactly one distinct student trajectory assigned to them, see Fig 2. Compared to WTAr, RWTAr, WTAc, and RWTAc, our LSA loss prevents the same student trajectory from being assigned to several expert trajectories (reducing therefore the equilibrium issues), guarantees that all the trajectories of the expert are captured in every training step, and also prevents the same expert trajectory from having several student trajectories assigned to it (being therefore less prone the mode collapse problems).
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "II-D Generation of $\\psi$ given the Position Trajectory", "weight": 1.0} -->
+
+Each $\mathcal{T}_{k}$, together with the initial and final conditions contained in the observation, defines the position trajectory. Since ${\mathbf{b}}_{3}:={{\mathbf{R}}_{b}^{w}{\mathbf{e}}_{z}} = ({\mathbf{ξ}})_{n}$ (see Fig. 4 and Table I), this position trajectory determines part of the rotation, but leaves $\psi$ free. We now derive^22^2For simplicity, here we focus on the case where ${\mathbf{R}}_{c}^{b} = \begin{bmatrix}
+\end{bmatrix}$ and ${\mathbf{t}}_{c}^{b} = \mathbf{0}$. A similar derivation applies to more general cases. See also. a closed-form expression for $\psi{(t)}$ that maximizes the presence of the obstacle in the FOV given the position trajectory.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "II-D Generation of $\\psi$ given the Position Trajectory", "weight": 1.0} -->
+
+where the two constraints guarantee that ${\mathbf{b}}_{1}$ is a unit vector perpendicular to $\mathbf{ξ}$. Computing the Lagrangian and solving the Karush-Kuhn-Tucker (KKT) conditions yields the optimal solution:^33^3Note that Eq. 1 presents a singularity when $\left( {\mathbf{p}_{\text{obst}} - \mathbf{p}} \right)$ is parallel to $\mathbf{ξ}$. In that case, we can choose any ${\mathbf{b}}_{1}$, since all of them are perpendicular to $\left( {\mathbf{p}_{\text{obst}} - \mathbf{p}} \right)$ and therefore achieve the same (zero) cost in the objective function.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "II-D Generation of $\\psi$ given the Position Trajectory", "weight": 1.0} -->
+
+Given that $\mathbf{p}_{\text{obst}}$, $\mathbf{p}$, and $\mathbf{ξ}$ are functions of time, Eq. 1 gives the evolution of ${\mathbf{b}}_{1}$ that maximizes the presence of the obstacle in the FOV (see Fig. 4). $\psi{(t)}$ can then be easily obtained from ${\mathbf{b}}_{1}$ and ${\mathbf{b}}_{3}$, and a spline is fit to it to obtain the control points $\mathcal{Q}_{\psi}$.
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "II-D Generation of $\\psi$ given the Position Trajectory", "weight": 1.0} -->
+
+Note that, in PANTHER^\*^, position and rotation are coupled together in the optimization. This coupling helps reduce the conservativeness that arises when they are optimized separately. Deep-PANTHER (the student) learns to predict the position trajectory resulting from this coupled optimization problem, and then the closed-form solution is leveraged to obtain $\psi$ from this position trajectory. In other words, Deep-PANTHER benefits from the coupling (since it is learning one of the outputs of the coupled optimization problem), while leveraging the closed-form solution for $\psi$.
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "II-E Testing", "weight": 1.0} -->
+
+In testing time the procedure is as follows (see Fig. 5): The observation is fed into the neural network, which produces ${(\mathcal{T}_{k})}_{k \in {\{ 0,\ldots,{n_{s} - 1}\}}}$ (i.e., the intermediate position control points and the total times). Then, for each $\mathcal{T}_{k}$, the initial and final conditions are imposed to generate the position trajectory, defined by all the position control points ${(\mathcal{Q}_{\mathbf{p}})}_{k}$ and the total time $T_{k}$. The optimal $\psi$ control points $\left( \mathcal{Q}_{\psi} \right)_{k}$ are then obtained as explained in Section II-D.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "II-E Testing", "weight": 1.0} -->
+
+Then, and using the observation, each triple $\left( {(\mathcal{Q}_{\mathbf{p}})}_{k},\left( \mathcal{Q}_{\psi} \right)_{k},T_{k} \right)$ is ranked according to the cost and the constraint satisfaction.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "II-E Testing", "weight": 1.0} -->
+
+$c_{\text{dyn lim}}$ is a soft cost that penalizes the velocity, acceleration, and jerk violations, and $\lambda > 0$. If none of the trajectories generated by the student are collision-free, the UAV will continue executing the trajectory it had in the previous replanning step (which is collision-free) and will replan again.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
+
+To better compare the different aspects of the proposed framework, Section III-A first focuses on a stopped UAV that needs to plan a trajectory from the start location to the goal (without moving along that planned trajectory) while avoiding a static obstacle. Then, Section III-B studies the more general case where a UAV is flying and constantly replanning in a dynamic environment.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
+
+We use $n_{s} = 6$, $n_{\text{runs}} = 10$, $T_{\text{pred}} = 6$ s, and $\beta_{\mathbf{p}} = \beta_{T} = 1$.^55^5Note that $\beta_{\mathbf{p}}$ and $\beta_{T}$ are adimensional because ${\mathbf{D}}_{\mathbf{p}}$ and ${\mathbf{D}}_{T}$ are computed from normalized actions in $\lbrack{- 1},1\rbrack$. To train the neural network we use the Adam optimizer and a learning rate of $10^{- 3}$. In all these simulations, and for all the algorithms tested, $\mathcal{Q}_{\mathbf{p},\text{obst}}$ is obtained by simply fitting a spline to the ground-truth future positions of the obstacle.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
+
+In real-world applications, this future predicted trajectory of the obstacle can be obtained from past observations.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Results and Discussion", "weight": 1.0} -->
+
+Note that the selection of $n_{s}$ and $n_{\text{runs}}$ sufficiently high helps reduce a potential bias problem that could appear if the expert generated very few (2 or 3) trajectories. Moreover, we also randomize the training environments to help reduce this potential bias (see following subsections).
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "III-A Static Obstacle", "weight": 1.0} -->
+
+In this section, the task is to plan once from the starting location to the goal (i.e., the UAV does not move along the planned trajectory and/or replan again). We collect $2$K (observation, expert action) pairs,^66^6 The code contains the details of the randomization performed. and use 75% of these pairs to train the student offline (the rest of the pairs are used as the evaluation dataset in the MSE comparisons of Section III-A2). Section III-A1 first compares the cost vs replanning time, and then Section III-A2 analyzes how well the multimodality is captured.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "III-A1 Cost vs Replanning Time", "weight": 1.0} -->
+
+We compare the cost vs replanning time of these three different approaches: PANTHER (Ref. ), PANTHER^\*^ (the expert, see Section II-A) and Deep-PANTHER (the student). The testing environment is shown in Fig. 7. For PANTHER^\*^ and Deep-PANTHER (which generate a multimodal output), we use in the comparisons the best (i.e., with smallest cost) collision-free trajectory found. The results are shown in Fig. 7, which highlights that Deep-PANTHER obtains a total cost similar to the one obtained by PANTHER^\*^, but with a computation time that is two orders of magnitude smaller. Compared to PANTHER, Deep-PANTHER is able to obtain a lower cost, and with an improvement of one order of magnitude in computation time. For each of the 64 simulations performed, the trajectory obtained by all the algorithms is collision-free.
+
+<!-- chunk {"id": "body-0069", "role": "body", "section": "III-A2 Multimodality", "weight": 1.0} -->
+
+Let $\pi_{\text{LSA}}$ denote the policy trained using the approach presented in Section II-C. As explained in Section I, another possible approach is to use RWTAr, where the assignment matrix $\mathbf{A}$ has the value $({1 - \epsilon})$ in the minimum elements of each row of ${\mathbf{D}}_{\mathbf{p}}$, and $\frac{\epsilon}{n_{s} - 1}$ elsewhere. Similarly, RWTAc uses an assignment matrix $\mathbf{A}$ that has the value $({1 - \epsilon})$ in the minimum elements of each column of ${\mathbf{D}}_{\mathbf{p}}$, and $\frac{\epsilon}{n_{e} - 1}$ elsewhere.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "III-A2 Multimodality", "weight": 1.0} -->
+
+A policy trained using these approaches for a given $\epsilon \geq 0$ will be denoted as $\pi_{\text{RWTAr-}\epsilon}$ and $\pi_{\text{RWTAc-}\epsilon}$. Note that $\text{WTAr} \equiv \text{RWTAr}$ and $\text{WTAc} \equiv \text{RWTAc}$ when $\epsilon = 0$. We first train 11 policies ($\pi_{\text{LSA}}$, $\pi_{\text{RWTAr-}\epsilon}$, and $\pi_{\text{RWTAc-}\epsilon}$ for $\epsilon \in {\{ 0,0.05,0.15,0.25,0.35\}}$) using the same training set.
+
+<!-- chunk {"id": "body-0071", "role": "body", "section": "III-A2 Multimodality", "weight": 1.0} -->
+
+MSE with respect to the the trajectories of the expert. For each of the trained policies, we obtain the optimal assignment between the trajectories of the expert and the student using the cost matrix ${\mathbf{D}}_{\mathbf{p}}$. The trajectories of the student are then ranked according to the position MSE loss with respect to their assigned expert trajectory, and the index of this ranking is denoted as $\kappa$. For instance, the case $\kappa = 0$ corresponds to the trajectory of the student that best predicts an expert trajectory. The results are shown in Fig. 8, where values above $1$ represent cases where LSA (our approach) performs better. Compared to RWTAr, our approach achieves an average MSE between 1.09 and 18.02 times smaller. Compared to RWTAc, our approach achieves an average MSE between 2.35 and 2.68 times smaller.
+
+<!-- chunk {"id": "body-0072", "role": "body", "section": "III-A2 Multimodality", "weight": 1.0} -->
+
+Number of collision-free trajectories obtained. Using the same testing scenario as in Section III-A1 (Fig. 7), Fig. 9 shows the number of collision-free trajectories produced by each algorithm. Our approach is able to produce at least one collision-free trajectory for all the ${\mathbf{g}}_{\text{term}}$ tested, while RWTAr-$\epsilon$ ($\epsilon \in {\{ 0.25,0.35\}}$) and RWTAc-$\epsilon$ ($\epsilon \in {\{ 0,0.05,0.15,0.25,0.35\}}$) fail to generate a collision-free trajectory for some of the goals, especially for the ones that are directly behind the obstacle.
+
+<!-- chunk {"id": "body-0073", "role": "body", "section": "III-B Replanning with a Dynamic Obstacle", "weight": 1.0} -->
+
+We train the student in an environment that consists of a dynamic obstacle flying a trefoil-knot trajectory. The position, phase, and scale of this trefoil-knot trajectory, together with the terminal goal, are randomized. We use the Dataset-Aggregation algorithm (DAgger) to collect the data and train the student. DAgger is an iterative dataset collection and policy training method that helps reduce covariate shift issues by querying actions of the expert while executing a partially trained policy. The total number of (observation, expert action) pairs collected is approximately $23$K.
+
+<!-- chunk {"id": "body-0074", "role": "body", "section": "III-B Replanning with a Dynamic Obstacle", "weight": 1.0} -->
+
+To test this trained policy, we deploy a dynamic obstacle following a trefoil-knot trajectory with a random phase, and manually select random ${\mathbf{g}}_{\text{term}}$. This makes the UAV replan from different initial positions, velocities, and accelerations, different states of the obstacle, and different goals. Some snapshots of the resulting collision-free trajectories generated by the student, together with the depth image of the onboard camera, are shown in Fig. 10. As explained in Section II-E, the collision-free trajectory that has the smallest augmented cost is the one chosen for execution.
+
+<!-- chunk {"id": "body-0075", "role": "body", "section": "III-C Generalization to other Obstacle Trajectories", "weight": 1.0} -->
+
+To evaluate how well the student in Section III-B (trained using trefoil-knot obstacle trajectories) generalizes, we test it with different obstacle trajectories: static, square, eight and epitrochoid (see Fig. 11). During 45 seconds, the UAV must fly back and forth between two goals separated $10$ m, with the trajectory of the obstacle lying between these goals. The number of collision-free trajectories generated is shown in Table II. Despite being trained with a different obstacle trajectory, the policy succeeded in generating at least one collision-free trajectory in all the approximately $740$ replanning steps. In all the cases the UAV reached 8 goals during the total simulation time.
+
+<!-- chunk {"id": "body-0076", "role": "body", "section": "III-D Several Obstacles", "weight": 1.0} -->
+
+In these simulations, the task is to fly from $x = 0$ m to $x = 15$ m avoiding multiple randomly-deployed obstacles that follow epitrochoid trajectories. The policy used is the one of Section III-B, which was trained with only one obstacle that followed a trefoil-knot trajectory. For the input of the neural network, Deep-PANTHER then chooses the obstacle that has the highest probability of collision.
+
+<!-- chunk {"id": "body-0077", "role": "body", "section": "III-D Several Obstacles", "weight": 1.0} -->
+
+Note how even though Deep-PANTHER has been trained with only one obstacle, it is able to succeed at all times when the number of obstacles is 1 or 2. When the number of obstacles is 3, 4, or 5, Deep-PANTHER is able to succeed on average. The failures could be addressed by incorporating multiple obstacles in the training (instead of only one obstacle), which is left as future work.
+
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+
+This work derived Deep-PANTHER, a learning-based perception-aware trajectory planner in dynamic environments. Deep-PANTHER is able to achieve a similar cost as the optimization-based expert, while having a computation time two orders of magnitude faster. The multimodality of the problem is captured by the design of a loss function that assigns a distinct student trajectory to each expert trajectory. This leads to MSE losses with respect to the expert up to 18 times smaller than the (Relaxed) Winner-Takes-All approaches. Deep-PANTHER also performs well in environments where the obstacle follows a different trajectory than the one used in training. Future work includes the extension to multiple dynamic obstacles, the inclusion of the camera images directly in the observation, and real-world experiments.

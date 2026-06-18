@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Randomized Greedy Algorithms for Covering Problems
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Greedy algorithms provide a fast and often also effective solution to many combinatorial optimization problems. However, it is well known that they sometimes lead to low quality solutions on certain instances. In this paper, we explore the use of randomness in greedy algorithms for the minimum vertex cover and dominating set problem and compare the resulting performance against their deterministic counterpart. Our algorithms are based on a parameter y which allows to explore the spectrum between uniform and deterministic greedy selection in the steps of the algorithm and our theoretical and experimental investigations point out the benefits of incorporating randomness into greedy algorithms for the two considered combinatorial optimization problems.

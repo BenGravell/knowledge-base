@@ -1,7 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 An Interior-Point Method for Large-Scale L1-Regularized Least Squares
 
 Topics include Sparse regression, L1 regularization, Interior-point methods, Least squares, Convex optimization, Feature selection.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Develops a specialized primal-dual interior-point method for large L1-regularized least-squares problems. The solver exploits matrix-vector products and structure, making sparse regression and feature-selection objectives practical at much larger scales than generic solvers.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Recently, a lot of attention has been paid to regularization based methods for sparse signal reconstruction (e.g., basis pursuit denoising and compressed sensing) and feature selection (e.g., the Lasso algorithm) in signal processing, statistics, and related fields. These problems can be cast as -regularized least-squares programs (LSPs), which can be reformulated as convex quadratic programs, and then solved by several standard methods such as interior-point methods, at least for small and medium size problems. In this paper, we describe a specialized interior-point method for solving large-scale -regularized LSPs that uses the preconditioned conjugate gradients algorithm to compute the search direction. The interior-point method can solve large sparse problems, with a million variables and observations, in a few tens of minutes on a PC. It can efficiently solve large dense problems, that arise in sparse signal recovery with orthogonal transforms, by exploiting fast algorithms for these transforms. The method is illustrated on a magnetic resonance imaging data set.

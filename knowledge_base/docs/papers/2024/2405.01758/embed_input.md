@@ -1,3 +1,13 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 CGD: Constraint-Guided Diffusion Policies for UAV Trajectory Planning
 
-Traditional optimization-based planners, while effective, suffer from high computational costs, resulting in slow trajectory generation. A successful strategy to reduce computation time involves using Imitation Learning (IL) to develop fast neural network (NN) policies from those planners, which are treated as expert demonstrators. Although the resulting NN policies are effective at quickly generating trajectories similar to those from the expert, their output does not explicitly account for dynamic feasibility, and the policies do not accommodate changes in the constraints different from those used during training. To overcome these limitations, we propose Constraint-Guided Diffusion (CGD), a novel IL-based approach to trajectory planning. CGD leverages a hybrid learning/online optimization scheme that combines diffusion policies with a surrogate efficient optimization problem, enabling the generation of collision-free, dynamically feasible trajectories.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Traditional optimization-based planners, while effective, suffer from high computational costs, resulting in slow trajectory generation. A successful strategy to reduce computation time involves using Imitation Learning (IL) to develop fast neural network (NN) policies from those planners, which are treated as expert demonstrators. Although the resulting NN policies are effective at quickly generating trajectories similar to those from the expert, their output does not explicitly account for dynamic feasibility, and the policies do not accommodate changes in the constraints different from those used during training. To overcome these limitations, we propose Constraint-Guided Diffusion (CGD), a novel IL-based approach to trajectory planning. CGD leverages a hybrid learning/online optimization scheme that combines diffusion policies with a surrogate efficient optimization problem, enabling the generation of collision-free, dynamically feasible trajectories. The key ideas of CGD include dividing the original challenging optimization problem solved by the expert into two more manageable sub-problems: (a) efficiently finding collision-free paths, and (b) determining a dynamically-feasible time-parametrization for those paths to obtain a trajectory.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Compared to conventional neural network architectures, we demonstrate through numerical evaluations significant improvements in performance and dynamic feasibility under scenarios with new constraints never encountered during training.

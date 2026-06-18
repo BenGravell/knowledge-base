@@ -1,17 +1,259 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 PaLM-E: An Embodied Multimodal Language Model
 
 Topics include Robotics, State estimation, Large language models, Planning, PaLM-E, Language models.
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 Large language models excel at a wide range of complex tasks. However, enabling general inference in the real world, e.g., for robotics problems, raises the challenge of grounding. We propose embodied language models to directly incorporate real-world continuous sensor modalities into language models and thereby establish the link between words and percepts. Input to our embodied language model are multi-modal sentences that interleave visual, continuous state estimation, and textual input encodings. We train these encodings end-to-end, in conjunction with a pre-trained large language model, for multiple embodied tasks including sequential robotic manipulation planning, visual question answering, and captioning. Our evaluations show that PaLM-E, a single large embodied multimodal model, can address a variety of embodied reasoning tasks, from a variety of observation modalities, on multiple embodiments, and further, exhibits positive transfer: the model benefits from diverse joint training across internet-scale language, vision, and visual-language domains.
 
-## Introduction
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
-Large language models (LLMs) demonstrate strong reasoning capabilities across various domains, including dialogue Glaese et al.; Thoppilan et al., step-by-step reasoning Wei et al.; Kojima et al., math problem solving Lewkowycz et al.; Polu et al., and code writing Chen et al..
+Our largest model, PaLM-E-562B with 562B parameters, in addition to being trained on robotics tasks, is a visual-language generalist with state-of-the-art performance on OK-VQA, and retains generalist language capabilities with increasing scale.
 
-In this paper we propose embodied language models, which directly incorporate continuous inputs from sensor modalities of an embodied agent and thereby enable the language model *itself* to make more grounded inferences for sequential decision making in the real world. Inputs such as images and state estimates are embedded into the same latent embedding as language tokens and processed by the self-attention layers of a Transformer-based LLM in the same way as text. We start from a pre-trained LLM in which we inject the continuous inputs through an encoder.
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Large language models (LLMs) demonstrate strong reasoning capabilities across various domains, including dialogue Glaese et al.; Thoppilan et al., step-by-step reasoning Wei et al.; Kojima et al., math problem solving Lewkowycz et al.; Polu et al., and code writing Chen et al.. However, a limitation of such models for inference in the real world is the issue of grounding: while training LLMs on massive textual data may lead to representations that relate to our physical world, *connecting* those representations *to* real-world visual and physical sensor modalities is essential to solving a wider range of *grounded* real-world problems in computer vision and robotics Tellex et al.. Previous work interfaces the output of LLMs with learned robotic policies and affordance functions to make decisions, but is limited in that the LLM itself is only provided with textual input, which is insufficient for many tasks where the geometric configuration of the scene is important.
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Further, in our experiments we show that current state-of-the-art *visual*-language models trained on typical vision-language tasks such as visual-question-answering (VQA) cannot directly solve robotic reasoning tasks.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In this paper we propose embodied language models, which directly incorporate continuous inputs from sensor modalities of an embodied agent and thereby enable the language model *itself* to make more grounded inferences for sequential decision making in the real world. Inputs such as images and state estimates are embedded into the same latent embedding as language tokens and processed by the self-attention layers of a Transformer-based LLM in the same way as text. We start from a pre-trained LLM in which we inject the continuous inputs through an encoder. These encoders are trained end-to-end to output sequential decisions in terms of natural text that can be interpreted by the embodied agent by conditioning low-level policies or give an answer to an embodied question. We evaluate the approach in a variety of settings, comparing different input representations (e.g. standard vs. object-centric ViT encodings for visual input), freezing vs. finetuning the language model while training the encoders, and investigating whether co-training on multiple tasks enables transfer.
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 To investigate the approach's breadth, we evaluate on three robotic manipulation domains (two of which are closed-loop in the real-world), standard visual-language tasks such as VQA and image captioning, as well as language tasks. Our results indicate that multi-task training improves performance compared to training models on individual tasks. We show that this *transfer* across tasks can lead to high data-efficiency for robotics tasks, e.g. significantly increasing learning success from handfuls of training examples, and even demonstrating one-shot or zero-shot generalization to novel combinations of objects or unseen objects.
 
-## Conclusion
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-We proposed to build an embodied language model by injecting multi-modal information such as images into the embedding space of a pre-trained LLM. Experiments showed that off-the-shelf state-of-the-art vision-language models trained on general VQA and captioning tasks are not sufficient for embodied reasoning tasks, as well as limitations of a recent proposal for grounding language models through affordances. To overcome these limitations, we proposed PaLM-E, a single model that is able to control different robots in simulation and in the real world, while at the same time being quantitatively competent at general VQA and captioning tasks.
+We scale PaLM-E up to 562B parameters, integrating the 540B PaLM Chowdhery et al. LLM and the 22B Vision Transformer (ViT) Dehghani et al. into, to our knowledge, the largest vision-language model currently reported. PaLM-E-562B achieves state-of-the-art performance on the OK-VQA Marino et al. benchmark, without relying on task-specific finetuning. Although not the focus of our experimentation, we also find (Fig. 2) that PaLM-E-562B exhibits a wide array of capabilities including zero-shot multimodal chain-of-thought (CoT) reasoning, few-shot prompting, OCR-free math reasoning, and multi-image reasoning, despite being trained on only single-image examples. Zero-shot CoT Kojima et al., originally a language-only concept, has been shown on multimodal data with task-specific programs Zeng et al. but to our knowledge, not via an end-to-end model.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+To summarize our main contributions, we propose and demonstrate that a generalist, transfer-learned, multi-embodiment decision-making agent can be trained via mixing in embodied data into the training of a multimodal large language model. We show that, while current state-of-the-art general-purpose visual-language models out-of-the-box (zero-shot) do not well address embodied reasoning problems, it is possible to train a competent general-purpose visual-language model that is also an efficient embodied reasoner. In studying how to best train such models, we introduce novel architectural ideas such as neural scene representations and entity-labeling multimodal tokens. Finally, in addition to our focus on PaLM-E as an embodied reasoner we show that PaLM-E is also a quantitatively competent vision and language generalist, and demonstrate that scaling the language model size enables multimodal finetuning with less catastrophic forgetting.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "PaLM-E: An Embodied Multimodal Language Model", "weight": 1.0} -->
+
+The main architectural idea of PaLM-E is to inject continuous, embodied observations such as images, state estimates, or other sensor modalities into the language embedding space of a pre-trained language model. This is realized by encoding the continuous observations into a sequence of vectors with the same dimension as the embedding space of the language tokens. The continuous information is hence injected into the language model in an analogous way to language tokens. PaLM-E is a decoder-only LLM that generates textual completions autoregressively given a prefix or prompt. We call our model PaLM-E, since we use PaLM Chowdhery et al. as the pre-trained language model, and make it Embodied.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "PaLM-E: An Embodied Multimodal Language Model", "weight": 1.0} -->
+
+The *inputs* to PaLM-E consist of text and (multiple) continuous observations. The multimodal tokens corresponding to these observations are interleaved with the text to form *multi-modal sentences*. An example of such a multi-modal sentence is Q: What happened between \<img_1\> and \<img_2\>? where \ represents an embedding of an image. The *output* of PaLM-E is text generated auto-regressively by the model, which could be an answer to a question, or a sequence of decisions produced by PaLM-E in textual form that should be executed by a robot. When PaLM-E is tasked with producing decisions or plans, we assume that there exists a low-level policy or planner that can translate these decisions into low-level actions. Prior work has discussed a variety of ways to train such low-level policies, and we use these prior methods directly without modification. In the following, we describe our approach more formally.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "PaLM-E: An Embodied Multimodal Language Model", "weight": 1.0} -->
+
+Decoder-only LLMs. Decoder-only large language models (LLMs) are generative models trained to predict the probability $p{(w_{1:L})}$ of a piece of text $w_{1:L} = {(w_{1},\ldots,w_{L})}$ that is represented as a sequence of tokens $w_{i} \in \mathcal{W}$. Typical neural architectures realize this by factorizing into
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "PaLM-E: An Embodied Multimodal Language Model", "weight": 1.0} -->
+
+where $p_{\text{LM}}$ is a large transformer network.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "PaLM-E: An Embodied Multimodal Language Model", "weight": 1.0} -->
+
+Prefix-decoder-only LLMs. Since the LLM is auto-regressive, a pre-trained model can be conditioned on a prefix $w_{1:n}$ without the necessity to change the architecture
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "PaLM-E: An Embodied Multimodal Language Model", "weight": 1.0} -->
+
+The prefix or *prompt* $w_{1:n}$ provides the context based on which the LLM continues to predict the subsequent tokens $w_{{n + 1}:L}$. This is often used for inference to steer the predictions of the model. For example, the prompt can contain a description of the task the LLM should solve or examples of desired text completions for similar tasks.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "PaLM-E: An Embodied Multimodal Language Model", "weight": 1.0} -->
+
+Token embedding space. The tokens $w_{i}$ are elements of a fixed vocabulary $\mathcal{W}$ which is a discrete, finite set corresponding to (sub)words in natural language. Internally, the LLM embeds $w_{i}$ into a word token embedding space $\mathcal{X} \subset {\mathbb{R}}^{k}$ via $\gamma:{\mathcal{W}\rightarrow\mathcal{X}}$, i.e. $p_{\text{LM}}{(\left. w_{l} \middle| x_{1:{l - 1}} \right.)}$ with $x_{i} = {\gamma{(w_{i})}} \in {\mathbb{R}}^{k}$. The mapping $\gamma$ is typically represented as a large embedding matrix of size $k \times {|\mathcal{W}|}$ and trained end-to-end.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "PaLM-E: An Embodied Multimodal Language Model", "weight": 1.0} -->
+
+Multi-modal sentences: injection of continuous observations. Multi-modal information such as image observations can be injected into the LLM by skipping the discrete token level and directly mapping the continuous observations into the language embedding space $\mathcal{X}$. To this end, we train an encoder $\phi:{\mathcal{O}\rightarrow\mathcal{X}^{q}}$ that maps a (continuous) observation space $\mathcal{O}$ (refer to Sec. 4 for details) into a *sequence* of $q$-many vectors in $\mathcal{X}$. These vectors are then interleaved with normal embedded text tokens to form the prefix for the LLM.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "PaLM-E: An Embodied Multimodal Language Model", "weight": 1.0} -->
+
+Note that a single observation $O_{j}$ is usually encoded into multiple embedding vectors. It is possible to interleave different encoders $\phi_{i}$ at different locations in the prefix to combine, e.g., information from different observation spaces. Injecting the continuous information this way into the LLM reuses its existing positional encodings. In contrast to other VLM approaches (e.g, Chen et al. ), the observation embeddings are not inserted at fixed positions, but instead placed dynamically within the surrounding text.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "PaLM-E: An Embodied Multimodal Language Model", "weight": 1.0} -->
+
+Embodying the output: PaLM-E in a robot control loop. PaLM-E is a generative model producing text based on multi-model sentences as input. In order to connect the output of the model to an embodiment, we distinguish two cases. If the task can be accomplished by outputting text only as, e.g., in embodied question answering or scene description tasks, then the output of the model is directly considered to be the solution for the task.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "PaLM-E: An Embodied Multimodal Language Model", "weight": 1.0} -->
+
+Alternatively, if PaLM-E is used to solve an embodied planning or control task, it generates text that conditions low-level commands. In particular, we assume to have access to policies that can perform low-level skills from some (small) vocabulary, and a successful plan from PaLM-E must consist of a sequence of such skills. Note that PaLM-E must determine on its own which skills are available based on the training data and the prompt, and no other mechanism is used to constrain or filter its outputs. Although these policies are language conditioned, they are not capable of solving long-horizon tasks or taking in complex instructions. PaLM-E is hence integrated into a control-loop, where its predicted decisions are executed through the low-level policies by a robot, leading to new observations based on which PaLM-E is able to replan if necessary. In this sense, PaLM-E can be understood as a high-level policy that sequences and controls the low-level policies.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "Input & Scene Representations for Different Sensor Modalities", "weight": 1.0} -->
+
+In this section, we describe the individual modalities that we incorporate into PaLM-E, and how we set up their encoders. We propose different architectural choices for each encoder $\phi:{\mathcal{O}\rightarrow\mathcal{X}}$ to map the corresponding modality into the language embedding space. We investigate state estimation vectors, Vision Transformers (ViTs) Dosovitskiy et al.; Chen et al.; Ryoo et al. for 2D image features, and the 3D-aware Object Scene Representation Transformer (OSRT) Sajjadi et al.. In addition to encoders that represent the input scene globally, we consider object-centric representations that factor observations into tokens that represent individual objects in the scene.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "Input & Scene Representations for Different Sensor Modalities", "weight": 1.0} -->
+
+State estimation vectors. State vectors, e.g. from a robot or a state estimate for objects, are perhaps the simplest to input into PaLM-E. Let $s \in {\mathbb{R}}^{S}$ be a vector describing the state of the objects in a scene. For example, $s$ could contain the pose, size, color etc. of those objects. Then, the MLP $\phi_{\text{state}}$ maps $s$ into the language embedding space.
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "Input & Scene Representations for Different Sensor Modalities", "weight": 1.0} -->
+
+Vision Transformer (ViT). ViT ${\overset{\sim}{\phi}}_{\text{ViT}}$ Dosovitskiy et al. is a transformer architecture mapping an image $I$ into a number of token embeddings ${\overset{\sim}{x}}_{1:m} = {{\overset{\sim}{\phi}}_{\text{ViT}}{(I)}} \in {\mathbb{R}}^{m \times \overset{\sim}{k}}$. We consider several variants, including the 4 billion parameter model from Chen et al., which we refer to as ViT-4B, and a similar 22 billion parameter model, ViT-22B Dehghani et al., both of which have been pre-trained on image classification. We further investigate the ViT token learner architecture (ViT + TL) Ryoo et al. which is trained end-to-end from scratch.
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "Input & Scene Representations for Different Sensor Modalities", "weight": 1.0} -->
+
+Note that the dimensionality $\overset{\sim}{k}$ of the ViT embeddings is not necessarily the same as that of the language model. We therefore project each embedding into $x_{i} = {\phi_{\text{ViT}}{(I)}_{i}} = {\psi{({{\overset{\sim}{\phi}}_{\text{ViT}}{(I)}_{i}})}}$ with $\psi$ being a learned affine transformation.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "Input & Scene Representations for Different Sensor Modalities", "weight": 1.0} -->
+
+Object-centric representations. Unlike language, visual input is not pre-structured into meaningful entities and relationships: while ViT may capture semantics, the structure of the representation resembles a static grid rather than a collection of object instances. This poses a challenge both for interfacing with LLMs which have been pre-trained on symbols, and for solving embodied reasoning which requires interaction with physical objects. We therefore also explore structured encoders that aim to separate visual inputs into distinct objects before injecting them into the LLM. Given ground-truth object instance masks $M_{j}$, we can decompose ViT's representation into $x_{1:m}^{j} = {\phi_{\text{ViT}}{({M_{j} \circ I})}}$ for object $j$.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Input & Scene Representations for Different Sensor Modalities", "weight": 1.0} -->
+
+Object Scene Representation Transformer (OSRT). An alternative that does not require ground-truth segmentations is OSRT Sajjadi et al.: rather than relying on external knowledge about objects, they are discovered in an unsupervised way through inductive biases in the architecture Locatello et al.. Based on SRT Sajjadi et al., OSRT learns 3D-centric neural scene representations on in-domain data through a novel view synthesis task. Its scene representations consist of object slots $o_{j} = {{\overline{\phi}}_{\text{OSRT}}{(I_{1:v})}_{j}} \in {\mathbb{R}}^{\overline{k}}$. We project each of these slots into $x_{1:m}^{j} = {\psi{({{\overline{\phi}}_{\text{OSRT}}{(I_{1:v})}_{j}})}}$ with an MLP $\psi$.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Input & Scene Representations for Different Sensor Modalities", "weight": 1.0} -->
+
+Note that individual objects are always tokenized into *multiple* embeddings each, i.e. $\psi:{{\mathbb{R}}^{\overline{k}}\rightarrow{\mathbb{R}}^{m \times k}}$ for OSRT maps into $m$-many embeddings.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Input & Scene Representations for Different Sensor Modalities", "weight": 1.0} -->
+
+Entity referrals. For embodied planning tasks, PaLM-E must be able to reference objects in its generated plan. In many cases, including the majority of our experiments, objects in a scene can be identified in natural language by some of their unique properties. However, there also exist settings where objects are not easily identifiable by language in few words, e.g. if there are multiple blocks on a table of the same color at different locations. For object-centric representations such as OSRT, we label the multi-modal tokens corresponding to an object in the input prompt as follows: Object 1 is \<obj_1\>. $\ldots$ Object $j$ is \<obj\_$j$\>. This enables PaLM-E to reference objects via special tokens of the form obj\_$j$ in its generated output sentences. In this case, we assume that the low-level policies operate on these tokens as well.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Training Recipes", "weight": 1.0} -->
+
+PaLM-E is trained on a dataset of the form $D = \left\{ \left( I_{1:u_{i}}^{i},w_{1:L_{i}}^{i},n_{i} \right) \right\}_{i = 1}^{N}$, where each example $i$ consists of $u_{i}$-many continuous observations $I_{j}^{i}$, a text $w_{1:L_{i}}^{i}$, and an index $n_{i}$. Despite being a decoder-only model, the text consists of a prefix part up to index $n_{i}$ that is formed from multi-modal sentences, and the prediction target, which only contains text tokens. The loss function is therefore a cross-entropy loss averaged over the individual non-prefix tokens $w_{{n_{i} + 1}:L_{i}}^{i}$.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Training Recipes", "weight": 1.0} -->
+
+To form the multi-modal sentences within the model, we have special tokens in the text that get replaced by the embedding vectors of the encoders at the locations in the text of those tokens. We base PaLM-E on the pre-trained 8B, 62B, and 540B parameter variants of PaLM as the decoder-only LLM into which we inject the continuous observations through the input encoders. Those encoders are either pre-trained or trained from scratch, see Sec. 4. We refer to an 8B LLM combined with a 4B ViT as PaLM-E-12B, similarly a 62B LLM + 22B ViT as PaLM-E-84B, and 540B LLM + 22B ViT as PaLM-E-562B.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Training Recipes", "weight": 1.0} -->
+
+Variation with Model freezing. Most of our architectures consist of three parts, an encoder $\overset{\sim}{\phi}$, a projector $\psi$, and the LLM $p_{\text{LM}}$. When training PaLM-E, one way is to update the parameters of all these components. However, LLMs show impressive reasoning capabilities if supplied with a suitable prompt Wei et al.. Therefore, we investigate whether it is possible to *freeze* the LLM and to just train the input encoders, and if so, how different-modality encoders compare. In this case, the encoder has to produce embedding vectors such that the frozen LLM is grounded on the observations, and also propagate information to the LLM about the capabilities of an embodiment. Training such encodings can be understood as a form of input-conditioned soft-prompting Tsimpoukelli et al., in relation to normal soft prompts Lester et al..
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Training Recipes", "weight": 1.0} -->
+
+In experiments with $\phi_{\text{OSRT}}$, we also freeze the slot representation, i.e. we only update the small projector $\psi$ which serves as the interface between OSRT and the LLM.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Training Recipes", "weight": 1.0} -->
+
+Co-training across tasks. In our experiments, we investigate the effects of co-training our models on a variety of diverse data. The "full mixture", see App. A, consists primarily of a diverse set of internet-scale vision-and-language data, from a variety of tasks. The sampling frequencies are set such that only 8.9% of the full mixture is embodied data, and there are several tasks for each embodiment.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+Our experiments consider diverse robotic (mobile) manipulation tasks across three different robot embodiments, in simulation and with two different real robots. We refer to for videos showing the capabilities of PaLM-E on those tasks. Although not the focus of our work, we evaluate PaLM-E also on general vision-language tasks such as visual-question-answering (VQA), image captioning, and established language modeling tasks.
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+We split our experimental investigation into two broad categories. First, we compare the different input representations from Sec. 4 with respect to performance, generalization, and data-efficiency. The second thread of experiments focuses on one architecture, the main PaLM-E version, consisting of a pre-trained ViT and PaLM language model that takes in raw images as the continuous inputs. Here we show that a single model, trained on a mixture of many datasets, across diverse tasks, and across robot embodiments, can simultaneously achieve high performance on all of those tasks. Crucially, we investigate whether co-training on these datasets enables *transfer* (Fig. 3): despite different tasks and embodiments, the performance on the individual tasks increases by training on the mixture of tasks. We study the influence on performance, generalization, and data efficiency with respect to co-training strategies and model parameter size. Finally, we consider if freezing the LLM and just training the ViT that injects vision into the LLM is a viable path.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
+As baselines, we consider the state-of-the art visual language model PaLI Chen et al., which has not been trained on embodiment robot data, as well as the SayCan algorithm Ahn et al., supplied with oracle affordances.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Robot Environments / Tasks", "weight": 1.0} -->
+
+Our three robot environments (Fig. 1) include a Task and Motion Planning (TAMP) domain where a robot has to manipulate (grasp and stack) objects, a table-top pushing environment, and a mobile manipulation domain. In each domain, PaLM-E is trained on expert data from that domain. In many cases, this is a sparse amount of data per task. The TAMP tasks involve large combinatorics over possible plans, and many decision sequences are infeasible. PaLM-E has to generate plans that consist of multiple steps, with complicated decision boundaries. The multi-object tabletop pushing environment is taken from the publicly available Language-Table dataset Lynch et al. and is challenging since it includes several objects, large cardinality of language, and complex pushing dynamics. For both the TAMP and Language-Table environment, PaLM-E has to reason about the poses of the objects. It is not sufficient to know which objects are on the table or knowing their rough relationships, the more fine-grained details about the scene geometry are important for solving the tasks.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Robot Environments / Tasks", "weight": 1.0} -->
+
+Finally, we consider a mobile manipulation domain similar to SayCan Ahn et al., where a robot has to solve a variety of tasks in a kitchen environment, including finding objects in drawers, picking them, and bringing them to a human. For all domains we consider both planning and VQA tasks in those environments. For the mobile manipulation and Language-Table environments, PaLM-E is integrated into the control loop to execute the plans in the real world, and has to adjust the plan in presence of external disturbances or failures of the low-level control policies.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "TAMP Environment", "weight": 1.0} -->
+
+Tab. 7 (appendix) shows planning success rates and VQA performance for the TAMP environment. The LLM is frozen in these experiments (for pre-trained LLM). For the results reported in Tab. 7, the input representations are trained on a dataset containing 96,000 training scenes of solely the TAMP environment, i.e. no other data is part of the mixture. For 3-5 objects in the scene, which is the same number as in the training set, most input representations perform similarly well. However, when increasing the number of objects, it turns out that using a pre-trained LLM improves performance considerably, especially with entity referrals. Furthermore, we show that a 62B LLM shows better out-of-distribution generalization compared to the 8B variant, while a non-pretrained LLM shows basically no out-of-distribution generalization. The SayCan baseline Ahn et al. utilizes oracle affordance functions and has difficulties solving this environment, since affordance functions only constrain what is possible right now, but are not informative enough for the LLM to construct long-horizon plans in TAMP environments.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "TAMP Environment", "weight": 1.0} -->
+
+Tab. 1 shows results for 3-5 objects when training on 1% of the dataset, which corresponds to only 320 examples for each of the two planning tasks. Here we see that there are significant differences between the input representations, especially for the planning tasks. First, pre-training the LLM is beneficial in the low data regime for state inputs. Second, both ViT variants (ViT+TL, ViT-4B) do not perform well in solving the planning tasks for this little data. However, if we co-train on all other robot environments as well as general vision-language datasets (ViT-4B generalist), then the performance of the ViT-4B more than doubles. This shows a significant transfer effect between different robot embodiments and tasks. Finally, using OSRT as the input representation leads to the best performance here, demonstrating the strengths of 3D-aware object representations. We also observe another instance of transfer here: when we remove the TAMP VQA data and only train on the 640 planning tasks examples, there is a (slight) drop in performance.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "TAMP Environment", "weight": 1.0} -->
+
+The state-of-the art vision-language model PaLI Chen et al. that was not trained on robot data is not able to solve the tasks. We only evaluated it on $\text{q}_{2}$ (objects left/right/center on the table) and $\text{q}_{3}$ (vertical object relations), since those most resemble typical VQA tasks.
+
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Demos", "weight": 1.0} -->
+
+Task 1. Q: There is a block that is closest to
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Demos", "weight": 1.0} -->
+
+{i.e., top right corner}. Push that block to
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Demos", "weight": 1.0} -->
+
+the other block of the same color.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Demos", "weight": 1.0} -->
+
+Task 2. Q: How to sort the blocks by colors
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Demos", "weight": 1.0} -->
+
+Task 3. Q: How to push all the blocks that
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Demos", "weight": 1.0} -->
+
+are on the {left/right} side together,
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Demos", "weight": 1.0} -->
+
+without bringing over any of the blocks
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Demos", "weight": 1.0} -->
+
+that are on the {right/left} side?
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Language-Table Environment", "weight": 1.0} -->
+
+Tab. 3 reports success rates on long-horizon tasks from the Language-Table environment Lynch et al.. PaLM-E is integrated into a control loop that takes as input the long-horizon task and the current image, and outputs an instruction for the low-level policy. We see that joint training on internet-scale vision and language results in a more effective model for robot planning, particularly in the few-shot regime with only 10 demos per task. Scaling the 12B model to the 84B model leads to improvements on 2 of 3 tasks. As with the TAMP environment, neither SayCan nor zero-shot PaLI are effective, unable to solve the easiest task tested.
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Language-Table Environment", "weight": 1.0} -->
+
+Real Robot Results and Few-Shot Generalization. In Fig. 7, a), we see PaLM-E is capable of guiding a real robot through a multi-stage tabletop manipulation task, while remaining robust to adversarial disturbances. Given the observed image and a long-horizon goal, e.g. "sort the blocks by colors into corners", PaLM-E outputs language subgoals at 1 Hz to the policies from Lynch et al., that output low-level robot actions at 5 Hz. Prior work Lynch et al. instead involved a human in the loop to interactively guide subgoals and corrections. In Fig. 5, b) we see PaLM-E is capable of one-shot and zero-shot learning. Here, we finetuned PaLM-E on 100 different long horizon tasks with a single training example each, e.g. "put all the blocks in the center", "remove the blue blocks from the line".
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Language-Table Environment", "weight": 1.0} -->
+
+We additionally see that PaLM-E can generalize zero-shot to tasks involving novel object pairs (Fig. 7, c) and to tasks involving objects that were unseen in either the original robot dataset or the finetuning datasets, e.g. a toy turtle (Fig. 5, d).
+
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Mobile Manipulation Environment", "weight": 1.0} -->
+
+We demonstrate the performance of PaLM-E on challenging and diverse mobile manipulation tasks. We largely follow the setup in Ahn et al., where the robot needs to plan a sequence of navigation and manipulation actions based on an instruction by a human. For example, given the instruction "I spilled my drink, can you bring me something to clean it up?", the robot needs to plan a sequence containing "1. Find a sponge, 2. Pick up the sponge, 3. Bring it to the user, 4. Put down the sponge." Inspired by these tasks, we develop 3 use cases to test the embodied reasoning abilities of PaLM-E: affordance prediction, failure detection, and long-horizon planning. The low-level policies are from RT-1 Brohan et al., a transformer model that takes RGB image and natural language instruction, and outputs end-effector control commands.
+
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Mobile Manipulation Environment", "weight": 1.0} -->
+
+Affordance prediction. We investigate PaLM-E's performance at affordance prediction, i.e. whether a skill of the low-level policy can be executed in the current environment. This can be formulated as the VQA problem Given \. Q: Is it possible to \<skill\> here?. PaLM-E outperforms PaLI (zero-shot), as well as thresholding on value functions trained with QT-OPT (Tab. 4).
+
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Mobile Manipulation Environment", "weight": 1.0} -->
+
+Failure detection. For a robot to do closed-loop planning, it is also important to detect failures, as is shown in Huang et al.. The multi-modal prompt is Given \. Q: Was \<skill\> successful?. Tab. 4 shows that PaLM-E outperforms PaLI (zero-shot), as well as a fine-tuned version of CLIP on this dataset. PaLM-E also outperforms the algorithm proposed in Xiao et al. that leverages two CLIP models trained with hindsight relabeled data. This method has access to more information than our method, and was specifically designed to just solve failure detection on this dataset.
+
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Mobile Manipulation Environment", "weight": 1.0} -->
+
+Real robot results: Long-horizon planning. Finally, we use PaLM-E to perform *embodied planning* end-to-end for mobile manipulation tasks. The prompt structure for this task is Human: \<instruction\> Robot: \. I see \. PaLM-E is trained to generate the next step of the plan, conditioned on the history of taken steps and the current image observation of the scene. After each step is decoded, we map them to a low-level policy as defined in Ahn et al.. This process is done in an autoregressive manner, until PaLM-E outputs "terminate". We train the model by using the runs from Ahn et al., which contains 2912 sequences. We qualitatively evaluated the model in a real kitchen and found the model can carry out long-horizon mobile manipulation tasks, even under adversarial disturbances (Fig. 5).
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Performance on General Visual-Language Tasks", "weight": 1.0} -->
+
+Although it is not the focus of our work, we report in Tab. 5 results on general vision-language tasks, including OK-VQA Marino et al., VQA v2 Goyal et al. and COCO captioning Chen et al.. A single, generalist PaLM-E-562B model achieves the highest reported number on OK-VQA, including outperforming models finetuned specifically on OK-VQA. Compared to Tsimpoukelli et al., PaLM-E achieves the highest performance on VQA v2 with a frozen LLM to the best of our knowledge. This establishes that PaLM-E is a competitive visual-language generalist, in addition to being an embodied reasoner on robotic tasks.
+
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Performance on General Visual-Language Tasks", "weight": 1.0} -->
+
+Generalist (one model), with frozen LLM
+
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Performance on General Language Tasks", "weight": 1.0} -->
+
+Tab. 8 reports the averaged performance of PaLM-E on 21 general language benchmarks for Natural Language Understanding (NLU) and Natural Language Generation (NLG) tasks. The notable trend is that with increasing model scale, there is considerably less catastrophic forgetting of language capabilities. As seen in Fig. 6, while for the smallest (PaLM-E-12B) model 87.3% of its NLG performance (relative) has degraded during multimodal training, merely 3.9% have been degraded for the largest model (PaLM-E-562B).
+
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Summary of Experiments & Discussion", "weight": 1.0} -->
+
+Generalist vs specialist models -- transfer. As summarized in Fig. 3, we have shown several instances of *transfer* in this work, meaning that PaLM-E trained on different tasks and datasets at the same time leads to significantly increased performance relative to models trained separately on the different tasks alone. In Fig. 4, co-training on the "full mixture" achieves more than double the performance. In Tab. 9, we see significant improvements in performance if we add LLM/ViT pre-training, and training on the full mixture instead of the mobile manipulation data alone. For the Language-Table experiment in Tab. 3, we observe analogous behaviour.
+
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Summary of Experiments & Discussion", "weight": 1.0} -->
+
+Data efficiency. Compared to available massive language or vision-language datasets, robotics data is significantly less abundant. As discussed in the last paragraph, our model exhibits transfer, which aids PaLM-E to solve robotics tasks from very few training examples in the robotics domain, e.g. between 10 and 80 for Language Table or 320 for TAMP. The OSRT results show another instance of data-efficiency by using a geometric input representation. A promising opportunity for future work is to combine this with a method benefitting from large-scale visual data.
+
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Summary of Experiments & Discussion", "weight": 1.0} -->
+
+Retaining language capabilities. We have shown two paths to retain the language capabilities of the model during multimodal training. As one option, freezing the LLM and only training the input encoders is a viable path for building embodied language models, although this approach occasionally struggled for robotics tasks (Tab. 3). As an alternative route, when the whole model is trained end-to-end, the model retains significantly more of its original language performance with increasing model scale (Fig. 6).
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+We proposed to build an embodied language model by injecting multi-modal information such as images into the embedding space of a pre-trained LLM. Experiments showed that off-the-shelf state-of-the-art vision-language models trained on general VQA and captioning tasks are not sufficient for embodied reasoning tasks, as well as limitations of a recent proposal for grounding language models through affordances. To overcome these limitations, we proposed PaLM-E, a single model that is able to control different robots in simulation and in the real world, while at the same time being quantitatively competent at general VQA and captioning tasks. In particular the novel architectural idea of ingesting neural scene representations (i.e., OSRT) into the model is particularly effective, even without large-scale data. PaLM-E is trained on a mixture of diverse tasks across multiple robot embodiments as well as general vision-language tasks. Importantly, we have demonstrated that this diverse training leads to several avenues of transfer from the vision-language domains into embodied decision making, enabling robot planning tasks to be achieved data efficiently.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+While our results indicate that frozen language models are a viable path towards general-purpose embodied multimodal models that fully retain their language capabilities, we have also surfaced an alternative route with unfrozen models: scaling up the language model size leads to significantly less catastrophic forgetting while becoming an embodied agent. Our largest model, PaLM-E-562B, showcases emergent capabilities like multimodal chain of thought reasoning, and the ability to reason over multiple images, despite being trained on only single-image prompts.

@@ -1,3 +1,13 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Whole-body Motion Planning with Centroidal Dynamics and Full Kinematics
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 To plan dynamic, whole-body motions for robots, one conventionally faces the choice between a complex, full-body dynamic model containing every link and actuator of the robot, or a highly simplified model of the robot as a point mass. In this paper we explore a powerful middle ground between these extremes. We exploit the fact that while the full dynamics of humanoid robots are complicated, their centroidal dynamics (the evolution of the angular momentum and the center of mass (COM) position) are much simpler. By treating the dynamics of the robot in centroidal form and directly optimizing the joint trajectories for the actuated degrees of freedom, we arrive at a method that enjoys simpler dynamics, while still having the expressiveness required to handle kinematic constraints such as collision avoidance or reaching to a target. We further require that the robot's COM and angular momentum as computed from the joint trajectories match those given by the centroidal dynamics. This ensures that the dynamics considered by our optimization are equivalent to the full dynamics of the robot, provided that the robot's actuators can supply sufficient torque.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+We demonstrate that this algorithm is capable of generating highly-dynamic motion plans with examples of a humanoid robot negotiating obstacle course elements and gait optimization for a quadrupedal robot. Additionally, we show that we can plan without pre-specifying the contact sequence by exploiting the complementarity conditions between contact forces and contact distance.

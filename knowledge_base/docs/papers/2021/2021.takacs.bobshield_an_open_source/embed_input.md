@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 BOBShield: An Open-Source Miniature “Ball and Beam” Device for Control Engineering Education
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 This article presents a reference design for the well-known ball-on-beam laboratory experiment, where a spherical ball without direct actuation is only balanced by the inclination of a supporting structure, such as beam, rail or tube. The design introduced here is completely open-source and utilizes only a handful of off-the-shelf components and 3D printing; resulting in an exceptionally low hardware cost. Moreover, the resulting apparatus fits on a standard expansion module format, known as a Shield, which is compatible with a range of microcontroller prototyping boards from the Arduino ecosystem. This affordable, small, reproducible and open design is thus intended to aid control systems or mechatronics education via hands-on student experiments or even conducting research on a budget. In addition to the hardware design with downloadable project files, we also present an application programming interface and the results of a demonstration example here.

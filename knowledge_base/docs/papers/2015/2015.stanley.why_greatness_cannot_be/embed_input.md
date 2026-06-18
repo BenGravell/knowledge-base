@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Why Greatness Cannot Be Planned
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Why does modern life revolve around objectives? From how science is funded, to improving how children are educated - and nearly everything in-between - our society has become obsessed with a seductive illusion: that greatness results from doggedly measuring improvement in the relentless pursuit of an ambitious goal. In Why Greatness Cannot Be Planned, Stanley and Lehman begin with a surprising scientific discovery in artificial intelligence that leads ultimately to the conclusion that the objective obsession has gone too far. They make the case that great achievement can't be bottled up into mechanical metrics; that innovation is not driven by narrowly focused heroic effort; and that we would be wiser (and the outcomes better) if instead we whole-heartedly embraced serendipitous discovery and playful creativity.Controversial at its heart, yet refreshingly provocative, this book challenges readers to consider life without a destination and discovery without a compass.

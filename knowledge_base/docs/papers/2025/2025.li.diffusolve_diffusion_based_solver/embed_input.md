@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 DiffuSolve: Diffusion-based Solver for Non-convex Trajectory Optimization
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 Optimal trajectory design is computationally expensive for nonlinear and high-dimensional dynamical systems. The challenge arises from solving a non-convex optimization problem with multiple local optima, where traditional numerical solvers struggle to find diverse solutions efficiently without appropriate initial guesses. In this paper, we introduce DiffuSolve, a general diffusion model-based solver for non-convex trajectory optimization. An expressive diffusion model is trained on pre-collected locally optimal solutions and efficiently samples initial guesses, which then warm-starts numerical solvers to fine-tune the feasibility and optimality. We also present DiffuSolve+, a novel constrained diffusion model with an additional loss in training that further reduces the problem constraint violations of diffusion samples. Experimental evaluations on three tasks verify the improved robustness, diversity, and a 2x to 11x increase in computational efficiency with our proposed method, which generalizes well to trajectory optimization problems of varying challenges.

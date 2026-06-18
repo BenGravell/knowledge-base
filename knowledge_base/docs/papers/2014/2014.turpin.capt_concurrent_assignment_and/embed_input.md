@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 CAPT: Concurrent Assignment and Planning of Trajectories for Multiple Robots
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 In this paper, we consider the problem of concurrent assignment and planning of trajectories (which we denote Capt) for a team of robots. This problem involves simultaneously addressing two challenges: the combinatorially complex problem of finding a suitable assignment of robots to goal locations, and the generation of collision-free, time parameterized trajectories for every robot. We consider the Capt problem for unlabeled (interchangeable) robots and propose algorithmic solutions to two variations of the Capt problem. The first algorithm, c-Capt, is a provably correct, complete, centralized algorithm which guarantees collision-free optimal solutions to the Capt problem in an obstacle-free environment. To achieve these strong claims, c-Capt exploits the synergy obtained by combining the two subproblems of assignment and trajectory generation to provide computationally tractable solutions for large numbers of robots. We then propose a decentralized solution to the Capt problem through d-Capt, a decentralized algorithm that provides suboptimal results compared toc-Capt. We illustrate the algorithms and resulting performance through simulation and experimentation.

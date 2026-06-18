@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Time-based RRT Algorithm for Rendezvous Planning of Two Dynamic Systems
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 The work presented in this paper proposes a new method for time based motion planning of a dynamic system to reach a dynamical goal within a specified time. The method enables trajectory planning based on the dynamics of the system with time constraint. Moreover, this method allows rendezvous planning of two dynamic systems where only one is controlled. To reach this objective, we introduce a new concept termed Time-Based RRT (TB-RRT) which is an extended version of the Rapidly-exploring Random Tree (RRT). The concept of the TB-RRT is to add time parameters to the nodes in the tree such that each node denotes a specific state in a specific time. The algorithm was implemented in two applications to demonstrate the approach and validate its feasibility; The first application is a one degree of freedom bat hitting a ball and the second application is a three degrees of freedom manipulator catching a moving object. Simulation results show the system accurately following the planned trajectory and the robot catching the object in time.

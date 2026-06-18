@@ -1,19 +1,207 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability
 
 Topics include Gradient descent, Stability analysis, Neural networks, Optimization, Edge of stability.
 
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
 We empirically demonstrate that full-batch gradient descent on neural network training objectives typically operates in a regime we call the Edge of Stability. In this regime, the maximum eigenvalue of the training loss Hessian hovers just above the numerical value 2 / (step size), and the training loss behaves non-monotonically over short timescales, yet consistently decreases over long timescales. Since this behavior is inconsistent with several widespread presumptions in the field of optimization, our findings raise questions as to whether these presumptions are relevant to neural network training. We hope that our findings will inspire future efforts aimed at rigorously understanding optimization at the Edge of Stability. Code is available at
 
-## Introduction
+<!-- chunk {"id": "body-0003", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
 Neural networks are almost never trained using (full-batch) gradient descent, even though gradient descent is the conceptual basis for popular optimization algorithms such as SGD. In this paper, we train neural networks using gradient descent, and find two surprises. First, while little is known about the dynamics of neural network training in general, we find that in the special case of gradient descent, there is a simple characterization that holds across a broad range of network architectures and tasks. Second, this characterization is strongly at odds with prevailing beliefs in optimization.
 
-In more detail, as we train neural networks using gradient descent with step size $\eta$, we measure the evolution of the *sharpness* --- the maximum eigenvalue of the training loss Hessian. Empirically, the behavior of the sharpness is consistent across architectures and tasks: so long as the sharpness is less than the value $2/\eta$, it tends to continually rise (§3.1). We call this phenomenon *progressive sharpening*. The significance of the value $2/\eta$ is that gradient descent on quadratic objectives is unstable if the sharpness exceeds this threshold (§2).
+<!-- chunk {"id": "body-0004", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-## Discussion
+In more detail, as we train neural networks using gradient descent with step size $\eta$, we measure the evolution of the *sharpness* --- the maximum eigenvalue of the training loss Hessian. Empirically, the behavior of the sharpness is consistent across architectures and tasks: so long as the sharpness is less than the value $2/\eta$, it tends to continually rise (§3.1). We call this phenomenon *progressive sharpening*. The significance of the value $2/\eta$ is that gradient descent on quadratic objectives is unstable if the sharpness exceeds this threshold (§2). Indeed, in neural network training, if the sharpness ever crosses $2/\eta$, gradient descent quickly becomes destabilized --- that is, the iterates start to oscillate with ever-increasing magnitude along the direction of greatest curvature. Yet once this happens, gradient descent does not diverge entirely or stall. Instead, it enters a regime we call the *Edge of Stability*^11^1This nomenclature was inspired by the title of Giladi et al..
+
+<!-- chunk {"id": "body-0005", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+(§3.2), in which the sharpness hovers right, or just above, the value $2/\eta$; and the train loss behaves non-monotonically, yet consistently decreases over long timescales. In this regime, gradient descent is constantly "trying" to increase the sharpness, but is constantly restrained from doing so. The net effect is that gradient descent continues to successfully optimize the training objective, but in such a way as to avoid further increasing the sharpness.^22^2In the literature, the term "sharpness" has been used to refer to a variety of quantities, often connected to generalization (e.g. Keskar et al. ). In this paper, "sharpness" strictly means the maximum eigenvalue of the training loss Hessian. We do not claim that this quantity has any connection to generalization.
+
+<!-- chunk {"id": "body-0006", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+In principle, it is possible to run gradient descent at step sizes $\eta$ so small that the sharpness never rises to $2/\eta$. However, these step sizes are suboptimal from the point of view of training speed, sometimes dramatically so. In particular, for standard architectures on the standard dataset CIFAR-10, such step sizes are so small as to be completely unreasonable --- at all reasonable step sizes, gradient descent enters the Edge of Stability (see §4 and Figure 7.3). Thus, at least for standard networks on CIFAR-10, the Edge of Stability regime should be viewed as the "rule," not the "exception."
+
+<!-- chunk {"id": "body-0007", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+As we describe in §5, the Edge of Stability regime is inconsistent with several pieces of conventional wisdom in optimization theory: convergence analyses based on $L$-smoothness or monotone descent, quadratic Taylor approximations as a model for local progress, and certain heuristics for step size selection. We hope that our empirical findings will both nudge the optimization community away from widespread presumptions that appear to be untrue in the case of neural network training, and also point the way forward by identifying precise empirical phenomena suitable for further study.
+
+<!-- chunk {"id": "body-0008", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Aspects of Edge of Stability have been reported previously. Xing et al. observed that gradient descent optimizes the training objective non-monotonically and bounces back and forth between "valley walls," and Jastrzębski et al. observed analogous phenomena for SGD. Wu et al. hypothesized that dynamical instability might serve as implicit regularization in deep learning, and observed (in their Table 2) that the sharpness at convergent gradient descent solutions was approximately equal to $2/\eta$. Kopitkov & Indelman observed, in their Figure 1(e), that the maximum eigenvalue of the neural tangent kernel flatlined at $2/\eta$ during gradient descent training. Jastrzębski et al. observed for *stochastic* gradient descent that the trajectory of the sharpness is heavily influenced by the step size and batch size, with large step sizes and small batch sizes causing the sharpness along the trajectory to be lower.
+
+<!-- chunk {"id": "body-0009", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+Most relevant to our paper, it seems fair to say that Jastrzębski et al. conjectured the progressive sharpening and Edge of Stability phenomena for full-batch gradient descent (see Appendix Q ‣ Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability") for more discussion). However, they focused on SGD and ran no full-batch experiments, and hence did not observe Edge of Stability.
+
+<!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
+
+We discuss SGD at greater length in §6. To summarize, while the sharpness does not flatline at any value during SGD (as it does during gradient descent), the trajectory of the sharpness is heavily influenced by the step size and batch size, which cannot be explained by existing optimization theory. Indeed, there are indications that the "Edge of Stability" intuition might generalize somehow to SGD, just in a way that does not center around the sharpness.
+
+<!-- chunk {"id": "body-0011", "role": "body", "section": "Gradient Descent on Neural Networks", "weight": 1.0} -->
+
+In this section, we empirically characterize the behavior of gradient descent on neural network training objectives. Section 4 will show that this characterization holds broadly.
+
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Progressive sharpening", "weight": 1.0} -->
+
+When training neural networks, it seems to be a general rule that so long as the sharpness is small enough for gradient descent to be stable ($< {2/\eta}$, for vanilla gradient descent), gradient descent has an overwhelming tendency to continually increase the sharpness. (Put in other words, gradient *flow* has an overwhelming tendency to continually increase the sharpness.) We call this phenomenon *progressive sharpening*. By "overwhelming tendency," we mean that gradient descent can occasionally decrease the sharpness (especially at the beginning of training), but these brief decreases always seem be followed by a return to continual increase. Progressive sharpening as the general rule was first conjectured by Jastrzębski et al., in their Assumption 4, based on experiments in Jastrzębski et al.. However, the focus in those papers on the complex setting of SGD (where the situation remains murky) made it impossible to substantiate this conjecture.
+
+<!-- chunk {"id": "body-0013", "role": "body", "section": "Progressive sharpening", "weight": 1.0} -->
+
+Progressive sharpening is illustrated in Figure 3. Here, we use (full-batch) gradient descent to train a network on a subset of 5,000 examples from CIFAR-10, and we monitor the evolution of the sharpness during training. The network is a fully-connected architecture with two hidden layers of width 200, and tanh activations. In Figure 3(a), we train using the mean squared error loss for classification, encoding the correct class with 1 and the other classes with 0. We use the small step size of $\eta = {2/600}$, and stop when the training accuracy reaches 99%. We plot both the train loss and the sharpness, with a horizontal dashed line marking the stability threshold $2/\eta$. Observe that the sharpness continually rises during training (except for a brief dip at the beginning). This is progressive sharpening. For this experiment, we intentionally chose a step size $\eta$ small enough that the sharpness remained beneath $2/\eta$ for the entire duration of training.
+
+<!-- chunk {"id": "body-0014", "role": "body", "section": "Progressive sharpening", "weight": 1.0} -->
+
+Cross-entropy. When training with cross-entropy loss, there is an exception to the rule that the sharpness tends to continually increase: with cross-entropy loss, the sharpness typically drops at the end of training. This behavior can be seen in Figure 3(b), where we train the same network using the cross-entropy loss rather than MSE. As we explain in Appendix C, this drop occurs because the second derivative of the cross-entropy loss function (which appears in the Gauss-Newton term of the Hessian) is small when the margins of the classifier's predictions are large. In the terminal phase of training, the margins of the classifier's predictions increase, which causes these second derivatives and therefore the sharpness to drop. Yet even as the maximum Hessian eigenvalue drops, the maximum NTK eigenvalue still increases (see Figure 10(d) and Figure 11(d)).
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Progressive sharpening", "weight": 1.0} -->
+
+The effect of width. It is known that when networks parameterized in a certain way (the "NTK parameterization") are made infinitely wide, the Hessian moves a vanishingly small amount during training, which implies that no progressive sharpening occurs. In Appendix D, we experiment with networks of varying width, under both NTK and standard parameterizations. We find that progressive sharpening occurs to a lesser degree as networks become increasingly wide. We furthermore observe that progressive sharpening occurs to a lesser degree if the task is easy, or if the network is shallow.
+
+<!-- chunk {"id": "body-0016", "role": "body", "section": "Progressive sharpening", "weight": 1.0} -->
+
+While the degree of sharpening depends on both the network and the task, our experiments in §4 demonstrate that progressive sharpening occurs to a dramatic degree for standard architectures on the standard dataset CIFAR-10. For example, in Figure 7.3, we show that when a VGG on CIFAR-10 is trained using gradient flow (gradient descent with infinitesimally small step sizes), the sharpness rises astronomically from an initial value of 6.3 to a peak value of 2227.6.
+
+<!-- chunk {"id": "body-0017", "role": "body", "section": "Progressive sharpening", "weight": 1.0} -->
+
+We do not know why progressive sharpening occurs, or whether "sharp" solutions differ in any important way from "not sharp" solutions. These are important questions for future work. Note that Mulayoff & Michaeli studied the latter question in the context of deep linear networks.
+
+<!-- chunk {"id": "body-0018", "role": "body", "section": "The Edge of Stability", "weight": 1.0} -->
+
+In the preceding section, we ran gradient descent using step sizes $\eta$ so small that the sharpness never reached the stability threshold $2/\eta$. In Figure 4(a), we start to train the same network at the larger step size of $\eta = 0.01$, and pause training once the sharpness rises to ${2/\eta} = 200$, an event dubbed the "breakeven point" by Jastrzębski et al.. Recall from §2 that in any region where the sharpness exceeds $2/\eta$, gradient descent with step size $\eta$ would be unstable if run on the quadratic Taylor approximation to the training objective --- the gradient descent iterates would oscillate with exponentially increasing magnitude along the leading Hessian eigenvector. Empirically, we find that gradient descent on the real neural training objective behaves similarly --- at first. Namely, let $\mathbf{q}_{1}$ be the leading Hessian eigenvector at the breakeven point.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "The Edge of Stability", "weight": 1.0} -->
+
+In Figure 4(b), we resume training the network, and we monitor both the train loss and the quantity $\langle\mathbf{q}_{1},\mathbf{x}_{t}\rangle$ for the next 215 iterations. Observe that $\langle\mathbf{q}_{1},\mathbf{x}_{t}\rangle$ oscillates with ever-increasing magnitude, similar to the divergent quadratic example in Figure 2(b). At first, these oscillations are too small to affect the objective appreciably, and so the train loss continues to monotonically decrease. But eventually, these oscillations grow big enough that the train loss spikes.
+
+<!-- chunk {"id": "body-0020", "role": "body", "section": "The Edge of Stability", "weight": 1.0} -->
+
+Once gradient descent becomes destabilized in this manner, classical optimization theory gives no clues as to what will happen next. One might imagine that perhaps gradient descent might diverge entirely, or that gradient descent might stall while failing to make progress, or that gradient descent might jump to a flatter region and remain there. In reality, none of these outcomes occurs. In Figure 4(c), we plot both the train loss and $\langle\mathbf{q}_{1},\mathbf{x}_{t}\rangle$ for 1000 iterations after the sharpness first crossed $2/\eta$. Observe that gradient descent somehow avoids diverging entirely. Instead, after initially spiking around iteration 215, the train loss continues to decrease, albeit non-monotonically.
+
+<!-- chunk {"id": "body-0021", "role": "body", "section": "The Edge of Stability", "weight": 1.0} -->
+
+This numerical example is representative. In general, after the sharpness initially crosses $2/\eta$ (the breakeven point), gradient descent enters a regime we call the *Edge of Stability*, in which the sharpness hovers right, or just above, the value $2/\eta$; and the train loss behaves non-monotonically over short timescales, yet decreases consistently over long timescales. Indeed, in Figure 5, we run gradient descent at a range of step sizes using both MSE and cross-entropy loss. The left plane plots the train loss curves, with a vertical dotted line (of the appropriate color) marking the iteration where the sharpness first crosses $2/\eta$ (the breakeven point). Observe that the train loss decreases monotonically before the breakeven point, but behaves non-monotonically afterwards. The middle plane plots the evolution of the sharpness, with a horizontal dashed line (of the appropriate color) at the value $2/\eta$.
+
+<!-- chunk {"id": "body-0022", "role": "body", "section": "The Edge of Stability", "weight": 1.0} -->
+
+Observe that once the sharpness reaches $2/\eta$, it ceases to increase further, and instead hovers right, or just above, the value $2/\eta$ for the remainder of training. (The precise meaning of "just above" varies: in Figure 5, for MSE loss, the sharpness hovers just a minuscule amount above $2/\eta$, while for cross-entropy loss, the gap between the sharpness and $2/\eta$ is small yet non-miniscule.)
+
+<!-- chunk {"id": "body-0023", "role": "body", "section": "The Edge of Stability", "weight": 1.0} -->
+
+At the Edge of Stability, gradient descent is "trying" to increase the sharpness further, but is being restrained from doing so. To demonstrate this, in Figure 6, we train at step size $2/200$ until reaching the Edge of Stability, and then at iteration 6,000 (marked by the vertical black line), we drop the step size to $\eta = {2/300}$. Observe that after the learning rate drop, the sharpness immediately starts to increase, and only stops increasing once gradient descent is back at the Edge of Stability. Appendix O repeats this experiment on more architectures. Intuitively, gradient descent at the Edge of Stability is acting like a constrained optimization algorithm: the use of step size $\eta$ imposes an implicit $2/\eta$ constraint on the sharpness, and at the Edge of Stability this constraint is "active."
+
+<!-- chunk {"id": "body-0024", "role": "body", "section": "The Edge of Stability", "weight": 1.0} -->
+
+Observe from Figure 5 that there do exist step sizes $\eta$ (in purple) small enough that the sharpness never rises to $2/\eta$. We call such a step size *stable*. However, observe that with cross-entropy loss, it takes 3700 iterations to train at the stable step size in purple, but only 1000 iterations to train at the larger step size in blue. In general, we always observe that stable step sizes are suboptimal in terms of convergence speed. In fact, in §4 we will see that for standard networks on CIFAR-10, stable step sizes are so suboptimally small that they are completely unreasonable.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "The Edge of Stability", "weight": 1.0} -->
+
+The "Edge of Stability" effect generalizes to gradient descent with momentum. In Figure 7, we train using gradient descent with step size $\eta = 0.01$, and varying amounts of either Polyak or Nesterov momentum. Observe that in each case, the sharpness rises until reaching the MSS given by Equation 1, and then plateaus there. Appendix N has more momentum experiments.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "The Edge of Stability", "weight": 1.0} -->
+
+In Appendix P, we briefly examine the evolution of the next few Hessian eigenvalues during gradient descent. We find that each of these eigenvalues rises until plateauing near $2/\eta$.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "The gradient flow trajectory", "weight": 1.0} -->
+
+In the right pane of Figure 5, we plot the evolution of the sharpness during gradient descent, with "time" = iteration $\times \eta$, rather than iteration, on the x-axis. This allows us to directly compare the sharpness after, say, 100 iterations at $\eta = 0.01$ to the sharpness after 50 iterations at $\eta = 0.02$; both are time 1. Observe that when plotted by time, the sharpnesses for gradient descent at different step sizes coincide until the time where each reaches $2/\eta$. This is because for this network, gradient descent at $\eta = 0.01$ and gradient descent at $\eta = 0.02$ initially travel the same path (moving at a speed proportional to $\eta$) until each reaches the "breakeven point " --- the point on that path where the sharpness hits $2/\eta$. This path is the *gradient flow trajectory*.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "The gradient flow trajectory", "weight": 1.0} -->
+
+The gradient flow solution at time $t$ is defined as the limit as $\eta\rightarrow 0$ of the gradient descent iterate at iteration $t/\eta$ (if this limit exists). The empirical finding of interest is that for this particular network, gradient descent does not only track the gradient flow trajectory in the limit of infinitesimally small step sizes, but for any step size that is less than $2/\text{sharpness}$.
+
+<!-- chunk {"id": "body-0029", "role": "body", "section": "The gradient flow trajectory", "weight": 1.0} -->
+
+We can numerically approximate gradient flow trajectories by using the Runge-Kutta RK4 algorithm to numerically integrate the gradient flow ODE. Empirically, for many *but not all* networks studied in this paper, we find that gradient descent at any step size $\eta$ closely tracks the Runge-Kutta trajectory until reaching the point on that trajectory where the sharpness hits $2/\eta$. (This sometimes occurs even for networks with ReLU activations or max-pooling, which give rise to training objectives that are not continuously differentiable, which means that the gradient flow trajectory is not necessarily guaranteed to exist.) For such networks, the gradient flow trajectory provides a coherent framework for reasoning about which step sizes will eventually enter the Edge of Stability. Let $\lambda_{0}$ be the sharpness at initialization, and let $\lambda_{\max}$ be the maximum sharpness along the gradient flow trajectory. If $\eta < {2/\lambda_{\max}}$, then gradient descent will stably track the gradient flow trajectory for the entire duration of training, and will never enter the Edge of Stability.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "The gradient flow trajectory", "weight": 1.0} -->
+
+On the other hand, if $\eta \in {\lbrack{2/\lambda_{\max}},{2/\lambda_{0}}\rbrack}$, then gradient descent will stably track the gradient flow trajectory only until reaching the point where the sharpness hits $2/\eta$; shortly afterwards, gradient descent will become destabilized, depart the gradient flow trajectory, and enter the Edge of Stability.
+
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Further experiments", "weight": 1.0} -->
+
+Section 3 focused for exposition on a single architecture and task. In this section, we show that our characterization of gradient descent holds broadly across a wide range of architectures and tasks. We detail several known caveats and qualifications in Appendix A.
+
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Further experiments", "weight": 1.0} -->
+
+Architectures. In Appendix J. and Figure 7.1, we fix the task of training a 5k subset of CIFAR-10, and we systematically vary the network architecture. We consider fully-connected networks, as well as convolutional networks with both max-pooling and average pooling. For all of these architectures, we consider tanh, ReLU, and ELU activations, and for fully-connected networks we moreover consider softplus and hardtanh ---- eleven networks in total. We train each network with both cross-entropy and MSE loss. In each case, we successfully reproduce Figure 5.
+
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Further experiments", "weight": 1.0} -->
+
+List of customfigures 7.1 The Edge of Stability phenomenon occurs across many architectures. We reproduce Figure 5 on a variety of architectures trained on a 5k subset of CIFAR-10 with MSE loss. Appendix J has the full suite of experiments. Regarding the FC ReLU net, see Appendix A, Caveat 5.
+
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Further experiments", "weight": 1.0} -->
+
+Since batch normalization is known to have unusual optimization properties, it is natural to wonder whether our findings still hold with batch normalization. In Appendix K, we confirm that they do, and we reconcile this point with Santurkar et al..
+
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Further experiments", "weight": 1.0} -->
+
+Tasks. In Appendix L and Figure 7.2, we verify our findings: a Transformer trained on the WikiText-2 language modeling task; fully-connected tanh networks with one hidden layer, trained on a synthetic one-dimensional toy regression task; and deep linear networks trained on Gaussian data. In each case, the sharpness rises until hovering right, or just above, the value $2/\eta$.
+
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Further experiments", "weight": 1.0} -->
+
+List of customfigures 7.2 The Edge of Stability phenomenon occurs across tasks. The Edge of Stability phenomenon occurs for a one-hidden-layer fully-connected tanh network trained on a synthetic regression task, a deep linear network trained on Gaussian data, and a Transformer trained on the WikiText-2 language modeling task. Appendix L has the full experiments.
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Further experiments", "weight": 1.0} -->
+
+Standard networks on CIFAR-10. In Appendix M, we verify our findings on three standard architectures trained on the full CIFAR-10 dataset: a ResNet with BN, a VGG with BN, and a VGG without BN. For all three architectures, we find that progressive sharpening occurs to a dramatic degree, and, relatedly, that stable step sizes are dramatically suboptimal. For example, when we train the VGG-BN to 99% accuracy using gradient flow / Runge-Kutta, we find that the sharpness rises from 6.3 at initialization to a peak sharpness of 2227.6. Since this is an architecture for which gradient descent closely hews to the gradient flow trajectory, we can conclude that any stable step size for gradient descent would need to be less than ${2/2227.6} = 0.000897$. Training finishes at time 14.91, so gradient descent at any stable step size would require at least ${14.91/0.000897} = {16,622}$ iterations.
+
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Further experiments", "weight": 1.0} -->
+
+Yet empirically, this network can be trained to completion at the larger, "Edge of Stability" step size of $\eta = 0.16$ in just 329 iterations. Therefore, training at a stable step size is suboptimal by a factor of at least ${16622/329} = 50.5$. The situation is similar for the other two architectures we consider. In short, for standard architectures on the standard dataset CIFAR-10, stable step sizes are not just suboptimally small, they are so suboptimal as to be completely unreasonable. For these networks, gradient descent at any reasonable step size eventually enters the Edge of Stability regime.
+
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Further experiments", "weight": 1.0} -->
+
+List of customfigures 7.3 Progressive sharpening occurs to a dramatic degree for standard architectures on CIFAR-10. We train a VGG-19 on CIFAR-10 using “gradient flow,” i.e. by using the Runge-Kutta algorithm to numerically integrate the gradient flow ODE. Observe that the sharpness balloons from an initial value of 6.4 to a peak value of 2227.6. To train this network stably using gradient descent would require a step size less than 2 / 2227.6 = 0.000897 and would take 14.91 / 0.000897 = 16,622 iterations. Yet this network can be easily trained at the “Edge of Stability” step size of 0.16 in just 329 iterations — faster by more than 50x. Thus, for this network, stable step sizes are so suboptimally slow as to be completely unreasonable. More details in Appendix M.
+
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Further experiments", "weight": 1.0} -->
+
+Tracking gradient flow. Recall that for some (but not all) architectures, gradient descent closely hews to the gradient flow trajectory so long as the sharpness is less than $2/\eta$. Among the architectures considered in Appendix J, we found this to be true for the architectures with continuously differentiable components, as well as some, but not all, with ReLU, hardtanh, and max-pooling. Among the architectures in Appendix L, we found this to be true for the tanh network, but *not* for the deep linear network or the Transformer. Finally, we did find this to be true for the three standard architectures in Appendix M, even though those architectures use ReLU.
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 We now explain why the behavior of gradient descent at the Edge of Stability contradicts several pieces of conventional wisdom in optimization.
 
-## Conclusion
+<!-- chunk {"id": "body-0042", "role": "body", "section": "At reasonable step sizes, gradient descent cannot be analyzed using (even local) $L$-smoothness", "weight": 1.0} -->
 
-We have empirically demonstrated that the behavior of gradient descent on neural training objectives is both surprisingly consistent across architectures and tasks, and surprisingly different from that envisioned in the conventional wisdom. Our findings raise a number of questions. Why does progressive sharpening occur? At the Edge of Stability, by what mechanism does gradient descent avoid diverging entirely? Since the conventional wisdom for step size selection is wrong, how should the gradient descent step size be set during deep learning?
+Many convergence analyses of gradient descent assume a bound on the sharpness --- either globally or, at the very least, along the optimization trajectory. This condition, called $L$-smoothness, is intended to guarantee that each gradient step will decrease the training objective by a certain amount; the weakest guarantee is that if the local sharpness is less than $2/\eta$, then a gradient step with size $\eta$ is guaranteed to decrease (rather than increase) the training objective. At a bare minimum, any convergence analysis of gradient descent based on $L$-smoothness will require the sharpness along the optimization trajectory to be less than $2/\eta$. Yet to the contrary, at the Edge of Stability, the sharpness hovers just above $2/\eta$. Therefore, at any step size for which gradient descent enters the Edge of Stability (which, on realistic architectures, includes any reasonable step size), gradient descent cannot be analyzed using $L$-smoothness. Li et al. previously argued that convergence analyses based on $L$-smoothness do not apply to networks with both batch normalization and weight decay; our paper empirically extends this to neural networks without either.
+
+<!-- chunk {"id": "body-0043", "role": "body", "section": "$L$-smoothness *may* be inappropriate when analyzing other optimization algorithms too", "weight": 1.0} -->
+
+It is common for optimization papers seemingly motivated by deep learning to analyze algorithms under the "non-convex but $L$-smooth"' setting. Since our experiments focus on gradient descent, it does not *necessarily* follow that $L$-smoothness assumptions are unjustified when analyzing other optimization algorithms. However, gradient descent is arguably the simplest optimization algorithm, so we believe that the fact that (even local) $L$-smoothness fails even there should raise serious questions about the suitability of the $L$-smoothness assumption in neural network optimization more generally. In particular, the burden of proof should be on authors to empirically justify this assumption.
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "At reasonable step sizes, gradient descent does not monotonically decrease the training loss", "weight": 1.0} -->
+
+In neural network training, SGD does not monotonically decrease the training objective, in part due to minibatch randomness. However, it is often assumed that *full-batch* gradient descent *would* monotonically decrease the training objective, were it used to train neural networks. For example, Zhang et al. proposed a "relaxed $L$-smoothness" condition that is less restrictive than standard $L$-smoothness, and proved a convergence guarantee for gradient descent under this condition which asserted that the training objective will decrease monotonically. Likewise, some neural network analyses such as Allen-Zhu et al. also assert that the training objective will monotonically decrease. Yet, at the Edge of Stability, the training loss behaves non-monotonically over short timescales even as it consistently decreases over long timescales. Therefore, convergence analyses which assert monotone descent cannot possibly apply to gradient descent at reasonable step sizes.
+
+<!-- chunk {"id": "body-0045", "role": "body", "section": "The Edge of Stability is inherently non-quadratic", "weight": 1.0} -->
+
+It is tempting to try to reason about the behavior of gradient descent on neural network training objectives by analyzing, as a proxy, the behavior of gradient descent on the local quadratic Taylor approximation. However, at the Edge of Stability, the behavior of gradient descent on the real neural training objective is irreconcilably different from the behavior of gradient descent on the quadratic Taylor approximation: the former makes consistent (if choppy) progress, whereas the latter would diverge (and this divergence would happen quickly, as we demonstrate in Appendix E). Thus, the behavior of gradient descent at the Edge of Stability is inherently non-quadratic.
+
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Dogma for step size selection may be unjustified", "weight": 1.0} -->
+
+An influential piece of conventional wisdom concerning step size selection has its roots in the quadratic Taylor approximation model of gradient descent. This conventional wisdom holds that if the sharpness at step $t$ is $\lambda_{t}$, then the current step size $\eta_{t}$ must be set no greater than $2/\lambda_{t}$ (in order to prevent divergence); and furthermore, barring additional information about the objective function, that $\eta_{t}$ should optimally be set to $1/\lambda_{t}$. Our findings complicate this conventional wisdom. To start, it is nearly impossible to satisfy these prescriptions with a fixed step size: for any fixed (and reasonable) step size $\eta_{t} = \eta$, progressive sharpening eventually drives gradient descent into regions where the sharpness is just a bit greater than $2/\eta$ --- which means that the step size $\eta$ is purportedly impermissible.
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Dogma for step size selection may be unjustified", "weight": 1.0} -->
+
+Furthermore, in Appendix F, we try running gradient descent with the purportedly optimal $\eta_{t} = {1/\lambda_{t}}$ rule, and find that this algorithm is soundly outperformed by the purportedly impermissible baseline of gradient descent with a fixed $\eta_{t} = {1/\lambda_{0}}$ step size, where $\lambda_{0}$ is the sharpness at initialization. The $\eta_{t} = {1/\lambda_{t}}$ rule continually anneals the step size, and in so doing ensures that the training objective will decrease at each iteration, whereas the fixed $\eta_{t} = {1/\lambda_{0}}$ step size often increases the training objective. However, this non-monotonicity turns out to be a worthwhile price to pay in return for the ability to take larger steps.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Stochastic gradient descent", "weight": 1.0} -->
+
+Our precise characterization of the behavior of the sharpness only applies to full-batch gradient descent. In contrast, during SGD, the sharpness does not always settle at any fixed value (Appendix G), let alone one that can be numerically predicted from the hyperparameters. Nevertheless, prior works have demonstrated that large step sizes do steer SGD into regions of the landscape with lower sharpness; the $2/\eta$ rule for full-batch gradient descent is a special case of this observation. Furthermore, small *batch sizes* also steer SGD into regions with lower sharpness, as we illustrate in Appendix G. Jastrzębski et al. attributed these phenomena to the stability properties of SGD.
+
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Stochastic gradient descent", "weight": 1.0} -->
+
+Even though our findings only strictly hold for gradient descent, they may have relevance to SGD as well. First, since gradient descent is a special case of SGD, any general characterization of the dynamics of SGD must reduce to the Edge of Stability in the full-batch special case. Second, there are indications that the Edge of Stability may have some analogue for SGD. One way to interpret our main findings is that gradient descent "acclimates" to the step size in such a way that each update sometimes increases and sometimes decrease the train loss, yet an update with a smaller step size would consistently decrease the training loss. Along similar lines, in Appendix H we demonstrate that SGD "acclimates" to the step size and batch size in such a way that each SGD update sometimes increases and sometimes decreases the training loss in expectation, yet an SGD update with a smaller step size or larger batch size would consistently decrease the training loss in expectation.
+
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Stochastic gradient descent", "weight": 1.0} -->
+
+In extending these findings to SGD, the question arises of how to model "stability" of SGD. This is a highly active area of research. Wu et al. proposed modeling stability *in expectation*, and gave a sufficient (but not necessary) criterion for the stability of SGD in expectation. Building on this framework, Jastrzębski et al. argued that under certain strong alignment assumptions, SGD is stable so long as a certain expression (involving the sharpness) is below a certain threshold. In the special full-batch case, their criterion reduces to the sharpness being beneath $2/\eta$ --- a constraint which we have shown is "tight" throughout training. However, in the general SGD case, there is no evidence that their stability constraint (given by their Equation 1) is tight throughout training. Finally, a number of papers have attempted to mathematically model the propensity of SGD to "escape from sharp minima".
+
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+
+We have empirically demonstrated that the behavior of gradient descent on neural training objectives is both surprisingly consistent across architectures and tasks, and surprisingly different from that envisioned in the conventional wisdom. Our findings raise a number of questions. Why does progressive sharpening occur? At the Edge of Stability, by what mechanism does gradient descent avoid diverging entirely? Since the conventional wisdom for step size selection is wrong, how should the gradient descent step size be set during deep learning? Does the "Edge of Stability" effect generalize in some way to optimization algorithms beyond gradient descent, such as SGD? We hope to inspire future efforts aimed at addressing these questions.

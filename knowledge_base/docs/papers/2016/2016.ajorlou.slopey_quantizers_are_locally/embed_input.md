@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Slopey Quantizers Are Locally Optimal for Witsenhausen's Counterexample
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 We study the perfect Bayesian equilibria of a leader-follower game of incomplete information. The follower makes a noisy observation of the leader's action (who moves first) and chooses an action minimizing her expected deviation from the leader's action. Knowing this, leader who observes the realization of the state, chooses an action that minimizes her distance to the state of the world and the ex-ante expected deviation from the follower's action. We show the existence of what we call “near piecewise-linear equilibria” when there is strong complementarity between the leader and the follower and the precision of the prior is poor. As a major consequence of this result, we prove local optimality of a class of slopey quantization strategies which had been suspected of being the optimal solution in the past, based on numerical evidence for Witsenhausen's counterexample.

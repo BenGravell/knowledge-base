@@ -1,3 +1,9 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Towards a Modular Software Package for Embedded Optimization
+
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
 
 In this paper we present acados, a new software package for model predictive control. It provides a collection of embedded optimization algorithms written in C, with a strong focus on computational efficiency. Its modular structure makes it useful for rapid prototyping, i.e. designing a control algorithm by putting together different algorithmic components that are readily connected and interchanged. The usefulness of the software is demonstrated with a closed-loop simulation experiment of an inverted pendulum, which shows acados attaining sub-millisecond computation times per iteration. Furthermore, we showcase a new algorithmic idea in the context of embedded nonlinear model predictive control (NMPC), namely sequential convex quadratic programming (SCQP), along with an efficient implementation of it.

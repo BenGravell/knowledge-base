@@ -1,5 +1,15 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 CAT-ORA: Collision-Aware Time-Optimal Formation Reshaping for Efficient Robot Coordination in 3D Environments
 
 Topics include Robotics, Vehicles, CAT-ORA, Time-optimal, Formation reshaping, Collision avoidance.
 
-In this paper, we introduce an algorithm designed to address the problem of time-optimal formation reshaping in three-dimensional environments while preventing collisions between agents. The utility of the proposed approach is particularly evident in mobile robotics, where agents benefit from being organized and navigated in formation for a variety of real-world applications requiring frequent alterations in formation shape for efficient navigation or task completion. Given the constrained operational time inherent to battery-powered mobile robots, the time needed to complete the formation reshaping process is crucial for their efficient operation, especially in case of multi-rotor Unmanned Aerial Vehicles (UAVs). The proposed Collision-Aware Time-Optimal formation Reshaping Algorithm (CAT-ORA) builds upon the Hungarian algorithm for the solution of the robot-to-goal assignment implementing the inter-agent collision avoidance through direct constraints on mutually exclusive robot-goal pairs combined with a trajectory generation approach minimizing the duration of the reshaping process.
+<!-- chunk {"id": "abstract-0002", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+In this paper, we introduce an algorithm designed to address the problem of time-optimal formation reshaping in three-dimensional environments while preventing collisions between agents. The utility of the proposed approach is particularly evident in mobile robotics, where agents benefit from being organized and navigated in formation for a variety of real-world applications requiring frequent alterations in formation shape for efficient navigation or task completion. Given the constrained operational time inherent to battery-powered mobile robots, the time needed to complete the formation reshaping process is crucial for their efficient operation, especially in case of multi-rotor Unmanned Aerial Vehicles (UAVs). The proposed Collision-Aware Time-Optimal formation Reshaping Algorithm (CAT-ORA) builds upon the Hungarian algorithm for the solution of the robot-to-goal assignment implementing the inter-agent collision avoidance through direct constraints on mutually exclusive robot-goal pairs combined with a trajectory generation approach minimizing the duration of the reshaping process. Theoretical validations confirm the optimality of CAT-ORA, with its efficacy further showcased through simulations, and a real-world outdoor experiment involving 19 UAVs.
+
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+Thorough numerical analysis shows the potential of CAT-ORA to decrease the time required to perform complex formation reshaping tasks by up to 49%, and 12% on average compared to commonly used methods in randomly generated scenarios.

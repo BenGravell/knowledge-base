@@ -1,7 +1,19 @@
+<!-- embedding-input:v1 -->
+
+<!-- chunk {"id": "metadata-0001", "role": "metadata", "section": "Metadata", "weight": 3.0} -->
+
 Motion Planning under Uncertainty Using Iterative Local Optimization in Belief Space
 
 Topics include Belief-space planning, Motion uncertainty, POMDPs, Iterative linear quadratic Gaussian, Extended Kalman filters, Obstacle avoidance, Gaussian beliefs.
 
+<!-- chunk {"id": "summary-0002", "role": "summary", "section": "Summary", "weight": 2.0} -->
+
 Adapts iterative LQG to continuous belief-space motion planning by propagating Gaussian beliefs with an EKF and locally approximating the value function around nominal belief trajectories. The result is a locally optimal feedback policy that handles nonlinear dynamics, partial and noisy sensing, obstacles, and changing estimator or control gains without discretizing state or action spaces.
 
-We present a new approach to motion planning under sensing and motion uncertainty by computing a locally optimal solution to a continuous partially observable Markov decision process (POMDP). Our approach represents beliefs (the distributions of the robot’s state estimate) by Gaussian distributions and is applicable to robot systems with non-linear dynamics and observation models. The method follows the general POMDP solution framework in which we approximate the belief dynamics using an extended Kalman filter and represent the value function by a quadratic function that is valid in the vicinity of a nominal trajectory through belief space. Using a belief space variant of iterative LQG (iLQG), our approach iterates with second-order convergence towards a linear control policy over the belief space that is locally optimal with respect to a user-defined cost function. Unlike previous work, our approach does not assume maximum-likelihood observations, does not assume fixed estimator or control gains, takes into account obstacles in the environment, and does not require discretization of the state and action spaces.
+<!-- chunk {"id": "abstract-0003", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+We present a new approach to motion planning under sensing and motion uncertainty by computing a locally optimal solution to a continuous partially observable Markov decision process (POMDP). Our approach represents beliefs (the distributions of the robot’s state estimate) by Gaussian distributions and is applicable to robot systems with non-linear dynamics and observation models. The method follows the general POMDP solution framework in which we approximate the belief dynamics using an extended Kalman filter and represent the value function by a quadratic function that is valid in the vicinity of a nominal trajectory through belief space. Using a belief space variant of iterative LQG (iLQG), our approach iterates with second-order convergence towards a linear control policy over the belief space that is locally optimal with respect to a user-defined cost function. Unlike previous work, our approach does not assume maximum-likelihood observations, does not assume fixed estimator or control gains, takes into account obstacles in the environment, and does not require discretization of the state and action spaces. The running time of the algorithm is polynomial (O[n 6 ]) in the dimension n of the state space.
+
+<!-- chunk {"id": "abstract-0004", "role": "abstract", "section": "Abstract", "weight": 2.0} -->
+
+We demonstrate the potential of our approach in simulation for holonomic and non-holonomic robots maneuvering through environments with obstacles with noisy and partial sensing and with non-linear dynamics and observation models.
