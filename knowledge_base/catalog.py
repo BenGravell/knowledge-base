@@ -25,6 +25,10 @@ EMBED_TEXT_SIDECAR = "embed_text.md"
 LEGACY_FULL_TEXT_SIDECAR = "full_text.md"
 # Loose storage safety valve; embedding backends may need chunking below this.
 EMBED_TEXT_MAX_CHARS = 5_000_000
+EMBEDDING_SUMMARY_MAX_CHARS = 900
+EMBEDDING_ABSTRACT_MAX_CHARS = 1_200
+EMBEDDING_CONTENT_MAX_CHARS = 2_400
+EMBEDDING_EXCERPT_MAX_CHARS = 650
 
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.*?)\s*$")
 TAIL_HEADING_RE = re.compile(
@@ -480,13 +484,13 @@ def build_embedding_text(
     parts = [
         f"Title: {title}",
         f"Tags: {', '.join(tags)}",
-        f"Summary: {summary}",
+        f"Summary: {compact_inline_for_embedding(summary, EMBEDDING_SUMMARY_MAX_CHARS)}",
     ]
     if abstract:
-        parts.append(f"Abstract: {abstract}")
+        parts.append(f"Abstract: {compact_inline_for_embedding(abstract, EMBEDDING_ABSTRACT_MAX_CHARS)}")
     content = embedding_sidecar_text(metadata_path) if metadata_path else ""
     if content:
-        parts.append(f"Content: {content}")
+        parts.append(f"Content: {compact_embedding_content(content)}")
     return "\n".join(part for part in parts if part.split(": ", 1)[-1].strip())
 
 
@@ -503,6 +507,66 @@ def embedding_sidecar_text(metadata_path: Path) -> str:
     if path is None:
         return ""
     return clean_embedding_sidecar_text(path.read_text(encoding="utf-8"))
+
+
+def compact_inline_for_embedding(text: str, max_chars: int) -> str:
+    return truncate_embedding_text(clean_inline(text), max_chars)
+
+
+def compact_embedding_content(markdown: str, max_chars: int = EMBEDDING_CONTENT_MAX_CHARS) -> str:
+    paragraphs = [
+        paragraph
+        for paragraph in (part.strip() for part in re.split(r"\n\s*\n", markdown.strip()))
+        if keep_embedding_paragraph(paragraph)
+    ]
+    if not paragraphs:
+        return ""
+    filtered = "\n\n".join(paragraphs)
+    if len(filtered) <= max_chars:
+        return filtered
+
+    selected: list[str] = []
+    for index in embedding_excerpt_indexes(len(paragraphs)):
+        excerpt = truncate_embedding_text(paragraphs[index], EMBEDDING_EXCERPT_MAX_CHARS)
+        candidate = "\n\n".join([*selected, excerpt]) if selected else excerpt
+        if len(candidate) <= max_chars:
+            selected.append(excerpt)
+            continue
+        remaining = max_chars - (len("\n\n".join(selected)) + (2 if selected else 0))
+        if remaining >= 120:
+            selected.append(truncate_embedding_text(excerpt, remaining))
+        break
+    return "\n\n".join(selected).strip()
+
+
+def embedding_excerpt_indexes(count: int) -> list[int]:
+    indexes: list[int] = []
+
+    def add(candidates: Iterable[int]) -> None:
+        for index in candidates:
+            if 0 <= index < count and index not in indexes:
+                indexes.append(index)
+
+    add(range(min(3, count)))
+    add(range(max(0, count - 2), count))
+    add((count // 2, count // 3, (2 * count) // 3))
+    add(range(3, count))
+    return indexes
+
+
+def truncate_embedding_text(text: str, max_chars: int) -> str:
+    text = text.strip()
+    if max_chars <= 0 or len(text) <= max_chars:
+        return text
+    cut = text[: max_chars - 3].rstrip()
+    sentence = max(cut.rfind(". "), cut.rfind("? "), cut.rfind("! "))
+    if sentence >= max_chars // 2:
+        cut = cut[: sentence + 1]
+    else:
+        word = cut.rfind(" ")
+        if word >= max_chars // 2:
+            cut = cut[:word]
+    return f"{cut.rstrip()}..."
 
 
 def clean_embedding_sidecar_text(markdown: str) -> str:
@@ -666,6 +730,39 @@ def keep_embedding_line(line: str) -> bool:
         if alpha / max(len(line), 1) < 0.35:
             return False
     return True
+
+
+def keep_embedding_paragraph(paragraph: str) -> bool:
+    text = re.sub(r"\s+", " ", paragraph).strip()
+    if not text:
+        return False
+    if text.startswith("#"):
+        return True
+    words = re.findall(r"[A-Za-z][A-Za-z-]{2,}", text)
+    if len(words) < 5 and not text.casefold().startswith("keywords:"):
+        return False
+    if reference_like_paragraph(text):
+        return False
+    alpha = sum(char.isalpha() for char in text)
+    digits = sum(char.isdigit() for char in text)
+    math_symbols = sum(char in "$\\{}_^=<>|" for char in text)
+    length = max(len(text), 1)
+    if alpha / length < 0.45:
+        return False
+    if digits / length > 0.25:
+        return False
+    if math_symbols / length > 0.20:
+        return False
+    return True
+
+
+def reference_like_paragraph(text: str) -> bool:
+    if not re.match(r"^(?:\[\d+\]|\d+[.)])\s+", text):
+        return False
+    return bool(
+        re.search(r"\b(?:19|20)\d{2}[a-z]?\b", text)
+        or re.search(r"\bdoi\b|https?://", text, re.I)
+    )
 
 
 def identifier_terms(
