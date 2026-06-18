@@ -1,0 +1,17 @@
+Policy-Based Trajectory Clustering in Offline Reinforcement Learning
+
+We introduce a novel task of clustering trajectories from offline reinforcement learning (RL) datasets, where each cluster center represents the policy that generated its trajectories. By leveraging the connection between the KL-divergence of offline trajectory distributions and a mixture of policy-induced distributions, we formulate a natural clustering objective. To solve this, we propose Policy-Guided K-means (PG-Kmeans) and Centroid-Attracted Autoencoder (CAAE). PG-Kmeans iteratively trains behavior cloning (BC) policies and assigns trajectories based on policy generation probabilities, while CAAE resembles the VQ-VAE framework by guiding the latent representations of trajectories toward the vicinity of specific codebook entries to achieve clustering. Theoretically, we prove the finite-step convergence of PG-Kmeans and identify a key challenge in offline trajectory clustering: the inherent ambiguity of optimal solutions due to policy-induced conflicts, which can result in multiple equally valid but structurally distinct clusterings. Experimentally, we validate our methods on the widely used D4RL dataset and custom GridWorld environments....
+
+## Introduction
+
+In recent years, reinforcement learning (RL) has achieved significant progress across a wide range of domains, including robotic control Tang et al., autonomous driving Kiran et al., and recommendation systems Lin et al.. However, conventional online RL methods typically rely on continuous interactions with the environment to explore and optimize policies. In many real-world scenarios, such frequent interactions are not only expensive but also pose considerable safety risks---especially in sensitive applications like medical diagnosis and autonomous driving Dulac-Arnold et al..
+
+To overcome these limitations, offline reinforcement learning (Offline RL) has emerged as a promising alternative. It aims to learn optimal policies from fixed, pre-collected datasets without further interaction with the environment. The success of this paradigm depends heavily on the quality, coverage, and structure of the offline data Levine et al.. As a result, efficiently organizing and utilizing offline datasets has become a core challenge in offline RL research.
+
+In this paper, we formalized the problem of policy-based trajectory clustering in offline reinforcement learning and proved that it is NP-complete. We further analyzed how it differs from conventional clustering tasks. To address this challenge, we introduced two methods---PG-Kmeans and CAAE---and evaluated them on carefully curated datasets. Experimental results demonstrate their clear advantages over existing baselines.
+
+A key limitation of this study is the relatively small scale of the experiments. The proposed methods have not yet been tested on large-scale datasets or in complex, real-world environments. Moreover, the algorithms currently lack theoretical convergence guarantees, and the uniqueness of clustering solutions remains an open question. Future work may involve a more rigorous problem formulation, improved strategies to mitigate overfitting, and a comprehensive theoretical analysis of the proposed approaches.
+
+Here we denote $\tau_{i}$ as the sequence ${\{{(s_{i,h},a_{i,h})}\}}_{h = 1}^{H}$. Noting that the assignment weights are binary ($0$ or $1$) and that the environment dynamic is independent of $\theta_{j}$ and $w_{i,j}$, we arrive at the final objective function:
+
+### Nature of Data

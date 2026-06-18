@@ -1,0 +1,15 @@
+A Tutorial on the Non-Asymptotic Theory of System Identification
+
+This tutorial serves as an introduction to recently developed non-asymptotic methods in the theory of - mainly linear - system identification. We emphasize tools we deem particularly useful for a range of problems in this domain, such as the covering technique, the Hanson-Wright Inequality and the method of self-normalized martingales. We then employ these tools to give streamlined proofs of the performance of various least-squares based estimators for identifying the parameters in autoregressive models. We conclude by sketching out how the ideas presented herein can be extended to certain nonlinear identification problems.
+
+## Introduction
+
+Machine learning methods are at an ever increasing pace being integrated into domains that have classically been within the purview of controls. There is a wide range of examples, including perception-based control, agile robotics, and autonomous driving and racing. As exciting as these developments may be, they have been most pronounced on the experimental and empirical sides. To deploy these systems safely, stably, and robustly into the real world, we argue that a principled and integrated theoretical understanding of a) fundamental limitations and b) statistical optimality is needed....
+
+This tutorial seeks to provide a streamlined exposition of some of these recent advances that are most relevant to the non-asymptotic theory of linear system identification. Our aim is not to be encyclopedic but rather to give simple proofs of the main developments and to highlight and collect the key technical tools to arrive at these results. For a broader---and less technical---overview of the literature we point the reader to our recent survey....
+
+As noted in the previous section, the idea of using the "offset" basic inequality relied on here is due to Rakhlin and Sridharan; Liang et al.. The "many trajectores"-style of analysis used here is due to Tu et al. who introduced it in the linear setting. Here, we have extended their style of analysis to simplify the exposition of Ziemann and Tu who consider the single trajectory setting, but rely on a rather more advanced exponential inequality due to Samson....
+
+There have also been other, more algorithmically focused, approaches to nonlinear identification problems in the recent literature. Noteably, gradient based methods in generalized linear models of the form $X_{t + 1} = {{\phi{({A^{\star}X_{t}})}} + V_{t}}$ (with $\phi$ a known nonlinearity) have been the topic of a number of recent papers (see e.g. Foster et al. Sattar and Oymak, ). The sharpest bounds for parameter recovery in this setting are due to Kowshik et al..
+
+Theorem 4.1 holds for a fixed $T \in {\mathbb{N}}_{+}$, which is sufficient for analyzing the system identification error. In contrast, the self-normalized margtingale bound in Abbasi-Yadkori holds for an arbitrary stopping time and thus uniformly for all $T \in {\mathbb{N}}_{+}$ by a stopping time construction. This uniform bound may be required in some settings, e.g....

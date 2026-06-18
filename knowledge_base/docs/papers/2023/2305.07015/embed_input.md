@@ -1,0 +1,19 @@
+Exploiting Diffusion Prior for Real-World Image Super-Resolution
+
+Topics include Image super-resolution, Real-world super-resolution, Blind restoration, Diffusion models, Stable diffusion, Generative prior, Time-aware encoder, Feature wrapping, StableSR.
+
+StableSR adapts a pretrained text-to-image diffusion model for blind real-world super-resolution while keeping the synthesis model fixed. Its time-aware encoder, controllable feature wrapping, and progressive aggregation sampling make the diffusion prior more practical for fidelity-controlled restoration at arbitrary image sizes.
+
+We present a novel approach to leverage prior knowledge encapsulated in pre-trained text-to-image diffusion models for blind super-resolution (SR). Specifically, by employing our time-aware encoder, we can achieve promising restoration results without altering the pre-trained synthesis model, thereby preserving the generative prior and minimizing training cost. To remedy the loss of fidelity caused by the inherent stochasticity of diffusion models, we employ a controllable feature wrapping module that allows users to balance quality and fidelity by simply adjusting a scalar value during the inference process. Moreover, we develop a progressive aggregation sampling strategy to overcome the fixed-size constraints of pre-trained diffusion models, enabling adaptation to resolutions of any size. A comprehensive evaluation of our method using both synthetic and real-world benchmarks demonstrates its superiority over current state-of-the-art approaches. Code and models are available at
+
+## Introduction
+
+We have seen significant advancements in diffusion models for the task of image synthesis. Existing studies demonstrate that the diffusion prior, embedded in synthesis models like Stable Diffusion, can be applied to various downstream content creation tasks, including image (Choi et al. Avrahami et al. Hertz et al. Gu et al. Mou et al. Zhang et al. Gal et al., ) and video (Wu et al. Molad et al. Qi et al., ) editing. In this study, we extend the exploration beyond the realm of content creation and examine the potential benefits of using diffusion prior for super-resolution (SR)....
+
+A common solution to the challenge above involves training a SR model from scratch. To preserve fidelity, these methods use the low-resolution (LR) image as an additional input to constrain the output space. While these methods have achieved notable success, they often demand significant computational resources to train the diffusion model. Moreover, training a network from scratch can potentially jeopardize the generative priors captured in synthesis models, leading to suboptimal performance in the final network....
+
+## Conclusion
+
+Motivated by the rapid development of diffusion models and their wide applications to downstream tasks, this work discusses an important yet underexplored problem of how diffusion prior can be adopted for super-resolution. In this paper, we present StableSR, a new way to exploit diffusion prior for real-world SR while avoiding source-intensive training from scratch. We devote our efforts to tackling the well-known problems, such as high computational cost and fixed resolution, and propose respective solutions, including the time-aware encoder, controllable feature wrapping module, and progressive aggregation sampling scheme....
+
+Testing Datasets. We evaluate our approach on both synthetic and real-world datasets. For synthetic data, we follow the degradation pipeline of Real-ESRGAN and generate 3k LR-HR pairs from DIV2K validation set. The resolution of LR is $128 \times 128$ and that of the corresponding HR is $512 \times 512$. Note that for StableSR, the inputs are first upsampled to the same size as the outputs before inference. For real-world datasets, we follow common settings to conduct comparisons on RealSR, DRealSR and DPED-iPhone. We further collect 40 images from the Internet for comparison.

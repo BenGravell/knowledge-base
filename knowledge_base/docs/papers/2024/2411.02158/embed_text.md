@@ -1,0 +1,201 @@
+## Introduction
+
+Many applications, ranging from trajectory optimization in robotics and autonomous driving to portfolio management in finance, require solving similar optimization problems sequentially under tight runtime constraints (Paden et al., (https://arxiv.org/html/2411.02158v2#bib.bib35); Ye et al., (https://arxiv.org/html/2411.02158v2#bib.bib49); Mugel et al., (https://arxiv.org/html/2411.02158v2#bib.bib30)). The performance of local optimizers in these contexts is often highly sensitive to the initial solution provided, where poor initialization can result in suboptimal solutions or failure to converge within the allowed time (Michalska & Mayne, (https://arxiv.org/html/2411.02158v2#bib.bib28); Scokaert et al., (https://arxiv.org/html/2411.02158v2#bib.bib38)). The ability to consistently generate high-quality initial solutions is, therefore, essential for ensuring both performance and safety guarantees.
+
+Conventional methods for selecting these initial solutions typically rely on heuristics or warm-starting, where the solution from a previously solved, related problem instance is reused. More recently, learning-based solutions have also been proposed, where neural networks are used to predict an initial solution. However, in more challenging cases, where the optimization landscape is highly non-convex or when consecutive problem instances rapidly change, predicting a single good initial solution is inherently difficult.
+
+To this end, we propose *Learning Multiple Initial Solutions (MISO)* (Figure (https://arxiv.org/html/2411.02158v2#S0.F1 "Figure 1")), in which we train a neural network to predict *multiple* initial solutions. Our approach facilitates two key settings: (i) a single-optimizer method, where a selection function leverages prior knowledge of the problem instance to identify the most promising initial solution, which is then supplied to the optimizer; and (ii) a multiple-optimizers method, where multiple initial solutions are generated jointly to support the execution of several optimizers, potentially running in parallel, with the best solution chosen afterward.
+
+More specifically, our neural network receives a parameter vector that characterizes the problem instance and outputs $K$ candidate initial solutions. The network is trained on a dataset of problem instances paired with (near-)optimal solutions and is evaluated on previously unseen instances. Crucially, the network is designed not only to predict *good* initial solutions---those close to the optimal---but also to ensure that these solutions are sufficiently diverse, potentially spanning all underlying modes of the problem in hand. To actively encourage this multimodality, we implement training strategies such as a winner-takes-all loss that penalizes only the candidate with the lowest loss, a dispersion-based loss term to promote dispersion among solutions, and a combination of both.
+
+Notably, any existing initialization strategy can be combined with MISO, by simply including the existing initial solution among the predicted ones; and by design, MISO is guaranteed to be equal or better than the default initialization.
+
+We evaluate MISO across three distinct local optimization algorithms applied to separate robot control tasks: First-order Box Differential Dynamic Programming (DDP), which utilizes first-order linearization for the cart-pole swing-up task; Model Predictive Path Integral (MPPI) control, a sampling-based method, for the reacher task; and the Iterative Linear Quadratic Regulator (iLQR), a trajectory optimization algorithm, for an autonomous driving task. Our results show that MISO significantly outperforms existing initialization methods that rely on heuristics, learn to predict a single initial solution or use ensembles of independently learned models.
+
+In summary, our key contributions are as follows:
+
+We present a novel framework for predicting *multiple* initial solutions for optimizers.
+
+We introduce two distinct strategies for utilizing the predicted initial solutions: (i) *single-optimizer*, where the most promising solution is chosen based on a selection function, and (ii) *multiple-optimizers*, where multiple optimizers are initialized, potentially in parallel, with the best solution chosen afterward.
+
+We design and implement specific training objectives to prevent mode collapse and ensure that the predicted solutions remain multimodal.
+
+We apply our framework to three distinct sequential optimization tasks and perform extensive evaluation.
+
+## Related Work
+
+### Learning for optimization
+
+Advancements in machine learning have introduced numerous learning-based approaches to optimization problems (Sun et al., (https://arxiv.org/html/2411.02158v2#bib.bib40)). Early work by Gregor & LeCun ((https://arxiv.org/html/2411.02158v2#bib.bib17)) replaced components of classical convex optimization algorithms with neural networks. More recent works aim to replace optimization methods entirely with end-to-end neural networks (OpenAI et al., (https://arxiv.org/html/2411.02158v2#bib.bib33); Mirowski et al., (https://arxiv.org/html/2411.02158v2#bib.bib29)) or generate new optimization algorithms (Chen et al., [2022b](https://arxiv.org/html/2411.02158v2#bib.bib11)) for specific classes of problems. Other works enhance optimization-based control algorithms (Sacks & Boots, (https://arxiv.org/html/2411.02158v2#bib.bib36)), learn constraints (Fajemisin et al., (https://arxiv.org/html/2411.02158v2#bib.bib16)), or learn objective functions and system dynamics (Lenz et al., (https://arxiv.org/html/2411.02158v2#bib.bib25); Wahlström et al., (https://arxiv.org/html/2411.02158v2#bib.bib45); Tamar et al., (https://arxiv.org/html/2411.02158v2#bib.bib42); Hafner et al., (https://arxiv.org/html/2411.02158v2#bib.bib19); Nagabandi et al., (https://arxiv.org/html/2411.02158v2#bib.bib31); Xiao et al., (https://arxiv.org/html/2411.02158v2#bib.bib48)).
+
+### Learning initial solutions
+
+Previous studies have proposed heuristic approaches to generate initial solutions for optimizers (Johnson et al., (https://arxiv.org/html/2411.02158v2#bib.bib21); Marcucci & Tedrake, (https://arxiv.org/html/2411.02158v2#bib.bib27)). More recently, learning-based methods for initializing optimizers have gained attention in various fields, aiming to enhance both computational efficiency and resulting solutions quality. In mixed-integer programming, neural networks have enhanced solver performance by predicting variable assignments (Nair et al., (https://arxiv.org/html/2411.02158v2#bib.bib32)), branching decisions (Sonnerat et al., (https://arxiv.org/html/2411.02158v2#bib.bib39)), and integer variables (Bertsimas & Stellato, (https://arxiv.org/html/2411.02158v2#bib.bib5)). Baker ((https://arxiv.org/html/2411.02158v2#bib.bib2)) employed Random Forests to predict solutions for AC optimal power flow problems. Kang et al. ((https://arxiv.org/html/2411.02158v2#bib.bib22)) utilized nearest neighbor search to warm-start tight convex relaxations in nonconvex trajectory optimization problems. In robot control, neural networks were used to predict initializations for trajectory optimizers or Model Predictive Control (MPC) (Chen et al., [2022a](https://arxiv.org/html/2411.02158v2#bib.bib10); Wang & Ba, (https://arxiv.org/html/2411.02158v2#bib.bib46); Lembono et al., (https://arxiv.org/html/2411.02158v2#bib.bib24)). An exciting line of recent work developed *differentiable* optimization algorithms, which allow jointly learning objectives, constraints, and initializations by backpropagating through the optimization process (Amos et al., (https://arxiv.org/html/2411.02158v2#bib.bib1); East et al., (https://arxiv.org/html/2411.02158v2#bib.bib15); Karkus et al., (https://arxiv.org/html/2411.02158v2#bib.bib23); Sambharya et al., (https://arxiv.org/html/2411.02158v2#bib.bib37)). In contrast, we learn multiple initializations instead of one, and we do so without strong assumptions about the task or the optimizer. Notably, Bouzidi et al. ((https://arxiv.org/html/2411.02158v2#bib.bib7)) used multiple initializations by repurposing a motion prediction model and Bézier curve fitting for a downstream MPC; however, this approach is specifically tailored for autonomous driving, incorporating a dedicated motion prediction module.
+
+### Parallel optimizers
+
+Leveraging parallelism has a long history in optimization research (Betts & Huffman, (https://arxiv.org/html/2411.02158v2#bib.bib6)). With recent advances in parallel computing hardware, such as GPUs, methods that execute multiple optimizers in parallel have also emerged. For example, Sundaralingam et al. ((https://arxiv.org/html/2411.02158v2#bib.bib41)) introduced cuRobo, a GPU-accelerated method combining L-BFGS and particle-based optimization for robotic manipulators. Similarly, Huang et al. ((https://arxiv.org/html/2411.02158v2#bib.bib20)) utilized massive parallel GPU computation for efficient inverse kinematics and trajectory optimization. de Groot et al. ((https://arxiv.org/html/2411.02158v2#bib.bib14)) proposed a topology-driven method that plans for multiple evasive maneuvers in parallel. Barcelos et al. ((https://arxiv.org/html/2411.02158v2#bib.bib3)) focused on initializing parallel optimizers through rough paths. However, these works have not utilized learning. Lembono et al. ((https://arxiv.org/html/2411.02158v2#bib.bib24)) explored learning-based strategies for initializing trajectory optimizers based on a database of previous solutions and ensemble-learned models, particularly in manipulation and humanoid control tasks. In contrast, we propose a single neural network to generate multiple initializations, which, as shown in our experiments, significantly outperforms the ensemble-based approach.
+
+## Initializing optimizers
+
+### Problem setup
+
+In the most general form, we need to solve instances of a parameterized optimization problem,
+
+where ${\mathbf{x}} \in {\mathbb{R}}^{n}$ is the variable vector to be optimized, $J$ is the objective function, $\mathbf{g}$ and $\mathbf{h}$ are collections of inequality and equality constraints, and ${\mathbf{ψ}} \in {\mathbb{R}}^{m}$ is a parameter vector that defines the problem instance, e.g., parameters of the objective function and constraints that differ across problem instances. A local optimization algorithm, $\mathbf{O}\mathbf{p}\mathbf{t}$, attempts to find an optimum of $J$, namely,
+
+where ${\mathbf{x}}^{init}$ is initial solution provided to the optimizer, and $t_{\lim}$ is the runtime limit.
+
+### Heuristic methods
+
+A common choice of the initial solution, ${\mathbf{x}}_{init}$, is the solution to a previously solved similar problem instance, referred to as a *warm-start*. For example, in optimal control the warm-start is typically the solution from the previous timestep, shifted and padded with zeros, ${\mathbf{x}}^{{w.s}.}:={\{{\{{\mathbf{x}}_{t + k}^{cand}\}}_{k = 1}^{H - 2},\mathbf{0}\}}$ (Otta et al., (https://arxiv.org/html/2411.02158v2#bib.bib34)). This heuristic often works well in practice, however, it can struggle when large changes in the problem instance, $\mathbf{ψ}$, occur between consecutive time steps, leading to significant shifts in the optimal solution. For example, in autonomous driving, abrupt events like a traffic light switch or the sudden appearance of a pedestrian might drastically alter the reference trajectory or constraints. In such cases, the previous solution becomes a poor initialization, and the optimizer may fail to find a good solution within the allocated time frame.
+
+## Learning Multiple Initial SOlutions \\scalerel\*O
+
+The main idea of MISO is to train a single neural network to predict multiple initial solutions to an optimization problem, such that the initial solutions cover promising regions of the optimization landscape, eventually allowing a local optimizer to find a solution close to the global optimum. The key questions are then how to design a multi-output predictor; how to utilize multiple initial solutions in existing optimizers; and how to train the predictor to output a diverse set of initial solutions. In the following, we discuss our proposed solutions to these questions, illustrate the need for multimodality with a toy example, and discuss applications to optimal control.
+
+### Multi-output predictor
+
+Our multi-output predictor is a standard Transformer model--chosen for its simplicity and clarity (see Appendix [A.13](https://arxiv.org/html/2411.02158v2#A1. "A.13 Alternative Neural Backbone Architectures ‣ Appendix A Appendix") for a discussion on alternative architectures). It takes the problem instance, $\mathbf{ψ}$, as input and outputs $K$ initial solutions for the optimization problem,
+
+where $\mathbf{θ}$ are the learned parameters of the network. We train the network on a dataset of problem instances and their corresponding (near-)optimal solutions, ${\{{({\mathbf{ψ}}_{i},{\mathbf{x}}_{i}^{\star})}\}}_{i = 1}^{n}$. Such dataset can be generated offline, for example, by running a slow yet globally optimal solver, or allowing the same local optimizer to run with longer time limits, potentially many times from different initial solutions.
+
+### Optimization with multiple initial solutions
+
+We propose two distinct settings to leverage multiple initial solutions: *single-optimizer* and *multiple-optimizers*. The resulting frameworks are illustrated in Fig. (https://arxiv.org/html/2411.02158v2#S0.F1 "Figure 1").
+
+### Single optimizer
+
+In the single-optimizer setting we run a single instance of the optimizer with the most promising initial solution, ${\hat{\mathbf{x}}}^{\star} = {{\mathbf{O}\mathbf{p}\mathbf{t}}{(J,{\mathbf{ψ}},t_{\text{limit}};{\hat{\mathbf{x}}}^{init})}}$. We introduce a selection function, $\mathbf{\Lambda}$, which, given a set of candidate solutions and the problem instance $\mathbf{ψ}$, returns the most promising candidate, ${\hat{\mathbf{x}}}^{init} = {\mathbf{\Lambda}{({\{{\hat{\mathbf{x}}}_{k}^{init}\}}_{k = 1}^{K},{\mathbf{ψ}})}}$. A reasonable choice for $\mathbf{\Lambda}$ used in our experiments is selecting the candidate that minimizes the objective function the optimizer aims to minimize, i.e., $\mathbf{\Lambda}:={{\arg{\min_{k}J}}{({\hat{\mathbf{x}}}_{k}^{init};{\mathbf{ψ}})}}$. However, other criteria--such as robustness, constraint satisfaction, or domain-specific requirements--may be more appropriate in certain scenarios; see Appendix [A.10](https://arxiv.org/html/2411.02158v2#A1. "A.10 Selection Function Λ ‣ Appendix A Appendix") for details and examples.
+
+### Multiple optimizers
+
+In the multiple-optimizers setting, we assume multiple instances of the optimizer can be executed in parallel. We then initialize each optimizer with a different initial solution, ${{{\mathbf{x}}_{k}^{\star} = {{\mathbf{O}\mathbf{p}\mathbf{t}}_{k}{(J,{\mathbf{ψ}},t_{limit};{\hat{\mathbf{x}}}_{k}^{init})}}},{k \in {\{ 1,\ldots,K\}}}}.$ To select a single solution from the outputs of the optimizers, we can use the same selection function $\mathbf{\Lambda}$, as in the previous case, e.g., the solution that minimizes the objective function.
+
+### Guarantees
+
+Our framework can be trivially generalized to allow a different number of optimizers and initial solution predictions, as well as using a heterogeneous set of optimization methods. To maintain performance guarantees, one may include traditional initialization methods, such as warm-start heuristics, as part of the set of initializations. MISO is guaranteed to improve over the existing default strategy by design. In the single-optimizer setting the best initial solution is always equal or better than the default according to the selection function $\mathbf{\Lambda}$; and in the multiple-optimizer setting the final solution is equal or better than using only the default initialization.
+
+### Training strategies
+
+The ultimate goal is to predict multiple initial solutions so that the downstream optimizer can find a solution close to the global optima, i.e., ${J{({\hat{\mathbf{x}}}^{\star};{\mathbf{ψ}})}} \approx {J{({\mathbf{x}}^{\star};{\mathbf{ψ}})}}$. Training a neural network directly for this objective is not feasible in general. Instead, we propose proxy training objectives that combine two terms: a regression term that encourages outputs to be close to the global optimum, e.g., ${\mathcal{L}_{reg}{({\hat{\mathbf{x}}}_{k}^{init},{\mathbf{x}}^{\star})}} = {\|{{\hat{\mathbf{x}}}_{init} - {\mathbf{x}}^{\star}}\|}$, where $\parallel \cdot \parallel$ is a distance metric; along with a *diversity* term that promotes outputs being different from each other, thereby covering various regions of the solution space. An illustrative example is in Sect. [4.4](https://arxiv.org/html/2411.02158v2#S4.SS4 "4.4 Illustrative example ‣ 4 Learning Multiple Initial SOlutions \scalerel*O"). In the following, we present three simple training strategies promoting diversity and preventing mode collapse. We discuss alternative formulations, with probabilistic modeling and reinforcement learning, in Sect. (https://arxiv.org/html/2411.02158v2#S7 "7 Conclusions and Future Work").
+
+### Pairwise distance loss
+
+A simple method to encourage the model's outputs to differ from each other is to penalize the pairwise distance between all outputs. The overall loss combines this dispersion-promoting term with the regression loss,
+
+where $\alpha_{K}$ is a hyperparameter that balances the trade-off between accuracy and dispersion.
+
+### Winner-takes-all loss
+
+A more interesting way to encourage multimodality is to select the best-predicted output at training time and only minimize the regression loss for this specific prediction,
+
+Intuitively, the model only needs one of its outputs to be close to the ground truth, while the other predictions are not penalized for deviating, potentially aligning with different regions of the underlying distribution. Similar losses have been used, e.g., in multiple-choice learning (Guzman-Rivera et al., (https://arxiv.org/html/2411.02158v2#bib.bib18)). One advantage of this approach is that it is hyperparameter-free.
+
+### Mixture loss
+
+Lastly, we consider a combination of the previous two approaches to potentially enhance performance, as it provides some measure of dispersion we can tune,
+
+here, $\Phi$ is an upper-bounded function, such as $\min$ or $\tanh$, designed to limit the contribution of the pairwise distance term.
+
+Beyond the losses above, MISO could be integrated with other training paradigms, such as reinforcement learning or probabilistic modeling. We discuss these options in Sect. (https://arxiv.org/html/2411.02158v2#S7 "7 Conclusions and Future Work") but differ investigation to future work.
+
+### Illustrative example
+
+Figure 2: Left: The one-dimensional cost function c(x) with global minima at A and C and a local minimum at B. Right: Predicted initial solution for different methods, demonstrating why explicitly promoting multimodality is important.
+
+To illustrate the advantage of using a single model with multimodal outputs compared to regression models or ensembles of regressors, we examine a straightforward one-dimensional optimization problem aimed at minimizing the cost function $c{(x)}$ shown in Fig. (https://arxiv.org/html/2411.02158v2#S4.F2 "Figure 2 ‣ 4.4 Illustrative example ‣ 4 Learning Multiple Initial SOlutions \scalerel*O") (top). The function features two global minima, denoted as $\mathbf{A}$ and $\mathbf{C}$, with a local minimum located between them at $\mathbf{B}$.
+
+Applying our learning framework to this simple problem, the dataset of optimal solutions includes instances of $\mathbf{A}$ and $\mathbf{C}$. A single-output regression model has no means to distinguish the two modes and inevitably learns to predict the mean of examples in the dataset, somewhere near $\mathbf{B}$. Consequently, the local optimizer is likely to converge to the suboptimal local minimum at $\mathbf{B}$. Constructing an ensemble of such models to generate multiple initial solutions does not mitigate this issue, as each ensemble member tends to be biased toward the mean of the two modes near $\mathbf{B}$. We implemented the optimization problem and showed the predictions for different training strategies in Fig. (https://arxiv.org/html/2411.02158v2#S4.F2 "Figure 2 ‣ 4.4 Illustrative example ‣ 4 Learning Multiple Initial SOlutions \scalerel*O") (bottom). Details are in Appendix [A.5](https://arxiv.org/html/2411.02158v2#A1.SS5 "A.5 Illustrative Example ‣ Appendix A Appendix"). Indeed, an ensemble of single-output predictors fails to predict a global optimum, while our multi-output predictor succeeds with winner-takes-all and mixture losses.
+
+While the problem considered here is purposefully simplistic, the existence of local minima is the key challenge in most optimization problems.
+
+### Application to optimal control
+
+MISO is applicable to a broad class of sequential optimization problems; however, for the sake of evaluation, we focus on optimal control problems. Optimal control has a wide range of applications, e.g., in robotics, autonomous driving, and many other domains with strict runtime requirements, and due to the complexity induced by constraints and non-convex costs, local optimization algorithms are highly sensitive to the initial solution.
+
+In optimal control the optimization variable $\mathbf{x}$ represents a trajectory defined as a sequence of states and control inputs over discrete time steps: ${\mathbf{τ}} = {\{{\mathbf{s}}_{t},{\mathbf{u}}_{t}\}}_{{t = 1}:H}$. Here, ${\mathbf{s}}_{t} \in \mathcal{S}$ and ${\mathbf{u}}_{t} \in \mathcal{U}$ denote the state and control input at time step $t \in {\mathbb{Z}}^{+}$, and $H \in {\mathbb{Z}}^{+}$ is the optimization horizon. The constraints involve adhering to the system dynamics ${{\mathbf{f}}_{d}{({\mathbf{s}}_{t + 1},{\mathbf{s}}_{t},{\mathbf{u}}_{t})}} = \mathbf{0}$, starting from an initial state ${\mathbf{s}}_{0} = {\mathbf{s}}_{\text{curr}}$, where ${\mathbf{s}}_{\text{curr}}$ represents the system's current state. The problem instance parameters $\mathbf{ψ}$ encompass the initial state ${\mathbf{s}}_{0}$, and other domain-specific variables that parameterize the objective function or constraints, such as target states, reference trajectories, obstacle positions, friction coefficients, temperature, etc.
+
+A specific property of optimal control problems is that the relationship between optimization variables, states ${\mathbf{s}}_{t}$ and controls ${\mathbf{u}}_{t}$, are defined by the dynamics constraint ${\mathbf{f}}_{d}$; and the initial state ${\mathbf{s}}_{0}$ is given. Therefore, a sequence of controls uniquely defines an (initial) solution. We can leverage this property by learning to predict only a sequence of controls instead of the full optimization variable of state-control sequences. Further, one can define the training loss over either control, state, or state-control sequences and backpropagate gradients through the dynamics constraint as long as it is differentiable. In our experiments, we use state-control loss by default as we found it to improve both our and baseline learning methods. In Appendix [A.7](https://arxiv.org/html/2411.02158v2#A1.SS7 "A.7 State Loss ‣ Appendix A Appendix"), we show that our conclusions hold with control-only loss as well.
+
+Figure 3: Optimal control tasks used in our experiments.
+
+## Experimental setup
+
+### Tasks
+
+We evaluated our method on the three robot control benchmark tasks shown in Fig. (https://arxiv.org/html/2411.02158v2#S4.F3 "Figure 3 ‣ 4.5 Application to optimal control ‣ 4 Learning Multiple Initial SOlutions \scalerel*O"), each employing a distinct local optimization algorithm. Cart-pole. This task involves balancing a pole upright while moving a cart toward a randomly selected target position (Barto et al., (https://arxiv.org/html/2411.02158v2#bib.bib4)), using a first-order box Differential Dynamic Programming (DDP) optimizer (Amos et al., (https://arxiv.org/html/2411.02158v2#bib.bib1)). Reacher. In this task, a two-link planar robotic arm needs to reach a target placed at a random positon (Tassa et al., (https://arxiv.org/html/2411.02158v2#bib.bib44)), using a Model Predictive Path Integral (MPPI) optimizer (Williams et al., (https://arxiv.org/html/2411.02158v2#bib.bib47)). Autonomous Driving. Based on the nuPlan benchmark (Caesar et al., (https://arxiv.org/html/2411.02158v2#bib.bib9)), this task focuses on trajectory tracking in complex urban environments by following a reference trajectory generated by a Predictive Driver Model (PDM) planner (Dauner et al., (https://arxiv.org/html/2411.02158v2#bib.bib13)), using the Iterative Linear Quadratic Regulator (iLQR) optimizer (Li & Todorov, (https://arxiv.org/html/2411.02158v2#bib.bib26)). Further details are in Appendix [A.1](https://arxiv.org/html/2411.02158v2#A1.SS1 "A.1 Detailed Descriptions of Baseline Optimizers ‣ Appendix A Appendix") and Appendix [A.2](https://arxiv.org/html/2411.02158v2#A1.SS2 "A.2 Detailed Task Descriptions and Hyperparameters ‣ Appendix A Appendix").
+
+### Baselines
+
+We compare MISO to a range of alternative methods to provide single or multiple initial solutions. For a single initial solution, we considered: Warm-start, the default method that uses the optimizer output from the last problem instance; Regression, a single-output regression model (the $K$ = 1 version of MISO); Oracle Proxy, optimization with unlimited runtime, which we also used to generate our training data. For methods that generate multiple initial solutions, we considered: Warm-start with perturbations, which extends the warm-start approach by adding Gaussian noise to the optimizer output from the last problem instance; Regression with perturbations, where Gaussian noise is introduced to the predictions of the single-output regression model; Multi-output regression, a naive multi-output regression model without a diversity-promoting objective; and Ensemble, which trains multiple single-output neural networks with different random initializations. Finally, we assessed variants of our proposed method with the different training losses discussed in Sect. [4.3](https://arxiv.org/html/2411.02158v2#S4.SS3 "4.3 Training strategies ‣ 4 Learning Multiple Initial SOlutions \scalerel*O"): pairwise distance, winner-takes-all, and mix.
+
+MISO pairwise dist.
+
+Table 1: Results for the single optimizer setting. The mean cost of solutions found by the single optimizer using different initial solutions across tasks and evaluation settings.
+
+MISO pairwise dist.
+
+Table 2: Results for the multiple optimizers setting. Mean cost of solutions found by multiple optimizers using different initial solutions across tasks and evaluation settings.
+
+### Evaluation settings
+
+We employ two evaluation modes. (i) One-off, where the optimization task is treated as an isolated problem with the objective of finding the minimum of a given function. This mode serves as the default configuration for training neural networks, where data is replayed to the model, and the optimizer's solution is recorded but not executed. Methods are assessed by the mean cost of the optimizer's output over problem instances. (ii) Sequential, which involves solving a series of related optimization problems, executing each proposed solution, and starting the subsequent optimization from the resulting state. This setting simulates real-world conditions where the optimizer continuously interacts with a dynamic environment in a closed loop. Astute readers may notice parallels to the open-loop/closed-loop paradigms in control theory; these connections are discussed in greater depth in Appendix [A.11](https://arxiv.org/html/2411.02158v2#A1. "A.11 Evaluation Modes: One-off and Sequential ‣ Appendix A Appendix") and Appendix [A.12](https://arxiv.org/html/2411.02158v2#A1. "A.12 Sequential vs. Closed-loop and One-off vs. Open-loop ‣ Appendix A Appendix")
+
+We evaluate performance by taking the mean cost over problems in a sequence, and then the mean over sequences.
+
+To account for the additional time required to predict initial solutions, we assumed that all models perform inference in under 0.85ms, which was the case for all methods on both CPU and GPU, except for the ensemble (see Appendix [A.6](https://arxiv.org/html/2411.02158v2#A1.SS6 "A.6 Inference Time: Ensemble vs. Multi-Output Models ‣ Appendix A Appendix")). In the autonomous driving task, we then reduced the runtime allocated to the optimizer accordingly.
+
+### Implementation details
+
+To generate the training data, we first create a set of problem instances by sequentially executing the optimizer initialized with the default warm-start strategy. The problem instances are then fed again to an "oracle" version of the optimizer with a significantly increased runtime limit, and the resulting solutions are recorded. After training, evaluation is done on a separate unseen set of problem instances. All experiments are conducted on an Intel Core i9-13900KF CPU and an NVIDIA RTX 4090 GPU. Further implementation details, including hyperparameters and training procedures, are in Appendix [A.3](https://arxiv.org/html/2411.02158v2#A1.SS3 "A.3 Network Architecture and Training Details ‣ Appendix A Appendix") and Appendix [A.4](https://arxiv.org/html/2411.02158v2#A1.SS4 "A.4 Descriptions of Baseline Methods ‣ Appendix A Appendix").
+
+## Results
+
+Figure 4: Mean cost of the driving task (Sequential Optimization) for varying K values. The shaded regions indicate the standard error.
+
+Figure 5: Single Optimizer for Driving (left) and Cart-Pole (right). On the left, we show each method’s adaptation when the high-level planner abruptly modifies the reference path. On the right, we illustrate multiple trajectories predicted by MISO winner-takes-all.
+
+Our main results for optimization with different initial solutions are reported in Table (https://arxiv.org/html/2411.02158v2#S5.T1 "Table 1 ‣ Baselines. ‣ 5 Experimental setup") and Table (https://arxiv.org/html/2411.02158v2#S5.T2 "Table 2 ‣ Baselines. ‣ 5 Experimental setup") for single optimizer and multiple optimizers settings, respectively. Figure (https://arxiv.org/html/2411.02158v2#S6.F4 "Figure 4 ‣ 6 Results") shows the effect of the number of predicted initial solutions. Figure (https://arxiv.org/html/2411.02158v2#S6.F5 "Figure 5 ‣ 6 Results") provides qualitative results. More detailed results, including inference times, are in the Appendix.
+
+### Single optimizer
+
+In the single-optimizer setting, Table (https://arxiv.org/html/2411.02158v2#S5.T1 "Table 1 ‣ Baselines. ‣ 5 Experimental setup"), we first observe that even one learned initialization outperforms heuristic solutions (regression vs. warm-start), in almost all settings, and in particular in the most challenging autonomous driving task. We then examine the impact of generating multiple initial solutions. Perturbations-based methods show some improvement over their single-initialization counterparts in most cases, and ensembles of independently learned models perform consistently better than single models. Finally, our proposed multi-output methods demonstrate substantial improvements over all baselines because they can learn to predict diverse multimodal initial solutions. Specifically, MISO winner-takes-all or MISO mix achieve the lowest mean costs across all tasks. Considering the pairwise distance term alone proves insufficient to ensure adequate diversity, whereas incorporating it with MISO winner-takes-all often boosts performance, yet, its effectiveness varies, which underscores the challenge of selecting optimal hyperparameters. As expected, improvements are consistently larger in the more important sequential optimization setting, where errors over time compound.
+
+### Multiple optimizers
+
+When considering the multiple-optimizers setting, we observe the same trend. Learning-based methods outperform heuristic ones, and multi-output approaches yield further enhancements. As expected, the use of multiple optimizers leads to consistently better results compared to the single-optimizer setting due to increased exploration of the solution space.
+
+### Scaling with the number of initial solutions
+
+Figure (https://arxiv.org/html/2411.02158v2#S6.F4 "Figure 4 ‣ 6 Results") shows that our method scales effectively and consistently with the number of predicted initial solutions $K$, and outperforms other approaches across varying values of $K$. Importantly, as $K$ increases, the inference time for ensemble approaches grows, whereas MISO remains almost constant (see Appendix [A.6](https://arxiv.org/html/2411.02158v2#A1.SS6 "A.6 Inference Time: Ensemble vs. Multi-Output Models ‣ Appendix A Appendix")). We further evaluate mode diversity in Appendix [A.8](https://arxiv.org/html/2411.02158v2#A1.SS8 "A.8 Mode frequency ‣ Appendix A Appendix"), and find that, in line with our conclusions, all MISO outputs remain useful even when $K$ increases.
+
+### Performance guarantees
+
+To evaluate the guarantees discussed in Sect. [4.2](https://arxiv.org/html/2411.02158v2#S4.SS2 "4.2 Optimization with multiple initial solutions ‣ 4 Learning Multiple Initial SOlutions \scalerel*O"), we added the warm-start initial solution to the set of candidates of MISO winner-takes-all and MISO mix. We observed in all problem instances the cost of the best initial solution to be equal or lower than the cost of the warm start in the single optimizer setting; and the cost of the final solution to be lower or equal than for the warm start in the multiple optimizer setting. The mean costs remained mostly similar to MISO, and improved slightly in some cases. Detailed results are in Appendix [A.15](https://arxiv.org/html/2411.02158v2#A1. "A.15 Experiments on combining MISO with warm-start ‣ Appendix A Appendix").
+
+### Qualitative results
+
+Figure (https://arxiv.org/html/2411.02158v2#S6.F5 "Figure 5 ‣ 6 Results") (left) depicts the optimizer's output trajectories with different initial solutions for the autonomous driving task. In this scenario, the high-level planner abruptly alters the reference path, which could happen, e.g., because of a newly detected pedestrian. The change in reference path makes the previous solution (warm-start) a poor initialization, and the optimizer converges to a local minimum that minimizes control effort but is far from the desired path. Regression and model ensemble also fail to predict a good initial solution. In contrast, MISO winner-takes-all adapts to this sudden reference change and closely follows the reference path. Figure (https://arxiv.org/html/2411.02158v2#S6.F5 "Figure 5 ‣ 6 Results") (right) depicts MISO's initial solutions for the cart-pole task. The different outputs capture different modes of the solution space (maintaining balance while moving, swinging leftward, and swinging rightward), showing MISO's ability to generate diverse and multimodal solutions.
+
+### Summary
+
+Overall, our methods significantly outperform the other baselines in both settings. The consistent superiority of the MISO mix and MISO winner-takes-all methods across different tasks and configurations underscores the advantages of using learning-based multi-output strategies for generating initial solutions. These findings demonstrate that promoting diversity among multiple initializations is crucial for improving optimization outcomes, especially when combined with multiple optimizers.
+
+## Conclusions and Future Work
+
+We introduced Learning Multiple Initial Solutions (MISO), a novel framework for learning multiple diverse initial solutions that significantly enhance the reliability and efficiency of local optimization algorithms across various settings. Extensive experiments in optimal control demonstrated that our method consistently outperforms baseline approaches and scales efficiently with the number of initializations.
+
+### Limitations
+
+Our approach is not without limitations. First, to train a useful model, we rely on the coverage and quality of the training data, as the method does not directly interact with the optimizer or the underlying objective function. Second, the underlying assumption of our regression loss is that initial solutions closer to the global optimum increase the likelihood of successful optimization may not hold in complex optimization landscapes with intricate constraints. Third, in highly complex optimization problems where each solution constitutes a high-dimensional and intricate structure, accurately learning initial solution candidates can become exceedingly challenging, potentially diminishing the effectiveness of our approach.
+
+### Future work
+
+There are several promising directions for future research. To address the aforementioned limitations, one may simply incorporate the optimization objective into the model training loss, thus creating a direct link to the final optimization goal. Alternatively, using reinforcement learning (RL) to train MISO is a particularly exciting opportunity. By framing the problem in an RL context, e.g., where the reward is the negative cost of the optimizer's final solution, models would be directly trained to maximize the probability of the optimizer finding the global optima and may learn to specialize to the specific optimizer. One challenge would be computational, as RL would require running the optimizer numerous times during training.
+
+Other extensions of our approach include probabilistic modeling, e.g., Gaussian mixture models, variational autoencoders, or diffusion models; however, preventing mode collapse and promoting diversity, and inference overhead (see Appendix [A.14](https://arxiv.org/html/2411.02158v2#A1. "A.14 Sampling-Based Architectures ‣ Appendix A Appendix")), would remain a challenge. Future work may explore alternative selection functions, such as risk measures or criteria based on stability, robustness, exploration, or other domain-specific metrics; as well as using a heterogeneous set of parallel optimizers. Finally, we are excited about various possible applications in optimal control and beyond, where sequences of similar optimization problems need to be solved, for example, localization and mapping in robotics, financial optimization, traffic routing optimization, or even training neural networks with different initial weights, e.g., for meta-learning.
+
+### Impact statement
+
+This paper presents work whose goal is to advance the field of Machine Learning. There are many potential societal consequences of our work, none which we feel must be specifically highlighted here.

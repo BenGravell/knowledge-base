@@ -1,0 +1,7 @@
+A Scheme for Robust Distributed Sensor Fusion Based on Average Consensus
+
+Topics include Sensor fusion, Average consensus, Distributed estimation, Wireless networks, Maximum likelihood, Robust communication.
+
+Uses average-consensus iterations to compute a distributed maximum-likelihood estimate from noisy sensor measurements. The method avoids explicit routing, tolerates changing communication graphs, and is a canonical early example of consensus-based distributed estimation.
+
+We consider a network of distributed sensors, where where each sensor takes a linear measurement of some unknown parameters, corrupted by independent Gaussian noises. We propose a simple distributed iterative scheme, based on distributed average consensus in the network, to compute the maximum-likelihood estimate of the parameters. This scheme doesn't involve explicit point-to-point message passing or routing; instead, it diffuses information across the network by updating each node's data with a weighted average of its neighbors' data (they maintain the same data structure). At each step, every node can compute a local weighted least-squares estimate, which converges to the global maximum-likelihood solution. This scheme is robust to unreliable communication links. We show that it works in a network with dynamically changing topology, provided that the infinitely occurring communication graphs are jointly connected.

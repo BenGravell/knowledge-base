@@ -1,0 +1,7 @@
+Correct Equations for the Dynamics of the Cart-Pole System
+
+Topics include Cart-pole, Inverted pendulum, Equations of motion, Reinforcement learning, Control benchmarks, Simulation accuracy.
+
+Derives corrected equations of motion for the cart-pole system, including hinge and track friction cases. The report is widely used because small sign or modeling errors in this benchmark can distort reinforcement-learning and control comparisons.
+
+The cart-pole system is one of the most popular benchmark problems in control and reinforcement learning. However, some commonly used equations of motion for this system contain errors. We derive the correct equations of motion for the cart-pole system, considering both the forces applied to the cart and the friction at the hinge and between the cart and the track. We also provide correct equations for the case when the pole can fall out of the allowed region.

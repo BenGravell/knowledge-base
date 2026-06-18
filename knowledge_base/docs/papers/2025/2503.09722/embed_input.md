@@ -1,0 +1,23 @@
+The Pitfalls of Imitation Learning When Actions Are Continuous
+
+Topics include Imitation learning, Behavior cloning, Action chunking, Continuous control, Diffusion policy.
+
+Provides theoretical analysis explaining why action chunking and high-capacity policy representations (Transformers, Diffusion Policy) outperform smooth or low-capacity representations in behavior cloning with continuous actions.
+
+We study the problem of imitating an expert demonstrator in a discrete-time, continuous state-and-action space control system. We show that there exist stable dynamics (i.e. contracting exponentially quickly) and smooth, deterministic experts such that any smooth, deterministic imitator policy necessarily suffers error on execution that is exponentially larger, as a function of problem horizon, than the error under the distribution of expert training data. Our negative result applies to both behavior cloning and offline-RL algorithms, unless they produce highly improper imitator policies — those which are non-smooth, non-Markovian, or which exhibit highly state-dependent stochasticity — or unless the expert trajectory distribution is sufficiently spread. We provide preliminary evidence of the benefits of these more complex policy parameterizations, explicating the benefits of today’s popular policy parameterizations in robot learning (e.g. action-chunking and diffusion-policies). We also establish a host of complementary negative and positive results for imitation in control systems.
+
+### Introduction
+
+Imitation Learning (IL), or learning a multi-step behavior from demonstration, encompasses both the earliest-introduced and most currently popular methodologies for training autonomous robotic systems with machine learning techniques (Ross et al. Ho and Ermon Teng et al. Zhao et al., ). These successes have been buoyed by a host of new innovations: the uses of generative models (e.g. Diffusion policies ) to represent robotic behavior, the practice of "chunking" sequences of predicted actions, and various means of data augmentation beyond raw expert demonstrations (Ke et al. Jia et al., )....
+
+> *What are the fundamental differences between imitating continuous actions and discrete behaviors? How do these differences explain the necessity of common techniques observed in today's robot learning pipelines?*
+
+We demonstrate that imitation learning in a continuous-action control system can exhibit exponential-in-horizon compounding error, even if the dynamics are stable in both open- and closed-loop. We provide preliminary evidence that more complex policy parameterizations may be able to avoid this pitfall, and that expert data with good coverage avoids compounding error even under unstable dynamics. There are many exciting questions for future work: (a) When precisely can complex policies mitigate compounding error? (b) How can the expert provide optimal agents from suboptimal states? (c) What is the sample complexity of offline RL, e.g....
+
+Lastly, our work corroborates a provocative empirical finding from Block et al.: what makes behavior cloning challenging is not instability in the dynamics themselves, but rather instabilities arising from the closed-loop feedback between dynamics and an imperfect imitation policy. As shown in Section˜5, the design choices in the behavior cloning policy (Diffusion, data-augmentation, action-chunking) lead to meaningful differences in performance; Block et al. finds similarly that the choice of *optimizer* can have similar effects on downstream performance as well....
+
+### "Simple" Policies and Algorithms
+
+Above, "worst-case optimal" means the minimal value attained by a suitable IL algorithm $alg$, on the worst-case problem instance (formally, the minimax risk, Section˜7).
+
+Unlike Theorem˜2, compounding error in Theorem˜3. ‣ 3.3 Lower Bounds Against More Complex Policies ‣ 3 Main Results ‣ The...

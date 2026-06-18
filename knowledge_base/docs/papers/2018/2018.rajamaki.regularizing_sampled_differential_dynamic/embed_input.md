@@ -1,0 +1,7 @@
+Regularizing Sampled Differential Dynamic Programming
+
+Topics include Trajectory optimization, Differential dynamic programming, Sampling-based optimization, Regularization, Path integral control.
+
+Extends Sampled DDP with regularization strategies to improve numerical stability and convergence, addressing ill-conditioning issues that arise when the sampled Hessian estimates are noisy or rank-deficient.
+
+Sampled Differential Dynamic Programming (SaDDP) is a recent Monte Carlo version of the widely used Differential Dynamic Programming (DDP). Very much like any algorithm based on DDP, the sampled version also requires regularization in order to work. The method makes heavy use of covariance matrices, for which we need to ensure positive definiteness. We present and compare different ways to regularize the covariance matrices. We also derive bounds for selecting the regularization parameters such that the condition number of each covariance matrix stays below a pre-chosen maximum. Our tests indicate that there is little difference in the convergence properties of the different algorithms. However, the possibility of divergence can be alleviated by two of the regularization techniques presented in this paper. Our tests furthermore show that the closed-loop regularization and rank-one updates in SaDDP are actually detrimental, when the covariance matrices are properly regularized.

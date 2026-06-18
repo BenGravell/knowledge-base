@@ -1,0 +1,17 @@
+Regularization via Mass Transportation
+
+The goal of regression and classification methods in supervised learning is to minimize the empirical risk, that is, the expectation of some loss function quantifying the prediction error under the empirical distribution. When facing scarce training data, overfitting is typically mitigated by adding regularization terms to the objective that penalize hypothesis complexity. In this paper we introduce new regularization techniques using ideas from distributionally robust optimization, and we give new probabilistic interpretations to existing techniques. Specifically, we propose to minimize the worst-case expected loss, where the worst case is taken over the ball of all (continuous or discrete) distributions that have a bounded transportation distance from the (discrete) empirical distribution. By choosing the radius of this ball judiciously, we can guarantee that the worst-case expected loss provides an upper confidence bound on the loss on test data, thus offering new generalization bounds. We prove that the resulting regularized learning problems are tractable and can be tractably kernelized for many popular loss functions....
+
+## Introduction
+
+The fields of machine learning and optimization are closely intertwined. On the one hand, optimization algorithms are routinely used for the solution of classical machine learning problems. Conversely, recent advances in optimization under uncertainty have inspired many new machine learning models.
+
+From a conceptual point of view, many statistical learning tasks give naturally rise to stochastic optimization problems. Indeed, they aim to find an estimator from within a prescribed hypothesis space that minimizes the expected value of some loss function. The loss function quantifies the estimator's ability to correctly predict random outputs (i.e., dependent variables or labels) from random inputs (i.e., independent variables or features)....
+
+For illustrative purposes we only use the $N = 10$ first datapoints in the MNIST dataset as training samples. Each training sample ${\hat{\mathbf{x}}}_{i}$ corresponds to four discretization points (${\hat{\mathbf{x}}}_{i} + {{}_{}^{}/{}_{ij}^{}}$ and ${\hat{\mathbf{x}}}_{i} + {{}_{}^{}/{}_{ij}^{}}$ for $j = {1,2}$) in the worst-case distribution obtained from (78 ‣ Theorem 3.17 (Extremal distributions in linear classification). ‣ 3.2 Distributionally Robust Linear Classification ‣ 3 Tractable Reformulations ‣ Regularization via Mass Transportation"))....
+
+Figure 3: Discretization points (input images) of the worst-case distribution for different ρ and κ. Red frames indicate that the corresponding labels are flipped under the worst-case distribution.
+
+Suppose that ${\mathbb{X}} = {\mathbb{R}}^{n}$, the loss function $L$ is Lipschitz continuous and the cost of flipping a label in the transportation metric is set to $\kappa = \infty$. Then, the worst-case expected loss provides an upper bound on the (robust) worst-case loss
+
+Recall that ${0/0} = 0$ and ${1/0} = \infty$ by our conventions of extended arithmetic. Thus, any solution feasible in (36 ‣ Theorem 3.6 (Extremal distributions in linear regression). ‣ 3.1 Distributionally Robust Linear Regression ‣ 3 Tractable Reformulations ‣ Regularization via Mass Transportation")) with $\alpha_{ij} = 0$ must satisfy ${\mathbf{q}}_{ij} = \mathbf{0}$ and $v_{ij} = 0$ because otherwise $\left( {{\hat{\mathbf{x}}}_{i} + {{\mathbf{q}}_{ij}/\alpha_{ij}}},{{\hat{y}}_{i} + {v_{ij}/\alpha_{ij}}} \right) \notin \Xi$.

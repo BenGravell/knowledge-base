@@ -1,0 +1,7 @@
+Low-authority Controller Design via Convex Optimization
+
+Topics include Low-authority control, Convex optimization, Control design, Sparse control, Actuator placement, Robust control, Interior-point methods.
+
+Formulates low-authority controller design as a convex optimization problem that can also encourage sparse feedback gains through an l1 objective. The approach connects limited-actuator control, actuator and sensor placement, architecture selection, and robustness analysis in a single optimization framework.
+
+The premise in low-authority control (LAG) is that the actuators have limited authority, and hence cannot significantly shift the eigenvalues of the system. We introduce a near method for low authority controller design, based on convex programming. We formulate the LAC design problem as a nonlinear convex optimization problem, which can then be solved efficiently by interior-point methods. We show that by optimizing the l/sub 1/ norm of the gains, we can arrive at sparse designs, i.e., designs in which only a small number of the control gains are non-zero. Thus, we can also solve actuator/sensor placement or controller architecture design problems. Moreover, it is possible to address the robustness of the LAG, i.e., a closed-loop performance subject to uncertainties or variations in the plant model. Therefore, by combining all these, for example, we can solve the problem of robust actuator/sensor placement and LAC design in one step.

@@ -1,0 +1,17 @@
+Statistical Linearization for Robust Motion Planning
+
+The goal of robust motion planning consists of designing open-loop controls which optimally steer a system to a specific target region while mitigating uncertainties and disturbances which affect the dynamics. Recently, stochastic optimal control has enabled particularly accurate formulations of the problem. Nevertheless, despite interesting progresses, these problem formulations still require expensive numerical computations. In this paper, we start bridging this gap by leveraging statistical linearization. Specifically, through statistical linearization we reformulate the robust motion planning problem as a simpler deterministic optimal control problem subject to additional constraints. We rigorously justify our method by providing estimates of the approximation error, as well as some controllability results for the new constrained deterministic formulation. Finally, we apply our method to the powered descent of a space vehicle, showcasing the consistency and efficiency of our approach through numerical experiments.
+
+## Introduction
+
+Motion planning is a powerful tool for motion design, with important applications in engineering and biology. Its main objective consists of computing an open-loop control which steers a given system to some desired target, while possibly optimizing performance criteria, e.g., minimizing effort. Specifically, motion planning becomes essential when no feedback-based control strategies are available, for instance because either no measurements are available or some states are not observable, as it happens in particular in the context of fast biological movements....
+
+The existing robust motion planning methods can be categorized into three groups. In the first group, the so-called robust set methods tackle uncertainty by representing the states of the system through sets which contain all the possible outcomes. In particular, these paradigms build on interval analysis, and they have been successfully applied in both robotics and aerospace. Similarly, we find works which leverage positively invariant sets to generate safe trajectories. The common drawback of this class of methods is that they generally produce either conservative solutions or computationally expensive algorithms....
+
+We presented a method for stochastic robust motion planning which leverages statistical linearization to approximate the original formulation with a deterministic optimal control problem on the mean and the covariance of the original state variables. We justify our work through appropriate theoretical bounds for the approximation error due to statistical linearization, and through numerical experiments on the powered descent of a space vehicle.
+
+We suggest three main future research directions. First, we will investigate extensions of our theoretical bounds for the approximation error due to statistical linearization to more general settings, e.g., to stochastic systems whose diffusion explicitly depends on the state variables. Second, we will consider extending our controllability results in Section 3.2 to settings which go beyond control-linear systems; one possible direct application of this latter result would encompass controllability of stochastic differential equations....
+
+A straightforward application of Grönwall's inequality yields
+
+a routine application of Grönwall's inequality readily yields (we implicitly overload the nondecreasing function...

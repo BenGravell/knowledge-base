@@ -1,0 +1,23 @@
+Accelerating Second-Order Differential Dynamic Programming for Rigid-Body Systems
+
+Topics include Differential dynamic programming, Second-order methods, Rigid-body dynamics, Trajectory optimization.
+
+Shows how to efficiently evaluate the second-order dynamics derivatives required by full DDP for rigid-body systems via recursive algorithms. This can make full DDP computationally competitive with or faster than iLQR. Also provides a clear derivation of DDP.
+
+This letter presents a method to reduce the computational demands of including second-order dynamics sensitivity information into the Differential Dynamic Programming (DDP) trajectory optimization algorithm. An approach to DDP is developed where all the necessary derivatives are computed with the same complexity as in the iterative Linear Quadratic Regulator (iLQR). Compared to linearized models used in iLQR, DDP more accurately represents the dynamics locally, but it is not often used since the second-order derivatives of the dynamics are tensorial and expensive to compute. This work shows how to avoid the need for computing the derivative tensor by instead leveraging reverse-mode accumulation of derivative information to compute a key vector-tensor product directly. We also show how the structure of the dynamics can be used to further accelerate these computations in rigid-body systems. Benchmarks of this approach for trajectory optimization with multi-link manipulators show that the benefits of DDP can often be included without sacrificing evaluation time, and can be done in fewer iterations than iLQR.
+
+## Introduction
+
+In recent years, online optimal control strategies have gained widespread interest in many applications from motion planning of robots to control of chemical processes. Rather than relying on manually derived policies, these control strategies optimize a metric of cost that encodes desired task goals. This approach then allows online control performance that is generalizable across tasks or environments. For example, online optimization may enable legged systems to tailor their gaits to sensed terrains and inevitable disturbances or may enable manipulators to rapidly synthesize efficient motions when transporting new objects.
+
+However, for robots with even a few links, the underlying system dynamics are complex, nonlinear, and expensive to evaluate. These features challenge the ability to solve trajectory optimization problems online, particularly in systems with a large number of degrees of freedom (DoFs). Yet, the motivation to perform online optimization is often greater for these very systems, since a high DoF morphology gives the needed flexibility and mobility to adapt to a wider range of situations....
+
+While AD tools are convenient, they are general purpose, and thus may not be optimal. Alternative analytical methods for taking derivatives of rigid-body dynamics can accumulate the derivatives recursively, as in. Recently, we extended the modified RNEA algorithm with an analytical accumulation of its first-order partials in a reverse-mode fashion, and further evaluation of this result is of immediate interest. Moreover, we aim to extend this work to address rigid-body dynamics with contacts by using similar approaches as in this paper....
+
+There are many other opportunities that this work motivates as next steps. While we noted that the presented work is general for any explicit integration scheme, we also see opportunity to extend this work for implicit integration and implicit DDP. Further, while the DDP used here was a single-shooting solver, our contributions could be used in multi-shooting DDP and other numerical optimal control solvers. Finally, our work may find applicability when working to control soft robots....
+
+### III-C Second-Order Partials of Rigid-Body Dynamics
+
+### II-C DDP and iLQR: Conceptual Comparison
+
+### III-D Modified RNEA Algorithm

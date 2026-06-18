@@ -1,0 +1,7 @@
+LocateAnything: Fast and High-Quality Vision-Language Grounding with Parallel Box Decoding
+
+Topics include Vision-language, Vision-language models, Object detection, Localization, Computer vision, Parallel algorithms, Object recognition.
+
+Introduces a vision-language grounding model that predicts object boxes in parallel for faster localization. The main contribution is an architecture and decoding strategy aimed at preserving grounding quality while reducing the sequential cost of box generation.
+
+Vision-language models (VLMs) commonly formulate visual grounding and detection as a coordinate-token generation problem, serializing each 2D box into multiple 1D tokens that are learned and decoded largely independently. This token-by-token decoding mismatches the coupled structure of box geometry and creates a practical inference bottleneck due to strictly sequential generation. We introduce LocateAnything, a unified generative grounding and detection framework based on Parallel Box Decoding (PBD). By decoding geometric elements such as bounding boxes and points as atomic units in a single step, LocateAnything preserves intra-box geometric coherence and unlocks substantial parallelism. We show that PBD improves both decoding throughput and localization accuracy. We further develop a scalable data engine and curate LocateAnything-Data, a large-scale dataset with more than 138 million training samples, substantially increasing data diversity for high-precision localization....

@@ -1,0 +1,15 @@
+Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue Problems
+
+This paper develops a new class of algorithms for general linear systems and eigenvalue problems. These algorithms apply fast randomized sketching to accelerate subspace projection methods, such as GMRES and Rayleigh-Ritz. This approach offers great flexibility in designing the basis for the approximation subspace, which can improve scalability in many computational environments. The resulting algorithms outperform the classic methods with minimal loss of accuracy. For model problems, numerical experiments show large advantages over MATLAB's optimized routines, including a 100 x speedup over gmres and a 10 x speedup over eigs.
+
+## Introduction
+
+Arguably, the most exciting recent development in numerical linear algebra (NLA) is the advent of new randomized algorithms that are fast, scalable, robust, and reliable. For example, many practitioners have adopted the "randomized SVD" and its relatives to compute truncated singular value decompositions of large matrices. Randomized preconditioning allows us to solve highly overdetermined least-squares problems faster than any previous algorithm.
+
+In spite of these successes, our community has made less progress on other core challenges from NLA, especially problems involving nonsymmetric square matrices. This paper exposes a new class of algorithms for solving general linear systems and eigenvalue problems. Our framework combines subspace projection methods, such as GMRES and the Rayleigh--Ritz process, with the modern technique of randomized sketching. This approach allows us to accelerate the existing methods by incorporating approximation subspaces that are easier to construct. The resulting algorithms are faster than their classic counterparts, without much loss of accuracy....
+
+Third, aside from GMRES and RR, there are many subspace projection methods that might benefit from sketching. For instance, there is an important class of algorithms (BiCG, BiCGstab, CGS, QMR, etc.) for solving linear systems by means of Lanczos biorthogonalization. These methods form Krylov subspaces with respect to both $\mathbf{A}$ and ${\mathbf{A}}^{\ast}$ using three-term recurrences, but they have complicated stability properties. Perhaps, with sketching, we can improve the profile of these methods.
+
+Finally, let us mention one remaining difficulty. At present, we lack a reliable mechanism for guaranteeing that the condition number of basis $\mathbf{B}$ and the reduced matrix ${\mathbf{A}}{\mathbf{B}}$ do not explode. Truncated orthogonalization is a practical approach that often works well, but it can fail. It would be valuable to identify strategies for inexpensively producing computational bases that are numerically full rank.
+
+Algorithm 1 contains pseudocode for a basic implementation of sGMRES using the $k$-truncated Arnoldi basis Eq. 8. We recommend this version of the algorithm when the user lacks information about the spectrum of $\mathbf{A}$....

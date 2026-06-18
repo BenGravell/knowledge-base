@@ -1,0 +1,7 @@
+FlowDrive: Moderated Flow Matching with Data Balancing for Trajectory Planning
+
+Topics include Datasets, Benchmarks, Planning, Learning, Sampling, FlowDrive.
+
+Learning-based planners are sensitive to the long-tailed distribution of driving data. The abstract also notes that common maneuvers dominate datasets, while dangerous or rare scenarios are sparse.
+
+Learning-based planners are sensitive to the long-tailed distribution of driving data. Common maneuvers dominate datasets, while dangerous or rare scenarios are sparse. This imbalance can bias models toward the frequent cases and degrade performance on critical scenarios. To tackle this problem, we compare balancing strategies for sampling training data and find reweighting by trajectory pattern an effective approach. We then present FlowDrive, a flow-matching trajectory planner that learns a conditional rectified flow to map noise directly to trajectory distributions with few flow-matching steps. We further introduce moderated, in-the-loop guidance that injects small perturbation between flow steps to systematically increase trajectory diversity while remaining scene-consistent. On nuPlan and the interaction-focused interPlan benchmarks, FlowDrive achieves state-of-the-art results among learning-based planners and approaches methods with rule-based refinements. After adding moderated guidance and light post-processing (FlowDrive*), it achieves overall state-of-the-art performance across nearly all benchmark splits. Our code is available at

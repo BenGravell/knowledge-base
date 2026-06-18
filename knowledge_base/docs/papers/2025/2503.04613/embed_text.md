@@ -1,0 +1,169 @@
+## Introduction
+
+Enabling legged robots to achieve human and animal-level agility has been a decades-long challenge for robotics researchers. In addition to the challenges faced by other non-legged mobile robots (e.g., drones, autonomous vehicles, etc.), legged systems are generally high-dimensional and must effectively reason about making and breaking contact with the world. Advancements in model-based control and reinforcement learning (RL) methods have unlocked tremendous in-the-wild legged robot capabilities over the last $10$-$15$ years. Over the same period, robotics simulation has seen significant growth in terms of physical accuracy, differentiability, and parallelization performance. Thanks to these advances in simulation technologies combined with incredible tools supported by the broader machine learning community such as PyTorch and JAX, sim-to-real RL has enjoyed accelerated progress and become the standard approach for solving challenging problems like humanoid whole-body control. Interestingly, in comparison, model-based control researchers have generally favored novel, custom implementations of robot models and optimization solvers, in part due to the online computation requirements of model-predictive control (MPC) paradigm, making these works relatively more difficult to reproduce which, so far, has resulted in slower community adoption.
+
+Figure 1: A Unitree Go1 quadruped robot transitions from quadruped to handstand mode (top row) and walking on its hind legs (bottom row) using the MuJoCo iLQR policy.
+
+This paper aims to reduce this gap by providing an open-sourced baseline MPC algorithm and real-world legged robot implementation built on the MuJoCo physics engine, a standard, easy-to-use open-source robotics simulator. We show that a standard gradient-based MPC algorithm, in particular the iterative LQR (iLQR) algorithm, based on MuJoCo is surprisingly capable of solving a variety of challenging *real-world* tasks such as bipedal locomotion on a quadruped and full-sized humanoid robot in *real time*. By leveraging the efficient C implementation of MuJoCo as the backend for the forward model and derivative computations, our real-time MPC approach reasons about both whole-body dynamics and collision detection in the model, something difficult to achieve in previous open-source whole-body MPC algorithms. Additionally, we design an interactive GUI system that enables users to quickly modify key MPC parameters and observe *real-world* robot behaviors alongside a simulated twin. We hope that this effort lowers the barrier to entry for further model-based control research on legged robot hardware and eventually leads to accelerated research momentum.
+
+Figure 2: System diagram for deploying the MuJoCo iLQR policy to the Unitree Quadruped and Humanoid robots. The iLQR algorithm provides control, state, and time-varying LQR (TV-LQR) feedback gain trajectories at 50 Hz. The TV-LQR feedback policy can then be updated at 300 Hz and passed to a joint-level PD controller. The robot’s state is estimated by fusing onboard joint encoders and motion capture data. Live state estimates are updated in the planner at 300 − 500 Hz and visualized in the MuJoCo MPC GUI. The cost categories are designed offline but the relative weights, goal locations, and iLQR hyperparameters can be adjusted by the user interactively in real time through the GUI.
+
+Our specific contributions in this paper are:
+
+A simple-yet-surprisingly-effective baseline whole-body predictive control algorithm for real-world legged robot locomotion.
+
+An open-source interactive GUI system for real-world predictive control of legged robots.
+
+A set of hardware experiments demonstrating the effectiveness of the baseline algorithm on both quadruped and humanoid robots across a variety of tasks.
+
+The remainder of this paper is organized as follows: We begin by reviewing relevant literature on iLQR, whole-body MPC, and open-source efforts for model-based control in Sec. II. Next, we briefly introduce the MuJoCo contact model and iLQR in Sec. III, followed by key considerations and implementation details for transferring iLQR policies to hardware in IV. Then, we cover the hardware setup and experimental results in Sec. V. Finally, we conclude in Sec. VI by discussing current limitations of our system and directions for future work.
+
+## background and related works
+
+This section provides a brief review of the iLQR algorithm, a survey of relevant literature on MPC for legged robots, and other notable efforts for improving tooling for model-based control.
+
+### II-A Iterative Linear-Quadratic Regulator
+
+Differential Dynamic Programming (DDP), originally introduced in, solves the following nonlinear trajectory optimization problem:
+
+by iteratively solving the an locally approximated problem with Dynamic Programming. In addition to the nominal control sequence $u_{0:{T - 1}}$, DDP also produces a time-varying linear feedback policy:
+
+where $\overline{u}$ and $\overline{x}$ are the current solution, $K_{t}$ is the feedback gain matrix at time index $t$, $k$ is an improvement to the current nominal control, and $\alpha$ is the line search step size. This single-shooting formulation only optimizes over the controls $u_{0:{T - 1}}$ and recovers the corresponding states $x_{0:T}$ by rollingout the discrete-time dynamics $x_{t + 1} = {f{(x_{t},u_{t})}}$. $l{(x_{t},u_{t})}$ and $l_{f}{(x_{T})}$ are the running and terminal costs, respectively. In each iteration, derivatives of cost and dynamics w.r.t to the control sequence are computed around the current solution points in a process called linearization to form a subproblem with quadratic cost and linear constraints. The term iterative LQR, or iLQR, generally refers to the Gauss-Newton approximations of the original DDP algorithm that is often more computationally efficient. The iLQR algorithm can also be modified to handle control limits, state constraints, and contact.
+
+As a single-shooting algorithm, iLQR maintains dynamically feasible state trajectories without convergence requirements, is amenable to warm starting, and naturally handles unstable systems, since the rollouts are performed with a feedback policy, all of these features make it appealing as an online controller. However, this method generally assumes the dynamics are smooth and differentiable. For robots with contact, the dynamics are non-smooth and the derivatives become nontrivial to compute. Our empirical results show that the combination of the MuJoCo soft contact model and its finite difference derivative approximation is sufficient for iLQR and, somewhat surprisingly, transfers well to robot hardware despite obvious model mismatch.
+
+Figure 3: The MuJoCo MPC GUI for deploying legged robots on hardware. This GUI enables the user to interactively control the real-world robot by changing the target position defined as the green sphere. Additionally, the user can update the planner agent parameters, and observe the simulated states and the real-world robot behaviors in real time.
+
+### II-B Whole-body MPC for Legged Robots
+
+Whole-body nonlinear MPC presents challenges to legged robots primarily because of the real-time requirements of reasoning over possible contact modes and computation of the high-degree-of-freedom dynamics and its derivatives. Traditionally, real-time MPC has been achieved by simplifying models and heuristically choosing the contact modes. Older works at whole-body MPC have been deployed on humanoid robots, they generally fall short of the real-time requirements as an online controller, limiting their real-world capabilities. Thanks to advances in computer performance and increasingly mature implementations of dynamics libraries, real-time whole-body MPC has become much more computationally trackable on quadruped and humanoid robots in recent years. Another interesting thread of research explores enabling whole-body MPC through GPU parallelization, but is so far limited to a single dynamics linearization of the model.
+
+Still, these methods generally require custom modeling of the robot dynamics, non-trivial analytical derivatives of the discontinuous contact dynamics, and custom optimization solvers to run in real time, making these prior works difficult to reproduce and iterate upon. This paper shows that a much simpler and more straightforward approach, modeling the robot using an off-the-shelf simulator and approximating the derivatives via finite differencing, can also be very effective for quadruped and humanoid locomotion *without* specifying contact modes.
+
+### II-C Open-Source Tooling for Model-Based Control
+
+It is important to acknowledge previous open-source efforts to accelerate model-based control. In particular, MuJoCo MPC implements a variety of derivative-based and derivative-free algorithms for predictive control and shows their effectiveness in simulation. successfully demonstrates the sim-to-real transfer of sampling-based MPC using the MuJoCo dynamics on open-loop stable tasks like quadruped walking. Similar to, this work builds on with a focus on sim-to-real of the derivative-based iterative LQR (iLQR) algorithm. Unlike sampling-based MPC, we show that iLQR can successfully tackle inherently open-loop unstable tasks such as bipedal walking.
+
+Outside the MuJoCo ecosystem, Pinocchio has become a popular toolbox in the community for efficiently computing rigid body dynamics and its derivatives. This dynamics toolbox has also enabled a variety of nonlinear trajectory optimization libraries designed for contact-rich robotics tasks like legged locomotion. For example, OCS2 offers open-source software for quadruped locomotion with fixed contact modes, while Crocoddyle and Aligator offer more versatile control for quadruped and humanoid robots. However, these works do not leverage off-the-shelf simulators widely used in the robotics community and have a steep learning curve, which limits their reach and impact. On the other hand, Drake provides advanced modeling and simulation features for accurate contact and friction dynamics for verification but is typically not fast enough for real-time control.
+
+In comparison to prior projects (Table I), our approach bridges the current gap in tooling for model-based robotic control by enabling general controllers for both quadruped and humanoid robots using a popular, off-the-shelf, and fast robotics simulator. An additional advantage for using a mature simulator is the readily available collision detection algorithms that we can leverage during contact-rich planning and control. Additionally, we provide an interactive GUI for real-time control that enables rapid developments of robot behaviors in the real world.
+
+Whole-body collision detection
+
+No fixed contact mode
+
+TABLE I: A comparison model-based control tools through contact
+
+## Iterative LQR with MuJoCo
+
+This section provides a brief description of the MuJoCo soft contact model, the MuJoCo MPC toolbox, the details of the MuJoCo iLQR implementation, and sim-to-real considerations.
+
+### III-A MuJoCo Soft Contact Model and Derivatives
+
+The MuJoCo physics engine implements a soft contact model that is a convex approximation of the non-convex, discontinuous contact and friction models. While the interpenetration phenomena between objects (for example, the robot's foot and the floor) may be considered physically unrealistic, this convex formulation is fast, efficient, and provides a guaranteed solution, something difficult to do when solving non-convex problems. Additionally, in theory, the soft contact model offers smooth derivatives through contact. While the analytical derivatives are not yet provided, the finite different derivatives can be computed with little additional effort from the original time-stepping simulation problem.
+
+To approximate the model derivatives, we use the forward difference method
+
+as it requires only one additional simulation evaluation per dimension compared to two in centered difference, where $f$ is an arbitrary function with input $x$ and $\epsilon$ is the finite different tolerance.
+
+### III-B Derivative Computation with MuJoCo
+
+To solve a single iteration iLQR problem from Eq. 1, we take a second-order Taylor expansion and solve the resulting subproblem via Dynamic Programming.
+
+We define the cost function as the following:
+
+where $r$ is a residual vector to be reduced when solving the problem, $n$ is the norm function that returns a non-negative scaler, and $w$ is non-negative scaler weight defining the importance of a residual term.
+
+We compute the exact cost gradients:
+
+and approximate the cost hessians as:
+
+where the derivatives of the norm n (i.e. $\frac{\partial\text{n}}{\partial\text{r}}$, $\frac{\partial^{2}\text{n}}{\partial\text{r}^{2}}$) are computed analytically and the Jacobians of the residual r (i.e. $\frac{\partial\text{r}}{\partial x}$, $\frac{\partial\text{r}}{\partial u}$) are computed via finite difference, Eq. 3.
+
+We take the original nonlinear discrete-time dynamics:
+
+where dynamics Jacobians $\frac{\partial f}{\partial x}$ and $\frac{\partial f}{\partial u}$ are computed via finite difference, Eq. 3. Note the because residuals in Eq. 4 are implemented as MuJoCo sensors, we can efficiently compute all the Jacobians $\frac{\partial f}{\partial x}$, $\frac{\partial f}{\partial u}$, $\frac{\partial\text{r}}{\partial x}$, and $\frac{\partial\text{r}}{\partial u}$ via a *single* call to the MuJoCo finite difference utilities function.
+
+Once all derivatives are computed, we solve the resulting problem using the Riccati-recursion that produces the updated nominal controls $u$ and a time-varying linear feedback policy $K$, Eq. 2. We perform this update once before returning the current-best nominal trajectories and feedback policy without convergence checks. We then use the previous solution to warm start a new iLQR iteration with the latest state estimation, Fig. 2. Additionally, our interactive GUI allows the user to update the residual terms such as target height, goal positions, etc and adjust the weights assigned to each residual term in real-time on the robot, Fig. 3.
+
+Figure 4: Top left: thigh joint control trajectories of two impratio contact settings on a quadruped robot standing in place. The default setting results in nonphysical foot slipping and jerky controls (red line) that are potentially dangerous on hardware. Top right: Increased impratio prevents this issue (blue line) but increases compute times (top right). 1 standard deviation confidence interval for each bar is shown in black. Bottom: timing breakdowns of different iLQR components for each setting.
+
+## Implementation Details
+
+This section documents several implementation details for successfully deploying real-time MuJoCo iLQR on hardware.
+
+### IV-A Contact Modeling
+
+While the MuJoCo default contact parameters are fast and physically reasonable, they also often lead to contact slipping due to the solver's inability to enforce friction constraints. This slipping dynamics from the planner model results in jerky control trajectories (Fig. 4 top left) that are difficult to execute on the hardware. We address this issue by increasing the `impratio` value, which roughly corresponds to the solver's ability to trade off sliding versus penetration, from the default $1$ to $100$. This change also has the added effect of increasing the solve times of the simulation problem and, as a result, the iLQR iteration times. For our quadruped system, the time for a single iLQR iteration increases from $\sim 10$ ms to $\sim 20$ ms on a $12$th-gen Intel i7 CPU. We do not find the added compute time to be an issue during real-world deployment. Interestingly, the moderate ground penetration from the softness of the contact model does not cause issues in the sim-to-real transfer in our experience.
+
+Figure 5: Cost comparison between the iLQR policy with (blue) and without (red) TV-LQR feedback gains applied to the nominal control sequence on an H1 humanoid robot trotting task on hardware. The TV-LQR policy improves task performance by ∼ 30%.
+
+### IV-B State and Action Representation
+
+We represent the state $x$ of the robot in the standard way, with a floating base position and attitude quaternion, followed by joint angles and corresponding linear, angular, and joint-angle velocities. We include a low-level joint-space PD controller in the dynamics model of the robot such that the inputs to the model that are optimized by iLQR are joint angle references. As a result, our approach achieves direct *whole-body control* of the robot without the model hierarchies commonly seen in traditional model-based MPC algorithms. By leveraging a fast off-the-shelf simulator, our method is simpler and more accessible than methods relying reduced-order models and hierarchical control approaches.
+
+### IV-C Time-Varying Linear Feedback
+
+We compare the real-world performance of the iLQR policy with and without TV-LQR feedback on an H1 humanoid robot trotting-in-place task. The TV-LQR policy improves task performance but only *marginally* compared to directly executing the nominal open-loop control sequence on the robot, resulting in an average of $30.1\%$ improved tracking performance over an $8$ second window, Fig. 5. Note that the cost spike around $1.5$s in the red line (without feedback) in Fig. 5 indicates a temporary policy failure recovered with gantry support. The trial with feedback policy does not fail during the same window. Our empirical results are aligned with prior work which showed linear feedback on smoothed dynamics seems unsatisfactory for stabilizing contact-rich plans.
+
+### IV-D Dynamics Derivative Approximation
+
+Computing the dynamics derivatives at every knot point is often the most computationally expensive step in iLQR, Fig. 4. We implement an optional heuristic by skipping dynamics derivative evaluations at some knot points along the planning horizon and instead interpolate from nearby evaluations. This heuristic is motivated by the fact that robot dynamics are approximately linear locally and, therefore, do not change much between nearby knot points. This is implemented as `skip_deriv` in the GUI, where the integer value corresponds to the number of knot points to skip before computing the next derivative. In the tasks we consider in this paper, we find the iLQR update frequency to be sufficient when paired with TV-LQR policy. However, this option can still be beneficial for enabling iLQR in real time on more articulated systems or when compute is limited.
+
+Note that while we choose to use forward difference approximation for computation reasons, we find that the centered difference method does not work on locomotion tasks, even in simulation without real-time requirements. We hypothesize that the derivative information into the contact (this can happen when perturbing the robot state in the negative height direction) is not informative during locomotion but leave further investigation for future work.
+
+## Experiments and Results
+
+This section presents the interactive GUI setup on robot hardware platforms and a variety of hardware experiments. We start by demonstrating our system on basic quadrupedal locomotion on Go1 and Go2 robots in Sec. V-B. Next, we show that MuJoCo iLQR naturally extends to open-loop unstable tasks like quadruped walking on two legs in Sec. V-C. Finally, we deploy our system on a human-sized Unitree H1 humanoid robot in Sec. V-D. Our open-source software and experiment videos are available at:
+
+Ommitted for Anoynymous Review
+
+### V-A Interactive GUI for Real-World Legged Robots
+
+We interface with the MuJoCo MPC GUI and iLQR planner via Python for robot hardware deployment. The interface takes the latest state estimation and receives the current control. The state estimation is computed by fusing Optitrack MoCap position and attitude measurements at $100$Hz via ROS and the robot joint angle position and velocity measurements at $500$Hz. The floating base linear and angular velocities in the body frame are calculated by applying a low-pass filter to finite difference values of position and attitude measurements. The planner's actions are communicated to the robot via Unitree SDK for the Go1 robot and Unitree SDK 2 for the Go2 and H1 robots. All robot controls are represented as joint targets and tracked using Unitree internal low-level PD controllers. We compute the MPC policies on a desktop equipped with a $13$th generation Intel i$9$ CPU chip with $20$ cores, a different CPU from earlier in the paper. We update the iLQR policy at $\sim 50$Hz and use the TV-LQR policy to stabilize the robots between solves at $\sim 300$ Hz. Unless otherwise noted, we use a default prediction horizon of $0.35$s and discretize the dynamics at $100$Hz in the iLQR planner.Note that, while we use a desktop-level CPU in our experiments, we see similar policy update frequencies from recent top-end laptop Arm-based CPUs such as the M-series chips from Apple, but leave deployment for future work.
+
+Since the MPC planners are implemented in C++ and update asynchronously, using the Python interface does not affect the planning frequency. While we observe a $\sim 3$ms message passing overhead from the Python API, the planner is robust to this unmodeled delay for the tasks presented in this paper.
+
+### V-B Quadruped Locomotion
+
+We first validate our system using a simple quadruped locomotion task. The task is designed for the robot to follow a reference gait and walk to the target locations. We successfully deploy the policy to the Unitree Go1 and Go2 robots with $12$ degrees of freedom (DoF) joint actuators. The GUI allows the user to move the target interactively and the real-world robot can follow the virtual target, as illustrated in Fig. 3. Note that while we keep the whole-body collision geometry in the planner model, generally only the $4$ spherical contact points are active during the locomotion tasks considered.
+
+The residual terms for the locomotion task include tracking position and orientation while keeping balance and maintaining a desired torso height. Control efforts are penalized to minimize energy usage. We also include a nominal gait pattern in the residual, but note that this is not implemented as a constraint. As a result, the iLQR solver is free to discover new contact modes if they reduce the overall cost. More detailed descriptions of the residual terms can be found in Tab. II. Bipedal locomotion and humanoid tasks follow a similar structure.
+
+### V-C Bipedal Locomotion for Quadruped Robots
+
+Next, we show that the iLQR policies naturally handles open-loop unstable tasks, such as a quadruped walking on two legs (Fig. 1). In comparison, MPPI can tackle locomotion tasks that are stable, but fails under unstable dynamics such as during bipedal walking. In Fig. 1, we successfully enable a quadruped robot to walk gracefully on its back legs alone while using front legs to main balance and getting up to a hand stand pose from an initial quadruped configuration with the MuJoCo iLQR policy.
+
+Keeps torso orientation upright (z-axis pointing up)
+
+Controls torso height relative to average foot position
+
+Tracks head position to target location (x, y, z)
+
+Controls foot lifting patterns during gait cycles (one per foot)
+
+Keeps capture point within support polygon (x, y components)
+
+Penalizes actuator forces to minimize energy consumption
+
+Keeps joints near home configuration
+
+Controls heading direction (x, y components of heading vector)
+
+Controls rotational dynamics (x, y, z components)
+
+TABLE II: Task Residual for Quadrupedal and Humanoid Locomotion
+
+### V-D Humanoid Locomotion
+
+Finally, we deploy the iLQR policy on an H1 full-sized humanoid robot to track a periodic trotting gait, as shown in Fig. 6. Similar to the quadruped locomotion task in Fig. 3, we ask the robot to walk to a position defined as the green sphere. To achieve real-time control on a more complex system, we disable collision checking in the robot body other than two spherical contact points on each foot. Additionally, we disable the DoFs in the robot upper body equipped with only relative encoders that provide unreliable joint angle estimates since they are not critical for locomotion. While this reduces the iLQR computation time, we do not believe it to be necessary for the success of the task. Overall, the system has $10$ DoF joint actuators and $4$ contact points. We use a prediction horizon of $0.5$s.
+
+Figure 6: A Uniree H1 robot trotting in place with MuJoCo iLQR.
+
+## Conclusions and Future Work
+
+We present a very simple but surprisingly capable approach to whole-body MPC of quadrupeds and humanoid robots using MuJoCo. We hope that the successful hardware validation of this baseline method by leveraging a widely adopted physics engine can encourage researchers to leverage existing tooling for model-based control research. Despite the promising results, several key limitations remain for future work.
+
+First, reliable state estimation remains a key challenge for model-based planning and control of legged robots. For this reason, many researchers prefer the RL paradigm which easily supports learning control policies directly from a history of sensor measurements. Our current system relies on marker-based motion capture to obtain good robot position measurements. Future work should develop easy-to-use tooling for full-state estimation from the robot's onboard sensors alone to enable our robots to walk outside controlled laboratory environments. Second, the community also needs additional tooling for rigorous system identification of the robot's joint actuation and contact dynamics to overcome the significant sim-to-real gap.
+
+There are also several fundamental limitations of the iLQR algorithm. First, iLQR struggles with contact mode exploration. As a second-order derivative-based local planner, iLQR excels when the reference contact model schedule is provided in the task specification (cost function), which is typically the case for locomotion. However, for more contact-rich whole-body loco-manipulation tasks, derivative-free sampling-based methods have shown much more promise at discovering useful contact modes without prespecification. Furthermore, iLQR rollouts and backward passes are both fundamentally serial operations. As computers become more parallelizable given the rise of multi-core CPUs and massively parallel GPUs, research on MPC algorithms that can leverage this computation paradigm becomes increasingly important. Finally, iLQR suffers from other issues tied to its single-shooting nature, such as sensitivity to the initial guess, numerical instability, and poor convergence over longer horizons. Future work should extend the current MPC libraries to make multiple-shooting and collocation methods more accessible to the community.

@@ -1,0 +1,17 @@
+Learning Agile Soccer Skills for a Bipedal Robot with Deep Reinforcement Learning
+
+We investigate whether Deep Reinforcement Learning (Deep RL) is able to synthesize sophisticated and safe movement skills for a low-cost, miniature humanoid robot that can be composed into complex behavioral strategies in dynamic environments. We used Deep RL to train a humanoid robot with 20 actuated joints to play a simplified one-versus-one (1v1) soccer game. The resulting agent exhibits robust and dynamic movement skills such as rapid fall recovery, walking, turning, kicking and more; and it transitions between them in a smooth, stable, and efficient manner. The agent's locomotion and tactical behavior adapts to specific game contexts in a way that would be impractical to manually design. The agent also developed a basic strategic understanding of the game, and learned, for instance, to anticipate ball movements and to block opponent shots. Our agent was trained in simulation and transferred to real robots zero-shot. We found that a combination of sufficiently high-frequency control, targeted dynamics randomization, and perturbations during training in simulation enabled good-quality transfer....
+
+## Introduction
+
+Creating general embodied intelligence, that is, creating agents that can act in the physical world with agility, dexterity, and understanding---as animals or humans do---is one of the long-standing goals of AI researchers and roboticists alike. Animals and humans are not just masters of their bodies, able to perform and combine complex movements fluently and effortlessly, but they also perceive and understand their environment and use their bodies to effect complex outcomes in the world.
+
+Attempts at creating intelligent embodied agents with sophisticated motor capabilities go back many years, both in simulation and in the real world. Progress has recently accelerated considerably, and learning-based approaches have contributed substantially to this acceleration ( ). In particular, deep reinforcement learning (deep RL) has proven capable of solving complex motor control problems for both simulated characters ( ) and physical robots....
+
+### Importance of Self-Play
+
+We also ablated the use of self-play in the second stage, while keeping the skill policy regularization and the shaped reward the same. For evaluation, we played agents against a fixed set of six diverse opponents, trained with a variety of approaches; this set includes the final 1v1 agent trained with our full pipeline. Figure 7 shows a comparison of our full training method against two alternatives: training directly against the fixed set of opponents throughout learning, rather than using self-play, and using self-play but sampling opponents from all previous snapshots of the policy, rather than the first quarter....
+
+Our current system could be improved in a number of ways. We found that tracking a ball with motion capture was particularly challenging: detection of the reflective tape markers is sensitive to the angle at which they face the motion capture cameras; only the markers on the upper hemisphere of the ball can be registered; and the walls of the soccer pitch can occlude the markers, especially near the corners. We believe moving away from motion capture is an important avenue for future work and discuss potential avenues for this in Future Work....
+
+These results demonstrate that behaviors which subtly adapt to the position of the opponent emerge during training, resulting in a policy that is optimized for specific contexts....

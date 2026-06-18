@@ -1,0 +1,242 @@
+## Introduction
+
+We focus on the nonconvex optimization problem
+
+where $\varphi:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ is twice differentiable function with globally Lipschitz continuous Hessian. Since finding a global minimum is generally difficult, the typical goal is to instead find an $\epsilon$-stationary point $x^{\ast}$ such that ${\|{{\nabla\varphi}{(x^{\ast})}}\|} \leq \epsilon$ for arbitrary $\epsilon > 0$.
+
+The Newton-type method is one of the most powerful tools for solving such problems, known for its quadratic local convergence near a solution with positive definite Hessian. The classical Newton method uses the second-order information at the current iterate $x_{k}$ to construct the following local model $m_{k}{(d)}$ and generate the next iterate $x_{k + 1} = {x_{k} + d_{k}}$ by minimizing this model:
+
+Although this method enjoys a quadratic local rate, it is well-known that it may fail to converge globally (i.e., converge from any initial point) even for a strongly convex function. Various globalization techniques have been developed to ensure global convergence by introducing regularization or constraints in (1.2) to adjust the direction $d_{k}$, including Levenberg-Marquardt regularization, trust-region methods, and damped Newton methods with a linesearch procedure.
+
+However, the original versions of these approaches exhibit a slow $O{(\epsilon^{- 2})}$ worst-case performance, leading to extensive efforts to improve the global complexity of second-order methods. Among these, the cubic regularization method overcomes this issue and achieves an iteration complexity of $O{(\epsilon^{- \frac{3}{2}})}$, which has been shown to be optimal, while retaining the quadratic local rate. Meanwhile, Levenberg-Marquardt regularization, also known as quadratic regularization, with gradient norms as the regularization coefficients $\rho_{k}$, has also received several attentions due to its simplicity and computational efficiency. This method approximately solves the regularized subproblem $\min_{d}\left\{ {{m_{k}{(d)}} + {\frac{\rho_{k}}{2}{\| d\|}^{2}}} \right\}$ to generate $d_{k}$ and the next iterate $x_{k + 1} = {x_{k} + {\alpha_{k}d_{k}}}$, where $\alpha_{k}$ is either fixed or one selected through a linesearch. When the regularized subproblem is strongly convex, it is equivalent to solving the linear equation ${{({{{\nabla^{2}\varphi}{(x_{k})}} + {\rho_{k}I_{n}}})}d_{k}} = {- {{\nabla\varphi}{(x_{k})}}}$, which is simpler than the cubic-regularized subproblem and can be efficiently implemented using iterative methods such as the *conjugate gradient* (CG). Furthermore, each CG iteration only requires a Hessian-vector product, facilitating large-scale problem-solving.
+
+While such gradient regularization can preserve the superlinear local rate, the fast global rate has remained unclear for some time. Recent studies have achieved such iteration complexity for convex problems. Nevertheless, the regularized subproblem may become ill-defined for nonconvex functions. Consequently, modifications to these methods are necessary to address cases involving indefinite Hessians. A possible solution is to apply CG as if the Hessian is positive definite, and choose a first-order direction if evidence of indefiniteness is found, although this may result in a deterioration of the global rate. In contrast, Gratton et al. introduced a method with a near-optimal global rate of $O{({\epsilon^{- \frac{3}{2}}{\log\frac{1}{\epsilon}}})}$ and a superlinear local rate. Instead of relying on a first-order direction, their method switches to a direction constructed from the *minimal eigenvalue* and the corresponding eigenvector when indefiniteness is encountered.
+
+On the other hand, Royer et al. proposed the *capped CG* by modifying the standard CG method to monitor whether a negative curvature direction is encountered during the iterations, and switching to such a direction if it exists. It is worth noting that this modification introduces only one additional Hessian-vector product throughout the entire CG iteration process, avoiding the need for the minimal eigenvalue computation used in Gratton et al.. Furthermore, when the regularizer is *fixed*, an $O{(\epsilon^{- \frac{3}{2}})}$ global rate can be proved. Building on this method, He et al. improved the dependency of the Lipschitz constant by adjusting the linesearch rule, and generalized it to achieve an optimal global rate for Hölder continuous Hessian, without requiring prior knowledge of problem parameters. Despite the appealing global performance, it is unclear whether the superlinear local rate can be preserved using these regularizers. Along similar lines, Zhu and Xiao combined the gradient regularizer with capped CG and established a superlinear local convergence rate, assuming either the error bound condition or global strong convexity. *However, it remains unclear whether this holds for nonconvex problems that exhibit local strong convexity.*
+
+Motivated by the discussions above, our goal is to *figure out whether the optimal global order can be achieved by the quadratic regularized Newton method without incurring the logarithmic factor, while also improving the local rate to a quadratic one.* Since the Hessian Lipschitz constant $L_{H}$ is typically unknown and large for many problems, in our algorithmic design, we aim to avoid both the minimal eigenvalue computation and the prior knowledge of $L_{H}$, while achieving the optimal dependence on $L_{H}$ in the global rate.
+
+The remaining parts of this article are organized as follows: We list the notations used throughout the paper below. Some background, our main results and related works are provided in Section 2. The ideas and techniques underlying our method are presented in Section 3, and the detailed proofs are deferred to the appendix. Finally, we present some preliminary numerical results to illustrate the performance of our algorithm in Section 4, and discuss potential directions in Section 5.
+
+### Notations
+
+We use $\mathbb{N}$, $\lbrack i\rbrack$, and $I_{i,j}$ to denote the set of non-negative integers, $\{ 1,\ldots,i\}$, and $\{ i,..,j - 1\}$, respectively, and $\log$ to represent the natural logarithm, unless the base is explicitly specified. The constant $e$ is $\exp{}$. For a set $S$, $|S|$ denotes its cardinality, and $\mathbf{1}_{\{{j \in S}\}} = 1$ if $j \in S$, and $0$ otherwise. For a symmetric matrix $X$, $X \succ {{( \succeq )}\, 0}$ denote the positive (semi-)definiteness, respectively. $\lambda_{\min}{(X)}$ and $\| X\|$ denote the minimum eigenvalue and spectral norm of matrix $X$, respectively. The $n$-dimensional identity matrix is denoted by $I_{n}$. The notations $O$, $\overset{\sim}{O}$, $\overset{\sim}{\Omega}$, and $\Omega$ are used in their standard sense to represent asymptotic behavior. $\| x\|$ is the Euclidean norm of $x \in {\mathbb{R}}^{n}$. For a sequence ${\{ x_{k}\}}_{k \geq 0}$ generated by the algorithm, we define $g_{k} = {\|{{\nabla\varphi}{(x_{k})}}\|}$, $\epsilon_{k} = {\min_{j \leq k}g_{j}}$, and $\Delta_{\varphi} = {{\varphi{(x_{0})}} - {\inf\varphi}}$, $U_{\varphi} = {\sup_{{\varphi{(x)}} \leq {\varphi{(x_{0})}}}{\|{{\nabla\varphi}{(x)}}\|}}$.
+
+## Background and our results
+
+In this section, we first provide background on the capped conjugate gradients and regularized Newton methods, and then give our results in Section 2.1, along with a discussion of additional related works in Section 2.2.
+
+### Capped conjugate gradients
+
+The capped CG proposed by Royer et al. solves the equation ${\overline{H}\overset{\sim}{d}} = {- g}$ using the standard CG, where $\overline{H} = {H + {2\rhoI_{n}}}$. It also monitors whether the iterates generated by the algorithm are negative curvature directions, or the algorithm converges slower than expected. If such an evidence is found, the algorithm will output a negative curvature direction.
+
+Specifically, given $\xi \in {\lbrack 0,1\rbrack}$, the algorithm outputs $(\text{d\_type},\overset{\sim}{d})$, where $\text{d\_type} \in {\{\text{SOL},\text{NC}\}}$. When $\text{d\_type} = \text{NC}$, $\overset{\sim}{d}$ is a negative curvature direction such that ${{\overset{\sim}{d}}^{\top}H\overset{\sim}{d}} \leq {- {\rho{\|\overset{\sim}{d}\|}^{2}}}$; and when $\text{d\_type} = \text{SOL}$, the equation is approximately solved such that ${\|{{\overline{H}\overset{\sim}{d}} + g}\|} \leq {\xi{\| g\|}}$, ${{\overset{\sim}{d}}^{\top}\overline{H}\overset{\sim}{d}} \geq {\rho{\|\overset{\sim}{d}\|}^{2}}$, and ${\|\overset{\sim}{d}\|} \leq {2\rho^{- 1}{\| g\|}}$. In both cases, the solution can be found within $\min{(n,{\overset{\sim}{O}{(\rho^{- \frac{1}{2}})}})}$ Hessian-vector products. We provide the algorithm and its properties in Appendix A.
+
+### Complexity of regularized Newton methods
+
+Continuing from Section 1, we further discuss the regularized Newton method. The key to proving a global rate is the following descent inequality, or its variants:
+
+The dependence on the future gradient $g_{k + 1}$ arises from the inability to establish a lower bound on $\| d_{k}\|$ using only the information available at the current iterate, since once the iterations enter a superlinear convergence region, the descent becomes small. If we were able to choose $\rho_{k}$ such that the descent were at least $\epsilon^{\frac{3}{2}}$, then by telescoping the sum we would obtain ${{\varphi{(x_{k})}} - {\varphi{(x_{0})}}} \leq {- {Ck\epsilon^{\frac{3}{2}}}}$. The optimal global rate would follow from ${{\varphi{(x_{k})}} - {\varphi{(x_{0})}}} \geq {- \Delta_{\varphi}}$.
+
+In the thread of work starting from Royer et al., $\rho_{k} \propto \sqrt{\epsilon}$, and the desired descent is guaranteed as long as $g_{k + 1} \geq \epsilon$; otherwise, $x_{k + 1}$ is a desired solution. Another line of works related to Mishchenko; Gratton et al. use $\rho_{k} \propto \sqrt{g_{k}}$. With this choice, the $g_{k}^{\frac{3}{2}}$ descent is achieved when $g_{k + 1} \geq g_{k}$. However, when $g_{k + 1} < g_{k}$, the descent becomes $g_{k + 1}^{2}g_{k}^{- \frac{1}{2}}$, but the control over $g_{k + 1}$ is lost. To resolve this issue, the iterations are divided into two sets: a successful set $\mathcal{I}_{s} = {\{ k:{g_{k + 1} \geq {g_{k}/2}}\}}$ and a failure set $\mathcal{I}_{f} = {{\mathbb{N}} \smallsetminus \mathcal{I}_{s}}$. It is shown that when $|\mathcal{I}_{f}|$ is large the gradient will decrease below $\epsilon$ rapidly; and otherwise, sufficient descent is still achieved. The logarithmic factor in the complexity of Gratton et al. can be understood as follows: a sufficient descent occurs at least once in every $O{({\log\frac{1}{\epsilon}})}$ iterations. Yet, as shown in \\lemmareflem:main/iteration-in-a-subsequence, it actually occurs in every $O{({\log{\log\frac{1}{\epsilon}}})}$ iterations. Furthermore, the logarithmic factor disappears in the convex case because the gradient will not experience abrupt growth.
+
+Finally, we note that the superlinear local rate may disappear for a fixed regularizer as it can be verified that this results in a linear rate when applied to ${\varphi{(x)}} = {\| x\|}^{2}$. When using $\rho_{k} \propto g_{k}^{\overline{\nu}}$ for $\overline{\nu} \in {(0,1\rbrack}$, we have a superlinear rate with order $1 + \overline{\nu}$.^11^1A sequence ${\{ a_{k}\}}_{k \geq 0}$ has a superlinear local rate of order $1 + \overline{\nu}$ if $a_{k + 1} = {O{(a_{k}^{1 + \overline{\nu}})}}$ for sufficiently large $k$. Moreover, by inspecting the choice $\overline{\nu} = \frac{1}{2}$ for the optimal global rate, there appears a global-local trade-off between the regularizers. One possible solution to achieve a quadratic is to drop the regularizer when ${\lambda_{\min}{({{\nabla^{2}\varphi}{(x_{k})}})}} \geq \sqrt{g_{k}}$ if the minimal eigenvalue computation is allowed, as in Goldfeld et al.; Jiang et al.. We will explore how to bridge this gap without this in Section 3.2.
+
+### Our results
+
+We adopt the standard assumption from Royer et al., which also guarantees $\Delta_{\varphi} < \infty$ and $U_{\varphi} < \infty$. While the Lipschitz continuity assumption can be relaxed to hold only on the level set $L_{\varphi}{(x_{0})}$ using techniques in He et al., we retain this assumption for simplicity, as it is required for the descent lemma (\\lemmareflem:lipschitz-constant-estimation) and is orthogonal to our analysis.
+
+### Assumption 2.1 (Smoothness)
+
+The level set ${L_{\varphi}{(x_{0})}}:={\{{x \in {\mathbb{R}}^{n}}:{{\varphi{(x)}} \leq {\varphi{(x_{0})}}}\}}$ is compact, and $\nabla^{2}\varphi$ is $L_{H}$-Lipschitz continuous on an open neighborhood of $L_{\varphi}{(x_{0})}$ containing the trial points generated in Table 2.1, where $x_{0}$ is the initial point.
+
+Under this assumption, we have the following inequalities (see Nesterov et al. ):
+
+Our method is presented in Table 2.1. The subroutine NewtonStep closely follows the version of Royer et al. and He et al., utilizing the CappedCG subroutine defined in Appendix A to find a descent direction. The key modification in this subroutine is the linesearch rule for selecting the stepsize when the negative curvature direction is not detected. The criterion (2.4) aligns with the classical globalization approach of Newton methods, and can be shown to generate a unit stepsize (i.e., $\alpha = 1$) when the iteration is sufficiently close to a solution with a positive definite Hessian, leading to superlinear convergence (see \\lemmareflem:asymptotic-newton-step). Furthermore, we introduce an additional criterion (2.5) to ensure that the number of function evaluations remains uniformly bounded as the iteration progresses.
+
+Another modification is the introduction of the fifth parameter $\overline{\rho}$ and the additional TERM state of d_type in CappedCG. This state is triggered when the iteration number exceeds $\overset{\sim}{\Omega}{({\overline{\rho}}^{- \frac{1}{2}})}$, and is designed to ensure non-degenerate global complexity in terms of Hessian-vector products.
+
+At the end of NewtonStep, an estimation of the Lipschitz constant is computed (i.e., $M_{k}$) and will be used in $\rho_{k} = {({M_{k}\omega_{k}^{t}})}^{\frac{1}{2}}$. If the linesearch of (2.5) or (2.7) exceeds the allowed number of steps (i.e., $m_{\max}$), it indicates $M_{k}$ is an underestimation of the Lipschitz constant $L_{H}$. In such cases, the estimation is updated, and the current iteration is skipped. Otherwise, the subroutine proceeds and the remaining updating rules of $M_{k}$ are based on whether the loss decays as expected. After approximately $\overset{\sim}{O}{}$ iterations, it produces a desirable estimation of $L_{H}$.
+
+The main loop of Table 2.1 invokes NewtonStep with varying regularization coefficients, the selection of which is crucial for achieving the optimal rate. We highlight the existence of a fallback step in the main loop, which ensures the validity \\lemmareflem:main/transition-between-subsequences-give-valid-regularizer and will be explained therein.
+
+thm:newton-local-rate-boosted,thm:newton-local-rate-boosted-oracle-complexity summarize our main results, and \\tablereftab:rate-comparision-for-rmn compares them with other regularized Newton methods for nonconvex optimization. All parameters aside from the regularizers can be chosen arbitrarily, provided they satisfy the requirements in Table 2.1.
+
+### Theorem 2.2 (Iteration complexity, proof in Sections B.2 and D.1)
+
+Let ${\{ x_{k}\}}_{k \geq 0}$ be generated by Table 2.1. Under Assumption 2.1 ‣ 2.1 Our results ‣ 2 Background and our results ‣ A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees") and define $\epsilon_{k} = {\min_{0 \leq i \leq k}g_{i}}$ with $g_{- 1} = \epsilon_{- 1} = g_{0}$, the following two iteration bounds hold for achieving the $\epsilon$-stationary point.
+
+If $\omega_{k}^{f} = \sqrt{g_{k}}$, $\omega_{k}^{t} = {\omega_{k}^{f}\delta_{k}^{\theta}}$ with $\theta \geq 0$, and $\delta_{k} = {\min{(1,{g_{k}g_{k - 1}^{- 1}})}}$, then
+
+If $\omega_{k}^{f} = \sqrt{\epsilon_{k}}$, $\omega_{k}^{t} = {\omega_{k}^{f}\delta_{k}^{\theta}}$ with $\theta \geq 0$, and $\delta_{k} = {\epsilon_{k}\epsilon_{k - 1}^{- 1}}$, then
+
+Furthermore, there exists a subsequence ${\{ x_{k_{j}}\}}_{j \geq 0}$ such that ${\lim_{j\rightarrow\infty}x_{k_{j}}} = x^{\ast}$ with ${{\nabla\varphi}{(x^{\ast})}} = 0$. If $\theta > 1$ and ${{\nabla^{2}\varphi}{(x^{\ast})}} \succ 0$, then the whole sequence $\{ x_{k}\}$ converges to a local minimum $x^{\ast}$, and for sufficiently large $k$, quadratic local rate exists for both of these choices, i.e., $g_{k + 1} \leq {O{(g_{k}^{2})}}$.
+
+### Theorem 2.3 (Oracle complexity, proof in Section B.3)
+
+Each iteration in the main loop of Table 2.1 requires at most $2{({m_{\max} + 1})}$ function evaluations; and at most $2$ gradient evaluations; and either $1$ Hessian evaluation or at most $\min\left( n,{\overset{\sim}{O}{({(\omega_{k}^{f})}^{- \frac{1}{2}})}} \right)$ Hessian-vector products.
+
+When $\theta = 0$, the regularization coefficient $\rho_{k}$ becomes $\sqrt{M_{k}g_{k}}$ or $\sqrt{M_{k}\epsilon_{k}}$, leading to a local rate of $\frac{3}{2}$. This square root gradient regularizer is similar to those employed by Gratton et al. and He et al.. However, when $\theta > 0$, the extra term $\delta_{k}^{\theta}$ in $\omega_{k}^{t}$ decreases rapidly to zero as the iteration begins to converge superlinearly, gradually improving the local rate to faster than $\frac{3}{2}$, and achieving a quadratic rate when $\theta > 1$. Finally, we note that for $\theta \in {(0,1\rbrack}$, the local rate can also be improved, though it may not reach $2$, as illustrated in \\figurereffig:local-rate-for-nu1 and \\lemmareflem:superlinear-rate-boosting.
+
+The complexity of each operation in the algorithm is characterized in \\theoremrefthm:newton-local-rate-boosted-oracle-complexity. Specifically, for the regularizers in Theorem 2.2. ‣ 2.1 Our results ‣ 2 Background and our results ‣ A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees"), the complexity in terms of Hessian-vector products is $\overset{\sim}{O}\left( \epsilon^{- \frac{7}{4}} \right)$, matching the results in Carmon et al.; Royer et al.. Moreover, the complexity in terms of the second-order oracle outputting $\{{\varphi{(x)}},{{\nabla\varphi}{(x)}},{{\nabla^{2}\varphi}{(x)}}\}$ is ${O\left( \epsilon^{- \frac{3}{2}} \right)} + {\overset{\sim}{O}{}}$, attaining the lower bound of Carmon et al. up to an additive $\overset{\sim}{O}{}$ term coming from the lack of prior knowledge about $L_{H}$. Notably, the $L_{H}^{\frac{1}{2}}$ scaling in the iteration complexity is also optimal.
+
+Zhu and Xiao
+2 τk gkθ for $\tau_{k} \in {\lbrack{g_{k}^{- \theta}\sqrt{\epsilon}},{\hat{\tau}g_{k}^{- \theta}\sqrt{\epsilon}}\rbrack}$
+
+$O{({L_{H}^{\frac{1}{2}}\epsilon^{- \frac{3}{2}}})}$
+
+${O{({{\max{(L_{H}^{2},L_{H}^{\frac{1}{2}})}}\epsilon^{- \frac{3}{2}}{\log\frac{1}{\epsilon}}})}} + {\overset{\sim}{O}{}}$
+$\sqrt{M_{k}g_{k}} + {\lbrack{- {\lambda_{\min}{({{\nabla^{2}\varphi}{(x_{k})}})}}}\rbrack}_{+}$
+
+${O{({L_{H}^{\frac{1}{2}}\epsilon^{- \frac{3}{2}}{\log{\log\frac{1}{\epsilon}}}})}} + {\overset{\sim}{O}{}}$
+$\sqrt{M_{k}g_{k}}{\min{(1,{g_{k}^{\theta}g_{k - 1}^{- \theta}})}}$ for θ ≥ 0
+
+${O{({L_{H}^{\frac{1}{2}}\epsilon^{- \frac{3}{2}}})}} + {\overset{\sim}{O}{}}$
+$\sqrt{M_{k}}\epsilon_{k}^{\frac{1}{2} + \theta}\epsilon_{k - 1}^{- \theta}$ for θ ≥ 0
+
+† Zhu and Xiao with β = 1 gives a linear rate.
+‡ “N/A” in Table 2.1 means that the local rate is not mentioned in the original papers.
+Table 2.1: Comparison of regularized Newton methods for nonconvex optimization. The parameter Mk estimates LH and is independent of ωkf and ωkt in \theoremrefthm:newton-local-rate-boosted. For details, see arguments of CappedCG in Table 2.1. We define gk = ∥∇φ (xk)∥ and ϵk = mini ≤ kgk. The additive $\overset{\sim}{O}{}$ terms in some algorithms come from LH estimation. The last column indicates whether ϵ is used in the regularization coefficient (“EPS”) or minimal eigenvalue computation (“ME”).
+
+\[htbp\] Adaptive regularized Newton-CG (ARNCG) \\DontPrintSemicolon
+
+InputInput \\SetKwInOutOutputOutput \\InputInitial point $x_{0} \in {\mathbb{R}}^{n}$, parameters $\mu \in {(0,{1/2})}$, $\beta \in {}$, $\tau_{-} \in {}$, $\tau_{+} \in {(0,1\rbrack}$, $\tau \in {(0,1\rbrack}$, $\gamma \in {(1,\infty)}$, $m_{\max} \in {\lbrack 1,\infty)}$, $M_{0} \in {(0,\infty)}$, and $\eta \subseteq {\lbrack 0,1\rbrack}$, and regularizers ${\{\omega_{k}^{t},\omega_{k}^{f}\}}_{k \geq 0} \subseteq {(0,\infty)}$ for trial and fallback steps.
+
+CappedCGCappedCG \\SetKwFunctionHessianLipschitzEstimationHessianLipschitzEstimation \\SetKwFunctionNewtonStepNewtonStep \\SetKwProgFnSubroutine \\For(\\tcp\*\[f\]the main loop) $k = {0,1,\ldots}$ ${(x_{k + \frac{1}{2}},M_{k + 1})}\leftarrow$\\NewtonStep$x_{k},\omega_{k}^{t},M_{k},\omega_{k}^{f}$ \\tcp\*\[f\]trial step\
+\\uIf (the above step returns FAIL) or $\left( {g_{k + \frac{1}{2}} > {g_{k}\text{~and~}g_{k}} \leq g_{k - 1}} \right)$ ${(x_{k + 1},M_{k + 1})}\leftarrow$\\NewtonStep$x_{k},\omega_{k}^{f},M_{k},\omega_{k}^{f}$ \\tcp\*\[f\]fallback step\
+\\lElse(\\tcp\*\[f\]accept the trial step) $x_{k + 1}\leftarrow x_{k + \frac{1}{2}}$ \\Fn\\NewtonStep$x,\omega,M,\overline{\omega}$ $\overset{\sim}{\eta}\leftarrow{\min\left( \eta,{\sqrt{M}\omega} \right)}$ ${(\text{d\_type},\overset{\sim}{d})}\leftarrow$ \\CappedCG${{\nabla^{2}\varphi}{(x)}},{{\nabla\varphi}{(x)}},{\sqrt{M}\omega},\overset{\sim}{\eta},{\tau\sqrt{M}\overline{\omega}}$ \\tcp\*\[f\]see Appendix A\
+\\lIf$\text{d\_type} = \text{TERM}$ \\ReturnFAIL \\tcp\*\[f\]never reached if $\omega \geq \overline{\omega}$ \\uElseIf(\\tcp\*\[f\]a normal solution) $\text{d\_type} = \text{SOL}$ Set $d\leftarrow\overset{\sim}{d}$ and $\alpha\leftarrow\beta^{m}$, where $0 \leq m \leq m_{\max}$ is the minimum integer such that
+
+(\\tcp\*\[f\]switch to a smaller stepsize) the above $m$ does not exist Set $\hat{\alpha}\leftarrow{\min{(1,{\omega^{\frac{1}{2}}M^{- \frac{1}{4}}{\| d\|}^{- \frac{1}{2}}})}}$ Set $\alpha\leftarrow{\hat{\alpha}\beta^{\hat{m}}}$, where $0 \leq \hat{m} \leq m_{\max}$ is the minimum integer such that
+
+the above $\hat{m}$ does not exist \\Return$(x,{\gammaM})$ \\uElse(\\tcp\*\[f\]a negative curvature direction (d_type = NC)) Set $\overline{d}\leftarrow{{\|\overset{\sim}{d}\|}^{- 1}\overset{\sim}{d}}$ and adjust it to a descent direction with length $L{(\overline{d})}$:
+
+Set $\alpha\leftarrow\beta^{m}$, where $0 \leq m \leq m_{\max}$ is the minimum integer such that
+
+the above $m$ does not exist \\Return$(x,{\gammaM})$
+
+$M^{+}\leftarrow M$, $x^{+}\leftarrow{x + {\alphad}}$ and $\Delta\leftarrow{{\varphi{(x)}} - {\varphi{(x^{+})}}}$ \\uIf$\text{d\_type} = \text{SOL}$ and $m = 0$ satisfies (2.4) \\lIf $\Delta \leq {\frac{4}{33}\mu\tau_{+}M^{- \frac{1}{2}}{\min\left( {{\|{{\nabla\varphi}{(x^{+})}}\|}^{2}\omega^{- 1}},\omega^{3} \right)}}$ $M^{+}\leftarrow{\gammaM}$ \\lElseIf$\Delta \geq {\frac{4}{33}\mu\tau_{-}M^{- \frac{1}{2}}{\overline{\omega}}^{3}}$ $M^{+}\leftarrow{\gamma^{- 1}M}$ \\lElseIf$\text{d\_type} = \text{SOL}$ and $\Delta \leq {\tau_{+}\beta\muM^{- \frac{1}{2}}\omega^{3}}$ $M^{+}\leftarrow{\gammaM}$ \\lElseIf$\text{d\_type} = \text{NC}$ and $\Delta \leq {\tau_{+}{({1 - {2\mu}})}^{2}\beta^{2}\muM^{- \frac{1}{2}}\omega^{3}}$ $M^{+}\leftarrow{\gammaM}$ \\lElseIf$\Delta \geq {\mu\tau_{-}M^{- \frac{1}{2}}{\overline{\omega}}^{3}}$ $M^{+}\leftarrow{\gamma^{- 1}M}$ \\Return$(x^{+},M^{+})$
+
+### Additional related work
+
+In addition to the previously discussed work, we will discuss other second-order algorithms with fast global rates, and the adaptivity and universality of algorithms.
+
+### Second-order methods with fast global rates
+
+The trust-region method is another important approach to globalizing the Newton method. By introducing a ball constraint ${\| d\|} \leq r_{k}$ to (1.2), it provides finer control over the descent direction. Several variants of this method have achieved optimal or near-optimal rates. For example, Curtis et al.; Jiang et al. incorporated a Levenberg-Marquardt regularizer into the trust-region subproblem. Hamad and Hinder introduced an elegant and powerful trust-region algorithm that does not modify the subproblem, achieving both an optimal global order and a quadratic local rate. In contrast, our results show that the regularized Newton method can also achieve both, while using less memory than Hamad and Hinder, as shown in Section 4. Interestingly, the disjunction of fast gradient decay and sufficient loss decay, as discussed above in the context of regularized Newton methods, is also reflected in several of these works.
+
+It is worth noting that, previous to Royer et al., a linesearch method with negative detection was proposed by Royer and Wright. For convex problems, damped Newton methods achieving fast rates have also been developed, and the method of Jiang et al. can also be applied.
+
+### Adaptive and universal algorithms
+
+Since the introduction of cubic regularization, *adaptive* cubic regularization attaining the optimal rate without using the knowledge of problem parameters (i.e., the Lipschitz constant) were developed by Cartis et al., and *universal* algorithms based on this regularization that are applicable to different problem classes (e.g., functions with Hölder continuous Hessians with unknown Hölder exponents) are studied by Grapiglia and Nesterov; Doikov and Nesterov. Recently, several universal algorithms for regularized Newton methods have also been proposed, including those by He et al.; Doikov et al.. Additionally, some adaptive trust-region methods have also been introduced.
+
+## Overview of the techniques
+
+As mentioned in Section 2, the key to establishing a fast global rate is to show that the loss decreases by at least $L_{H}^{- \frac{1}{2}}\epsilon^{\frac{3}{2}}$ (i.e., *sufficient descent*) for as many iterations as possible. We summarize necessary properties of Table 2.1 in \\lemmareflem:lipschitz-constant-estimation, and will subsequently focus on how to leverage them to establish a global rate.
+
+### Lemma 3.1 (Summarized descent lemma, see Section C.2)
+
+Let $\{ x_{k}$, $M_{k}$, $\text{d\_type}_{k}$, $m_{k}\}_{k \geq 0}$ be the sequence generated by Table 2.1, and denote $\omega_{k}:=\omega_{k}^{t}$ if the trial step is accepted and $\omega_{k}:=\omega_{k}^{f}$ otherwise. Define the index sets $\mathcal{J}^{i} = {\{ k:{M_{k + 1} = {\gamma^{i}M_{k}}}\}}$ for $i = {{- 1},0,1}$, and the constants ${\overset{\sim}{C}}_{4} = {\max\left( 1,{\tau_{-}^{- 1}{({9\beta})}^{- \frac{1}{2}}},{\tau_{-}^{- 1}{({3\beta{({1 - {2\mu}})}})}^{- 1}} \right)}$ and ${\overset{\sim}{C}}_{5} = \min{(2,3 - 6\mu)}^{- 1}$, then
+
+If $k \in \mathcal{J}^{1}$, then $M_{k} \leq {{\overset{\sim}{C}}_{5}L_{H}}$;
+
+For the regularizers in \\theoremrefthm:newton-local-rate-boosted, if $M_{k} > {{\overset{\sim}{C}}_{4}L_{H}}$ and $\tau_{-} \leq {\min\left( \delta_{k}^{\alpha},\delta_{k + 1}^{\alpha} \right)}$, then $k \in \mathcal{J}^{- 1}$, where $\alpha = {\max{(2,{3\theta})}}$.
+
+Moreover, we have ${\bigcup_{i = {{- 1},0,1}}{({\mathcal{J}^{i} \cap I_{0,k}})}} = I_{0,k}$, and
+
+and the following descent inequality holds:
+
+where ${\overset{\sim}{C}}_{1} = {\min\left( {9\beta^{2}{({1 - {2\mu}})}^{2}\mu},{36\beta\mu{({1 - \mu})}^{2}},{{4\mu}/33} \right)}$, and
+
+Before proceeding, we discuss the dependence on $L_{H}$ in (3.3. ‣ 3 Overview of the techniques ‣ A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees")). Since $M_{k}$ is increased (i.e., $k \in \mathcal{J}^{1}$) only if $M_{k} \leq {O{(L_{H})}}$, then if there exists $k_{init}$ such that $M_{k_{init}} \leq {O{(L_{H})}}$, we know $M_{k} \leq {O{(L_{H})}}$ for $k \geq k_{init}$. Furthermore, for $k \geq k_{init}$, when $M_{k}$ remains unchanged or decreases (i.e., $k \in {\mathcal{J}^{0} \cup \mathcal{J}^{- 1}}$), the function descent satisfies ${\varphi{(x_{k + 1})}} - {\varphi{(x_{k})}} - {L_{H}^{- \frac{1}{2}}D_{k}}$, which ensures the dependence of the sufficient descent on $L_{H}$. The only issue arises when $M_{k}$ needs to be increased. However, as shown in (3.1. ‣ 3 Overview of the techniques ‣ A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees")), the occurrence of such cases can be effectively controlled.
+
+### The global iteration complexity
+
+Since under the choices of regularizers, we have either $\omega_{k}^{f} = \sqrt{g_{k}}$ or $\omega_{k}^{f} = \sqrt{\epsilon_{k}}$, then ensuring sufficient descent reduces to counting the occurrences of the event $D_{k} \geq {(\omega_{k}^{f})}^{3}$. We outline the key steps for it in this section and defer the proofs and intermediate lemmas to Appendices B and C.
+
+Throughout this section, we partition $\mathbb{N}$ into a disjoint union of intervals ${\mathbb{N}} = {\bigcup_{j \geq 1}I_{\ell_{j},\ell_{j + 1}}}$ such that $0 = \ell_{1}$ and $\ell_{j} < \ell_{j + 1}$ for $j \geq 1$, where $I_{i,j} = {\{ i,..,j - 1\}}$ is defined in the notation section. These intervals are constructed such that the following conditions hold for every $j \geq 1$:
+
+In other words, the sequence ${\{ x_{k}\}}_{k \geq 0}$ is divided into subsequences where the gradient norms are non-increasing. The following lemma shows that sufficient descent occurs during the transition between adjacent subsequences, provided that ${\ell_{j} - 1} \notin \mathcal{J}^{1}$. The fallback step is primarily designed to ensure this lemma holds. Without the fallback step, a sudden gradient decrease (i.e., a small $\delta_{k}$) could result in a small regularizer, causing the sufficient descent guaranteed by this lemma to vanish.
+
+### Lemma 3.2 (Transition between adjacent subsequences, see \\lemmareflem:proof/transition-between-subsequences-give-valid-regularizer)
+
+Under the regularizers in \\theoremrefthm:newton-local-rate-boosted with $\theta \geq 0$, we have $\omega_{\ell_{j} - 1} = \omega_{\ell_{j} - 1}^{f}$ for each $j > 1$, and
+
+Moreover, if $M_{\ell_{j} - 1} > {{\overset{\sim}{C}}_{4}L_{H}}$, then ${\ell_{j} - 1} \in \mathcal{J}^{- 1}$.
+
+The following lemma characterizes the overall decrease of the function within a subsequence. It roughly states that there are at most $O\left( {\log{\log\frac{g_{\ell_{j}}}{g_{k}}}} \right)$ iterations with insufficient descent in the subsequence $I_{\ell_{j},\ell_{j + 1}}$, since otherwise the gradient decreases superlinearly below $g_{k}$.
+
+### Lemma 3.3 (Iteration within a subsequence, see \\lemmareflem:proof/iteration-in-a-subsequence)
+
+Under the regularizers in \\theoremrefthm:newton-local-rate-boosted with $\theta \geq 0$, then for $j \geq 1$ and $\ell_{j} < k < \ell_{j + 1}$, we have
+
+where $C_{i,j} = {{\overset{\sim}{C}}_{1}{\min_{i \leq l < j}M_{l}^{- \frac{1}{2}}}}$ and $T_{i,j} = {2{\log{\log\left( {3{(\omega_{i}^{f})}^{2}{(\omega_{j}^{f})}^{- 2}} \right)}}}$.
+
+### Proof 3.4 (Sketch of the idea)
+
+To demonstrate the key ideas, we use the square root gradient regularizer $\omega_{i}^{t} = \omega_{i}^{f} = \sqrt{g_{i}}$ and assume the Lipschitz constant estimation is precise (i.e., ${\mathbb{N}} = \mathcal{J}^{0}$). Under this choice, we observe that $D_{i} \geq {g_{i + 1}^{2}g_{i}^{- \frac{1}{2}}}$ for iterations within a subsequence, i.e., $i \in I_{\ell_{j},\ell_{j + 1}}$. We can divide $I_{\ell_{j},k}$ into subsets $I_{\ell_{j},k}^{(l)} = {\{{i \in I_{\ell_{j},k}}:{{{\exp{(4^{l})}}g_{k}} \leq g_{i} < {{\exp{(4^{l + 1})}}g_{k}}}\}}$ for $l \geq 0$ and $I_{\ell_{j},k}^{({- 1})} = {\{{i \in I_{\ell_{j},k}}:{g_{k} \leq g_{i} < {eg_{k}}}\}}$. Then, we find that $D_{i} \geq {e^{- \frac{1}{2}}g_{k}^{\frac{3}{2}}}$ if $i$ and $i + 1$ belong to the same subinterval, and the number of non-empty subintervals is $O{(T_{\ell_{j},k})}$ (see \\lemmareflem:accumulated-descent-lower-bound for details). The general case follows a similar approach but involves additional technical complexities, which are detailed in Appendix B.
+
+Combining \\lemmareflem:main/transition-between-subsequences-give-valid-regularizer,lem:main/iteration-in-a-subsequence, we have the following proposition about the accumulated function descent, and find that there are $\Sigma_{k}$ iterations with sufficient descent.
+
+### Proposition 3.5 (Accumulated descent, see \\objectrefprop:proof/accumulated-descentPropositionPropositions)
+
+Under the choices of \\theoremrefthm:newton-local-rate-boosted with $\theta \geq 0$, for each $k \geq 0$, we have
+
+The difference of the logarithmic factor in the iteration complexity of \\theoremrefthm:newton-local-rate-boosted arises from the following lemma, which provides an upper bound for $V_{k}$. This lemma shows that the choice $\omega_{k}^{f} = \sqrt{\epsilon_{k}}$ leads to a better control over $V_{k}$ due to the monotonicity of $\epsilon_{k}$, resulting in improved lower bound for $\Sigma_{k}$, as indicated by \\lemmareflem:basic-counting-lemma.
+
+### Lemma 3.6 (See Section C.3)
+
+Let $V_{k},J_{k}$ be defined in \\objectrefprop:main/accumulated-descentPropositionPropositions, then we have. If $\omega_{k}^{f} = \sqrt{g_{k}}$, then $V_{k} \leq {J_{k}{\log{\log\frac{U_{\varphi}}{\epsilon_{k}}}}}$;. If $\omega_{k}^{f} = \sqrt{\epsilon_{k}}$, then $V_{k} \leq {{\log\frac{\epsilon_{0}}{\epsilon_{k}}} + J_{k}}$.
+
+Finally, we need to determine the aforementioned hitting time $k_{init}$ such that $M_{k_{init}} \leq {O{(L_{H})}}$, and apply \\objectrefprop:main/accumulated-descentPropositionPropositions for ${\{ x_{k}\}}_{k \geq k_{init}}$ to achieve the $L_{H}^{- \frac{1}{2}}$ dependence in the iteration complexity. The idea behind the following lemma is that when $M_{k} > {\Omega{(L_{H})}}$ but $k \in \mathcal{J}^{0}$, we will find that the gradient decreases linearly, implying that this event can occur at most $O\left( {\log\frac{U_{\varphi}}{\epsilon_{k_{init}}}} \right)$ times.
+
+### Proposition 3.7 (Initial phase, see \\objectrefprop:proof/initial-phase-decreasing-MkPropositionPropositions)
+
+Let $k_{init} = {\min{\{{j:{M_{j} \leq {O{(L_{H})}}}}\}}}$ and assume $M_{0} > {\Omega{(L_{H})}}$, then for the first choice in \\theoremrefthm:newton-local-rate-boosted, we have $k_{init} \leq {O\left( {\log{\frac{M_{0}}{L_{H}}{\log\frac{U_{\varphi}}{\epsilon_{k_{init}}}}}} \right)}$; and for the second choice, we have $k_{init} \leq {O\left( {{\log\frac{M_{0}}{L_{H}}} + {\log\frac{U_{\varphi}}{\epsilon_{k_{init}}}}} \right)}$.
+
+### The local convergence order
+
+From the compactness of $L_{\varphi}{(x_{0})}$ in Assumption 2.1 ‣ 2.1 Our results ‣ 2 Background and our results ‣ A Regularized Newton Method for Nonconvex Optimization with Global and Local Complexity Guarantees"), we know there exists a subsequence ${\{ x_{k_{j}}\}}_{j \geq 0}$ converging to some $x^{\ast}$ with ${{\nabla\varphi}{(x^{\ast})}} = 0$ (see \\theoremrefthm:appendix/global-newton-complexity). In the analysis of the local convergence rate, we need to assume the positive definiteness of ${\nabla^{2}\varphi}{(x^{\ast})}$, under which the whole sequence ${\{ x_{k}\}}_{k \geq 0}$ also converges to $x^{\ast}$ (see \\objectrefprop:mixed-newton-nonconvex-phase-local-ratesPropositionPropositions).
+
+The standard analysis of the local rates for Newton methods consists of two steps. The first step shows that the Newton direction (i.e., ${({{{\nabla^{2}\varphi}{(x_{k})}} + {\omega_{k}I_{n}}})}^{- 1}{\nabla\varphi}{(x_{k})}$) yields superlinear convergence, and then the second step shows this direction is eventually taken. Since there are some adjustments in our usage of these results, we provide the proofs in Section E.1 for completeness, and present the statements below.
+
+### Lemma 3.8
+
+Assuming ${{\nabla^{2}\varphi}{(x^{\ast})}} \succeq {\alphaI_{n}}$, if $\text{d\_type}_{k} = \text{SOL}$ and $m_{k} = 0$, and $x_{k}$ is close enough to $x^{\ast}$, we have $g_{k + 1} \leq {O{({g_{k}^{2} + {\omega_{k}g_{k}}})}}$. Furthermore, under the choices of regularizers in \\theoremrefthm:newton-local-rate-boosted, if $x_{k}$ is close enough to $x^{\ast}$, we know the trial step is accepted, and $\text{d\_type}_{k} = \text{SOL}$ and $m_{k} = 0$.
+
+Figure 3.1: The left plot illustrates the local order achievable by the regularizers in \theoremrefthm:newton-local-rate-boosted for θ ∈ (0, 1]. It can be made arbitrarily close to 1 + ν∞. The right plot illustrates the local order for different θ using ${\varphi{(x)}} = {\frac{1}{2}x^{2}}$, and its slope reflects the local order and aligns with our predictions.
+
+We observe that when taking $\omega_{k}^{t} = \omega_{k}^{f} = {O{(g_{k}^{\overline{\nu}})}}$ with $\overline{\nu} \in {(0,1\rbrack}$, the gradient norm converges superlinearly with order $1 + \overline{\nu}$. For the choices in \\theoremrefthm:newton-local-rate-boosted, we find ${\max{(\omega_{k}^{t},\omega_{k}^{f})}} \leq \sqrt{g_{k}}$ so a local rate of order $\frac{3}{2}$ can be achieved. Furthermore, the following technical lemma shows that the local order can be improved to arbitrarily close to ${1 + \nu_{\infty}} \in \left( \frac{3}{2},2 \right\rbrack$ for $\theta > 0$ with $\nu_{\infty}$ defined in \\lemmareflem:superlinear-rate-boosting (see \\figurereffig:local-rate-for-nu1 for an illustration), and achieves quadratic convergence for $\theta > 1$. Its premise will be satisfied as long as the iteration is close to the solution according to \\lemmareflem:main/asymptotic-newton-properties.
+
+### Lemma 3.9 (Local rate boosting)
+
+Let $\theta > 0$ and ${\{ g_{k}\}}_{k \geq 0} \subseteq {(0,\infty)}$. Suppose $g_{1} \leq {O\left( g_{0}^{\frac{3}{2}} \right)}$ and $g_{k + 1} \leq {O\left( {g_{k}^{2} + {g_{k}^{\frac{3}{2}}\frac{g_{k}^{\theta}}{g_{k - 1}^{\theta}}}} \right)}$ holds for each $k \geq 1$, and $g_{0}$ is sufficiently small. Then,
+
+If $\theta \in {(0,1\rbrack}$, let $\nu_{\infty}$ be the positive root of the equation ${\frac{1}{2} + \frac{\theta\nu_{\infty}}{1 + \nu_{\infty}}} = \nu_{\infty}$, then we have $g_{k + 1} \leq {O\left( g_{k}^{{1 + \nu_{\infty}} - {({{4\theta}/9})}^{k}} \right)}$, i.e., $g_{k}$ has local order ${1 + \nu_{\infty}} - \delta$ for any $\delta > 0$.
+
+If $\theta > 1$ and $k \geq {{2{\log\frac{{2\theta} - 1}{{2\theta} - 2}}} + 1}$, then $g_{k + 1} \leq {O{(g_{k}^{2})}}$, i.e., $g_{k}$ converges quadratically.
+
+### Proof 3.10 (Sketch of the idea)
+
+If $g_{k} = {O{(g_{k - 1}^{\alpha})}}$ for $\alpha \in {(1,2\rbrack}$, then $g_{k - 1}^{- \theta} = {O\left( g_{k}^{- \frac{\theta}{\alpha}} \right)}$. Thus, $g_{k + 1} \leq {O\left( {g_{k}^{2} + g_{k}^{{\frac{3}{2} + \theta} - \frac{\theta}{\alpha}}} \right)}$, implying that the local order becomes ${\min\left( 2,{\frac{3}{2} + \frac{\theta\alpha}{1 + \alpha}} \right)} > \frac{3}{2}$. By recursively applying this argument, we can gradually improve the local order. See Section E.2 for details.
+
+## Preliminary numerical results
+
+Figure 4.1: Comparison of success rates as functions of elapsed time and Hessian evaluations for CUTEst benchmark problems. ARNCGg, ARNCGϵ, and “Fixed” correspond to Table 2.1 with the first and second regularizers from \theoremrefthm:newton-local-rate-boosted, and a fixed $\omega_{k} \equiv \sqrt{\epsilon}$, respectively. For Hessian evaluations, since our algorithm accesses this information only via Hessian-vector products, we count multiple products involving ∇2φ (x) at the same point x as a single evaluation.
+
+In this section, we present some preliminary numerical results.^22^2Our code is available at \\urlhttps://github.com/miskcoo/ARNCG. Our primary goal is to provide an overall sense of our algorithm's performance and the effects of its components. Detailed results are deferred to Appendix F.
+
+Since the recently proposed trust-region-type method CAT has an optimal rate and shows competitiveness with state-of-the-art solvers, we adopt their experimental setup and compare with it, as well as the regularized Newton-type method AN2CER proposed by Gratton et al.. The experiments are conducted on the 124 unconstrained problems with more than 100 variables from the widely used CUTEst benchmark for nonlinear optimization. The algorithm is considered successful if it terminates with $\epsilon_{k} \leq \epsilon = 10^{- 5}$ such that $k \leq 10^{5}$. If the algorithm fails to terminate within 5 hours, it is also recorded as a failure.
+
+In Appendix F, we observe that the fallback step has insignificant impact on performance yet increases computational cost, suggesting it can be relaxed or removed. Furthermore, $\theta \in {\lbrack 0.5,1\rbrack}$ balances computational efficiency and local behavior and a small $m_{\max}$ is preferable. Finally, the second linesearch step (2.5) and the TERM state of CappedCG are rarely taken in practice.
+
+fig:main-algoperf shows our method without the fallback step (see Appendix F for details). It is slightly faster than CAT and AN2CER, as each iteration uses only a few Hessian-vector products, whereas CAT relies on multiple Cholesky factorizations and AN2CER involves minimal eigenvalue computations. Meanwhile, our method requires a similar number of Hessian evaluations as CAT, and slightly fewer than AN2CER. We also note that using a fixed $\omega_{k} = \sqrt{\epsilon}$ in Table 2.1 may lead to failures when $g_{k} \gg \epsilon$, resulting in deteriorated performance. Additionally, our method requires significantly less memory ($\sim$`<!-- -->`{=html}6GB) compared to CAT ($\sim$`<!-- -->`{=html}74GB) for the largest problem in the benchmark with 123200 variables, as it avoids constructing the full Hessian.
+
+## Discussions
+
+In this paper, we present the adaptive regularized Newton-CG method and show that two classes of regularizers achieve optimal global convergence order and quadratic local convergence. Our techniques in Section 3 can be extended to Riemannian optimization, as only \\lemmareflem:lipschitz-constant-estimation needs to be modified. For the setting with Hölder continuous Hessians, a variant of this lemma can be derived following He et al., and the subsequent proof may also be generalized (see Section E.2 for local rates). However, this case presents additional challenges since the Hölder exponent is also unknown and requires estimation, which we are currently investigating.
+
+It would also be interesting to investigate whether these regularizers are suitable for the convex settings studied in Doikov and Nesterov; Doikov et al. and whether they can be extended to inexact methods such as Yao et al. and stochastic optimization.
+
+Y. Zhou and J. Zhu are supported by the National Natural Science Foundation of China (Nos. 92270001, 62350080, 62106120), Tsinghua Institute for Guo Qiang, and the High Performance Computing Center, Tsinghua University; J. Zhu was also supported by the XPlorer Prize. C. Bao is supported by the National Key R&D Program of China (No. 2021YFA1001300) and the National Natural Science Foundation of China (No. 12271291). J. Xu is supported in part by PolyU postdoc matching fund scheme of the Hong Kong Polytechnic University (No. 1-W35A), and Huawei's Collaborative Grants "Large scale linear programming solver" and "Solving large scale linear programming models for production planning". C. Ding is supported in part by the National Key R&D Program of China (No. 2021YFA1000300, No. 2021YFA1000301) and CAS Project for Young Scientists in Basic Research (No. YSBR-034).

@@ -1,0 +1,17 @@
+Theano: A Python Framework for Fast Computation of Mathematical Expressions
+
+Theano is a Python library that allows to define, optimize, and evaluate mathematical expressions involving multi-dimensional arrays efficiently. Since its introduction, it has been one of the most used CPU and GPU mathematical compilers - especially in the machine learning community - and has shown steady performance improvements. Theano is being actively and continuously developed since 2008, multiple frameworks have been built on top of it and it has been used to produce many state-of-the-art machine learning models. The present article is structured as follows. Section I provides an overview of the Theano software and its community. Section II presents the principal features of Theano and how to use them, and compares them with other similar projects. Section III focuses on recently-introduced functionalities and improvements. Section IV compares the performance of Theano against Torch7 and TensorFlow on several machine learning models. Section V discusses current limitations of Theano and potential ways of improving it.
+
+## Abstract
+
+Theano is a Python library that allows to define, optimize, and evaluate mathematical expressions involving multi-dimensional arrays efficiently. Since its introduction in Bergstra *et al.* it has been one of the most used CPU and GPU mathematical compilers -- especially in the machine learning community Bergstra *et al.* -- and has shown steady performance improvements Bastien *et al.*. Theano is being actively and continuously developed since 2008, multiple frameworks have been built on top of it and it has been used to produce many state-of-the-art machine learning models.
+
+The present article is structured as follows. Section I provides an overview of the Theano software and its community. Section II presents the principal features of Theano and how to use them, and compares them with other similar projects. Section III focuses on recently-introduced functionalities and improvements. Section IV compares the performance of Theano against Torch7 Collobert *et al.* and TensorFlow Abadi *et al.* on several machine learning models. Section V discusses current limitations of Theano and potential ways of improving it.
+
+Continuous improvements have been made to Theano's functionality, usability, and performance, for instance wrapping libraries like cuDNN, and integrating ideas that have been successfully explored and implemented by other frameworks, like data parallelism and model parallelism for distributed computation. Computation performance is on par with other major research software, like Torch and TensorFlow.
+
+There are ways to improve Theano (and other frameworks as well) by taking inspiration from other machine learning software (sometimes more experimental). Longer-term improvements could be the result of collaborations with other fields, for instance CAS, and language and compiler design, in order to build a next generation of mathematical computation software.
+
+Several new features that help performance are present, but not obvious. One of these is that all computations are transparently asynchronous, which allows the CPU part of the Ops to execute in parallel with the GPU part. There is a mechanism keeping track of the dependencies between operations to ensure that the right data is always used. Data transfers are automatically done on a separate stream, so they can overlap with the computation.
+
+### II.4 Extending Theano

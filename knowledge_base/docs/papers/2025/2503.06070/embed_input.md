@@ -1,0 +1,15 @@
+Natural Gradient Descent for Control
+
+This paper bridges optimization and control, and presents a novel closed-loop control framework based on natural gradient descent, offering a trajectory-oriented alternative to traditional cost-function tuning. By leveraging the Fisher Information Matrix, we formulate a preconditioned gradient descent update that explicitly shapes system trajectories. We show that, in sharp contrast to traditional controllers, our approach provides flexibility to shape the system's low-level behavior. To this end, the proposed method parameterizes closed-loop dynamics in terms of stationary covariance and an unknown cost function, providing a geometric interpretation of control adjustments. We establish theoretical stability conditions. The simulation results on a rotary inverted pendulum benchmark highlight the advantages of natural gradient descent in trajectory shaping.
+
+## Introduction
+
+Optimization techniques, particularly gradient descent (GD) and its numerous variants (Ruder Laborde and Oberman Rattray et al. Martens, ), have become fundamental in modern control and machine learning. These methods are broadly classified into two categories when applied to control systems: GD-based control, where gradient methods optimize controller parameters, and controlled GD, where control-theoretic tools improve the convergence properties of a gradient-based optimizer (Lessard et al. Padmanabhan and Seiler Nayyer et al., )....
+
+Despite their effectiveness, a key challenge persists: the closed-loop trajectory behavior---how system states evolve over time---is typically an indirect outcome of weight tuning or cost-function optimization. Traditional methods rely on defining an objective function, applying an optimization algorithm, and then observing the resulting state trajectories. If these trajectories do not meet performance expectations, the objective function often requires manual adjustments, leading to a cumbersome iterative tuning process....
+
+This paper introduced a novel closed-loop control framework based on natural GD, using the closed-loop covariance matrix as a preconditioner. By directly shaping system trajectories through a gradient-descent-like update, the proposed approach eliminates the need for indirect cost-function tuning, offering improved interpretability. Theoretical analysis established stability conditions and step-size constraints.
+
+Future research directions include extending the framework to nonlinear and time-varying systems, incorporating state-dependent covariance adaptation, and exploring its integration with reinforcement learning and model predictive control. Additionally, investigating robustness properties under model uncertainties and external disturbances could further enhance the practical applicability of this approach in real-world scenarios.
+
+The FIM, $G{(\mu_{k})}$, provides a measure of the amount of information that the state $x_{k}$ carries about the underlying system trajectories. Here, it reduces to the inverse covariance matrix $\Sigma_{k}^{- 1}$, reflecting the precision (inverse uncertainty) in the Gaussian model....

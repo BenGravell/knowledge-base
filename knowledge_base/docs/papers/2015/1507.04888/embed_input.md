@@ -1,0 +1,17 @@
+Maximum Entropy Deep Inverse Reinforcement Learning
+
+This paper presents a general framework for exploiting the representational capacity of neural networks to approximate complex, nonlinear reward functions in the context of solving the inverse reinforcement learning (IRL) problem. We show in this context that the Maximum Entropy paradigm for IRL lends itself naturally to the efficient training of deep architectures. At test time, the approach leads to a computational complexity independent of the number of demonstrations, which makes it especially well-suited for applications in life-long learning scenarios. Our approach achieves performance commensurate to the state-of-the-art on existing benchmarks while exceeding on an alternative benchmark based on highly varying reward structures. Finally, we extend the basic architecture - which is equivalent to a simplified subclass of Fully Convolutional Neural Networks (FCNNs) with width one - to include larger convolutions in order to eliminate dependency on precomputed spatial features and work on raw input representations.
+
+## Introduction
+
+Recent successes in machine learning, vision and robotics have lead to widespread expectations that machines will increasingly succeed in applications of real value to the public domain. A central tenet of any vision delivering on this promise revolves around learning from user interactions. Inverse reinforcement learning (IRL) is playing a pivotal role in these developments and commonly finds applications in robotics where it allows robot to learn complex behaviour from human demonstrations and also in fields of cognition and preference learning where it serves as a tool to better understand human decisions or medicine to predict...
+
+Figure 1: Fully Convolutional Neural Network for reward approximation in the IRL setting. The network serves to model the relationship between input features and final reward map.
+
+Our experiments show that DeepIRL's performance is commensurate to the state-of-the-art on a common benchmark. While exhibiting slightly increased requirements regarding training data in this benchmark, a principal strength of the approach lies in its algorithmic complexity independent of the number of demonstrations samples. Therefore, it is particularly well-suited for life-long learning scenarios in the context of robotics, which inherently provide sufficient amounts of training data....
+
+In future work we will explore the benefits of autoencoder-style pretraining to reduce the increased demand of expert demonstrations when employing wider convolutional filters. Especially when based on more complex inputs such as raw image data, the easily available unsupervised training data will help to learn features which then only need to be refined during the supervised IRL-based training phase....
+
+Computation of ${\mathbb{E}}{\lbrack\mu\rbrack}$ usually involves summation over exponentially many possible trajectories. A more effective algorithm based on dynamic programming which computes this quantity in polynomial-time can be found in. Subsequently, the effective computation of the gradient $\frac{\partial\mathcal{L}_{\mathcal{D}}}{\partial\theta}$ involves first computing the difference in visitation counts using this algorithm and then passing this as an error signal through the network using back-propagation.
+
+We argue that IRL algorithms scalable to MDPs with large feature spaces require models, which are able to efficiently...

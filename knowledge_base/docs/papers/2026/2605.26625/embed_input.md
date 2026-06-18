@@ -1,0 +1,7 @@
+Provably Safe Motion Planning under Unknown Disturbances
+
+Topics include Motion planning, Safe planning, Chance constraints, Distributionally robust optimization, Uncertainty.
+
+Develops a sampling-based motion-planning algorithm that learns Wasserstein ambiguity tubes from trajectory data to satisfy chance constraints under unknown disturbances. The paper connects probabilistic completeness with distributionally robust safety guarantees for uncertain robotic systems.
+
+We present a provably safe sampling-based motion planning algorithm for robotic systems affected by random disturbances of unknown distribution. We consider systems with linear or linearizable dynamics evolving in workspace with arbitrary-shaped obstacles subject to state and control constraints. Safety requirements are formulated as chance-constraints. Our approach leverages data from trajectories of the system to learn a Wasserstein ambiguity tube, i.e., a sequence of ambiguity sets, which contains the trajectory of the system's state distribution with high confidence. This ambiguity tube is then used in a probabilistically complete algorithm to grow a sampling-based motion planning tree that respects the constraints of the problem. We show that learning several lower-dimensional ambiguity tubes instead of a single high-dimensional one effectively reduces the conservatism and boosts scalability. Additionally, we design an efficient bandit-based validity checker that remarkably increases the empirical performance of our approach without sacrificing probabilistic completeness....

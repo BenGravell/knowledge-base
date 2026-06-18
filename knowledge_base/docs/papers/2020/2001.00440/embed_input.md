@@ -1,0 +1,19 @@
+From Drinking Philosophers to Asynchronous Path-Following Robots
+
+Topics include Asynchronous coordination, Path following, Multi-agent systems, Coordination taxonomy, Formal methods, Robotics, Control systems.
+
+Connects asynchronous robot path following to coordination ideas from the drinking philosophers problem. The contribution is a formal way to reason about progress and resource conflicts when robots execute paths without global synchronization.
+
+In this paper, we consider the multi-robot path execution problem where a group of robots move on predefined paths from their initial to target positions while avoiding collisions and deadlocks in the face of asynchrony. We first show that this problem can be reformulated as a distributed resource allocation problem and, in particular, as an instance of the well-known Drinking Philosophers Problem (DrPP). By careful construction of the drinking sessions capturing shared resources, we show that any existing solutions to DrPP can be used to design robot control policies that are collectively collision and deadlock-free. We then propose modifications to an existing DrPP algorithm to allow more concurrent behavior, and provide conditions under which our method is deadlock-free. Our method does not require robots to know or to estimate the speed profiles of other robots and results in distributed control policies. We demonstrate the efficacy of our method on simulation examples, which show competitive performance against the state-of-the-art.
+
+## Introduction
+
+Multi-robot path planning (MRPP) has been one of the fundamental problems studied by artificial intelligence and robotics communities. Quickly finding paths that take each robot from their initial location to target location, and ensuring that robots execute these paths in a safe manner have applications in many areas from evacuation planning to warehouse robotics, and from formation control to coverage.
+
+There are several challenges in multi-robot path planning such as scalability, optimality, trading off centralized versus distributed decisions and corresponding communication loads, and potential asynchrony. Planning optimal collision-free paths is known to be hard even in synchronous centralized settings. Recently developed heuristics aim to address the scalability challenge when optimality is a concern. Arguably, the problem gets even harder when there is non-determinism in the robot motions....
+
+Our current method and derived conditions that guarantee collision and deadlock-freeness are limited to the multi-robot path execution problem where robot paths are assumed to be fixed a priori. Using such conditions to guarantee deadlock-freeness of replanning approaches or designing life-long planning algorithms with similar guarantees are interesting directions for future research. We are also interested in finding looser conditions that guarantee collision and deadlock-freeness, as the current conditions are sufficient but might not be necessary.
+
+We thank Hang Ma from Simon Fraser University and Sven Koenig from University of Southern California for sharing their code for MCP implementation in with us. We also thank Ruya Karagulle for pointing out typos in Theorem 1. The last but not least, we thank the reviewers for their valuable comments and suggestions, which improved the clarity and the presentation of the paper greatly. This work is supported in part by ONR grant N00014-18-1-2501, NSF grant ECCS-1553873, and an Early Career Faculty grant from NASA's Space Technology Research Grants Program.
+
+The first idea that follows from this observation is to limit the number of robots in each rainbow cycle to avoid deadlocks. However, this is not enough as rainbow cycles can intersect with each other and robots might end up waiting for each other to avoid eventual deadlocks....

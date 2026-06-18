@@ -1,0 +1,7 @@
+MPTree: A Sampling-based Vehicle Motion Planner for Real-time Obstacle Avoidance
+
+Topics include Motion planning, Motion primitives, Tree search, Obstacle avoidance, Autonomous driving, Real-time planning, Rapidly-exploring random tree.
+
+Proposes MPTree, a sampling-based motion planner that builds a tree of pre-computed Motion Primitives using a semi-structured RRT variant. Rejection of trajectories violating collision or dynamic constraints does not destroy sample efficiency, at least in the autonomous driving setting tested.
+
+This paper presents a novel and modular framework, named MPTree, for real-time vehicle motion planning with dynamic obstacle avoidance. MPTree adopts a sampling-based algorithm, to explore a tree of Motion Primitives (MPs) and return near-optimal trajectories. Specifically, MPTree builds motion primitives to connect the tree nodes (waypoints), sampled in a mesh of waylines on the local planning horizon. The tree exploration is based on a semi-structured RRTa, with an application-specific cost function (e.g., minimum-jerk or minimum-time) and high-level behavioral policy. We show examples of MPTREE’s specialization for urban environments and autonomous racing, using fast-to-evaluate motion primitives to accelerate the tree exploration phase. A prototype implementation is tested in a closed-loop simulation environment. Our preliminary results show that MPTree provides feasible collision-free trajectories while ensuring low computational times.

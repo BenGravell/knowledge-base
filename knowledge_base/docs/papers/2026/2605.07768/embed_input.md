@@ -1,0 +1,5 @@
+Interactive Trajectory Planning with Learning-based Distributionally Robust Model Predictive Control and Markov Systems
+
+Topics include Model predictive control, Predictive control, Robustness, Uncertainty, Optimization, Planning, Control, Learning, SMPC, Probably approximately correct, Distributional robustness, DR.
+
+We investigate interactive trajectory planning subject to uncertainty in the decisions of surrounding agents. To control the ego-agent, we aim to first learn the decision distribution and solve a Stochastic Model Predictive Control (SMPC) problem. To account for errors in the learned distribution, we show that it is possible to utilize Probably Approximately Correct (PAC) learning in combination with Distributionally Robust (DR) optimization to obtain a solution which accounts for the errors induced by the learning model. The results indicate that our PAC learning-based DR-MPC framework provides a method to interpolate between a robust MPC and an omnipotent SMPC, based on the available number of samples.

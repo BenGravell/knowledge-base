@@ -1,0 +1,17 @@
+NeuPL: Neural Population Learning
+
+Learning in strategy games (e.g. StarCraft, poker) requires the discovery of diverse policies. This is often achieved by iteratively training new policies against existing ones, growing a policy population that is robust to exploit. This iterative approach suffers from two issues in real-world games: a) under finite budget, approximate best-response operators at each iteration needs truncating, resulting in under-trained good-responses populating the population; b) repeated learning of basic skills at each iteration is wasteful and becomes intractable in the presence of increasingly strong opponents. In this work, we propose Neural Population Learning (NeuPL) as a solution to both issues. NeuPL offers convergence guarantees to a population of best-responses under mild assumptions. By representing a population of policies within a single conditional model, NeuPL enables transfer learning across policies. Empirically, we show the generality, improved performance and efficiency of NeuPL across several test domains. Most interestingly, we show that novel strategies become more accessible, not less, as the neural population expands.
+
+## Abstract
+
+Learning in strategy games (e.g. StarCraft, poker) requires the discovery of diverse policies. This is often achieved by iteratively training new policies against existing ones, growing a policy population that is robust to exploit. This iterative approach suffers from two issues in real-world games: a) under finite budget, approximate best-response operators at each iteration needs truncating, resulting in under-trained good-responses populating the population; b) repeated learning of basic skills at each iteration is wasteful and becomes intractable in the presence of increasingly strong opponents....
+
+The need for learning not one, but a population of strategies is rooted in classical game theory. Consider the purely cyclical game of rock-paper-scissors, the performance of individual strategies is meaningless as improving against one entails losing to another. By contrast, performance can be meaningfully examined between populations....
+
+## Conclusion and Future Work
+
+We proposed an efficient, general and principled framework that learns and represents strategically diverse policies in real-world games within a single conditional-model, making progress towards scalable policy space exploration. In addition to exploring suitable technique from the multi-task, continual learning literature, going beyond the symmetric zero-sum setting remain interesting future works, too, as discussed in Appendix D.
+
+In all experiments, we use Maximum A Posterior Optimization (MPO, Abdolmaleki et al. ) as the underlying RL algorithm, though any alternative can be used instead. Similarly, any conditional architecture can be used to implement $\Pi_{\theta}^{\Sigma}$. Our specific proposal reflects the spinning-top geometry so as to encourage positive transfers across polices. Further discussions on the network design is available in Appendix B.2.
+
+A popular class of population learning algorithms seeks to converge to a sequence of $N$ iterative best-responses where each policy $\pi_{i}$ is a best-response to an opponent meta-game strategy $\sigma_{i}$ with support over a subset of the policy population $\Pi_{< i} = {\{\pi_{j}\}}_{j < i}$. In NeuPL, this class of algorithms are implemented with meta-graph solvers that return lower-triangular adjacency matrices $\Sigma$ with $\Sigma_{i \leq j} = 0$....

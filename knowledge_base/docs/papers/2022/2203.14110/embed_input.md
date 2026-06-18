@@ -1,0 +1,21 @@
+Correct-By-Construction Design of Adaptive Cruise Control with Control Barrier Functions under Safety and Regulatory Constraints
+
+The safety-critical nature of adaptive cruise control (ACC) systems calls for systematic design procedures, e.g., based on formal methods or control barrier functions (CBFs), to provide strong guarantees of safety and performance under all driving conditions. However, existing approaches have mostly focused on fully verified solutions under smooth traffic conditions, with the exception of stop-and-go scenarios. Systematic methods for high-performance ACC design under safety and regulatory constraints like traffic signals are still elusive. A challenge for correct-by-construction approaches based on CBFs stems from the need to capture the constraints imposed by traffic signals, which lead to candidate time-varying CBFs (TV-CBFs) with finite jump discontinuities in bounded time intervals.
+
+## Introduction
+
+The goal of adaptive cruise control (ACC) is to ensure that the vehicle under control, i.e., the *ego* vehicle, tracks the velocity of the leading vehicle while maintaining a safe distance. The safe distance is usually calculated by using a constant-time headway policy, the headway time being the time the ego vehicle takes to cover the distance between itself and the leading vehicle. ACC systems have been extensively studied over the last decade. Predictive cruise control uses time sequence information from upcoming traffic signals to optimize fuel efficiency for vehicle planning....
+
+State-of-the-art formal verification and correct-by-construction design methods have been successfully applied in the context of highway systems with smooth traffic conditions. Recently, a provably correct ACC design approach has been proposed to safely handle the occurrence of cut-in vehicles while preserving comfort in a model predictive control (MPC) scheme. However, control synthesis methods that can deal with regulatory constraints like non-smooth traffic signals are still elusive....
+
+## Conclusions
+
+We presented a correct-by-construction adaptive cruise control design method under safety and regulatory constraints with control barrier guarantees. The proposed regulated ACC obeys the traffic signals and speed limits while maintaining safe spacing from the lead vehicle. The rules for traffic signals are described in the form of piecewise $\mathcal{C}^{m}$ time-varying control barrier functions (TV-CBFs). We proved that, for a valid piecewise $\mathcal{C}^{m}$ TV-CBF, there exists a controller that renders the corresponding superlevel set forward-invariant....
+
+We start by presenting the longitudinal model for the ego vehicle.
+
+### Definition 6 (Piecewise $\mathcal{C}^{m}$ Time-Varying CBF)
+
+In the following section, we formulate the CBF for the regulated ACC.
+
+We model a traffic signal as a function of time, e.g., $s:{{\lbrack 0,\infty)}\rightarrow{\{{\mathtt{G}\mathtt{r}\mathtt{e}\mathtt{e}\mathtt{n}},{\mathtt{Y}\mathtt{e}\mathtt{l}\mathtt{l}\mathtt{o}\mathtt{w}},{\mathtt{R}\mathtt{e}\mathtt{d}}\}}}$, that exhibits finite jump discontinuities within bounded time intervals....

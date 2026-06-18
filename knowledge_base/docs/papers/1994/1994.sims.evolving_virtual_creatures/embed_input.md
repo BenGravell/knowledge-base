@@ -1,0 +1,7 @@
+Evolving Virtual Creatures
+
+Topics include Evolutionary computation, Artificial life, Virtual creatures, Genetic algorithms, Neural control, Procedural morphology, Computer graphics.
+
+Demonstrates a genetic representation that evolves both virtual creature morphology and neural control in simulated physical environments. The paper is a landmark in artificial life and procedural animation because complex locomotion strategies emerge from fitness-driven search rather than from hand-designed bodies and controllers.
+
+This paper describes a novel system for creating virtual creatures that move and behave in simulated three-dimensional physical worlds. The morphologies of creatures and the neural systems for controlling their muscle forces are both generated automatically using genetic algorithms. Different fitness evaluation functions are used to direct simulated evolutions towards specific behaviors such as swimming, walking, jumping, and following. A genetic language is presented that uses nodes and connections as its primitive elements to represent directed graphs, which are used to describe both the morphology and the neural circuitry of these creatures. This genetic language defines a hyperspace containing an indefinite number of possible creatures with behaviors, and when it is searched using optimization techniques, a variety of successful and interesting locomotion strategies emerge, some of which would be difficult to invent or built by design.

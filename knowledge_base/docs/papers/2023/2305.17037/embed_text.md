@@ -1,0 +1,211 @@
+## Introduction
+
+The Linear Quadratic Regulator (LQR) is a classic control problem that has served as a building block for numerous applications in engineering and computer science, economics, or neuroscience. It involves controlling a system with linear dynamics and imperfect observations affected by additive noise, with the goal of minimizing a quadratic state and control cost. Under the assumption that noise terms are independent and normally distributed (a case referred to as Linear-Quadratic-Gaussian, or LQG), it is well known that the optimal control policy depends linearly on the observations and can be obtained efficiently by using the Kalman filtering procedure and dynamic programming.
+
+Motivated by practical settings where noise distributions may not be readily available or may not be Gaussian, this paper considers a discrete-time, finite-horizon generalization of the LQG setting where noise distributions are unknown and are chosen adversarially from ambiguity sets characterized by a Wasserstein distance and centered around nominal (Gaussian) distributions.
+
+We show that, even under distributional ambiguity, the optimal control policy remains linear in the system's observations. Our proof is novel and does not rely on traditional recursive dynamic programming arguments. Instead, we re-parametrize the control policy in terms of the purified state observations and we derive an upper bound for the resulting minimax formulation by relaxing the ambiguity set (from a Wasserstein ball into a Gelbrich ball) while simultaneously restricting the controller to linear dependencies. We then use convex duality to prove that this upper bound matches a lower bound obtained by restricting the ambiguity set in the dual of the minimax formulation. This implies the optimality of linear output feedback controllers, thus generalizing the classic results to a distributionally robust setting.
+
+We also find that the worst-case distribution is actually Gaussian, which leads to a very efficient algorithm for finding optimal controllers. Specifically, we propose an algorithm based on the Frank-Wolfe first-order method that at every step solves sub-problems corresponding to classic LQG control problems, using Kalman filtering and dynamic programming. We show that this algorithm enjoys a sublinear convergence rate and is susceptible to parallelization. Lastly, we implement the algorithm leveraging PyTorch's automatic differentiation module and we find that it yields uniformly lower runtimes than a direct method (based on solving semidefinite programs) across all problem horizons.
+
+### Literature Review
+
+This paper is related to the ample literature in control theory and engineering aimed at designing controllers that are robust to noise. The classic LQR/LQG theory, developed in the 1960s, examined linear dynamical systems in either time or frequency domain, seeking to minimize a combination of quadratic state and control costs (in time-domain) or the $\mathcal{H}_{2}$ norm of the system's transfer function (in frequency domain). Motivated by findings that LQG controllers do not provide the guaranteed robust stability properties of LQR controllers, much effort has been devoted subsequently to designing controllers that are robust to worst-case perturbations, typically evaluated in terms of the $\mathcal{H}_{\infty}$ norm of the system's transfer function (see, e.g., for a comprehensive review of $\mathcal{H}_{\infty}$ and $\mathcal{H}_{2}$ controllers). Because $\mathcal{H}_{\infty}$ controllers tend to be overly conservative, various approaches have been proposed to balance the performance of nominal and robust controllers, e.g., by combining $\mathcal{H}_{2}$ and $\mathcal{H}_{\infty}$ approaches. A parallel stream of literature has considered risk-sensitive control, which minimizes an entropic risk measure instead of the expected quadratic cost. Although risk-sensitive control has a distributionally robust flavor (as the entropic risk measure is equivalent to a distributionally robust quadratic objective penalized via Kullback-Leibler divergence), risk-sensitive control models do not admit a distributionally robust formulation because the entropic risk measure is convex, but not coherent. In contrast, our distributionally robust model provides a direct interpretation of the exact set of noise distributions against which the controller provides safeguards, and leads to a computationally tractable framework for finding the optimal controller.
+
+In this sense, our work is more directly related to the literature on distributionally robust control, which seeks controllers that minimize expected costs under worst-case noise distributions. Closest to our work are. proves the optimality of linear state-feedback control policies for a related minimax LQR model with a Wasserstein distance but with perfect state observations. With perfect observations, the optimal policies in the classic LQR formulation are independent of the noise distribution and are thus inherently already robust, so considering imperfect observations is what makes the problem significantly more challenging in our case. studies a minimax formulation based on the Wasserstein distance with both state and observation noise but without any control policy, and focuses solely on the problem of estimating the states. Several papers have considered robust formulations with imperfect observations but for constrained systems, which are more challenging; the common approach is to restrict attention to linear feedback policies for computational tractability, and without proving their optimality.
+
+Also related is the recent literature stream on distributionally robust optimization using the Wasserstein distance. Within this stream, the closest work is, which consider the problem of minimax mean-squared-error estimation when ambiguity is modeled with a Wasserstein distance from a nominal Gaussian distribution. Our proof builds on some ideas from these papers (e.g., relying on the Gelbrich distance in the construction of the upper bound), which it combines with ideas from control theory on purified output-feedback to obtain the overall construction. Also related is, which studies multistage distributionally robust problems with ambiguity sets given by a nested Wasserstein distance for stochastic processes and identifies computationally tractable cases. For a broader overview of developments related to optimal transport and Wasserstein distance with an emphasis on computational tractability and applications in machine learning, we refer to.
+
+Finally, our paper is also related to literature that documents the optimality of linear/affine policies in (distributionally) robust dynamic optimization models. prove optimality for one-dimensional linear systems affected by additive noise and with perfect state observations, but with general (convex) state and/or control costs, provide computationally tractable approaches to quantifying the suboptimality of affine controllers in finite or infinite-horizon settings, and characterize the performance of affine policies in two-stage (distributionally) robust dynamic models.
+
+Notation. All random objects are defined on a probability space $(\Omega,\mathcal{F},{\mathbb{P}})$. Thus, the distribution of any random vector $\xi:{\Omega\rightarrow{\mathbb{R}}^{d}}$ is given by the pushforward distribution ${\mathbb{P}}_{\xi} = {{\mathbb{P}} \circ \xi^{- 1}}$ of $\mathbb{P}$ with respect to $\xi$. The expectation under $\mathbb{P}$ is denoted by ${\mathbb{E}}_{\mathbb{P}}{\lbrack \cdot \rbrack}$. For any $t \in {\mathbb{Z}}_{+}$, we set ${\lbrack t\rbrack} = {\{ 0,\ldots,t\}}$.
+
+## Problem Definition
+
+We consider a discrete-time linear dynamical system
+
+with states $x_{t} \in {\mathbb{R}}^{n}$, control inputs $u_{t} \in {\mathbb{R}}^{m}$, process noise $w_{t} \in {\mathbb{R}}^{n}$ and system matrices $A_{t} \in {\mathbb{R}}^{n \times n}$ and $B_{t} \in {\mathbb{R}}^{n \times m}$. The controller only has access to imperfect state measurements
+
+corrupted by observation noise $v_{t} \in {\mathbb{R}}^{p}$, where $C_{t} \in {\mathbb{R}}^{p \times n}$ and usually $p \leq n$ (so that observing $y_{t}$ would not allow reconstructing $x_{t}$ even if there were no observation noise). The control inputs $u_{t}$ are causal, i.e., depend on the past observations $y_{0},\ldots,y_{t}$ but not on the future observations $y_{t + 1},\ldots,y_{T - 1}$. More precisely, the set of feasible control inputs $\mathcal{U}_{y}$ is the set of random vectors $(u_{0},u_{1},\ldots,u_{T - 1})$ where for every $t$ there exists a measurable control policy $\varphi_{t}:{{\mathbb{R}}^{p{({t + 1})}}\rightarrow{\mathbb{R}}^{m}}$ such that $u_{t} = {\varphi_{t}{(y_{0},\ldots,y_{t})}}$. Controlling the system generates costs that depend quadratically on the states and the controls:
+
+where $Q_{t} \in {\mathbb{S}}_{+}^{n}$ and $R_{t} \in {\mathbb{S}}_{+ +}^{m}$ represent the state and input cost matrices, respectively. The exogenous random vectors $x_{0}$, ${\{ w_{t}\}}_{t = 0}^{T - 1}$ and ${\{ v_{t}\}}_{t = 0}^{T - 1}$ are mutually independent and follow probability distributions given by ${\mathbb{P}}_{x_{0}},{\{{\mathbb{P}}_{w_{t}}\}}_{t = 0}^{T - 1}$, and ${\{{\mathbb{P}}_{v_{t}}\}}_{t = 0}^{T - 1}$, respectively. As the control inputs are causal, the system equations imply that $x_{t}$, $u_{t}$ and $y_{t}$ can be expressed as measurable functions of the exogenous uncertainties $x_{0}$ as well as $w_{s}$ and $v_{s}$, $s \in {\lbrack t\rbrack}$, for every $t$. From now on we may thus assume without loss of generality that $\Omega = {{\mathbb{R}}^{n} \times {\mathbb{R}}^{n \times T} \times {\mathbb{R}}^{p \times T}}$ is the space of realizations of the exogenous uncertainties, $\mathcal{F}$ is the Borel $\sigma$-algebra on $\Omega$ and ${\mathbb{P}} = {\mathbb{P}}_{x_{0}} \otimes {( \otimes_{t = 0}^{T - 1}{\mathbb{P}}_{w_{t}})} \otimes {( \otimes_{t = 0}^{T}{\mathbb{P}}_{v_{t}})}$, where ${\mathbb{P}}_{1} \otimes {\mathbb{P}}_{2}$ denotes the independent coupling of the distributions ${\mathbb{P}}_{1}$ and ${\mathbb{P}}_{2}$.
+
+In this context, the classic LQG model assumes that $\mathbb{P}$ is known and Gaussian, and seeks $u \in \mathcal{U}_{y}$ that minimizes ${\mathbb{E}}_{\mathbb{P}}{\lbrack J\rbrack}$. Appendix §A reviews the standard approach for computing optimal control inputs by estimating states through Kalman filtering techniques and using dynamic programming.
+
+In contrast, we assume that $\mathbb{P}$ is only known to belong to an ambiguity set $\mathcal{W}$, and we formulate a distributionally robust LQG problem that seeks $u \in \mathcal{U}_{y}$ to minimize the worst-case expected cost:
+
+We construct the ambiguity set $\mathcal{W}$ as a ball based on the Wasserstein distance. Specifically, we assume that a *nominal* Gaussian distribution $\hat{\mathbb{P}} = {\hat{\mathbb{P}}}_{x_{0}} \otimes {( \otimes_{t = 0}^{T - 1}{\hat{\mathbb{P}}}_{w_{t}})} \otimes {( \otimes_{t = 0}^{T}{\hat{\mathbb{P}}}_{v_{t}})}$ is available so that ${\hat{\mathbb{P}}}_{x_{0}} = {\mathcal{N}{(0,{\hat{X}}_{0})}}$, ${\hat{\mathbb{P}}}_{w_{t}} = {\mathcal{N}{(0,{\hat{W}}_{t})}}$, and ${\hat{\mathbb{P}}}_{v_{t}} = {\mathcal{N}{(0,{\hat{V}}_{t})}}$ for all $t \in {\lbrack{T - 1}\rbrack}$, and $\mathcal{W}$ is given by:
+
+and $\mathbb{W}$ is the 2-Wasserstein distance. Thus, by construction, all exogenous random variables $x_{0},w_{0},\ldots,w_{T - 1},v_{0},\ldots,v_{T - 1}$ are independent under every distribution in $\mathcal{W}$.
+
+### Definition 1 (2-Wasserstein distance)
+
+The 2-Wasserstein distance between two distributions ${\mathbb{P}}_{1}$ and ${\mathbb{P}}_{2}$ on ${\mathbb{R}}^{d}$ with finite second moments is given by
+
+where $\Pi{({\mathbb{P}}_{1},{\mathbb{P}}_{2})}$ denotes the set of all couplings, that is, all joint distributions of the random variables $\xi_{1}$ and $\xi_{2}$ with marginal distributions ${\mathbb{P}}_{1}$ and ${\mathbb{P}}_{2}$, respectively.
+
+Our model strictly generalizes the classic LQG setting,^11^1Our assumption that noise terms are zero-mean is consistent with the standard LQG model. Requiring ${{\mathbb{E}}_{{\mathbb{P}}_{x_{0}}}{\lbrack x_{0}\rbrack}} = 0$ is assumed for clarity and without loss of generality. which can be recovered by choosing $\rho_{x_{0}} = \rho_{w_{t}} = \rho_{v_{t}} = 0$. The parameters $\rho$ thus allow quantifying the uncertainty about the nominal model and building robustness to mis-specification. We emphasize that the Wasserstein ambiguity set $\mathcal{W}$ contains many non-Gaussian distributions and it is not readily obvious that the worst-case distribution in is in fact Gaussian. However, the set $\mathcal{W}$ is also non-convex, as it contains only distributions under which the exogenous uncertainties are independent, which makes the distributionally robust LQG problem potentially difficult to solve.
+
+## Nash Equilibrium and Optimality of Linear Output Feedback Controllers
+
+We henceforth view the distributionally robust LQG problem as a zero-sum game between the controller, who chooses causal control inputs, and nature, who chooses a distribution ${\mathbb{P}} \in \mathcal{W}$. In this section we show that this game admits a Nash equilibrium, where nature's Nash strategy is a Gaussian distribution ${\mathbb{P}}^{\star} \in \mathcal{W}$ and the controller's Nash strategy is a linear output feedback policy based on the Kalman filter evaluated under ${\mathbb{P}}^{\star}$.
+
+### Purified Observations
+
+Before outlining our proof strategy, we first simplify the problem formulation by re-parametrizing the control inputs in a more convenient form (following ). Note that the control inputs in the LQG formulation are subject to cyclic dependencies, as $u_{t}$ depends on $y_{t}$, while $y_{t}$ depends on $x_{t}$ through, and $x_{t}$ depends again on $u_{t}$ through, etc. Because these dependencies make the problem hard to analyze, it is preferable to instead consider the controls as functions of a new set of so-called purified observations instead of the actual observations $y_{t}$.
+
+Specifically, we first introduce a fictitious noise-free system
+
+with states ${\hat{x}}_{t} \in {\mathbb{R}}^{n}$ and outputs ${\hat{y}}_{t} \in {\mathbb{R}}^{p}$, which is initialized by ${\hat{x}}_{0} = 0$ and controlled by the same inputs $u_{t}$ as the original system. We then define the purified observation at time $t$ as $\eta_{t} = {y_{t} - {\hat{y}}_{t}}$ and we use $\eta = {(\eta_{0},\ldots,\eta_{T - 1})}$ to denote the trajectory of all purified observations.
+
+As the inputs $u_{t}$ are causal, the controller can compute the fictitious state ${\hat{x}}_{t}$ and output ${\hat{y}}_{t}$ from the observations $y_{0},\ldots,y_{t}$. Thus, $\eta_{t}$ is representable as a function of $y_{0},\ldots,y_{t}$. Conversely, one can show by induction that $y_{t}$ can also be represented as a function of $\eta_{0},\ldots,\eta_{t}$. Moreover, any measurable function of $y_{0},\ldots,y_{t}$ can be expressed as a measurable function of $\eta_{0},\ldots,\eta_{t}$ and vice-versa \[27, Proposition II.1\]. So if we define $\mathcal{U}_{\eta}$ as the set of all control inputs $(u_{0},u_{1},\ldots,u_{T - 1})$ so that $u_{t} = {\psi_{t}{(\eta_{0},\ldots,\eta_{t})}}$ for some measurable function $\psi_{t}:{{\mathbb{R}}^{p{({t + 1})}}\rightarrow{\mathbb{R}}^{m}}$ for every $t \in {\lbrack{T - 1}\rbrack}$, the above reasoning implies that $\mathcal{U}_{\eta} = \mathcal{U}_{y}$.
+
+In view of this, we can rewrite the distributionally robust LQG problem equivalently as
+
+where $x = {(x_{0},\ldots,x_{T})}$, $u = {(u_{0},\ldots,u_{T - 1})}$, $y = {(y_{0},\ldots,y_{T - 1})}$, $w = {(x_{0},w_{0},\ldots,w_{T - 1})}$, $v = {(v_{0},\ldots,v_{T - 1})}$, $\eta = {(\eta_{0},\ldots,\eta_{T - 1})}$, and $R$, $Q$, $H$, $G$ and $C$ are suitable block matrices (see Appendix §B for their precise definitions). The latter reformulation involving the purified observations $\eta$ is useful because these are independent of the inputs. Indeed, by recursively combining the equations of the original and the noise-free systems, one can show that $\eta = {{Dw} + v}$ for some block triangular matrix $D$ (see Appendix §B for its construction). This shows that the purified observations depend (linearly) on the exogenous uncertainties but not on the control inputs. Hence, the cyclic dependencies complicating the original system are eliminated in.
+
+Subsequently, we also study the dual of, defined as
+
+The classic minimax inequality implies that $p^{\star} \geq d^{\star}$. If we can prove that $p^{\star} = d^{\star}$, that has a solution $u^{\star}$ and that has a solution ${\mathbb{P}}^{\star}$, then $(u^{\star},{\mathbb{P}}^{\star})$ must be a Nash equilibrium of the zero-sum game at hand \[43, Theorem 2\]. However, because $\mathcal{U}_{\eta}$ is an infinite-dimensional function space and $\mathcal{W}$ is an infinite-dimensional, non-convex set of non-parametric distributions, the existence of a Nash equilibrium (in pure strategies) is not at all evident. Instead, our proof strategy will rely on constructing an upper bound for $p^{\star}$ and a lower bound for $d^{\star}$, and showing that these match.
+
+### Upper Bound for $p^{\star}$
+
+We obtain an upper bound for $p^{\star}$ by suitably *enlarging* the ambiguity set $\mathcal{W}$ and *restricting* the controllers $u_{t}$ to linear dependencies. We enlarge $\mathcal{W}$ by ignoring all information about the distributions in $\mathcal{W}$ except for their covariance matrices, and by replacing the Wasserstein distance with the Gelbrich distance. To that end, we first define the Gelbrich distance on the space of covariance matrices.
+
+### Definition 2 (Gelbrich distance)
+
+The Gelbrich distance between the two covariance matrices ${\Sigma_{1},\Sigma_{2}} \in {\mathbb{S}}_{+}^{d}$ is given by
+
+We are interested in the Gelbrich distance because of its close connection to the 2-Wasserstein distance. Indeed, it is known that the 2-Wasserstein distance between two distributions with zero means is bounded below by the Gelbrich distance between the respective covariance matrices.
+
+### Proposition 3.1 (Gelbrich bound \[24, Theorem 2.1\])
+
+For any two distributions ${\mathbb{P}}_{1}$ and ${\mathbb{P}}_{2}$ on ${\mathbb{R}}^{d}$ with zero means and covariance matrices ${\Sigma_{1},\Sigma_{2}} \in {\mathbb{S}}_{+}^{d}$, respectively, we have ${{\mathbb{W}}{({\mathbb{P}}_{1},{\mathbb{P}}_{2})}} \geq {{\mathbb{G}}{(\Sigma_{1},\Sigma_{2})}}$.
+
+Recalling that $\hat{X_{0}}$, ${\hat{W}}_{t}$ and ${\hat{V}}_{t}$ respectively denote the covariance matrices for $x_{0},w_{t}$ and $v_{t}$ under the nominal distribution $\hat{\mathbb{P}}$, we can then define the following Gelbrich ambiguity set for the exogenous uncertainties:
+
+By construction, the random vectors $x_{0}$, ${\{ w_{t}\}}_{t = 0}^{T - 1}$ and ${\{ v_{t}\}}_{t = 0}^{T - 1}$ are thus mutually independent under any ${\mathbb{P}} \in \mathcal{G}$. In addition and as a direct consequence of Proposition 3.1. ‣ Upper Bound for 𝑝^⋆. ‣ 3 Nash Equilibrium and Optimality of Linear Output Feedback Controllers ‣ Distributionally Robust Linear Quadratic Control"), $\mathcal{G}$ constitutes an outer approximation for the Wasserstein ambiguity set $\mathcal{W}$, as summarized in the next result.
+
+### Corollary 1 (Gelbrich hull)
+
+We have $\mathcal{W} \subseteq \mathcal{G}$.
+
+Because $\mathcal{G}$ covers $\mathcal{W}$, we henceforth refer to it as the Gelbrich hull of the Wasserstein ambiguity set $\mathcal{W}$. To finalize our construction of the upper bound on $p^{\star}$, we focus on linear policies^22^2Technically, the policies are affine because they include a constant term, but we retain the more common terminology that focuses on the dependencies. of the form $u = {q + {U\eta}} = {q + {U{({{Dw} + v})}}}$, where $q = {(q_{0},\ldots,q_{T - 1})}$, and $U$ is a block lower triangular matrix
+
+The block lower triangularity of $U$ ensures that the corresponding controller is causal, which in turn ensures that $u \in \mathcal{U}_{\eta}$. In the following, we denote by $\mathcal{U}$ the set of all block lower triangular matrices of the form. An upper bound on problem can now be obtained by restricting the controller's feasible set to causal controllers that are linear in the purified observations $\eta$ and by relaxing nature's feasible set to the Gelbrich hull $\mathcal{G}$ of $\mathcal{W}$. The resulting bounding problem is given by
+
+As we obtained by restricting the feasible set of the outer minimization problem and relaxing the feasible set of the inner maximization problem in, it is clear that ${\overline{p}}^{\star} \geq p^{\star}$. Recall also that problem constitutes an infinite-dimensional zero-sum game, where the agents optimize over measurable policies and non-parametric distributions, respectively. In contrast, the next proposition shows that problem is equivalent to a finite-dimensional zero-sum game.
+
+### Proposition 3.2
+
+Problem is equivalent to the optimization problem
+
+We emphasize that Proposition 3.2 remains valid even if the nominal distribution $\hat{\mathbb{P}}$ fails to be normal. Note also that, while nature's feasible set in is non-convex due to the independence conditions, the sets $\mathcal{G}_{W}$ and $\mathcal{G}_{V}$ are convex and even semidefinite representable thanks to the properties of the squared Gelbrich distance.^33^3Note that the ambiguity sets $\mathcal{G}_{W}$ and $\mathcal{G}_{V}$ appearing in involve the squared Gelbrich distance, ${\mathbb{G}}{(\Sigma_{1},\Sigma_{2})}^{2}$. The reason is that ${\mathbb{G}}{(\Sigma_{1},\Sigma_{2})}^{2}$ is known to be jointly convex in $\Sigma_{1},\Sigma_{2}$ and semidefinite representable \[38, Proposition 2.3\], unlike the Gelbrich distance ${\mathbb{G}}{(\Sigma_{1},\Sigma_{2})}$ itself, which is generally non-convex. By dualizing the inner maximization problem, one can therefore reformulate the minimax problem as a convex semidefinite program (SDP). Even though this SDP is computationally tractable in theory, it involves $\mathcal{O}{({T{({{mp} + n^{2} + p^{2}})}})}$ decision variables. For practically interesting problem dimensions, it thus quickly exceeds the capabilities of existing solvers.
+
+### Lower Bound for $d^{\star}$
+
+To derive a tractable lower bound on $d^{\star}$, we restrict nature's feasible set to the family $\mathcal{W}_{\mathcal{N}}$ of all normal distributions in the Wasserstein ambiguity set $\mathcal{W}$. The resulting bounding problem is thus given by
+
+As we obtained by restricting the feasible set of the outer maximization problem in, it is clear that ${\underset{¯}{d}}^{\star} \leq d^{\star}$. Next, we show that can be recast as a finite-dimensional zero-sum game. This result critically relies on the following known fact regarding the 2-Wasserstein distance between two normal distributions, which coincides with the Gelbrich distance between their covariance matrices.
+
+### Proposition 3.3 (Tightness for normal distributions \[26, Proposition 7\])
+
+For any two normal distributions ${\mathbb{P}}_{1} = {\mathcal{N}{(0,\Sigma_{1})}}$ and ${\mathbb{P}}_{2} = {\mathcal{N}{(0,\Sigma_{2})}}$ with zero means we have ${{\mathbb{W}}{({\mathbb{P}}_{1},{\mathbb{P}}_{2})}} = {{\mathbb{G}}{(\Sigma_{1},\Sigma_{2})}}$.
+
+With this, we can provide a finite-dimensional reformulation, as summarized in the next result.
+
+### Proposition 3.4
+
+Problem is equivalent to the optimization problem
+
+where $\mathcal{G}_{W}$ and $\mathcal{G}_{V}$ are defined exactly as in Proposition 3.2.
+
+Proposition 3.4 relies on Proposition 3.3. ‣ Lower Bound for 𝑑^⋆. ‣ 3 Nash Equilibrium and Optimality of Linear Output Feedback Controllers ‣ Distributionally Robust Linear Quadratic Control") and thus fails to hold unless $\hat{\mathbb{P}}$ is normal. Also, one can again reformulate as a tractable SDP by dualizing the inner minimization problem.
+
+### Conclusions
+
+Propositions 3.2 and 3.4 reveal that problems and are dual to each other, that is, they can be transformed into one another by interchanging minimization and maximization. The following main theorem shows that strong duality holds irrespective of the problem data.
+
+### Theorem 3.5 (Strong duality of (13) and (15))
+
+We have ${\overline{p}}^{\star} = {\underset{¯}{d}}^{\star}$.
+
+Theorem 3.5 and ). ‣ Conclusions. ‣ 3 Nash Equilibrium and Optimality of Linear Output Feedback Controllers ‣ Distributionally Robust Linear Quadratic Control") follows immediately from Sion's classic minimax theorem, which applies because $\mathcal{G}_{W}$ and $\mathcal{G}_{V}$ are convex as well as compact thanks to \[38, Lemma A.6\].
+
+By weak duality and the construction of the bounding problems and, we trivially have ${\underset{¯}{d}}^{\star} \leq d^{\star} \leq p^{\star} \leq {\overline{p}}^{\star}$. Theorem 3.5 and ). ‣ Conclusions. ‣ 3 Nash Equilibrium and Optimality of Linear Output Feedback Controllers ‣ Distributionally Robust Linear Quadratic Control") reveals that all of these inequalities are in fact equalities, each of which gives rise to a non-trivial insight. The first key insight is that and are strong duals.
+
+### Corollary 2 (Strong duality of (6) and (10))
+
+We have $p^{\star} = d^{\star}$.
+
+We stress that, unlike Theorem 3.5 and ). ‣ Conclusions. ‣ 3 Nash Equilibrium and Optimality of Linear Output Feedback Controllers ‣ Distributionally Robust Linear Quadratic Control"), Corollary 2 and ). ‣ Conclusions. ‣ 3 Nash Equilibrium and Optimality of Linear Output Feedback Controllers ‣ Distributionally Robust Linear Quadratic Control") establishes strong duality between two infinite-dimensional zero-sum games. The second key implication of Theorem 3.5 and ). ‣ Conclusions. ‣ 3 Nash Equilibrium and Optimality of Linear Output Feedback Controllers ‣ Distributionally Robust Linear Quadratic Control") is that the distributionally robust LQG problem is solved by a linear output-feedback controller.
+
+### Corollary 3 (The controller's Nash strategy is linear in the observations)
+
+There exist $U^{\star} \in \mathcal{U}$ and $q^{\star} \in {\mathbb{R}}^{m}$ such that the distributionally robust LQG problem is solved by $u^{\star} = {q^{\star} + {U^{\star}y}}$.
+
+The identity $p^{\star} = {\overline{p}}^{\star}$ readily implies that is solved by a causal controller that is linear in the purified observations. However, any causal controller that is linear in the purified observations $\eta$ can be reformulated exactly as a causal controller that is linear in the original observations $y$ and vice-versa \[6, Proposition 3\]. Thus, Corollary 3. ‣ Conclusions. ‣ 3 Nash Equilibrium and Optimality of Linear Output Feedback Controllers ‣ Distributionally Robust Linear Quadratic Control") follows. The third key implication of Theorem 3.5 and ). ‣ Conclusions. ‣ 3 Nash Equilibrium and Optimality of Linear Output Feedback Controllers ‣ Distributionally Robust Linear Quadratic Control") is that the dual distributionally robust LQG problem is solved by a normal distribution.
+
+### Corollary 4 (Nature's Nash strategy is a normal distribution)
+
+The dual distributionally robust LQG problem is solved by a distribution ${\mathbb{P}}^{\star} \in \mathcal{W}_{\mathcal{N}}$.
+
+Corollary 4. ‣ Conclusions. ‣ 3 Nash Equilibrium and Optimality of Linear Output Feedback Controllers ‣ Distributionally Robust Linear Quadratic Control") is a direct consequence of the identity ${\underset{¯}{d}}^{\star} = d^{\star}$. Note that the optimal normal distribution ${\mathbb{P}}^{\star}$ is uniquely determined by the covariance matrices $W^{\star}$ and $V^{\star}$ of the exogenous uncertain parameters, which can be computed by solving problem. That the worst-case distribution is actually Gaussian is not a-priori expected and is surprising given that the Wasserstein ball contains many non-Gaussian distributions.
+
+## Efficient Numerical Solution of Distributionally Robust LQG Problems
+
+Having proven these structural results, we next turn attention to the problem of finding the optimal strategies. Our next result shows that, under a mild regularity condition, the optimal controller $u^{\star}$ of the distributionally robust LQG problem can be computed efficiently from ${\mathbb{P}}^{\star}$.
+
+### Proposition 4.1 (Optimality of Kalman filter-based feedback controllers)
+
+If ${\hat{V}}_{t} \succ 0$ for all $t \in {\lbrack{T - 1}\rbrack}$, then problem is solved by a Gaussian distribution ${\mathbb{P}}^{\star}$ under which $v_{t}$ has a covariance matrix $V_{t}^{\star} \succ 0$ for every $t \in {\lbrack{T - 1}\rbrack}$, and is solved by the optimal LQG controller corresponding to ${\mathbb{P}}^{\star}$. Additionally, the optimal value of problem and its strong dual does not change if we restrict $\mathcal{G}_{W}$ and $\mathcal{G}_{V}$ to $\mathcal{G}_{W}^{+}$ and $\mathcal{G}_{V}^{+}$, respectively, where
+
+This implies that the optimal controller can be computed by solving a classic LQG problem corresponding to nature's optimal strategy ${\mathbb{P}}^{\star}$, which can be done very efficiently through Kalman filtering and dynamic programming (see Appendix §A for details). It thus suffices to design an efficient algorithm for computing ${\mathbb{P}}^{\star}$, which is uniquely determined by the covariance matrices $(W^{\star},V^{\star})$ that solve problem. To this end, we first reformulate as
+
+where we restrict $\mathcal{G}_{W}$ and $\mathcal{G}_{V}$ to $\mathcal{G}_{W}^{+}$ and $\mathcal{G}_{V}^{+}$, respectively, due to Proposition 4.1. ‣ 4 Efficient Numerical Solution of Distributionally Robust LQG Problems ‣ Distributionally Robust Linear Quadratic Control"), and where $f{(W,V)}$ denotes the optimal value function of the inner minimization problem in. As is a reformulation of and as the family of all causal purified output-feedback controllers matches the family of causal output-feedback controllers, $f{(W,V)}$ can also be viewed as the optimal value of the classic LQG problem corresponding to the normal distribution $\mathbb{P}$ determined by the covariance matrices $W$ and $V$. These insights lead to the following structural result.
+
+### Proposition 4.2
+
+$f{(W,V)}$ is concave and $\beta$-smooth in ${(W,V)} \in {\mathcal{G}_{W}^{+} \times \mathcal{G}_{V}^{+}}$ for some $\beta > 0$.
+
+By Proposition 4.2, it is possible to address problem with a Frank-Wolfe algorithm. Each iteration of this algorithm solves a direction-finding subproblem, that is, a variant of problem that maximizes the first-order Taylor expansion of $f{(W,V)}$ around the current iterates.
+
+The next iterates are then obtained by moving towards a maximizer $(L_{W}^{\star},L_{V}^{\star})$ of, i.e., we update
+
+where $\alpha$ is an appropriate step size. The proposed Frank-Wolfe algorithm enjoys a very low per-iteration complexity because problem is separable. To see this, we reformulate as
+
+Hence, decomposes into ${2T} + 1$ separate subproblems that can be solved in parallel. That is, for any matrix $Z \in {\{ X_{0},W_{0},\ldots,W_{T - 1},V_{0},\ldots,V_{T - 1}\}}$ we solve a separate subproblem of the form
+
+These subproblems can be reformulated as tractable SDPs and are thus amenable to efficient off-the-shelf solvers. By \[38, Theorem 6.2\], however, one can exploit the structure of the Gelbrich distance in order to reduce to a univariate algebraic equation that can be solved to any desired accuracy $\delta > 0$ by a highly efficient bisection algorithm. We say that $L_{Z}^{\delta}$ is a $\delta$-approximate solution of problem for some $\delta \in {}$ if $L_{Z}^{\delta}$ is feasible in and if
+
+where $L_{Z}^{\star}$ is an exact maximizer of. Note that, by the concavity of $f{(W,V)}$, the inner product on the right-hand side is nonnegative and vanishes if and only if $Z$ maximizes $f{(W,V)}$ over the feasible set of. For further details we refer to Appendix §E in the supplementary material.
+
+### Remark 1 (Automatic differentiation)
+
+Recall that $f{(W,V)}$ coincides with the optimal value of the LQG problem corresponding to the normal distribution $\mathbb{P}$ determined by the covariance matrices $W$ and $V$. By using the underlying dynamic programming equations, $f{(W,V)}$ can thus be expressed in closed form as a serial composition of $\mathcal{O}{(T)}$ rational functions (see Appendix §A for details). Hence, ${\nabla_{Z}f}{(W,V)}$ can be calculated symbolically for any $Z \in {\{ X_{0},W_{0},\ldots,W_{T - 1},V_{0},\ldots,V_{T - 1}\}}$ by repeatedly applying the chain and product rules. However, the resulting formulas are lengthy and cumbersome. We thus compute the gradients numerically using backpropagation. The cost of evaluating ${\nabla_{Z}f}{(W,V)}$ is then of the same order of magnitude as the cost of evaluating $f{(W,V)}$.
+
+A detailed description of the proposed Frank-Wolfe method is given in Algorithm 1 below.
+
+Input: initial iterates W, V, nominal covariance matrices Ŵ, V̂, oracle precision δ ∈
+1:set initial iteration counter k = 0
+2:while stopping criterion is not met do
+5: find a δ-approximate solution LZδ of
+Algorithm 1 Frank-Wolfe algorithm for solving
+
+By \[31, Theorem 1 and Lemma 7\], which applies thanks to the structural properties of $f{(W,V)}$ established in Proposition 4.2, Algorithm 1 attains a suboptimality gap of $\epsilon$ within $\mathcal{O}{({1/\epsilon})}$ iterations.
+
+## Numerical Experiments
+
+All experiments are run on an Intel i7-8700 CPU (3.2 GHz) machine with 16GB RAM. All linear SDP problems are modeled in Python 3.8.6 using CVXPY and solved with MOSEK. The gradients of $f{(W,V)}$ are computed via Pymanopt with PyTorch's automated differentiation module.
+
+Consider a class of distributionally robust LQG problems with $n = m = p = 10$. We set $A_{t} = {0.1 \times A}$ to have ones on the main diagonal and the superdiagonal and zeroes everywhere else ($A_{i,j} = 1$ if $i = j$ or $i = {j - 1}$ and $A_{i,j} = 0$ otherwise), and the other matrices to $B_{t} = C_{t} = Q_{t} = R_{t} = I_{d}$. The Wasserstein radii are set to $\rho_{x_{0}} = \rho_{w_{t}} = \rho_{v_{t}} = 10^{- 1}$. The nominal covariance matrices of the exogenous uncertainties are constructed randomly and with eigenvalues in the interval $\lbrack 1,2\rbrack$ (so as to ensure they are positive definite). The code is publicly available in the Github repository [https://github.com/RAO-EPFL/DR-Control](https://github.com/RAO-EPFL/DR-Control).
+
+The optimal value of the distributionally robust LQG problem can be computed by directly solving the SDP reformulation of with MOSEK or by solving the nonlinear SDP with our Frank-Wolfe method detailed in Algorithm 1. We next compare these two approaches in 10 independent simulation runs, where we set a stopping criterion corresponding to an optimality gap below $10^{- 3}$ and we run the Frank-Wolfe method with $\delta = 0.95$. Figure 1(a) illustrates the execution time for both approaches as a function of the planning horizon $T$; runs where MOSEK exceeds $100$s are not reported. Figure 1(b) visualizes the empirical convergence behavior of the Frank-Wolfe algorithm. The results highlight that the Frank-Wolfe algorithm achieves running times that are uniformly lower than MOSEK across all problem horizons and is able to find highly accurate solutions already after a small number of iterations (50 iterations for problem instances of time horizon $T = 10$).
+
+Figure 1: (a) Execution time for MOSEK and Frank-Wolfe algorithm over 10 simulation runs as a function of the horizon T (solid lines show the mean and the shaded areas correspond to 1 standard deviation). (b) Convergence of optimality gap for Frank-Wolfe algorithm with horizon T = 10.
+
+## Concluding Remarks and Limitations
+
+In view of the popularity of LQG models, the results in this work carry important theoretical and practical implications. Despite considering a generalization of the classic LQG setting where the noise affecting the system dynamics and the observations follows unknown (and potentially non-Gaussian) distributions, our findings suggest that certain classic structural results continue to hold and that highly efficient methods can be adapted to tackle this more realistic (and more challenging) problem. Specifically, that control policies depending linearly on observations continue to be optimal and that the worst-case distribution turns out to be Gaussian is surprising from a theoretical angle and also has direct practical implications, because it allows leveraging the highly efficient Kalman filter in conjunction with dynamic programming and a Frank-Wolfe method to design an efficient computational procedure for solving the problem.
+
+The results also raise several important questions that warrant future exploration. First, it would be highly relevant to consider extensions where the system matrices are also affected by uncertainty, as this captures many applications of practical interest in, e.g., reinforcement learning or revenue management. Second, it would be worth exploring an infinite horizon setting or relaxing the assumption that the nominal distribution is Gaussian, as both assumptions may be limiting the practical appeal of the framework. Third, one could also attempt to prove structural optimality results or design novel algorithms for generating high-quality suboptimal solutions for the more general setting involving constraints on states and/or control inputs. Lastly, one could improve the present algorithmic proposal by exploiting topological properties of the objective so as to guarantee linear convergence rates in the Frank-Wolfe procedure.

@@ -1,0 +1,5 @@
+SONIC: Supersizing Motion Tracking for Natural Humanoid Whole-Body Control
+
+Topics include Robustness, Foundation models, Vision-language models, Datasets, Real-time systems, Control, SONIC, Vision-language-action, Vision-language-action model.
+
+Despite the rise of billion-parameter foundation models trained across thousands of GPUs, similar scaling gains have not been shown for humanoid control. Current neural controllers for humanoids remain modest in size, target a limited set of behaviors, and are trained on a handful of GPUs over several days. We show that scaling up model capacity, data, and compute yields a generalist humanoid controller capable of creating natural and robust whole-body movements. Specifically, we posit motion tracking as a natural and scalable task for humanoid control, leveraging dense supervision from diverse motion-capture data to acquire human motion priors without manual reward engineering. We build a foundation model for motion tracking by scaling along three axes: network size (from 1.2M to 42M parameters), dataset volume (over 100M frames, 700 hours of high-quality motion data), and compute (9k GPU hours)....

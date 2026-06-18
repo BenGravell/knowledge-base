@@ -1,0 +1,3 @@
+Robust Linear Quadratic Regulator: Exact Tractable Reformulation
+
+We consider the problem of controlling an unknown stochastic linear dynamical system subject to an infinitehorizon discounted quadratic cost. Existing approaches for handling the corresponding robust optimal control problem resort to either conservative uncertainty sets or various approximations schemes, and to our best knowledge, the current literature lacks an exact, yet tractable, solution. We propose a class of novel uncertainty sets for the system matrices of the linear system. We show that the resulting robust linear quadratic regulator problem enjoys a closed-form solution described through a generalized algebraic Riccati equation arising from dynamic game theory.

@@ -1,0 +1,17 @@
+Learning and Predicting Multimodal Vehicle Action Distributions in a Unified Probabilistic Model without Labels
+
+Topics include Vehicles, Self-supervised learning, Probabilistic models, Clustering, Learning, Variational inference.
+
+We present a unified probabilistic model that learns a representative set of discrete vehicle actions and predicts the probability of each action given a particular scenario. Our model also enables us to estimate the distribution over continuous trajectories conditioned on a scenario, representing what each discrete action would look like if executed in that scenario. While our primary objective is to learn representative action sets, these capabilities combine to produce accurate multimodal trajectory predictions as a byproduct. Although our learned action representations closely resemble semantically meaningful categories (e.g., "go straight", "turn left", etc.), our method is entirely self-supervised and does not utilize any manually generated labels or categories. Our method builds upon recent advances in variational inference and deep unsupervised clustering, resulting in full distribution estimates based on deterministic model evaluations.
+
+## Introduction
+
+A central challenge in robotics and artificial intelligence is to develop discrete representations that can translate the high-dimensional continuous spaces of real-world sensor data and robot configuration into forms that are compatible with algorithms for abstract reasoning, such as search and logical or probabilistic inference. Although representation learning has been studied extensively in the machine learning literature, and learned action representations are often used in robotics, it remains an open challenge to distill unlabeled natural data into a representative set of discrete actions....
+
+Nevertheless, there are important cases in an autonomous vehicle system in which it would be useful to describe behavior in terms of a representative discrete action set. For example, communicating intent or receiving instruction from a user would require a relatively small set of meaningfully distinct action choices, perhaps with semantic labels attached. Similarly, right-of-way conventions and rules of the road are understood in terms of discrete actions, necessitating a way to classify continuous-valued trajectories as members of an action set in order to evaluate their legality.
+
+We have shown that the number of discrete actions needed to describe natural driving can be quite small ($\approx 20$) and is compatible with human-understandable semantic meaning, in contrast with pure motion prediction methods whose sets of anchor trajectories are often much larger. It is the continuous latent variable in our model that enables us to tailor a small number of discrete actions to fit such a wide variety of continuous vehicle motions....
+
+Finally, although we made no use of manually-defined action categories or labels, it may be useful to utilize a small set of labeled actions if they are available. Fortunately our models are easily adapted to use discrete action labels when available. One method is to simply replace $q{(\left. y \middle| {x,s} \right.)}$ with the known one-of-$K$ representation of $y$ for the samples whose labels are known. Using partial labels may help to guide cluster formation for specific actions that are known to exist while enabling the self-supervised process to discover the additional remaining modes present in the data.
+
+### III-B Accurate Predictions with Learned Action Distributions

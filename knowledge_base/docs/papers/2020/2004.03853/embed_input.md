@@ -1,0 +1,23 @@
+Shape-Constrained Regression Using Sum of Squares Polynomials
+
+Topics include Shape-constrained regression, Sum of squares, Semidefinite programming, Convex regression, Monotone regression, Polynomial regression, Statistical consistency, Optimal transport.
+
+Builds an SDP hierarchy for fitting multivariate polynomial regressors subject to shape constraints such as convexity and monotonicity on a box. Beyond the estimator, the paper proves SOS density results for convex and monotone polynomials and clarifies when polynomial shape-constrained regression becomes computationally hard.
+
+We present a hierarchy of semidefinite programs (SDPs) for the problem of fitting a shape-constrained (multivariate) polynomial to noisy evaluations of an unknown shape-constrained function. These shape constraints include convexity or monotonicity over a box. We show that polynomial functions that are optimal to any fixed level of our hierarchy form a consistent estimator of the underlying shape-constrained function. As a byproduct of the proof, we establish that sum-of-squares-convex polynomials are dense in the set of polynomials that are convex over an arbitrary box. A similar sum of squares type density result is established for monotone polynomials. In addition, we classify the complexity of convex and monotone polynomial regression as a function of the degree of the polynomial regressor. While our results show NP-hardness of these problems for degree three or larger, we can check numerically that our SDP-based regressors often achieve similar training error at low levels of the hierarchy....
+
+## Introduction
+
+Shape-constrained regression is a fundamental problem in statistics and machine learning. It posits the existence of a shape-constrained function $f$ that maps *feature vectors* to *response variables*. Its goal is to obtain an *estimator* (or *regressor*) of this function, with the same shape constraints, from noisy feature vector-response variable pairings. The shape constraints we consider are of two types here: convexity constraints over a box and $K$-bounded-derivative constraints over a box, as defined in Section 2 ‣ Shape-Constrained Regression using Sum of Squares Polynomials")....
+
+In this paper, we study a set of shape-constrained (multivariate) polynomial regressors, the Sum of Squares Estimators (SOSEs), which are obtained via a semidefinite programming hierarchy. They are parametric in $d$, their degree, and $r$, the level of the hierarchy (see Section 2.1 ‣ Shape-Constrained Regression using Sum of Squares Polynomials")). While we are not the first paper to consider shape-constrained polynomials of this type, we are the first to propose a systematic analysis of estimators defined in this way, from a variety of angles. More specifically, our contributions are the following:
+
+An example of the output images obtained via this process is given in Figure 4. Additional illustrations can be found in Figure 7 for different values of $l$ and $L$ with $d = 4$ and $r = 3$. The color transfer application works particularly well for the SOSE as the number of features is small (equal to 3), the number of data points is very large, as it corresponds to the number of pixels in the images, and as a large number of new predictions need to be made (one per pixel of the input image). In contrast, the CLSE approach considered in requires the authors to segment the images via k-means clustering to limit computation time....
+
+Figure 4: The color transfer problem in (5.3) with ℓ = 1 and L = 10.
+
+### Corollary 3.8
+
+### Two Algebraic Approximation Results
+
+The polynomials $g_{d}$ and $h_{d}$ are guaranteed to exist following Appendix A in, though they are not necessarily unique. Given $m$ feature vector-response variable pairs ${(X_{i},Y_{i})}_{i = {1,\ldots,m}}$, define now a convex-constrained regressor ${\overline{g}}_{m,d}:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ and a bounded-derivatives regressor...

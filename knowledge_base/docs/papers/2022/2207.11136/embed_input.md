@@ -1,0 +1,19 @@
+Motion Planning and Control for Multi Vehicle Autonomous Racing at High Speeds
+
+Topics include Model predictive control, Predictive control, Motion planning, Vehicles, Kalman filtering, Online algorithms, Offline algorithms, Optimization, Planning, Control, Kalman filter.
+
+This paper presents a multi-layer motion planning and control architecture for autonomous racing, capable of avoiding static obstacles, performing active overtakes, and reaching velocities above 75 m/s. The used offline global trajectory generation and the online model predictive controller are highly based on optimization and dynamic models of the vehicle, where the tires and camber effects are represented in an extended version of the basic Pacejka Magic Formula. The proposed single-track model is identified and validated using multi-body motorsport libraries which allow simulating the vehicle dynamics properly, especially useful when real experimental data are missing. The fundamental regularization terms and constraints of the controller are tuned to reduce the rate of change of the inputs while assuring an acceptable velocity and path tracking. The motion planning strategy consists of a Frenét-Frame-based planner which considers a forecast of the opponent produced by a Kalman filter. The planner chooses the collision-free path and velocity profile to be tracked on a 3 seconds horizon to realize different goals such as following and overtaking....
+
+## INTRODUCTION
+
+In the literature, several approaches for motion planning and control have been developed and tested on high-performance autonomous vehicles. Hierarchical methods which exploit different levels of model complexity at different stages of the motion planner/controller are the current state of the art. The strength of this approach has been shown in, where a hierarchical method with a Nonlinear Model Predictive Control (NMPC) at its core was able to outperform a top driver on a formula student race car at lateral accelerations of over 20 m/s^2^.
+
+For the task of multi-vehicle racing, the gap between human expert drivers and autonomous systems is still significant. This is also related to the fundamental challenges that must be solved to tackle this task, which include perception, rule-based interaction with other agents and the infrastructure, motion prediction, generation, and tracking of optimal trajectories for overtakes in unstructured environments. Most related works in this field focus on racing video games, simulations, and RC cars, and very limited work is done on full-scale race cars....
+
+## CONCLUSIONS
+
+A multi-body model of the racecar has been implemented in simulation and used to examine and identify non negligible dynamics prior to the tests on track. This approach combined with a higher weight on the steering rate of change term demonstrated to be a successful strategy in making the controller robust enough at velocities of 75.5 m/s and accelerations of up to 25 m/s^2^, which were never explored before the final racing events....
+
+Thus, at each time step for every obstacle, the Frenét frame measurements ${{\hat{s}}_{i}{(k)}},{{\hat{n}}_{i}{(k)}}$ are computed from ${{\hat{x}}_{i}{(k)}},{{\hat{y}}_{i}{(k)}}$. Using these measurements, the Kalman filter is updated with a prediction step, followed by a correction phase in which $\Sigma_{sn}$, the covariance matrix of the position converted in the Frenét frame, is used. The future trajectory of the obstacle ${\mathcal{O}_{i}{({k + \left. 1 \middle| k \right.})}},\ldots,{\mathcal{O}_{i}{({k + \left. m \middle| k \right.})}}$ is predicted by applying $m$ consecutive prediction steps.
+
+First experimental data on the real vehicle have been gathered using a simple Pure Pursuit path tracking algorithm at a maximum speed of 45 m/s at IMS and performing a light warm-up maneuver at 25...

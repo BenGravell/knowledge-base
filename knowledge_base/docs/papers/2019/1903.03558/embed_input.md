@@ -1,0 +1,17 @@
+FASTER: Fast and Safe Trajectory Planner for Flights in Unknown Environments
+
+High-speed trajectory planning through unknown environments requires algorithmic techniques that enable fast reaction times while maintaining safety as new information about the operating environment is obtained. The requirement of computational tractability typically leads to optimization problems that do not include the obstacle constraints (collision checks are done on the solutions) or use a convex decomposition of the free space and then impose an ad-hoc time allocation scheme for each interval of the trajectory. Moreover, safety guarantees are usually obtained by having a local planner that plans a trajectory with a final "stop" condition in the free-known space. However, these two decisions typically lead to slow and conservative trajectories. We propose FASTER (Fast and Safe Trajectory Planner) to overcome these issues. FASTER obtains high-speed trajectories by enabling the local planner to optimize in both the free-known and unknown spaces. Safety guarantees are ensured by always having a feasible, safe back-up trajectory in the free-known space at the start of each replanning step....
+
+## INTRODUCTION
+
+Navigating through unknown environments entails repeatedly generating collision-free, dynamically feasible trajectories that are executed over a finite horizon. Similar to that in the Model Predictive Control (MPC) literature, safety is guaranteed by ensuring a feasible solution exists indefinitely. If we consider ${\mathbb{R}}^{3} = {\mathcal{O} \cup \mathcal{F} \cup \mathcal{U}}$ where $\mathcal{F}$, $\mathcal{O}$, $\mathcal{U}$ are disjoint sets denoting free-known, occupied-known, and unknown space respectively, safety is guaranteed by constructing trajectories that are entirely contained in $\mathcal{F}$ with a final stop condition....
+
+Decomposing the free space into $P$ overlapping polyhedra along a path connecting a start $A$ to goal $E$ location (see Fig. 1), the usual approach is to divide the total trajectory into $N = P$ intervals. On one hand, this simplifies the problem because no integer variables are needed, as each interval is forced to be in one specific polyhedron. On the other hand, the time allocation problem becomes much harder, as there are $N$ different $dt_{n}$ (time allocated for each interval $n$)....
+
+## CONCLUSIONS
+
+This work presented FASTER, a fast and safe planner for agile flights in unknown environments. The key properties of this planner is that it leads to a higher nominal speed than other works by planning both in $\mathcal{U}$ and $\mathcal{F}$, and ensures safety by having always a Safe Trajectory planned in $\mathcal{F}$ at the beginning of every replanning step. FASTER was tested successfully both in simulated and in hardware flights, achieving velocities up to $3.6$ m/s.
+
+Figure 4: Choice of the direction to optimize. At t = tk − 1, the JPS solution chosen was J P Sk − 1. At t = tk, JPS is run again to obtain J P Sa, and J P Sk − 1 is modified so that it does not collide with 𝒪, obtaining J P Sb. A heuristic of the cost-to-go in each direction is computed, and the direction with the lowest cost is chosen as the one towards which the local planner will optimize.
+
+Committed Trajectory: This trajectory consists of two pieces: The first part is the interval $A\rightarrow R$ of the Whole Trajectory. The second part is the Safe Trajectory. It is also guaranteed to be inside $\mathcal{F}$ (see explanation below)....

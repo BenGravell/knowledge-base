@@ -1,0 +1,328 @@
+### Introduction
+
+Machine learning methods such as model-based reinforcement learning have lead to a number of breakthroughs in key applications across robotics and control. A popular technique in these domains is learning-based model-predictive control (MPC), wherein a model learned from data is used to repeatedly solve online planning problems to control the real system. It has long been understood that solving MPC *exactly*--both with perfectly accurate dynamics and minimization to globally optimality for each planning problem--enjoys numerous beneficial control-theoretic properties.
+
+Unfortunately, the above situation is not reflective of practice. For one, most systems of practical interest are *nonlinear*, and therefore exact global recovery of system dynamics suffers from a curse of dimensionality. And second, the nonlinear dynamics render any natural trajectory planning problem nonconvex, making global optimality elusive. In this work, we focus on learning-based trajectory optimization, the "inner-loop" in MPC. We ask *when can we obtain rigorous guarantees about the solutions to nonlinear trajectory optimization under unknown dynamics?*
+
+We take as our point of departure the $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ algorithm. Initially proposed under known dynamics, $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ solves a planning objective by solving an iterative linear control problem around a first-order Taylor expansion (the *Jacobian linearization*) of the dynamics, and second-order Taylor expansion of the control costs. In solving this objective, $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ synthesizes a sequence of locally-stabilizing feedback gains, and each $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$-update can be interpreted as a gradient-step through the closed-loop linearized dynamics in feedback with these gains. This has the dual benefit of proposing a locally stabilizing policy (not just an open-loop trajectory), and of stabilizing the gradients to circumvent exponential blow-up in planning horizon. $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$, and its variants, are now ubiquitous in robotics and control applications; and, when dynamics are unknown or uncertain, one can simply substitute the exact dynamics model with an estimate (e.g. Levine and Koltun ). In this case, dynamics are typically estimated with neural networks. Thus, Jacobian linearizations can be computed by automated differentiation (AutoDiff) through the learned model.
+
+Contributions. We propose and analyze an alternative to the aforementioned approach of first learning a deep neural model of dynamics, and then performing AutoDiff to conduct the $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ update. We consider a simplified setting with fixed initial starting condition. Our algorithm maintains a *policy*, specified by an open-loop input sequence and a sequence of stabilizing gains, and loops two steps: (a) it learns local linear model of the closed-loop linearized dynamics (in feedback with these gains), which we use to perform a gradient update; (b) it re-estimates a linear model after the gradient step, and synthesizes a new set of set gains from this new model. In contrast to past approaches, our algorithm *only ever estimates linear models of system dynamics.*
+
+For our analysis, we treat the underlying system dynamics as continuous and policy as discrete; this reflects real physical systems, is representative of discrete-time simulated environments which update on smaller timescales than learned policies, and renders explicit the effect of discretization size on sample complexity. We consider an interaction model where we query an oracle for trajectories corrupted with measurement (but not process) noise. Our approach enjoys the following theoretical properties.
+
+Using a number of iterations and oracle queries *polynomial* in relevent problem parameters and tolerance $\epsilon$, it computes a policy $\pi$ whose input sequence is an $\epsilon$-first order stationary point for the $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ approximation of the planning objective (i.e., the gradient through the closed-loop linearized dynamics has norm $\leq \epsilon$). Importantly, learning the linearized model at each iteration obviates the need for global dynamics models, allowing for sample complexity polynomial in dimension.
+
+We show that contribution $\mathbf{1}$ implies convergence to a local-optimality criterion we call an $\epsilon$-approximate *Jacobian Stationary Point* ($\epsilon$-$\mathtt{J}\mathtt{S}\mathtt{P}$); this roughly equates to the open-loop trajectory under $\pi$ having cost within $\epsilon$-*globally optimal* for the linearized dynamics about its trajectory.
+
+$\mathtt{J}\mathtt{S}\mathtt{P}$s are purely a property of the open-loop inputs, allowing comparison of the quality of the open-loop plan with differing gains. Moreover, the results of Westenbroek et al. show that an approximate $\mathtt{J}\mathtt{S}\mathtt{P}$s for certain planning objective enjoy favorable *global properties*, despite (as we show) being computable from (local) gradient-based search (see Section B.2 ‣ Appendix B Discussion and Extensions ‣ Part I Analysis ‣ The Power of Learned Locally Linear Models for Nonlinear Policy Optimization") for elaboration).
+
+### Experimental Findings
+
+We validate our algorithms on standard models of the quadrotor and inverted pendulum, finding an improved performance as iteration number increases, and that the synthesized gains prescribed by $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ yield improved performance over vanilla gradient updates.
+
+### Proof Techniques
+
+Central to our analysis are novel perturbation bounds for controlled nonlinear differential equations. Prior results primarily focus on the open-loop setting, and implicitly hide an exponential dependence on the time horizon for open-loop unstable dynamics. We provide what is to the best of our knowledge the first analysis which demonstrates that local feedback can overcome this pathology. Specifically, we show that if the feedback gains stabilize the Jacobian-linearized dynamics, then (a) the Taylor-remainder of the first-order approximation of the dynamics does *not* scale exponentially on problem horizon (Proposition 4.3), and (b) small perturbations to the nominal input sequence preserve closed-loop stability of the linearized dynamics. These findings are detailed in Section A.6, and enable us to bootstrap the many recent advances in statistical learning for linear systems to our nonlinear setting.
+
+### Related Work
+
+$\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ is a more computationally expedient variant of differential dynamic programming ($\mathtt{D}\mathtt{P}\mathtt{P}$) Jacobson and Mayne; numerous variants exist, notably $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{G}$ and $\mathtt{M}\mathtt{P}\mathtt{P}\mathtt{I}$ which better address problem stochasticity. $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ is a predominant approach for the "inner loop" trajectory optimization step in MPC, with applications in robotics, quadrotors, and autonomous racing.
+
+A considerable literature has combined $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ with learned dynamics models; here, the Jacobian linearization matrices are typically derived through automated differentiation, though local kernel least squares regression has also been studied. In these works, the dynamics models are refined/re-estimated as the policy is optimized; thus, these approaches are one instantiation of the broader iterative learning control (ILC) paradigm; other instantiations of ILC include Kocijan et al.; Dai et al.; Aswani et al.; Bechtle et al..
+
+Recent years have seen multiple rigorous guarantees for learning system identification and control, though a general theory of learning for nonlinear control remains elusive. Recent progress includes nonlinear imitation learning, learning systems with known nonlinearities in the dynamics or perception model.
+
+Lastly, there has been recent theoretical attention given to the study of first-order trajectory optimization methods. Roulet et al. perform an extension theoretical study of the convergence properties of $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$, $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{G}$, and $\mathtt{D}\mathtt{P}\mathtt{P}$ with *exact* dynamics models, and corroborate their findings experimentally. Westenbroek et al. show further that for certain classes of nonlinear systems, all $\epsilon$-first order stationary points of a suitable trajectory optimization objective induce trajectories which converge exponentially to desired system equilbria. In some cases, there may be multiple spurious local minima, each of which is nevertheless exponentially stabilizing. Examining the proof Westenbroek et al. shows the result holds more generally for all $\epsilon$-$\mathtt{J}\mathtt{S}\mathtt{P}$s, and therefore we use their work justify the $\mathtt{J}\mathtt{S}\mathtt{P}$ criterion proposed in this paper.
+
+### Setting
+
+We consider a continuous-time nonlinear control system with state ${\mathbf{x}{(t)}} \in {\mathbb{R}}^{d_{\mathsf{x}}}$, input ${\mathbf{u}{(t)}} \in {\mathbb{R}}^{d_{\mathsf{u}}}$ with finite horizon $T > 0$, and fixed initial condition $\xi_{init} \in {\mathbb{R}}^{d_{\mathsf{x}}}$. We denote the space of bounded input signals $\mathcal{U}:={\{{\mathbf{u}{( \cdot )}}:{{{\lbrack 0,T\rbrack}\rightarrow{\mathbb{R}}^{d_{\mathsf{u}}}}:{{\sup_{t \in {\lbrack 0,T\rbrack}}{\|{\mathbf{u}{(t)}}\|}} < \infty}}\}}$. We endow $\mathcal{U}$ with an inner product ${\langle{\mathbf{u}{( \cdot )}},{\mathbf{u}^{\prime}{( \cdot )}}\rangle}_{\mathcal{L}_{2}{(\mathcal{U})}}:={\int_{0}^{T}{{\langle{\mathbf{u}{(s)}},{\mathbf{u}^{\prime}{(s)}}\rangle}{ds}}}$, where $\langle \cdot, \cdot \rangle$ is the standard Euclidean inner product, which induces a norm ${\|{\mathbf{u}{( \cdot )}}\|}_{\mathcal{L}_{2}{(\mathcal{U})}}^{2}:={\langle{\mathbf{u}{( \cdot )}},{\mathbf{u}{( \cdot )}}\rangle}_{\mathcal{L}_{2}{(\mathcal{U})}}$. For $\mathbf{u} \in \mathcal{U}$, the open-loop dynamics are governed by the ordinary differential equation (ODE)
+
+where $f_{dyn}:{{{\mathbb{R}}^{d_{\mathsf{x}}} \times {\mathbb{R}}^{d_{\mathsf{u}}}}\rightarrow{\mathbb{R}}^{d_{\mathsf{x}}}}$ a $\mathcal{C}^{2}$ map. Given a terminal cost ${V{( \cdot )}}:{{\mathbb{R}}^{d_{\mathsf{x}}}\rightarrow{\mathbb{R}}}$ and running ${Q{( \cdot, \cdot, \cdot )}}:{{{\mathbb{R}}^{d_{\mathsf{x}}} \times {\mathbb{R}}^{d_{\mathsf{u}}} \times {\lbrack 0,T\rbrack}}\rightarrow{\mathbb{R}}}$, we optimize the control objective
+
+We make the common assumption that the costs are strongly $\mathcal{C}^{2}$, and that $\mathcal{Q}$ is strongly convex:
+
+### Assumption 2.1
+
+For all $t \in {\lbrack 0,T\rbrack}$, $V{( \cdot )}$ and $Q{( \cdot, \cdot,t)}$ are twice-continuously differentiable ($\mathcal{C}^{2}$), and $x\mapsto{V{(x)}}$ and ${(x,u)}\mapsto{{Q{(x,u,t)}} - {\frac{\alpha}{2}{({{\| x\|}^{2} + {\| u\|}^{2}})}}}$ are convex.
+
+Given a continuously differentiable function $\mathcal{F}:{\mathcal{U}\rightarrow{\mathbb{R}}^{n}}$ and perturbation ${\delta\mathbf{u}} \in \mathcal{U}$, we define its *directional derivative* ${D\mathcal{F}{(\mathbf{u})}{\lbrack{\delta\mathbf{u}}\rbrack}}:={\lim_{\eta\rightarrow 0}{\eta^{- 1}{({{\mathcal{F}{({\mathbf{u} + {\eta\delta\mathbf{u}}})}} - {\mathcal{F}{(\mathbf{u})}}})}}}$. The *gradient* ${{\nabla\mathcal{F}}{(\mathbf{u})}} \in \mathcal{U}$ is the (almost-everywhere) unique element of $\mathcal{U}$ such that
+
+In particular, we denote the gradients of $\mathbf{u}\mapsto{\mathbf{x}{({t \mid \mathbf{u}})}}$ as ${\nabla_{\mathbf{u}}\mathbf{x}}{({t \mid \mathbf{u}})}$, and of $\mathbf{u}\mapsto{\mathcal{J}_{T}{(\mathbf{u})}}$ as ${\nabla_{\mathbf{u}}\mathcal{J}_{T}}{(\mathbf{u})}$.
+
+### Discretization and Feedback Policies
+
+Because digital controllers cannot represent continuous open-loop inputs, we compute $\epsilon$-$\mathtt{J}\mathtt{S}\mathtt{P}$s $\mathbf{u} \in \mathcal{U}$ which are the zero-order holds of discrete-time control sequences. We let $\tau \in {(0,T\rbrack}$ be a discretization size, and set $K = {\lfloor{T/\tau}\rfloor}$. Going forward, we denote discrete-time quantities in colored, bold-seraf font.
+
+For $k \geq 1$, define $t_{k} = {{({k - 1})}\tau}$, and define the intervals $\mathcal{I}_{k} = {\lbrack t_{k},t_{k + 1})}$. For $t \in {\lbrack 0,T\rbrack}$, let ${k{(t)}}:={\sup{\{ k:{t_{k} \leq t}\}}}$. We let ${\mathbf{U}}:={({\mathbb{R}}^{d_{\mathsf{u}}})}^{K}$, whose elements are denoted $\overset{\rightarrow}{\mathtt{u}} = \mathtt{u}_{1:K}$, and let ${\mathsf{c}\mathsf{t}}:{{\mathbf{U}}\rightarrow\mathcal{U}}$ denote the natural inclusion ${{\mathsf{c}\mathsf{t}}{(\overset{\rightarrow}{\mathtt{u}})}{(t)}}:=\mathtt{u}_{k{(t)}}$.
+
+Next, to mitigate the curse of horizon, we study *policies* which (a) have discrete-time open-loop inputs and (b) have discrete-time feedback gains to stabilize around the trajectories induced by the nominal inputs. In this work, $\Pi_{\tau}$ denotes the set of all policies $\pi = {(\mathtt{u}_{1:K}^{\pi},\mathtt{K}_{1:K}^{\pi})}$ defined by a discrete-time open-loop policy $\mathtt{u}_{1:K}^{\pi} \in {\mathbf{U}}$, and a sequence of feedback gains ${(\mathtt{K}_{k}^{\pi})}_{k \in {\lbrack K\rbrack}} \in {({\mathbb{R}}^{d_{\mathsf{x}}d_{\mathsf{u}}})}^{K}$. A policy $\pi$ induces nomimal dynamics ${\mathbf{u}^{\pi}{( \cdot )}} = {{\mathsf{c}\mathsf{t}}{(\mathtt{u}_{1:K}^{\pi})}}$ and ${\mathbf{x}^{\pi}{(t)}} = {\mathbf{x}{({t \mid \mathbf{u}^{\pi}})}}$; we set $\mathtt{x}_{k}^{\pi} = {\mathbf{x}^{\pi}{(t_{k})}}$. It also induces the following dynamics by stabilizing around the policy.
+
+### Definition 2.1
+
+Given a continuous-time input $\overline{\mathbf{u}} \in \mathcal{U}$, we define the *stabilized trajectory* ${{\overset{\sim}{\mathbf{x}}}^{\pi,{ct}}{({t \mid \overline{\mathbf{u}}})}}:={\mathbf{x}{({t \mid {\overset{\sim}{\mathbf{u}}}^{\pi,{ct}}})}}$, where
+
+This induces a stabilized objective:
+
+We define the shorthand ${{\nabla\mathcal{J}_{T}}{(\pi)}}:=\left. {{\nabla_{\overline{\mathbf{u}}}\mathcal{J}_{T}^{\pi}}{(\overline{\mathbf{u}})}} \right|_{\overline{\mathbf{u}} = \mathbf{u}^{\pi}}$
+
+Notice that, while $\pi$ is specified by *discrete-time* inputs, ${{\overset{\sim}{\mathbf{x}}}^{\pi,{ct}}{( \cdot )}},{{\overset{\sim}{\mathbf{u}}}^{\pi,{ct}}{( \cdot )}}$ are *continuous-time* inputs and trajectories stabilized by $\pi$ and the gradient ${\nabla\mathcal{J}_{T}^{\pi}}{( \cdot )}$ is defined over *continuous-time perturbations*.
+
+### Optimization Criteria
+
+Due to nonlinear dynamics, the objectives $\mathcal{J}_{T},\mathcal{J}_{T}^{\pi}$ are nonconvex, so we can only aim for local optimality. Approximate first-order stationary points ($\mathtt{F}\mathtt{O}\mathtt{S}$) are a natural candidate.
+
+### Definition 2.2
+
+We say $\mathbf{u}$ is an $\epsilon$-$\mathtt{F}\mathtt{O}\mathtt{S}$ of a function $\mathcal{F}:{\mathcal{U}\rightarrow{\mathbb{R}}}$ if ${\|{{\nabla_{\mathbf{u}}\mathcal{F}}{(\mathbf{u})}}\|}_{\mathcal{L}_{2}{(\mathcal{U})}} \leq \epsilon$. We say $\pi$ is *$\epsilon$-stationary* if
+
+Our primary criterion is to compute $\epsilon$-stationary policies $\pi$. However, this depends both on the policy inputs $\mathbf{u}^{\pi}$ (and induced trajectory $\mathbf{x}^{\pi}$), *as well as* the gains. We therefore propose a secondary optimization criterion which depends only on the policies inputs/trajectory. It might be tempting to hope that $\mathbf{u}^{\pi}$ is an $\epsilon$-$\mathtt{F}\mathtt{O}\mathtt{S}$ of the original objective $\mathcal{J}_{T}{(\mathbf{u})}$. However, when the Jacobian linearized trajectory (Definition 2.3 below) of the dynamics around $(\mathbf{x}^{\pi},\mathbf{u}^{\pi})$ are unstable, the open-loop gradient ${\|{{\nabla\mathcal{J}_{T}}{(\mathbf{u}^{\pi})}}\|}_{\mathcal{L}_{2}{(\mathcal{U})}}$ can be a factor of $e^{T}$ larger than the stabilized gradient ${\|{{\nabla\mathcal{J}_{T}}{(\pi)}}\|}_{\mathcal{L}_{2}{(\mathcal{U})}}$ despite the fact that, definitionally, ${\mathcal{J}_{T}{(\mathbf{u}^{\pi})}} = {\mathcal{J}_{T}^{\pi}{(\mathbf{u}^{\pi})}}$ (see Section B.1). We therefore propose an alternative definition in terms of Jacobian-linearized trajectory.
+
+### Definition 2.3
+
+Given ${\mathbf{u},\overline{\mathbf{u}}} \in \mathcal{U}$, define the Jacobian-linearized ($\mathtt{J}\mathtt{L}$) *trajectory* ${\mathbf{x}^{jac}{({t \mid {\overline{\mathbf{u}};\mathbf{u}}})}} = {{\mathbf{x}{({t \mid \mathbf{u}})}} + {\langle{{\nabla_{\mathbf{u}}\mathbf{x}}{({t \mid \mathbf{u}})}},{\overline{\mathbf{u}} - \mathbf{u}}\rangle}}$, and *cost*
+
+In words, the $\mathtt{J}\mathtt{L}$ trajectory is just the first-order Taylor expansion of the dynamics around an input $\mathbf{u} \in \mathcal{U}$, and the cost is the cost functional applied to those $\mathtt{J}\mathtt{L}$ dynamics. We propose an optimization criterion which requires that $\mathbf{u}$ is near-*globally* optimal for the $\mathtt{J}\mathtt{L}$ dynamics around $\mathbf{u}$:
+
+### Definition 2.4
+
+We say $\mathbf{u} \in \mathcal{U}$ is an $\epsilon$-Jacobian Stationary Point ($\mathtt{J}\mathtt{S}\mathtt{P}$) if
+
+The consideration of $\mathtt{J}\mathtt{S}\mathtt{P}$s has three advantages: as noted above, $\mathtt{J}\mathtt{S}\mathtt{P}$s depend only on a trajectory and not on feedback gains; a $\mathtt{J}\mathtt{S}\mathtt{P}$ is sufficient to ensure that the exponential-stability guarantees derived in Westenbroek et al. (and mentioned in the introduction above) hold for certain systems; this provides a link between the local optimality derived in this work and *global* trajectory behavior (see Section B.2 ‣ Appendix B Discussion and Extensions ‣ Part I Analysis ‣ The Power of Learned Locally Linear Models for Nonlinear Policy Optimization") for further discussion); despite the potentially exponential-in-horizon gap between gradients of $\mathcal{J}_{T}$ and $\mathcal{J}_{T}^{\pi}$, the following result enables us to compare stationary points of the two objectives in a manner that is *independent* of the horizon $T$.
+
+### Propostion 4.1 (informal)
+
+Suppose $\pi$ is $\epsilon$-stationary, and $\tau$ is sufficiently small. Then, $\mathbf{u}^{\pi}$ is an $\epsilon^{\prime}$-$\mathtt{J}\mathtt{S}\mathtt{P}$ of $\mathcal{J}_{T}$, where $\epsilon^{\prime} = \mathcal{O}\left( \epsilon^{2}/\left. (2\alpha{(1 + \max_{k} \parallel \mathtt{K}_{k}^{\pi} \parallel^{2})} \right) \right.$.
+
+### Oracle Model and Problem Desideratum
+
+In light of the above discussion, we aim to compute a approximately stationary policy, whose open-loop is therefore an approximate $\mathtt{J}\mathtt{S}\mathtt{P}$ for the original objective. To do so, we assume access to an oracle which can perform feedback with respect to gains $\mathtt{K}_{k}^{\pi}$.
+
+### Definition 2.5 (Oracle Dynamics)
+
+Given $\overset{\rightarrow}{\mathtt{u}} = \mathtt{u}_{1:K} \in {\mathbf{U}}$, we define the *oracle dynamics*
+
+and further define ${\mathtt{x}_{{orac},k}^{\pi}{(\overset{\rightarrow}{\mathtt{u}})}}:={\mathbf{x}_{orac}^{\pi}{({t_{k} \mid \overset{\rightarrow}{\mathtt{u}}})}}$.
+
+### Oracle 2.1
+
+We assume access to an oracle $\mathtt{o}\mathtt{r}\mathtt{a}\mathtt{c}$ with variance $\sigma_{orac}^{2} > 0$, which given any $\pi \in \Pi_{\tau}$ and $\overset{\rightarrow}{\mathtt{u}} = \mathtt{u}_{1:K}$, returns,
+
+In words, 2.1 returns entire trajectories by applying feedback along the gains $\mathtt{K}_{k}^{\pi}$. The addition of measurement noise is to introduce statistical tradeoffs that prevent near-exact zero-order differentiation; we discuss extensions to process noise in Section B.4. Because of this, the oracle trajectory in Definition 2.5. ‣ Oracle Model and Problem Desideratum. ‣ 2 Setting ‣ The Power of Learned Locally Linear Models for Nonlinear Policy Optimization") differs from the trajectory dynamics in Definition 2.1 in that the feedback does not subtract off the normal $\mathtt{x}_{k}^{\pi}$; thus, the oracle can be implemented without noiseless access to the nominal trajectory. Still, we assume that the feedback applied by the oracle is exact. Having defined our oracle, we specify the following problem desideratum (note below that $M$ is scaled by $1/\tau$ to capture the computational burden of finer discretization).
+
+### Desideratum 1
+
+Given $\epsilon,\epsilon^{\prime}$ and unknown dynamical system $f_{dyn}{( \cdot, \cdot )}$, compute a policy $\pi$ for which (a) $\pi$ is $\epsilon$-stationary, and (b) $\mathbf{u}^{\pi}$ is an $\epsilon^{\prime}$-$\mathtt{J}\mathtt{S}\mathtt{P}$ of $\mathcal{J}_{T}$, using $M$ calls to 2.1, where $M/\tau$ is polynomial in $1/\epsilon$, $1/\epsilon^{\prime}$, and relevant problem parameters.
+
+### Notation
+
+We let ${\lbrack j:k\rbrack}:={\{ j,j + 1,\ldots,k\}}$, and ${\lbrack k\rbrack} = {\lbrack 1:k\rbrack}$. We use standard-bold for continuous-time quantities ($\mathbf{x},\mathbf{u}$), and bold-serif for discrete (e.g. $\mathtt{u}_{k}^{\pi}$). We let $\mathtt{u}_{j:k}^{\pi} = {(\mathtt{u}_{j},\mathtt{u}_{j + 1},\ldots,\mathtt{u}_{k})}$. Given vector $\mathtt{v}$ and matrices $\mathtt{X}$, let $\|\mathtt{v}\|$ and $\|\mathtt{X}\|$ Euclidean and operator norm, respectively; for clarity, we write ${\|\mathtt{u}_{j:k}^{\pi}\|}_{\ell_{2}}^{2} = {\sum_{i = j}^{k}{\|\mathtt{u}_{i}^{\pi}\|}^{2}}$. As denoted above, ${\langle \cdot, \cdot \rangle}_{\mathcal{L}_{2}{(\mathcal{U})}}$ and $\parallel \cdot \parallel_{\mathcal{L}_{2}{(\mathcal{U})}}$ denote inner products and norms in $\mathcal{L}_{2}{(\mathcal{U})}$. We let ${x \vee y}:={\max{\{ x,y\}}}$, and ${x \land y}:={\min{\{ x,y\}}}$.
+
+### Algorithm
+
+Our iterative approach is summarized in Algorithm 1 and takes in a time step $\tau > 0$, horizon $T$, a per iteration sample size $N$, iteration number $n_{iter}$, a noise variance $\sigma_{w}$, a gradient step size $\eta > 0$ and a controllability parameter $k_{0}$. The algorithm produces a sequence of polices $\pi^{(n)} = {(\mathtt{u}_{1:K}^{(n)},\mathtt{K}_{1:K}^{(n)})}$, where $K = {\lfloor{T/\tau}\rfloor}$ is the number of time steps per roll-out. Our algorithm uses the primitive $\text{EstMarkov}{(\pi;N,\sigma_{w})}$ (Algorithm 2), which makes $N$ calls to the oracle to produce estimates ${\hat{\mathtt{x}}}_{1:{K + 1}}$ of the nominal state trajectory, and another $N$ calls with randomly-perturbed inputs of perturbation-variance $\sigma_{w}$ to produce estimates ${({\hat{\mathtt{\Psi}}}_{j,k})}_{k < j}$ of the closed-loop Markov parameters associated to the current policy $\mathtt{\Psi}_{{cl},j,k}^{\pi}$, defined in Definition 4.6. ‣ 4.1 Analysis Overview ‣ 4 Algorithm Analysis ‣ The Power of Learned Locally Linear Models for Nonlinear Policy Optimization"). We use a method-of-moments estimator for simplicity. At each iteration $n$, Algorithm 1 calls calls $\text{EstMarkov}{(\pi;N,\sigma_{w})}$ first to produce an estimate of the gradient of the closed-loop objective with respect to the current discrete-time nominal inputs. The gradient with respect to the $k$-th input $\mathtt{u}_{k}^{(n)}$ is given by:
+
+The form of this estimate corresponds to a natural plug-in estimate of the gradient of the discrete-time objective defined in Definition 4.4. ‣ 4.1 Analysis Overview ‣ 4 Algorithm Analysis ‣ The Power of Learned Locally Linear Models for Nonlinear Policy Optimization"). We use this gradient in Eq. 3.1 to update the current input; this update is rolled-out in feedback with the current feedback controller to produce the nominal input $\mathtt{u}_{1:K}^{({n + 1})}$ for the next iteration (Algorithm 1, 5). Finally, we call EstGains (Algorithm 3), which synthesizes gains for the new policy using a Ricatti-type recursion along a second estimate of the linearized dynamics, produced by unrolling the system with the new nominal input and old gains described above. The algorithm then terminates at $n_{iter}$ iterations and chooses the policy with the smallest estimated gradient that was observed.
+
+1:Initialize time step τ &gt; 0, horizon T ≥ τ, K ← ⌊T/τ⌋, initial policy π, sample size N, noise variance σw, gradient step size η, controllability parameter k0, iteration number niter.
+2:for iterations n = 1, 2, …, niter do
+3: ${{({\hat{\mathtt{\Psi}}}_{j,k})}_{k &lt; j},{\hat{\mathtt{x}}}_{1:{K + 1}}} = {\text{EstMarkov}{(\pi;N,\sigma_{w})}}$.
+4: Compute ${\hat{\nabla}}_{k}^{(n)}$ in Eq. 3.1
+5: Gradient update $\mathtt{u}_{1:K}^{({n + 1})}\leftarrow{{\mathtt{o}\mathtt{r}\mathtt{a}\mathtt{c}}_{\pi^{(n)},u}{({\overset{\sim}{\mathtt{u}}}_{1:K}^{(n)})}}$, where ${\overset{\sim}{\mathtt{u}}}_{k}^{(n)}:={\mathtt{u}_{k}^{(n)} - {\frac{\eta}{\tau}{\hat{\nabla}}_{k}^{(n)}} - {\mathtt{K}_{k}^{\pi^{(n)}}{\hat{\mathtt{x}}}_{k}}}$.
+6: Estimate $\mathtt{K}_{1:K}^{({n + 1})} = {\text{EstGains}{({\overset{\sim}{\pi}}^{(n)};\sigma_{w},N,k_{0})}}$, where ${\overset{\sim}{\pi}}^{(n)} = {({\mathbf{u}^{({n + 1})}{( \cdot )}},\mathtt{K}_{1:K}^{(n)})}$
+7: Update policy π(n+1) = (u1: K(n+1),K1: K(n+1)) return π(nout), $n_{out} \in {{\arg\min}_{n \in {\lbrack n_{iter}\rbrack}}{\|{\hat{\nabla}}_{k}^{(n)}\|}}$.
+Algorithm 1 Trajectory Optimization
+
+1:% estimate nominal trajectory
+3: Collect trajectory x1: K + 1(i) ∼ TrajOracπ (u1: Kπ).
+4:Average ${\hat{\mathtt{x}}}_{1:{K + 1}} = {\frac{1}{N}{\sum_{i = 1}^{N}\mathtt{x}_{1:{K + 1}}^{(i)}}}$
+5:% estimate perturbed trajectory
+7: Draw w1: K(i) uniformly from σw ⋅ ({−1, 1}du)K.
+8: Let $\mathtt{u}_{k}^{(i)} = {{\mathtt{u}_{k}^{\pi} + \mathtt{w}_{k}^{(i)}} - {\mathtt{K}_{k}^{\pi}{\hat{\mathtt{x}}}_{k}}}$, for k ∈ [K]
+9: Collect trajectory y1: K + 1(i) ∼ oracπ, x (u1: K(i)).
+10:Estimate transition operators ${\hat{\mathtt{\Psi}}}_{j,k}:={\frac{1}{N\sigma_{w}^{2}}{\sum_{i = 1}^{N}{{({\mathtt{y}_{j}^{(i)} - {\hat{\mathtt{x}}}_{j}})}{(\mathtt{w}_{k}^{(i)})}^{\top}}}}$, k &lt; j
+11:return ${({\hat{\mathtt{\Psi}}}_{j,k})}_{k &lt; j},{\hat{\mathtt{x}}}_{1:{K + 1}}$
+
+1:Initialize number of samples N, noise variance σw, (discrete) controllability window k0 ∈ ℕ
+2:Estimate Markov Parameters ${({\hat{\mathtt{\Psi}}}_{j,k})}_{k &lt; j} = {\text{EstMarkov}{(\pi;N,\sigma_{w})}}$
+3:% Define ${\hat{\mathcal{C}}}_{k \mid {j_{2},j_{1}}}:={\lbrack{{\hat{\Psi}}_{{k + 1},j_{2}}{\mid{\hat{\Psi}}_{{k + 1},{j_{2} - 1}}\mid}\ldots{\hat{\Psi}}_{{k + 1},j_{1}}}\rbrack}$
+5: Define ${\hat{\mathbf{B}}}_{k} = {\hat{\mathtt{\Psi}}}_{{k + 1},k}$
+6:% Define ${{\hat{\mathcal{C}}}_{k,{in}}:={\hat{\mathcal{C}}}_{k - {1 \mid {{k - 1},{{k - k_{0}} + 1}}}}},{{\hat{\mathcal{C}}}_{k,{out}}:={\hat{\mathcal{C}}}_{k \mid {{k - 1},{{k - k_{0}} + 1}}}}$
+7: Define ${\hat{\mathtt{A}}}_{k}:={{{\hat{\mathcal{C}}}_{k,{out}}{\hat{\mathcal{C}}}_{k,{in}}^{\dagger}} - {{\hat{\mathbf{B}}}_{k}\mathtt{K}_{k}^{\pi}}}$
+8: Set ${\hat{\mathtt{P}}}_{K + 1} = \mathbf{I}_{d_{\mathsf{x}}}$.
+10: ${\hat{\mathtt{K}}}_{k}:={{({\mathbf{I}_{d_{\mathsf{u}}} + {{\hat{\mathtt{B}}}_{k}^{\top}{\hat{\mathtt{P}}}_{k + 1}{\hat{\mathtt{B}}}_{k}}})}^{- 1}\left( {{\hat{\mathtt{B}}}_{k}^{\top}{\hat{\mathtt{P}}}_{k + 1}{\hat{\mathtt{A}}}_{k}} \right)}$.
+11: ${\hat{\mathtt{P}}}_{k} = {{{({{\hat{\mathtt{A}}}_{k} + {{\hat{\mathtt{B}}}_{k}{\hat{\mathtt{K}}}_{k}}})}^{\top}{\hat{\mathtt{P}}}_{k + 1}{({{\hat{\mathtt{A}}}_{k} + {{\hat{\mathtt{B}}}_{k}{\hat{\mathtt{K}}}_{k}}})}} + {\tau{({\mathbf{I}_{d_{\mathsf{x}}} + {{\hat{\mathtt{K}}}_{k}^{\top}{\hat{\mathtt{K}}}_{k}}})}}}$.
+12: Set ${\hat{\mathtt{K}}}_{k} = 0$ for k ≤ k0.
+13:Return ${\hat{\mathtt{K}}}_{1:K}$.
+
+### Algorithm Analysis
+
+For simplicity, we assume $K = {\lfloor{T/\tau}\rfloor} \in {\mathbb{N}}$ is integral. In order to state uniform regularity conditions on the dynamics and costs, we fix an *feasible radius* $R_{feas} > 0$ and restrict to states and inputs bounded thereby.
+
+### Definition 4.1
+
+We say ${(x,u)} \in {\mathbb{R}}^{d_{\mathsf{x}} \times d_{\mathsf{u}}}$ are *feasible* if ${{\| x\|} \vee {\| u\|}} \leq R_{feas}$. We say a policy $\pi$ is feasible if $({2\mathbf{x}^{\pi}{(t)}},{2\mathbf{u}^{\pi}{(t)}})$ are feasible for all $t \in {\lbrack 0,T\rbrack}$.
+
+We adopt the following boundedness condition.
+
+### Condition 4.1
+
+For all $n$, the policies $\pi^{(n)}$ and ${\overset{\sim}{\pi}}^{(n)}$ produced by Algorithm 1 are feasible.
+
+If $\pi$ and ${\overset{\sim}{\pi}}^{(n)}$ produce bounded inputs, and the resulting state trajectories also remain bounded, then Condition 4.1 will hold for $R_{feas} > 0$ sufficiently large. This is a common assumption in the control literature (see e.g. Jadbabaie and Hauser ), as physical systems, such as those with Lagrangian dynamics, will remain bounded under bounded inputs (see Section B.3 for discussion).
+
+### Assumption 4.1 (Dynamics regularity)
+
+$f_{dyn}$ is $\mathcal{C}^{2}$, and for all feasible $(x,u)$, the following hold ${\|{f_{dyn}{(x,u)}}\|} \leq \kappa_{f}$, ${{\|{\partial_{x}{f_{dyn}{(x,u)}}}\|} \vee {\|{\partial_{u}{f_{dyn}{(x,u)}}}\|}} \leq L_{f}$, ${\|{{\nabla^{\, 2}f_{dyn}}{(x,u)}}\|} \leq M_{f}$.
+
+### Assumption 4.2 (Cost regularity)
+
+For all feasible $(x,u)$, the following hold $0 \leq {{V{(x)}} \vee {Q{(x,u,t)}}} \leq \kappa_{cost}$, ${{\|{\partial_{x}{V{(x)}}}\|} \vee {\|{\partial_{x}{Q{(x,u,t)}}}\|} \vee {\|{\partial_{u}{Q{(x,u,t)}}}\|}} \leq L_{cost}$, ${{\|{{\nabla^{\, 2}V}{(x)}}\|} \vee {\|{{\nabla^{\, 2}Q}{(x,u,t)}}\|}} \leq M_{cost}$.
+
+To take advantage of stabilizing gains, we require two additional assumptions, which are defined in terms of the $\mathtt{J}\mathtt{L}$ dynamics.
+
+### Definition 4.2 (Open-Loop Linearized Dynamics)
+
+We define the (open-loop) $\mathtt{J}\mathtt{L}$ dynamic matrices about $\pi$ as
+
+We define the *open-loop* $\mathtt{J}\mathtt{L}$ transition function $\mathbf{\Phi}_{ol}^{\pi}{(s,t)}$, defined for $t \geq s$ as the solution to ${\frac{d}{ds}\mathbf{\Phi}_{ol}^{\pi}{(s,t)}} = {\mathbf{A}_{ol}^{\pi}{(s)}\mathbf{\Phi}_{ol}^{\pi}{(s,t)}}$, with initial condition ${\mathbf{\Phi}_{ol}^{\pi}{(t,t)}} = \mathbf{I}$.
+
+We first require that stabilizing gains can be synthesized; this is formulated in terms of an upper bound on the cost-to-go for the LQR control problem (Anderson and Moore ) induced by the $\mathtt{J}\mathtt{L}$ dynamics.
+
+### Assumption 4.3 (Stabilizability)
+
+Given a *policy* $\pi$, and a sequence of controls ${\overset{\sim}{\mathbf{u}}{( \cdot )}} \in \mathcal{U}$, let
+
+under the linearized dynamics ${{\frac{d}{ds}\overset{\sim}{\mathbf{x}}{(s)}} = {{\mathbf{A}_{ol}^{\pi}{(s)}\overset{\sim}{\mathbf{x}}{(s)}} + {\mathbf{B}_{ol}^{\pi}{(s)}\overset{\sim}{\mathbf{u}}{(s)}}}},{{\overset{\sim}{\mathbf{x}}{(t)}} = \xi}$. We assume that, for all feasible policies, ${\sup_{t \in {\lbrack 0,T\rbrack}}{V^{\pi}{({t \mid {\overset{\sim}{\mathbf{u}},\xi}})}}} \leq {\mu_{ric}{\|\xi\|}^{2}}$. Moreover, we assume (for simplicity) that the initial policy has (a) no gains: $\mathtt{K}_{k}^{\pi^{}} = 0$ for all $k \in {\lbrack K\rbrack}$, and (b) satisfies ${V^{\pi^{}}{({t \mid {0,\xi}})}} \leq {\mu_{ric}{\|\xi\|}^{2}}$.
+
+The assumption on $\pi^{}$ can easily be generalized to accomodate initial policies with stabilizing gains. Our final assumption is controllability (see e.g. Anderson and Moore ), which is necesssary for identification of system parameters to synthesize stabilizing gains.
+
+### Assumption 4.4 (Controllability)
+
+There exists constants ${t_{ctrl},\nu_{ctrl}} > 0$ such that, for all feasible $\pi$ and $t \in {\lbrack t_{ctrl},T\rbrack}$,
+
+For simplicity, we assume $k_{ctrl}:={t_{ctrl}/\tau}$ is integral. Finally, to state our theorem, we adopt an asymptotic notation which suppresses all parameters except $\{ T,\tau,\alpha\}$.
+
+### Definition 4.3 (Asymptotic Notation)
+
+We let $\mathcal{O}_{\star}{( \cdot )} \cdot$ term a term which hides polynomial dependences on $d_{\mathsf{x}},d_{\mathsf{u}},R_{feas},\kappa_{f},M_{f},L_{f},\kappa_{cost},L_{cost},M_{cost},\mu_{ric},\nu_{ctrl},t_{ctrl}$, and on $\exp{({t_{0}L_{f}})}$, where $t_{0} = {\tauk_{0}} \geq t_{ctrl}$.
+
+Notice that we suppress an *exponential* dependence on our proxy $t_{0}$ for the controllability horizon $t_{ctrl}$; this is because the system cannot be stabilized until the dynamics can be accurately estimated, which requires waiting as long as the controllability window. We discuss this dependence further in Section B.5 dependence. ‣ Appendix B Discussion and Extensions ‣ Part I Analysis ‣ The Power of Learned Locally Linear Models for Nonlinear Policy Optimization"). Finally, we state a logarithmic term which addresses high-probability confidence:
+
+We can now state our main theorem, which establishes that, with high probability, for a small enough step size $\tau$, and large enough sample size $N$ and iteration number $n_{iter}$, we obtain an $\epsilon$-stationary policy and $\epsilon^{\prime}$-$\mathtt{J}\mathtt{S}\mathtt{P}$, where $\epsilon^{2},\epsilon^{\prime}$ scale as ${poly}{(T)}{({\tau^{2} + \frac{1}{\tau^{2}\sqrt{N}}})}$:
+
+### Theorem 1
+
+Fix $\delta \in {}$, and suppose for the sake of simplicity that $\tau \leq 1 \leq T$. Then, there are constants ${c_{1},\ldots,c_{5}} = {\mathcal{O}_{\star}{}}$ such that if we tune $\eta = {{1/c_{1}}\sqrt{T}}$, $\sigma_{w} = {({{\sigma_{orac}^{2}\iota{(\delta)}}/N})}^{\frac{1}{4}}$ and $k_{0} \geq {k_{ctrl} + 2}$, then as long as
+
+Then, with probability $1 - \delta$, if Condition 4.1 and all aforementioned Assumptions hold,
+
+For all $n \in {\lbrack n_{iter}\rbrack}$, and $\pi^{\prime} \in {\{\pi^{(n)},{\overset{\sim}{\pi}}^{(n)}\}}$, $\mu_{\pi^{\prime}, \star} \leq {8\mu_{ric}}$ and $L_{\pi^{\prime}} \leq {6{\max{\{ 1,L_{f}\}}}\mu_{ric}}$.
+
+$\pi = \pi^{(n_{out})}$ is $\epsilon$-stationary, where
+
+For $\pi = \pi^{(n_{out})}$, $\mathbf{u}^{\pi}$ is an $\epsilon^{\prime}$-$\mathtt{J}\mathtt{S}\mathtt{P}$, where $\epsilon^{\prime} = {c_{5}\frac{\epsilon^{2}}{\alpha}}$.
+
+### Corollary 4.1
+
+For any ${\epsilon,\epsilon^{\prime}} > 0$ and $\delta \in {}$, there exists an appropriate choices of $\{\tau,N,\eta,\sigma_{w}\}$ such that Algorithm 1 finds, with probability $\geq {1 - \delta}$, an $\epsilon$-stationary policy $\pi$ with $\mathbf{u}^{\pi}$ being an $\epsilon^{\prime}$-$\mathtt{J}\mathtt{S}\mathtt{P}$ using at most $M$ oracle calls, where ${M/\tau} = {\mathcal{O}_{\star}{({{poly}{(T,{1/\epsilon},{1/\epsilon^{\prime}},{\log{({1/\delta})}})}})}}$.
+
+### Analysis Overview
+
+In this section, we provide a high-level sketch of the analysis. Appendix A provides the formal proof, and carefully outlines the organization of the subsequent appendices which establish the subordinate results.
+
+As our policies consists of zero-order hold discrete-time inputs, our analysis is mostly performed in discrete-time.
+
+### Definition 4.4 (Stabilized trajectories, discrete-time inputs)
+
+Let $\overset{\rightarrow}{\mathtt{u}} \in \mathsf{U}$, and recall the continuous-input trajectories ${\overset{\sim}{\mathbf{x}}}^{\pi,{ct}},{\overset{\sim}{\mathbf{u}}}^{\pi,{ct}}$ in Definition 2.1. We define ${{\overset{\sim}{\mathbf{x}}}^{\pi}{({t \mid \overset{\rightarrow}{\mathtt{u}}})}}:={{\overset{\sim}{\mathbf{x}}}^{\pi,{ct}}{({t \mid {{\mathsf{c}\mathsf{t}}{(\overset{\rightarrow}{\mathtt{u}})}}})}}$ and ${{\overset{\sim}{\mathbf{u}}}^{\pi}{({t \mid \overset{\rightarrow}{\mathtt{u}}})}}:={{\overset{\sim}{\mathbf{u}}}^{\pi,{ct}}{({t \mid {{\mathsf{c}\mathsf{t}}{(\overset{\rightarrow}{\mathtt{u}})}}})}}$, and their discrete samplings ${{\overset{\sim}{\mathtt{x}}}_{k}^{\pi}{(\overset{\rightarrow}{\mathtt{u}})}}:={{\overset{\sim}{\mathbf{x}}}^{\pi}{({t_{k} \mid \overset{\rightarrow}{\mathtt{u}}})}}$ and ${{\overset{\sim}{\mathtt{u}}}_{k}^{\pi}{(\overset{\rightarrow}{\mathtt{u}})}}:={{\overset{\sim}{\mathbf{u}}}^{\pi}{({t_{k} \mid \overset{\rightarrow}{\mathtt{u}}})}}$. We define a discretized objective
+
+, and the shorthand ${\mathcal{J}_{T}^{disc}{(\pi)}} = {\mathcal{J}_{T}^{\pi,{disc}}{(\mathtt{u}_{1:K}^{\pi})}}$ and ${{\nabla\mathcal{J}_{T}^{\pi,{disc}}}{(\pi)}}:=\left. {{\nabla_{\overset{\rightarrow}{\mathtt{u}}}\mathcal{J}_{T}^{\pi,{disc}}}{(\overset{\rightarrow}{\mathtt{u}})}} \right|_{\overset{\rightarrow}{\mathtt{u}} = \mathtt{u}_{1:K}^{\pi}}$.
+
+What we shall show is that our algorithm (a) finds a policy $\pi$ such that ${\|{{\nabla\mathcal{J}_{T}^{disc}}{(\pi)}}\|}_{\ell_{2}} \leq \epsilon$ is small, (b) by discretization, ${\|{{\nabla\mathcal{J}_{T}^{\pi}}{(\mathbf{u}^{\pi})}}\|}_{\mathcal{L}_{2}{(\mathcal{U})}} \leq {\epsilon + {\mathcal{O}(\tau)}}$ is small (i.e. $\pi$ is approximately stationary), and that (c) this implies that $\mathbf{u}^{\pi}$ is an approximate-$\mathtt{J}\mathtt{S}\mathtt{P}$ of $\mathcal{J}_{T}{(\mathbf{u}^{\pi})}$. Part (a) requires the most effort, part (b) is a tedious discretization, and part (c) is by Proposition 4.1 stated below. Key in these steps are certain regularity conditions on the policy $\pi$. The first is the magnitude of the gains:
+
+### Definition 4.5
+
+We define an upper bound on the gains of policy $\pi$ as $L_{\pi}:={\max{\{ 1,{\max_{k \in {\lbrack K\rbrack}}{\|\mathtt{K}_{k}^{\pi}\|}}\}}}$.
+
+This term suffices to translate stationary policies to $\mathtt{J}\mathtt{S}\mathtt{P}$s:
+
+### Proposition 4.1
+
+Suppose Assumptions 2.1, 4.1. ‣ 4 Algorithm Analysis ‣ The Power of Learned Locally Linear Models for Nonlinear Policy Optimization") and 4.2. ‣ 4 Algorithm Analysis ‣ The Power of Learned Locally Linear Models for Nonlinear Policy Optimization"), $\pi$ is feasible, $\tau \leq \frac{1}{16L_{\pi}L_{f}}$. Then, if ${\|{{\nabla\mathcal{J}_{T}}{(\pi)}}\|}_{\mathcal{L}_{2}{(\mathcal{U})}} \leq \epsilon$, $\mathbf{u}^{\pi}{(t)}$ is an $\epsilon^{\prime}$-$\mathtt{J}\mathtt{S}\mathtt{P}$ of $\mathcal{J}_{T}$ for $\epsilon^{\prime} = {{64\epsilon^{2}L_{\pi}^{2}}/\alpha}$.
+
+### Proof Sketch
+
+We construct a Jacobian linearization $\mathcal{J}_{T}^{\pi,{jac}}$ of $\mathcal{J}_{T}^{\pi}$ by analogy to $\mathcal{J}^{jac}$, and define $\epsilon$-$\mathtt{J}\mathtt{S}\mathtt{P}$s of $\mathcal{J}_{T}^{\pi}$ analogously. We show by inverting the gains that an $\epsilon$-$\mathtt{J}\mathtt{S}\mathtt{P}$ of $\mathcal{J}_{T}^{\pi}$ is precisely an $\epsilon$-$\mathtt{J}\mathtt{S}\mathtt{P}$ of $\mathcal{J}_{T}$. We then establish strong convexity of $\mathcal{J}_{T}^{\pi,{jac}}$ (non-trivial due to the gains), and use the PL inequality for strongly convex functions to conclude. The formal proof is given in Section H.2. ∎
+
+To establish parts (a) and (b), we need to measure the stability of the policies. To this end, we first introduce *closed-loop* (discrete-time) linearizations of the dynamics, in terms of which we define a Lyapunov stability modulus.
+
+### Definition 4.6 (Closed-Loop Linearizations)
+
+We discretize the open-loop linearizations in Definition 4.2. ‣ 4 Algorithm Analysis ‣ The Power of Learned Locally Linear Models for Nonlinear Policy Optimization") defining $\mathtt{A}_{{ol},k}^{\pi} = {\mathbf{\Phi}_{ol}^{\pi}{(t_{k + 1},t_{k})}}$ and $\mathtt{B}_{{ol},k}^{\pi}:={\int_{s = t_{k}}^{t_{k + 1}}{\mathbf{\Phi}_{ol}^{\pi}{(t_{k + 1},s)}\mathbf{B}_{ol}^{\pi}{(s)}{ds}}}$. We define an *discrete-time closed-loop* linearization $\mathtt{A}_{{cl},k}^{\pi}:={\mathtt{A}_{{ol},k}^{\pi} + {\mathtt{B}_{{ol},k}^{\pi}\mathtt{K}_{k}^{\pi}}}$, and a discrete closed-loop *transition operator* is defined, for $1 \leq k_{1} \leq k_{2} \leq {K + 1}$, $\mathtt{\Phi}_{{cl},k_{2},k_{1}}^{\pi} = {{{\mathtt{A}_{{cl},{k_{2} - 1}}^{\pi} \cdot \mathtt{A}_{{cl},{k_{2} - 2}}^{\pi}}\cdots} \cdot \mathtt{A}_{{cl},k_{1}}^{\pi}}$, with the convention $\mathtt{\Phi}_{{cl},k_{1},k_{1}}^{\pi} = \mathbf{I}$. For $1 \leq k_{1} < k_{2} \leq {K + 1}$, we define the closed-loop *Markov operator* $\mathtt{\Psi}_{{cl},k_{2},k_{1}}^{\pi}:={\mathtt{\Phi}_{{cl},k_{2},{k_{1} + 1}}^{\pi}\mathtt{B}_{{ol},k_{1}}^{\pi}}$.
+
+### Definition 4.7 (Lyapunov Stability Modulus)
+
+Given a policy $\pi$, define $\mathtt{\Lambda}_{K + 1}^{\pi} = \mathbf{I}$, and $\mathtt{\Lambda}_{k}^{\pi} = {{{(\mathtt{A}_{{cl},k}^{\pi})}^{\top}\mathtt{\Lambda}_{k + 1}^{\pi}\mathtt{A}_{{cl},k}^{\pi}} + {\tau\mathbf{I}}}$. We define $\mu_{\pi, \star}:={\max_{k \in {\{ k_{0},\ldots,{K + 1}\}}}{\|\mathtt{\Lambda}_{k}^{\pi}\|}}$.
+
+Notice that the stability modulus is taken after step $k_{0}$, which is where we terminate the Riccati recrusion in Algorithm 3. We shall show that, with high probability, Algorithm 1 synthesizes policies $\pi$ which satisfy
+
+so that ${L_{\pi},\mu_{\pi, \star}} = {\mathcal{O}_{\star}{}}$. Going forward, we let $\mathcal{O}_{\pi}{( \cdot )} \cdot$ denote a term suppressing polynomials in $L_{\pi}$, $\mu_{\pi, \star}$ and terms $\mathcal{O}_{\star}{}$; when $\pi$ satisfies Eq. 4.3, then ${\mathcal{O}_{\pi}{( \cdot )}} = {\mathcal{O}_{\star}{( \cdot )}}$. We say $x \leq {{1/\mathcal{O}_{\pi}}{(y)}}$, if $x \leq {1/y^{\prime}}$, where $y^{\prime} = {\mathcal{O}_{\pi}{(y)}}$. In Section I.3 ‣ Appendix I Discretization Arguments ‣ Part I Analysis ‣ The Power of Learned Locally Linear Models for Nonlinear Policy Optimization"), we translate discrete-time stationary points to continuous-time ones, establishing part (b) of the argument.
+
+### Proposition 4.2
+
+For $\pi$ feasible, ${\|{{\nabla\mathcal{J}_{T}}{(\pi)}}\|}_{\mathcal{L}_{2}{(\mathcal{U})}} \leq {{\frac{1}{\sqrt{\tau}}{\|{{\nabla\mathcal{J}_{T}^{disc}}{(\pi)}}\|}_{\ell_{2}}} + {\mathcal{O}_{\pi}{({\tau\sqrt{T}})}}}$.
+
+A more precise statement and explanation of the proof are given in Section A.5. The rest of the analysis boils down to (a): finding an approximate stationary point of the time-discretized objective.
+
+### Finding a stationary point of $\mathcal{J}_{T}^{\pi,{disc}}$
+
+### Taylor expansion of the dynamics
+
+To begin, we derive perturbation bounds for solutions to the stabilized ordinary differential equations. Specifically, we provide bounds for when $\mathtt{u}_{1:K}^{\pi}$ is perturbed by a sufficiently small input $\delta\mathtt{u}_{1:K}$. Our formal proposition, Section A.6 states perturbations in both the $\ell_{\infty}$ and normalized $\ell_{2}$-norms; for simplicity, state the special case for $\ell_{\infty}$-perturbation.
+
+### Proposition 4.3
+
+Let $\mathtt{u}_{1:K} = {\mathtt{u}_{k}^{\pi} + {\delta\mathtt{u}_{1:K}}}$, and suppose ${\max_{k}{\|{\delta\mathtt{u}_{k}}\|}} \leq B_{\infty} \leq {{1/\mathcal{O}_{\pi}}{}}$. Then, for all $k \in {\lbrack{K + 1}\rbrack}$,
+
+We also show, that if $B_{\infty} = {{1/\mathcal{O}_{\pi}}{(T)}}$, then the policy with $\pi^{\prime}$ with the same gains $\mathtt{K}_{k}^{\pi} = \mathtt{K}_{k}^{\pi}$ as $\pi$, but the perturbed inputs $\mathtt{u}_{k}^{\pi^{\prime}} = \mathtt{u}_{k}$ at most double its Lyapunov stability modulus $\mu_{\pi^{\prime}, \star} \leq {2\mu_{\pi, \star}}$. This allows small gradient steps to preserve stability.
+
+### Estimation of linearizations and gradients
+
+We then argue that by making $\sigma_{w}$ small, then to first order, the estimation procedure in Algorithm 2 recovers the *linearization* of the dynamics. The proof combines standard method-of-moments analysis based on matrix Chernoff concentration and Proposition 4.3 to argue the dynamics can be approximated by their linearization. Specifically, Section A.7 argues that, for all rounds $n \in {\lbrack n_{iter}\rbrack}$ and $1 \leq j < k \leq {K + 1}$, it holds that ${\|{\mathtt{\Psi}_{{cl},k,j}^{\pi} - {\hat{\mathtt{\Psi}}}_{k,j}}\|} \leq {{Err}_{\Psi}{(\delta)}}$ where ${Err}_{\Psi}{(\delta)} = \mathcal{O}_{\pi}{(\sqrt{\frac{\iota{(\delta)}}{N}}{(1 + \frac{\sigma_{orac}}{\sigma_{w}} + \sigma_{w})}}$, which can be made to scales as $N^{- \frac{1}{4}}$ by tuning $\sigma_{w} = {({{\sigma_{orac}^{2}\iota{(\delta)}}/N})}^{\frac{1}{4}}$. From the Markov-recovery error, as well as a simpler bound for recovering $\mathtt{x}_{1:K}^{\pi}$ in Algorithm 2 (Lines 1-3), we show accurate recovery of the gradients: ${\max_{k}{\|{{\hat{\nabla}}_{k}^{(n)} - {({{\nabla\mathcal{J}_{T}^{disc}}{(\pi^{(n)})}})}_{k}}\|}} \leq {T\mathcal{O}_{\pi}{({{Err}_{\Psi}{(\delta)}})}}$.
+
+The last step here is to argue that we also approximately recover $\mathtt{A}_{{ol},k}^{\pi},\mathtt{B}_{{ol},k}^{\pi}$ in Algorithm 3 for synthesizing the gains: for all $k \geq k_{0}$,
+
+This consists of two steps: using controllability to show the matrices ${\hat{\mathcal{C}}}_{k,{in}}$ in Algorithm 3 are well-conditioned and using closeness of the Markov operators to show that ${\hat{\mathcal{C}}}_{k,{in}}$ and ${\hat{\mathcal{C}}}_{k,{out}}$ concentrate around their idealized values. Crucially, we only estimate system matrices for $k \geq k_{0}$ to ensure ${\hat{\mathcal{C}}}_{k,{in}}$ is well-defined, and we use window $k_{0} \geq {k_{ctrl} + 2}$ to ensure ${\hat{\mathcal{C}}}_{k,{out}}$ is sufficiently well-conditioned.
+
+### Concluding the proof
+
+Sections A.8 and A.9 conclude the proof with two steps: first, we show that cost-function decreases during the gradient step Algorithm 1 at round $n \in {\lbrack n_{iter}\rbrack}$ in proportion to $- {\|{\hat{\nabla}}_{k}^{(n)}\|}^{2}$ (a consequence ofthe standard smooth descent argument). Here, we also apply the aforementioned result that small gradient steps preserve stability: $\mu_{{\overset{\sim}{\pi}}^{(n)}, \star} \leq {2\mu_{\pi^{(n)}, \star}}$. Second, we argue that the gains synthesized by Algorithm 3 ensure that the Lyapunov stability modulus of $\pi^{({n + 1})}$ and the magnitude of its gains stay bounded by an algorithm-independent constant: $\mu_{\pi^{({n + 1})}, \star} \leq {4\mu_{ric}} = {\mathcal{O}_{\star}{}}$ and $L_{\pi^{({n + 1})}} \leq {\mathcal{O}_{\star}{}}$; we use a novel certainty-equivalence analysis for discretized, time-varying linear systems which may be of independent interest (Appendix F). By combining these two results, we inductively show that all policies constructed satisfy (4.3), namely they have $\mu_{\pi, \star}$ and $L_{\pi}$ at most $\mathcal{O}_{\star}{}$. We then combine this with the typical analysis of nonconvex smooth gradient descent to argue that the policy $\pi^{(n_{out})}$ has small discretized gradient, as needed.
+
+### Experiments
+
+Our experiments evaluate the performance of our proposed trajectory optimization algorithm (Algorithm 1) and compare it with the well-established model-based baseline of trajectory optimization ($\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$) on top of learned dynamics (e.g. Levine and Koltun ). Though our analysis considers a fixed horizon, we perform experiments in a receeding horizon control (RHC) fashion. We consider two control tasks: (a) a pendulum swing up task, and (b) a 2D quadrotor stabilization task. We implement our experiments using the jax Bradbury et al. ecosystem. More details regarding the environments, tasks, and experimental setup details are found in Appendix J. Though our analysis considers the noisy oracle model, all experiments assume *noiseless* observations.
+
+### Least-squares vs. Method-of-Moments
+
+Algorithm 1 prescribes the method-of-moments estimator to simplify the analysis; in our implementation, we find that estimating the transition operators using regularized least-squares instead yields to more sample efficient gradient estimation. This choice can also be analyzed with minor modifications (see e.g. Oymak and Ozay; Simchowitz et al. ).
+
+### $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ baseline
+
+We first collect a training dataset according to a prescribed exploration strategy, then train a neural network dynamics model on these dynamics, and finally optimize our policy by applying the $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ algorithm directly on the learned model. We consider several variants of our $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ baseline which use different exploration strategies and different supervision signals for model learning.
+
+Sampling strategies: We consider two sampling strategies; (a) Opt runs $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ with the ground truth cost and dynamics in a receeding horizon fashion, performing noiseless rollouts and perturbing the resulting trajectories with noise to encourage exploration, and (b) Rand executes rollouts with random inputs starting from random initial conditions. The rationale is that the Opt strategy provides better data coverage for the desired task than Rand.
+
+Loss supervision: The standard loss supervision for learning dynamics is to regress against the next state transition. Inspired by our analysis, we also consider an idealized oracle that augments the supervision to also include noiseless the Jacobians of the ground truth model with respect to both the state and control input; we refer to this augmentation as JacReg.
+
+Model architecture: We use a fully connected three layer MLP network to for fitting the dynamics of the environment. Specifically, our model takes in input $(\mathtt{x}_{k},\mathtt{u}_{k})$ and predicts the state difference $\mathtt{x}_{k + 1} - \mathtt{x}_{k}$.
+
+Figure 1 shows the results of Algorithm 1 compared with several $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ baselines on the pendulum and quadrotor tasks, respectively. In these figures, the x-axis plots the number of trajectories available to each algorithm, and the y-axis plots the cost suboptimality ${({\mathcal{J}_{T}^{alg} - \mathcal{J}_{T}^{\star}})}/\mathcal{J}_{T}^{\star}$ incurred by each algorithm; where $\mathcal{J}_{T}^{alg}$ is algorithmic cost and $\mathcal{J}_{T}^{\star}$ is the cost obtained via $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ with the ground truth dynamics. The error bars in the plot are 95% confidence intervals computed over 10 different evaluation seeds.
+
+### Discussion
+
+We observe that Algorithm 1 with feedback-gains consistently outperforms Algorithm 1 without gains, validating the important of locally-stabilized dynamics. Second, we see that the performance of the $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ baselines does not significantly improve as more trajectory data is collected. We find that our learned models achieve very low train and test error, over the sampling distribution (i.e., Opt or Rand) used for learning. For Rand, we postulate that the distribution shift incurred by performing RHC via trajectory optimization on the learned model limits the closed-loop performance of our baseline. However, we note that Opt+JacReg achieves stellar performance early on, suggesting that (a) the Opt data collection method suffices for strong closed-loop performance (notice that Rand+JacReg fares far worse), and (b) that a second limiting factor is that estimating *dynamics* and performing automated differentiation is less favorable than directly estimating *Jacobians*, which are the fundamental quantities used by the $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ algorithm. This gap between estimation of dynamics and derivatives has been observed in prior work Pfrommer et al..
+
+Figure 1: Cost suboptimality (𝒥Talg−𝒥T⋆)/𝒥T⋆ versus number of trajectories available to both Algorithm 1 and iLQR baselines. For visualization, the suboptimality is clipped to (10−4,∞).
+
+Though we find that our method outperforms deep-learning baselines (excluding OPT+JacReg) on the simpler inverted pendulum environment, the learning+$\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ approaches fare better on the quadrotor. We suspect that this is attributable to data-reuse, as Algorithm 1 estimates an entirely new model of system dynamics at each iteration. We believe that finding a way to combine the advantages of directly estimating linearized dynamics (observed in Algorithm 1, as well as OPT+JacReg) with the advantages of data-reuse.

@@ -1,0 +1,19 @@
+Kinodynamic RRT*: Optimal Motion Planning for Systems with Linear Differential Constraints
+
+Topics include Kinodynamic planning, Rapidly-exploring random tree star, Linear systems, Optimal control, Double integrator.
+
+Uses a fixed-final-state-free-final-time controller that exactly and optimally connects any pair of states in RRT*, where cost trades off trajectory duration against control effort. Dynamics are restricted to linear (or linearized) systems.
+
+We present Kinodynamic RRT*, an incremental sampling-based approach for asymptotically optimal motion planning for robots with linear differential constraints. Our approach extends RRT*, which was introduced for holonomic robots, by using a fixed-final-state-free-final-time controller that exactly and optimally connects any pair of states, where the cost function is expressed as a trade-off between the duration of a trajectory and the expended control effort. Our approach generalizes earlier work on extending RRT* to kinodynamic systems, as it guarantees asymptotic optimality for any system with controllable linear dynamics, in state spaces of any dimension. Our approach can be applied to non-linear dynamics as well by using their first-order Taylor approximations. In addition, we show that for the rich subclass of systems with a nilpotent dynamics matrix, closed-form solutions for optimal trajectories can be derived, which keeps the computational overhead of our algorithm compared to traditional RRT* at a minimum....
+
+## Introduction
+
+Much progress has been made in the area of motion planning in robotics over the past decades, where the basic problem is defined as finding a trajectory for a robot between a start state and a goal state without collisions with obstacles in the environment. The introduction of incremental sampling-based planners, such as probabilistic roadmaps (PRM) and rapidly-exploring random trees (RRT) enabled solving motion planning problems in high-dimensional state spaces in reasonable computation time, even though the problem is known to be PSPACE-hard....
+
+While RRT\* has successfully been applied in practice, a key limitation of RRT\* is that it is applicable only to systems with simple dynamics, as it relies on the ability to connect any pair of states with an optimal trajectory (e.g. holonomic robots, for which straight lines through the state space represent feasible motions). For *kinodynamic* systems, however, straight-line connections between pairs of states are typically not valid trajectories due to the system's *differential constraints*....
+
+Other areas of potential improvement include studying non-uniform sampling to accelerate the convergence to optimal solutions. One could sample more heavily around the current optimal solution, or use stochastic techniques to infer distributions of samples that are likely to contribute to an optimal trajectory. For a quadrotor helicopter for instance, one can imagine that there is a strong correlation between its velocity and orientation, which should be reflected in the sampling....
+
+Lastly, we plan to apply our planner to real-world robots, in particular quadrotors. This would require constructing a stabilizing controller around the computed trajectory, either using traditional techniques such as LQR, or by repeatedly computing reconnections between the current state of the robot and a state on the trajectory.
+
+If matrix $A \in {\mathbb{R}}^{n \times n}$ is *nilpotent*, i.e. $A^{n} = 0$, which is not uncommon as we will see in Section VII, $\exp{\lbrack{At}\rbrack}$ has a closed-form expression in the form of an $({n - 1})$-degree matrix polynomial in $t$. As a result, the integrals of Eqs. and can be evaluated exactly to obtain closed-form expressions for $G{\lbrack\tau\rbrack}$ and $\overline{\mathbf{x}}{\lbrack\tau\rbrack}$....

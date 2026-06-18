@@ -1,0 +1,17 @@
+Lossy Image Compression with Compressive Autoencoders
+
+Topics include Autoencoders, Image compression, Joint photographic experts group, Joint photographic experts group 2000.
+
+We propose a new approach to the problem of optimizing autoencoders for lossy image compression. New media formats, changing hardware technology, as well as diverse requirements and content types create a need for compression algorithms which are more flexible than existing codecs. Autoencoders have the potential to address this need, but are difficult to optimize directly due to the inherent non-differentiabilty of the compression loss. We here show that minimal changes to the loss are sufficient to train deep autoencoders competitive with JPEG 2000 and outperforming recently proposed approaches based on RNNs. Our network is furthermore computationally efficient thanks to a sub-pixel architecture, which makes it suitable for high-resolution images. This is in contrast to previous work on autoencoders for compression using coarser approximations, shallower architectures, computationally expensive methods, or focusing on small images.
+
+## Introduction
+
+Advances in training of neural networks have helped to improve performance in a number of domains, but neural networks have yet to surpass existing codecs in lossy image compression. Promising first results have recently been achieved using autoencoders -- in particular on small images -- and neural networks are already achieving state-of-the-art results in lossless image compression.
+
+Autoencoders have the potential to address an increasing need for flexible lossy compression algorithms. Depending on the situation, encoders and decoders of different computational complexity are required. When sending data from a server to a mobile device, it may be desirable to pair a powerful encoder with a less complex decoder, but the requirements are reversed when sending data in the other direction. The amount of computational power and bandwidth available also changes over time as new technologies become available. For the purpose of archiving, encoding and decoding times matter less than for streaming applications....
+
+While other trained algorithms have been shown to provide similar results as JPEG 2000, to our knowledge this is the first time that an end-to-end trained architecture has been demonstrated to achieve this level of performance on high-resolution images. An end-to-end trained autoencoder has the advantage that it can be optimized for arbitrary metrics. Unfortunately, research on perceptually relevant metrics suitable for optimization is still in its infancy....
+
+In future work, we would like to explore the optimization of compressive autoencoders for different metrics. A promising direction was presented by Bruna et al., who achieved interesting super-resolution results using metrics based on neural networks trained for image classification. Gatys et al. used similar representations to achieve a breakthrough in perceptually meaningful style transfer. An alternative to perceptual metrics may be to use generative adversarial networks. Building on the work of Bruna et al. and Dosovitskiy & Brox, Ledig et al....
+
+Here, $C$ is a constant which encompasses the negative entropy of the encoder and the normalization constant of the Gaussian likelihood. Note that this equation is identical to a rate-distortion trade-off with $\beta = {\sigma^{- 2}/2}$ and quantization replaced by additive uniform noise....

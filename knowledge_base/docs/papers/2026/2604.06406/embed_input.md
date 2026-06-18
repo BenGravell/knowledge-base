@@ -1,0 +1,5 @@
+Augmented Graphs of Convex Sets and the Traveling Salesman Problem
+
+Topics include Bellman equations, Trajectory optimization, Graphs, Optimization, Traveling salesman problem, Graphs of convex sets, Shortest path problem.
+
+We present a trajectory optimization algorithm for the traveling salesman problem (TSP) in graphs of convex sets (GCS). Our framework uses an augmented graph of convex sets to encode the TSP specification and solve it exactly as a shortest path problem in GCS. We establish a precise relationship between the landmark Bellman-Held-Karp algorithm and the augmented graph of convex sets with a TSP specification. Additionally, we present a branch and bound heuristic that uses minimum 1-trees to obtain certifiably optimal or near optimal solutions and scales to problems far larger than the exact framework can handle. To assess and certify performance, we explore several alternative lower bounds.

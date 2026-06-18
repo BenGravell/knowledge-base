@@ -1,0 +1,19 @@
+Sketchy: Memory-Efficient Adaptive Regularization with Frequent Directions
+
+Topics include Regularization, Sketching, Second-order optimization, Adaptive step size, Neural networks, Optimization, Machine learning efficiency.
+
+Uses frequent-directions sketches to build a memory-efficient adaptive regularization method for training large models. Sketchy is positioned as a practical compromise between richer curvature information and the memory limits of standard adaptive optimizers.
+
+Adaptive regularization methods that exploit more than the diagonal entries exhibit state of the art performance for many tasks, but can be prohibitive in terms of memory and running time. We find the spectra of the Kronecker-factored gradient covariance matrix in deep learning (DL) training tasks are concentrated on a small leading eigenspace that changes throughout training, motivating a low-rank sketching approach. We describe a generic method for reducing memory and compute requirements of maintaining a matrix preconditioner using the Frequent Directions (FD) sketch. While previous approaches have explored applying FD for second-order optimization, we present a novel analysis which allows efficient interpolation between resource requirements and the degradation in regret guarantees with rank k: in the online convex optimization (OCO) setting over dimension d, we match full-matrix d^ memory regret using only dk memory up to additive error in the bottom d-k eigenvalues of the gradient covariance. Further, we show extensions of our work to Shampoo, resulting in a method competitive in quality with Shampoo and Adam, yet requiring only sub-linear memory for tracking second moments.
+
+## Introduction
+
+DL optimization commonly relies on adaptive gradient methods, namely the Adam optimizer. It differs from stochastic gradient descent in that the learning rate is a structured diagonal matrix built from previous gradients rather than a scalar. In full matrix AdaGrad, the inverse matrix square root of the sum of outer products of previous gradients is the learning rate.
+
+Full matrix preconditioning is impractical for modern deep learning architectures: for instance, the ResNet-50 architecture has over 23 million parameters, requiring more than 2 petabytes to represent its gradient covariance. Thus, diagonal preconditioning methods remain popular. However, previous work has demonstrated state-of-the-art results in some settings, such as large-batch data parallel training, for nondiagonal forms of preconditioning....
+
+The growing disparity between compute capability and memory bandwidth underscores the need for further research in this direction. Further, large-batch settings reduce the performance gap between first and Shampoo-based second order methods, since the batch-size independent runtime of the optimizer is amortized per example used for the gradient calculation. Even in performing experiments for this work, we would frequently find that faster accelerators were unavailable, but many previous-generation ones were, encouraging us to leverage data-parallel training....
+
+Potential for future work includes numerical methods outlined in the previous section as well optimizing the rank $\ell$ across the many tensors in a network, as the spread in Fig. 3 highlights the large variance in covariance intrinsic dimension. Furthermore, the inductive biases conferred by the minima which different-rank representations of curvature reach may have problem-dependent generalization implications, a question which we leave for future work. For a comparison of full rank preconditioning's effect versus first-order minima, see Amari et al..
+
+Anil et al. introduces two workarounds for the problem of rectangular matrices based on limiting covariance modelling. Furthermore, both approximations can be applied to our method, so we do not compare against them....

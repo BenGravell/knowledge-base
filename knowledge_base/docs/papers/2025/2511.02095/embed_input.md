@@ -1,0 +1,5 @@
+Second-Order Policy Gradient Methods for the Linear Quadratic Regulator
+
+Topics include Policy gradients, Reinforcement learning, Control, Learning, Linear quadratic regulator, Gradient method.
+
+Policy gradient methods are a powerful family of reinforcement learning algorithms for continuous control that optimize a policy directly. However, standard first-order methods often converge slowly. Second-order methods can accelerate learning by using curvature information, but they are typically expensive to compute. The linear quadratic regulator (LQR) is a practical setting in which key quantities, such as the policy gradient, admit closed-form expressions. In this work, we develop second-order policy gradient algorithms for LQR by deriving explicit formulas for both the approximate and exact Hessians used in Gauss-Newton and Newton methods, respectively. Numerical experiments show a faster convergence rate for the proposed second-order approach over the standard first-order policy gradient baseline.

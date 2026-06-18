@@ -1,0 +1,15 @@
+Particle Value Functions
+
+The policy gradients of the expected return objective can react slowly to rare rewards. Yet, in some cases agents may wish to emphasize the low or high returns regardless of their probability. Borrowing from the economics and control literature, we review the risk-sensitive value function that arises from an exponential utility and illustrate its effects on an example. This risk-sensitive value function is not always applicable to reinforcement learning problems, so we introduce the particle value function defined by a particle filter over the distributions of an agent's experience, which bounds the risk-sensitive one. We illustrate the benefit of the policy gradients of this objective in Cliffworld.
+
+## Introduction
+
+The expected return objective dominates the field of reinforcement learning, but makes it difficult to express a tolerance for unlikely rewards. This kind of risk sensitivity is desirable, e.g., in real-world settings such as financial trading or safety-critical applications where the risk required to achieve a specific return matters greatly. Even if we ultimately care about the expected return, it may be beneficial during training to tolerate high variance in order to discover high reward strategies.
+
+In this paper we introduce a risk-sensitive value function based on a system of interacting trajectories called a *particle value function* (PVF). This value function is amenable to large-scale reinforcement learning problems with nonlinear function approximation. The idea is inspired by recent advances in variational inference which bound the log marginal likelihood via importance sampling estimators, but takes an orthogonal approach to reward modifications, e.g.. In Section 2, we review risk sensitivity and a simple decision problem where risk is a consideration. In Section 3, we introduce a particle value function....
+
+## Conclusion
+
+We introduced the particle value function, which approximates a risk-sensitive value function for a given MDP. We will seek to address theoretical questions, such as whether the PVF is increasing in $\beta$ and monotonic in the number of particles. Also, the PVF does not have an efficient tabular representation, so understanding the effect of efficient approximations would be valuable. Experimentally, we hope to explore these ideas for complex sequential tasks with non-linear function approximators. One obvious example of such tasks is variational inference over a sequential model.
+
+Algorithms for optimizing $V_{T}^{\pi}{(s,\beta)}$ may suffer from numerical issues or high variance, see Appendix B. Instead we define a value function that bounds $V_{T}^{\pi}{(s,\beta)}$ and approaches it in the infinite sample limit. We call it a particle value function, because it assigns a value to a bootstrap particle filter with $K$ particles representing state-action trajectories. This is distinct, but related to Kantas, which investigates particle filter algorithms for infinite horizon risk-sensitive control.

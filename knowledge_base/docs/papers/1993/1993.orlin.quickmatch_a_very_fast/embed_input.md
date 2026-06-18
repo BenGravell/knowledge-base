@@ -1,0 +1,7 @@
+QuickMatch: A Very Fast Algorithm for the Assignment Problem
+
+Topics include Assignment problem, Hungarian algorithm, Combinatorial optimization, Graph algorithms, Matching.
+
+Introduces QuickMatch, a fast practical algorithm for the linear assignment problem. Designed to exploit problem structure for speed in practice on large-scale assignment instances, complementing theoretically optimal but slow algorithms.
+
+In this paper, we consider the linear assignment problem defined on a bipartite network G = (U union V, A). The problem may be described as assigning each person in a set IU to a set V of tasks so as to minimize the total cost of the assignment. The cost of assigning person i to task j is c_ij if (i, j) in A and is infinite otherwise. This paper describes a new algorithm called QuickMatch for solving the assignment problem. QuickMatch is based on the successive shortest path (SSP) algorithm for the assignment problem, which in turn is a modification of Kuhn's primal dual algorithm. However, we have added several natural heuristics that speed up the performance of the standard successive shortest path algorithm by several orders of magnitude. We present some theoretical justifications as to why the algorithm's performance is superior in practice to the usual SSP algorithm, and we provide computational support as well. In addition, the theoretical analysis and computational testing supports (but does not prove) the hypothesis that QuickMatch runs in linear time (i.e., in expected time O(m)) on randomly generated sparse assignment problems.

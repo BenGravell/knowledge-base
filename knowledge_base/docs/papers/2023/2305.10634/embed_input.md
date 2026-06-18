@@ -1,0 +1,15 @@
+Modified Gauss-Newton Algorithms under Noise
+
+Gauss-Newton methods and their stochastic version have been widely used in machine learning and signal processing. Their nonsmooth counterparts, modified Gauss-Newton or prox-linear algorithms, can lead to contrasting outcomes when compared to gradient descent in large-scale statistical settings. We explore the contrasting performance of these two classes of algorithms in theory on a stylized statistical example, and experimentally on learning problems including structured prediction. In theory, we delineate the regime where the quadratic convergence of the modified Gauss-Newton method is active under statistical noise. In the experiments, we underline the versatility of stochastic (sub)-gradient descent to minimize nonsmooth composite objectives.
+
+## Introduction
+
+Arising from the literature on non-linear least squares, the Gauss-Newton method was proposed to tackle generic compositional problems of the form ${\min_{w \in {\mathbb{R}}^{d}}f}{({\phi{(w)}})}$ by linearizing the inner function $\phi$ around the current iterate and solving the resulting subproblem.
+
+The Gauss-Newton method and its variants such as the Levenberg-Marquardt method have been applied successfully in phase retrieval, nonlinear control, and non-negative matrix factorization. Modern machine learning problems such as deep learning possess a similar compositional structure, which makes Gauss-Newton-like algorithms potential good candidates. However, in such problems, we are often interested in the generalization performance on unseen data. It is unclear whether the additional cost of solving the subproblems can be amortized by the superior efficiency of Gauss-Newton-like algorithms.
+
+Experiment. We consider the experimental setting of. The objective is to solve where $f$ is the Huber loss, a smooth surrogate of the nonsmooth $\ell_{1}$ norm, and inner mappings $\phi$ are the concatenation of four different losses, i.e., ${\phi_{i}{(w)}} = {({\ell_{1}{({x_{i}^{\top}w},y_{i})}},\ldots,{\ell_{4}{({x_{i}^{\top}w},y_{i})}})}$, where the formulations of the losses can be found in. The samples $(x_{i},y_{i})$ are drawn from the datasets ijcnn1 or covtype from the LIBSVM repository.
+
+We consider (i) a gradient descent denoted GD, (ii) a modified Gauss-Newton or prox-linear method denoted PL, (iii) a baseline of the form, denoted SGD, (iv) an incremental Gauss-Newton or prox-linear method as described in, denoted PLI for consistency. In Fig. 5, we observe that PL outperforms GD as expected in the batch setting. However, this advantage is no longer present in the incremental setting. Here, we find that the SGD baseline performs on par with the Gauss-Newton variant PLI.
+
+Then, we have the following with probability at least $1 - \delta$. If the noise level satisfies $\sigma > {\overset{\sim}{O}\left( {R/{({k^{1/2} - k^{1/4}})}} \right)}$, then the first iterate $w_{t}$ enjoying quadratic convergence satisfies ${F{(w_{t})}} < {F{(\overline{w})}}$....

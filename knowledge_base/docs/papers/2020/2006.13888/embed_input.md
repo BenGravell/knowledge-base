@@ -1,0 +1,17 @@
+RL Unplugged: A Suite of Benchmarks for Offline Reinforcement Learning
+
+Offline methods for reinforcement learning have a potential to help bridge the gap between reinforcement learning research and real-world applications. They make it possible to learn policies from offline datasets, thus overcoming concerns associated with online data collection in the real-world, including cost, safety, or ethical concerns. In this paper, we propose a benchmark called RL Unplugged to evaluate and compare offline RL methods. RL Unplugged includes data from a diverse range of domains including games (e.g., Atari benchmark) and simulated motor control problems (e.g., DM Control Suite). The datasets include domains that are partially or fully observable, use continuous or discrete actions, and have stochastic vs. deterministic dynamics. We propose detailed evaluation protocols for each domain in RL Unplugged and provide an extensive analysis of supervised learning and offline RL methods using these protocols. We will release data for all our tasks and open-source all algorithms presented in this paper....
+
+## Introduction
+
+Reinforcement Learning (RL) has seen important breakthroughs, including learning directly from raw sensory streams, solving long-horizon reasoning problems such as Go, StarCraft II, DOTA, and learning motor control for high-dimensional simulated robots. However, many of these successes rely heavily on repeated online interactions of an agent with an environment. Despite its success in simulation, the uptake of RL for real-world applications has been limited. Power plants, robots, healthcare systems, or self-driving cars are expensive to run and inappropriate controls can have dangerous consequences....
+
+Figure 1: Task domains included in RL Unplugged. We include several open-source environments that are familiar to the community, as well as recent releases that push the limits of current algorithms. The task domains span key environment properties such as action space, observation space, exploration difficulty, and dynamics.
+
+## Conclusion
+
+We are releasing RL Unplugged, a suite of benchmarks covering a diverse set of environments, and datasets with an easy-to-use unified API. We present a clear evaluation protocol which we hope will encourage more research on offline policy selection. We empirically evaluate several state-of-art offline RL methods and analyze their results on our benchmark suite. The performance of the offline RL methods is already promising on some control suite tasks and Atari games. However, on partially-observable environments such as the locomotion suite the offline RL methods' performance is lower....
+
+Table 1. DM Control Suite tasks. We reserved five tasks for online policy selection (top) and the rest four are reserved for the offline policy selection (bottom). See Appendix E for reasoning behind choosing this particular task split.
+
+In a strict offline setting, environment interactions are not allowed. This makes hyperparameter tuning, including determining when to stop a training procedure, difficult. This is because we cannot take policies obtained by different hyperparameters and run them in the environment to determine which ones receive higher reward (we call this procedure online policy selection).^33^3Sometimes referred to as online model selection, but we choose policy selection to avoid confusion with models of the environment as used in model based RL algorithms....

@@ -1,0 +1,7 @@
+Goal Assignment and Trajectory Planning for Large Teams of Aerial Robots
+
+Topics include Multi-robot planning, Trajectory planning, Trajectory optimization, Collision avoidance, Goal assignment, Hungarian algorithm, Assignment problem, Quadrotors, Uncrewed aerial vehicle swarms.
+
+Addresses the combined goal assignment and collision-free trajectory planning problem for large teams of interchangeable quadrotor aerial robots. Exploits symmetry of quadrotor dynamics to show that optimal assignment and trajectory generation can be solved efficiently and independently, enabling scalable planning for tens to hundreds of UAVs.
+
+This paper presents a computationally tractable, resolution-complete algorithm for generating dynamically feasible trajectories for N interchangeable (identical) aerial robots navigating through cluttered known environments to M goal states. This is achieved by assigning the robots to goal states while concurrently planning the trajectories for all robots. The algorithm minimizes the maximum cost over all robot trajectories. The computational complexity of this algorithm is shown to be cubic in the number of robots, substantially better than the expected exponential complexity associated with planning in the joint state space and the assignment of goals to robots. Finally, this algorithm can be used to plan motions and goals for tens of aerial robots, each in a 12-dimensional state space. Experimental trials are conducted with a team of six quadrotor robots navigating in a constrained three-dimensional environment.

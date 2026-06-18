@@ -1,0 +1,7 @@
+Hierarchical Grouping to Optimize an Objective Function
+
+Topics include Ward's method, Hierarchical clustering, Agglomerative clustering, Objective function, Cluster analysis, Multivariate statistics, Variance minimization.
+
+Ward proposes an agglomerative hierarchical clustering procedure that repeatedly merges the pair of groups causing the smallest loss under a chosen objective function. The paper is the source of Ward's method, widely used as a variance-minimizing approach to hierarchical clustering and as a practical way to organize large multivariate data sets.
+
+A procedure for forming hierarchical groups of mutually exclusive subsets, each of which has members that are maximally similar with respect to specified characteristics, is suggested for use in large-scale (n > 100) studies when a precise optimal solution for a specified number of groups is not practical. Given n sets, this procedure permits their reduction to n − 1 mutually exclusive sets by considering the union of all possible n(n − 1)/2 pairs and selecting a union having a maximal value for the functional relation, or objective function, that reflects the criterion chosen by the investigator. By repeating this process until only one group remains, the complete hierarchical structure and a quantitative estimate of the loss associated with each stage in the grouping can be obtained. A general flowchart helpful in computer programming and a numerical example are included.

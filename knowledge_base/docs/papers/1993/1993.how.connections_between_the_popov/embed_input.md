@@ -1,0 +1,7 @@
+Connections between the Popov Stability Criterion and Bounds for Real Parameter Uncertainty
+
+Topics include Robust control, Popov criterion, Mu analysis, Real parameter uncertainty, Absolute stability, Riccati equation, Lyapunov functions.
+
+Relates mixed-mu robustness bounds for real parameter uncertainty to classical absolute-stability results such as the Popov criterion. The paper develops state-space and frequency-domain criteria, using storage functions, supply rates, Riccati equations, and geometric multiplier interpretations to clarify how magnitude and phase uncertainty enter the bounds.
+
+The purpose of this paper is to investigate an extension of μ theory for robust control design by considering systems with linear and nonlinear real parameter uncertainties. In the process, explicit connections are made between mixed μ and absolute stability theory. In particular, it is shown that the upper bounds for mixed μ are a generalization of results from absolute stability theory. Both state space and frequency domain criteria are developed using the wealth of literature on absolute stability theory and the concepts of supply rates and storage functions. The state space conditions are expressed in terms of Riccati equations and parameter-dependent Lyapunov functions. A geometric interpretation of the equivalent frequency domain criteria in terms of off-axis circles clarifies the important role of the multiplier and shows that both the magnitude and phase of the uncertainty are considered.

@@ -1,0 +1,7 @@
+A Convergence Guaranteed Multiple-Shooting DDP Method for Optimization-Based Robot Motion Planning
+
+Topics include Differential dynamic programming, Multiple shooting, Trajectory optimization, Robot motion planning, Convergence guarantees.
+
+Proposes a multiple-shooting DDP method with formal convergence guarantees obtained by using a state augmentation strategy.
+
+Optimization-based motion planning plays a pivotal role in addressing high-dimensional robotic manipulation tasks. This article studies the multiple-shooting differential dynamic programming (MS-DDP) method to solve high-dimensional constrained problems with Markovian and non-Markovian processes. To tackle the non-Markovian shortest-path problem (SPP) in robot manipulation, we propose a fully multiple shooting strategy to handle the dependence between states. This strategy can solve the SPP efficiently by utilizing state augmentation at each time step to reformulate it into the Markovian process format. Moreover, we theoretically prove the quadratic convergence of the MS-DDP, providing a theoretical guarantee for the optimality of the planned trajectory. Experiments are conducted to demonstrate the optimality and efficiency of the MS-DDP method on the benchmarks of robot motion planning tasks. The real-world experimental results on a dual-arm robot validate its superiority in solving the high-dimensional shortest-path problem with complex constraints.

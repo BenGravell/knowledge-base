@@ -1,0 +1,19 @@
+Optical Flow Estimation Using a Spatial Pyramid Network
+
+Topics include Optical flow, SPyNet, Spatial pyramid, Convolutional networks, Coarse-to-fine estimation, Image warping, Embedded vision.
+
+SPyNet is a compact hybrid of classical coarse-to-fine warping and learned flow-update networks. Its importance is that it demonstrates a smaller, more interpretable neural optical-flow model by pushing large displacement handling back into a spatial pyramid rather than asking a single large CNN to solve everything at once.
+
+We learn to compute optical flow by combining a classical spatial-pyramid formulation with deep learning. This estimates large motions in a coarse-to-fine approach by warping one image of a pair at each pyramid level by the current flow estimate and computing an update to the flow. Instead of the standard minimization of an objective function at each pyramid level, we train one deep network per level to compute the flow update. Unlike the recent FlowNet approach, the networks do not need to deal with large motions; these are dealt with by the pyramid. This has several advantages. First, our Spatial Pyramid Network (SPyNet) is much simpler and 96% smaller than FlowNet in terms of model parameters. This makes it more efficient and appropriate for embedded applications. Second, since the flow at each pyramid level is small (< 1 pixel), a convolutional approach applied to pairs of warped images is appropriate. Third, unlike FlowNet, the learned convolution filters appear similar to classical spatio-temporal filters, giving insight into the method and how to improve it....
+
+## Introduction
+
+Recent years have seen significant progress on the problem of accurately estimating optical flow, as evidenced by improving performance on increasingly challenging benchmarks. Despite this, most flow methods are derived from a "classical formulation" that makes a variety of assumptions about the image, from brightness constancy to spatial smoothness. These assumptions are only coarse approximations to reality and this likely limits performance. The recent history of the field has focused on improving these assumptions or making them more robust to violations. This has led to steady but incremental progress.
+
+An alternative approach abandons the classical formulation altogether and starts over using recent neural network architectures. Such an approach takes a pair (or sequence) of images and learns to directly compute flow from them. Ideally such a network would learn to solve the correspondence problem (short and long range), learn filters relevant to the problem, learn what is constant in the sequence, and learn about the spatial structure of the flow and how it relates to the image structure. The first attempts are promising but are not yet as accurate as the classical methods.
+
+## Conclusions
+
+In summary, we have described a new optical flow method that combines features of classical optical flow algorithms with deep learning. In a sense, there are two notions of "deepness" here. First we use a "deep" spatial pyramid to deal with large motions. Second we use deep neural networks at each level of the spatial pyramid and train them to estimate a flow update at each level. This approach means that each network has less work to do than a fully generic flow method that has to estimate arbitrarily large motions. At each pyramid level we assume that the motion is small (on the order of a pixel)....
+
+Each convolutional layer is followed by a Rectified Linear Unit (ReLU), except the last one. We use a 7x7 convolutional kernel for each of the layers and found these work better than smaller filters. The number of feature maps in each convnet, $G_{k}$ are {32, 64, 32, 16, 2}. The image $I_{k}^{1}$ and the warped image $w{(I_{k}^{2},{u{(V_{k - 1})}})}$ have 3 channels each (RGB). The upsampled flow $u{(V_{k - 1})}$ is 2 channel (horizontal and vertical)....

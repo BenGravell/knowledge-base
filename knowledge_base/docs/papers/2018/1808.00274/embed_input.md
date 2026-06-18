@@ -1,0 +1,17 @@
+Multimotion Visual Odometry (MVO): Simultaneous Estimation of Camera and Third-Party Motions
+
+Estimating motion from images is a well-studied problem in computer vision and robotics. Previous work has developed techniques to estimate the motion of a moving camera in a largely static environment (e.g., visual odometry) and to segment or track motions in a dynamic scene using known camera motions (e.g., multiple object tracking). It is more challenging to estimate the unknown motion of the camera and the dynamic scene simultaneously. Most previous work requires a priori object models (e.g., tracking-by-detection), motion constraints (e.g., planar motion), or fails to estimate the full SE motions of the scene (e.g., scene flow). While these approaches work well in specific application domains, they are not generalizable to unconstrained motions. This paper extends the traditional visual odometry (VO) pipeline to estimate the full SE motion of both a stereo/RGB-D camera and the dynamic scene. This multimotion visual odometry (MVO) pipeline requires no a priori knowledge of the environment or the dynamic objects. Its performance is evaluated on a real-world dynamic dataset with ground truth for all motions from a motion capture system.
+
+## Introduction
+
+Visual navigation is an important area of research in robotics. Visual odometry (VO) estimates the motion of a camera (i.e., its egomotion) relative to observed static objects within a scene. These static objects must be accurately segmented from any dynamic noise, and this segmentation itself is an area of research focus. Less research in visual navigation has focused on also analyzing the dynamic regions of the scene that these approaches reject.
+
+This motion estimation problem requires both *estimation*, i.e., calculating the motion of a set of points, and *segmentation*, i.e., clustering points according to their movement between observations. The interdependence of these tasks creates a *chicken-and-egg* problem that is addressed in VO systems by using heuristics (e.g., number of features) to select the egomotion and ignore the other motions in the scene. These heuristics are not readily extensible to *multimotion* estimation problems and analyzing multiple independently moving bodies remains a challenging problem for state-of-the-art vision systems....
+
+This paper extends the classic VO pipeline to address the multimotion estimation problem. The multimotion visual odometry (MVO) pipeline segments and estimates *all* rigid motions in a scene. It does so by using feature-tracking, sparse graph segmentation, and multiframe batch motion estimation such that it avoids many of the limitations of other multimotion estimation approaches.
+
+We evaluated MVO on a multimotion dataset with ground-truth trajectories for all motions in the scene. Its estimation accuracy is comparable to similarly defined egomotion-only VO systems while also exhibiting similar limitations. We are actively exploring the application benefits of continuous-time state estimation and continuous labels, as well as implementing the pipeline such that it can be used in real-time.
+
+### III-C Label Assignment
+
+Rother et al. use a minimization framework to find a binary segmentation of the static background from a manually selected dynamic foreground object, but the approach can only segment a single object within a bounding box. PEARL uses $\alpha$-expansion and model refitting to iteratively estimate both models and point assignments in an expectation-maximization framework....

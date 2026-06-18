@@ -1,0 +1,17 @@
+The Fundamental Limitations of Learning Linear-Quadratic Regulators
+
+We present a local minimax lower bound on the excess cost of designing a linear-quadratic controller from offline data. The bound is valid for any offline exploration policy that consists of a stabilizing controller and an energy bounded exploratory input. The derivation leverages a relaxation of the minimax estimation problem to Bayesian estimation, and an application of Van Trees' inequality. We show that the bound aligns with system-theoretic intuition. In particular, we demonstrate that the lower bound increases when the optimal control objective value increases. We also show that the lower bound increases when the system is poorly excitable, as characterized by the spectrum of the controllability gramian of the system mapping the noise to the state and the H_infinity norm of the system mapping the input to the state. We further show that for some classes of systems, the lower bound may be exponential in the state dimension, demonstrating exponential sample complexity for learning the linear-quadratic regulator offline.
+
+## Introduction
+
+Reinforcement Learning (RL) has demonstrated success in a variety of domains, including robotics and games. However, it is known to be very data intensive, making it challenging to apply to complex control tasks. This has motivated efforts by both the machine learning and control communities to understand the statistical hardness of RL in analytically tractable settings, such as the tabular setting and the linear-quadratic control setting. Such studies provide insights into the fundamental limitations of RL, and the efficiency of particular algorithms.
+
+There are two common problems of interest for understanding the statistical hardness of RL from the perspective of learning a linear-quadratic regulator (LQR): online LQR, and offline LQR. Online LQR models an interactive problem in which the learning agent attempts to minimize a regret-based objective, while simultaneously learning the dynamics. Offline LQR models a two-step pipeline, where data from the system is collected, and then used to design a controller. Guarantees in the online setting are in the form of regret bounds, whereas the offline setting focuses on Probably Approximately Correct (PAC) guarantees....
+
+## Conclusion
+
+We presented lower bounds for offline linear-quadratic control problems. The focus was to understand the fundamental limitations of learning controllers from offline data in terms of system-theoretic properties. Several interesting consequences arose, such as the fact that our lower bound achieves the optimal dimensional dependence $d_{\mathsf{X}}d_{\mathsf{U}}$ for underactuated systems. We also showed that there exist classes of systems where the sample complexity is exponential with the system dimension, $d_{\mathsf{X}}$....
+
+### Lemma 2.2 (Application of Van Trees' Inequality)
+
+We now proceed to establish our lower bound. As we are interested in the worst-case excess cost from any element of $\mathcal{B}{(\theta,\varepsilon)}$, we make the additional assumption that $F$ stabilizes $({A{(\theta^{\prime})}},{B{(\theta^{\prime})}})$ for all $\theta^{\prime} \in {\mathcal{B}{(\theta,\varepsilon)}}$.^44^4We ultimately study the limit as $\varepsilon$ becomes small. Therefore, this is not significantly stronger than assuming that $F$ stabilizes (${A{(\theta)}},{B{(\theta)}}$). This also ensures that the optimal LQR controller exists for all points in the prior.

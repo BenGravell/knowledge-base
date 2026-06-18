@@ -1,0 +1,7 @@
+A Real-Time Iteration Scheme for Nonlinear Optimization in Optimal Feedback Control
+
+Topics include Nonlinear model predictive control, Real-time iteration, Online optimization, Optimal feedback control, Direct multiple shooting, Newton-type optimization, Sequential quadratic programming, Contractivity, Parametric optimization, Real-time optimization.
+
+This paper establishes the real-time iteration scheme for nonlinear optimal feedback control: one Newton/SQP-type update is performed per sampling instant while previous iterates warm-start the next online problem. It gives the key contractivity and optimality-loss results that justify RTI-based NMPC, and demonstrates the method on the now-classic airborne-kite benchmark.
+
+An efficient Newton-type scheme for the approximate on-line solution of optimization problems as they occur in optimal feedback control is presented. The scheme allows a fast reaction to disturbances by delivering approximations of the exact optimal feedback control which are iteratively refined during the runtime of the controlled process. The contractivity of this real-time iteration scheme is proven, and a bound on the loss of optimality - compared with the theoretical optimal solution - is given. The robustness and excellent real-time performance of the method is demonstrated in a numerical experiment, the control of an unstable system, namely, an airborne kite that shall fly loops.

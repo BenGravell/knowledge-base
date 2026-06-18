@@ -1,0 +1,7 @@
+PointWorld: Scaling 3D World Models for In-the-Wild Robotic Manipulation
+
+Topics include World models, Robot manipulation, 3D perception, Point cloud, Robot learning.
+
+Presents PointWorld, a 3D world model that predicts action-conditioned point flows from RGB-D observations for robotic manipulation. The paper is useful because it moves world modeling from image/video prediction toward geometry-aware representations tied to robot action effects.
+
+Humans anticipate, from a glance and a contemplated action of their bodies, how the 3D world will respond, a capability that is equally vital for robotic manipulation. We introduce PointWorld, a large pre-trained 3D world model that unifies state and action in a shared 3D space as 3D point flows: given one or few RGB-D images and a sequence of low-level robot action commands, PointWorld forecasts per-pixel displacements in 3D that respond to the given actions. By representing actions as 3D point flows instead of embodiment-specific action spaces (e.g., joint positions), this formulation directly conditions on physical geometries of robots while seamlessly integrating learning across embodiments. To train our 3D world model, we curate a large-scale dataset spanning real and simulated robotic manipulation in open-world environments, enabled by recent advances in 3D vision and simulated environments, totaling about 2M trajectories and 500 hours across a single-arm Franka and a bimanual humanoid....

@@ -1,0 +1,5 @@
+Path Integral Control in Gaussian Belief Space for Partially Observed Systems
+
+Topics include Bellman equations, Diffusion models, Control, Model predictive path integral belief, PIC.
+
+This paper extends path integral control (PIC) to partially observed systems by formulating the problem in Gaussian belief space. PIC relies on the diffusion being proportional to the control channel - the so-called matching condition - to linearize the Hamilton-Jacobi-Bellman equation via the Cole-Hopf transform; we show that this condition fails in infinite-dimensional belief space under non-affine observations. Restricting to Gaussian beliefs yields a finite-dimensional approximation with deterministic covariance evolution, reducing the problem to stochastic control of the belief mean. We derive necessary and sufficient conditions for matching in this reduced space, obtain an exact Cole-Hopf linearization with a Feynman-Kac representation, and develop the MPPI-Belief algorithm. Numerical experiments on a navigation task with state-dependent observation noise demonstrate the effectiveness of MPPI-Belief relative to certainty-equivalent and particle-filter-based baselines.

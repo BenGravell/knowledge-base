@@ -1,0 +1,5 @@
+Ubiquitous B-Tree
+
+Helped make B-trees a go-to data structure for database management systems and file systems. It made the concept accessible and explained the advantages, contributing to B-trees becoming a standard choice for many storage systems.
+
+B-trees have become, de facto, a standard for file organization. File indexes of users, dedicated database systems, and general-purpose access methods have all been proposed and implemented using B-trees. This paper reviews B-trees and shows why they have been so successful. It discusses the major variations of the B-tree, especially the B+-tree, contrasting the relative merits and costs of each implementation. It illustrates a general purpose access method which uses a B-tree.

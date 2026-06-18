@@ -1,0 +1,17 @@
+Do Better ImageNet Classifiers Assess Perceptual Similarity Better?
+
+Perceptual distances between images, as measured in the space of pre-trained deep features, have outperformed prior low-level, pixel-based metrics on assessing perceptual similarity. While the capabilities of older and less accurate models such as AlexNet and VGG to capture perceptual similarity are well known, modern and more accurate models are less studied. In this paper, we present a large-scale empirical study to assess how well ImageNet classifiers perform on perceptual similarity. First, we observe a inverse correlation between ImageNet accuracy and Perceptual Scores of modern networks such as ResNets, EfficientNets, and Vision Transformers: that is better classifiers achieve worse Perceptual Scores. Then, we examine the ImageNet accuracy/Perceptual Score relationship on varying the depth, width, number of training steps, weight decay, label smoothing, and dropout. Higher accuracy improves Perceptual Score up to a certain point, but we uncover a Pareto frontier between accuracies and Perceptual Score in the mid-to-high accuracy regime....
+
+## Introduction
+
+ImageNet is the cornerstone of modern supervised learning and has enabled significant progress in computer vision. Features learnt via training on ImageNet transfer well to a number of downstream tasks, making ImageNet pretraining a standard recipe. Further, better accuracy on ImageNet usually implies better performance on a diverse set of downstream tasks such as robustness to common corruptions, adversarial robustness, out-of-distribution generalization, transfer learning on smaller classification datasets, pose estimation, domain adaptation, object detection and segmentation, and for predicting neural recordings and behaviors of...
+
+As a remarkable side effect, ImageNet models can also capture a notion of similarity identical to humans, known as perceptual similarity. Designing distance metrics that correspond to human judgements is a well established problem in computer vision, and a number of low-level metrics have been introduced for this purpose. The first generation of ImageNet classifiers: AlexNet, VGG, and SqueezeNet can all measure perceptual similarity termed as Perceptual Scores (PS), as an emergent property, in a way that outperforms all prior pixel-level metrics and correlates better with human judgement.
+
+### Broader Impact Statement
+
+Our results are based on BAPPS, which consists of exclusively low-level distortions as opposed to high-level semantic differences. We believe low-level distortions such as gaussian blur and color distortions are less likely to be susceptible to bias across different human categories as compared to high-level semantic features such as facial features. It is an open and interesting question whether different categories of humans like race and gender perceive low-level distortions differently....
+
+Shallower and narrower architectures perform better as shown in Figs. 6d, 6f, and 6b. The optimal width of ViT-B/8 and ViT-L/4 are 6 and 12% of their default widths while their optimal depths are just 2 transformer blocks. ResNet-6 and ResNet-50 exhibit similar properties with the optimal width being 25% of their original widths. ResNet-200 is the outlier with a small peak at its original width.
+
+We train our networks on ImageNet at a resolution of 64 $\times$ 64 and report their accuracies on the ImageNet validation set and PS on the BAPPS validation set....

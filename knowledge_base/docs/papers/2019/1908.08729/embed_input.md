@@ -1,0 +1,17 @@
+Wasserstein Distributionally Robust Optimization: Theory and Applications in Machine Learning
+
+Many decision problems in science, engineering and economics are affected by uncertain parameters whose distribution is only indirectly observable through samples. The goal of data-driven decision-making is to learn a decision from finitely many training samples that will perform well on unseen test samples. This learning task is difficult even if all training and test samples are drawn from the same distribution - especially if the dimension of the uncertainty is large relative to the training sample size. Wasserstein distributionally robust optimization seeks data-driven decisions that perform well under the most adverse distribution within a certain Wasserstein distance from a nominal distribution constructed from the training samples. In this tutorial we will argue that this approach has many conceptual and computational benefits. Most prominently, the optimal decisions can often be computed by solving tractable convex optimization problems, and they enjoy rigorous out-of-sample and asymptotic consistency guarantees....
+
+## Introduction
+
+We consider a decision problem under uncertainty, where each admissible decision results in an uncertain loss that is modeled by a measurable extended real-valued loss function $\ell{(\xi)}$. We assume that the random vector $\xi \in {\mathbb{R}}^{m}$ captures all decision-relevant risk factors and is governed by a probability distribution $\mathbb{P}$. The feasible set of all available loss functions is denoted by $\mathcal{L}$. The risk of a decision $\ell \in \mathcal{L}$ is defined as the expected loss under $\mathbb{P}$, that is,
+
+and the optimal risk is defined as the risk of the least risky admissible loss function, that is,
+
+Examples of support functions. \upΞ σΞ(z) dom(σΞ)\down \up{ξ: ∥ξ∥ ≤ b} b∥z∥* ℝm {ξ: Cξ ≤ d} inf {λ⊤d: λ ∈ ℝ+l, C⊤λ = z} {C⊤λ: λ ∈ ℝ+l} {ξ: f(ξ) ≤ 0} inf {λf*(z/λ): λ ∈ ℝ+l} − recc (f)* {ξ: ξ ∈ Ξk∀k ∈ [K]} $\inf{\{{\sum_{k = 1}^{K}{\sigma_{\Xi_{k}}{(z_{k})}}}:{{\sum_{k = 1}^{K}z_{k}} = z}\}}$ − ⋂k ∈ [K]recc (Ξk)* \down Assume that b ∈ ℝ+, C ∈ ℝl × m and d ∈ ℝl. Let f(ξ) be a closed, proper and convex function, and let Ξk, k ∈ [K], be convex closed sets with nonempty intersection. Denote by recc (f)* and recc (Ξk)* the cones dual to the recession cones of the function f(ξ) and the set Ξk, respectively.
+
+Examples of dual norms. \up∥ξ∥ ∥z∥* comment\down ∥ξ∥p ∥z∥q standard p-norms ∥ξ∥1 ∥z∥∞ limiting case when p ↓ 1 and q ↑ ∞ α∥ξ∥p $\frac{1}{\alpha}{\| z\|}_{q}$ scaled p-norms ∥Aξ∥p ∥A−1z∥q scaled p-norms ∑k ∈ [K]∥ξk∥pk maxk ∈ [K]∥zk∥qk additively separable norms Assume that p, q ≥ 1 with ${\frac{1}{p} + \frac{1}{q}} = 1$, α &gt; 0, A ∈ 𝕊++m, and pk, qk ≥ 1 with ${\frac{1}{p_{k}} + \frac{1}{q_{k}}} = 1$ for all k ∈ [K]. Moreover, ξ = (ξ1,…,ξK) and z = (z1,…,zK), where ξk, zk ∈ ℝmk and ${\sum_{k = 1}^{K}m_{k}} = m$.
+
+If the worst-case risk over a Wasserstein ball centered at the empirical distribution is attained, then there always exists an extremal distribution with $N + 1$ atoms that can be characterized in quasi-closed form \[, Corollary 2\]. In practice, however, it is often convenient to ignore this minimal representability and to search over candidate distributions with more than $N + 1$ atoms, e.g., by solving a finite convex optimization problem such as (2.8 ‣ 2.2 Tractability Results for Empirical Nominal Distributions ‣ 2 Computation"))....
+
+### Theorem 2.6 (Piecewise concave loss I)

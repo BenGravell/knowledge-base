@@ -1,0 +1,272 @@
+## Introduction
+
+Kinodynamic motion planning is a fundamental problem in robotics where the goal is to find collision-free trajectories in high-dimensional, continuous, and non-convex spaces, while also considering actuation limits and dynamics of the robot. Over the last two decades, a wide variety of sampling-, search-, and optimization-based methods have been proposed to address (kinodynamic) motion planning problems.
+
+A breakthrough was the introduction of Rapidly-exploring Random Trees (RRT) \[(https://arxiv.org/html/2403.10745v1#bib.bib1)\], a sampling-based method that incrementally builds a tree of configurations by expanding nodes towards randomly sampled new configurations. RRT-like algorithms (e.g., \[(https://arxiv.org/html/2403.10745v1#bib.bib2), (https://arxiv.org/html/2403.10745v1#bib.bib3), (https://arxiv.org/html/2403.10745v1#bib.bib4), (https://arxiv.org/html/2403.10745v1#bib.bib5), (https://arxiv.org/html/2403.10745v1#bib.bib6), (https://arxiv.org/html/2403.10745v1#bib.bib7)\]) are highly efficient for geometric planning, i.e., motion planning settings that involve only joint configurations of the system, since in the geometric setting, two configurations can be connected exactly by using linear interpolation.
+
+Although RRT-like algorithms can be adapted for kinodynamic motion planning (e.g., \[(https://arxiv.org/html/2403.10745v1#bib.bib8), (https://arxiv.org/html/2403.10745v1#bib.bib9)\]), their efficiency significantly decreases, as they typically require solving multiple two-point boundary value problems or the propagation of random control inputs. Two-point boundary problems, as they arise for most robotic systems, often do not have an analytic solution, and solving them is computationally expensive, generally requiring the solution of a nonlinear trajectory optimization problem. Propagating random control inputs tends to be uninformative for many systems, as random controls can lead to poor exploration of the state space, particularly in highly nonlinear systems such as quadrotors where random inputs often lead to instability in the system. Further, it is not clear how to perform a bidirectional search, as in RRT-Connect \[(https://arxiv.org/html/2403.10745v1#bib.bib3)\], in the kinodynamic setting with the propagation of random inputs.
+
+Figure 1: iDb-RRT combines a forward or bidirectional RRT search with motion primitives (Db-RRT) and trajectory optimization iteratively. (a,b) In the search step, the RRT is expanded by connecting motion primitives with a bounded discontinuity. (c) The output of the RRT is a trajectory with a bounded discontinuity in the dynamics constraints. (d) Using trajectory optimization, we generate a dynamically feasible trajectory. Problem visualization: Planar Rotor in Double bugtrap.
+
+Alternative approaches for kinodynamic motion planning are optimization-based methods \[(https://arxiv.org/html/2403.10745v1#bib.bib10), (https://arxiv.org/html/2403.10745v1#bib.bib11), (https://arxiv.org/html/2403.10745v1#bib.bib12)\], which scale polynomially instead of exponentially but require an initial guess and may fail to converge; and search-based methods \[(https://arxiv.org/html/2403.10745v1#bib.bib13), (https://arxiv.org/html/2403.10745v1#bib.bib14)\], which provide strong theoretical guarantees but require a pre-defined discretization of the state or control space. More recently, hybrid methods have been proposed to merge the strengths of the three previous approaches to kinodynamic motion planning \[(https://arxiv.org/html/2403.10745v1#bib.bib15), (https://arxiv.org/html/2403.10745v1#bib.bib16), (https://arxiv.org/html/2403.10745v1#bib.bib17), (https://arxiv.org/html/2403.10745v1#bib.bib18), (https://arxiv.org/html/2403.10745v1#bib.bib19)\]. Iterative Discontinuity-Bounded A\* (iDb-A\*) \[(https://arxiv.org/html/2403.10745v1#bib.bib20)\] introduces an approach based on A\*-search with *motion primitives*, i.e., short and locally optimal trajectories, that are connected not necessarily exactly, but allowing for a bounded discontinuity between primitives. These discontinuities between the motion primitives are later rectified using trajectory optimization (TO). By iteratively combining optimization and search with an increasing number of motion primitives and a reduced discontinuity bound, this method achieves asymptotically optimal motion planning and outperforms state-of-the-art methods across various robotic systems. A primary limitation of iDb-A\* is its inefficiency in finding an initial solution, particularly in large environments, where the time required to find the initial solution remains high.
+
+In this paper, we combine the strengths of the exploration of RRT with the concept of discontinuities between motion primitives and trajectory optimization. We present iDb-RRT (iterative Discontinuity-bounded RRT), a new kinodynamic motion planning algorithm that builds on the ideas of allowing discontinuities in an initial motion from iDb-A\*, and integrates the RRT exploration strategy with short motion primitives and trajectory optimization. iDb-RRT samples a random configuration, then expands the configuration that is closest using applicable motion primitives with bounded discontinuity. Once a solution is found, we employ trajectory optimization to correct the discontinuities between motion primitives. By incrementally increasing the number of primitives and reducing the allowed discontinuity, our algorithm achieves probabilistic completeness.
+
+We analyze both a forward and a bidirectional version of iDb-RRT. In the open-source benchmark Dynobench comprising 30 problems across 8 different systems, iDb-RRT significantly outperforms state-of-the-art methods in initial solution time, especially in complex scenarios requiring long-horizon planning or navigating through narrow passages.
+
+## Related Work
+
+In this section, we discuss previous work on RRTs for kinodynamic motion planning and methods combining sampling and optimization. A more comprehensive review of methods in kinodynamic motion planning can be found in \[(https://arxiv.org/html/2403.10745v1#bib.bib20), (https://arxiv.org/html/2403.10745v1#bib.bib21)\].
+
+Sampling-based methods often grow the search tree towards a randomly sampled configuration by solving two-point boundary value problems \[(https://arxiv.org/html/2403.10745v1#bib.bib22)\] to connect two states precisely, or by propagating random control inputs \[(https://arxiv.org/html/2403.10745v1#bib.bib23)\]. Previous work has focused on improving the expansion step (also called steering function) for specific systems \[(https://arxiv.org/html/2403.10745v1#bib.bib8), (https://arxiv.org/html/2403.10745v1#bib.bib24), (https://arxiv.org/html/2403.10745v1#bib.bib25)\], better exploration by most informative sampling \[(https://arxiv.org/html/2403.10745v1#bib.bib26), (https://arxiv.org/html/2403.10745v1#bib.bib27)\], better heuristics \[(https://arxiv.org/html/2403.10745v1#bib.bib28)\], better integration of nonlinear solvers as a subroutine in sampling-based planners \[(https://arxiv.org/html/2403.10745v1#bib.bib6), (https://arxiv.org/html/2403.10745v1#bib.bib29)\], or using motion primitives \[(https://arxiv.org/html/2403.10745v1#bib.bib16)\] in a discretized configuration space. Compared to the previously discussed methods, our approach plans with the full dynamics (with bounded discontinuity), does not require discretization of the workspace, and does not require solving two-point boundary value problems in the RRT expansion step. This is enabled by leveraging precomputed motion primitives and allowing discontinuities in the planning stage, which are later fixed using trajectory optimization (TO).
+
+Leveraging TO is a common approach for both geometric \[(https://arxiv.org/html/2403.10745v1#bib.bib18), (https://arxiv.org/html/2403.10745v1#bib.bib6)\] and kinodynamic motion planning, e.g., as a final post-processing step to improve cost and smoothness \[(https://arxiv.org/html/2403.10745v1#bib.bib30)\].
+
+In kinodynamic planning, previous work often involves planning using a simplified geometric model \[(https://arxiv.org/html/2403.10745v1#bib.bib31), (https://arxiv.org/html/2403.10745v1#bib.bib32), (https://arxiv.org/html/2403.10745v1#bib.bib33)\] and tracking the resulting reference using trajectory optimization or an optimization-based controller. This approach is commonly used in high-dimensional systems, e.g., \[(https://arxiv.org/html/2403.10745v1#bib.bib34), (https://arxiv.org/html/2403.10745v1#bib.bib35)\] for UAVs or \[(https://arxiv.org/html/2403.10745v1#bib.bib36), (https://arxiv.org/html/2403.10745v1#bib.bib37)\] for legged robots. Unfortunately, initially using a simplified model and accounting for the full dynamics later is limiting and might lead to infeasible optimization problems if the initial guess is not close to a dynamically feasible trajectory \[(https://arxiv.org/html/2403.10745v1#bib.bib38)\].
+
+We also use TO for computing the final feasible trajectory, but we plan with the full dynamics (with bounded discontinuity). As this discontinuity can be made arbitrarily low, and optimization and search are combined iteratively, iDb-RRT is probabilistically complete under mild assumptions.
+
+## Problem Definition
+
+We consider a robot with a continuous state $\mathbf{x} \in \mathcal{X}$ (e.g., $\mathcal{X} \subseteq {\mathbb{R}}^{d_{x}}$) and a control vector $\mathbf{u} \in \mathcal{U} \subset {\mathbb{R}}^{d_{u}}$. The dynamics of the robot are deterministic, described by a differential equation,
+
+To employ gradient-based optimization, we assume that we can compute the Jacobian of $\mathbf{f}$ with respect to $\mathbf{x}$ and $\mathbf{u}$, typically available in systems studied in kinodynamic motion planning, such as mobile robots or rigid-body articulated systems. We use $\mathcal{X}_{\text{free}} \subseteq \mathcal{X}$ to denote the collision-free space, i.e., the subset of states that are not in collision with the obstacles in the environment.
+
+We discretize the dynamics ((https://arxiv.org/html/2403.10745v1#S3.E1 "1 ‣ III Problem Definition ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")) with a zero-order hold, i.e., we assume the applied control is constant during a time step of duration $\Delta t$. The discretized dynamics can then be written as,
+
+using a small $\Delta t$ to ensure the accuracy of the Euler approximation. We use $K \in {\mathbb{N}}$ to denote the number of time steps (which is not fixed but subject to optimization), $\mathbf{X} = {\langle\mathbf{x}_{0},\mathbf{x}_{1},\ldots,\mathbf{x}_{K}\rangle}$ to denote the sequence of states sampled at times $0,{\Delta t},\ldots,{K\Delta t}$ and $\mathbf{U} = {\langle\mathbf{u}_{0},\mathbf{u}_{1},\ldots,\mathbf{u}_{K - 1}\rangle}$ to denote the sequence of controls applied to the system for the time frames ${\lbrack 0,{\Delta t})},{\lbrack{\Delta t},{2\Delta t})},\ldots,{\lbrack{{({K - 1})}\Delta t},{K\Delta t})}$. The objective of navigating the robot from its start state $\mathbf{x}_{s}$ to a goal state $\mathbf{x}_{g}$ can then be framed as the search problem,
+
+${\text{find~}\mathbf{U}},\mathbf{X},K$
+
+$\mathbf{x}_{k + 1} = {\text{step}{(\mathbf{x}_{k},\mathbf{u}_{k})}}$
+
+$\mathbf{x}_{k} \in \mathcal{X}_{\text{free}} \subseteq \mathcal{X}$
+
+${{\mathbf{x}_{0} = \mathbf{x}_{s}};{\mathbf{x}_{K} = \mathbf{x}_{g}}}.$
+
+In this paper we focus on finding a valid trajectory quickly (i.e, very little compute time), as opposed to finding the optimal solution. Although there is no explicit minimization of a cost function in our algorithms, we can evaluate the cost of the trajectory a posteriori. We use the cost term ${J{(\mathbf{U},\mathbf{X})}} = {\sum_{k = 0}^{K - 1}{j{(\mathbf{u}_{k},\mathbf{x}_{k})}\Delta t}}$, with ${j{(\mathbf{u}_{k},\mathbf{x}_{k})}} = 1$ for minimal time (span) (alternatively, one might use ${j{(\mathbf{u}_{k},\mathbf{x}_{k})}} = {\|\mathbf{u}_{k}\|}^{2}$ for minimal control effort). We assume the dynamics function $\text{step}{(\mathbf{x},\mathbf{u})}$, control space $\mathcal{U}$, state space $\mathcal{X}$, and cost function $j{(\mathbf{x},\mathbf{u})}$, are known before solving the problem, which allows us to precompute motion primitives.
+
+## iDb-RRT
+
+### IV-A Background
+
+Our approach relies on two concepts, that we now define.
+
+### Definition 1 (Discontinuity Bounded Solution)
+
+A trajectory ${\mathbf{X} = {(\mathbf{x}_{0},\ldots,\mathbf{x}_{K})}},{\mathbf{U} = {(\mathbf{u}_{0},\ldots,\mathbf{u}_{K - 1})}}$ is a $\delta$-discontinuity bounded solution of the kinodynamic motion planning problem [Section III](https://arxiv.org/html/2403.10745v1#S3.E3 "III Problem Definition ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization") if: ${d{(\mathbf{x}_{k + 1},{\text{𝑠𝑡𝑒𝑝}{(\mathbf{x}_{k},\mathbf{u}_{k})}})}} \leq \delta$, ${d{(\mathbf{x}_{0},\mathbf{x}_{s})}} \leq \delta$, ${d{(\mathbf{x}_{K},\mathbf{x}_{g})}} \leq \delta$, $\mathbf{x}_{k} \in \mathcal{X}_{\text{𝑓𝑟𝑒𝑒}}$ and $\mathbf{u}_{k} \in \mathcal{U}$, where $d{( \cdot, \cdot )}$ is a distance function, e.g., a weighted Euclidean norm, and $\delta \geq 0$.
+
+The search step of our algorithm, Db-RRT, generates solutions that are discontinuity bounded, while the trajectory optimization step rectifies these solutions to satisfy [Section III](https://arxiv.org/html/2403.10745v1#S3.E3 "III Problem Definition ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization").
+
+### Definition 2 (Motion Primitive)
+
+A motion primitive $m = {(\mathbf{X},\mathbf{U},\mathbf{x}_{s},\mathbf{x}_{f},c)}$ is a sequence of states $\mathbf{X} = {(\mathbf{x}_{0},\ldots,\mathbf{x}_{N})}$, $\mathbf{x}_{k} \in \mathcal{X}$, and controls $\mathbf{U} = {(\mathbf{u}_{0},\ldots,\mathbf{u}_{N - 1})}$, $\mathbf{u}_{k} \in \mathcal{U}$ that fulfill the dynamics $\mathbf{x}_{k + 1} = {{step}{(\mathbf{x}_{k},\mathbf{u}_{k})}}$. It connects the start state $\mathbf{x}_{s} = \mathbf{x}_{0}$ and the final state $\mathbf{x}_{f} = \mathbf{x}_{N}$, with a corresponding cost $c \in {\mathbb{R}}^{+}$. The length of the motion primitive (i.e., the number of states and controls) is randomized.
+
+A large set of motion primitives can be generated offline by sampling random start and goal states, and attempting to connect them using nonlinear trajectory optimization algorithms. This results in a superior distribution of primitives in terms of coverage of the state space, compared to propagating random control inputs, and it guarantees asymptotic coverage of the state space \[(https://arxiv.org/html/2403.10745v1#bib.bib20)\]. Importantly, we can later use known properties of the system to adapt primitives on-the-fly to match a state during the search, e.g., by using translation invariance of mobile robots, we can *translate* a primitive to match the position components of the state space \[(https://arxiv.org/html/2403.10745v1#bib.bib20)\]. [Fig. 2](https://arxiv.org/html/2403.10745v1#S4.F2 "Figure 2 ‣ IV-A Background ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization") displays four motion primitives in the system planar rotor and how they can be connected with a bounded discontinuity.
+
+Figure 2: Top: Four motion primitives in the system Planar rotor. The initial state (green), final state (red) and duration are randomized. Bottom: During the search step (Db-RRT), motion primitives are connected allowing for a bounded discontinuity. In this visualization, we connect these four motion primitives from left to right. The green and red configurations indicate the first and last configurations of each primitive. Note that their rotation component does not match exactly (further, discontinuities in the velocity components are not shown).
+
+### IV-B Overview
+
+Our approach is summarized in [Algorithm 1](https://arxiv.org/html/2403.10745v1#alg1 "1 ‣ IV-B Overview ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization"). We assume that a large set of motion primitives $\mathcal{M}_{L}$ has been precomputed and is available before planning. iDb-RRT iteratively runs two steps until the first valid solution is found:
+
+An RRT search algorithm that connects motion primitives with bounded discontinuity, called Db-RRT. The output is a discontinuity bounded solution, i.e., a collision-free trajectory with bounded violation of dynamic constraints ([Definition 1](https://arxiv.org/html/2403.10745v1#Thmdefinition1 "Definition 1 (Discontinuity Bounded Solution) ‣ IV-A Background ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")).
+
+Gradient-based trajectory optimization, which attempts to repair the discontinuities between the motion primitives to produce a dynamically feasible trajectory.
+
+If the search fails to find a solution within a given timeout (TerminateCondition), we increase the number of available motion primitives. If gradient-based optimization fails, we reduce the allowed discontinuity. In practice, we typically require only one or two outer iterations (that is, a call to the search and optimization algorithms) to find a solution. We decrease the allowed discontinuity following a geometric sequence, $d_{i} = {d_{i - 1} \cdot d_{r}}$ with a fixed rate $d_{r} < 1$, and increase the number of primitives also following a geometric sequence $m_{i} = {m_{i - 1} \cdot m_{r}}$ with a fixed rate $m_{r} > 1$.
+
+Input: xs, xg, step, 𝒳free, 𝒰, ℳL
+δ ← δ0 ⊳ Choose initial discontinuity bound
+ℳ ← 𝙲𝚑𝚘𝚘𝚜𝚎𝙿𝚛𝚒𝚖𝚒𝚝𝚒𝚟𝚎𝚜(ℳL) ⊳ Choose initial subset of primitives from ℳL
+1 while not found do
+2 Xd, Ud← db-RRT(xs, xg, 𝒳free, ℳ, δ) if Xd, Ud successfully computed then
+3 X, U← Optimization(Xd, Ud, xs, xg, step, 𝒳free, 𝒰) if X, U successfully computed then
+Return(X, U) ⊳ New solution found
+Algorithm 1 iDb-RRT – Iterative Discontinuity Bounded RRT
+
+### IV-C Db-RRT: RRT with Motion Primitives
+
+Db-RRT is an RRT algorithm that connects motion primitives with bounded discontinuity, following the general RRT algorithm to choose the next state to expand. This approach provides a Voronoi bias (i.e., nodes at the frontier of the search tree are more likely to get expanded), thus rapidly exploring the feasible state space. In [Algorithm 2](https://arxiv.org/html/2403.10745v1#alg2 "2 ‣ IV-C Db-RRT: RRT with Motion Primitives ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization"), we describe our Db-RRT algorithm and highlight our modifications from RRT. In Db-RRT, the expansion operation is performed using motion primitives with bounded discontinuity. Given the state $\mathbf{x}_{\text{near}}$, we assess which primitives are applicable (e.g., [Algorithm 3](https://arxiv.org/html/2403.10745v1#alg3 "3 ‣ Asymptotically Optimal Algorithms ‣ IV-D Db-RRT-Connect and other Db-RRT variants ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization") in [Algorithm 3](https://arxiv.org/html/2403.10745v1#alg3 "3 ‣ Asymptotically Optimal Algorithms ‣ IV-D Db-RRT-Connect and other Db-RRT variants ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")). We then differentiate between focused expansion ([Algorithm 3](https://arxiv.org/html/2403.10745v1#alg3 "3 ‣ Asymptotically Optimal Algorithms ‣ IV-D Db-RRT-Connect and other Db-RRT variants ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")), where we select the primitive that brings us closest to $\mathbf{x}_{\text{rand}}$ from a finite number of nearby candidates, and uninformed expansion ([Algorithm 4](https://arxiv.org/html/2403.10745v1#alg4 "4 ‣ Asymptotically Optimal Algorithms ‣ IV-D Db-RRT-Connect and other Db-RRT variants ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")), where we choose one collision-free primitive at random. With a small probability (the so-called goal bias), we expand towards the goal state instead of a random state.
+
+We stop when we find a state that is within a distance lower than $\delta$ of the goal state. Further, the value of $\delta$ is also used to avoid creating nodes in the tree that are too close to previously discovered nodes.
+
+Both expansion strategies are guaranteed to find a solution, if one exists, given sufficient compute time. The inherent trade-off is that [Algorithm 3](https://arxiv.org/html/2403.10745v1#alg3 "3 ‣ Asymptotically Optimal Algorithms ‣ IV-D Db-RRT-Connect and other Db-RRT variants ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization") requires more compute time, as it involves evaluating collisions for multiple motion primitives, but it provides a more focused and uniform expansion. In our implementation, we utilize [Algorithm 3](https://arxiv.org/html/2403.10745v1#alg3 "3 ‣ Asymptotically Optimal Algorithms ‣ IV-D Db-RRT-Connect and other Db-RRT variants ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization") for expansions towards the goal and [Algorithm 4](https://arxiv.org/html/2403.10745v1#alg4 "4 ‣ Asymptotically Optimal Algorithms ‣ IV-D Db-RRT-Connect and other Db-RRT variants ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization") for expansions towards random nodes, but any combination of these two approaches is valid. Focused and uninformed expansion are analogous to guided Monte-Carlo and Monte-Carlo propagation in classic RRT literature, but in Db-RRT we use motion primitives instead of randomly sampled controls.
+
+2 if rand() &lt; goalBias then
+6 xnearest ← 𝙽𝚎𝚊𝚛𝚎𝚜𝚝(𝒯,xrand) xnew, m ← 𝙴𝚡𝚙𝚊𝚗𝚍𝙳𝚋(xnearest,xrand,𝒳free,ℳ,δ) if xnew ≠ NULL then
+𝒯 ← 𝙰𝚍𝚍𝙽𝚘𝚍𝚎(𝒯,xnew) Xd, Ud ← 𝚃𝚛𝚊𝚌𝚎𝚋𝚊𝚌𝚔𝚃𝚛𝚊𝚓𝚎𝚌𝚝𝚘𝚛𝚢(𝒯,xnew) Return(Xd, Ud) ⊳ Discontinuity bounded solution
+9 else if NearestDistance (𝒯, xnew) &gt; δ then
+Algorithm 2 Db-RRT – Rapidly-Exploring Random Trees with Motion Primitives
+
+### IV-D Db-RRT-Connect and other Db-RRT variants
+
+The expansion step of Db-RRT ([Algorithms 3](https://arxiv.org/html/2403.10745v1#alg3 "3 ‣ Asymptotically Optimal Algorithms ‣ IV-D Db-RRT-Connect and other Db-RRT variants ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization") and (https://arxiv.org/html/2403.10745v1#alg4 "4 ‣ Asymptotically Optimal Algorithms ‣ IV-D Db-RRT-Connect and other Db-RRT variants ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")) can be integrated with many of the variations and enhancements of RRT that have been previously proposed,
+
+### Backward and Bidirectional Search
+
+Inspired by RRT-Connect \[(https://arxiv.org/html/2403.10745v1#bib.bib3)\], we present a bidirectional variant of Db-RRT, where we grow two trees, one from the start (using standard motion primitives) and one from the goal (using reversed motion primitives), and attempt to connect them. The expansion step in a backward search mirrors that of a forward search but requires reversing the order of states and controls in the motion primitives beforehand. The two trees are connected if two of their states are within the discontinuity bound.
+
+### Asymptotically Optimal Algorithms
+
+Db-RRT can also be applied to RRT variants that require connecting two states precisely, instead of only expanding the state towards random targets. The discontinuity bound $\delta$ can be leveraged to consider two states as equivalent---thereby enabling their exact connection in any rewiring step, such as in RRT\* \[(https://arxiv.org/html/2403.10745v1#bib.bib2)\]. Such rewiring steps, which are essential for the asymptotic optimality of RRT\* and its variants, are already implemented in iDb-A\* \[(https://arxiv.org/html/2403.10745v1#bib.bib20)\].
+
+Return NULL, NULL
+Algorithm 3 Expand-Db: Focused
+
+Return NULL, NULL
+Algorithm 4 Expand-Db: Randomized
+
+### IV-E Trajectory Optimization
+
+The output of Db-RRT is a sequence of states and controls that connects the start and goal states with a bounded discontinuity, see [Definition 1](https://arxiv.org/html/2403.10745v1#Thmdefinition1 "Definition 1 (Discontinuity Bounded Solution) ‣ IV-A Background ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization"). In the optimization step of iDb-RRT, we employ nonlinear trajectory optimization to repair the discontinuity between the motion primitives and to obtain a feasible and locally optimal trajectory.
+
+For gradient-based trajectory optimization, we require the gradients of the dynamics and the cost function with respect to the states and controls. These can be easily obtained for most robotics systems using finite differences, analytic expressions, or a differentiable simulator. Instead of the binary collision check in Db-RRT, we now use a signed distance function.
+
+In the trajectory optimization step, the number of time steps $K$ is fixed by the output of Db-RRT. If desired, we can also optimize the duration of the trajectory by including the length of the time interval in the optimization problem or using other techniques, as explored in \[(https://arxiv.org/html/2403.10745v1#bib.bib20)\]. Because our goal is to find a valid trajectory quickly, we choose not to include the time interval as an optimization variable. This choice is supported by the fact that trajectories from RRT-like algorithms tend to be suboptimal, where the time duration of the initial guess is often sufficient to reach the goal.
+
+To solve the trajectory optimization problem, we use the Differential Dynamic Programming (DDP) algorithm, which is a second-order method for solving optimal control problems of the form Eq. ([IV-E](https://arxiv.org/html/2403.10745v1#S6.EGx2 "IV-E Trajectory Optimization ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")). Collision and goal constraints, and state and control bounds of the original kinodynamic motion planning problem are added to the cost ([4a](https://arxiv.org/html/2403.10745v1#S4.E4.1 "4a ‣ IV-E Trajectory Optimization ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")) with a squared penalty method and a max activation function for inequalities. Further, we include small regularization terms on the control effort and the acceleration of the system to improve convergence.
+
+$\min\limits_{\mathbf{X},\mathbf{U}}$
+
+${{\sum\limits_{k = 0}^{K - 1}{c{(\mathbf{x}_{k},\mathbf{u}_{k})}}} + {c_{K}{(\mathbf{x}_{K})}}},$
+
+${{\mathbf{x}_{k + 1} = {\text{step}{(\mathbf{x}_{k},\mathbf{u}_{k})}}}\mspace{21mu}{{\forall k} \in {\{ 0,\ldots,{K - 1}\}}}},$
+
+In particular, we use the optimization algorithm *Feasibility-driven DDP* \[(https://arxiv.org/html/2403.10745v1#bib.bib39)\], which can be warm-started with an infeasible sequence of states and controls, providing a good balance between local convergence and globalization.
+
+### IV-F Analysis
+
+The RRT algorithm is probabilistically complete \[(https://arxiv.org/html/2403.10745v1#bib.bib22), (https://arxiv.org/html/2403.10745v1#bib.bib40)\], that is, the probability of eventually finding a solution, if one exists, converges to one. The proof assumes that the planning problem is $\delta_{1}$-robust (informally: the solution should not require traversing a "gap" smaller than $\delta_{1}$) and that the dynamics are Lipschitz continuous. Formally, it uses an inductive argument over overlapping balls that cover the solution trajectory, demonstrating that the probability of finding an edge between neighboring balls is non-zero.
+
+We first consider Db-RRT ([Algorithm 2](https://arxiv.org/html/2403.10745v1#alg2 "2 ‣ IV-C Db-RRT: RRT with Motion Primitives ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")) with the precondition that we have a sufficiently large set of motion primitives $\mathcal{M}_{L}$ and a discontinuity bound $\delta < \delta_{1}$. Then, the additional if-condition in [Algorithm 2](https://arxiv.org/html/2403.10745v1#alg2 "2 ‣ IV-C Db-RRT: RRT with Motion Primitives ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization") does not prevent finding a solution. [Algorithm 2](https://arxiv.org/html/2403.10745v1#alg2 "2 ‣ IV-C Db-RRT: RRT with Motion Primitives ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization") changes the distribution for the expansion operation but continues to assign a positive probability density to all successors for large sets of randomly generated $\mathcal{M}_{L}$. Next, we consider iDb-RRT ([Algorithm 1](https://arxiv.org/html/2403.10745v1#alg1 "1 ‣ IV-B Overview ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")). If Db-RRT fails to find a solution because at least one precondition is violated (a large $\mathcal{M}_{L}$ and $\delta < \delta_{1}$), we adjust both parameters and repeat ([Algorithms 1](https://arxiv.org/html/2403.10745v1#alg1 "1 ‣ IV-B Overview ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization") to (https://arxiv.org/html/2403.10745v1#alg1 "1 ‣ IV-B Overview ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")), yielding a non-zero probability of executing Db-RRT with parameters that fulfill our assumptions. Finally, we assume that there exists a $\delta$ such that if Db-RRT generates a $\delta$-discontinuity bounded solution, the trajectory optimization algorithm will converge with a non-zero probability, which makes our algorithm, iDb-RRT, probabilistically complete.
+
+In practice, we demonstrate that we can use a large discontinuity $\delta$ and a small number of primitives to efficiently find solutions to a wide range of problems.
+
+## Experiments
+
+We evaluate iDb-RRT on 30 problems that include 8 different dynamical systems in various environments. The first 16 problems are inspired by previous work on kinodynamic motion planning \[(https://arxiv.org/html/2403.10745v1#bib.bib26), (https://arxiv.org/html/2403.10745v1#bib.bib23), (https://arxiv.org/html/2403.10745v1#bib.bib41), (https://arxiv.org/html/2403.10745v1#bib.bib42)\] (selected problems in \[(https://arxiv.org/html/2403.10745v1#bib.bib20)\], first $16$ rows in [Table I](https://arxiv.org/html/2403.10745v1#S5.T1 "TABLE I ‣ V-D Results – Comparison with Baselines ‣ V Experiments ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")). Furthermore, we include 14 additional problems with the same dynamical systems but in larger, more complex environments with more obstacles, which require longer trajectories (last $14$ rows in [Table I](https://arxiv.org/html/2403.10745v1#S5.T1 "TABLE I ‣ V-D Results – Comparison with Baselines ‣ V Experiments ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")).
+
+All benchmark problems are available in Dynobench. It provides a C++ implementation of the dynamical systems (dynamics with analytical Jacobians, state, and bound constraints), collision and signed distance function (based on the Flexible Collision Library, FCL), the environments (in human-friendly YAML files), and visualization tools.
+
+Implementations of iDb-RRT and the other planners are available in Dynoplan, including the motion primitives and instructions to replicate the benchmark results. Visualizations of the problems and examples of solution trajectories computed by our algorithm are available on our website.
+
+### V-A Dynamical Systems
+
+Figure 3: Five kinodynamic motion planning problems in our benchmark Dynobench, with a solution found by iDb-RRT-C. (a) Rotor Pole - Up obstacles 2 (b) Unicycle 2 - Narrow passage (c) Car with Trailer - Double bugtrap (d) Quadrotor v0 - Recovery obstacles 2 (e) Quadrotor v1 - Double window.
+
+We include a diverse range of dynamical systems and environments, featuring varying state dimensionality (from 3 to 14), the number of underactuated degrees of freedom, and controllability. All systems use explicit Euler integration ((https://arxiv.org/html/2403.10745v1#S3.E2 "2 ‣ III Problem Definition ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")), with ${\Delta t} = {0.1\ s}$ for all car-like robots and ${\Delta t} = {0.01\ s}$ for the flying robots and the Acrobot.
+
+The 8 systems are (see \[(https://arxiv.org/html/2403.10745v1#bib.bib20)\] for a detailed explanation): Unicycle 1 ($1^{\text{𝑠𝑡}}$ order): 3-dimensional state space and 2-dimensional control space. Unicycle 2 ($2^{\text{𝑛𝑑}}$ order): 5-dimensional state space and 2-dimensional acceleration control. Car with trailer: 4-dimensional state space and a 2-dimensional control space, Acrobot: 4-dimensional state space and 1-dimensional control space. Quadrotor v0: 13-dimensional state space and a 4-dimensional control space (force for each of the four motors)^11^1We use the parameters of the Crazyflie 2.1, where the low thrust-to-weight ratio of $1.3$ is very challenging for kinodynamic motion planning.. Quadrotor v1: The state space is the same as in Quadrotor v0, but controls are now the total thrust and torques in the body frame. Planar rotor: 6-dimensional state space and 2-dimensional control space, also with $1.3$ thrust-to-weight ratio. Rotor pole: 2-dimensional control space and 8-dimensional state space.
+
+### V-B Metrics
+
+Each experiment is run $20$ times with different random seeds on a desktop computer^22^2Intel(R) Xeon(R) W-2145 CPU @ 3.70GHz, single-core. We report:
+
+$t{\lbrack s\rbrack}$: Compute time to get the first solution (median).
+
+$c{\lbrack s\rbrack}$: Cost of the first solution. As a cost, we use the duration of the found trajectory, in seconds (median).
+
+If all the runs of an algorithm fail to find a solution before the timeout of $60\ s$, we use a dash ('-') in the table. If less than $50$% of the runs find a solution, we report the best value but add an asterisk ('\*') to indicate a low success rate.
+
+### V-C Algorithms
+
+We analyze two variants of the iDb-RRT family ([Algorithm 1](https://arxiv.org/html/2403.10745v1#alg1 "1 ‣ IV-B Overview ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")):
+
+iDb-RRT-F: using a forward Db-RRT ([Algorithm 2](https://arxiv.org/html/2403.10745v1#alg2 "2 ‣ IV-C Db-RRT: RRT with Motion Primitives ‣ IV iDb-RRT ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization")).
+
+iDb-RRT-C: using a bidirectional Db-RRT inspired by RRT-Connect.
+
+We compare our algorithms against state-of-the-art methods that use optimization, search, and sampling, and have available open-source implementations.
+
+$\bullet$ For a sampling-based approach, we use the kinodynamic version of RRT implemented in OMPL \[(https://arxiv.org/html/2403.10745v1#bib.bib43)\] (Open Motion Planning Library), which uses the propagation of random control inputs to grow the search tree. Since sampling-based kinodynamic approaches cannot reach a goal state exactly, we use a goal region using the same value of $\delta$ used in iDb-A\* and iDb-RRT. We denote this algorithm as Kino-RRT.
+
+$\bullet$ For optimization-based planning, we choose a standard combination of a geometric motion planner and a trajectory optimizer, which we denote as Geo-RRT-TO. Specifically, we use a geometric RRT (using the implementation in OMPL) to plan using only the position and orientation of the system, without considering velocity and dynamics. The trajectory optimizer (also based on Feasibility-driven DDP \[(https://arxiv.org/html/2403.10745v1#bib.bib39)\], see \[(https://arxiv.org/html/2403.10745v1#bib.bib20)\] for details) is warm-started with the geometric guess. If trajectory optimization fails, we run RRT again from scratch and repeat.
+
+$\bullet$ iDb-A\* is a hybrid method that integrates search with motion primitives and trajectory optimization, but uses incremental A\*-searches instead of RRT. Notably, iDb-A\* has been designed to combine asymptotic optimality with good anytime behavior, as it starts with a small number of motion primitives and incrementally increases the number of available motion primitives during each A\*-search. We terminate the algorithm once the first solution is found.
+
+In all algorithms, all hyperparameters are chosen per dynamical system.
+
+### V-D Results -- Comparison with Baselines
+
+Acrobot/Swing up obstacles v1
+
+Car with trailer/Kink
+
+Car with trailer/Park
+
+Planar rotor/Hole
+
+Planar rotor/Bugtrap
+
+Rotor pole/Swing up obstacles
+
+Rotor pole/Small window
+
+Quadrotor v0/Recovery obstacles
+
+Car with trailer/Double bugtrap
+
+Car with trailer/Narrow passage
+
+Planar rotor/Recovery obstacles 2
+
+Planar rotor/Double bugtrap
+
+Rotor pole/Up obstacles 2
+
+Rotor pole/Small window 2
+
+Quadrotor v0/Double bugtrap 3D
+
+Quadrotor v0/Recovery obstacles 2
+
+Quadrotor v1/Recovery obstacles 2
+
+Quadrotor v1/Double Window
+
+Unicycle 1 v0/Double bugtrap
+
+Unicycle 1 v0/Narrow passage
+
+Unicycle 2/Double bugtrap
+
+Unicycle 2/Narrow passage
+
+TABLE I: Median initial solution time (t) and median initial cost (c) for the benchmarked systems and algorithms.
+
+Results are summarized in [Table I](https://arxiv.org/html/2403.10745v1#S5.T1 "TABLE I ‣ V-D Results – Comparison with Baselines ‣ V Experiments ‣ iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization"). Due to space constraints, we report only the median of each metric. A graphical representation of these results using boxplots is available on our website. In general, we observe that iDb-A\* has lower variance than iDb-RRT, Kino-RRT, and Geo-RRT-TO. iDb-RRT-F and iDb-RRT-C solve all problems with a success rate of $100$% (except two problems each, where they achieve $80$-$90$% success rate), outperforming all baseline algorithms in terms of compute time to generate a solution (e.g., iDb-RRT-C is the fastest in $19$ problems, and iDb-RRT-F is the fastest in $6$ problems).
+
+Kino-RRT: it finds a first solution in low-dimensional car-like systems in a competitive timeframe (but slower than iDb-RRT-F in $13$ out of $19$ cases) with a higher average cost. However, in agile systems (e.g., flying robots), propagation of random control inputs is very inefficient, and Kino-RRT fails to find a solution in $11$ problems out of $30$.
+
+Geo-RRT-TO often requires multiple runs of RRT to provide a suitable initial guess for trajectory optimization, and sometimes fails completely as the initial guesses never contain information about the dynamics of the system (solving only $18$ out of $30$ problems with a success rate above $50$%). If the initial guess works for the optimizer, it can be very fast (Geo-RRT-TO is faster than iDb-RRT-F in $7$ problems).
+
+iDb-A\*: is the strongest baseline, with success rate of $100$% in all problems except Planar rotor/Double bugtrap. However, iDb-A\* is always outperformed in the time to find the first solution by iDb-RRT-C. The difference between iDb-A\* and iDb-RRT-C increases in the new benchmark (last 14 problems), which require longer plans, with improvements up to $10$-$20$x. On the other hand, the first solution found with iDb-A\* has a better cost than any other algorithm in $23$ cases.
+
+### V-E Discussion
+
+### Forward vs Bidirectional Search
+
+Comparing our two variants, we observe that iDb-RRT-C is better in $21$ out of $30$ problems in terms of compute time. These results agree with previous experiments in the RRT literature, where RRT-Connect is generally faster than a forward search (in robotics problems, starting a search from the start and the goal is often beneficial because these configurations are often close to obstacles and narrow passages).
+
+### Number of primitives and discontinuity bound
+
+Connecting primitives with discontinuities allows our algorithms to plan using a reduced number of primitives. As a reference, for the system Unicycle 1 v0, we use an initial set of 200 primitives and an initial discontinuity bound of $0.3$. The discontinuity is computed with a weighted Euclidean norm (e.g., weight $1$ for position and $0.5$ for orientation); thus a $\delta$ of $0.3$ could represent up to $30\ {cm}$ of discontinuity in position or $0.6\ {rad}$ in orientation. Such discontinuities are large enough that the trajectory is not directly applicable to the real robot, but it can be efficiently repaired in the nonlinear trajectory optimization step of iDb-RRT. For the Quadcopter v0, we use $5000$ primitives and a discontinuity bound of $0.35$, and for the Rotor pole, we use $8000$ motions and a discontinuity bound of $0.45$. The time spent to generate one motion primitive (offline) ranges from $10$ms for car-like robots to up to $5$s for flying robots (most of the time is spent attempting to solve two-point boundary value problems that do not have a solution).
+
+### Analysis of compute time in iDb-RRT
+
+In iDb-RRT, the time spent in trajectory optimization dominates the total compute time. For instance, the compute time required to optimize one trajectory in the new benchmark problems with flying robots is between $1$s and $3$s, while in car-like robots is between $50$ms and $200$ms. In addition, in the systems Quadrotor v0 and Quadrotor v1, trajectory optimization may fail at the first attempt, and finding a feasible solution requires multiple iterations of iDb-RRT. For car-like systems, we can compute trajectories of duration up to $50$s in less than $1$s. For flying robots, we require between $0.5$s and $4$s to generate trajectories of duration up to $14$s. A straightforward way to speed up the trajectory optimization step is to reduce the time discretization from $0.01$s to $0.05$s (with an expected $5$x speedup).
+
+### RRT is easier to tune than incremental A\*
+
+The running time of A\* with motion primitives in a continuous space is highly sensitive to the number of motion primitives, i.e., the discretization level. With too few primitives, the problem becomes unsolvable; with too many, the state space to be expanded becomes unmanageably large. Conversely, our iDb-RRT algorithms lack an explicit notion of a branching factor. As confirmed by our results, the RRT approach naturally adapts to efficiently solving both simple and complex problems alike, obviating the need for choosing a branching factor while also providing faster exploration.
+
+### Limitations and future work
+
+The main limitation of iDb-RRT, similar to iDb-A⁢, lies in its scalability to higher-dimensional systems. As the dimensionality increases, the number of motion primitives required to cover the state space with a small discontinuity grows exponentially. This issue can be partially mitigated by planning with larger discontinuities. In our benchmark, we successfully scaled to 13-DOF for the Quadrotor and 8-DOF for Rotor pole, thanks to leveraging translation invariance and the second-order linear velocity invariance of the dynamics. To effectively scale to higher dimensions, we see great potential in using function approximation to learn a more informative distance metric and to combine motion primitives with deep generative models or learned policies.
+
+## Conclusion
+
+We present iDb-RRT, a novel algorithm for kinodynamic motion planning that combines search and optimization within the framework of Rapidly-Exploring Random Trees (RRT). Our algorithm connects motion primitives with a bounded discontinuity as the expansion step of an RRT, which is later repaired using trajectory optimization. iDb-RRT is probabilistically complete and finds solutions faster than state-of-the-art kinodynamic motion planning across a diverse set of problems.
+
+Comparatively, iDb-RRT and iDb-A\* possess complementary strengths: the former finds solutions significantly faster, while the latter converges to optimal solutions with more compute time. Together, they demonstrate that combining motion primitives, bounded discontinuity, and trajectory optimization, is a promising approach for both sampling-based and search-based motion planning.

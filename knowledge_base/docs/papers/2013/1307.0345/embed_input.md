@@ -1,0 +1,19 @@
+Performance Bounds for the Scenario Approach and an Extension to a Class of Non-convex Programs
+
+Topics include Scenario optimization, Chance constraints, Robust optimization, Nonconvex programs, Sample complexity, Fault detection, Uncertainty quantification.
+
+Refines scenario-approach guarantees by bounding how the sampled scenario program relates to the robust and chance-constrained problem values over general uncertainty spaces. The paper also extends the framework to a class of nonconvex programs, including binary decisions, and resolves a measurability assumption that had often been left implicit in scenario-program analyses.
+
+We consider the Scenario Convex Program (SCP) for two classes of optimization problems that are not tractable in general: Robust Convex Programs (RCPs) and Chance-Constrained Programs (CCPs). We establish a probabilistic bridge from the optimal value of SCP to the optimal values of RCP and CCP in which the uncertainty takes values in a general, possibly infinite dimensional, metric space. We then extend our results to a certain class of non-convex problems that includes, for example, binary decision variables. In the process, we also settle a measurability issue for a general class of scenario programs, which to date has been addressed by an assumption. Finally, we demonstrate the applicability of our results on a benchmark problem and a problem in fault detection and isolation.
+
+## Introduction
+
+Optimization problems under uncertainty have considerable applications in disciplines ranging from mathematical finance to control engineering. For example most control systems involve some level of uncertainty; the aim of a robust control design is to provide a guaranteed level of performance for all admissible values of the uncertain parameters. In the convex case, two well-known approaches for dealing with such uncertain programs are robust convex programs (RCPs) and chance-constrained programs (CCPs). RCPs consider constraint satisfaction for all, possibly infinitely many, realizations of the uncertainty....
+
+Computationally tractable approximations to the aforesaid optimization problems can be obtained through the scenario convex programs (SCPs) in which only finitely many uncertainty samples are considered. A natural question in this case is how many samples would be "enough" to provide a good solution. To answer this question, one may view the problem from two perspectives: feasibility and objective performance. The literature mainly focuses on the first perspective. In this direction, the authors in initialized a feasibility theory for CCP refined subsequently in....
+
+In this article we presented probabilistic performance bounds for both $RCP$ and ${CCP}_{\varepsilon}$ via $SCP$. The proposed bounds are based on considering the tail probability of the worst-case constraint violation of the $SCP$ solution as introduced in \[\] together with some classical results from perturbation theory of convex optimization. In contrast to earlier approaches, this methodology is, to the best of our knowledge, the first confidence bounds for the objective performance of RCPs and CCPs based on scenario programs....
+
+For future work, in light of Theorems 3.6. ‣ 3.1. Confidence interval for the objective functions ‣ 3. Probabilistic Objective Performance ‣ Performance Bounds for the Scenario Approach and an Extension to a Class of Non-convex Programs") and 3.7. ‣ 3.1. Confidence interval for the objective functions ‣ 3. Probabilistic Objective Performance ‣ Performance Bounds for the Scenario Approach and an Extension to a Class of Non-convex Programs"), we aim to study the derivation of ULBs as introduced in Definition 3.1....
+
+Curse of dimensionality: For an $n_{d}$-dimensional uncertainty set $\mathcal{D}$, the number of disjoint balls in...

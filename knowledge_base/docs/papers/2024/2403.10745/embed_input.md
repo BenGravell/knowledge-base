@@ -1,0 +1,19 @@
+iDb-RRT: Sampling-based Kinodynamic Motion Planning with Motion Primitives and Trajectory Optimization
+
+Topics include Kinodynamic planning, Rapidly-exploring random tree, iDb-RRT, Motion primitives, Trajectory optimization, Discontinuity bounded.
+
+Combines short motion primitives (allowing bounded discontinuities) with the RRT exploration strategy, iteratively repairing discontinuities via trajectory optimization. Finds solutions up to 10X faster than prior methods across a benchmark of 30 problems.
+
+Rapidly-exploring Random Trees (RRT) and its variations have emerged as a robust and efficient tool for finding collision-free paths in robotic systems. However, adding dynamic constraints makes the motion planning problem significantly harder, as it requires solving two-value boundary problems (computationally expensive) or propagating random control inputs (uninformative). Alternatively, Iterative Discontinuity Bounded A* (iDb-A*), introduced in our previous study, combines search and optimization iteratively. The search step connects short trajectories (motion primitives) while allowing a bounded discontinuity between the motion primitives, which is later repaired in the trajectory optimization step. Building upon these foundations, in this paper, we present iDb-RRT, a sampling-based kinodynamic motion planning algorithm that combines motion primitives and trajectory optimization within the RRT framework. iDb-RRT is probabilistically complete and can be implemented in forward or bidirectional mode.
+
+## Introduction
+
+Kinodynamic motion planning is a fundamental problem in robotics where the goal is to find collision-free trajectories in high-dimensional, continuous, and non-convex spaces, while also considering actuation limits and dynamics of the robot. Over the last two decades, a wide variety of sampling-, search-, and optimization-based methods have been proposed to address (kinodynamic) motion planning problems.
+
+A breakthrough was the introduction of Rapidly-exploring Random Trees (RRT) \[\], a sampling-based method that incrementally builds a tree of configurations by expanding nodes towards randomly sampled new configurations. RRT-like algorithms (e.g., ) are highly efficient for geometric planning, i.e., motion planning settings that involve only joint configurations of the system, since in the geometric setting, two configurations can be connected exactly by using linear interpolation.
+
+We present iDb-RRT, a novel algorithm for kinodynamic motion planning that combines search and optimization within the framework of Rapidly-Exploring Random Trees (RRT). Our algorithm connects motion primitives with a bounded discontinuity as the expansion step of an RRT, which is later repaired using trajectory optimization. iDb-RRT is probabilistically complete and finds solutions faster than state-of-the-art kinodynamic motion planning across a diverse set of problems.
+
+Comparatively, iDb-RRT and iDb-A\* possess complementary strengths: the former finds solutions significantly faster, while the latter converges to optimal solutions with more compute time. Together, they demonstrate that combining motion primitives, bounded discontinuity, and trajectory optimization, is a promising approach for both sampling-based and search-based motion planning.
+
+In the trajectory optimization step, the number of time steps $K$ is fixed by the output of Db-RRT. If desired, we can also optimize the duration of the trajectory by including the length of the time interval in the optimization problem or using other techniques, as explored in \[\]. Because our goal is to find a valid trajectory quickly, we choose not to include the time interval as an optimization variable. This choice is supported by the fact that trajectories from RRT-like algorithms tend to be suboptimal, where the time duration of the initial guess is often sufficient to reach the goal.

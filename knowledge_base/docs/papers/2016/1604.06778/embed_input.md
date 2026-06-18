@@ -1,0 +1,17 @@
+Benchmarking Deep Reinforcement Learning for Continuous Control
+
+Recently, researchers have made significant progress combining the advances in deep learning for learning feature representations with reinforcement learning. Some notable examples include training agents to play Atari games based on raw pixel data and to acquire advanced manipulation skills using raw sensory inputs. However, it has been difficult to quantify progress in the domain of continuous control due to the lack of a commonly adopted benchmark. In this work, we present a benchmark suite of continuous control tasks, including classic tasks like cart-pole swing-up, tasks with very high state and action dimensionality such as 3D humanoid locomotion, tasks with partial observations, and tasks with hierarchical structure. We report novel findings based on the systematic evaluation of a range of implemented reinforcement learning algorithms. Both the benchmark and reference implementations are released at in order to facilitate experimental reproducibility and to encourage adoption by other researchers.
+
+## Introduction
+
+Reinforcement learning addresses the problem of how agents should learn to take actions to maximize cumulative reward through interactions with the environment. The traditional approach for reinforcement learning algorithms requires carefully chosen feature representations, which are usually hand-engineered. Recently, significant progress has been made by combining advances in deep learning for learning feature representations with reinforcement learning, tracing back to much earlier work of Tesauro and Bertsekas & Tsitsiklis....
+
+Along with this recent progress, the Arcade Learning Environment (ALE) has become a popular benchmark for evaluating algorithms designed for tasks with high-dimensional state inputs and discrete actions. However, these algorithms do not always generalize straightforwardly to tasks with continuous actions, leading to a gap in our understanding. For instance, algorithms based on Q-learning quickly become infeasible when naive discretization of the action space is performed, due to the curse of dimensionality....
+
+## Conclusion
+
+In this work, a benchmark of continuous control problems for reinforcement learning is presented, covering a wide variety of challenging tasks. We implemented several reinforcement learning algorithms, and presented them in the context of general policy parameterizations. Results show that among the implemented algorithms, TNPG, TRPO, and DDPG are effective methods for training deep neural network policies. Still, the poor performance on the proposed hierarchical tasks calls for new algorithms to be developed. Implementing and evaluating existing and newly proposed algorithms will be our continued effort....
+
+Relative Entropy Policy Search (REPS): This algorithm limits the loss of information per iteration and aims to ensure a smooth learning progress. At each iteration, we collect all trajectories into a dataset $\mathcal{D} = {\{{(s_{i},a_{i},r_{i},s_{i}^{\prime})}\}}_{i = 1}^{M}$, where $M$ is the total number of samples. Then, we first solve for the dual parameters ${\lbrack\eta^{\ast},\nu^{\ast}\rbrack} = {{\arg{\min_{\eta^{\prime},\nu^{\prime}}g}}{(\eta^{\prime},\nu^{\prime})}}$ s.t. $\eta > 0$, where
+
+Figure 2: Illustration of hierarchical tasks: 2 Locomotion + Food Collection; and 2 Locomotion + Maze.

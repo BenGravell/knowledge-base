@@ -1,0 +1,7 @@
+stable-worldmodel-v1: Reproducible World Modeling Research and Evaluation
+
+Topics include World models, Reproducibility, Model-based reinforcement learning, Benchmarks, Planning, Software.
+
+Introduces stable-worldmodel, a modular research ecosystem for implementing, evaluating, and comparing world-model agents. The paper is primarily an infrastructure and reproducibility contribution, intended to reduce publication-specific code drift and standardize world-model evaluation workflows.
+
+World Models have emerged as a powerful paradigm for learning compact, predictive representations of environment dynamics, enabling agents to reason, plan, and generalize beyond direct experience. Despite recent interest in World Models, most available implementations remain publication-specific, severely limiting their reusability, increasing the risk of bugs, and reducing evaluation standardization. To mitigate these issues, we introduce stable-worldmodel (SWM), a modular, tested, and documented world-model research ecosystem that provides efficient data-collection tools, standardized environments, planning algorithms, and baseline implementations. In addition, each environment in SWM enables controllable factors of variation, including visual and physical properties, to support robustness and continual learning research. Finally, we demonstrate the utility of SWM by using it to study zero-shot robustness in DINO-WM.

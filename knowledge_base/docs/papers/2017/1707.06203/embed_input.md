@@ -1,0 +1,15 @@
+Imagination-Augmented Agents for Deep Reinforcement Learning
+
+We introduce Imagination-Augmented Agents (I2As), a novel architecture for deep reinforcement learning combining model-free and model-based aspects. In contrast to most existing model-based reinforcement learning and planning methods, which prescribe how a model should be used to arrive at a policy, I2As learn to interpret predictions from a learned environment model to construct implicit plans in arbitrary ways, by using the predictions as additional context in deep policy networks. I2As show improved data efficiency, performance, and robustness to model misspecification compared to several baselines.
+
+## Introduction
+
+A hallmark of an intelligent agent is its ability to rapidly adapt to new circumstances and \"achieve goals in a wide range of environments\". Progress has been made in developing capable agents for numerous domains using deep neural networks in conjunction with model-free reinforcement learning (RL), where raw observations directly map to values or actions. However, this approach usually requires large amounts of training data and the resulting policies do not readily generalize to novel tasks in the same environment, as it lacks the behavioral flexibility constitutive of general intelligence.
+
+Model-based RL aims to address these shortcomings by endowing agents with a model of the world, synthesized from past experience. By using an internal model to reason about the future, here also referred to as *imagining*, the agent can seek positive outcomes while avoiding the adverse consequences of trial-and-error in the real environment -- including making irreversible, poor decisions. Even if the model needs to be learned first, it can enable better generalization across states, remain valid across tasks in the same environment, and exploit additional unsupervised learning signals, thus ultimately leading to greater data efficiency....
+
+As all model-based RL methods, I2As trade-off environment interactions for computation by pondering before acting. This is essential in irreversible domains, where actions can have catastrophic outcomes, such as in Sokoban. In our experiments, the I2A was always less than an order of magnitude slower per interaction than the model-free baselines. The amount of computation can be varied (it grows linearly with the number and depth of rollouts); we therefore expect I2As to greatly benefit from advances on dynamic compute resource allocation (e.g. Graves )....
+
+Remarkably, on Sokoban I2As compare favourably to a strong planning baseline (MCTS) with a perfect environment model: at comparable performance, I2As require far fewer function calls to the model than MCTS, because their model rollouts are guided towards relevant parts of the state space by a learned rollout policy. This points to further potential improvement by training rollout policies that \"learn to query\" imperfect models in a task-relevant way.
+
+### Learning with imperfect models

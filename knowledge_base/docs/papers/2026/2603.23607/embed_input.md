@@ -1,0 +1,7 @@
+Long-Tail Driving Scenarios with Reasoning Traces: The KITScenes LongTail Dataset
+
+Topics include Autonomous driving, Driving datasets, Long-tail scenarios, Reasoning traces, Vision-language-action models, Multimodal learning, Instruction following, Few-shot generalization.
+
+Introduces KITScenes LongTail, a driving dataset focused on rare and semantically difficult scenarios, with multi-view video, trajectories, instructions, and multilingual expert reasoning traces. The benchmark is useful for testing whether VLM/VLA driving systems can reason about scenario meaning and follow instructions, not just optimize comfort or collision metrics.
+
+In real-world domains such as self-driving, generalization to rare scenarios remains a fundamental challenge. To address this, we introduce a new dataset designed for end-to-end driving that focuses on long-tail driving events. We provide multi-view video data, trajectories, high-level instructions, and detailed reasoning traces, facilitating in-context learning and few-shot generalization. The resulting benchmark for multimodal models, such as VLMs and VLAs, goes beyond safety and comfort metrics by evaluating instruction following and semantic coherence between model outputs. The multilingual reasoning traces in English, Spanish, and Chinese are from domain experts with diverse cultural backgrounds. Thus, our dataset is a unique resource for studying how different forms of reasoning affect driving competence. Our dataset is available at:

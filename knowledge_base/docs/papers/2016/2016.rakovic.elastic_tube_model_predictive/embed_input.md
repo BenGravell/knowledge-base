@@ -1,0 +1,3 @@
+Elastic Tube Model Predictive Control
+
+This paper introduces elastic tube model predictive control (MPC) synthesis. The proposed framework is a natural generalization of the rigid and homothetic tube MPC design methods. The cross-sections of the employed state and control tubes are allowed to change more elastically, while the local component of the tubes control policy is permitted to take a more general form. The related stabilizing terminal conditions are also adequately generalized in order to take advantage of more flexible tubes and tubes control policy parameterizations. These novel features result in an improved tube MPC at the cost of a manageable increase in computational complexity.

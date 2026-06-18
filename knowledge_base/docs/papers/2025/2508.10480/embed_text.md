@@ -1,0 +1,258 @@
+## Introduction
+
+In this work, we deploy neural networks (NNs) to generate feasible-by-design candidate solutions (see Figure˜1) for the parametric constrained optimization problem:
+
+where $y \in {\mathbb{R}}^{d}$ is the decision variable, $x \in {\mathbb{R}}^{p}$ is the context (or parameter) of the problem instance, $\varphi:{{{\mathbb{R}}^{d} \times {\mathbb{R}}^{p}}\rightarrow{\mathbb{R}}}$ is the objective function, and ${\mathcal{C}{(x)}} \subseteq {\mathbb{R}}^{d}$ is a non-empty, closed, convex set for all $x$. We provide a pedagogical example to explain this formulation in Appendix˜A.
+
+Constrained optimization has universal applicability, from safety-critical applications such as the optimal power flow in electrical grids nellikkath2022physics, to logistics and scheduling bengio2021machine, and even biology, where enforcing priors on the solution can enhance its interpretability balcerak2025energy; terpin2024learning. In many applications, optimization programs are solved repeatedly, given different contexts: in logistics, the demands and forecasts vary baptiste2001constraint; in model predictive control (MPC) chen2018approximating, the initial conditions; in motion planning, the position of obstacles marcucci2023motion; in trust-region policy optimization, the advantage function and the trust-region center terpin2022trust. This task often becomes computationally challenging when, for example, $y$ is high-dimensional, $\varphi$ is non-convex, or new solutions are required at a high frequency.
+
+Rather than solving each problem instance from scratch, the mapping from contexts to solutions can be learned with NNs. Despite their successes, NNs typically lack inherent mechanisms to ensure satisfaction of explicit constraints, a limitation that motivates a large body of existing work:
+
+### Soft-constrained NNs
+
+One approach to incorporate constraints in NNs is to include soft penalty terms for constraint violations in the loss function marquez2017imposing. Soft constraints have been used to solve parametric constrained optimization problems tuor2021neuromancer, and partial differential equations through physics-informed NNs erichson2019physics; raissi2019physics. Despite their ability to handle general constraints, these approaches offer no constraint satisfaction guarantees at inference time. Beside requiring manual tuning of the penalty parameters, which is challenging yet critical for good performance, the use of soft constraints is discouraged for the following reasons. First, the structure of the constraints set can be exploited to design more efficient algorithms; see, e.g., the simplex algorithm dantzig2002linear. Second, treating constraints softly may significantly alter the problem solution regardless of tuning grontas2024operatorsplittingconvexconstrained. Third, certain constrained optimization problems (e.g., linear programs) may not admit a solution at all when constraints are treated softly.
+
+### Hard-constrained NNs
+
+To circumvent the shortcomings of soft constraints, hard-constrained neural networks (HCNNs) aim to enforce constraints on the NN output by design. The authors in frerix2020homogeneous address linear homogeneous inequality constraints by parameterizing the feasible set. Similarly, RAYEN tordesillas2023rayen enforces various convex constraints by scaling the line segment between infeasible points and a fixed point in the feasible set's interior. While these methods enjoy rapid inference, they require expensive offline preprocessing and are not directly applicable to constraints that depend on the NN input, i.e., they consider feasible sets $\mathcal{C}$ and not $\mathcal{C}{(x)}$ in $\mathcal{P}{(x)}$ ‣ 1 Introduction ‣ 𝚷net: Optimizing hard-constrained neural networks with orthogonal projection layers"). Differently, min2024hard proposes a closed-form expression to recover feasibility for polyhedral constraints and employs cvxpylayers agrawal2019differentiable for more general convex sets. In chen2018approximating; cristian2023end the authors orthogonally project the NN output or intermediate layers using Dykstra's algorithm boyle1986method, but rely on loop unrolling for backpropagation, which can be prohibitive in terms of memory and computation. Departing from convex sets, DC3 donti2021dc3 introduces an equality completion and inequality correction procedure akin to soft-constrained approaches, but applied during inference. The authors in lastrucci2025enforce impose non-linear equality constraints by recursively linearizing them. Lagrangian and augmented Lagrangian approaches are considered in fioretto2021lagrangian; park2023self for general non-convex constraints, with drawbacks similar to soft constraints. Recently, LinSATNet wang2023linsatnet has been proposed to impose non-negative linear constraints, which is a restrictive constraint class that renders none of the problems of interest for this work amenable to LinSATNet. This limitation is partially relaxed by GLinSAT zeng2024glinsatgenerallinearsatisfiability. GLinSAT, however, requires bounded constraints, an assumption not satisfied by, e.g., epigraph reformulations (Stellato_2020 Appendix A.5-A.7) or in cases where certain variables do not have an immediate physical meaning, e.g., in system level synthesis grontas2022distributed.
+
+### Implicit layers
+
+Implicit layers embed optimization problems such as quadratic programs (QPs) amos2017optnet; butler2023efficient, conic programs agrawal2019differentiable, non-linear least-squares pineda2022theseus, or fixed-point equations bai2019deep; winston2020monotone as NN layers, and apply the implicit function theorem dontchev2009implicit to various measures of optimality: KKT conditions amos2017optnet, homogeneous self-dual embedding agrawal2019differentiable, or fixed-point residuals butler2023efficient; sun2022alternating, among others blondel2022efficient.
+
+### for optimization
+
+Using constrained NN architectures to learn solution mappings is among many successful efforts to exploit ML techniques to accelerate king2024metric; sambharya2024learning or replace optimization solvers bertsimas2022online; zamzam2020learning. These approaches are referred to as amortized optimization, learning to optimize or optimization learning, and the surveys amos2023tutorial; van2025optimization cover multiple aspects of the topic.
+
+### Contributions
+
+We propose a novel NN architecture, $\Pi$net, that generates feasible-by-design solutions for $\mathcal{P}{(x)}$ ‣ 1 Introduction ‣ 𝚷net: Optimizing hard-constrained neural networks with orthogonal projection layers"). Given a context $x$, we deploy a *backbone* NN to produce a raw output $y_{\text{raw}}$ that we orthogonally project onto $\mathcal{C}{(x)}$, ${y = {{argmin}_{z \in {\mathcal{C}{(x)}}}\left\| {z - y_{\text{raw}}} \right\|^{2}}}.$ In particular: • We use an operator splitting scheme to compute the projection in the forward pass, and backpropagate through it via the implicit function theorem. Our work is an instance of implicit layers, but it specializes in projection problems whose simplified structure can be significantly exploited, hence achieving rapid training and improved inference speed. • We implement a hyperparameter tuning and matrix equilibration strategy that boosts $\Pi$net's performance and robustifies it against data scaling. As a result, $\Pi$net solves challenging benchmarks on which existing methods struggle, and is substantially less sensitive to hyperparameter tuning, as shown through rigorous empirical analysis. In addition, we deploy $\Pi$net on a real-world application in multi-vehicle motion planning with non-convex trajectory costs. • We provide an efficient and GPU-ready implementation of $\Pi$net in JAX. We make our code available at [https://github.com/antonioterpin/pinet](https://github.com/antonioterpin/pinet).
+
+### Notation
+
+The indicator function of a set $\mathcal{K}$ is ${\mathcal{I}_{\mathcal{K}}{(y)}} = 0$ if $y \in \mathcal{K}$, and $+ \infty$ otherwise. The proximal operator of a proper, closed and convex function $f$ with parameter $\sigma > 0$ is ${{prox}_{\sigmaf}{(x)}} = {{argmin}_{y}{\{{{f{(y)}} + {\frac{1}{2\sigma}\left\| {y - x} \right\|^{2}}}\}}}$. The projection onto a non-empty, closed, and convex set $\mathcal{C}$ is ${\Pi_{\mathcal{C}}{(x)}} = {{prox}_{\mathcal{I}_{\mathcal{C}}}{(x)}}$. For a differentiable mapping $F:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{m}}$, its Jacobian evaluated at $\hat{x} \in {\mathbb{R}}^{n}$ is denoted by $\left. \frac{\partial{F{(x)}}}{\partial x} \right|_{x = \hat{x}} \in {\mathbb{R}}^{m \times n}$; we use $d$ instead of $\partial$ when referring to total derivatives. Given a vector $v \in {\mathbb{R}}^{m}$, the vector-Jacobian product (VJP) of $F$ at $\hat{x}$ with $v$ is $\left. {v^{\top}\frac{\partial{F{(x)}}}{\partial x}} \right|_{x = \hat{x}} \in {\mathbb{R}}^{n}$.
+
+## Training Hard-Constrained Neural Networks
+
+We develop an NN layer that projects the output of any backbone NN onto $\mathcal{C}{(x)}$, and discuss how our proposed HCNN architecture, $\Pi$net, can be trained to generate solutions of $\mathcal{P}{(x)}$ ‣ 1 Introduction ‣ 𝚷net: Optimizing hard-constrained neural networks with orthogonal projection layers"), for any given $x$.
+
+### Projection layer
+
+Given a context $x$, the backbone network produces the raw output $y_{\text{raw}} = {f{(x;\theta)}}$, where $\theta$ are the network weights. We enforce feasibility by projecting $y_{\text{raw}}$ onto $\mathcal{C}{(x)}$:
+
+We highlight two benefits of this approach:
+
+Constraint satisfaction. By design, the output $y$ of the projection layer always lies in $\mathcal{C}{(x)}$.
+
+Decomposition of specifications. The hard constraints prescribe the *required* behavior of the output, while the objective prescribes the *desired* behavior. Contrary to soft-constrained NNs, *no tradeoff between the two behaviors is introduced in our proposed framework*.
+
+We consider constraints that can be expressed as $\mathcal{C} = {\Pi_{d}{({\mathcal{A} \cap \mathcal{K}})}}$, where ${{{\mathcal{A},\mathcal{K}} \subseteq {\mathbb{R}}^{n}},{n \geq d}},$ are closed, convex sets that we design, and $\Pi_{d}$ is the projection onto the first $d$ coordinates. We omit the dependence on $x$ for brevity, but stress that our method readily handles context-dependent constraints. Notice that we work in the possibly higher-dimensional ${\mathbb{R}}^{n}$, by introducing an auxiliary variable $y_{\text{aux}} \in {\mathbb{R}}^{n - d}$. This provides us the flexibility to choose $\mathcal{A}$ and $\mathcal{K}$ such that their respective projections $\Pi_{\mathcal{A}}$ and $\Pi_{\mathcal{K}}$ admit a closed-form expression or are numerically-efficient. In particular, $\mathcal{A}$ will be a hyperplane defined by the coefficient matrix $A$ and the offset vector $b$, and $\mathcal{K}$ a Cartesian product of the form $\mathcal{K} = {\mathcal{K}_{1} \times \mathcal{K}_{2}} \subseteq {{\mathbb{R}}^{d} \times {\mathbb{R}}^{n - d}}$. This representation can describe many constraints of practical interest and we instantiate it with an example next (see Appendix˜E for more). Consider polytopic sets that are often employed in robotics chen2018approximating, numerical solutions to partial differential equations (PDE) raissi2019physics, and non-convex relaxations for trajectory planning malyuta2022convex, among others. They are expressed as $\left. \{{y \in {\mathbb{R}}^{d}} \middle| {{{Ey} = q},{l \leq {Cy} \leq u}}\} \right.,$ for some $E,q,l,C,u$ of appropriate dimensions. We introduce the auxiliary variable $y_{\text{aux}} = {Cy} \in {\mathbb{R}}^{n_{\text{ineq}}}$ with dimension ${n - d} = n_{\text{ineq}}$. Then, we define ${\mathcal{A},\mathcal{K}} \subseteq {\mathbb{R}}^{n}$ as the following hyperplane and box
+
+Importantly, $\mathcal{C} = {\Pi_{d}{({\mathcal{A} \cap \mathcal{K}})}}$ and both $\Pi_{\mathcal{A}}$ and $\Pi_{\mathcal{K}}$ can be evaluated in closed form.
+
+### Remark
+
+We stress that the decomposition $\mathcal{C} = {\Pi_{d}{({\mathcal{A} \cap \mathcal{K}})}}$ is not an assumption. One can always decompose a convex set in this way, e.g., by considering the trivial decomposition $\mathcal{A} = \mathcal{C}$ and $\mathcal{K} = {\mathbb{R}}^{d}$. Instead, determining $\mathcal{A}$ and $\mathcal{K}$ is a design choice which we leverage to make the projections $\Pi_{\mathcal{A}}$ and $\Pi_{\mathcal{K}}$ computationally efficient. We note two important points regarding this design choice:
+
+The only assumption is that $\Pi_{\mathcal{A}}$ and $\Pi_{\mathcal{K}}$ and their VJP are computable. Being computationally efficient is an added benefit of our decomposition, but is not necessary.
+
+We show in Appendix˜E that many practically-relevant constraints $\mathcal{C}$ can be decomposed in a computationally-efficient manner: polyhedra, second-order cones, sparsity constraints, simplices, and the intersections and Cartesian products all admit efficient decompositions. In fact, this list is not exhaustive; see, e.g., condat2016fast; boyd2004convex.
+
+### Forward pass
+
+To compute the projection $y = {\Pi_{\mathcal{C}{(x)}}{(y_{\text{raw}})}}$ we employ the Douglas-Rachford algorithm (bauschke_convex_2017 Sec. 28.3), which solves optimization problems of the form ${{\min_{z}g}{(z)}} + {h{(z)}}$, where $g$ and $h$ are proper, closed, convex functions. To rewrite in this composite form, we use the auxiliary variable $y_{\text{aux}} \in {\mathbb{R}}^{n - d}$ and the indicator function of $\mathcal{A}$ and $\mathcal{K}$ to obtain:
+
+Then, we split the objective function as follows
+
+By applying the Douglas-Rachford algorithm we obtain the fixed-point iteration:
+
+where $\sigma > 0$ is a scaling and $\omega \in {}$ a relaxation parameter. The proximal operators in (3a) and (3b) can be evaluated explicitly, see Section˜D.1, allowing us to implement as in Section˜2.1.1. Note that we write $z_{k} = \begin{bmatrix}
+\end{bmatrix}^{\top}$ where $z_{k,1} \in {\mathbb{R}}^{d}$ and $z_{k,2} \in {\mathbb{R}}^{n - d}$ correspond to $y$ and $y_{\text{aux}}$, respectively.
+
+Algorithm 1. Operator splitting for projection
+
+Inputs: ${{x,y_{\text{raw}},K} \in {\mathbb{N}}},{\sigma,\omega}$.
+
+$\left\lfloor \begin{array}{l}
+{t_{k + 1}\leftarrow\begin{bmatrix}
+\end{array} \right.$
+
+Under mild conditions, namely strict feasibility of, we show in Section˜D.2. ‣ Appendix D Derivation details ‣ 𝚷net: Optimizing hard-constrained neural networks with orthogonal projection layers") that the iterates $z_{k}$ and $t_{k}$ converge to a solution of. We denote the limits ${z_{\infty}{(y_{\text{raw}})}} = {\lim_{k\rightarrow\infty}z_{k}}$ and ${s_{\infty}{(y_{\text{raw}})}} = {\lim_{k\rightarrow\infty}s_{k}}$, and highlight their dependence on the point-to-be-projected $y_{\text{raw}}$. In particular, we have ${z_{\infty,1}{(y_{\text{raw}})}} = {\Pi_{\mathcal{C}}{(y_{\text{raw}})}}$. In practice, we run a finite number of iterations $K \in {\mathbb{N}}$ of, which we set to $K = \text{n\_iter\_fwd}$ during training and $K = \text{n\_iter\_test}$ during testing, and take $y = z_{K,1}$ as the output of the projection layer. We detail our hyperparameters in Section˜2.4 ‣ 2 Training Hard-Constrained Neural Networks ‣ 𝚷net: Optimizing hard-constrained neural networks with orthogonal projection layers"). We note that, although $z_{K}$ will not necessarily lie on $\mathcal{A} \cap \mathcal{K}$, because $K \in {\mathbb{N}}$ is finite, Section˜2.1.1 guarantees that $z_{K} \in \mathcal{A}$. By our choice of $\mathcal{A}$, this implies that $z_{K,1}$ satisfies any equality constraints in the problem. The feasibility-by-design comes from the convergence rates, which we derive and empirically demonstrate in Section˜D.3. ‣ Appendix D Derivation details ‣ 𝚷net: Optimizing hard-constrained neural networks with orthogonal projection layers"): for a sufficiently high number of iterations, the output of our projection layer is arbitrarily close to the true projection.
+
+### Backward pass
+
+To train the backbone network using backpropagation, we need to efficiently differentiate the loss $\mathcal{L}$ (which in general depends on the projected output of the network and on the input; see Section˜2.2) with respect to the backbone network parameters $\theta$. The chain rule gives us:
+
+Since the first and last terms are standard and typically computed with automatic differentiation, we only need to provide an efficient computational routine for the VJP
+
+Rather than differentiating through all the iterations of Section˜2.1.1 by loop unrolling, we exploit the implicit function theorem dontchev2009implicit to efficiently evaluate. To do so, we first recall that ${\Pi_{\mathcal{C}}{(y_{\text{raw}})}} = {\begin{bmatrix}
+\end{bmatrix}\Pi_{\mathcal{A}}{({s_{\infty}{(y_{\text{raw}})}})}}$ which implies that:
+
+and note that the first VJP is straightforward to compute since $\Pi_{\mathcal{A}}$ is an affine mapping. Therefore, to evaluate we need to backpropagate through $s_{\infty}{(y_{\text{raw}})}$. Since $s_{\infty}{(y_{\text{raw}})}$ is the fixed point of iteration, it satisfies the equation ${{s_{\infty}{(y_{\text{raw}})}} = {\Phi{({s_{\infty}{(y_{\text{raw}})}},y_{\text{raw}})}}},$ where $\Phi$ represents one iteration of (3a)-(3c), namely, $s_{k + 1} = {\Phi{(s_{k},y_{\text{raw}})}}$. The implicit function theorem applied to ${s_{\infty}{(y_{\text{raw}})}} = {\Phi{({s_{\infty}{(y_{\text{raw}})}},y_{\text{raw}})}}$ yields the VJP, see Section˜D.4,
+
+where $\xi{(y_{\text{raw}},v)}$ is a solution of the linear system
+
+The matrix in may not be invertible agrawal2019differentiable; even if it is, constructing it and computing its inverse may be prohibitively expensive in high dimensions. This difficulty can be circumvented by computing a heuristic quantity. In this vein, we deploy the JAX jax2018github implementation of the bi-conjugate gradient stable iteration (bicgstab) doi:10.1137/0913035, an indirect linear system solver that requires only matrix-vector products. Therefore, we implement and using VJPs involving $\partial{{\Phi{({s_{\infty}{(y_{\text{raw}})}},y_{\text{raw}})}}/{\partial y_{\text{raw}}}}$ and $\partial{{\Phi{(s,y_{\text{raw}})}}/{\partial s}}$, respectively. We efficiently do this using JAX VJP routines and note that each step of the solver for has essentially the same computational cost as one step of. The maximum number of bicgstab steps for, n_iter_bwd, is a hyperparameter. In both and, we use the output of the forward pass, i.e., $s_{K}$ in place of the intractable $s_{\infty}$.
+
+### Loss
+
+The training loss $\mathcal{L}\left( {\Pi_{\mathcal{C}{(x)}}{({f{(x;\theta)}})}},x \right)$, which is a function of the context and the constrained NN output, can be crafted according to the specific requirement's of the problem. In our experiments, we directly minimize the objective of problem $\mathcal{P}{(x)}$ ‣ 1 Introduction ‣ 𝚷net: Optimizing hard-constrained neural networks with orthogonal projection layers") using the network's output by setting ${\mathcal{L}{(y,x)}} = {\varphi{(y,x)}}$. In the context of our orthogonal projection layer we can, loosely speaking, interpret training as performing projected gradient descent on the raw NN output space, akin to cristian2023end.
+
+### Network architecture
+
+$\Pi$net is flexible: the projection layer can be appended to *any* NN; see Figure˜1. We summarize the forward and backward pass of $\Pi$net in subsection 2.3, while its training and testing is outlined in subsection 2.3.
+
+Algorithm 2. $\Pi$net Training/Testing
+
+$\left| \begin{array}{l}
+{{\text{Inputs:~}x},\theta,K,\sigma,\omega} \\
+{y_{\text{raw}}\leftarrow{f{(x;\theta)}}} \\
+{{y,s}\leftarrow{{\text{Call~}}{(x,y_{\text{raw}},K,\sigma,\omega)}}} \\
+\end{array} \right.$
+
+$\left| \begin{array}{l}
+{{{\text{Inputs:~}s_{\infty}},v} \in {\mathbb{R}}^{d}} \\
+{v_{1}\leftarrow\left. {\begin{bmatrix}
+\end{bmatrix}{({\partial{{\Pi_{\mathcal{A}}{(s)}}/{\partial s}}})}} \right|_{s = s_{\infty}}} \\
+{{\xi{(y_{\text{raw}},v_{1})}}\leftarrow{\text{Solve (}\text{) with~}v_{1}\text{~as RHS}}} \\
+{v_{2}\leftarrow\left. {\xi{(y_{\text{raw}},v_{1})}^{\top}{({\partial{{\Phi{(s,y_{\text{raw}})}}/{\partial y_{\text{raw}}}}})}} \right|_{s = s_{\infty}}} \\
+{v_{3}\leftarrow\left. {v_{2}^{\top}{({\partial{{f{(x;\vartheta)}}/{\partial\vartheta}}})}} \right|_{\vartheta = \theta}} \\
+\end{array} \right.$
+
+Algorithm 3. Training/Testing of $\Pi$net
+
+Inputs: Chosen/Tuned hyperparameters
+
+Inputs: (see Section˜2.4 ‣ 2 Training Hard-Constrained Neural Networks ‣ 𝚷net: Optimizing hard-constrained neural networks with orthogonal projection layers"))
+
+$\left| \begin{array}{l}
+{\theta_{1}\leftarrow\text{Initialize weights}} \\
+{\text{For~}{\ell = 1}\text{~to~}\text{n\_epochs}\text{:}} \\
+\left\lfloor \begin{array}{l}
+{x\leftarrow\text{Sample from training set}} \\
+{{y,s}\leftarrow{\text{Forward}{(x,\theta,\text{n\_iter\_fwd},\sigma,\omega)}}} \\
+{{{\mathcal{L}{(y,x)}},{\partial{{\mathcal{L}{(y,x)}}/{\partial y}}}}\leftarrow\text{Compute loss}} \\
+{{\partial{\mathcal{L}/{\partial\theta}}}\leftarrow{\text{Backward}{(s,{\partial{{\mathcal{L}{(y,x)}}/{\partial y}}})}}} \\
+{\theta_{\ell + 1}\leftarrow\text{Optimizer update}}
+\end{array} \right. \\
+{\text{Output}:\theta_{\text{n\_epochs}}}
+\end{array} \right.$ Testing:
+
+$\left| \begin{array}{l}
+{x\leftarrow\text{Sample from test set}} \\
+{{y,s}\leftarrow{\text{Forward}{(x,\theta,\text{n\_iter\_test},\sigma,\omega)}}} \\
+\end{array} \right.$
+
+### The sharp bits (short version)
+
+To push the performance of $\Pi$net, we adopt two important numerical techniques. First, we improve the conditioning of the matrix $A{(x)}$, that defines the set $\mathcal{A}{(x)}$, by implementing the Ruiz equilibration algorithm wathen2015preconditioning; see Section˜C.1. Second, we exploit the fact that, compared to existing methods, $\Pi$net relies only on a few hyperparameters. Specifically,
+
+n_iter_fwd: number of iterations for the forward pass during training (*default* is $100$).
+
+n_iter_test: number of iterations for the forward pass during inference (*default* is $100$).
+
+omega, sigma: standard Douglas-Rachford parameters (*default* are $1.7,1.0$).
+
+n_iter_bwd: number of iterations in the bicgstab procedure (*default* is $25$).
+
+We describe an auto-tuning procedure that recommends hyperparameters by evaluating the projection on a subset of the validation set in Section˜C.2, and assess its effectiveness in Section˜C.3.
+
+Finally, we highlight our choice of enforcing constraints during training, as opposed to training an unconstrained network and introducing the projection layer only afterwards. We do so because the latter approach may result in training instabilities or suboptimal performance; see Section˜C.4.
+
+### $\Pi$net as an implicit layer
+
+The techniques used to implement $\Pi$net (operator-splitting and backpropagation via the implicit function theorem) are fundamental and widely adopted in the literature. In this sense, $\Pi$net is a special case of implicit layers agrawal2019differentiable; butler2023efficient. However, our key ideas are related to the type of problem we are solving (a projection) and how the structure of this problem can be exploited to derive an efficient formulation of the optimization algorithm. The improvement over the state of the art (as exemplified by our results in Section˜3) is achieved by focusing on a problem setting that is sufficiently general yet rich in structure, and by adopting the right optimization techniques (e.g., which split to perform to deploy the Douglas-Rachford algorithm). The key ideas, in this sense, are:
+
+Using a single additional layer instead of multiple ones.
+
+Using a projection layer.
+
+Adapting the Douglas-Rachford algorithm to best exploit the resulting problem structure.
+
+## Numerical experiments
+
+The code for the experiments is available at [https://github.com/antonioterpin/pinet](https://github.com/antonioterpin/pinet). The empirical data was collected on an Ubuntu 22.04 machine equipped with an AMD Ryzen Threadripper PRO 5995WX processor and an Nvidia RTX 4090 GPU. For experiments with second-order cone constraints, see Section˜B.5.
+
+### Benchmarks and comparisons with state-of-the-art
+
+We consider a set of standard convex and non-convex problems classically used to compare HCNNs.
+
+### Experimental setup
+
+We consider the (non-)convex benchmark problems introduced in donti2021dc3:
+
+where $J{( \cdot )}$ is defined as ${J{(y)}} = {{y^{\top}Qy} + {q^{\top}y}}$ for the convex problem setup, and as ${J{(y)}} = {{y^{\top}Qy} + {q^{\top}{\sin(y)}}}$ for the non-convex, and ${Q \in {\mathbb{R}}^{d \times d} \succ 0},{{q \in {\mathbb{R}}^{d}},{{A \in {\mathbb{R}}^{n_{eq} \times d}},{{x \in {\mathbb{R}}^{n_{eq}}},{{C \in {\mathbb{R}}^{n_{ineq} \times d}},{u \in {\mathbb{R}}^{n_{ineq}}}}}}}$. In particular, in donti2021dc3, $Q$ is diagonal with positive entries, $A,C,u$ are fixed matrices/vector and the contexts $x$ are generated so that all problem instances are guaranteed to be feasible; see donti2021dc3. In donti2021dc3, the authors only consider problems with $d = 100$. Here, we also include larger problem dimensions, ${(d,n_{eq},n_{ineq})} \in {\{{},{}\}}$, which we generated with the same scheme. We refer to these datasets as small and large. For each dataset, we generated $10000$ contexts split as $7952/1024/1024$ among training/validation/test sets.
+
+### Baselines
+
+We compare $\Pi$net to DC3 donti2021dc3 and a traditional Solver. For the convex objective the Solver is the QP solver OSQP Stellato_2020, while for the non-convex objective is IPOPT wachter2006implementation. Further, we compare to an implicit layer approach, where instead of computing the projection with Section˜2.1.1, we use the JAXopt blondel2022efficient GPU-friendly implementation of OSQP that employs implicit differentiation. Both $\Pi$net, DC3, and the JAXopt approach use a self-supervised loss (i.e., $\mathcal{L} = J$) and as backbone a multi-layer perceptron (MLP) with 2 hidden layers of 200 neurons each and ReLU activations. Additionally, DC3 includes batch normalization and drop out, as well as soft penalty terms in the loss. We use the default parameters of DC3 unless otherwise stated. In particular, the DC3 algorithm with default parameters diverged during training on the large datasets, an effect observed also in tordesillas2023rayen. To rectify this, we tuned the learning rate of DC3's correction process for the large dataset, and found that $10^{- 8}$ enables the network to learn. In Section˜B.2, we investigate if DC3's performance can be improved by adapting hyperparameters. For $\Pi$net we use only $50$ training epochs, while for DC3 we use the default $1000$. For JAXopt we use a tolerance of $10^{- 3}$ and $12$ epochs, in the interest of training time. On both convex and non-convex benchmarks, we use JAXopt as a replacement for our custom projection layer after the backbone NN. The training times reported are, thus, the ones of the backbone network. We omit comparisons with cvxpylayers agrawal2019differentiable since JAXopt is a more recent and stronger baseline: it implements similar functionalities, but it is executable on the GPU; see also Appendix˜B.
+
+### Metrics
+
+We compare methods in terms of the following metrics on the test set:
+
+Relative suboptimality (RS): The suboptimality of a candidate solution $\hat{y}$ compared to the optimal objective $J{(y^{\star})}$, computed by the Solver. Since methods may violate constraints and obtain a better solution we clip this value, ${\text{RS} ≔ {\max\left( 0,{{{({{J{(\hat{y})}} - {J{(y^{\star})}}})}/J}{(y^{\star})}} \right)}}.$
+
+Constraint violation (CV): We define $\text{CV} = {\max{(\left\| {{A\hat{y}} - x} \right\|_{\infty},\left\| {\max{({{C\hat{y}} - u},0)}} \right\|_{\infty})}}$.
+
+Learning curves: Progress on RS and CV over wall-clock time on the validation set.
+
+Single inference time: The time required to solve one instance at test time.
+
+Batch inference time: The time required to solve a batch of $1024$ instances at test time.
+
+Next, we report and discuss the results on the non-convex datasets. In the interest of space, the results on the convex problems are given in Section˜B.2.
+
+### Results
+
+The RS and CV for each problem instance in the test set are reported in Figure˜2. We consider a candidate solution to be optimal if the condition $\text{CV} \leq 10^{- 3}$ and $\text{RS} \leq {5\%}$ is satisfied. These prerequisites for low accuracy solutions are similar to, though somewhat looser from, those employed by numerical solvers o2016conic; Stellato_2020. In fact, $\Pi$net clears these thresholds by a margin. In practice, any solver achieving a CV below $10^{- 5}$ is considered high-accuracy Stellato_2020 and there is little benefit to go below that. Instead, when methods have sufficiently low CV, having a low RS is better.
+
+Compared to DC3, we correctly solve the vast majority of test problems. Importantly, the very low and consistent constraint violation across all problem instances significantly facilitates the tuning of the number of iterations. By contrast, DC3 exhibits large CV on the large problems and struggles to minimize the objective to the required accuracy. We conjecture that $\Pi$net significantly outperforms DC3 in RS due to the absence of soft penalties in our training loss and the orthogonality of the projection. The JAXopt approach performs similarly to $\Pi$net.
+
+The learning curves are shown in Figure˜3. $\Pi$net achieves better performance at a fraction of the training time. Crucially, our scheme attains satisfactory CV *throughout* training, implying that $\Pi$net can reliably compute feasible solutions even with a tiny training budget. Note that our training curves include the setup time for $\Pi$net (the matrix equilibration, the calculation of the pseudo-inverse for the projection onto the affine subspace, and just-in-time compilation). We omit the JAXopt results on the large dataset as it requires roughly 14 hours to complete training. The substantial difference in training times between $\Pi$net and JAXopt underscores the importance of the specialized splitting we employed exploiting the structure of the projection problem, and our specialized implementation.
+
+We report inference times in Table˜2 in Appendix˜B. All approaches significantly outperform the Solver. DC3 is slightly faster than $\Pi$net, but given our numerical evaluations on RS and CV, we believe that $\Pi$net holds substantial promise with only a minor runtime trade-off compared to DC3.
+
+Figure 2: The scatter plots show the RS and CV on the small and large non-convex problems on the test set. The red dashed lines show the thresholds to consider a candidate solution optimal.
+
+Figure 3: Comparison of the learning curves in terms of average RS and CV on the validation set, on the small and large non-convex problems. The solid lines denote the mean and the shaded area the standard deviation across 5 seeds. The learning curves for JAXopt on the large dataset are reported only in Appendix˜B because of the orders of magnitude longer training times.
+
+### $\Pi$net applied: Multi-vehicle motion planning
+
+We present an approach to synthesize transition trajectories between multi-vehicle configurations that optimize some non-linear, *fleet-level* objective subject to dynamics, state and input constraints. We feed an NN with the initial and terminal fleet configurations (the context $x$), obtain the raw input trajectories and use the vehicle dynamics to infer the full state-input trajectories that serves as the raw output $y_{\text{raw}}$, which are then projected for ensured constraint satisfaction; see Figure˜4.
+
+Figure 4: (Top) The Πnet approach to constrained multi-vehicle motion planning with arbitrary differentiable objective functions φ. (Bottom) From left to right, we show examples of the synthesized trajectories for 3 different objectives: φleft = effort, φmid = φleft + preference, φright = φmid + coverage. We refer the reader to Section˜B.3 for formal definitions and additional eye-candies.
+
+### Experimental setup
+
+We follow the formulation in augugliaro2012generation. Specifically, we denote with ${p_{i}{\lbrack t\rbrack}} \in {\mathbb{R}}^{m}$ the generalized coordinates of vehicle $i$ at the discrete times $t \in {\{ 1,\ldots,T\}}$, and with $v_{i}{\lbrack t\rbrack}$ and $a_{i}{\lbrack t\rbrack}$ its generalized velocity and acceleration. Its simple discretized dynamics read ${v_{i}{\lbrack{t + 1}\rbrack}} = {{v_{i}{\lbrack t\rbrack}} + {ha_{i}{\lbrack t\rbrack}}}$, ${p_{i}{\lbrack{t + 1}\rbrack}} = {{p_{i}{\lbrack t\rbrack}} + {hv_{i}{\lbrack t\rbrack}} + {\frac{h^{2}}{2}a_{i}{\lbrack t\rbrack}}}$. We formulate the motion planning task for the fleet as a parametric program in the form of $\mathcal{P}{(x)}$ ‣ 1 Introduction ‣ 𝚷net: Optimizing hard-constrained neural networks with orthogonal projection layers"), where $\mathcal{C}{(x)}$ includes box constraints on positions (workspace constraints), velocities, and accelerations (physical limits), affine inequality constraints for jerk limits, and equality constraints for the dynamics and initial/final configuration *for each vehicle*. The objective function $\varphi$ encapsulates a *fleet-level* objective; here we consider a weighted sum of workspace coverage, input effort, and trajectory preference given by a potential function; see Section˜B.3 for a rigorous definition.
+
+### Qualitative results
+
+We display some of the resulting trajectories for different weights in the objective in Figure˜4 and report more visualizations and analysis for larger fleets and longer horizons in Section˜B.3. Crucially, both convex and non-convex objectives are handled effectively by $\Pi$net, resulting in trajectories that adhere to the specifications prescribed by the different objective functions.
+
+### Practical Relevance
+
+Multi-vehicle motion planning has received substantial attention for its practical applications augugliaro2012generation; wurman2008coordinating; terpin2022distributed; terpin2024dynamic, and we highlight three benefits of our approach:
+
+Constraint satisfaction. We ensure dynamics, state, and input constraint satisfaction, similar to optimization-based trajectory generation methods augugliaro2012generation.
+
+Parallelizability. Our approach is parallelizable in two ways. First, it enables multiple problem instances (different initial and final configurations) to be solved in batches. Second, since the constraints we consider are decoupled between the vehicles, we can *jointly* predict the raw input trajectories (to enable the network to minimize the joint objective), while solving the projections for each vehicle separately; see Figure˜4.
+
+Arbitrary objective optimization. Our framework can handle any almost everywhere differentiable objective, encoded in $\Pi$net's loss $\mathcal{L} = \varphi$. Importantly, we see this example as a proof of concept towards constrained human-preference optimization (e.g., using christiano2017deep ). Deploying a traditional solver for this problem is very challenging because the objective functions considered are not available in closed form and are highly non-linear.
+
+We implement this application in a separate codebase [https://github.com/antonioterpin/glitch](https://github.com/antonioterpin/glitch), demonstrating also the little overhead required to integrate $\Pi$net into specific applications. We also explore trajectory planning on a longer horizon (up to $750$ steps, amounting to about $9000$ optimization variables and constraints), as well as high-dimensional contexts (mono-channel, $1024 \times 1024$ images) in Section˜B.4. Our current formulation focuses only on convex, decoupled-among-vehicles constraints. Future works could address collision avoidance constraints through sequential convexification techniques augugliaro2012generation; malyuta2022convex.
+
+## Conclusions
+
+### Contributions
+
+We introduced an output layer that enforces convex constraints satisfaction on the output of an any backbone NN via an operator splitting scheme. The backpropagation is achieved via the implicit function theorem, enabling efficient training. Our work focused on the gritty details of optimizing $\Pi$net, introducing also simple yet effective techniques such as hyperparameter tuning and matrix equilibration procedures. We provide a GPU-ready implementation in JAX, and showcase how our layer can be embedded in an example application, multi-vehicle motion planning.
+
+### Limitations
+
+The main limitation of our work is the requirement of convex constraint sets. Despite the numerous applications involving only convex constraints boyd2004convex, and the numerous applications that can be losslessly convexified malyuta2022convex, we acknowledge that future work should investigate how to relax this structural assumption. One potential approach could involve sequential convexification of non-convex constraints, similar to the algorithm in lastrucci2025enforce that addresses non-linear equality constraints.
+
+### Outlook
+
+We believe that $\Pi$net holds the potential to substantially impact a wide range of machine learning domains where constraint satisfaction is crucial. Relevant examples include neural PDE solvers raissi2019physics, structured prediction tasks nowozin2011structured, scheduling and resource allocation baptiste2001constraint, and robotics malyuta2022convex, among others maldonado2014imbalanced; brodie2009sparse. We demonstrated the potential of $\Pi$net in some of these applications in Section˜3, and we believe that applying our method to new applications represents an exciting avenue for future work. We expect the integration of hard constraints into large-scale models to result in more robust performance and more trustworthy machine learning systems.

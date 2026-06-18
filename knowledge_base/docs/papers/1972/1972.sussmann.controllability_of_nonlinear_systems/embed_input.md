@@ -1,0 +1,7 @@
+Controllability of Nonlinear Systems
+
+Topics include Nonlinear controllability, Lie brackets, Differential geometry, Analytic manifolds, Control theory, Attainable sets, Lie groups.
+
+Sussmann and Jurdjevic develop controllability criteria for analytic nonlinear systems using differential-geometric tools and local information from the vector field and its derivatives. The paper is a foundational contribution to nonlinear control because it links attainable sets to Lie-algebraic structure on manifolds.
+
+In this article we study the controllability of nonlinear systems of the form dx/dt = F(x, u). Our objective is to establish criteria in terms of F and its derivatives at a point x which will give qualitative information about the sets attainable from x. The study is based primarily on the work of Chow and Lohry, although it is similar in its approach to works by other authors in that it makes systematic use of differential geometry (for instance, see Hermann, Haynes and Hermes, Brockett, etc.). The state variable x is assumed to take values in an arbitrary real, analytic manifold M, rather than in R^n. We chose this generalization because it creates no essential new difficulties while, on the other hand, it allows for certain applications which are not commonly treated in control theory. For instance, when M is a Lie group, then the present results can be specialized to obtain more detailed controllability criteria. Control problems on Lie groups were first considered by Brockett in, and will be treated in a forthcoming paper by the authors.

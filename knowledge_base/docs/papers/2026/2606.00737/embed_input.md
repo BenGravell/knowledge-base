@@ -1,0 +1,7 @@
+Beyond Pure Sampling: Hybrid Optimization Mechanisms for Non-Convex Model Predictive Control
+
+Topics include Differential dynamic programming, Model predictive control, Trajectory optimization, Sampling-based control, Nonconvex optimization, Model predictive path integral control.
+
+Analyzes maximum-entropy DDP variants as hybrid MPC optimizers that combine local second-order exploitation with sampling-based disruption of poor local minima. The paper is useful for comparing DDP-style and MPPI-style mechanisms across non-convex robotic navigation tasks and hardware validation.
+
+This paper investigates the optimization mechanisms of non-convex Model Predictive Control (MPC) using the Maximum Entropy Differential Dynamic Programming (ME-DDP) framework. Navigating non-convex cost landscapes induced by nonlinear dynamics, multiple obstacles, etc. remains a fundamental challenge in robotics, where gradient-based methods frequently converge to suboptimal local minima. We demonstrate a dual-step optimization mechanism designed to overcome these traps. an initial phase of using DDP to exploit the gradient of the cost landscape, followed by disruption of the optimization via sampling from policies characterized by the inverse Hessian of the action-value function. We provide a rigorous analysis of this sampling mechanism of three ME-DDP variants: Unimodal Gaussian ME-DDP, Multimodal Gaussian ME-DDP, and Stein Variational DDP....

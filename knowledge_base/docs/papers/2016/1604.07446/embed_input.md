@@ -1,0 +1,19 @@
+A Survey of Motion Planning and Control Techniques for Self-Driving Urban Vehicles
+
+Topics include Survey, Motion planning, Path planning, Trajectory planning, Autonomous vehicles, Self-driving vehicles, Urban driving, Control, Architecture, System, Hierarchy, Modeling, Kinematic model, Dynamic model, Variational methods, Graph search.
+
+Surveys motion planning and control algorithms for self-driving urban vehicles, reviewing methods from route planning through behavior and motion planning to feedback control, with comparative analysis of vehicle models, environmental assumptions, and computational demands.
+
+Self-driving vehicles are a maturing technology with the potential to reshape mobility by enhancing the safety, accessibility, efficiency, and convenience of automotive transportation. Safety-critical tasks that must be executed by a self-driving vehicle include planning of motions through a dynamic environment shared with other vehicles and pedestrians, and their robust executions via feedback control. The objective of this paper is to survey the current state of the art on planning and control algorithms with particular regard to the urban setting. A selection of proposed techniques is reviewed along with a discussion of their effectiveness. The surveyed approaches differ in the vehicle mobility model used, in assumptions on the structure of the environment, and in computational requirements. The side-by-side comparison presented in this survey helps to gain insight into the strengths and limitations of the reviewed approaches and assists with system level design choices.
+
+## Introduction
+
+The last three decades have seen steadily increasing research efforts, both in academia and in industry, towards developing driverless vehicle technology. These developments have been fueled by recent advances in sensing and computing technology together with the potential transformative impact on automotive transportation and the perceived societal benefit: In 2014 there were 32,675 traffic related fatalities, 2.3 million injuries, and 6.1 million reported collisions. Of these, an estimated 94% are attributed to driver error with 31% involving legally intoxicated drivers, and 10% from distracted drivers....
+
+Considering the potential impacts of this new technology, it is not surprising that self-driving cars have had a long history. The idea has been around as early as in the 1920s, but it was not until the 1980s that driverless cars seemed like a real possibility. Pioneering work led by Ernst Dickmanns (e.g., ) in the 1980s paved the way for the development of autonomous vehicles. At that time a massive research effort, the PROMETHEUS project, was funded to develop an autonomous vehicle. A notable demonstration in 1994 resulting from the work was a 1,600 km drive by the VaMP driverless car, of which 95% was driven autonomously....
+
+Introducing a new control variable incorporating a feed-forward u = ω + vr κ (s) simplifies the discussion. The dynamics are now
+
+Observe that the model is indeed linear, but the forward speed vr appears in the linear model. A simple proportional plus derivative control with gains kp and kd will stabilize the lateral dynamics but the poles of the closed loop system are given by ${\left( {{- k_{d}} \pm \sqrt{k_{d}^{2} - {4k_{p}v_{r}}}} \right)/2}.$ At higher speeds the poles move into the complex plane leading to an oscillatory response. In contrast, a small kp gain leads to a poor response at low speed. A very intuitive and widely used remedy to this challenge is gain scheduling....
+
+The problem of finding an optimal path subject to holonomic and differential constraints as formulated in Problem IV.1. ‣ IV-A Path Planning ‣ IV Motion Planning ‣ A Survey of Motion Planning and Control Techniques for Self-driving Urban Vehicles") is known to be PSPACE-hard....

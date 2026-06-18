@@ -1,0 +1,19 @@
+RRT Guided Model Predictive Path Integral Method
+
+Topics include Trajectory optimization, Model predictive path integral control, Rapidly-exploring random tree, Sampling-based planning, Model predictive control.
+
+Grows an RRT to produce a coarse initial plan, then uses that plan as the mean of the MPPI sampling distribution, combining the global exploration of RRT with the local refinement of MPPI.
+
+This work presents an optimal sampling-based method to solve the real-time motion planning problem in static and dynamic environments, exploiting the Rapid-exploring Random Trees (RRT) algorithm and the Model Predictive Path Integral (MPPI) algorithm. The RRT algorithm provides a nominal mean value of the random control distribution in the MPPI algorithm, resulting in satisfactory control performance in static and dynamic environments without a need for fine parameter tuning. We also discuss the importance of choosing the right mean of the MPPI algorithm, which balances exploration and optimality gap, given a fixed sample size. In particular, a sufficiently large mean is required to explore the state space enough, and a sufficiently small mean is required to guarantee that the samples reconstruct the optimal controls. The proposed methodology automates the procedure of choosing the right mean by incorporating the RRT algorithm. The simulations demonstrate that the proposed algorithm can solve the motion planning problem in real-time for static or dynamic environments.
+
+## Introduction
+
+Motion planning problems have been widely discussed in recent years in the field of robotics, such as self-driving car navigation, automatic drone, and bipedal robots. The main goal of motion planning problems is to find a path for the agents to move from an initial position to a target position in fully-known environments while preventing collisions. However, it still remains challenging to solve the optimal motion planning problems efficiently in dynamic environments and implement the algorithms on the robotic systems in real-time.
+
+For motion planning problems, sampling-based methods have been proven to be effective for complex systems since the methods avoid calculating the derivatives of the dynamic equation and the cost function. In particular, the Probabilistic Roadmap (PRM) algorithm is the first sampling-based algorithm that solves the motion planning problem. The algorithm utilizes a local planner to connect the sampling configuration in free space. The Rapid-exploring Random Trees (RRT) algorithm, one of the most famous sampling-based algorithms, combines the exploration of the configuration space and the biased sampling around the goal configuration space....
+
+## Conclusion
+
+This paper presents a real-time RRT-MPPI algorithm to solve the motion planning problem in different environments. The proposed algorithm advances the RRT algorithm in terms of dynamic environment navigation and optimality and reduces the need to fine-tune the mean value of the MPPI algorithm. In particular, we use the RRT algorithm to provide the suitable nominal control mean value for the random distribution in the MPPI algorithm, which helps us to avoid fine-tuning the mean value and balance the optimality and exploration....
+
+In conclusion, the MPPI algorithm uses Monte Carlo (MC) methods to approximate the optimal control solution with the sampling-based control input. Our previous works on the sampling complexity of the MPPI method use Hoeffding's inequality and Chebyshev's inequality to provide the required sample size given error bounds and risk probability. Compared to the previous work, we focus on the influence of the mean of the sampling control distribution instead of the variance and prove that a larger mean of the random control distribution requires a larger sample size....

@@ -1,0 +1,7 @@
+BC-MPPI: A Probabilistic Constraint Layer for Safe Model-Predictive Path-Integral Control
+
+Topics include Model predictive path integral control, Trajectory optimization, Safety, Bayesian constraints, Probabilistic constraints.
+
+Adds a Bayesian probabilistic layer to MPPI that models constraint satisfaction as a probability distribution, enabling principled soft constraint handling within the MPPI sampling framework.
+
+Model Predictive Path Integral (MPPI) control has recently emerged as a fast, gradient-free alternative to model-predictive control in highly non-linear robotic tasks, yet it offers no hard guarantees on constraint satisfaction. We introduce Bayesian-Constraints MPPI (BC-MPPI), a lightweight safety layer that attaches a probabilistic surrogate to every state and input constraint. At each re-planning step the surrogate returns the probability that a candidate trajectory is feasible; this joint probability scales the weight given to a candidate, automatically down-weighting rollouts likely to collide or exceed limits and pushing the sampling distribution toward the safe subset; no hand-tuned penalty costs or explicit sample rejection required. We train the surrogate from 1,000 offline simulations and deploy the controller on a quadrotor in MuJoCo with both static and moving obstacles. Across K in rollouts BC-MPPI preserves safety margins while satisfying the prescribed probability of violation....

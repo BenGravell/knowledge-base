@@ -1,0 +1,17 @@
+FORGE: Force-Guided Exploration for Robust Contact-Rich Manipulation under Uncertainty
+
+Topics include Robotics, Safety, Robustness, Uncertainty, Control, Learning, FORGE.
+
+We present FORGE, a method for sim-to-real transfer of force-aware manipulation policies in the presence of significant pose uncertainty. During simulation-based policy learning, FORGE combines a force threshold mechanism with a dynamics randomization scheme to enable robust transfer of the learned policies to the real robot. At deployment, FORGE policies, conditioned on a maximum allowable force, adaptively perform contact-rich tasks while avoiding aggressive and unsafe behaviour, regardless of the controller gains. Additionally, FORGE policies predict task success, enabling efficient termination and autonomous tuning of the force threshold. We show that FORGE can be used to learn a variety of robust contact-rich policies, including the forceful insertion of snap-fit connectors. We further demonstrate the multistage assembly of a planetary gear system, which requires success across three assembly tasks: nut threading, insertion, and gear meshing. Project website can be accessed at
+
+## Introduction
+
+We are interested in developing *sim-to-real* techniques for learning assembly primitives (e.g., low-clearance insertion or nut-threading). Over the past decade, sim-to-real techniques have led to advances in dexterous manipulation and legged locomotion. However, similar results have only recently been achieved for robotic assembly, which requires efficient and accurate simulation of the detailed, low-clearance parts. Even with these advances, successful sim-to-real deployment remains challenging for contact-rich tasks.
+
+Naively, policies can be too aggressive, leading to catastrophic part slip or damage that makes the task difficult or impossible to complete. This is particularly pronounced when there is pose uncertainty and search behaviours that rely on contact are necessary. The required contact between parts can lead to undesirable outcomes if the forces are too high. Heuristic approaches, such as spiral search, can limit the applied force but these approaches are task-specific and can be inefficient.
+
+## Conclusion
+
+In conclusion, we present FORGE, a force-aware method to train robust sim-to-real policies with pose estimation uncertainty. FORGE uses a force threshold and dynamics randomization to learn *safe* exploration behaviours, enabling successful policy execution with up to $5mm$ of position estimation error. In addition, FORGE can predict task success, allowing efficient policy execution and force threshold tuning. In future work, we plan to investigate torque sensing for more efficient search strategies. We also believe research in *real-to-sim* will help automatically tune simulation models for more adaptive behaviours.
+
+For the majority of our experiments, we calibrate the poses of each fixed object and artificially add noise. This allows us to analyze performance under known levels of position estimation error. The calibration is done by guiding the arm to a successful pose for the respective task from which a nominal initial pose can be backed out. Unless otherwise reported, our real experiments use the same initial state randomization as in simulation (see App. -A). For our last experiment, we assemble a planetary gear box (Sec. V-E) using the perception system from *IndustReal* \[\] (see App. -F for more details).

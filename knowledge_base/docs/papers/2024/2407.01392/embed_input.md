@@ -1,0 +1,18 @@
+Diffusion Forcing: Next-token Prediction Meets Full-Sequence Diffusion
+
+Topics include Diffusion models, Causal inference, Planning, Sampling, Forcing.
+
+This paper presents Diffusion Forcing, a new training paradigm where a diffusion model is trained to denoise a set of tokens with independent per-token noise levels. We apply Diffusion Forcing to sequence generative modeling by training a causal next-token prediction model to generate one or several future tokens without fully diffusing past ones. Our approach is shown to combine the strengths of next-token prediction models, such as variable-length generation, with the strengths of full-sequence diffusion models, such as the ability to guide sampling to desirable trajectories. Our method offers a range of additional capabilities, such as rolling-out sequences of continuous tokens, such as video, with lengths past the training horizon, where baselines diverge and new sampling and guiding schemes that uniquely profit from Diffusion Forcing's variable-horizon and causal architecture, and which lead to marked performance gains in decision-making and planning tasks. In addition to its empirical success, our method is proven to optimize a variational lower bound on the likelihoods of all subsequences of tokens drawn from the true joint distribution. Project website:
+
+## Introduction
+
+Probabilistic sequence modeling plays a crucial role in diverse machine learning applications including natural language processing, video prediction and decision making. Next-token prediction models in particular have a number of desirable properties. They enable the generation of sequences with varying length (generating only a single token or an "infinite" number of tokens via auto-regressive sampling), can be conditioned on varying amounts of history, support efficient tree search, and can be used for online feedback control.
+
+Current next-token prediction models are trained via *teacher forcing*, where the model predicts the immediate next token based on a ground truth history of previous tokens. This results in two limitations: there is no mechanism by which one can guide the sampling of a sequence to minimize a certain objective, and current next-token models easily become *unstable* on continuous data. For example, when attempting to auto-regressively generate a video (as opposed to text or vector-quantized latents ) past the training horizon, slight errors in frame-to-frame predictions accumulate and the model diverges.
+
+Figure 4: In our real robot task, a robot arm is asked to swap the slots of two fruits using a third slot. Since the fruits are input in random slots at the beginning, one cannot determine the next steps from a single observation without knowledge of the initial placement of the fruits. As illustrated in (a) and (b), the upper observation is the same but the desired outcome illustrated below can vary—the task thus requires remembering the initial configuration. In addition, as shown in (c), the same model that generates actions also synthesizes realistic video from just a single frame.
+
+4.4 Robotics: Long horizon imitation learning and robust visuomotor control
+Finally, we illustrate that Diffusion Forcing (DF) opens up new opportunities in visuomotor control of real-world robots. Imitation learning is a popular technique in robotic manipulation where one learns an observation-to-action mapping from expert demonstrations. However, the lack of memory often prevents imitation learning from accomplishing long-horizon tasks....
+
+*Diffusion Forcing* (DF) is a framework for training and sampling arbitrary sequence lengths of noisy tokens ${(\mathbf{x}_{t}^{k_{t}})}_{1 \leq t \leq T}$, where critically, *the noise...

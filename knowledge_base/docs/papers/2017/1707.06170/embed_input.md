@@ -1,0 +1,17 @@
+Learning Model-based Planning from Scratch
+
+Conventional wisdom holds that model-based planning is a powerful approach to sequential decision-making. It is often very challenging in practice, however, because while a model can be used to evaluate a plan, it does not prescribe how to construct a plan. Here we introduce the "Imagination-based Planner", the first model-based, sequential decision-making agent that can learn to construct, evaluate, and execute plans. Before any action, it can perform a variable number of imagination steps, which involve proposing an imagined action and evaluating it with its model-based imagination. All imagined actions and outcomes are aggregated, iteratively, into a "plan context" which conditions future real and imagined actions. The agent can even decide how to imagine: testing out alternative imagined actions, chaining sequences of actions together, or building a more complex "imagination tree" by navigating flexibly among the previously imagined states using a learned policy. And our agent can learn to plan economically, jointly optimizing for external rewards and computational costs associated with using its imagination....
+
+## Introduction
+
+Model-based planning involves proposing sequences of actions, evaluating them under a model of the world, and refining these proposals to optimize expected rewards. Several key advantages of model-based planning over model-free methods are that models support generalization to states not previously experienced, help express the relationship between present actions and future rewards, and can resolve states which are aliased in value-based approximations. These advantages are especially pronounced in problems with complex and stochastic environmental dynamics, sparse rewards, and restricted trial-and-error experience....
+
+Existing techniques for model-based planning are most effective in small-scale problems, often require background knowledge of the domain, and use pre-defined solution strategies. Planning in discrete state and action spaces typically involves exploring the search tree for sequences of actions with high expected value, and apply fixed heuristics to control complexity (e.g., A\*, beam search, Monte Carlo Tree Search coulom2006efficient )....
+
+In the future, the IBP should be applied to more diverse and natural decision-making problems, such as robotic control and higher-level problem solving. Other environment models should be explored, especially those which operate over raw sensory observations. The fact that the imagination is differentiable can be exploited for another form of model-based reasoning: online gradient-based control optimization.
+
+Our work demonstrates that the core mechanisms for model-based planning can be learned from experience, including implicit and explicit domain knowledge, as well as flexible plan construction strategies. By implementing essential components of a planning system with powerful, neural network function approximators, the IBP helps realize the promise of model-based planning and opens new doors for learning solution strategies in challenging problem domains.
+
+### Neural network implementation and training
+
+The controller, $\pi^{C}:{{\mathcal{S} \times \mathcal{H}}\rightarrow\mathcal{A}}$, is a contextualized action policy which maps a state $s \in \mathcal{S}$ and a history to an action, $a \in \mathcal{A}$. The state which is provided as input to the controller is determined by the manager's choice of $u$. If executing, the actual state, $s_{j}$, is always used....

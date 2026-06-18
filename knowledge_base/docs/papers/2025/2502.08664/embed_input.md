@@ -1,0 +1,19 @@
+Motion Forecasting for Autonomous Vehicles: A Survey
+
+Topics include Motion forecasting, Autonomous vehicles, Survey, Trajectory prediction.
+
+Comprehensive survey of motion forecasting methods for autonomous vehicles, covering classical physics-based approaches through modern deep learning methods, with discussion of datasets, metrics, and open problems.
+
+In recent years, the field of autonomous driving has attracted increasingly significant public interest. Accurately forecasting the future behavior of various traffic participants is essential for the decision-making of Autonomous Vehicles (AVs). In this paper, we focus on both scenario-based and perception-based motion forecasting for AVs. We propose a formal problem formulation for motion forecasting and summarize the main challenges confronting this area of research. We also detail representative datasets and evaluation metrics pertinent to this field. Furthermore, this study classifies recent research into two main categories: supervised learning and self-supervised learning, reflecting the evolving paradigms in both scenario-based and perception-based motion forecasting. In the context of supervised learning, we thoroughly examine and analyze each key element of the methodology. For self-supervised learning, we summarize commonly adopted techniques. The paper concludes and discusses potential research directions, aiming to propel progress in this vital area of AV technology.
+
+## Introduction
+
+Motion Forecasting is vital in the functionality of autonomous driving systems. It assists these vehicles in planning their forthcoming actions and mitigates the risk of accidents. This survey addresses motion forecasting in autonomous vehicles, focusing on the two main approaches: Scenario-based Motion Forecasting and Perception-based Motion Forecasting.
+
+Scenario-based Motion Forecasting predicts future states of traffic agents (TAs) by analyzing past states and relevant environmental context, such as high-definition maps (HDMaps) and the historical states of surrounding agents (SAs). This approach emphasizes structured, predefined inputs like agents' locations and HDMaps, intentionally excluding raw sensor data like RGB images, LiDAR point clouds, or semantic segmentation maps. By limiting input features to these structured elements, scenario-based forecasting models achieve a focused analysis of the traffic environment and agent interactions.
+
+Exploration of novel pretext tasks. The robust representational learning and transferability exhibited by pre-train and fine-tune paradigms in the fields of computer vision and natural language processing have inspired recent works to incorporate these approaches into motion forecasting for autonomous vehicles. These works typically involve designing various reconstruction tasks as pretext tasks and subsequently fine-tuning the model for downstream motion forecasting. Thus, the exploration of novel pretext tasks within the self-supervised learning domain presents promising avenues for further advancements in motion forecasting.
+
+Diffusion Models for Controllable Multi-Agent Trajectory Prediction. Recent research \[\] has introduced diffusion models to the realm of multi-agent trajectory prediction, emphasizing controllability and realistic inter-agent interactions. This framework enables modeling a joint distribution of agent trajectories, allowing the generation of collision-free, contextually adaptive predictions in complex environments. Despite its promise, current implementations are limited by simplified assumptions and lack comprehensive contextual factors, such as diverse traffic scenarios or dynamic road elements....
+
+In this section, we introduce several open datasets utilized in motion forecasting for autonomous vehicles, as well as commonly used metrics.

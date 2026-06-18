@@ -1,0 +1,19 @@
+OpenVLA: An Open-Source Vision-Language-Action Model
+
+Topics include Low-rank models, Imitation learning, Robotics, Robustness, Diffusion models, Language models, Vision-language, Datasets, Generalization, Control, Learning, OpenVLA, Vision-language-action, Vision-language-action model, Open source.
+
+Large policies pretrained on a combination of Internet-scale vision-language data and diverse robot demonstrations have the potential to change how we teach robots new skills: rather than training new behaviors from scratch, we can fine-tune such vision-language-action (VLA) models to obtain robust, generalizable policies for visuomotor control. Yet, widespread adoption of VLAs for robotics has been challenging as 1) existing VLAs are largely closed and inaccessible to the public, and 2) prior work fails to explore methods for efficiently fine-tuning VLAs for new tasks, a key component for adoption. Addressing these challenges, we introduce OpenVLA, a 7B-parameter open-source VLA trained on a diverse collection of 970k real-world robot demonstrations. OpenVLA builds on a Llama 2 language model combined with a visual encoder that fuses pretrained features from DINOv2 and SigLIP. As a product of the added data diversity and new model components, OpenVLA demonstrates strong results for generalist manipulation, outperforming closed models such as RT-2-X (55B) by 16.5% in absolute task success rate across 29 tasks and multiple robot embodiments, with 7x fewer parameters....
+
+## Introduction
+
+A key weakness of learned policies for robotic manipulation is their inability to generalize beyond their training data: while existing policies trained for individual skills or language instructions have the capacity to extrapolate behaviors to new initial conditions such as object positions or lighting, they lack robustness to scene distractors or novel objects and struggle to execute unseen task instructions....
+
+Towards this goal, existing work has explored integrating pretrained language and vision-language models for robotic representation learning and as a component in modular systems for task planning and execution. More recently, they have been used for directly learning vision-language-action models \[VLAs \] for control. VLAs provide a direct instantiation of using pretrained vision-and-language foundation models for robotics, directly fine-tuning visually-conditioned language models (VLMs) such as PaLI to generate robot control actions....
+
+Additionally, there is room for further performance improvements. While OpenVLA outperforms prior generalist policies, it does not yet offer very high reliability on the tested tasks, typically achieving \<90% success rate.
+
+Finally, due to compute limitations, many VLA design questions remain underexplored: What effect does the size of the base VLM have on VLA performance? Does co-training on robot action prediction data and Internet-scale vision-language data substantially improve VLA performance? What visual features are best-suited for VLA models? We hope that the release of the OpenVLA model and codebase will enable the community to jointly investigate these questions.
+
+Along with our model, we release the OpenVLA codebase, a modular PyTorch codebase for training VLA models. It scales from fine-tuning VLAs on individual GPUs to training billion-parameter VLAs on multi-node GPU clusters, and supports modern techniques for large transformer model training such as automatic mixed precision, FlashAttention \[\], and fully sharded data parallelism. Out of the box, the OpenVLA codebase has full support for training on the Open X dataset, integrates with HuggingFace's \[\] AutoModel class, and supports LoRA fine-tuning \[\] and quantized model inference.
+
+The goals of this curation are to ensure a coherent input and output space across all training datasets, and a balanced mix of...

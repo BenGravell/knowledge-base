@@ -1,0 +1,17 @@
+Sample-Optimal Parametric Q-Learning Using Linearly Additive Features
+
+Consider a Markov decision process (MDP) that admits a set of state-action features, which can linearly express the process's probabilistic transition model. We propose a parametric Q-learning algorithm that finds an approximate-optimal policy using a sample size proportional to the feature dimension K and invariant with respect to the size of the state space. To further improve its sample efficiency, we exploit the monotonicity property and intrinsic noise structure of the Bellman operator, provided the existence of anchor state-actions that imply implicit non-negativity in the feature space. We augment the algorithm using techniques of variance reduction, monotonicity preservation, and confidence bounds. It is proved to find a policy which is epsilon-optimal from any initial state with high probability using O~(K/epsilon^(1-gamma)^) sample transitions for arbitrarily large-scale MDP with a discount factor gamma in. A matching information-theoretical lower bound is proved, confirming the sample optimality of the proposed method with respect to all parameters (up to polylog factors).
+
+## Introduction
+
+Markov decision problems (MDP) are known to suffer from the curse of dimensionality. A basic theoretical question is: Suppose that one can query sample transitions from any state of the system using any action, how many samples are needed for learning a good policy? In the tabular setting where the MDP has $S$ states and $A$ actions, the necessary and sufficient sample size for finding an approximate-optimal policy is $\overset{\sim}{\Theta}{(\frac{SA}{{({1 - \gamma})}^{3}})}$ ^11^1$\overset{\sim}{f{(\cdot)}}$ ignores ${{poly}{\log f}}{( \cdot )}$ factors. where $\gamma \in {}$ is a discount factor Azar et al.; Sidford et al.....
+
+Let us consider MDP with structural knowledges. Suppose that each state-action pair $(s,a)$ admits a feature vector ${\phi{(s,a)}} \in {\mathbb{R}}^{K}$ that can express the transition dynamics conditioning on $(s,a)$. In practice, the abstract state variable $s$ can be a sequence of historical records or a raw-pixel image, containing much information that is not related to the decision process. More general settings of MDP with structural knowledges have been considered in Azizzadenesheli et al.; Jiang et al. and references therein.
+
+## Remarks
+
+The paper studies the information-theoretic sample complexity for solving MDP with feature-based linear transition model. It provides the first sharp sample complexity upper and lower bounds for learning the policy using a generative model. It also provides a sample-optimal parametric Q-learning method that involves computing confidence bounds, variance reduction and monotonic improvement. We hope that establishing sharp results for the basic linear model would shed lights on more general structured models and motivate faster solutions.
+
+### Remark 4 (Policy optimality guarantee)
+
+Suppose $Q^{\pi} \in {\text{Span}{(r,\phi)}}$ for all $\pi$'s. However, value-iteration-based method would still fail if the Bellman operator $\mathcal{T}$ does not preserve the $(r,\phi)$ representation. In contrast, if the Q-functions admit linear representations using $\phi$ but the transition kernel $P$ does not, the Bellman error can be arbitrarily large. The Bellman error may be large even after projection or function fitting - a common source of unstable and oscillating behaviors in approximate dynamic programming Tsitsiklis and Van Roy; Munos and Szepesvári.

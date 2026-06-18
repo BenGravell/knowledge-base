@@ -1,0 +1,17 @@
+When Is Partially Observable Reinforcement Learning Not Scary?
+
+Applications of Reinforcement Learning (RL), in which agents learn to make a sequence of decisions despite lacking complete information about the latent states of the controlled system, that is, they act under partial observability of the states, are ubiquitous. Partially observable RL can be notoriously difficult - well-known information-theoretic results show that learning partially observable Markov decision processes (POMDPs) requires an exponential number of samples in the worst case. Yet, this does not rule out the existence of large subclasses of POMDPs over which learning is tractable. In this paper we identify such a subclass, which we call weakly revealing POMDPs. This family rules out the pathological instances of POMDPs where observations are uninformative to a degree that makes learning hard. We prove that for weakly revealing POMDPs, a simple algorithm combining optimism and Maximum Likelihood Estimation (MLE) is sufficient to guarantee polynomial sample complexity....
+
+## Introduction
+
+A wide range of modern artificial intelligence challenges can be cast as Reinforcement Learning (RL) problems under *partial observability*, in which agents learn to make a sequence of decisions despite lacking complete information about the underlying state of system. For example, in robotics the agent has to cope with noisy sensors, occlusions, and unknown dynamics, while in imperfect information games the player makes only local observations. Further applications of partially observable RL include autonomous driving, resource allocation, medical diagnostic systems, recommendation, business management, etc....
+
+Because of the non-Markovian nature of the observations, learning and planning in partially observable environments requires an agent to maintain *memory* and possibly reason about *beliefs* over the states, all while exploring to collect information about the environment. As such, partial observability can significantly complicate learning and planning under uncertainty. While practical RL systems have succeeded in a set of partially observable problems including Poker, Starcraft and certain robotic tasks, the theoretical understanding of learning to act in partially observable systems remains limited....
+
+## Conclusion
+
+In this paper, we identified a new rich class of POMDPs, which we call *weakly revealing* POMDPs. *Weakly revealing* POMDPs subsume a majority of existing POMDPs that are known to be sample-efficiently learnable, and include both undercomplete and overcomplete POMDPs. We further propose a new simple algorithm, OMLE, which combines optimism with maximum likelihood estimation. We prove that OMLE can learn a near-optimal policy for any weakly revealing POMDP using polynomial samples....
+
+To condense notations, we use $\theta = {({\mathbb{T}},{\mathbb{O}},\mu_{1})}$ to denote the model parameters of a POMDP and use $\Theta$ to denote the collections of all possible model parameters $\theta$ that correspond to POMDPs with $S$ states, $A$ actions, and $O$ observations. To make the dependence on $\theta$ explicit, we will use $V^{\pi}{(\theta)}$ to denote the value of a policy $\pi$, while we use ${\mathbb{P}}_{\theta}^{\pi}{(\tau)}$ to denote the probability of observing a trajectory $\tau$ under policy $\pi$, when the underlying POMDP is given by $\theta$....
+
+### Weakly revealing condition in the undercomplete setting

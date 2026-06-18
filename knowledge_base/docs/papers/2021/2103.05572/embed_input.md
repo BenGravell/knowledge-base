@@ -1,0 +1,25 @@
+Risk-Averse RRT* Planning with Nonlinear Steering and Tracking Controllers for Nonlinear Robotic Systems under Uncertainty
+
+Topics include Nonlinear systems, Uncertain systems, Robotics, Tracking control, Nonlinear programming, Model predictive control, Reference trajectory, Multiplicative noise, Linear quadratic regulator, Safe planning, Risk-averse, Rapidly-exploring random tree.
+
+Assembles a motion planning and control architecture that focuses on mitigating the effect of stochastic disturbances by modeling and accounting for it explicitly in both the planner and the controller, performing uncertainty propagation between the planner-controller interface to ensure alignment numerically. Trajectory optimization using a generic nonlinear programming solver is used as the local steering function inside the RRT, which gives high quality trajectories, but is very expensive at runtime. Useful empirical comparison between vanilla LQR, the multiplicative-noise-as-robustified-LQR-design methodology described in 2004.08019, and full high-powered NMPC tracking control in a more realistic and sophisticated post-perception stack.
+
+We propose a two-phase risk-averse architecture for controlling stochastic nonlinear robotic systems. We present Risk-Averse Nonlinear Steering RRT* (RANS-RRT*) as an RRT* variant that incorporates nonlinear dynamics by solving a nonlinear program (NLP) and accounts for risk by approximating the state distribution and performing a distributionally robust (DR) collision check to promote safe planning. The generated plan is used as a reference for a low-level tracking controller. We demonstrate three controllers: finite horizon linear quadratic regulator (LQR) with linearized dynamics around the reference trajectory, LQR with robustness-promoting multiplicative noise terms, and a nonlinear model predictive control law (NMPC). We demonstrate the effectiveness of our algorithm using unicycle dynamics under heavy-tailed Laplace process noise in a cluttered environment.
+
+## Introduction
+
+Safe deployment of mobile robots in uncertain dynamic environments, such as urban streets and crowded airspaces, requires a systematic accounting of various risks, both within and across layers in an autonomy stack. These autonomy stacks are naturally partitioned into a hierarchy of i) a high-level planner which generates a reference trajectory (often) offline before system operation, and ii) a low-level controller whose purpose is to track the reference trajectory in an online fashion and incorporate feedback to mitigate the effect of disturbances....
+
+Many motion planning algorithms have been developed under deterministic settings and assume linear robot dynamics in order to simplify their analysis and design. However, in practice, robotic systems are inherently both nonlinear and stochastic in nature due to external disturbances and noisy onboard sensors. In the presence of model uncertainty or process noise, the resulting trajectory is only a nominal reference and there are no guarantees of its safety. To account for the stochastic components and to provide probabilistic guarantees, motion planning under uncertainty has been considered in several lines of recent research....
+
+## Conclusion and Future Work
+
+We proposed a risk-averse control architecture tailored for safely controlling stochastic nonlinear robotic systems, which combines a novel nonlinear steering-based variant of RRT\* called RANS-RRT\* that accounts for risk by performing DR collision checks with low-level reference tracking controllers. We performed thorough numerical experiments using unicycle dynamics, compared three controllers, and observed better performance from NMPC than LQR variants....
+
+with linear dynamics and quadratic stage costs
+
+Consider a mean state and covariance pair in the RANS-RRT\* trajectories $({\hat{x}{\lbrack k\rbrack}},{\hat{\Sigma}{\lbrack k\rbrack}})$. The risk constraint associate with this time step has the form
+
+At runtime, the solution from Algorithm 2 is used to generate control inputs at each time $k$ according to
+
+A chance-constrained version of RRT and RRT\* respectively were proposed in, where chance constraints were used to encode the risk of constraint violation to provide probabilistic feasibility guarantees for robots with linear dynamics under additive uncertainties....

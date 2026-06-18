@@ -1,0 +1,7 @@
+A Simple and Model-Free Path Filtering Algorithm for Smoothing and Accuracy
+
+Topics include Path planning, Path smoothing, Path filtering, Moving average, Curvature, Model-free, Post-processing.
+
+CCMA applies an iterative spatial-curvature-corrected moving average to smooth a path without requiring any kinematic model. Takes advantage of special structure and knowledge that the data series represents a spatial path (instead of an arbitrary sequence).
+
+Predominantly, complex optimization techniques are used for path reconstruction given noisy measurements. However, optimization techniques often require the selection of suitable models, tedious parameter tuning and typically fail to generalize to higher-level tasks. In this paper, we present a model-free path filtering method based on the popular moving average method, namely the Curvature Corrected Moving Average (CCMA), which convinces by its simplicity and broad applicability. The moving average is characterized by its unique noise suppression property, albeit curves are bent inwards, which adversely affects its accuracy. By utilizing the relation between both curvatures, the original curvature can be inferred based on the curvature of filtered points. Extending the symmetric filtering not only succeeds in minimizing noise but retains the original shape of the path, making it a suitable algorithm for a variety of robotic applications....

@@ -1,0 +1,17 @@
+Whole-Body Model-Predictive Control of Legged Robots with MuJoCo
+
+Topics include Predictive control, Robotics, Real-time systems, Online algorithms, Control, Model predictive control, Humanoid robot.
+
+We demonstrate the surprising real-world effectiveness of a very simple approach to whole-body model-predictive control (MPC) of quadruped and humanoid robots: the iterative LQR (iLQR) algorithm with MuJoCo dynamics and finite-difference approximated derivatives. Building upon the previous success of model-based behavior synthesis and control of locomotion and manipulation tasks with MuJoCo in simulation, we show that these policies can easily generalize to the real world with few sim-to-real considerations. Our baseline method achieves real-time whole-body MPC on a variety of hardware experiments, including dynamic quadruped locomotion, quadruped walking on two legs, and full-sized humanoid bipedal locomotion. We hope this easy-to-reproduce hardware baseline lowers the barrier to entry for real-world whole-body MPC research and contributes to accelerating research velocity in the community. Our code and experiment videos will be available online at:
+
+## Introduction
+
+Enabling legged robots to achieve human and animal-level agility has been a decades-long challenge for robotics researchers. In addition to the challenges faced by other non-legged mobile robots (e.g., drones, autonomous vehicles, etc.), legged systems are generally high-dimensional and must effectively reason about making and breaking contact with the world. Advancements in model-based control and reinforcement learning (RL) methods have unlocked tremendous in-the-wild legged robot capabilities over the last $10$-$15$ years....
+
+Figure 1: A Unitree Go1 quadruped robot transitions from quadruped to handstand mode (top row) and walking on its hind legs (bottom row) using the MuJoCo iLQR policy.
+
+First, reliable state estimation remains a key challenge for model-based planning and control of legged robots. For this reason, many researchers prefer the RL paradigm which easily supports learning control policies directly from a history of sensor measurements. Our current system relies on marker-based motion capture to obtain good robot position measurements. Future work should develop easy-to-use tooling for full-state estimation from the robot's onboard sensors alone to enable our robots to walk outside controlled laboratory environments....
+
+There are also several fundamental limitations of the iLQR algorithm. First, iLQR struggles with contact mode exploration. As a second-order derivative-based local planner, iLQR excels when the reference contact model schedule is provided in the task specification (cost function), which is typically the case for locomotion. However, for more contact-rich whole-body loco-manipulation tasks, derivative-free sampling-based methods have shown much more promise at discovering useful contact modes without prespecification. Furthermore, iLQR rollouts and backward passes are both fundamentally serial operations....
+
+where dynamics Jacobians $\frac{\partial f}{\partial x}$ and $\frac{\partial f}{\partial u}$ are computed via finite difference, Eq. 3. Note the because residuals in Eq. 4 are implemented as MuJoCo sensors, we can efficiently compute all the Jacobians $\frac{\partial f}{\partial x}$, $\frac{\partial f}{\partial u}$, $\frac{\partial\text{r}}{\partial x}$, and $\frac{\partial\text{r}}{\partial u}$ via a *single* call to the MuJoCo finite difference utilities function.

@@ -1,0 +1,21 @@
+Online Least Squares Estimation with Self-Normalized Processes: An Application to Bandit Problems
+
+Topics include Online least squares, Self-normalized processes, Linear bandits, Confidence sets, UCB algorithms, Vector martingales, Regret bounds.
+
+Develops a self-normalized martingale tail bound for adaptive least-squares estimation and uses it to build tighter high-probability confidence sets. Those confidence sets feed directly into improved UCB-style analyses for stochastic and linear bandits, making the paper a core technical source for optimism-based sequential decision algorithms.
+
+The analysis of online least squares estimation is at the heart of many stochastic sequential decision making problems. We employ tools from the self-normalized processes to provide a simple and self-contained proof of a tail bound of a vector-valued martingale. We use the bound to construct a new tighter confidence sets for the least squares estimate. We apply the confidence sets to several online decision problems, such as the multi-armed and the linearly parametrized bandit problems. The confidence sets are potentially applicable to other problems such as sleeping bandits, generalized linear bandits, and other linear control problems. We improve the regret bound of the Upper Confidence Bound (UCB) algorithm of Auer et al. and show that its regret is with high-probability a problem dependent constant. In the case of linear bandits, we improve the problem dependent bound in the dimension and number of time steps. Furthermore, as opposed to the previous result, we prove that our bound holds for small sample sizes, and at the same time the worst case bound is improved by a logarithmic factor and the constant is improved.
+
+## Introduction
+
+The least squares method forms a cornerstone of statistics and machine learning. It is used as the main component of many stochastic sequential decision problems, such as multi-armed bandit, linear bandits, and other linear control problems. However, the analysis of least squares in these online settings is non-trivial because of the correlations between data points. Fortunately, there is a connection between online least squares estimation and the area of self-normalized processes. Study of self-normalized processes has a long history that goes back to Student and is treated in detail in recent book by de la Peña et al.....
+
+The bound that we derive, gives immediately rise to tight confidence sets for the online least squares estimate that can replace the confidence sets in existing algorithms. In particular, the confidence sets can be used in the UCB algorithm for the multi-armed bandit problem, the ConfidenceBall algorithm of Dani et al. for the linear bandit problem, and LinRel algorithm of Auer for the associative reinforcement learning problem. We show that this leads to improved performance of these algorithms. Our hope is that the new confidence sets can be used to improve the performance of other similar linear decision problems.
+
+where the first step follows from (24 ‣ 5 Application to Least Squares Estimation and Linear Bandit Problem ‣ Online Least Squares Estimation with Self-Normalized Processes: An Application to Bandit ProblemsSubmitted to the 24th Annual Conference on Learning Theory ")), the second step follows from the first inequality in (26 ‣ 5 Application to Least Squares Estimation and Linear Bandit Problem ‣ Online Least Squares Estimation with Self-Normalized Processes: An Application to Bandit ProblemsSubmitted to the 24th Annual Conference on Learning Theory ")), the third step follows from (5.3 ‣ 5 Application to Least Squares Estimation and...
+
+### Remark 18
+
+## Application to Least Squares Estimation and Linear Bandit Problem
+
+By combining Corollary 1. ‣ 2 Vector-Valued Martingale Tail Inequalities ‣ Online Least Squares Estimation with Self-Normalized Processes: An Application to Bandit ProblemsSubmitted to the 24th Annual Conference on Learning Theory ") and Lemma 4"), we get a simple worst case bound that holds with probability $1 - \delta$:

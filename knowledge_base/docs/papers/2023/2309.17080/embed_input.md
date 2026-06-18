@@ -1,0 +1,17 @@
+GAIA-1: A Generative World Model for Autonomous Driving
+
+Autonomous driving promises transformative improvements to transportation, but building systems capable of safely navigating the unstructured complexity of real-world scenarios remains challenging. A critical problem lies in effectively predicting the various potential outcomes that may emerge in response to the vehicle's actions as the world evolves. To address this challenge, we introduce GAIA-1 ('Generative AI for Autonomy'), a generative world model that leverages video, text, and action inputs to generate realistic driving scenarios while offering fine-grained control over ego-vehicle behavior and scene features. Our approach casts world modeling as an unsupervised sequence modeling problem by mapping the inputs to discrete tokens, and predicting the next token in the sequence. Emerging properties from our model include learning high-level structures and scene dynamics, contextual awareness, generalization, and understanding of geometry....
+
+## Introduction
+
+Figure 1: GAIA-1 multimodal video generation. GAIA-1 can generate videos by performing future rollouts starting from a video prompt. These future rollouts can be further conditioned on actions to influence particular behaviors of the ego-vehicle (e.g. steer left), or on text to drive a change in some aspects of the scene (change the color of the traffic light). For speed and curvature we condition the model by passing the sequence of future speed and / or curvature values. Our model can also generate realistic videos from text prompts, or by simply drawing samples from its prior distribution (fully unconditional generation).
+
+Predicting future events is a fundamental and critical aspect of autonomous systems. Accurate future prediction enables autonomous vehicles to anticipate and plan their actions, enhancing safety and efficiency on the road. To achieve this, the development of a robust model of the world is imperative and huge efforts have been made in the past to build such predictive world models for autonomous driving. A world model learns a structured representation and understanding of the environment that can be leveraged for making informed decisions when driving.
+
+While our method demonstrated promising results that have the potential to push the boundaries of autonomous driving, it is important to acknowledge current limitations. For instance, the autoregressive generation process, while highly effective, does not yet run at real-time. Nevertheless, it is noteworthy that this process lends itself well to parallelization, allowing for the concurrent generation of multiple samples.
+
+The significance of GAIA-1 extends beyond its generative capabilities. World models represent a crucial step towards achieving autonomous systems that can understand, predict, and adapt to the complexities of the real world. Furthermore, by incorporating world models into driving models, we can enable them to better understand their own decisions and ultimately generalize to more real-world situations. Lastly, GAIA-1 can also serve as a valuable neural simulator, allowing the generation of unlimited data, including adversarial examples, for training and validating autonomous driving systems.\
+
+### Video Decoder
+
+To train our video diffusion decoder for multiple inference tasks we take inspiration from where we can perform multiple tasks by masking...

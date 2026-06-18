@@ -1,0 +1,5 @@
+From Demonstrations to Safe Deployment: Path-Consistent Safety Filtering for Diffusion Policies
+
+Topics include Robotics, Control barrier functions, Safety, Diffusion models, Datasets, Real-time systems, Control, Learning, Deployment, Path-consistent, Safety filtering, PACS.
+
+Diffusion policies (DPs) achieve state-of-the-art performance on complex manipulation tasks by learning from large-scale demonstration datasets, often spanning multiple embodiments and environments. However, they cannot guarantee safe behavior, requiring external safety mechanisms. These, however, alter actions in ways unseen during training, causing unpredictable behavior and performance degradation. To address these problems, we propose path-consistent safety filtering (PACS) for DPs. Our approach performs path-consistent braking on a trajectory computed from the sequence of generated actions. In this way, we keep the execution consistent with the training distribution of the policy, maintaining the learned, task-completing behavior. To enable real-time deployment and handle uncertainties, we verify safety using set-based reachability analysis....

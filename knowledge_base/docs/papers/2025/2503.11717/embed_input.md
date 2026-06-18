@@ -1,0 +1,19 @@
+Low-pass Sampling in Model Predictive Path Integral Control
+
+Topics include Model predictive path integral control, Trajectory optimization, Sampling-based control, Action smoothing, Low-pass filter.
+
+Applies a low-pass filter to Gaussian noise before using it as sampled action sequences in MPPI, a heuristic that produces smoother trajectories and can improve exploration quality with minimal computational overhead.
+
+Model Predictive Path Integral (MPPI) control is a widely used sampling-based approach for real-time control, valued for its flexibility in handling arbitrary dynamics and cost functions. However, it often suffers from high-frequency noise in the sampled control trajectories, which hinders the search for optimal controls and transfers to the applied controls, leading to actuator wear. In this work, we introduce Low-Pass Model Predictive Path Integral Control (LP-MPPI), which integrates low-pass filtering into the sampling process to eliminate detrimental high-frequency components and enhance the algorithm's efficiency. Unlike prior approaches, LP-MPPI provides direct and interpretable control over the frequency spectrum of sampled control trajectory perturbations, leading to more efficient sampling and smoother control. Through extensive evaluations in Gymnasium environments, simulated quadruped locomotion, and real-world F1TENTH autonomous racing, we demonstrate that LP-MPPI consistently outperforms state-of-the-art MPPI variants, achieving significant performance improvements while reducing control signal chattering.
+
+## INTRODUCTION
+
+One of the key abilities of the autonomous system is to determine the best actions given a certain goal, i.e. real-time motion planning and control. If the model of the controlled system is available, one of the best performing approaches is Model Predictive Control (MPC), which has proven its capabilities to solve many challenging tasks, such as autonomous racing \[\], off-road driving \[\], agile drone flight \[\], and legged locomotion \[\].
+
+In general, there are two main approaches to MPC: sampling-based and optimization-based. Optimization-based MPC algorithms provide an efficient way to find optimal control sequences using dynamics and cost function gradients. However, they typically impose requirements on the dynamics model or cost function formulations, such as differentiability or continuity. An interesting alternative is sampling-based MPC. One of the main benefits of this approach is that the dynamics and cost functions can be arbitrary, and the only requirement is to evaluate them relatively fast....
+
+Through extensive simulation and real-world experiments, we demonstrated the superiority of LP-MPPI over state-of-the-art MPPI-based methods in a variety of tasks, including simulated legged locomotion and real-world F1TENTH autonomous racing. Our results show that LP-MPPI consistently outperforms state-of-the-art methods by 10% in Gymnasium environments, 32% in simulated quadruped locomotion, and by $0.115\ s$ in a $30\ s$ long F1TENTH autonomous time trial. In addition, it significantly reduces the chattering of the control signal, leading to smoother and more reliable actuation....
+
+To sum up, LP-MPPI represents a simple yet powerful modification to MPPI, making it an attractive option for real-time robotic control tasks requiring both high-performance trajectory optimization and smooth, actuator-friendly control signals. Future work will explore adaptive filtering techniques to dynamically adjust the sampling distribution based on task demands and further integrate LP-MPPI with learning-based sampling strategies for improved adaptability.
+
+Our proposed algorithm, LP-MPPI, does not introduce any additional parameters beyond those of a low-pass filter. Therefore, in our case, the parameters of the LP-MPPI are the parameters of the Butterworth filter itself -- cutoff frequency $f_{c}$ and order $o_{\text{LPF}}$....

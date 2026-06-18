@@ -1,0 +1,7 @@
+The Optimal Regulator Problem for a Stationary Linear System with State-Dependent Noise
+
+Topics include Stochastic control, Linear quadratic regulator, State-dependent noise, Multiplicative noise, Lyapunov stability, Dynamic programming.
+
+Solves the infinite-horizon LQR problem for linear systems driven by state-dependent (multiplicative) noise, using Bellman's dynamic programming and Lyapunov analysis to establish optimality, existence, and stability conditions. An early concrete treatment of stochastic optimal control with multiplicative noise.
+
+The problem of minimizing a quadratic functional of the system outputs and control for a stationary linear system with state-dependent noise is solved in this paper. Both the finite final time and infinite final time versions of the problem are treated. For the latter case existence conditions are obtained using the second method of Lyapunov. The optimal controls for both problems are obtained using Bellman's continuous dynamic programming. In light of this, the system dynamics are assumed to determine a diffusion process. For the infinite final time version of the problem noted above, sufficient conditions are obtained for the stability of the optimal system and uniqueness of the optimal control law. In addition, for this problem, an example is treated. The computational results for this example illustrate some of the qualitative features of regulators for linear, stationary systems with state-dependent disturbances.

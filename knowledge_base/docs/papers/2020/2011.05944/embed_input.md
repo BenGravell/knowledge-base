@@ -1,0 +1,15 @@
+Asymptotically Optimal Information-Directed Sampling
+
+We introduce a simple and efficient algorithm for stochastic linear bandits with finitely many actions that is asymptotically optimal and (nearly) worst-case optimal in finite time. The approach is based on the frequentist information-directed sampling (IDS) framework, with a surrogate for the information gain that is informed by the optimization problem that defines the asymptotic lower bound. Our analysis sheds light on how IDS balances the trade-off between regret and information and uncovers a surprising connection between the recently proposed primal-dual methods and the IDS algorithm. We demonstrate empirically that IDS is competitive with UCB in finite-time, and can be significantly better in the asymptotic regime.
+
+## Introduction
+
+The stochastic linear bandit problem is an iterative game between a learner and an environment played over $n$ rounds. In each round $t$, the learner chooses an action (or arm) $x_{t}$ from a finite set of actions $\mathcal{X} \subset {\mathbb{R}}^{d}$ and observes a noisy reward $y_{t} = {\left\langle x_{t},\theta^{\ast} \right\rangle + \epsilon_{t}}$ where $\theta^{\ast} \in {\mathbb{R}}^{d}$ is an unknown parameter vector and $\epsilon_{t}$ is zero-mean noise. The learner's goal is to maximize the expected cumulative reward or, equivalently, to minimize the expected regret, which is defined by
+
+where $\pi$ is the policy mapping sequences of action/reward pairs to distributions over actions in $\mathcal{X}$ and the expectation is over the randomness in the policy and the rewards. Unlike in the multi-armed bandit setting, the linear structure allows the learner to estimate the reward of an action without directly observing it. In particular, the learner might play an action that it knows to be suboptimal in order to most efficiently identify the optimal action.
+
+Our theoretical results still rely on some restrictive assumptions, such as the boundedness requirement for the parameter set, uniqueness of $x^{\ast}$ and $\left\| x^{\ast} \right\| > 0$ for the asymptotic regret, and the need to discard data in exploitation rounds. Also, the dependence on $d$ and $k$ is sub-optimal in some regimes, in particular for the worst-case regret bound and small $k$. On the upside, our analysis is relatively simple, and raises the hope that there exists a *really* simple proof. Finding an information gain which preserves the guarantees and telescopes more easily could be a first step towards this end.
+
+Finally, it appears likely that our framework generalizes in several directions. The contextual case is already covered in previous work on asymptotic algorithms. We point out that IDS can be defined to optimize the marginals of the joint distribution between context and action. Decoupling the reward from the observation features leads to the linear partial monitoring framework, where IDS is known to achieve the optimal worst-case rate in all possible games. The structured bandit setting and information gain functions for a non-Gaussian likelihood are yet other promising directions.
+
+### Proof 2.5

@@ -1,0 +1,17 @@
+End-to-End Training of Deep Visuomotor Policies
+
+Policy search methods can allow robots to learn control policies for a wide range of tasks, but practical applications of policy search often require hand-engineered components for perception, state estimation, and low-level control. In this paper, we aim to answer the following question: does training the perception and control systems jointly end-to-end provide better performance than training each component separately? To this end, we develop a method that can be used to learn policies that map raw image observations directly to torques at the robot's motors. The policies are represented by deep convolutional neural networks (CNNs) with 92,000 parameters, and are trained using a partially observed guided policy search method, which transforms policy search into supervised learning, with supervision provided by a simple trajectory-centric reinforcement learning method. We evaluate our method on a range of real-world manipulation tasks that require close coordination between vision and control, such as screwing a cap onto a bottle, and present simulated comparisons to a range of prior policy search methods.
+
+## Introduction
+
+Robots can perform impressive tasks under human control, including surgery and household chores. However, designing the perception and control software for autonomous operation remains a major challenge, even for basic tasks. Policy search methods hold the promise of allowing robots to automatically learn new behaviors through experience. However, policies learned using such methods often rely on a number of hand-engineered components for perception and control, so as to present the policy with a more manageable and low-dimensional representation of observations and actions....
+
+Figure 1: Our method learns visuomotor policies that directly use camera image observations (left) to set motor torques on a PR2 robot (right).
+
+Our method takes advantage of a known, fully observed state space during training. This is both a weakness and a strength. It allows us to train linear-Gaussian controllers for guided policy search using a very small number of samples, far more efficiently than standard policy search methods. However, the requirement to observe the full state during training limits the tasks to which the method can be applied. In many cases, this limitation is minor, and the only "instrumentation" required at training is to position the objects in the scene at consistent positions....
+
+In future work, we hope to explore more complex policy architectures, such as recurrent policies that can deal with extensive occlusions by keeping a memory of past observations. We also hope to extend our method to a wider range of tasks that can benefit from visual input, as well as a variety of other rich sensory modalities, including haptic input from pressure sensors and auditory input....
+
+### Visuomotor Policy Training
+
+Aside from learning $p_{i}{(\tau)}$, we must choose a tractable way to represent the infinite set of constraints ${p{(\left. \mathbf{u}_{t} \middle| \mathbf{x}_{t} \right.)}p{(\mathbf{x}_{t})}} = {\pi_{\theta}{(\left. \mathbf{u}_{t} \middle| \mathbf{x}_{t} \right.)}p{(\mathbf{x}_{t})}}$. One approximate approach proposed in prior work is to replace the exact constraints with expectations of features. When the features consist of linear, quadratic, or higher order monomial functions of the random variable, this can be viewed as a constraint on the moments of the distributions....

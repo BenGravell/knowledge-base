@@ -1,0 +1,7 @@
+Optimal Kinodynamic Motion Planning Using Incremental Sampling-based Methods
+
+Topics include Kinodynamic planning, Rapidly-exploring random tree star, Asymptotic optimality, Differential constraints.
+
+Extends RRT* to kinodynamic systems with differential constraints, providing sufficient conditions for asymptotic optimality.
+
+Sampling-based algorithms such as the Rapidly-exploring Random Tree (RRT) have been recently proposed as an effective approach to computationally hard motion planning problem. However, while the RRT algorithm is known to be able to find a feasible solution quickly, there are no guarantees on the quality of such solution, e.g., with respect to a given cost functional. To address this limitation, the authors recently proposed a new algorithm, called RRT*, which ensures asymptotic optimality, i.e., almost sure convergence of the solution returned by the algorithm to an optimal solution, while maintaining the same properties of the standard RRT algorithm, both in terms of computation of feasible solutions, and of computational complexity. In this paper, the RRT* algorithm is extended to deal with differential constraints. A sufficient condition for asymptotic optimality is provided. It is shown that the RRT* algorithm equipped with any local steering procedure that satisfies this condition converges to an optimal solution almost surely. In particular, simple local steering procedures are provided for a Dubins' vehicle as well as a double integrator....

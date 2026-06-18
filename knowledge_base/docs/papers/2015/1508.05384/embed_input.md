@@ -1,0 +1,17 @@
+Control Principles of Complex Networks
+
+Topics include Online algorithms, Control.
+
+A reflection of our ultimate understanding of a complex system is our ability to control its behavior. Typically, control has multiple prerequisites: It requires an accurate map of the network that governs the interactions between the system's components, a quantitative description of the dynamical laws that govern the temporal behavior of each component, and an ability to influence the state and temporal behavior of a selected subset of the components. With deep roots in nonlinear dynamics and control theory, notions of control and controllability have taken a new life recently in the study of complex networks, inspiring several fundamental questions: What are the control principles of complex systems? How do networks organize themselves to balance control with functionality? To address these here we review recent advances on the controllability and the control of complex networks, exploring the intricate interplay between a system's structure, captured by its network topology, and the dynamical laws that govern the interactions between the components. We match the pertinent mathematical results with empirical findings and applications....
+
+## Introduction
+
+To understand the mechanisms governing the behavior of a complex system, we must be able to measure its state variables and to mathematically model the dynamics of each of the system's components. Consequently, the traditional theory of complex systems has predominantly focused on the measurement and the modeling problem. Recently, however, questions pertaining to the control of complex networks became an important research topic in statistical physics. This interest is driven by the challenge to understand the fundamental control principles of an arbitrary self-organized system....
+
+The current advances in controlling complex systems were facilitated by progress in network science, offering a quantitative framework to understand the design principles of complex networks. On one end, these advances have shown that the topologies of most real systems share numerous universal characteristics. Equally important was the realization that these universal topological features are the result of the common dynamical principles that govern their emergence and growth....
+
+### VII.6 Conclusion
+
+Revealing the control principles of complex networks remains a challenging problem that, given its depth and applications, will probably engage multiple research communities for the next decade. In this review we aimed to summarize in a coherent fashion the current body of knowledge on this fascinating topic. This forced us to explore key notions in control theory, like controllability and observability, but also to explore how to steer a complex networked system to a desired final state/trajectory or a desired collective behavior....
+
+Before controlling a system, it is useful to know its position in the state-space, allowing us to decide in which direction we should steer it to accomplish the control objective. The position of a system in the state-space can be identified only if we can measure the state of all components separately, like the concentration of each metabolite in a cell, or the current on each transmission line of a power grid. Such detailed measurements are often infeasible and impractical. Instead, in practice we must rely on a subset of well-selected accessible variables (outputs) which can be used to observe the system, i.e....

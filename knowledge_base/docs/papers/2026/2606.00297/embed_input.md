@@ -1,0 +1,7 @@
+Predicted-Flow Control Barrier Functions for Real-Time Safe Optimal Control
+
+Topics include Control barrier functions, Safe optimal control, Receding horizon control, Predictive safety, Real-time control, Nonlinear systems.
+
+Generalizes control barrier functions from current-state certificates to finite-horizon predicted-flow functionals inside a real-time optimal-control loop. The paper targets CBF myopia by certifying predicted trajectories while retaining pointwise safety constraints that can be used online.
+
+Control barrier functions (CBFs) provide real-time safety guarantees through pointwise conditions on the state. However, synthesizing a valid CBF is difficult and the resulting controllers are myopic. To address myopia, this article introduces predicted-flow control barrier functions (P-CBFs), which generalize the CBF from a function of the current state to a functional of a predicted flow under a parametrized control plan over a finite prediction horizon. For safety, a P-CBF can certify that the predicted flow is in a safe set over the entire prediction horizon. However, candidate P-CBFs suffer from the same challenge as candidate CBFs, namely, control constraints make it difficult to guarantee that the P-CBF is valid. This article resolves this challenge by introducing a terminal candidate P-CBF requiring that the predicted flow end in a backup safe set at the terminal time, and a planning-time shift that modulates the prediction horizon, providing an additional degree of freedom to ensure feasibility....

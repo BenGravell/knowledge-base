@@ -1,0 +1,17 @@
+Data-Enabled Policy Optimization for Direct Adaptive Learning of the LQR
+
+Direct data-driven design methods for the linear quadratic regulator (LQR) mainly use offline or episodic data batches, and their online adaptation has been acknowledged as an open problem. In this paper, we propose a direct adaptive method to learn the LQR from online closed-loop data. First, we propose a new policy parameterization based on the sample covariance to formulate a direct data-driven LQR problem, which is shown to be equivalent to the certainty-equivalence LQR with optimal non-asymptotic guarantees. Second, we design a novel data-enabled policy optimization (DeePO) method to directly update the policy, where the gradient is explicitly computed using only a batch of persistently exciting (PE) data. Third, we establish its global convergence via a projected gradient dominance property. Importantly, we efficiently use DeePO to adaptively learn the LQR by performing only one-step projected gradient descent per sample of the closed-loop system, which also leads to an explicit recursive update of the policy....
+
+## Introduction
+
+As a cornerstone of modern control theory, the linear quadratic regulator (LQR) design has been widely studied in data-driven control, where no model but only raw data is available \[\]. The manifold approaches to data-driven LQR design can be broadly categorized as indirect, i.e., based on system identification (SysID) followed by model-based control design, versus direct when bypassing the identification step. Another classification is episodic when obtaining the control policy from one episode of data or by alternating episodes of data collection and control (see Fig. and National Natural Science Foundation of China....
+
+Figure 1: An illustration of episodic approaches, where hi = (x0,u0,…,xTi) denotes the i-th episode of data, and the episodes can be consecutive.
+
+This paper proposed DeePO for the direct adaptive learning of the LQR based on the covariance parameterization. The proposed method is direct, adaptive, with closed-loop data, and has a recursive implementation. Hence, we provided a viable angle of attack to the open problem in.
+
+We believe that our paper leads to fruitful future works. As discussed in Remark and National Natural Science Foundation of China. (Corresponding author: Keyou You) F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. (e-mail: zhaofr18@tsinghua.org.cn, youky@tsinghua.edu.cn)F. Dörfler is with the Department of Information Technology and Electrical Engineering, ETH Zürich, 8092 Zürich, Switzerland. (e-mail: dorfler@control.ee.ethz.ch)A. Chiuso is with the Department of Information Engineering, University of Padova, Via Gradenigo 6/b, 35131 Padova, Italy....
+
+### Lemma 4 (Local smoothness)
+
+We now show that the data-driven covariance parameterization ( and National Natural Science Foundation of China. (Corresponding author: Keyou You) F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. (e-mail: zhaofr18@tsinghua.org.cn, youky@tsinghua.edu.cn)F. Dörfler is with the Department of Information Technology and Electrical Engineering, ETH Zürich, 8092 Zürich, Switzerland. (e-mail: dorfler@control.ee.ethz.ch)A. Chiuso is with the Department of Information Engineering, University of Padova, Via Gradenigo 6/b, 35131 Padova, Italy....

@@ -1,0 +1,19 @@
+Illuminating Search Spaces by Mapping Elites
+
+Topics include Robotics, Safety, Neural networks, Distributed systems.
+
+Many fields use search algorithms, which automatically explore a search space to find high-performing solutions: chemists search through the space of molecules to discover new drugs; engineers search for stronger, cheaper, safer designs, scientists search for models that best explain data, etc. The goal of search algorithms has traditionally been to return the single highest-performing solution in a search space. Here we describe a new, fundamentally different type of algorithm that is more useful because it provides a holistic view of how high-performing solutions are distributed throughout a search space. It creates a map of high-performing solutions at each point in a space defined by dimensions of variation that a user gets to choose. This Multi-dimensional Archive of Phenotypic Elites (MAP-Elites) algorithm illuminates search spaces, allowing researchers to understand how interesting attributes of solutions combine to affect performance, either positively or, equally of interest, negatively. For example, a drug company may wish to understand how performance changes as the size of molecules and their cost-to-produce vary....
+
+## Abstract
+
+Nearly all science and engineering fields use *search algorithms*, which automatically explore a search space to find high-performing solutions: chemists search through the space of molecules to discover new drugs; engineers search for stronger, cheaper, safer designs, scientists search for models that best explain data, etc. The goal of search algorithms has traditionally been to return the single highest-performing solution in a search space....
+
+*Author's Note: This paper is a preliminary draft of a paper that introduces the MAP-Elites algorithm and explores its capabilities. Normally we would not post such an early draft with only preliminary experimental data, but many people in the community have heard of MAP-Elites, are using it in their own papers, and have asked us for a paper that describes it so that they can cite it, to help them implement MAP-Elites, and that describes the experiments we have already conducted with it. We thus want to share both the details of this algorithm and what we have learned about it from our preliminary experiments....
+
+### Coverage
+
+For a map $m$ produced by one run of one algorithm, we count the number of non-empty (i.e. filled) cells in that map and divide by the total number of cells that theoretically could be filled given the domain (i.e. for which a genome exists in the search space that maps to that feature-space cell). Unfortunately, we do not know this total number of cells that theoretically could be filled for the experimental domains in this paper. We approximate this number by counting the number of unique cells that have been filled by any run from any treatment....
+
+We next investigated the assumption that elites are found by mutating genomes nearby in the feature space, and found that this assumption is largely true (Fig. 4, Left). Most organisms descend from nearby organisms, whether close neighbors, nearby neighbors, or more distant neighbors within the same region of the space. None of the organisms we randomly sampled were produced by a parent more than halfway across the feature map. That said, many high-performing elites do descend, not from immediate neighbors, but from a high-performing neighbor a medium distance away....
+
+For both objectives, thus, it is hard to intuit both the dynamics themselves and what effects these dynamics have on search....

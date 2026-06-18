@@ -1,0 +1,17 @@
+On a Formal Model of Safe and Scalable Self-driving Cars
+
+Topics include Autonomous driving, Safety, Scalability, Responsibility-sensitive safety, RSS, Self driving.
+
+In recent years, car makers and tech companies have been racing towards self driving cars. It seems that the main parameter in this race is who will have the first car on the road. The goal of this paper is to add to the equation two additional crucial parameters. The first is standardization of safety assurance - what are the minimal requirements that every self-driving car must satisfy, and how can we verify these requirements. The second parameter is scalability - engineering solutions that lead to unleashed costs will not scale to millions of cars, which will push interest in this field into a niche academic corner, and drive the entire field into a "winter of autonomous driving". In the first part of the paper we propose a white-box, interpretable, mathematical model for safety assurance, which we call Responsibility-Sensitive Safety (RSS). In the second part we describe a design of a system that adheres to our safety assurance requirements and is scalable to millions of cars.
+
+## Introduction
+
+The "Winter of AI" is commonly known as the decades long period of inactivity following the collapse of Artificial Intelligence research that over-reached its goals and hyped its promise until the inevitable fall during the early 80s. We believe that the development of Autonomous Vehicles (AV) is dangerously moving along a similar path that might end in great disappointment after which further progress will come to a halt for many years to come.
+
+The challenges posed by most current approaches are centered around lack of safety guarantees, and lack of scalability. Consider the issue of guaranteeing a multi-agent safe driving ("Safety"). Given that society will unlikely tolerate road accident fatalities caused by machines, guarantee of Safety is paramount to the acceptance of autonomous vehicles. Ultimately, our desire is to guarantee zero accidents, but this is impossible since multiple agents are typically involved in an accident and one can easily envision situations where an accident occurs solely due to the blame of other agents (see Fig. 1 for illustration)....
+
+REM is used for three purposes. First, it gives us a foresight on the static structure of the road (we can plan for a highway exit way in advance). Second, it gives us another source of accurate information of all of the static information, which together with the camera detections yields a robust view of the static part of the world. Third, it solves the problem of lifting the 2D information from the image plane into the 3D world as follows. The map describes all of the lanes as curves in the 3D world. Localization of the ego vehicle on the map enables to trivially lift every object on the road from the image plane to its 3D position....
+
+The third component of our system is a complementary radar and lidar system. This system serves two purposes. First, they enable to yield an extremely high accuracy for the sake of safety (as described in Section 5.2). Second, they give direct measurements on speed and distances, which further improves the comfort of the ride.
+
+If the longitudinal distance was safe according to item in Definition 17 ‣ 3.7 Multiple Geometry and Right-of-Way Rules ‣ 3 The Responsibility-Sensitive Safety (RSS) model for Multi-agent Safety ‣ On a Formal Model of Safe and Scalable Self-driving Cars"), then if a vehicle is on the prioritized route it can drive...

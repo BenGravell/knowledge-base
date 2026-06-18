@@ -1,0 +1,7 @@
+State-space Solutions to Standard H-2/ and H-infinity / Control Problems
+
+Topics include H-infinity control, H2 control, State-space methods, Riccati equation, Robust control, Optimal control, Linear systems.
+
+Doyle, Glover, Khargonekar, and Francis give state-space solutions for standard H2 and H-infinity control problems, expressing controller synthesis through Riccati equations and system-theoretic conditions. The paper is a central reference for modern robust control and the state-space formulation of H-infinity synthesis.
+
+Simple state-space formulas are derived for all controllers solving the following standard H/sub infinity / problem: For a given number gamma >0, find all controllers such that the H/sub infinity / norm of the closed-loop transfer function is (strictly) less than gamma. It is known that a controller exists if and only if the unique stabilizing solutions to two algebraic Riccati equations are positive definite and the spectral radius of their product is less than gamma /sup 2/. Under these conditions, a parameterization of all controllers solving the problem is given as a linear fractional transformation (LFT) on a contractive, stable, free parameter. The state dimension of the coefficient matrix for the LFT, constructed using the two Riccati solutions, equals that of the plant and has a separation structure reminiscent of classical LQG (i.e. H/sub 2/) theory. This paper is intended to be of tutorial value, so a standard H/sub 2/ solution is developed in parallel.

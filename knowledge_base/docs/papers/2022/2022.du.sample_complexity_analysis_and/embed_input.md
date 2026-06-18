@@ -1,0 +1,7 @@
+Sample Complexity Analysis and Self-Regularization in Identification of Over-Parameterized ARX Models
+
+Topics include System identification, ARX models, Sample complexity, Self-regularization, Least squares, Parameter estimation, Linear systems.
+
+Shows that ordinary least squares can recover low-order ARX dynamics at optimal rates even when the fitted model is deliberately over-parameterized. The paper explains this as a self-regularization effect, reducing the need for exact model-order knowledge or explicit regularizers.
+
+AutoRegressive eXogenous (ARX) models form one of the most important model classes in control theory, econometrics, and statistics, but they are yet to be understood in terms of their finite sample identification analysis. The technical challenges come from the strong statistical dependency not only between data samples at different time instances but also between elements within each individual sample. In this work, for ARX models with potentially unknown orders, we study how ordinary least squares (OLS) estimator performs in terms of identifying model parameters from data collected from either a single length-T trajectory or N i.i.d. trajectories. Our main results show that as long as the orders of the model are chosen optimistically, i.e., we are learning an over-parameterized model compared to the ground truth ARX, the OLS will converge with the optimal rate O(1/sqrt T ) (or O(1/sqrt N )) to the true (low-order) ARX parameters. This occurs without the aid of any regularization, thus is referred to as self-regularization....

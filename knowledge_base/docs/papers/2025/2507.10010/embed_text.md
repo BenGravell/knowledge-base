@@ -1,0 +1,520 @@
+## Introduction
+
+Robust control stands to be one of the most mature control methodologies to be ever developed mainly due to the strong guarantees that comes with it (interested readers are referred to \[(https://arxiv.org/html/2507.10010v2#bib.bib1), (https://arxiv.org/html/2507.10010v2#bib.bib2)\] and the references therein). Vinnicombe in \[(https://arxiv.org/html/2507.10010v2#bib.bib3)\] describes robust control approaches as the ones where we try to come up with a control input for a system using what we know about the system so that the control input renders the system insensitive to what we do not know about the system. To illustrate that thought, consider the Figure (https://arxiv.org/html/2507.10010v2#S1.F1 "Figure 1 ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric"), where $\overline{\Sigma}$ denotes the known nominal model of the system and $\overset{\sim}{\Sigma}$ as the (true and possibly unknown) perturbed model of the system. The perturbed model $\overset{\sim}{\Sigma}$ is obtained by combining $\overline{\Sigma}$ and the uncertainty $\Delta$ that encapsulates what we do not know about the system as per Vinnicombe's description. Then, informally speaking, one can describe
+
+where, $\mathbf{\Delta}$ denotes the set of possible uncertainties and it is allowed to be structured, unstructured, parametric, static, dynamic, time invariant and even time-varying in nature.
+
+Figure 1: A perturbed plant $\overset{\sim}{\Sigma}$ given by combination of a nominal plant $\overline{\Sigma}$ &amp; the uncertainty Δ is shown here. In robust control, the controller K aims to minimize the transfer function Tzw between w (external input) and z (regulated output) for all combinations of $\overline{\Sigma}$ and Δ resulting in $\overset{\sim}{\Sigma}$.
+
+The description of perturbed model of the system $\overset{\sim}{\Sigma}$ using ((https://arxiv.org/html/2507.10010v2#S1.E1 "In 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")) naturally led several people to conceive the concept of measuring the distance between systems (specifically between Linear Time Invariant (LTI) systems which is of interest to us in this paper). Vidyasagar in \[(https://arxiv.org/html/2507.10010v2#bib.bib4)\] proposed the graph metric, followed by gap metric which was proposed in \[(https://arxiv.org/html/2507.10010v2#bib.bib5)\]. Since the graph metric was difficult to compute, Georgiou in \[(https://arxiv.org/html/2507.10010v2#bib.bib6)\] came up with an elegant formula to compute the gap metric and subsequently the optimal robustness in the gap metric was established in \[(https://arxiv.org/html/2507.10010v2#bib.bib7)\]. Meanwhile, Glover in \[(https://arxiv.org/html/2507.10010v2#bib.bib8)\] had extended the famous small-gain theorem in \[(https://arxiv.org/html/2507.10010v2#bib.bib9)\] to handle perturbation in $\mathcal{L}_{\infty}$ rather than only in $\mathcal{H}_{\infty}$. Vinnicombe leveraged this development and proposed a new metric called the $\nu$-gap in \[(https://arxiv.org/html/2507.10010v2#bib.bib10)\] by building upon the gap metric. Authors in \[(https://arxiv.org/html/2507.10010v2#bib.bib11)\] proposed a generalised distance measure for LTI systems by taking into account the information about several uncertainty structures. While all these metrics can be used for proposing probabilistic robustness, we shall be employing only the gap metric in this paper. Though gap metric has also been extensively studied for linear time varying (LTV) systems setting too in \[(https://arxiv.org/html/2507.10010v2#bib.bib12), (https://arxiv.org/html/2507.10010v2#bib.bib13)\], we shall restrict our study in this manuscript to LTI systems and leave the extension to LTV systems for future work.\
+
+Probabilistic Robust Control (PRC) approaches have been explored before and the interested readers are referred to \[(https://arxiv.org/html/2507.10010v2#bib.bib14), (https://arxiv.org/html/2507.10010v2#bib.bib15), (https://arxiv.org/html/2507.10010v2#bib.bib16), (https://arxiv.org/html/2507.10010v2#bib.bib17)\] and the references therein. In connection with the scenario-based approaches for robust control design, see \[(https://arxiv.org/html/2507.10010v2#bib.bib18)\] and the references therein for more details. Having said that, the approach proposed in this paper involves metric between dynamical systems and casting them as random quantities, while the existing PRC approaches define robustness guarantees in terms of the volume of destabilizing perturbations or equivalently probability of violation of robust stability and performance conditions. Though our approach presumably aims to solve the same problem, the underlying methodology is certainly different from the existing PRC approaches. In this paper, we shall be using the gap metric for gauging the robustness and use the tools from high dimensional statistics for giving probabilistic guarantees. It was already noted by authors in \[(https://arxiv.org/html/2507.10010v2#bib.bib19)\] that the gap metric may be not suitable for evaluating the closeness of systems having uncertain poles and zeros on or near the imaginary axis resulting in the difficulty of the stability of the perturbed plant with a stabilizing controller designed for the nominal plant not being guaranteed through the existing stability theorems involving the gap metric. Our developments using probabilistic gap based problem formulation in this manuscript will aim to investigate along with their findings in the sense of probabilistic guarantees.
+
+### Contributions
+
+This work is an extension of \[(https://arxiv.org/html/2507.10010v2#bib.bib20)\] where probabilistic robustness in terms of the $\nu$-gap metric in the frequency domain was initiated. In this work, a similar extension is sought albeit in the time domain using the gap metric. We believe our new perspective on PRC theory using gap between dynamical systems will further strengthen the existing theory on PRC and will open new doors for further exploration. The main contributions of this article are as follows:
+
+When a random parameter affects a linear system, we study the satisfaction of the Bézout Identity governing the normalised co-prime factors of the uncertain system transfer function under that parameter uncertainty (See Lemma (https://arxiv.org/html/2507.10010v2#Thmtheorem2 "Lemma 2. ‣ 3.1 About the Randomness of Graph Operator 𝐺̃⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) and subsequently we investigate the probabilistic guarantee associated with the randomness in the coprime factor uncertainty in Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem3 "Theorem 3. ‣ 3.2 Probabilistic Guarantee for Coprime Factor Uncertainty ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric").
+
+When the perturbed model $\overset{\sim}{\Sigma}$ is not known exactly due to the random parameters, we formulate the associated gap metric between the known nominal model $\overline{\Sigma}$ and $\overset{\sim}{\Sigma}$ as a random variable and study the probability of the random gap exceeding a known threshold in Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem4 "Theorem 4. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") and its corollaries and give bounds on its expected value in Lemma (https://arxiv.org/html/2507.10010v2#Thmtheorem6 "Lemma 6. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") and its associated corollary.
+
+We formulate the randomness in the perturbed model $\overset{\sim}{\Sigma}$ by resulting it from the stochastic parametric uncertainty for the LTI system and we discuss probabilistic robust stability result in Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem7 "Theorem 7. ‣ 3.5 Probabilistic Robust Stability Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") and we provide probabilistic closed loop deviation (in the $\mathcal{H}_{\infty}$ norm) guarantees due to the action of a nominal controller aiming to control the perturbed model (See Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem8 "Theorem 8. ‣ 3.6 Probabilistic Closed Loop Deviation Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")).
+
+We give probabilistic $\mathcal{H}_{\infty}$ performance bound for the perturbed system under uncertainty in Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem9 "Theorem 9. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") and give probabilistic guarantee of meeting a desired $\mathcal{H}_{\infty}$ performance in Corollary [9.1](https://arxiv.org/html/2507.10010v2#Thmtheorem9.Thmcorollary1 "Corollary 9.1. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric"). We also give a rather conservative bound on the expected value of the $\mathcal{H}_{\infty}$ norm of the random perturbed system in Theorem (https://arxiv.org/html/2507.10010v2# "Theorem 12. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric").
+
+We connect the random gap metric problem formulation with the scenario based robustness approach to give probabilistic robust stability result in terms of the gap metric based performance measure in Theorem (https://arxiv.org/html/2507.10010v2# "Theorem 13. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric").
+
+Numerical simulations are given at many places along the manuscript to demonstrate the idea proposed in this paper. The Matlab codes to reproduce the results provided in this manuscript are available at [https://github.com/venkatramanrenganathan/probust-gap](https://github.com/venkatramanrenganathan/probust-gap).
+
+### Notations
+
+The cardinality of the set $A$ is denoted by $|A|$. Given two sets $A,B$ such that $A \subset B$, the notation $A^{c}$ denotes the complement of set $A$ in $B$ meaning that $A^{c}:={\{{x \in B}\mid{x \notin A}\}} \subset B$. The set of real numbers, integers and the natural numbers are denoted by ${\mathbb{R}},{\mathbb{Z}},{\mathbb{N}}$ respectively and the subset of real numbers greater than a given constant say $a \in {\mathbb{R}}$ is denoted by ${\mathbb{R}}_{> a}$. The subset of natural numbers between two constants ${a,b} \in {\mathbb{N}}$ with $a < b$ is denoted by $\lbrack{a:b}\rbrack$. For a matrix $A \in {\mathbb{R}}^{n \times n}$, we denote its transpose and its trace by $A^{\top}$ and ${\mathbf{T}\mathbf{r}}{(A)}$ respectively. An identity matrix of dimension $n$ is denoted by $I_{n}$. We denote by ${\mathbb{S}}^{n}$ the set of symmetric matrices in ${\mathbb{R}}^{n \times n}$. For $A \in {\mathbb{S}}^{n}$, we denote by $A \succ {0{({A \succeq 0})}}$ to mean that $A$ is positive definite (positive semi-definite). Given $x \in {\mathbb{R}}^{n}$, the notation $\left. \parallel x\parallel \right.$ denotes the $\mathcal{L}_{2}$ norm and is given by $\sqrt{x^{\top}x}$. For brevity of notation, multi-variate functions like $g{({x{(t)}},{y{(t)}})}$ shall be abbreviated as $g{(t;x,y)}$. For a subspace $S \subset {\mathbb{R}}^{n}$, its orthogonal complement is denoted by $S^{\perp}$. The angle between two vectors ${x,y} \in {\mathbb{R}}^{n}$ and the angle between two subspaces ${M,N} \subset {\mathbb{R}}^{n}$ are denoted by $\angle{(x,y)}$ and $\angle{(M,N)}$ respectively.\
+
+The probability space is defined using a triplet $(\Omega,\mathcal{F},{\mathbb{P}})$, where $\Omega,\mathcal{F}$, and $\mathbb{P}$ denote the sample space, event space, and the probability function, respectively, with ${\mathbb{P}}:{\Omega\rightarrow{\lbrack 0,1\rbrack}}$. A real random vector $x \in {\mathbb{R}}^{n}$ following a probability density function $\mathbf{f}_{\mathbf{x}}$ is denoted by $x \sim \mathbf{f}_{\mathbf{x}}$ and its expectation is denoted by ${\mathbb{E}}{\lbrack x\rbrack}$. A zero-mean random vector $x \in {\mathbb{R}}^{n}$ following a Gaussian distribution with covariance $I_{n} \succ 0$ is denoted by $x \sim {\mathcal{N}{(0,I_{n})}}$. Similarly, a random variable $x$ following a Chi-squared distribution with parameter $p > 0$ is denoted by $x \sim \chi_{p}^{2}$. A random variable $x \in {\mathbb{R}}$ is said to be sub-Gaussian with parameter $\sigma > 0$ if ${\forall\lambda} \in {\mathbb{R}}$, it satisfies ${{\mathbb{E}}{\lbrack e^{\lambda{({X - {{\mathbb{E}}{\lbrack X\rbrack}}})}}\rbrack}} \leq e^{\frac{\lambda^{2}\sigma^{2}}{2}}$ or equivalently if ${\forall\epsilon} > 0$, it satisfies ${{\mathbb{P}}{({{x - {{\mathbb{E}}{\lbrack x\rbrack}}} \geq \epsilon})}} \leq {\exp\left( {- \frac{\epsilon^{2}}{2\sigma^{2}}} \right)}$. The covariance of a random vector $x \in {\mathbb{R}}^{n}$ is denoted by ${\mathbf{C}\mathbf{o}\mathbf{v}}{(x)}$.\
+
+Let $\mathbf{R}{(s)}$ denote the set of rational functions in $s \in {\mathbb{C}}$ with real coefficients. We use ${\mathcal{P}{(s)}} \subset {\mathbf{R}{(s)}}$ to denote the set of proper rational functions whose poles are in the open left half-plane. Conceptually speaking, $\mathcal{P}{(s)}$ denotes the set of all finite-dimensional stable systems. Let us denote the set of matrices with elements in $\mathbf{R}{(s)}$ as ${mat}{({\mathbf{R}{(s)}})}$ and similarly, let us denote the set of matrices with elements in $\mathcal{P}{(s)}$ as ${mat}{({\mathcal{P}{(s)}})}$. Let $\mathcal{L}_{2}$ denote the space of all signals, or vectors of signals with bounded energy. In the frequency domain, the space $\mathcal{L}_{2}$ can be decomposed into $\mathcal{H}_{2}$ and $\mathcal{H}_{2}^{\perp}$, where $\mathcal{H}_{2}$ denotes the space of the Fourier transforms of signals defined for positive time and zero for negative time and $\mathcal{H}_{2}^{\perp}$ denotes the space of the Fourier transforms of signals defined for negative time and zero for positive time. The Hardy space consisting of transfer functions of stable LTI continuous time systems is denoted by $\mathcal{H}_{\infty}$ and is equipped with the $\mathcal{H}_{\infty}$ norm ${\forall{P{(s)}}} \in {{mat}{({\mathcal{P}{(s)}})}}$ given by
+
+with $\overline{\sigma}{({G{({j\omega})}})}$ denoting the maximum singular value. It happens that, $\mathcal{H}_{\infty}$ norm equals the induced norm. That is,
+
+The notation $\mathbf{R}\mathcal{H}_{\infty}$ denotes the set of all stable rational transfer functions.
+
+### Preliminaries About Gap Metric
+
+Given ${P{(s)}} \in {{mat}{({\mathbf{R}{(s)}})}}$, we define its associated multiplication operator on $\mathcal{H}_{2}$ (which we identify with $\mathcal{L}_{2}{\lbrack 0,\infty)}$ in the time domain) as
+
+and the domain of the operator as
+
+The graph of the operator $\mathbf{M}_{P}$ is the set of all possible bounded input/output pairs and is denoted by
+
+Every matrix ${P{(s)}} \in {{mat}{({\mathbf{R}{(s)}})}}$ has both a Right Co-prime Factorisation (RCF) as well as a Left Co-prime Factorisation (LCF) over the ring $\mathcal{P}{(s)}$. That is, ${\forall{P{(s)}}} \in {{mat}{({\mathbf{R}{(s)}})}}$, there exist ${N,D,\overset{\sim}{N},\overset{\sim}{D},X,Y,\overset{\sim}{X},\overset{\sim}{Y}} \in {{mat}{({\mathcal{P}{(s)}})}}$ such that
+
+and the following *Bezout's identity* holds for all $s \in {\mathbb{C}}_{\geq 0}$,
+
+Further, the RCF is said to be *normalized* if in addition it satisfies ${{N^{\star}N} + {D^{\star}D}} = I$. Analogous LCF results are available and are omitted here for the reason of being not used in this paper. Given ${P{(s)}} \in {{mat}{({\mathbf{R}{(s)}})}}$, its $\mathcal{H}_{2}$-graph is defined as
+
+$\mathcal{G}_{P}$ $:=\left\{ {(u,y)}\mid{y = {Pu}} \right\} \subseteq {\mathcal{H}_{2} \times \mathcal{H}_{2}}$ (8a)
+${= {\underset{= {:G}}{\underbrace{\begin{bmatrix} (8b)
+\end{bmatrix}}}\mathcal{H}_{2}} = {{Range}{(G)}}},$
+
+where the operator $G$ (henceforth referred to as the graph symbol) is unitary meaning that ${G^{\star}G} = I$. Note that $\mathcal{G}_{P}$ is a closed subspace of $\mathcal{H}_{2} \times \mathcal{H}_{2}$. The orthogonal projection onto $\mathcal{G}_{P}$ is given by
+
+$\Pi_{\mathcal{G}_{P}}$ $= \Pi_{G\mathcal{H}_{2}}:={GG^{\star}}$ (9a)
+$\Leftrightarrow\Pi_{\mathcal{G}_{P}^{\perp}}$ ${= \Pi_{{({G\mathcal{H}_{2}})}^{\perp}}:={I - {GG^{\star}}}}.$ (9b)
+
+Note that the projection operator $\Pi_{\mathcal{G}_{P}}$ is bounded. Let $G_{1}$ and $G_{2}$ denote the graph symbols of normalized RCFs of plants $P_{1}$ and $P_{2}$ respectively. The gap between $P_{1}$ and $P_{2}$ can be defined using three ways as follows:
+
+*Projection-Based Definition:* This measures how far vectors in $\mathcal{G}_{2}$ stick out of $\mathcal{G}_{1}$, that is, how far they are not contained in $\mathcal{G}_{1}$:
+
+*Graph Operator Definition:* For an unit vector $\left. \parallel u\parallel \right. = 1$, we see that ${G_{2}u} \in \mathcal{G}_{2}$ and ${\Pi_{\mathcal{G}_{1}^{\perp}}G_{2}u} \in \mathcal{G}_{1}^{\perp}$. Hence, the induced norm becomes:
+
+*Definition Using Norm of Projection Difference:* This measures the distance between the two projections in operator norm:
+
+The gap $\delta_{g}{(P_{1},P_{2})}$ can be calculated using Georgiou's formula (described in \[(https://arxiv.org/html/2507.10010v2#bib.bib6)\]) as follows:
+
+${\delta_{g}{(P_{1},P_{2})}} = {{\max\left\{ {\overset{\rightarrow}{\delta}{(P_{1},P_{2})}},{\overset{\rightarrow}{\delta}{(P_{2},P_{1})}} \right\}},\text{with}}$ (13a)
+${{\overset{\rightarrow}{\delta}{(P_{1},P_{2})}} = \left. \parallel{\Pi_{\mathcal{G}_{P_{2}}^{\perp}}\Pi_{\mathcal{G}_{P_{1}}}}\parallel \right. = {\inf\limits_{Q \in \mathcal{H}_{\infty}}\left. \parallel{G_{1} - {G_{2}Q}}\parallel \right._{\mathcal{H}_{\infty}}}}.$ (13b)
+
+Using perturbation theory for linear operators from \[(https://arxiv.org/html/2507.10010v2#bib.bib21)\], for any closed subspaces $\mathcal{M},\mathcal{N}$ of a Hilbert space, it holds that
+
+Since gap metric is symmetric meaning that $({{\delta_{g}{(P_{1},P_{2})}} = {\delta_{g}{(P_{2},P_{1})}}})$, it suffices to consider just one direction. In the special case where $\mathcal{G}_{1}$ and $\mathcal{G}_{2}$ are graphs of stable systems with normalized coprime factorizations, by leveraging the gap being symmetric as described in \[(https://arxiv.org/html/2507.10010v2#bib.bib22)\], we get
+
+The norm of this projection across all unit inputs tells us how misaligned the graphs are, which is what the gap metric captures. Hence, all three definitions of the gap metric $\delta_{g}{(P_{1},P_{2})}$ given by ((https://arxiv.org/html/2507.10010v2#S1.E10 "In item 1 ‣ 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")), ((https://arxiv.org/html/2507.10010v2#S1.E11 "In item 2 ‣ 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")), and ((https://arxiv.org/html/2507.10010v2#S1.E12 "In item 3 ‣ 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")) are equal. We provide the following observations from \[(https://arxiv.org/html/2507.10010v2#bib.bib3)\] as a proposition without proof. We note here that we will be using the results of the proposition later in our theoretical developments.
+
+### Proposition 1
+
+(From \[(https://arxiv.org/html/2507.10010v2#bib.bib3)\]) Given $\alpha \in {}$, let the controller $C_{1}$ stabilise the plant $P_{1}$ and further assume that the pair $(P_{1},C_{1})$ yields a performance measure of $b_{P_{1},C_{1}} > \alpha$, where
+
+$b_{P_{1},C_{1}}$ ${:={\left. \parallel{Q{(P_{1},C_{1})}}\parallel \right._{\mathcal{H}_{\infty}}^{- 1}\quad\text{and}}},$ (16a)
+\end{bmatrix}{({I - {C_{1}P_{1}}})}^{- 1}\begin{bmatrix}
+
+Then, $C_{1}$ also stabilises the set of all plants given by
+
+and ${\forall P} \in {\mathcal{B}_{\alpha}{(P_{1})}}$, the performance of $C_{1}$ degrades as
+
+Authors in \[(https://arxiv.org/html/2507.10010v2#bib.bib23)\] give the following closed loop deviation result
+
+Similarly, from \[(https://arxiv.org/html/2507.10010v2#bib.bib7)\], we observe that when ${\delta_{g}{(P,P_{1})}} < 1$,
+
+The essence of the above proposition is that when the plant model $P_{1}$ is known and when a corresponding stabilising controller $C_{1}$ is also known, it informs us apriori how $C_{1}$ will fair when applied to other plant models in the vicinity of the plant model $P_{1}$ given by plants $P \in {\mathcal{B}_{\alpha}{(P_{1})}}$. Particularly, the proposition informs us how the performance measure degrades followed by achievable $\mathcal{H}_{\infty}$ performance degradation in terms of the gap. In the following section, we will formulate the setting where the gap $\delta_{g}{(P,P_{1})}$ becomes random and that will open a new perspective on doing PRC. Some motivating problems on why the gap $\delta_{g}{(P,P_{1})}$ may become random and why to develop this theory are available in \[(https://arxiv.org/html/2507.10010v2#bib.bib20)\].
+
+## Problem Formulation
+
+### Uncertain Dynamical System
+
+Consider the nominal model of the continuous time LTI dynamical system of the following form:
+
+where we refer to the system states as $x \in {\mathbb{R}}^{n}$ and the control inputs to the system as $u \in {\mathbb{R}}^{m}$, and system outputs as $y \in {\mathbb{R}}^{l}$ and the matrices $(A,B,C)$ are of appropriate dimensions. Real-world dynamical systems usually have some form of uncertainties associated with them either due to the lack of modelling tools or due to the inaccuracies of the modelling framework. Hence, in practise, all systems have inherent uncertainties affecting their evolution. We model the uncertainty affecting the evolution of such uncertain systems using $\theta \in {\mathbb{R}}^{p}$ with $p \leq {({n + m + l})}$ and $\theta$ directly affects the evolution of the perturbed system described as follows:
+
+We will assume that $\theta \sim \mathbf{f}_{\theta}$ where, $\mathbf{f}_{\theta}$ denotes the distribution of the parameter $\theta$. For instance, we can assume that $\mathbf{f}_{\theta}$ is unknown but is believed to be belonging to a moment based ambiguity set $\mathcal{P}^{\theta}$ consistent with mean $\mu_{\theta} \in {\mathbb{R}}^{p}$ and covariance ${\sigma_{\theta}^{2}I_{p}} \succ 0$. However, for the ease of exposition, we will assume that $\theta \sim \mathbf{f}_{\theta} = {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$ as this will aid the formulation of the associated gap to become sub-Gaussian which is favourable for obtaining bounds on tail probability (as a Lipschitz function of a Gaussian random variable is sub-Gaussian \[(https://arxiv.org/html/2507.10010v2#bib.bib24)\]). Further, we note here that ${\overset{\sim}{\Sigma}{(\theta_{0})}} = \overline{\Sigma}$ meaning that the uncertainties of the perturbed system vanish at $\theta = \theta_{0}$ and the resulting system equals the nominal system (in sense of Figure (https://arxiv.org/html/2507.10010v2#S1.F1 "Figure 1 ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric") with $\Delta = 0$). This does not imply that $\mu_{\theta} = \theta_{0}$. The only nominal and valid requirement that is needed is that $\theta_{0} \in \mathbf{f}_{\theta}$ (perfectly fine even if the containment happens asymptotically) so that when uncertainties of the perturbed system vanish, it results in the nominal system. It would be interesting to investigate the randomness in uncertainties by taking into account their structural information as done in \[(https://arxiv.org/html/2507.10010v2#bib.bib11)\], but we reserve that research direction for future work. While we don't take into account the structural information about the uncertainties in this research, we establish guarantees by incorporating further knowledge as to where in the model ambiguity set the system model is more likely to be in the space of (LTI) dynamical systems. We believe that by leveraging this additional knowledge on the space of dynamical systems, we can create new perspective for the field of PRC theory.
+
+### Gap Between Nominal & Perturbed Models
+
+Having defined the evolution of the nominal model $\overline{\Sigma}$ using ((https://arxiv.org/html/2507.10010v2#S2.E21 "In 2.1 Uncertain Dynamical System ‣ 2 Problem Formulation ‣ Probabilistic Robustness in the Gap Metric")) and perturbed model $\overset{\sim}{\Sigma}{(\theta)}$ in ((https://arxiv.org/html/2507.10010v2#S2.E22 "In 2.1 Uncertain Dynamical System ‣ 2 Problem Formulation ‣ Probabilistic Robustness in the Gap Metric")) for the system $\Sigma$, we denote the closed loop complementary sensitivity transfer function (from $w$ to $z$ in Figure (https://arxiv.org/html/2507.10010v2#S1.F1 "Figure 1 ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")) of the system $\Sigma$ as $\mathbf{T}$. Then, the gap between the nominal model of the system $\overline{\Sigma}$ and the perturbed model of the system $\overset{\sim}{\Sigma}{(\theta)}$ denoted by ${Gap}{(\theta)}$ can be defined using ((https://arxiv.org/html/2507.10010v2#S1.E12 "In item 3 ‣ 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")) as
+
+Note that for a fixed $\theta$ value, ${Gap}{(\theta)}$ can be computed using ((https://arxiv.org/html/2507.10010v2#S1.E13 "In 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")). Note that for every realization of $\theta$ say $\overline{\theta}$ from $\mathbf{f}_{\theta}$, we get a deterministic graph subspace $\mathcal{G}_{\overset{\sim}{\Sigma}{(\overline{\theta})}}$ and hence a deterministic projection $\Pi_{\mathcal{G}_{\overset{\sim}{\Sigma}{(\overline{\theta})}}}$. But in general, the randomness in $\overset{\sim}{\Sigma}{(\theta)}$ due to $\theta$ manifests itself as the randomness in the graph subspace $\mathcal{G}_{\overset{\sim}{\Sigma}{(\theta)}}$ and this results in the corresponding projection operator $\Pi_{\mathcal{G}_{\overset{\sim}{\Sigma}{(\theta)}}}$ becoming random as well. Specifically, the projection $\Pi_{\mathcal{G}_{\overset{\sim}{\Sigma}{(\theta)}}}$ is a random operator-valued function of $\theta$. While we certainly want to investigate the above randomness of the projection operator and hence the randomness of the associated ${Gap}{(\theta)}$ using ((https://arxiv.org/html/2507.10010v2#S1.E10 "In item 1 ‣ 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")), ((https://arxiv.org/html/2507.10010v2#S1.E11 "In item 2 ‣ 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")), and ((https://arxiv.org/html/2507.10010v2#S1.E12 "In item 3 ‣ 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")) in detail, we reserve that exciting research direction as a future work. In this manuscript, we will aim to establish the fact that ${Gap}{(\theta)}$ is a sub-Gaussian random variable and leverage the tools from high dimensional statistics to give probabilistic guarantees. Let $\Theta \subseteq {\mathbb{R}}^{p}$ denote the set of all possible values of $\theta$ such that, $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$. We now state the main problems of interests that are being addressed in this manuscript.
+
+### Problem 1
+
+Since the ${Gap}{(\theta)}$ is random, for a given nominal system model $\overline{\Sigma}$ and the perturbed system model $\overset{\sim}{\Sigma}{(\theta)}$ with $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$, estimate the following quantities of interests:
+
+probability that the ${Gap}{(\theta)}$ exceeds the given threshold $\epsilon \in {}$ denoted by ${\mathbb{P}}{({{{Gap}{(\theta)}} \geq \epsilon})}$.
+
+bound on the ${\mathbb{E}}{\lbrack{{Gap}{(\theta)}}\rbrack}$.
+
+### Problem 2
+
+Given nominal system model $\overline{\Sigma}$ and the perturbed system model $\overset{\sim}{\Sigma}{(\theta)}$ with $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$ resulting in ${Gap}{(\theta)}$ becoming random, address the following questions:
+
+how to guarantee for a given desired performance level $\gamma > 0$ and a violation probability $\beta \in {}$ that
+
+obtain a bound for ${\mathbb{E}}\left\lbrack \left. \parallel{\mathbf{T}{({\overset{\sim}{\Sigma}{(\theta)}})}}\parallel \right._{\mathcal{H}_{\infty}} \right\rbrack$.
+
+## Solution Methodology
+
+Let us denote the normalized RCFs of the nominal model $\overline{\Sigma}$ and the perturbed model $\overset{\sim}{\Sigma}{(\theta)}$ of the system as $(\overline{N},\overline{D})$ and $({\overset{\sim}{N}{(\theta)}},{\overline{D}{(\theta)}})$ respectively and further their respective graph symbols by $\overline{G}$ and $\overset{\sim}{G}{(\theta)}$. We begin the discussion in this section by analysing how should one understand the randomness associated with the normalised RCFs $\overset{\sim}{G}{(\theta)}$. Most of the work presented in the section would work for the case of ${{Gap}{(\theta)}} < 1$. The case of ${{Gap}{(\theta)}} = 1$ corresponds to unstable perturbed plant $\overline{\Sigma}{(\theta)}$ and we do not consider such cases ($\nu$-Gap is equipped to handle such cases and it is clearly out of the scope of this paper). Similarly, all the developments in this paper shall assume (unless otherwise specified) that the nominal plant $\overline{\Sigma}$ and the nominal controller $\overline{C}$ belong to the $\mathcal{H}_{\infty}$ space. Though depending upon the strength of the perturbation, the perturbed plant $\overset{\sim}{\Sigma}{(\theta)}$ may become open-loop stable or unstable and hence it may or may not belong to the $\mathcal{H}_{\infty}$ space, we only consider the ones that are in the $\mathcal{H}_{\infty}$ space so that ${{Gap}{(\theta)}} < 1$. Though, we can write analogous theorem and lemma statements with guarantees in terms of the Left co-prime factors (LCFs), we will be sticking to the RCFs based statements without loss of generality in this manuscript.
+
+### About the Randomness of Graph Operator $\overset{\sim}{G}{(\theta)}$
+
+We begin our discussion about the randomness associated with the graph operator of the perturbed plant $\overset{\sim}{G}{(\theta)}$ where the uncertainty stems from the associated uncertainty of the parameter $\theta$. We have the following assumption in place concerned with the dependence of $\overset{\sim}{G}{(\theta)}$ on $\theta$.
+
+### Assumption 1
+
+The mapping $\theta\mapsto{\overset{\sim}{G}{(\theta)}}:=\begin{bmatrix}
+{\overset{\sim}{N}{(\theta)}} \\
+\end{bmatrix}$ is Fréchet differentiable meaning that ${\overset{\sim}{N}{(\theta)}},{\overset{\sim}{D}{(\theta)}}$ are continuously differentiable in $\theta$.
+
+The following lemma analyses the case when $\mathbf{f}_{\theta}$ is a Gaussian distribution^11^1In principle, any $\mathbf{f}_{\theta}$ with mean $\mu_{\theta}$ and covariance $\sigma_{\theta}^{2}I_{p}$ would suffice. However, it would need more investigation further down the line for giving probabilistic guarantees. So, Gaussian distribution is preferred for the ease of exposition. and shows that the Bézout identity still holds under Gaussian parameter uncertainty.
+
+### Lemma 2
+
+Given $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$ with known mean $\mu_{\theta} \in {\mathbb{R}}^{p}$ and covariance ${\sigma_{\theta}^{2}I_{p}} \succ 0$, let ${\overset{\sim}{\Sigma}{(\theta)}} = {N{(\theta)}D{(\theta)}^{- 1}} \in {\mathbf{R}\mathcal{H}_{\infty}}$ such that ${\forall\theta} \in {\mathbb{R}}^{p}$:
+
+${{N{(\theta)}},{D{(\theta)}}} \in \mathcal{H}_{\infty}$ form a normalized RCF,
+
+$\theta\mapsto{\lbrack{N{(\theta)}},{D{(\theta)}}\rbrack}$ is continuous in the $\mathcal{H}_{\infty}$-norm.
+
+Then, ${{\exists{X{(\theta)}}},{Y{(\theta)}}} \in \mathcal{H}_{\infty}$ such that the Bézout identity
+
+holds almost surely. That is, ${{\mathbb{P}}\left( {\theta \in {{\mathbb{R}}^{p} \mid {()\text{~holds}}}} \right)} = 1$.
+
+### Proof
+
+Let $\mathcal{B}_{\theta}$ denote the set of all $\theta \in {\mathbb{R}}^{M}$ such that ${{\exists{X{(\theta)}}},{Y{(\theta)}}} \in \mathcal{H}_{\infty}$ and ((https://arxiv.org/html/2507.10010v2#S3.E25 "In Lemma 2. ‣ 3.1 About the Randomness of Graph Operator 𝐺̃⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) holds. Then, $\mathcal{B}_{\theta}^{c}$ will consists of those $\theta$ for which the coprime condition fails. This happens only when:
+
+$D{(\theta)}$ is non-invertible in $\mathcal{H}_{\infty}$, or
+
+There exists a common unstable factor between $N{(\theta)}$ and $D{(\theta)}$.
+
+These are pathological cases corresponding to a closed, nowhere-dense analytic subset of ${\mathbb{R}}^{M}$ with Lebesgue measure zero, since the set of parameters for which pole-zero cancellations occur on the imaginary axis is closed and of measure zero. Now, since $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$ is absolutely continuous with respect to the Lebesgue measure, it assigns zero probability to any null Lebesgue-measure set. Hence, ${{{\mathbb{P}}{({\theta \in \mathcal{B}_{\theta}^{c}})}} = 0}\Leftrightarrow{{{\mathbb{P}}{({\theta \in \mathcal{B}_{\theta}})}} = 1}$. Hence, with probability one, the Bézout identity ((https://arxiv.org/html/2507.10010v2#S3.E25 "In Lemma 2. ‣ 3.1 About the Randomness of Graph Operator 𝐺̃⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) holds and ${{X{(\theta)}},{Y{(\theta)}}} \in \mathcal{H}_{\infty}$ can be constructed using standard right coprime factorization algorithms such as extended Euclidean algorithm or inner-outer factorizations. ∎
+
+Remarks: The randomness in the parameter $\theta$ induces randomness in the coprime factors $\lbrack{N{(\theta)}},{D{(\theta)}}\rbrack$ (which we studied in Lemma (https://arxiv.org/html/2507.10010v2#Thmtheorem2 "Lemma 2. ‣ 3.1 About the Randomness of Graph Operator 𝐺̃⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")). Subsequently, the randomness in the coprime factors $\lbrack{N{(\theta)}},{D{(\theta)}}\rbrack$ manifests itself as variations in the graph $\overset{\sim}{G}{(\theta)}$, and hence in the angle between the graph subspaces $\mathcal{G}_{\overline{\Sigma}}$ and $\mathcal{G}_{\overset{\sim}{\Sigma}{(\theta)}}$ which then finally leads to the randomness in the associated gap ${Gap}{(\theta)}$. That is, randomness in $\theta\mapsto{\overset{\sim}{G}{(\theta)}}\mapsto{\angle{(\mathcal{G}_{\overline{\Sigma}},\mathcal{G}_{\overset{\sim}{\Sigma}{(\theta)}})}}\mapsto{{Gap}{(\theta)}}$.\
+
+We have the following assumption to deal with the randomness in the graph $\overset{\sim}{G}{(\theta)}$ associated with the RCFs of the perturbed system $\overset{\sim}{\Sigma}{(\theta)}$.
+
+### Assumption 2
+
+The mapping $\theta\mapsto{\overset{\sim}{G}{(\theta)}}$ is Lipschitz in terms of the $\mathcal{H}_{\infty}$ norm with constant $\mathbf{L}_{\overset{\sim}{G}} > 0$, such that
+
+From assumption (https://arxiv.org/html/2507.10010v2#Thmassumption2 "Assumption 2. ‣ 3.1 About the Randomness of Graph Operator 𝐺̃⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric"), we immediately see that the projection operator $\Pi_{\mathcal{G}_{\overset{\sim}{\Sigma}{(\theta)}}}$ also continuously varies with respect to $\theta$. Hence, it's operator norm would be well-defined. Having mentioned all the assumptions needed, we will begin our study about giving probabilistic guarantees for robust performance and robust stability in terms of the gap metric.
+
+### Probabilistic Guarantee for Coprime Factor Uncertainty
+
+Coprime factor uncertainty can be understood as a combination of multiplicative and inverse multiplicative type uncertainties and the trade off between them is determined by the nominal plant. As a precursor to the gap metric, we will first demonstrate how the randomness in the co-prime factor uncertainty affects the robust stability associated with the nominal controller stabilising the nominal plant. The following theorem (probabilistic extension of Theorem 1 in \[(https://arxiv.org/html/2507.10010v2#bib.bib7)\]) gives probabilistic guarantees on the nominal controller stabilising the perturbed plant under random coprime factor uncertainty.
+
+### Theorem 3
+
+Let $\overline{\Sigma} = {ND^{- 1}} \in \mathcal{H}_{\infty}$ with a normalized RCF $(N,D)$, and let $\overline{C} \in \mathcal{H}_{\infty}$ be a controller that stabilizes $\overline{\Sigma}$ and results in $b_{\overline{\Sigma},\overline{C}} > 0$. Let assumption (https://arxiv.org/html/2507.10010v2#Thmassumption2 "Assumption 2. ‣ 3.1 About the Randomness of Graph Operator 𝐺̃⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") hold true for $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$. Let the randomly perturbed systems ${\overset{\sim}{\Sigma}{(\theta)}} = {N{(\theta)}M{(\theta)}^{- 1}}$ be defined by normalized RCFs as
+
+Let the random perturbation affecting $\overset{\sim}{\Sigma}{(\theta)}$ be denoted by ${\Delta{(\theta)}}:=\begin{bmatrix}
+{\Delta_{N}{(\theta)}} & {\Delta_{D}{(\theta)}}
+\end{bmatrix}$. If ${\exists\mathbf{L}_{\Delta}} > 0$ such that
+
+then ${\mathbb{P}}\left( {\overline{C}\text{~stabilizes~}\overset{\sim}{\Sigma}{(\theta)}} \right)$ satisfies
+
+### Proof
+
+From \[(https://arxiv.org/html/2507.10010v2#bib.bib4)\] and Theorem 1 of \[(https://arxiv.org/html/2507.10010v2#bib.bib7)\], we know that the nominal controller $\overline{C}$ will stabilize all perturbed plants ${\overset{\sim}{\Sigma}{(\theta)}} = {N{(\theta)}D{(\theta)}^{- 1}}$ when the normalized RCFs satisfy
+
+From theorem assumption ((https://arxiv.org/html/2507.10010v2#S3.E27 "In Theorem 3. ‣ 3.2 Probabilistic Guarantee for Coprime Factor Uncertainty ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), we know that
+
+Then, $\left. \parallel{\theta - \mu_{\theta}}\parallel \right. = {\sigma_{\theta}\left. \parallel Z\parallel \right.}$. We know that the Euclidean norm of a standard Gaussian vector $Z \sim {\mathcal{N}{(0,I_{p})}}$ denoted by $\left. \parallel Z\parallel \right.$ is sub-Gaussian and it concentrates around $\sqrt{p}$. That is, ${\forall\epsilon} > 0$, we see that ${{\mathbb{P}}{({{Z - \sqrt{p}} \geq \epsilon})}} \leq e^{- \frac{\epsilon^{2}}{2}}$ meaning that $\left. \parallel Z\parallel \right. \sim \chi_{p}$. Immediately, we see that $\left. \parallel{\theta - \mu_{\theta}}\parallel \right. = {\sigma_{\theta}\left. \parallel Z\parallel \right.}$ is sub-Gaussian with parameter $\sigma_{\theta}$. Similarly, it implies from ((https://arxiv.org/html/2507.10010v2#S3.E27 "In Theorem 3. ‣ 3.2 Probabilistic Guarantee for Coprime Factor Uncertainty ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) that $\left. \parallel{\Delta{(\theta)}}\parallel \right._{\mathcal{H}_{\infty}}$ is a Lipschitz function of a sub-Gaussian vector and hence it is sub-Gaussian with parameter $\mathbf{L}_{\Delta}\sigma_{\theta}$. Then, we know from \[(https://arxiv.org/html/2507.10010v2#bib.bib24)\] that $\left. \parallel{\Delta{(\theta)}}\parallel \right._{\mathcal{H}_{\infty}}$ satisfies
+
+Writing the complement of ((https://arxiv.org/html/2507.10010v2#S3.E30 "In Proof. ‣ 3.2 Probabilistic Guarantee for Coprime Factor Uncertainty ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) yields ((https://arxiv.org/html/2507.10010v2#S3.E28 "In Theorem 3. ‣ 3.2 Probabilistic Guarantee for Coprime Factor Uncertainty ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) and combining with the condition for stability ((https://arxiv.org/html/2507.10010v2#S3.E29 "In Proof. ‣ 3.2 Probabilistic Guarantee for Coprime Factor Uncertainty ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) completes the proof. ∎
+
+Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem3 "Theorem 3. ‣ 3.2 Probabilistic Guarantee for Coprime Factor Uncertainty ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") says that when the random perturbation affecting the nominal system turns out to be Lipschitz and sub-Gaussian, then it is possible to give probabilistic guarantees on the nominal controller stabilising the random perturbed system model. Note that $\Delta{(\theta)}$ essentially captures the gap between the nominal and the perturbed model of the system. Having studied the probabilistic guarantees corresponding to the randomness in coprime factor uncertainty description, we now turn our attention to study about the randomness in the more general setting involving the ${Gap}{(\theta)}$ quantity.
+
+### Inferring the Lipschitz Constant of ${Gap}{(\theta)}$
+
+When ${Gap}{(\theta)}$ is random, it essentially reflects the uncertainty in how the two graph subspaces $\mathcal{G}_{\overline{\Sigma}},\mathcal{G}_{\overset{\sim}{\Sigma}{(\theta)}}$ are aligned with each other. Towards this perspective, we will now study about the Lipschitz constant associated with the gap ${Gap}{(\theta)}$ in the following theorem.
+
+### Theorem 4
+
+Let assumptions (https://arxiv.org/html/2507.10010v2#Thmassumption1 "Assumption 1. ‣ 3.1 About the Randomness of Graph Operator 𝐺̃⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") and (https://arxiv.org/html/2507.10010v2#Thmassumption2 "Assumption 2. ‣ 3.1 About the Randomness of Graph Operator 𝐺̃⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") hold true for the nominal model $\overline{\Sigma}$ and perturbed model $\overset{\sim}{\Sigma}{(\theta)}$ of the dynamical system $\Sigma$. Then, ${\exists\mathbf{L}_{gap}} > 0$ that depends on $\overline{\Sigma}$ and $\mathbf{L}_{\overset{\sim}{G}}$ such that ${{\forall\theta},\theta^{\prime}} \in \Theta$, the gap ${Gap}{(\theta)}$ is $\mathbf{L}_{gap}$-Lipschitz. That is,
+
+### Proof
+
+Using ((https://arxiv.org/html/2507.10010v2#S1.E11 "In item 2 ‣ 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")), we see
+
+By assumptions (https://arxiv.org/html/2507.10010v2#Thmassumption1 "Assumption 1. ‣ 3.1 About the Randomness of Graph Operator 𝐺̃⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") and (https://arxiv.org/html/2507.10010v2#Thmassumption2 "Assumption 2. ‣ 3.1 About the Randomness of Graph Operator 𝐺̃⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric"), $\overset{\sim}{G}{(\theta)}$ varies continuously with $\theta$, with Lipschitz constant $\mathbf{L}_{\overset{\sim}{G}} > 0$ as described by ((https://arxiv.org/html/2507.10010v2#S3.E26 "In Assumption 2. ‣ 3.1 About the Randomness of Graph Operator 𝐺̃⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")). Then, using ((https://arxiv.org/html/2507.10010v2#S3.E32 "In Proof. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), ${{\forall\theta},\theta^{\prime}} \in \Theta$, we see that
+
+Here, we have used the reverse triangle inequality to get the first inequality above. We have used the fact that projections are bounded linear operators to get the second inequality along with the fact that $\mathcal{H}_{\infty}$ norm also happens to be equal to the induced $\mathcal{L}_{2}$ norm. Finally, we used ((https://arxiv.org/html/2507.10010v2#S3.E26 "In Assumption 2. ‣ 3.1 About the Randomness of Graph Operator 𝐺̃⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) to get the final inequality. Note that the Lipschitz constant $\mathbf{L}_{gap}$ explicitly depends upon the norm of the projection operator onto the graph subspace of $\overline{\Sigma}$ and the Lipschitz constant $\mathbf{L}_{\overset{\sim}{G}}$ from ((https://arxiv.org/html/2507.10010v2#S3.E26 "In Assumption 2. ‣ 3.1 About the Randomness of Graph Operator 𝐺̃⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) and this completes the proof of the theorem. ∎
+
+In the following corollary and in the next section, we now address the Problem (https://arxiv.org/html/2507.10010v2#Thmproblem1 "Problem 1. ‣ 2.2 Gap Between Nominal & Perturbed Models ‣ 2 Problem Formulation ‣ Probabilistic Robustness in the Gap Metric") stated before. We know from \[(https://arxiv.org/html/2507.10010v2#bib.bib24)\] that any Lipschitz function of a Gaussian random vector is sub-Gaussian. That is, with $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$ and ((https://arxiv.org/html/2507.10010v2#S3.E31 "In Theorem 4. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), we immediately see that ${Gap}{(\theta)}$ is sub-Gaussian with parameter $\sigma_{\theta}\mathbf{L}_{gap}$ and corollary [4.1](https://arxiv.org/html/2507.10010v2#Thmtheorem4.Thmcorollary1 "Corollary 4.1. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") that is stated below formally establishes that observation.
+
+### Corollary 4.1
+
+Let the assumptions of the Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem4 "Theorem 4. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") be true. If $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$, then ${Gap}{(\theta)}$ is sub-Gaussian with parameter $\sigma_{\theta}\mathbf{L}_{gap}$. That is, ${\forall\epsilon} > 0$, we see that
+
+### Proof
+
+We know from Gaussian concentration inequality in \[(https://arxiv.org/html/2507.10010v2#bib.bib24)\] that if $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ is Lipschitz with constant $C > 0$ and $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$, then ${\forall\epsilon} > 0$
+
+Substituting ${f{(\theta)}} = {{Gap}{(\theta)}}$ with Lipschitz constant $\mathbf{L}_{gap} > 0$ from ((https://arxiv.org/html/2507.10010v2#S3.E31 "In Theorem 4. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), we get ((https://arxiv.org/html/2507.10010v2#S3.E33 "In Corollary 4.1. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")). ∎
+
+### Inferring the Expected Value of ${Gap}{(\theta)}$
+
+Given that $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$, we leverage the fact that mean $\mu_{\theta}$ and covariance $\sigma_{\theta}^{2}I_{p}$ are deterministic known quantities to get an upper bound for the expected gap in terms of the them. We state the following proposition using the Jensen's inequality from \[(https://arxiv.org/html/2507.10010v2#bib.bib24)\] which we will use later.
+
+### Proposition 5
+
+Let $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$. Then,
+
+${\mathbb{E}}{\lbrack\left. \parallel{\theta - \mu_{\theta}}\parallel \right.\rbrack}$ ${\leq \sqrt{\sigma_{\theta}^{2}p}}.$ (35a)
+${\mathbb{E}}{\lbrack\left. \parallel\theta\parallel \right.\rbrack}$ ${\leq \sqrt{{\sigma_{\theta}^{2}p} + \left. \parallel\mu_{\theta}\parallel \right.^{2}}}.$ (35b)
+
+### Proof
+
+For a fixed $\theta^{\prime} \in {\mathbb{R}}^{p}$, Jensen inequality \[(https://arxiv.org/html/2507.10010v2#bib.bib24)\] states that
+
+Note that, ${{\mathbf{T}\mathbf{r}}{({\sigma_{\theta}^{2}I_{p}})}} = {\sigma_{\theta}^{2}p}$. Substituting $\theta^{\prime} = \mu_{\theta}$ into ((https://arxiv.org/html/2507.10010v2#S3.E36 "In Proof. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), we get ([35a](https://arxiv.org/html/2507.10010v2#S3.E35.1 "In 35 ‣ Proposition 5. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")). On the other hand, substituting $\theta^{\prime} = 0$ into ((https://arxiv.org/html/2507.10010v2#S3.E36 "In Proof. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), we get ([35b](https://arxiv.org/html/2507.10010v2#S3.E35.2 "In 35 ‣ Proposition 5. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")). ∎
+
+In the following lemma, we get an upper bound on the expected gap using the Lipschitz continuity of the gap and Proposition (https://arxiv.org/html/2507.10010v2#Thmtheorem5 "Proposition 5. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric").
+
+### Lemma 6
+
+Let $\overline{\Sigma}$ be a known nominal system model and let $\overset{\sim}{\Sigma}{(\theta)}$ be a random LTI system model depending on $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$. Further, suppose that the gap ${Gap}{(\theta)}$ is $\mathbf{L}_{gap}$-Lipschitz as in ((https://arxiv.org/html/2507.10010v2#S3.E31 "In Theorem 4. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")). Then, ${{\forall\theta},\theta^{\prime}} \in {\mathbb{R}}^{p}$,
+
+### Proof
+
+We know from ((https://arxiv.org/html/2507.10010v2#S3.E31 "In Theorem 4. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) that ${{\forall\theta},\theta^{\prime}} \in {\mathbb{R}}^{p}$,
+
+Taking expectations of both sides & using linearity of expectation yields ((https://arxiv.org/html/2507.10010v2#S3.E37 "In Lemma 6. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")). ∎
+
+Note that we need to study about ${\mathbb{E}}{\lbrack\left. \parallel{\theta - \theta^{\prime}}\parallel \right.\rbrack}$ to give an estimate about the expected value of the ${Gap}{(\theta)}$. In the following corollaries, we will use the Proposition (https://arxiv.org/html/2507.10010v2#Thmtheorem5 "Proposition 5. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") to find upper bounds for ${\mathbb{E}}{\lbrack\left. \parallel{\theta - \theta^{\prime}}\parallel \right.\rbrack}$ in ((https://arxiv.org/html/2507.10010v2#S3.E37 "In Lemma 6. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")).
+
+### Corollary 6.1
+
+Under the assumptions of Lemma (https://arxiv.org/html/2507.10010v2#Thmtheorem6 "Lemma 6. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric"), when $\theta^{\prime} = \mu_{\theta}$, we see
+
+### Proof
+
+Note that $\theta^{\prime} = \mu_{\theta}$ is a valid assumption to make as ${{\mathbb{E}}{\lbrack\theta\rbrack}} = \mu_{\theta}$. On the other hand, we see that ${{\mathbb{E}}\left\lbrack {{Gap}{(\mu_{\theta})}} \right\rbrack} = {{Gap}{(\mu_{\theta})}}$ becomes a deterministic quantity. Then, using ([35a](https://arxiv.org/html/2507.10010v2#S3.E35.1 "In 35 ‣ Proposition 5. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) in ((https://arxiv.org/html/2507.10010v2#S3.E37 "In Lemma 6. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), we get ((https://arxiv.org/html/2507.10010v2#S3.E39 "In Corollary 6.1. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")). ∎
+
+### Corollary 6.2
+
+Under the assumptions of the Lemma (https://arxiv.org/html/2507.10010v2#Thmtheorem6 "Lemma 6. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") and when ${\overset{\sim}{\Sigma}{(\theta_{0})}} = \overline{\Sigma}$, we see that
+
+### Proof
+
+Note that ${{\overset{\sim}{\Sigma}{(\theta_{0})}} = \overline{\Sigma}}\Leftrightarrow{{{Gap}{(\theta_{0})}} = 0}$. Substituting $\theta^{\prime} = \theta_{0}$ in ((https://arxiv.org/html/2507.10010v2#S3.E37 "In Lemma 6. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) yields
+
+Using ([35b](https://arxiv.org/html/2507.10010v2#S3.E35.2 "In 35 ‣ Proposition 5. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) in ((https://arxiv.org/html/2507.10010v2#S3.E41 "In Proof. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), we get ((https://arxiv.org/html/2507.10010v2#S3.E40 "In Corollary 6.2. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")). ∎
+
+### Probabilistic Robust Stability Guarantees
+
+Having explored the bounds on the expected value of the ${Gap}{(\theta)}$, we are interested in studying about a nominal controller's robust stability property while stabilising a nominal plant. Particularly, we will investigate the probability of a nominal controller stabilising a random plant using the above obtained gap metric bounds. This will provide probabilistic controller certification under non-zero mean gap uncertainty.
+
+### Theorem 7
+
+Let $\overline{\Sigma} \in \mathcal{H}_{\infty}$ be the nominal plant, and let the nominal controller $\overline{C}$ stabilize $\overline{\Sigma}$ and results in $b_{\overline{\Sigma},\overline{C}} > 0$. Let ${Gap}{(\theta)}$ be the gap associated with $\overline{\Sigma}$ and a random perturbed plant $\overset{\sim}{\Sigma} \in \mathcal{H}_{\infty}$ such that ${Gap}{(\theta)}$ is sub-Gaussian with mean ${\mathbb{E}}{\lbrack{{Gap}{(\theta)}}\rbrack}$ and variance $\sigma_{\theta}^{2}\mathbf{L}_{gap}^{2}$. If
+
+then, for the tolerance $\varepsilon_{tol}:={b_{\overline{\Sigma},\overline{C}} - {{\mathbb{E}}{\lbrack{{Gap}{(\theta)}}\rbrack}}} > 0$, the probability that $\overline{C}$ stabilizes $\overset{\sim}{\Sigma}{(\theta)}$ satisfies
+
+### Proof
+
+Since ${Gap}{(\theta)}$ is sub-Gaussian with mean $\mu:={{\mathbb{E}}{\lbrack{{Gap}{(\theta)}}\rbrack}}$ and variance $\sigma_{\theta}^{2}\mathbf{L}_{gap}^{2}$, applying the standard sub-Gaussian tail bounds, we get for any given tolerance $\varepsilon_{tol} > 0$,
+
+Setting $\varepsilon_{tol}:={b_{\overline{\Sigma},\overline{C}} - {{\mathbb{E}}{\lbrack{{Gap}{(\theta)}}\rbrack}}} > 0$ in ((https://arxiv.org/html/2507.10010v2#S3.E44 "In Proof. ‣ 3.5 Probabilistic Robust Stability Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), we see that
+
+Since the controller $\overline{C}$ stabilizes $\overline{\Sigma}$ and results in $b_{\overline{\Sigma},\overline{C}} > 0$, we know from Proposition (https://arxiv.org/html/2507.10010v2#Thmtheorem1 "Proposition 1. ‣ 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric") that $\overline{C}$ will also stabilise any plant $\overset{\sim}{\Sigma}$ if ${\delta_{gap}{(\overline{\Sigma},\overset{\sim}{\Sigma})}} < b_{\overline{\Sigma},\overline{C}}$. Hence, $\overline{C}$ will stabilize $\overset{\sim}{\Sigma}{(\theta)}$ if ${{Gap}{(\theta)}} < b_{\overline{\Sigma},\overline{C}}$. Then, the probability that ${{Gap}{(\theta)}} < b_{\overline{\Sigma},\overline{C}}$, that is, $\overline{C}$ stabilizes $\overset{\sim}{\Sigma}{(\theta)}$, is given by the complementary of ((https://arxiv.org/html/2507.10010v2#S3.E45 "In Proof. ‣ 3.5 Probabilistic Robust Stability Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), which is equal to ((https://arxiv.org/html/2507.10010v2#S3.E43 "In Theorem 7. ‣ 3.5 Probabilistic Robust Stability Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) and the proof is complete. ∎
+
+### Connecting Robust Stability & Violation Probability
+
+If we want the stabilisation of $\overset{\sim}{\Sigma}{(\theta)}$ by nominal controller $\overline{C}$ to happen with a probability of at least $1 - \beta$, where $\beta \in {}$ denotes the violation probability, then using Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem7 "Theorem 7. ‣ 3.5 Probabilistic Robust Stability Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric"), we can find a corresponding condition on the expected value of the ${Gap}{(\theta)}$ in terms of $\beta$. The following corollary formally establishes that result.
+
+### Corollary 7.1
+
+Given a violation probability $\beta \in {}$, suppose that
+
+### Proof
+
+From ((https://arxiv.org/html/2507.10010v2#S3.E43 "In Theorem 7. ‣ 3.5 Probabilistic Robust Stability Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), we know for $\varepsilon_{tol}:={b_{\overline{\Sigma},\overline{C}} - {{\mathbb{E}}{\lbrack{{Gap}{(\theta)}}\rbrack}}} > 0$, the probability that $\overline{C}$ stabilizes $\overset{\sim}{\Sigma}{(\theta)}$ satisfies
+
+Set violation probability $\beta = {\exp\left( {- \frac{\varepsilon_{tol}^{2}}{2\sigma_{\theta}^{2}\mathbf{L}_{gap}^{2}}} \right)}$ and solving for ${\mathbb{E}}{\lbrack{{Gap}{(\theta)}}\rbrack}$, we get ((https://arxiv.org/html/2507.10010v2#S3.E46 "In Corollary 7.1. ‣ 3.5.1 Connecting Robust Stability & Violation Probability ‣ 3.5 Probabilistic Robust Stability Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) and this completes the proof. ∎
+
+### Numerical Demonstration
+
+Figure 2: Results of Monte-carlo simulation with N = 104 independent trials validating claims of Theorem 7 are shown here. Clearly is satisfied, and we see empirically that the probability that $\overline{C}$ stabilizes $\overset{\sim}{\Sigma}{(\theta)}$ is 0.9777 which is clearly more than the lower bound of 0.5561 obtained using.
+
+To demonstrate the probabilistic robust stability guarantees obtained in this subsection, we considered a nominal system $\overline{\Sigma}:{{(A,B,C,D)} = {({- 1},1,1,0)}}$. We sampled $N = 10^{4}$ values of the uncertain parameter $\theta \sim {\mathcal{N}{(\begin{bmatrix}
+\end{bmatrix},{0.25^{2}I_{2}})}}$. The perturbed plants were formed as ${\overset{\sim}{\Sigma}{(\theta^{(i)})}} = {({{- 1} + \theta_{1}^{(i)}},1,{1 + \theta_{2}^{(i)}},0)}$ for $i = {1,\ldots,N}$. After doing a Monte-carlo simulation using $N$ independent trials involving samples of $\theta$, the results are shown in Figure (https://arxiv.org/html/2507.10010v2#S3.F2 "Figure 2 ‣ 3.5.2 Numerical Demonstration ‣ 3.5 Probabilistic Robust Stability Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric"). Using ((https://arxiv.org/html/2507.10010v2#S3.E41 "In Proof. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), we estimated ${{\mathbb{E}}{\lbrack{{Gap}{(\theta)}}\rbrack}} = 0.3032$. The performance measure was $b_{\overline{\Sigma},\overline{C}} = 0.7071$ for the nominal controller $\overline{C}$ that placed the closed loop poles at $- 2$. Empirically, we found ${{\mathbb{P}}{({{{Gap}{(\theta)}} < b_{\overline{\Sigma},\overline{C}}})}} = 0.9777$ which was greater than the lower bound of $0.5561$ from ((https://arxiv.org/html/2507.10010v2#S3.E43 "In Theorem 7. ‣ 3.5 Probabilistic Robust Stability Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) and thereby validating the claims of Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem7 "Theorem 7. ‣ 3.5 Probabilistic Robust Stability Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric").
+
+### Probabilistic Closed Loop Deviation Guarantees
+
+Given that we have investigated the probabilistic guarantees of the gap ${Gap}{(\theta)}$ greater than some threshold in Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem4 "Theorem 4. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") and probabilistic robust stability guarantees in Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem7 "Theorem 7. ‣ 3.5 Probabilistic Robust Stability Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric"), we now turn our attention to give probabilistic closed loop deviation guarantees. Before proceeding further, we require an assumption on the Lipschitz continuity of $\left. \parallel{Q{({\overset{\sim}{\Sigma}{(\theta)}},\overline{C})}}\parallel \right._{\mathcal{H}_{\infty}}$ with respect to parameter $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$.
+
+### Assumption 3
+
+Given $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$, ${\exists\mathbf{L}_{\mathbf{Q}}} > 0$ such that the function ${\mathbf{f}_{\mathbf{Q}}{(\theta)}}:=\left. \parallel{Q{({\overset{\sim}{\Sigma}{(\theta)}},\overline{C})}}\parallel \right._{\mathcal{H}_{\infty}}$ is $\mathbf{L}_{\mathbf{Q}}$-Lipschitz.
+
+Remarks: This is a mild and valid assumption to make as usually the system matrices ${A{(\theta)}},{B{(\theta)}},{C{(\theta)}}$ of the perturbed model $\overset{\sim}{\Sigma}{(\theta)}$ depend smoothly on $\theta$ (are Fréchet differentiable in $\mathcal{H}_{\infty}$ norm with respect to $\theta$), and the function $\mathbf{f}_{\mathbf{Q}}{(\theta)}$ is formed through algebraic and analytic operations on these matrices. Further, we had also earlier restricted our study to the case where the closed-loop remains internally stable over all realizations of $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$. Hence, the map $\theta\mapsto{\mathbf{f}_{\mathbf{Q}}{(\theta)}}$ is differentiable and hence Lipschitz on the space of $\theta$. Since Gaussian distributions concentrate their mass near the mean, any potential growth in the Lipschitz constant outside compact sets has negligible impact. Thus, global Lipschitz continuity of $\mathbf{f}_{\mathbf{Q}}{(\theta)}$ is a conservative yet reasonable assumption to make and it enables rigorous probabilistic analysis. Since $\mathbf{f}_{\mathbf{Q}}{(\theta)}$ is Lipschitz on $\theta \in {\mathbb{R}}^{p}$, and $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$, we infer from \[(https://arxiv.org/html/2507.10010v2#bib.bib24)\] that it is also sub-Gaussian with parameter ${\sigma_{\theta}\mathbf{L}_{\mathbf{Q}}} > 0$.
+
+Using the following theorem, we will now give probabilistic closed loop deviation bound under the action of controller $\overline{C}$.
+
+### Theorem 8
+
+Let the given nominal model and nominal stabilising controller pair $(\overline{\Sigma},\overline{C})$ achieve $b_{\overline{\Sigma},\overline{C}} > 0$. Let $\overset{\sim}{\Sigma}{(\theta)}$ be a perturbed plant with $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$ such that ${Gap}{(\theta)}$ satisfies ((https://arxiv.org/html/2507.10010v2#S3.E31 "In Theorem 4. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) and also let assumption (https://arxiv.org/html/2507.10010v2#Thmassumption3 "Assumption 3. ‣ 3.6 Probabilistic Closed Loop Deviation Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") to hold true. Given $\beta \in {}$, define the following thresholds
+
+$\varepsilon_{gap}$ $:={\sqrt{2\sigma_{\theta}^{2}\mathbf{L}_{gap}^{2}{\log\left( \frac{2}{\beta} \right)}},\text{and}}$ (48a)
+$\varepsilon_{\mathbf{Q}}$ ${:=\sqrt{2\sigma_{\theta}^{2}{}_{}^{}{\log\left( \frac{2}{\beta} \right)}}}.$ (48b)
+
+Then, with probability at least $1 - \beta$, the following inequality on the closed loop deviation will hold:
+
+### Proof
+
+We are essentially looking for the probabilistic satisfaction of ((https://arxiv.org/html/2507.10010v2#S1.E19 "In 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")) inspired from Theorem III.2 of \[(https://arxiv.org/html/2507.10010v2#bib.bib23)\]. Given that ${Gap}{(\theta)}$ is $\mathbf{L}_{gap}$-Lipschitz from ((https://arxiv.org/html/2507.10010v2#S3.E31 "In Theorem 4. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) and $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$, we see that under ([48a](https://arxiv.org/html/2507.10010v2#S3.E48.1 "In 48 ‣ Theorem 8. ‣ 3.6 Probabilistic Closed Loop Deviation Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), the concentration bound from \[(https://arxiv.org/html/2507.10010v2#bib.bib24)\] implies that
+
+Note that above guarantee can also be arrived using ((https://arxiv.org/html/2507.10010v2#S3.E44 "In Proof. ‣ 3.5 Probabilistic Robust Stability Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) with $\varepsilon_{tol} = \varepsilon_{gap}$. That is,
+
+Solving for $\varepsilon_{gap}$ in terms of $\beta$, we get ([48a](https://arxiv.org/html/2507.10010v2#S3.E48.1 "In 48 ‣ Theorem 8. ‣ 3.6 Probabilistic Closed Loop Deviation Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")). By similar arguments, we observe from assumption (https://arxiv.org/html/2507.10010v2#Thmassumption3 "Assumption 3. ‣ 3.6 Probabilistic Closed Loop Deviation Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") that $\mathbf{f}_{\mathbf{Q}}{(\theta)}$ is $\mathbf{L}_{\mathbf{Q}}$-Lipschitz and hence is sub-Gaussian with parameter $\sigma_{\theta}\mathbf{L}_{\mathbf{Q}}$. Then $\mathbf{f}_{\mathbf{Q}}{(\theta)}$ satisfies the sub-Gaussian concentration bound
+
+when the threshold $\varepsilon_{\mathbf{Q}}$ is given by
+
+Now define the events
+
+Then, our requirement ${{\mathbb{P}}{({\mathcal{G}^{c} \cap \mathcal{F}^{c}})}} \geq {1 - \beta}$ because
+
+The above inequality arises due to the application of the Boole's inequality in the second step. From ((https://arxiv.org/html/2507.10010v2#S1.E19 "In 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")), we get
+
+Since ${{\mathbb{P}}{({\mathcal{G}^{c} \cap \mathcal{F}^{c}})}} \geq {1 - \beta}$, we simultaneously substitute both the numerator terms by the respective upper bounds from $\mathcal{G}^{c}$ and $\mathcal{F}^{c}$ to get ((https://arxiv.org/html/2507.10010v2#S3.E49 "In Theorem 8. ‣ 3.6 Probabilistic Closed Loop Deviation Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) holding with probability of at least $1 - \beta$ and this completes the proof. ∎
+
+### Probabilistic $\mathcal{H}_{\infty}$ Performance Guarantees
+
+We will now connect all the above results with Problem (https://arxiv.org/html/2507.10010v2#Thmproblem2 "Problem 2. ‣ 2.2 Gap Between Nominal & Perturbed Models ‣ 2 Problem Formulation ‣ Probabilistic Robustness in the Gap Metric") in the below theorem.
+
+### Theorem 9
+
+Let the nominal controller $\overline{C}$ stabilise the nominal plant model $\overline{\Sigma}$ and achieves a certain $\mathcal{H}_{\infty}$ performance level denoted by $\overline{T}:=\left. \parallel{\mathbf{T}{(\overline{\Sigma},\overline{C})}}\parallel \right._{\mathcal{H}_{\infty}}$. Let ${\overset{\sim}{\Sigma}{(\theta)}} \in \mathcal{H}_{\infty}$ denote the perturbed plant such that ${Gap}{(\theta)}$ is $\mathbf{L}_{gap}$-Lipschitz by Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem4 "Theorem 4. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric"). Given any desired performance level $\gamma > 0$ and a violation probability $\beta \in {}$, if
+
+then, ${{\mathbb{P}}\left( {\left. \parallel{\mathbf{T}{({\overset{\sim}{\Sigma}{(\theta)}},\overline{C})}}\parallel \right._{\mathcal{H}_{\infty}} \leq \gamma} \right)} \geq {1 - \beta}$.
+
+### Proof
+
+From the robustness bounds in ((https://arxiv.org/html/2507.10010v2#S1.E20 "In 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")), we know that
+
+For $\left. \parallel{\mathbf{T}{({\overset{\sim}{\Sigma}{(\theta)}},\overline{C})}}\parallel \right._{\mathcal{H}_{\infty}} \leq \gamma$ to hold true, we need
+
+Note that ((https://arxiv.org/html/2507.10010v2#S3.E51 "In Proof. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) can be equivalently written as
+
+Applying ((https://arxiv.org/html/2507.10010v2#S3.E33 "In Corollary 4.1. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) from Corollary [4.1](https://arxiv.org/html/2507.10010v2#Thmtheorem4.Thmcorollary1 "Corollary 4.1. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") with $\epsilon = \overline{\gamma}$, we see that
+
+For the above violation probability in ((https://arxiv.org/html/2507.10010v2#S3.E53 "In Proof. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) to be upper bounded by $\beta$, we require
+
+Hence, under this condition ((https://arxiv.org/html/2507.10010v2#S3.E54 "In Proof. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), $\left. \parallel{\mathbf{T}{({\overset{\sim}{\Sigma}{(\theta)}},\overline{C})}}\parallel \right._{\mathcal{H}_{\infty}} \leq \gamma$ holds with probability at least $1 - \beta$. ∎
+
+In the following corollary, we establish probabilistic guarantee on the desired $\mathcal{H}_{\infty}$ performance level $\gamma > 0$ being satisfied under the gap uncertainty.
+
+### Corollary 9.1
+
+Under the conditions of Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem9 "Theorem 9. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric"), given any desired performance level $\gamma > 0$,
+
+### Proof
+
+Proof follows immediately by applying $\overline{\gamma}$ defined in ((https://arxiv.org/html/2507.10010v2#S3.E52 "In Proof. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) into ((https://arxiv.org/html/2507.10010v2#S3.E53 "In Proof. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) and writing the complementary event. ∎
+
+Remarks: It is evident that the Lipschitz constant of the ${Gap}{(\theta)}$ given by $\mathbf{L}_{gap}$ from Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem4 "Theorem 4. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric"), its expected value ${\mathbb{E}}{\lbrack{{Gap}{(\theta)}}\rbrack}$ and the $\mathcal{H}_{\infty}$ performance level of the nominal controller with respect to the nominal model given by $\overline{T}$ dictates the probability of the perturbed model $\overset{\sim}{\Sigma}{(\theta)}$ achieving a certain $\mathcal{H}_{\infty}$ performance level given by $\gamma > 0$.\
+
+Having learned the probability of satisfying a given $\mathcal{H}_{\infty}$ performance level criteria in Theorem (https://arxiv.org/html/2507.10010v2#Thmtheorem9 "Theorem 9. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") and its corollary [9.1](https://arxiv.org/html/2507.10010v2#Thmtheorem9.Thmcorollary1 "Corollary 9.1. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") for a lower bound on that probability, we now resort to find the expected $\mathcal{H}_{\infty}$ norm of the random transfer function $\mathbf{T}{({\overset{\sim}{\Sigma}{(\theta)}},\overline{C})}$ due to the random gap perturbations. Before diving into the theorem that formally establishes the findings in connection to that, we first state and prove two lemmata in connection to get the expected value of certain quantities of interests which shall become handy while proving the required theorem.
+
+### Lemma 10
+
+Let $x \in {}$ be a real-valued random variable with mean $\mu = {{\mathbb{E}}{\lbrack x\rbrack}} \in {}$, and suppose that $x$ is sub-Gaussian with parameter $\sigma > 0$. Then,
+
+### Proof
+
+Note that the expectation of $x$ can be expressed using the tail integral identity. Further, we use the fact that $x$ is sub-Gaussian with mean $\mu$ to get x
+
+This is close to 1 when $\frac{1}{t}\rightarrow{1 - \mu}$, and decays exponentially when $\frac{1}{t} \ll {1 - \mu}$. So, we split the integral into, (i) a region close to the singularity, where the integrand could be large, (ii) a region far from the singularity, where the exponential decay dominates. Let $T:=\frac{2}{1 - \mu}$ and we split the integral as
+
+In the above inequality, we see that for $t \leq T$, $1 - \mu - \frac{1}{t}$ is small. Hence, we get a trivial yet conservative upper bound
+
+This is both a trivial and a conservative upper bound. On the other hand, ${\forall t} \geq T$,
+
+In order to have a finite upper bound for the second integral, we truncate the integral at length $\frac{8\sigma^{2}}{1 - \mu}$ so that the tail contribution is negligent to get
+
+which completes the proof. ∎
+
+Using the above lemma (https://arxiv.org/html/2507.10010v2# "Lemma 10. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric"), we can find the expectation of $1/{({1 - {{Gap}{(\theta)}}})}$ which will be useful for us later which obtaining bounds for the expected value of $\left. \parallel{\mathbf{T}{({\overset{\sim}{\Sigma}{(\theta)}},\overline{C})}}\parallel \right._{\mathcal{H}_{\infty}}$.
+
+### Lemma 11
+
+Given that ${Gap}{(\theta)}$ is a sub-Gaussian random variable in $$ with parameter $\sigma_{\theta}\mathbf{L}_{gap}$, we see that
+
+### Proof
+
+Since ${Gap}{(\theta)}$ is a sub-Gaussian random variable in $$ with parameter $\sigma_{\theta}\mathbf{L}_{gap}$, we employ Lemma (https://arxiv.org/html/2507.10010v2# "Lemma 10. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") with $x = {{Gap}{(\theta)}}$ and $\mu = {{\mathbb{E}}{\lbrack{{Gap}{(\theta)}}\rbrack}}$ in ((https://arxiv.org/html/2507.10010v2#S3.E56 "In Lemma 10. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) to see that
+
+Notice from ((https://arxiv.org/html/2507.10010v2#S3.E39 "In Corollary 6.1. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) that
+
+Using all these facts from ((https://arxiv.org/html/2507.10010v2#S3.E39 "In Corollary 6.1. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) in ([3.7](https://arxiv.org/html/2507.10010v2#S3. "Proof. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), we get ((https://arxiv.org/html/2507.10010v2#S3.E57 "In Lemma 11. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")). ∎
+
+Having stated and proved the necessary lemmata, we now turn our attention to state and prove the following theorem on finding a bound for the expected $\mathcal{H}_{\infty}$ norm of the transfer function $\mathbf{T}{({\overset{\sim}{\Sigma}{(\theta)}},\overline{C})}$.
+
+### Theorem 12
+
+Let $\overline{\Sigma}$ be a nominal LTI system model with a stabilising nominal controller $\overline{C}$, and let $\overset{\sim}{\Sigma}{(\theta)}$ be a random plant stabilised by $\overline{C}$ with $\theta \sim {\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}}$ such that ((https://arxiv.org/html/2507.10010v2#S3.E31 "In Theorem 4. ‣ 3.3 Inferring the Lipschitz Constant of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) holds. Let ${\overline{b}:=b_{\overline{\Sigma},\overline{C}}},{{\overset{\sim}{T}{(\theta)}} = \left. \parallel{\mathbf{T}{({\overset{\sim}{\Sigma}{(\theta)}},\overline{C})}}\parallel \right._{\mathcal{H}_{\infty}}}$. If
+
+and ${{Gap}{(\theta)}} < 1$, then
+
+### Proof
+
+Since ${{Gap}{(\theta)}} < 1$ in this setting, we employ ((https://arxiv.org/html/2507.10010v2#S1.E18 "In Proposition 1. ‣ 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")) and ((https://arxiv.org/html/2507.10010v2#S3.E59 "In Theorem 12. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) on ((https://arxiv.org/html/2507.10010v2#S1.E20 "In 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")) to get
+
+Taking expectations on both sides and using linearity of expectation, we get
+
+Using ((https://arxiv.org/html/2507.10010v2#S3.E57 "In Lemma 11. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) in ((https://arxiv.org/html/2507.10010v2#S3.E62 "In Proof. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")), we get ((https://arxiv.org/html/2507.10010v2#S3.E60 "In Theorem 12. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")). ∎
+
+### Numerical Simulation
+
+Consider the following nominal SISO system model $\overline{\Sigma}:{{(A,B,C,D)} = {({- 1},1,1,0)}}$ which corresponds to the following state space form:
+
+We obtained the nominal controller $\overline{C}$ by placing the poles of $\overline{\Sigma}$ at $- 2$. The value of performance measure was found to be $b_{\overline{\Sigma},\overline{C}} = 0.7071$ and $\gamma$ values were varied between $\lbrack 1.01,3\rbrack$. We obtained $N = 10^{4}$ samples of $\theta \sim {\mathcal{N}\left( \begin{bmatrix}
+\end{bmatrix},{\sigma_{\theta}^{2}I_{2}} \right)}$, with $\sigma_{\theta} = 0.5$. Using the samples $\left\{ \theta^{(i)} \right\}_{i = 1}^{N}$, we constructed $N$ different perturbed plant models $\left\{ {{\overset{\sim}{\Sigma}{(\theta^{(i)})}}:={({A + \theta_{1}^{(i)}},B,{C + \theta_{2}^{(i)}},D)}} \right\}_{i = 1}^{N}$. The gap between each of the perturbed $\overset{\sim}{\Sigma}{(\theta^{(i)})}$ and nominal model $\overline{\Sigma}$ was computed using the *gapmetric* command of the Matlab. The result is shown in Figure (https://arxiv.org/html/2507.10010v2#S3.F3 "Figure 3 ‣ 3.8 Numerical Simulation ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric").\
+
+Doing a Monte-carlo style simulation by generating $N = 10^{4}$ different independent instances of the perturbed plant models $\overset{\sim}{\Sigma}{(\theta)}$, we estimated the Lipschitz constant of the perturbed model $\overset{\sim}{\Sigma}{(\theta)}$ with respect to $\theta$ as $\mathbf{L}_{gap} = 0.5308$. Further, we estimated ${{\mathbb{E}}\left\lbrack {{Gap}{(\theta)}} \right\rbrack} = 0.3204$ and its upper bound $C_{gap} = 0.4023$ using ((https://arxiv.org/html/2507.10010v2#S3.E39 "In Corollary 6.1. ‣ 3.4 Inferring the Expected Value of Gap⁢(𝜃) ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")). Further, the ${\mathbb{E}}\left\lbrack \left. \parallel{T_{zw}{({\overset{\sim}{\Sigma}{(\theta)}},\overline{C})}}\parallel \right._{\mathcal{H}_{\infty}} \right\rbrack$ was estimated to be $0.5557$ and its conservative upper bound from ((https://arxiv.org/html/2507.10010v2#S3.E60 "In Theorem 12. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric")) in Theorem (https://arxiv.org/html/2507.10010v2# "Theorem 12. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric") was $4.8592$. As noted previously, this is a conservative estimate given the simple upper bound used in Theorem (https://arxiv.org/html/2507.10010v2# "Theorem 12. ‣ 3.7 Probabilistic ℋ_∞ Performance Guarantees ‣ 3 Solution Methodology ‣ Probabilistic Robustness in the Gap Metric").
+
+Figure 3: The lower bound on the ${\mathbb{P}}\left( {\left. \parallel{\mathbf{T}{({\overset{\sim}{\Sigma}{(\theta)}},\overline{C})}}\parallel \right._{\mathcal{H}_{\infty}} \leq \gamma} \right)$ for different values of γ using Theorem 12 are plotted here.
+
+## Connections to Existing Probabilistic Robust Control (PRC) Theory
+
+The analysis of stochastic robustness of LTI systems started in \[(https://arxiv.org/html/2507.10010v2#bib.bib14)\] where authors studied a very similar problem as in ((https://arxiv.org/html/2507.10010v2#S2.E22 "In 2.1 Uncertain Dynamical System ‣ 2 Problem Formulation ‣ Probabilistic Robustness in the Gap Metric")) and gave estimates of stability probability density functions for systems affected by uncertain parameters. On the other hand, PRC approaches gained traction further later on using probabilistic methods to give guarantees on system stability and performance (see \[(https://arxiv.org/html/2507.10010v2#bib.bib15), (https://arxiv.org/html/2507.10010v2#bib.bib17), (https://arxiv.org/html/2507.10010v2#bib.bib16)\] and the references therein for further details on this topic.). Having said that one might be interested on seeing what is new with the approach proposed in this paper regarding PRC and what new perspectives does this bring to the already existing table of approaches for PRC theory. Existing PRC theories utilise the stability margins to gauge the stability of the controller-plant pair, while the approach considered in this paper ties everything like stability and performance nicely with the ${Gap}{(\theta)}$ and gives probabilistic guarantees.
+
+### Connecting Random Gap & Scenario-Based Robustness
+
+In scenario-based approaches, one works with just the finite number of samples of uncertainties possibly from an unknown generating distribution to do both the reliability estimation and performance estimation in the context of PRC setting considered in \[(https://arxiv.org/html/2507.10010v2#bib.bib16)\]. To connect the scenario-based approach with our random gap based problem formulation, we will deviate from the assumption that the distribution of the uncertain parameter $\theta$ is known in this section meaning that $\mathbf{f}_{\theta}$ is not necessarily equal to $\mathcal{N}{(\mu_{\theta},{\sigma_{\theta}^{2}I_{p}})}$. We have the following assumption in place in regards to that.
+
+### Assumption 4
+
+The distribution $\mathbf{f}_{\theta}$ is unknown but we have access to a finite set of $N \in {\mathbb{N}}$ independent and identically distributed samples ${\{\theta^{(i)}\}}_{i = 1}^{N}$ drawn from $\mathbf{f}_{\theta}$.
+
+Assumption (https://arxiv.org/html/2507.10010v2#Thmassumption4 "Assumption 4. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric") just says that we have $N$ samples of $\theta$ available for decision making. We know that if $N\rightarrow\infty$, it means that we essentially know the distribution $\mathbf{f}_{\theta}$ exactly and thereby getting rid of the uncertainty associated with distribution of $\theta$ in assumption (https://arxiv.org/html/2507.10010v2#Thmassumption4 "Assumption 4. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric"). On the other hand, if we were to give probabilistic guarantees on the nominal controller stabilising a random plant based on just the available $N$ samples of $\theta$, then the resulting probability will be determined by $N$. Usually, a failure or a violation probability is given apriori and we need to find a connection between that violation probability and the number of samples $N$ to give probabilistic guarantees. The following theorem nicely establishes a connection by leveraging the power of scenario-based approaches to give finite sample-based guarantees on the gap-metric based robust stability.
+
+### Theorem 13
+
+Let $\overline{C}$ be a nominal controller stabilising a nominal plant $\overline{\Sigma}$ and results in $b_{\overline{\Sigma},\overline{C}} > 0$. Suppose that the perturbed plant ${\overset{\sim}{\Sigma}{(\theta)}} \in \mathcal{H}_{\infty}$ be affected by a random parameter $\theta \in {\mathbb{R}}^{p}$ characterised by assumption (https://arxiv.org/html/2507.10010v2#Thmassumption4 "Assumption 4. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric"). Given a confidence level $\beta \in {}$ and a violation probability $\epsilon \in {}$, if the number of samples of $\theta$ satisfies
+
+Additionally, if ${{\max_{i = {1,\ldots,N}}{Gap}}{(\theta^{(i)})}} < b_{\overline{\Sigma},\overline{C}}$, then
+
+### Proof
+
+For a violation threshold $\alpha > 0$, let us denote the probability of violation as
+
+Then, from Theorem 1 in \[(https://arxiv.org/html/2507.10010v2#bib.bib16)\], we know that for a given violation probability $\epsilon \in {}$, if $N$ satisfies ((https://arxiv.org/html/2507.10010v2#S4.E64 "In Theorem 13. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric")), then
+
+Additionally, if ${\hat{\alpha}}_{N}$ satisfies ${\hat{\alpha}}_{N} < b_{\overline{\Sigma},\overline{C}}$, then from ((https://arxiv.org/html/2507.10010v2#S1.E16 "In Proposition 1. ‣ 1.3 Preliminaries About Gap Metric ‣ 1 Introduction ‣ Probabilistic Robustness in the Gap Metric")), we see that every plant within a gap radius ${\hat{\alpha}}_{N}$ from $\overline{\Sigma}$ is stabilized by $\overline{C}$. When ${\hat{\alpha}}_{N} < b_{\overline{\Sigma},\overline{C}}$, from ((https://arxiv.org/html/2507.10010v2#S4.E67 "In Proof. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric")) and ((https://arxiv.org/html/2507.10010v2#S4.E69 "In Proof. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric")), we know that ${{Gap}{(\theta)}} \leq {\hat{\alpha}}_{N} < b_{\overline{\Sigma},\overline{C}}$, would imply that $\overline{C}$ will stabilize $\overset{\sim}{\Sigma}{(\theta)})$. We know that if event $B$ implies event $A$, then ${{\mathbb{P}}{(B)}} \leq {{\mathbb{P}}{(A)}}$. Hence,
+
+This completes the proof. ∎
+
+### Interpretation of Confidence and Probabilistic Robustness
+
+The probabilistic robustness guarantee obtained through scenario-based method in ((https://arxiv.org/html/2507.10010v2#S4.E65 "In Theorem 13. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric")) of Theorem (https://arxiv.org/html/2507.10010v2# "Theorem 13. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric") involves two distinct sources of randomness namely,
+
+*Randomness from $\mathbf{f}_{\theta}$ (Probabilistic Robustness):* The term ${{\mathbb{P}}\left( {{{Gap}{(\theta)}} > {\hat{\alpha}}_{N}} \right)} \leq \epsilon$ describes the probability (under the unknown $\mathbf{f}_{\theta}$ of $\theta$) that a randomly chosen uncertain plant model $\overset{\sim}{\Sigma}{(\theta)}$ results in the gap exceeding threshold ${\hat{\alpha}}_{N}$.
+
+*Randomness from Scenario Sampling (Confidence):* Since the scenarios ${\{\theta^{(i)}\}}_{i = 1}^{N}$ are drawn randomly from the unknown $\mathbf{f}_{\theta}$, the scenario-based gap threshold ${\hat{\alpha}}_{N}$ given by ((https://arxiv.org/html/2507.10010v2#S4.E68 "In Proof. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric")) itself is random. Hence, the event ${{\mathbb{P}}\left( {{{Gap}{(\theta)}} > {\hat{\alpha}}_{N}} \right)} \leq \epsilon$ is also random. The confidence level $1 - \beta$ quantifies the probability (over repeated scenario samplings) that the scenario-based threshold correctly achieves the probabilistic robustness guarantee.
+
+Thus, the probabilistic robustness guarantee is itself a random quantity due to scenario sampling, and the confidence level quantifies our trust to obtain a good scenario-based threshold.
+
+### Numerical Simulation
+
+In order to demonstrate the connection of the random gap with the scenario-based robustness established in Theorem (https://arxiv.org/html/2507.10010v2# "Theorem 13. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric"), we considered a nominal system $\overline{\Sigma}:\frac{1}{s + 1}$ and a perturbed system ${\overset{\sim}{\Sigma}{(\theta)}} = \frac{1}{s + {({1 + \theta})}}$, where $10^{4}$ samples of $\theta$ were sampled from $\mathcal{N}{(0,0.25^{2})}$. We chose a violation probability of $\epsilon = 0.05$ and a confidence level parameter of $\beta = 0.01$. For the nominal controller $\overline{C} = \frac{({s + 2})}{2{({s + 3})}}$, the performance measure was $b_{\overline{\Sigma},\overline{C}} = 0.8944$. Given a violation probability of $\epsilon = 0.05$ and a confidence level of $\beta = 0.01$, the sample size condition from ((https://arxiv.org/html/2507.10010v2#S4.E64 "In Theorem 13. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric")) resulted in $N \geq 90$. By running a Monte-carlo simulation using $10^{4}$ instances of $\theta$ generated as mentioned above, the results are plotted in Figure (https://arxiv.org/html/2507.10010v2#S4.F4 "Figure 4 ‣ 4.3 Numerical Simulation ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric").
+
+Figure 4: The probability density of Gap(θ) is plotted for 104 independent samples of θ. Since holds and ${\hat{\alpha}}_{N} &lt; b_{\overline{\Sigma},\overline{C}}$, the nominal controller $\overline{C}$ would end up stabilising the random plant with probability of at least 1 − ϵ as per Theorem 13.
+
+We observed that ${\hat{\alpha}}_{N} = 0.7019$ which was less than $b_{\overline{\Sigma},\overline{C}} = 0.8944$. This ensured that from Theorem (https://arxiv.org/html/2507.10010v2# "Theorem 13. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric") that the condition ${{Gap}{(\theta)}} \leq {\hat{\alpha}}_{N}$ holding with probability of at least ${1 - \epsilon} = 0.95$ implied that the nominal controller $\overline{C}$ would stabilise the random plant $\overset{\sim}{\Sigma}{(\theta)}$ with probability of at least the same value of ${1 - \epsilon} = 0.95$. As mentioned earlier, the confidence level $1 - \beta$ quantifies the probability (over repeated scenario samplings) that the scenario-based threshold correctly achieves the probabilistic robustness guarantee. That is, if we repeatedly draw new sets of $N \geq 90$ samples, then in at least $100{{({1 - \beta})}\%}$ of these repetitions, the computed scenario threshold ${\hat{\alpha}}_{N}$ will ensure a true violation probability no greater than $\epsilon$. On the other hand, when the covariance strength of $\theta$ was increased to $0.5^{2}$ from $0.25^{2}$, we were able to see some unstable perturbed plants being generated meaning that ${Gap}{(\theta)}$ and hence ${\hat{\alpha}}_{N}$ became equal to $1$ for those samples of $\theta$. Note that even under such unstable case, ((https://arxiv.org/html/2507.10010v2#S4.E65 "In Theorem 13. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric")) would hold true but unfortunately ((https://arxiv.org/html/2507.10010v2#S4.E66 "In Theorem 13. ‣ 4.1 Connecting Random Gap & Scenario-Based Robustness ‣ 4 Connections to Existing Probabilistic Robust Control (PRC) Theory ‣ Probabilistic Robustness in the Gap Metric")) will not hold as $\underset{= 1}{\underbrace{{\max_{i={1,\ldots,N}}⁡{Gap}}⁢{(\theta^{(i)})}}} > \underset{= 0.8944}{\underbrace{b_{\overline{\Sigma},\overline{C}}}}$.
+
+## Conclusion & Future Outlook
+
+When a random parameter affects a linear system, we studied how it manifested itself as the associated random gap between the nominal model of the system (without any uncertainty) and the perturbed model of the system (with uncertainty). The randomness in the associated gap resulted in probabilistic versions of the corresponding performance guarantees and stability margins guarantees measured in terms of the gap. This new perspective on PRC using the random gap provides us information about upper bounds on the expected gap quantity and the expected $\mathcal{H}_{\infty}$ achievable performance level apriori for any stabilising controller. A connection to the existing tools on PRC using scenario-based approach was also presented in this paper. The results obtained in this paper nicely blends the high dimensional statistics tool with the random gap problem formulation and gives probabilistic guarantees on both gap metric based robust performance and robust stability.\
+
+The aim of this paper is to revive the research on PRC theory. Future research prospects look very promising and there are many interesting open research questions along the lines of the research presented in this paper. We list here few of them which we believe can be immediately pursued given the existing developments done in this manuscript.
+
+Obtain probabilistic guarantees on gap metric by investigating the randomness in the projection operator.
+
+Investigate and give bounds on the expected distance between $\delta_{g}{(\overline{C},{C{(\theta)}})}$, where $C{(\theta)}$ would be the controller which will result in same performance measure for the perturbed system $\overset{\sim}{\Sigma}{(\theta)}$ as $\overline{C}$ did for the nominal system $\overline{\Sigma}$ meaning that $b_{{\overset{\sim}{\Sigma}{(\theta)}},{C{(\theta)}}} = b_{\overline{\Sigma},\overline{C}}$. This would inform us how much the respective controllers that guarantee same performance level for the nominal and perturbed plants are further apart in the expected sense.
+
+An important future research direction would be to formulate and compute the distance between two stochastic dynamical systems $\delta_{gap}{({{\overset{\sim}{\Sigma}}_{1}{(\theta)}},{{\overset{\sim}{\Sigma}}_{2}{(\theta)}})}$ where the uncertainty in each system is described using the random gap metric between its respective nominal model and the perturbed model.
+
+Another important research direction will be to extend the problem setting to both linear time varying systems and to nonlinear systems by formulating the quantity of interest namely the gap between the nominal and the corresponding perturbed system models as random.
+
+Another interesting direction is to first develop gap metric based robust tube model predictive control (MPC). The uncertainty around the system trajectories from the true but unknown perturbed model different from the nominal model is characterised along the prediction horizon using the assumed gap between the nominal $(\overline{P})$ and the perturbed system $(P)$ (by formulating linear matrix inequality (LMI) \[(https://arxiv.org/html/2507.10010v2#bib.bib25)\] constraints for the condition ${\delta_{g}{(P,\overline{P})}} \leq \alpha$ for a given $\alpha \in {}$). Using the random gap based problem formulation considered in this manuscript, the deterministic gap metric based robust tube MPC can be even extended further to gap metric based stochastic tube MPC setting.

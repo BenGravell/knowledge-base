@@ -1,0 +1,7 @@
+Trajectory Planning
+
+Topics include Trajectory planning, Robot manipulators, Motion planning, Path parameterization, Industrial robotics, Constraints.
+
+A compact handbook chapter on trajectory planning for industrial manipulators, spanning constraint handling, path-to-trajectory conversion, and objectives such as time and energy. It is useful as a taxonomy and orientation source rather than a new algorithm paper.
+
+Trajectory planning consists in finding a time series of successive joint angles that allows moving a robot from a starting configuration towards a goal configuration, in order to achieve a task, such as grabbing an object from a conveyor belt and placing it on a shelf. This trajectory must respect given constraints: for instance, the robot should not collide with the environment, the joint angles, velocities, accelerations or torques should be within specified limits, etc. Next, if several trajectories are possible, one should choose the one that optimizes a certain objective, such as the trajectory execution time or energy consumption. This chapter reviews methods to plan trajectories with constraints and optimization objectives relevant to industrial robot manipulators.

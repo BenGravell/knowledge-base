@@ -1,0 +1,19 @@
+Minimum Volume Conformal Sets for Multivariate Regression
+
+Topics include Conformal prediction, Multivariate regression, Prediction sets, Minimum-volume sets, Nonconformity scores, Norm balls, Distribution-free inference, Uncertainty quantification.
+
+Proposes an optimization-driven way to learn conformal prediction sets for multivariate regression while directly targeting small set volume. The method turns minimum-volume coverage into a learned nonconformity score over norm-ball prediction sets, making conformal multivariate uncertainty more adaptive than fixed-shape constructions.
+
+Conformal prediction provides a principled framework for constructing predictive sets with finite-sample validity. While much of the focus has been on univariate response variables, existing multivariate methods either impose rigid geometric assumptions or rely on flexible but computationally expensive approaches that do not explicitly optimize prediction set volume. We propose an optimization-driven framework based on a novel loss function that directly learns minimum-volume covering sets while ensuring valid coverage. This formulation naturally induces a new nonconformity score for conformal prediction, which adapts to the residual distribution and covariates. Our approach optimizes over prediction sets defined by arbitrary norm balls, including single and multi-norm formulations. Additionally, by jointly optimizing both the predictive model and predictive uncertainty, we obtain prediction sets that are tight, informative, and computationally efficient, as demonstrated in our experiments on real-world datasets.
+
+## Introduction
+
+In predictive modeling, quantifying uncertainty is often as crucial as making accurate predictions. Traditional point estimates provide limited insight into predictive accuracy, whereas prediction sets offer a more robust alternative by identifying regions that contain the true outcome with high probability. Conformal prediction Vovk et al.; Shafer and Vovk; Angelopoulos et al. provides a model-agnostic framework for constructing such sets with finite-sample validity, ensuring that the true response is captured at least $1 - \alpha$ fraction of the time without requiring strong distributional assumptions.
+
+In the setting of univariate regression, conformal prediction can produce prediction intervals that adapt to heteroskedasticity in the data. Quantile regression, optimized using the pinball loss, is a common approach for learning such intervals Romano et al.. Extending these ideas to multivariate regression, however, where the response is vector-valued, introduces significant challenges. A straightforward extension---constructing Cartesian products of marginal intervals Neeven and Smirnov ---fails to account for dependencies across dimensions, resulting in overly conservative and inefficient prediction sets....
+
+Finally, our model is designed for a fixed confidence level $\alpha$, similar to quantile regression approaches. However, one advantage of our framework is that it allows for post-hoc adjustments, enabling adaptation to different coverage levels after training. Investigating how to efficiently recalibrate prediction sets for varying confidence levels could further enhance flexibility.
+
+Despite these challenges, our approach demonstrates strong empirical performance across both synthetic and real datasets, offering a scalable and adaptive solution to multivariate uncertainty quantification. Future research could build upon this foundation to improve theoretical guarantees, explore alternative optimization techniques, and extend the method to further application areas.
+
+where $\lambda{({B_{\parallel \cdot \parallel_{p_{j}}}{}})}$ represents Lebesgue measure of the unit $p_{j}$-norm ball, given explicitly in. The global rotation matrix $R$ does not affect the volume since it is an orthogonal transformation with ${\det{(R)}} = 1$, leaving the determinant term unchanged....

@@ -1,0 +1,19 @@
+Enforcing the Consensus between Trajectory Optimization and Policy Learning for Precise Robot Control
+
+Topics include Trajectory optimization, Policy learning, Reinforcement learning, Robot control, Hybrid approaches.
+
+Uses an Augmented Lagrangian / ADMM technique to penalize disagreement between a learned policy and a trajectory optimizer during training, combining the accuracy of trajectory optimization with the generalization of learned policies for precise robot control.
+
+Reinforcement learning (RL) and trajectory optimization (TO) present strong complementary advantages. On one hand, RL approaches are able to learn global control policies directly from data, but generally require large sample sizes to properly converge towards feasible policies. On the other hand, TO methods are able to exploit gradient-based information extracted from simulators to quickly converge towards a locally optimal control trajectory which is only valid within the vicinity of the solution. Over the past decade, several approaches have aimed to adequately combine the two classes of methods in order to obtain the best of both worlds. Following on from this line of research, we propose several improvements on top of these approaches to learn global control policies quicker, notably by leveraging sensitivity information stemming from TO methods via Sobolev learning, and Augmented Lagrangian (AL) techniques to enforce the consensus between TO and policy learning. We evaluate the benefits of these improvements on various classical tasks in robotics through comparison with existing approaches in the literature.
+
+## Introduction
+
+By leveraging derivative information from the dynamics and costs, optimal control (OC) algorithms efficiently compute local controllers. Model Predictive Control (MPC) aims at retrieving a local controller with state feedback through online re-planning. However, current algorithms remain computationally too expensive to be run at high frequencies, are sensible to local minima and integration of information from sensors (e.g. force, vision) is technically difficult. This limits both their real-world capabilities and the practicality of deployment on complex settings requiring various sensor modalities....
+
+Reinforcement learning (RL) is the prevailing paradigm when it comes to learning policies directly from observations. In RL, the physical dynamics are usually considered as unknown and classical algorithms rely on stochastic policies to build $0$^th^-order gradient estimators. Although they are unbiased, the high variance of such estimators make them very sample-inefficient. Actor critic approaches combine ideas from policy gradient and approximate dynamic programming by using an estimate of the Q function to reduce variance of policy gradient algorithms....
+
+In this work, we assumed the samples ${(\beta^{(i)})}_{i}$ used for policy optimization are fixed; they are never re-sampled (which is how stochastic algorithms such as SGD work) nor are new samples ever added. This is the domain of constrained stochastic optimization; one of the difficulties here is updating the Lagrange multipliers in a way where optimization progress is not lost at every sampling. Such an extension could allow active sampling of the initial condition $x^{0}$ or other parameters so to explore the state space and learn policies more effectively.
+
+We could then explore extensions towards setups closer to GPS by considering partially unknown system dynamics, with limited knowledge of some physical parameters (e.g. friction coefficients) -- in order to take advantage of physical models once again. This would require embedding a system identification step in the loop which would also benefit from differentiable simulation techniques.
+
+Contrary to Alg. 1, the OC (Alg. 2, line 2) and supervised learning (Alg. 2, line 2) phases are now linked via the Lagrange multipliers $\mathbf{\Lambda}$....

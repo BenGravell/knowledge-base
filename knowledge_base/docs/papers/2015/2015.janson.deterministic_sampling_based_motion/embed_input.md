@@ -1,0 +1,7 @@
+Deterministic Sampling-Based Motion Planning: Optimality, Complexity, and Performance
+
+Topics include Sampling-based planning, Deterministic sampling, Low-dispersion sequences, PRM, FMT*, Asymptotic optimality, Motion planning.
+
+Shows that sampling-based planners can retain optimality guarantees with deterministic low-dispersion sequences, often with better complexity constants and certification properties than iid sampling. It is a useful theoretical bridge between lattice-like planners and PRM/FMT-style algorithms.
+
+Probabilistic sampling-based algorithms, such as the probabilistic roadmap (PRM) and the rapidly-exploring random tree (RRT) algorithms, represent one of the most successful approaches to robotic motion planning, due to their strong theoretical properties (in terms of probabilistic completeness or even asymptotic optimality) and remarkable practical performance. Such algorithms are probabilistic in that they compute a path by connecting independently and identically distributed random points in the configuration space. Their randomization aspect, however, makes several tasks challenging, including certification for safety-critical applications and use of offline computation to improve real-time execution. Hence, an important open question is whether similar (or better) theoretical guarantees and practical performance could be obtained by considering deterministic, as opposed to random sampling sequences. The objective of this paper is to provide a rigorous answer to this question....

@@ -1,0 +1,7 @@
+Fast-dDrive: Efficient Block-Diffusion VLM for Autonomous Driving
+
+Topics include Autonomous driving, Vision-language-action, Diffusion models, Vision-language models, End-to-end planning.
+
+Introduces Fast-dDrive, a block-diffusion vision-language-action model for autonomous driving that preserves causal section ordering while refining structured outputs in parallel. The paper targets the practical speed-accuracy tradeoff for real-time VLA-based driving policies.
+
+End-to-end autonomous driving via Vision-Language-Action (VLA) models demands a precarious balance between high-fidelity trajectory planning and efficient inference. Existing paradigms typically fall short: autoregressive (AR) VLAs are memory-bandwidth-bound on edge hardware and prone to exposure-bias drift, while full-sequence diffusion models preclude KV-cache reuse and suffer from "logical leakage" that violates the fundamental perceive-then-plan causality. We present Fast-dDrive, a block-diffusion VLA that performs bidirectional refinement within semantic units while enforcing strict causal ordering across them. Leveraging the observation that driving VLAs often emit structured JSON-like outputs, Fast-dDrive freezes structural tokens into a section scaffold and employs a section-aware training recipe that prioritizes safety-critical planning. We further introduce Scaffold Speculative Decoding to achieve AR-equivalent quality at significantly higher throughput....

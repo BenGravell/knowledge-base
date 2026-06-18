@@ -1,0 +1,17 @@
+Informative Input Design for Dynamic Mode Decomposition
+
+Efficiently estimating system dynamics from data is essential for minimizing data collection costs and improving model performance. This work addresses the challenge of designing future control inputs to maximize information gain, thereby improving the efficiency of the system identification process. We propose an approach that integrates informative input design into the Dynamic Mode Decomposition with control (DMDc) framework, which is well-suited for high-dimensional systems. By formulating an approximate convex optimization problem that minimizes the trace of the estimation error covariance matrix, we are able to efficiently reduce uncertainty in the model parameters while respecting constraints on the system states and control inputs. This method outperforms traditional techniques like Pseudo-Random Binary Sequences (PRBS) and orthogonal multisines, which do not adapt to the current system model and often gather redundant information. We validate our approach using aircraft and fluid dynamics simulations to demonstrate the practical applicability and effectiveness of our method....
+
+## Introduction
+
+Estimating system dynamics from data is a fundamental problem in control theory and systems engineering \[ljung1998system, tangirala2018principles, keesman2011system, kostelich1992problems, vandenberghe2012convex\]. Rapidly learning from limited measurements in high-dimensional systems can significantly reduce the cost associated with expensive real-world data collection while yielding more accurate models. Optimizing the actuation input sequence to gather informative measurements while respecting constraints on the state and control inputs remains an open challenge \[kaiser2018sparse\]....
+
+System identification is relevant in almost every science and engineering discipline ranging from aircraft dynamics, to geothermal processes, to financial markets \[tangirala2018principles\]. When the state space of these real-world environments is very large, reduced order models can be used to capture the most prominent dynamics of the system of interest. One common approach to constructing reduced order models is through Dynamic Mode Decomposition (DMD), a data-driven technique that decomposes complex systems into a set of dynamic modes, capturing essential spatiotemporal patterns \[schmid2010dynamic, proctor2016dynamic\]....
+
+The results from these simulations underscore the practical utility of our approach in various real-world applications, from aircraft control to fluid dynamics. Our methods not only significantly reduce model uncertainty with less data, but also support real-time applications.
+
+Future work will explore enhancements to our input design framework, including extensions to handle more complex nonlinear systems, and applications in other domains such as robotics, climate modeling, and financial systems. The integration of our methods with real-time control systems holds promise for advancing the state-of-the-art in system identification and control, paving the way for more intelligent, data-driven approaches to managing and understanding complex dynamical systems....
+
+This is affine in $Z$, hence the variables $u,x$. We can then minimize ${\mathbf{t}\mathbf{r}}{({\hat{W}}^{- 1})}$ instead of ${\mathbf{t}\mathbf{r}}{(W^{- 1})}$ in each iteration of the CCP. The problem then becomes:
+
+This recursive equation allows us to estimate how uncertainty in the state evolves over time due to both the dynamics of the system and the...

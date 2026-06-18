@@ -1,0 +1,17 @@
+Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC
+
+Model-predictive control (MPC) is a state-of-the-art control method for constrained robotic systems, yet deployment on resource-limited hardware remains difficult. This challenge is magnified by expressive conic constraints, which offer greater modeling power but require significantly more computation than linear alternatives. To address this challenge, we extend recent work developing fast, structure-exploiting, cached solvers for embedded applications based on the Alternating Direction Method of Multipliers (ADMM) to provide support for second-order cones, as well as C++ code generation from Python, MATLAB, and Julia. Microcontroller benchmarks show that our solver provides up to a two-order-of-magnitude speedup, ranging from 10.6x to 142.7x, over state-of-the-art embedded solvers on QP and SOCP problems, and enables us to fit order-of-magnitude larger problems in memory. We validate our solver's deployed performance through simulation and hardware experiments, including trajectory tracking with conic constraints on a 27g Crazyflie quadrotor. Our open-source code is available at
+
+## Introduction
+
+Model Predictive Control (MPC) is an algorithmic approach that enables highly dynamic online control for robots subject to actuator and state constraints. However, while MPC has been deployed quite successfully in both academia and industry, its application is often hindered by computational limitations. This challenge is amplified when dealing with tiny, low-cost, low-power robots, as their onboard microcontroller units (MCUs) feature orders-of-magnitude less RAM, flash memory, and processor speed compared to the CPUs and GPUs available on larger robots....
+
+Moreover, while many embedded solvers today focus solely on quadratic programming (QP), second-order cone programs (SOCPs) represent a significantly richer class of tractable convex optimization problems, strictly generalizing linear and quadratic ones while remaining efficiently solvable due to their symmetric, self-dual structure. Many problems that appear nonconvex admit exact or lifted SOCP reformulations. Such problems also arise naturally in robotic and aerospace control problems involving friction, attitude, and thrust limits....
+
+In this paper, we develop Conic-TinyMPC, an open-source, high-speed, structure-exploiting, alternating direction method of multipliers (ADMM) solver targeting low-power embedded conic control applications. We also present a code-generation framework with high level Python, MATLAB, and Julia interfaces that makes it easy to use our solver. We demonstrate the performance of Conic-TinyMPC through a series of experiments including a number of microcontroller benchmarks, and hardware deployments using a 27 gram Crazyflie quadrotor.
+
+There are several directions for future work. One of particular note is that our approach, like that of, relies on fixed (set of) linearizations, which may not capture all robotic systems well. To address this, we plan to explore recent work that models the nonlinear-to-linear gap as an antagonistic disturbance using reachability analysis, enabling us to more safely support nonlinear systems.
+
+For constant bounds on variables, such as the case of position, velocity, or control limits, $(l,u)$, this can be reduced to a projection onto a set of upper and lower bounds:
+
+The dynamical system can be modeled as linear time invariant, with fixed ${A,B,{c{\forall k}}} \in {\lbrack 0,N)}$;

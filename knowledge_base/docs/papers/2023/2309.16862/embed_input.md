@@ -1,0 +1,23 @@
+Stochastic Implicit Neural Signed Distance Functions for Safe Motion Planning under Sensing Uncertainty
+
+Motion planning under sensing uncertainty is critical for robots in unstructured environments to guarantee safety for both the robot and any nearby humans. Most work on planning under uncertainty does not scale to high-dimensional robots such as manipulators, assumes simplified geometry of the robot or environment, or requires per-object knowledge of noise. Instead, we propose a method that directly models sensor-specific aleatoric uncertainty to find safe motions for high-dimensional systems in complex environments, without exact knowledge of environment geometry. We combine a novel implicit neural model of stochastic signed distance functions with a hierarchical optimization-based motion planner to plan low-risk motions without sacrificing path quality. Our method also explicitly bounds the risk of the path, offering trustworthiness. We empirically validate that our method produces safe motions and accurate risk bounds and is safer than baseline approaches.
+
+## Introduction
+
+Robots in unstructured environments must reliably plan safe (*i.e.*, collision-free) motions using only uncertain, noisy sensor percepts. For robots in human-oriented environments (*e.g.*, home or assistive robotics), this capability is crucial---as unsafe motions may hurt humans---and challenging, as these robots are often high degree-of-freedom (d o f) manipulators. Reliable safety under uncertainty requires not only producing plans that are unlikely to collide, but also providing evidence that plans are trustworthy....
+
+However, most work on motion planning under uncertainty makes simplifying assumptions about robot or environment geometry (*e.g.*, point robots or environments with only known, simple geometry), does not scale to high d o f systems, or places strict assumptions on the distributions of noise (*e.g.*, only translational noise, segmented to individual objects or normally distributed).
+
+## Concluding Remarks
+
+This paper presents a novel approach to planning under sensing uncertainty for high d o f robots that reliably computes safe paths without strong assumptions on the true environment geometry. Our planner relies on an implicit neural representation trained to capture aleatoric uncertainty arising from the robot's sensor. Our representation does not place assumptions on the environment but instead directly approximates signed distance distributions between the robot and points in space, conditioned on robot configurations....
+
+### IV-B Chance-Constrained Hierarchical Planning
+
+## Safe Motion Planning with a Stochastic Neural Representation
+
+## Evaluation and Results
+
+In contrast, we introduce a method for reliable, safe motion planning for high d o f systems under sensing uncertainty that directly models inherent sensor noise without placing assumptions on the environment. We propose to quantify the aleatoric uncertainty of the sensor with an implicit model of the stochastic signed distance fields between the robot's links and points in the environment, conditioned on the robot's configuration. By explicitly modeling this uncertainty, we can both compute safe paths given only noisy sensing and approximately bound the remaining risk of collision.
+
+Figure 1: Simulated motion planning problem under sensing uncertainty. The environment is composed of noisy points (blue spheres) to be avoided....

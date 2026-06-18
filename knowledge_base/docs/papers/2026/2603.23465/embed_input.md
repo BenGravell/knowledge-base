@@ -1,0 +1,5 @@
+Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control
+
+Topics include Accuracy, Control, Learning.
+
+Compounding error, where small prediction mistakes accumulate over time, presents a major challenge in learning-based control. A common remedy is to train multi-step predictors directly instead of rolling out single-step models. However, it is unclear when the benefits of multi-step predictors outweigh the difficulty of learning a more complex model. We provide the first quantitative analysis of this trade-off for linear dynamical systems. We study three predictor classes: (i) single step models, (ii) multi-step models, and (iii) single step models trained with multi-step losses. We show that when the model class is well-specified and accurately captures the system dynamics, single-step models achieve the lowest asymptotic prediction error. On the other hand, when the model class is misspecified due to partial observability, direct multi-step predictors can significantly reduce bias and improve accuracy. We provide theoretical and empirical evidence that these trade-offs persist when predictors are used in closed-loop control.

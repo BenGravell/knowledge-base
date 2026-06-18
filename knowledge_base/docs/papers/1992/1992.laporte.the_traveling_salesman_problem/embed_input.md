@@ -1,0 +1,7 @@
+The Traveling Salesman Problem: An Overview of Exact and Approximate Algorithms
+
+Topics include Traveling salesman problem, Combinatorial optimization, Exact algorithms, Approximation algorithms, Heuristics, Complexity theory.
+
+Surveys exact and approximate algorithms for the traveling salesman problem at a level suitable for a first graduate course in combinatorial optimization. The paper organizes the problem's definition, applications, complexity, exact methods, and heuristics into a compact overview of the state of the field through the early 1990s.
+
+In this paper, some of the main known algorithms for the traveling salesman problem are surveyed. The paper is organized as follows: 1) definition; 2) applications; 3) complexity analysis; 4) exact algorithms; 5) heuristic algorithms; 6) conclusion. The Traveling Salesman Problem (TSP) is one of the most widely studied combinatorial optimization problems. Its statement is deceptively simple, and yet it remains one of the most challenging problems in Operational Research. Hundreds of articles have been written on the TSP. The book edited by Lawler et al. provides an insightful and comprehensive survey of all major research results until that date. The purpose of this survey paper is less ambitious. Our main objective is to present an integrated overview of some of the best exact and approximate algorithms so far developed for the TSP, at a level appropriate for a first graduate course in combinatorial optimization.

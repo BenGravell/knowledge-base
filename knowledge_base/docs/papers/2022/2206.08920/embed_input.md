@@ -1,0 +1,25 @@
+VectorMapNet: End-to-End Vectorized HD Map Learning
+
+Topics include High-definition map construction, Vectorized maps, Autonomous driving, Bird's-eye view perception, Polyline generation, Sensor fusion, Set prediction, Motion forecasting, NuScenes, Argoverse 2, VectorMapNet.
+
+Recasts learned HD map construction as direct prediction of sparse vector polylines rather than raster segmentation followed by hand-built post-processing. VectorMapNet combines BEV feature extraction, set-style map element detection, and object-level polyline generation, making its output closer to what downstream forecasting and planning systems consume.
+
+Autonomous driving systems require High-Definition (HD) semantic maps to navigate around urban roads. Existing solutions approach the semantic mapping problem by offline manual annotation, which suffers from serious scalability issues. Recent learning-based methods produce dense rasterized segmentation predictions to construct maps. However, these predictions do not include instance information of individual map elements and require heuristic post-processing to obtain vectorized maps. To tackle these challenges, we introduce an end-to-end vectorized HD map learning pipeline, termed VectorMapNet. VectorMapNet takes onboard sensor observations and predicts a sparse set of polylines in the bird's-eye view. This pipeline can explicitly model the spatial relation between map elements and generate vectorized maps that are friendly to downstream autonomous driving tasks. Extensive experiments show that VectorMapNet achieve strong map learning performance on both nuScenes and Argoverse2 dataset, surpassing previous state-of-the-art methods by 14.2 mAP and 14.6mAP....
+
+## Introduction
+
+Autonomous driving systems require an understanding of map elements on the road, including lanes, pedestrian crossing, and traffic signs, to navigate around the world. Such map elements are typically provided by pre-annotated High-Definition (HD) semantic maps in existing pipelines. However, these methods face scalability issues due to their heavy reliance on human labor for annotating HD maps. Additionally, they necessitate precise localization of the ego-vehicle to derive local maps from the global one, a process that could introduce meter-level errors.
+
+In contrast, our focus lies in developing a learning-based approach for online HD semantic map learning. The aim is to use onboard sensors, including LiDARs and cameras, to estimate map elements on-the-fly. This methodology avoids the need for localization, allowing for prompt updates. Furthermore, learning-based methods can generate uncertainty or confidence indicators that downstream modules, such as motion forecasting and planning, can utilize to offset imperfect perception....
+
+## Conclusions
+
+We present VectorMapNet, an end-to-end model to tackle the HD semantic map learning problem. Unlike existing works, VectorMapNet uses polylines as the primitives to represent vectorized HD map elements. To predict polylines from sensor data, we decompose the problem into a detection step and a generation step. Our experiments show that VectorMapNet can generate coherent and complex geometries for urban map elements, benefiting from the polyline primitives. We believe that this novel way to learn HD maps provides a new perspective on the HD semantic map learning problem.
+
+Upon the approximate position, shape, and category of map elements identified by map element detector, the polyline generator focuses on the detailed geometry of HD map, which entails calculating variable-length polyline vertices and their order. Accurate modeling of vertex relationships is crucial - for instance, a white line between two vertices often signifies a line connection in the vectorized map. The polyline generator operates as a discrete distribution $p{(\left....
+
+### BEV Feature Extractor
+
+#dim
+
+Most of HD semantic map learning methods consider the task as a semantic segmentation problem in bird's-eye view (BEV), which rasterizes map elements into pixels and assigns each pixel with a class label....

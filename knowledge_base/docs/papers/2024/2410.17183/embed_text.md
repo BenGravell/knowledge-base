@@ -1,0 +1,153 @@
+## Introduction
+
+Expert racing drivers are able to pilot a vehicle at its performance limits by using all the available friction potential between the tires and the road. They are able to do this reliably lap after lap despite changes in the vehicle's performance and behavior due to tire temperature, tire wear, and especially, weather conditions. However, current approaches to autonomous vehicle control struggle in such settings because they are sensitive to discrepancies between the model used for control and the true system \[(https://arxiv.org/html/2410.17183v1#bib.bib1)\]. This sensitivity motivates the design of new algorithms that can robustly leverage the full vehicle capabilities. Designing reliable control algorithms for racing may inform the future design of expert driver assistance systems by unlocking reliable responses for avoiding sudden obstacles, driving in adverse weather, and reacting quickly to challenges on the road.
+
+Research in autonomous racing has boomed in the last decade, see \[(https://arxiv.org/html/2410.17183v1#bib.bib2)\] for a survey. State of the art control approaches to racing use model predictive control (MPC) to maximize path progress along a planning horizon while respecting constraints such as track bounds. These works use vehicle dynamics models of varying fidelity such as point mass models \[(https://arxiv.org/html/2410.17183v1#bib.bib3), (https://arxiv.org/html/2410.17183v1#bib.bib4)\], singletrack models with Pacejka \[(https://arxiv.org/html/2410.17183v1#bib.bib5)\] and Fiala tire models \[(https://arxiv.org/html/2410.17183v1#bib.bib6), (https://arxiv.org/html/2410.17183v1#bib.bib7)\], and data-driven models \[(https://arxiv.org/html/2410.17183v1#bib.bib8)\]. However, vehicle dynamics models have limitations, and although perceiving the environment to predict changes in road conditions and online adaptation can help reduce model mismatch, some factors like black ice may be difficult to observe, while reactive online learning methods may not be fast-enough to avoid leading the vehicle into an unrecoverable state.
+
+Figure 1: Racing results through a wet area. The proposed risk-averse MPC reliably handles the vehicle throughout the turn. In contrast, a deterministic MPC controller consistently spins out the vehicle as it over-predicts the attainable tire forces.
+
+These modeling challenges motivate the design of MPC tools that explicitly account for uncertainty to optimally trade off robustness and performance. Previous uncertainty-aware MPC methods for racing use stochastic MPC \[(https://arxiv.org/html/2410.17183v1#bib.bib9)\] and tube MPC \[(https://arxiv.org/html/2410.17183v1#bib.bib4)\]. Using a linear model of the vehicle with additive disturbances capturing model mismatch, these methods have demonstrated reliable racing performance. In \[(https://arxiv.org/html/2410.17183v1#bib.bib8)\], using Gaussian process models allowed online adaptation to gradually improve laptime. However, for computational reasons, this method fixes the uncertainty estimates during the optimization, so the MPC is not incentivized to select actions that may reduce uncertainty and lead to faster racing despite uncertainty. Also, these works use a linearization-based uncertainty propagation scheme or model uncertainties with additive disturbances that are randomized at each time, and thus neglect correlations over time. However, uncertain tire friction properties (e.g., due to driving over a wet road) may be highly correlated over time. Treating such sources of uncertain model mismatch as random disturbances may lead to suboptimal racing or to under-estimating the likelihood of spinning out. As shown in \[(https://arxiv.org/html/2410.17183v1#bib.bib10), (https://arxiv.org/html/2410.17183v1#bib.bib11), (https://arxiv.org/html/2410.17183v1#bib.bib12), (https://arxiv.org/html/2410.17183v1#bib.bib13), (https://arxiv.org/html/2410.17183v1#bib.bib14), (https://arxiv.org/html/2410.17183v1#bib.bib15), (https://arxiv.org/html/2410.17183v1#bib.bib16)\], sample-based uncertainty-aware optimization methods offer a potential avenue for using nonlinear dynamics models and accounting for complicated sources of uncertainties, which may necessary for expert racing.
+
+Contributions: We introduce a risk-averse approach for racing that explicitly reasons over uncertainty:
+
+We propose a risk-constrained racing formulation that explicitly accounts for uncertainty over tire forces. It includes a conditional value at risk (CVaR) constraint for track bounds, nonlinear uncertain dynamics, and a cost to minimize expected lap time.
+
+We reformulate the risk-constrained problem using samples of the tire model parameters. Then, we propose a numerical optimization scheme that leverages the sparsity of the problem and parallelizes computations on a graphics processing unit (GPU), unlocking an uncertainty-aware MPC scheme that reasons over $10$ different dynamics parameters and runs at $20$Hz.
+
+We validate the controller on a Lexus LC 500 and show that the proposed risk-constrained MPC approach unlocks reliable performance, while deterministic MPC may lose control of the vehicle in adverse conditions.
+
+## Vehicle Dynamics and Tire Model
+
+We use a single-track vehicle model in curvilinear coordinates \[(https://arxiv.org/html/2410.17183v1#bib.bib17), (https://arxiv.org/html/2410.17183v1#bib.bib6), (https://arxiv.org/html/2410.17183v1#bib.bib18)\], see Figure (https://arxiv.org/html/2410.17183v1#S2.F2 "Figure 2 ‣ II Vehicle Dynamics and Tire Model ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions"). We model wheelspeed dynamics to better account for wheel slippage and load transfer dynamics to account for variation in tire normal forces. We define states and control inputs
+
+where $r$ is the yaw rate, $v$ is the total velocity, $\beta$ is the sideslip, $\omega_{r}$ is the rear wheelspeed, $\Delta F_{z}$ is the load transferred from the front to rear axle, $e$ and $\Delta\varphi$ are the lateral and angle deviations to the reference trajectory, $s$ is the progress along the reference trajectory, $\delta$ is the steering angle, $\tau_{\text{engine}} \geq 0$ is the engine torque, and ${\tau_{\text{brakes},f},\tau_{\text{brakes},r}} \leq 0$ are the front and rear brake torques, respectively. We model the vehicle dynamics as
+
+where $(a,b)$ are the distances from the center of gravity to the front and rear axles, $(I_{z},m)$ are the vehicle inertia and mass, $(r_{\text{w}},I_{\text{w}})$ are the wheel radius and the rear axle inertia, $c > 0$ is a constant, $h_{\text{cg}}$ is the center of gravity height, $\kappa_{\text{ref}}$ is the curvature of the reference path.
+
+Figure 2: Vehicle on the reference path.
+
+To model tire forces $(F_{xf},F_{yf},F_{xr},F_{yr})$, we use the isotropic coupled slip brush Fiala model \[(https://arxiv.org/html/2410.17183v1#bib.bib19), (https://arxiv.org/html/2410.17183v1#bib.bib20)\]
+
+The magnitude of the tire forces $(F_{\text{total},f},F_{\text{total},r})$ are
+
+where $(\sigma_{f},\sigma_{r})$ are the total tire slips, and $(\sigma_{\text{slip},f},\sigma_{\text{slip},r})$ are the total slips as the tires begin fully sliding
+
+The tire loads $(F_{zf},F_{zr})$ depend on the static tire loads $(F_{\text{nom},{zf}},F_{\text{nom},{zr}})$ as $F_{zf} = {F_{\text{nom},{zf}} - {\Delta F_{z}}}$ and $F_{zr} = {F_{\text{nom},{zr}} + {\Delta F_{z}}}$. The maximal tire forces $F_{\text{max}}$ are
+
+The lateral slip angles $(\alpha_{f},\alpha_{r})$ and longitudinal slip ratios $(\kappa_{f},\kappa_{r})$ are
+
+The rear tire model explicitly computes $\kappa_{r}$ since the rear wheelspeed $\omega_{r}$ is in the vehicle state. The front tire model captures coupled lateral-longitudinal tire forces by derating the $F_{\text{max}}$ term according to the friction circle.
+
+Many environmental factors can influence tire behavior including road conditions, tire condition, and even tire temperature \[(https://arxiv.org/html/2410.17183v1#bib.bib18)\]. With our tire model, the tire forces $(F_{xf},F_{yf},F_{xr},F_{yr})$ depend on the tire-road friction $\mu$ and the tire stiffness $C$ parameters, hereinafter defined
+
+In Figure (https://arxiv.org/html/2410.17183v1#S2.F3 "Figure 3 ‣ II Vehicle Dynamics and Tire Model ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions"), we represent the front tire lateral forces $F_{yf}$ as a function of the slip angle $\alpha$ for different values of $(\mu_{f},C_{f})$. We observe that tire forces are sensitive to the choice of these parameters. Inaccurate parameter estimation may cause over-estimation of the maximum tire forces. This motivates accounting for uncertainty over these parameters to design a reliable controller.
+
+Figure 3: Tire forces Fyf as a function of the slip angle α.
+
+## Minimum-Time Formulation for Racing
+
+Next, we describe the racing formulation used in this work. We reparameterize the state and control input as a function of path progress, add the time variable to the state, and combine the rear braking and engine torques to avoid simultaneous acceleration and braking without the need for a non-convex constraint or cost. We define
+
+and map the combined rear torque to the engine and rear brake torques via $\tau_{\text{engine}} = {\max{(0,\tau_{\text{combined},r})}}$ and $\tau_{\text{brakes},r} = {\min{(0,\tau_{\text{combined},r})}}$. The dynamics ${x^{\prime}{(s)}}:=\frac{\text{d}x{(s)}}{\text{d}s}$ of the resulting system are
+
+where $(\overset{˙}{r},\overset{˙}{v},\overset{˙}{\beta},{\overset{˙}{\omega}}_{r},{\Delta{\overset{˙}{F}}_{z}},\overset{˙}{e},{\Delta\overset{˙}{\varphi}},\overset{˙}{s})$ are given in ((https://arxiv.org/html/2410.17183v1#S2.E1 "Equation 1 ‣ II Vehicle Dynamics and Tire Model ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions")).
+
+We discretize the dynamics with a constant path progress difference ${\Delta s} = {3\text{m}}$ and a trapezoidal scheme
+
+where ${(x_{k},u_{k})} \approx {({x{({k\Delta s})}},{u{({k\Delta s})}})}$ correspond to the state and control at $s = {k\Delta s}$ along the path (assuming that $x_{0}$ corresponds to $s = 0$ without loss of generality). Using a trapezoidal scheme for the dynamics constraints ((https://arxiv.org/html/2410.17183v1#S3.E4 "Equation 4 ‣ III Minimum-Time Formulation for Racing ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions")) allows us to plan with a coarse discretization $\Delta s$ over large distances $N\Delta s$. We found that using explicit integrators instead (e.g., an Euler or high-order Runge Kutta schemes) can cause numerical instability if the minimum time cost dominates (see ((https://arxiv.org/html/2410.17183v1#S3.E5 "Equation 5 ‣ III Minimum-Time Formulation for Racing ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions"))). To highlight the dependency on the tire parameters $\theta = {(\mu_{f},\mu_{r},C_{f},C_{r})}$, the dynamics constraint ((https://arxiv.org/html/2410.17183v1#S3.E4 "Equation 4 ‣ III Minimum-Time Formulation for Racing ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions")) are equivalently written as
+
+The racing objective consists of minimizing lap time. To improve the robustness and smoothness of the controller, we also penalize state-control deviations to the reference $(x_{\text{ref}},u_{\text{ref}})$ and fast changes in the control inputs. We define the linear and quadratic costs
+
+where $(Q,R,W)$ are diagonal matrices with small entries compared to the terminal time cost $\ell_{T}$. Constraints account for actuator limits $(u_{\text{min}},u_{\text{max}})$ and ensure that the vehicle remains within the track bounds $(e_{\text{min}},e_{\text{max}})$. To plan over a horizon $N$ from an initial state and control, we formulate the optimal control problem (OCP)
+
+with the notation ${\lbrack 0,N\rbrack}:={\{ 0,\ldots,N\}}$. The only non-convex term in OCP is the dynamics constraints.
+
+MPC & linear interpolation: For real-time control, OCP is solved recursively from the current $(x_{\text{init}},u_{\text{init}})$ and the plan $(u_{0},\ldots,u_{N})$ is sent to the vehicle. A low-level controller executes the control $u{(s)}$ at the current $s$ via linear interpolation of the latest plan $(u_{0},\ldots,u_{N})$.
+
+## Risk-Averse Formulation
+
+Solutions to OCP may be sensitive to the value of the tire parameters $\theta$, and a controller that uses inaccurate values of $\theta$ may result in poor closed-loop performance. Intuitively, low friction values should result in smaller torque values to avoid spinning out or violating track bounds. In this section, we formulate a risk-averse MPC problem that accounts for uncertainty over the parameters $\theta$ distributed according to a probability distribution $p_{\theta}$. First, we reformulate the track bound constraints $e_{\text{min},k} \leq e_{k} \leq e_{\text{max},k}$ in OCP as
+
+with $e_{\text{mid},k} = {{({e_{\text{max},k} + e_{\text{min},k}})}/2}$ and ${\Delta e_{k}} = {\left| {e_{\text{max},k} - e_{\text{min},k}} \right|/2}$. This reformulation combines the two constraints $e_{\text{min},k} \leq e_{k}$ and $e_{k} \leq e_{\text{max},k}$ into one, simplifying the latter formulation of the risk constraint. The absolute value $|{e_{k} - e_{\text{mid},k}}|$ in ((https://arxiv.org/html/2410.17183v1#S4.E6 "Equation 6 ‣ IV Risk-Averse Formulation ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions")) does not affect numerical stability, since only one of the two constraints $e_{\text{min},k} \leq e_{k}$ or $e_{k} \leq e_{\text{max},k}$ can be active at a solution.
+
+To enforce track bound constraints and account for uncertainty over state trajectories due to uncertain tire forces, we constrain the tail probability of ever violating the constraint ${g_{k}{(x_{k})}} \leq 0$ in ((https://arxiv.org/html/2410.17183v1#S4.E6 "Equation 6 ‣ IV Risk-Averse Formulation ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions")) at any timestep $k$
+
+where $\text{CVaR}_{\alpha}$ is the conditional value at risk at level $\alpha \in {}$ (or average value at risk \[(https://arxiv.org/html/2410.17183v1#bib.bib21), (https://arxiv.org/html/2410.17183v1#bib.bib16)\]), defined as ${\text{CVaR}_{\alpha}{(Z)}} = {{\min_{\xi \in {\mathbb{R}}}{\mathbb{E}}}{\lbrack{\xi + {{\max{(0,{Z - \xi})}}/\alpha}}\rbrack}}$. Using the risk constraint ((https://arxiv.org/html/2410.17183v1#S4.E7 "Equation 7 ‣ IV Risk-Averse Formulation ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions")) yields many advantages compared to other (e.g., chance-constrained) formulations, see \[(https://arxiv.org/html/2410.17183v1#bib.bib16)\].
+
+The total cost ${\ell_{T}{(x_{N})}} + {\sum_{k = 0}^{N - 1}{\ell{(x_{k},u_{k},u_{k + 1})}}}$ is also a random variable as it depends on the state trajectory, so we minimize its expected (average) value, with the objective of minimizing the average lap time. We formulate the risk-averse optimal control problem (RA-OCP)
+
+RA-OCP encodes the problem of minimizing the average lap time (with additional regularization encoded by the cost term $\ell$) while bounding the tail probability of leaving the track, over the uncertain parameters $\theta \sim p_{\theta}$.
+
+## Sample-based reformulation and numerical resolution
+
+RA-OCP is a challenging problem to solve due to the uncertainty over the parameters $\theta$. Inspired by \[(https://arxiv.org/html/2410.17183v1#bib.bib16)\], we compute approximate solutions to RA-OCP by solving a sample-based reformulation instead that depends on $({1 + M})$ samples $\theta^{i}$ of the parameters $\theta$.
+
+First, we select a nominal value $\overline{\theta}:=\theta^{0}$ for the parameters $\theta$ to parameterize a nominal state and control trajectory ${(\overline{x},\overline{u})}:={(x^{0},u^{0})}$, which will be used to reduce uncertainty growth over the planning horizon via feedback. This trajectory satisfies the nominal dynamics
+
+Second, we account for uncertainty over the parameters $\theta$ by parameterizing $M$ state and control trajectories $(x^{i},u^{i})$ around the nominal trajectory $(\overline{x},\overline{u})$. We select $M$ samples $\theta^{i}$ of $\theta$ that define the state trajectories as
+
+and the closed-loop control trajectories as
+
+where the feedback gains $K_{k}^{i}$ are computed as the solution to a linear-quadratic regulator (LQR) problem \[(https://arxiv.org/html/2410.17183v1#bib.bib22), Chapter 12\] around $(x_{\text{ref}},u_{\text{ref}})$ using the parameters $\theta^{i}$.
+
+Finally, we introduce the optimization variables
+
+where $y$ and $\xi$ are risk variables, the state and control dimensions are ${(n,m)} = {}$, the sample size and horizon are ${(M,N)} = {}$, and formulate the following sample-based approximation to RA-OCP
+
+### Remark 1 (On closed-loop uncertainty propagation)
+
+Using a feedback law in the optimization problem RA-OCP to define closed-loop trajectories as in ((https://arxiv.org/html/2410.17183v1#S5.E8 "Equation 8 ‣ V Sample-based reformulation and numerical resolution ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions"))-((https://arxiv.org/html/2410.17183v1#S5.E9 "Equation 9 ‣ V Sample-based reformulation and numerical resolution ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions")) is a standard approach \[(https://arxiv.org/html/2410.17183v1#bib.bib9), (https://arxiv.org/html/2410.17183v1#bib.bib23), (https://arxiv.org/html/2410.17183v1#bib.bib24)\] to prevent uncertainty to grow unbounded over time and make the optimization infeasible. It also allows approximately accounting for closed-loop feedback of the receding horizon MPC scheme. We do not enforce input constraints for the controls $u^{i}$ because solutions are already constrained by the tire friction limits, although one could include closed-loop input constraints in the risk constraint ((https://arxiv.org/html/2410.17183v1#S4.E7 "Equation 7 ‣ IV Risk-Averse Formulation ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions")) or saturate the controls $u^{i}$ within the dynamics \[(https://arxiv.org/html/2410.17183v1#bib.bib25)\].
+
+### Efficient numerical resolution of the sample-based problem: leveraging GPU parallelization and sparsity
+
+Efficiently solving the sample-based reformulation of RA-OCP requires special care due to the large size of the problem. To achieve fast replanning, we leverage two observations. First, the problem is sparse, e.g., the particle $x^{i}$ does not explicitly depend on $x^{i + 1}$. Second, since we parameterize the state trajectory $x^{i}$ for each particle, the cost terms and constraints can be evaluated in parallel over both particles and time on a GPU.
+
+Thus, we decide to solve the sample-based reformulation of RA-OCP via a sequential quadratic programming (SQP) method with a linesearch \[(https://arxiv.org/html/2410.17183v1#bib.bib26), Chapter 18\]. We evaluate the cost, constraints, and their gradients in Python using Jax \[(https://arxiv.org/html/2410.17183v1#bib.bib27)\], so we can easily evaluate the quadratic programs (QPs) at each SQP step on a GPU and take advantage of the parallel structure of the sample-based reformulation. The problem data is then moved to the CPU and the QPs are solved using OSQP \[(https://arxiv.org/html/2410.17183v1#bib.bib28)\]. Even though the QPs involve many variables, they are quickly solved thanks to the sparsity of the QPs that OSQP leverages internally. For receding horizon MPC, we only perform one SQP iteration at each timestep \[(https://arxiv.org/html/2410.17183v1#bib.bib29)\].
+
+### Remark 2 (Alternatives and lessons learned)
+
+nominal trajectory $\overline{x}$ could be removed from the optimization variables by defining $\overline{x} = x^{0} = {\frac{1}{M}{\sum_{i = 1}^{M}x^{i}}}$. However, the resulting formulation densely couples the particles $x^{i}$ via the feedback controls in ((https://arxiv.org/html/2410.17183v1#S5.E9 "Equation 9 ‣ V Sample-based reformulation and numerical resolution ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions")) and is thus slow to solve numerically. Parameterizing the nominal trajectory greatly increases the sparsity of the problem.
+
+We tried only optimizing over the control inputs $u$ and computing states $x^{i}{(u)}$ for each particle via an explicit integration scheme as in \[(https://arxiv.org/html/2410.17183v1#bib.bib16)\], which we found to be numerically sensitive to the choice of initial guess. Parameterizing the particles $x^{i}$ and using an implicit integrator instead improves robustness and enables parallelizing computations over times $k$ and samples $i$.
+
+## Problem Setup and Trajectory Analysis
+
+We consider an oval racing track shown in Figure (https://arxiv.org/html/2410.17183v1#S1.F1 "Figure 1 ‣ I Introduction ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions"). The reference trajectory $(x_{\text{ref}},u_{\text{ref}})$ is the optimal racing line computed offline for nominal parameters $\overline{\theta}$ using the method in \[(https://arxiv.org/html/2410.17183v1#bib.bib6)\]. In this section, we study trajectories solving OCP and RA-OCP for different values of the parameters $\theta$. For visualization purposes, we use $M = 5$ samples of the parameters, shown in Table [I](https://arxiv.org/html/2410.17183v1#S6.T1 "Table I ‣ VI Problem Setup and Trajectory Analysis ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions").
+
+a\) How different are risk-averse solutions compared to solutions to OCP with nominal tire parameters $\overline{\theta}$? We present trajectories solving OCP and RA-OCP in Figure (https://arxiv.org/html/2410.17183v1#S6.F4 "Figure 4 ‣ VI Problem Setup and Trajectory Analysis ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions"). The risk-averse solution applies less engine torque and braking forces to account for potentially reduced tire forces (see Figure (https://arxiv.org/html/2410.17183v1#S2.F3 "Figure 3 ‣ II Vehicle Dynamics and Tire Model ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions")) and brakes earlier than the solution to OCP. This results in a lower velocity in the turn. We also plot closed-loop trajectories $x^{i}$ satisfying ((https://arxiv.org/html/2410.17183v1#S5.E8 "Equation 8 ‣ V Sample-based reformulation and numerical resolution ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions")) for OCP for the different parameters $\theta^{i}$. The solution to OCP may drive too fast to complete the turn: the vehicle may slide out of the track if the tire friction parameters $\mu_{f}$ and $\mu_{r}$ take lower values. In contrast, solutions to RA-OCP account for different tire parameter values to ensure robust handling of the vehicle in the turn.
+
+$\overline{\theta} = \theta^{0}$
+
+$\overline{\theta} = \theta^{0}$
+
+TABLE I: Tire parameters θi defining OCP and RA-OCP for trajectory analysis (Sec.VI) (top) and MPC (Sec.VII) (bottom).
+
+Figure 4: Top: Nominal vs risk-averse solutions. Bottom: Closed-loop trajectories for different parameters θ corresponding to solutions to OCP (dashed lines) and RA-OCP (solid lines).
+
+b\) Does solving OCP with low-friction tire parameters give robust performance?
+
+Figure 5: Closed-loop trajectories for different parameters θ corresponding to solutions to OCP with low friction values μf = μr = 0.7 (dashed lines), and RA-OCP (solid lines).
+
+We solve OCP assuming that $\overline{\theta} = \theta^{1}$ (corresponding to low-friction tire parameters $\mu_{f} = \mu_{r} = 0.7$) and present results in Figure (https://arxiv.org/html/2410.17183v1#S6.F5 "Figure 5 ‣ VI Problem Setup and Trajectory Analysis ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions"). The solution to OCP is now closer to the solution to RA-OCP and yields better performance over different tire parameter values $\theta^{i}$ than if assuming larger-friction tire parameters. However, the performance remains poor for different tire parameter values, e.g., exhibiting large sideslip ($\beta$) values for $\mu_{f} = 0.8$ that may lead to suboptimal closed-loop performance. Overall, these results show that accounting for different tire parameters by solving RA-OCP gives additional robustness compared to only planning with low-friction tire parameters.
+
+## Hardware Results
+
+We validate the risk-averse controller on a 2019 Lexus LC 500. State estimates come from an OxTS Inertial Navigation System \[(https://arxiv.org/html/2410.17183v1#bib.bib30)\]. The optimization problems are solved on an on-board computer with an Intel Xeon E-2278GE CPU \@3.30GHz and an NVIDIA GeForce RTX 3070 GPU. Further details about the vehicle are in \[(https://arxiv.org/html/2410.17183v1#bib.bib6)\].
+
+We compare the proposed risk-averse MPC approach solving RA-OCP with a nominal MPC solving OCP with the parameters $\theta = \overline{\theta}$. For all experiments, we fix the parameter samples $\theta^{i}$ in OCP and RA-OCP to the values in Table [I](https://arxiv.org/html/2410.17183v1#S6.T1 "Table I ‣ VI Problem Setup and Trajectory Analysis ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions") to cover the parameter space. Keeping these parameter values constant in time also removes randomness in the algorithm. The nominal MPC runs at about $100$Hz. The risk-averse MPC runs at $20$Hz (with mean $22$Hz and standard deviation $1.5$Hz). These update rates are sufficient to reliably control the vehicle.
+
+a\) Racing in dry conditions: We first validate the controllers in dry conditions and report results in Figure (https://arxiv.org/html/2410.17183v1#S7.F6 "Figure 6 ‣ VII Hardware Results ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions"). Nominal MPC (solving OCP with the parameters $\overline{\theta}$) applies larger engine and braking torques and drives slightly faster than risk-averse MPC (solving RA-OCP), with a top speed difference of $1\text{m/s}$. Nominal MPC causes slight yaw rate oscillations while turning due to tire saturation. Overall, nominal MPC slightly outperforms risk-averse MPC in such dry conditions, which is expected behavior given that risk-averse MPC optimizes the expected final time over a wider range of parameters including lower friction values $(\mu_{f},\mu_{r})$.
+
+We also tested nominal MPC planning with low-friction parameters ($\mu_{f} = \mu_{r} = 0.7$). This approach consistently cuts corners in the turns due to model mismatch and is thus unable to race in dry conditions.
+
+b\) Racing through a patch of water: We test again the controllers on a dry track with a water patch in turn $2$ (see Figure (https://arxiv.org/html/2410.17183v1#S1.F1 "Figure 1 ‣ I Introduction ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions")). Such conditions may represent a track that is slowly drying up after rain, resulting in a leftover patch of water. We run the controllers three times each. For repeatability, we alternate between nominal and risk-averse MPC and add water after each individual run.
+
+Results are reported in Figure (https://arxiv.org/html/2410.17183v1#S7.F7 "Figure 7 ‣ VII Hardware Results ‣ Risk-Averse Model Predictive Control for Racing in Adverse Conditions"). After driving through the wet area when exiting turn $2$, nominal MPC consistently causes a spin out, due to applying engine torques that are too large while oversteering. Indeed, tires are wet and thus cannot apply the planned tire forces, which results in a spin out. In contrast, risk-averse MPC applies slightly smaller engine torques when exiting each turn and is thus consistently able to drive through the wet area and complete the lap. While more robust behavior may be obtained with nominal MPC by reducing the minimum-time cost $\ell_{T}$ compared to the regularizer $\ell$, such a strategy may require additional hyperparameter tuning and lead to suboptimality and slower lap times.
+
+Figure 6: Racing results in nominal dry conditions. A single run with the nominal (blue) and risk-averse MPC (green).
+
+Figure 7: Racing results with a wet area (see also Figure 1). Three runs of the nominal (blue) and risk-averse MPC (green), with close ups at peak velocity and after the wet zone in turn 2.
+
+## Conclusion
+
+We presented a risk-averse MPC framework for racing and showed that accounting for different tire parameters provides a natural avenue for infusing robustness into MPC. By leveraging a particular sample-based risk-averse formulation, our method accurately accounts for uncertain nonlinear tire dynamics and is amenable to online replanning in MPC. In future work, we plan on investigating improvements to the SQP solver (e.g., by developing specialized methods inspired from \[(https://arxiv.org/html/2410.17183v1#bib.bib31), (https://arxiv.org/html/2410.17183v1#bib.bib32), (https://arxiv.org/html/2410.17183v1#bib.bib33), (https://arxiv.org/html/2410.17183v1#bib.bib34)\] to solve RA-OCP entirely on the GPU) to unlock faster replanning and using larger sample sizes, and interfacing with perception to account for state uncertainty and parameters that vary over time and space.

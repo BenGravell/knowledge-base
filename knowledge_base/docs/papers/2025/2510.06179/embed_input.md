@@ -1,0 +1,7 @@
+Differentiable Model Predictive Control on the GPU
+
+Topics include Model predictive control, Differentiable optimization, Graphics processing unit acceleration, Sequential quadratic programming, Differentiable programming.
+
+Introduces a GPU-oriented differentiable MPC solver based on SQP and a structured preconditioned conjugate-gradient routine. The paper targets the hardware bottleneck that makes differentiable MPC attractive in principle but difficult to scale in learning pipelines.
+
+Differentiable model predictive control (MPC) offers a powerful framework for combining learning and control. However, its adoption has been limited by the inherently sequential nature of traditional optimization algorithms, which are challenging to parallelize on modern computing hardware like GPUs. In this work, we tackle this bottleneck by introducing a GPU-accelerated differentiable optimization tool for MPC. This solver leverages sequential quadratic programming and a custom preconditioned conjugate gradient (PCG) routine with tridiagonal preconditioning to exploit the problem's structure and enable efficient parallelization. We demonstrate substantial speedups over CPU- and GPU-based baselines, significantly improving upon state-of-the-art training times on benchmark reinforcement learning and imitation learning tasks. Finally, we showcase the method on the challenging task of reinforcement learning for driving at the limits of handling, where it enables robust drifting of a Toyota Supra through water puddles.

@@ -1,0 +1,7 @@
+g2o: A General Framework for Graph Optimization
+
+Topics include Graph optimization, Simultaneous localization and mapping, Bundle adjustment, Nonlinear least squares, Robotics software, Factor graphs, Sparse optimization, Computer vision.
+
+Introduces g2o, a general C++ framework for graph-structured nonlinear least-squares problems such as pose-graph SLAM and bundle adjustment. The paper matters because it separated problem modeling from sparse optimization back ends, making high-performance graph optimization reusable across robotics and vision applications.
+
+Many popular problems in robotics and computer vision including various types of simultaneous localization and mapping (SLAM) or bundle adjustment (BA) can be phrased as least squares optimization of an error function that can be represented by a graph. This paper describes the general structure of such problems and presents g 2 o, an open-source C++ framework for optimizing graph-based nonlinear error functions. Our system has been designed to be easily extensible to a wide range of problems and a new problem typically can be specified in a few lines of code. The current implementation provides solutions to several variants of SLAM and BA. We provide evaluations on a wide range of real-world and simulated datasets. The results demonstrate that while being general g 2 o offers a performance comparable to implementations of state of-the-art approaches for the specific problems.

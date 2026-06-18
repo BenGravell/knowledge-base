@@ -1,0 +1,25 @@
+Learning-Aided Warmstart of Model Predictive Control in Uncertain Fast-Changing Traffic
+
+Topics include Nonconvex optimization, Model predictive control, Predictive control, Vehicles, Safety, Neural networks, Sampling-based methods, Control, Learning, Sampling, Monte Carlo methods.
+
+Model Predictive Control lacks the ability to escape local minima in nonconvex problems. Furthermore, in fast-changing, uncertain environments, the conventional warmstart, using the optimal trajectory from the last timestep, often falls short of providing an adequately close initial guess for the current optimal trajectory. This can potentially result in convergence failures and safety issues. Therefore, this paper proposes a framework for learning-aided warmstarts of Model Predictive Control algorithms. Our method leverages a neural network based multimodal predictor to generate multiple trajectory proposals for the autonomous vehicle, which are further refined by a sampling-based technique. This combined approach enables us to identify multiple distinct local minima and provide an improved initial guess. We validate our approach with Monte Carlo simulations of traffic scenarios.
+
+## Introduction
+
+Model Predictive Control (MPC) has established itself as a popular technique in Motion Planning and Control for autonomous driving. This is attributed to its inherent capability to simultaneously account for collision constraints, dynamic feasibility, actuator constraints, and comfort criteria, enabling the generation of optimal trajectories. A notable variant that we also use is Model Predictive Contouring Control (MPCC). It generates consistent lateral and longitudinal control signals and does not require a separate desired velocity specification....
+
+Learning-based MPC can be broadly categorized into two groups. The first group employs a learning-based system to substitute or enhance components of MPC. Simplest are approaches that learn the weights of the cost function, as these significantly impact MPC performance and can be challenging to tune manually. A similar technique is cost shaping which adjusts the cost function at each time step, mitigating MPC's limitation in finding only short-term optimal solutions. Other methods learn the state-space model or parts of it to handle unknown or complex dynamics.
+
+## CONCLUSIONS
+
+A Learning-aided Warmstart Framework is proposed to address the problem of Model Predictive Control with local minima and convergence issues if using the conventional warmstart strategy in fast-changing, uncertain environments. This framework leverages a multimodal predictor that predicts trajectories for traffic participants and the ego vehicle, respectively. The different ego trajectory modes are used to identify multiple homotopy classes, each associated with an attractive vicinity of a different local optimum....
+
+Several of the predicted modes do not share the same homotopy class and cover a subset of the existing homotopy classes $h \in \mathcal{H}$, i.e. ${|{\left. \{{\lbrack m\rbrack} \middle| {m \in \mathcal{M}}\} \right. \cap \mathcal{H}}|} \geq 2$.
+
+## Learning-aided Warmstart
+
+Consequently, the posterior and the covariance for the control points are given:
+
+Figure 1: Example where our warmstart improves convergence quality compared to warmstarting with the solution of the last timestep tk − 1 due to change of the optimization problem (changing traffic participant behavior prediction)
+
+The second group learns high-level policies where the trajectory is further refined with low-level MPC....

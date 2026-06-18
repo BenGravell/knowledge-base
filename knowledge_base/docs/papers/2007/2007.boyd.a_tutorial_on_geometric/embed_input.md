@@ -1,0 +1,7 @@
+A Tutorial on Geometric Programming
+
+Topics include Geometric programming, Convex optimization, Log transformation, Engineering design, Circuit design, Optimization tutorial.
+
+Surveys geometric programming and explains how posynomial problems become convex after a logarithmic change of variables. The tutorial helped make GP a practical modeling tool for engineering design, especially in circuits and other domains with multiplicative tradeoffs.
+
+A geometric program (GP) is a type of mathematical optimization problem characterized by objective and constraint functions that have a special form. Recently developed solution methods can solve even large-scale GPs extremely efficiently and reliably; at the same time a number of practical problems, particularly in circuit design, have been found to be equivalent to (or well approximated by) GPs. Putting these two together, we get effective solutions for the practical problems. The basic approach in GP modeling is to attempt to express a practical problem, such as an engineering analysis or design problem, in GP format. In the best case, this formulation is exact; when this is not possible, we settle for an approximate formulation. This tutorial paper collects together in one place the basic background material needed to do GP modeling. We start with the basic definitions and facts, and some methods used to transform problems into GP format. We show how to recognize functions and problems compatible with GP, and how to approximate functions or data in a form compatible with GP (when this is possible)....

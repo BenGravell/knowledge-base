@@ -1,0 +1,7 @@
+Turning Video Models into Generalist Robot Policies
+
+Topics include Robot learning, World models, Foundation models, Inverse dynamics, Robot manipulation.
+
+Presents VERA, a closed-loop policy that pairs an action-free video planner with an embodiment-specific inverse dynamics model. The key contribution is the decoupling: the same video model can guide multiple robot bodies while each embodiment supplies its own video-to-action translator.
+
+Video generative models have emerged as a promising robotics backbone, capable of generating videos that depict the completion of complex tasks across embodiments and environments. Recent work proposes robot foundation models that jointly predict future observations and actions by finetuning video models with action-labeled data. In this paper, we test the limits of an alternative approach: leave the video planner as-is while training an embodiment-specific inverse dynamics model (IDM). This decoupling offers several natural benefits: the video planner remains embodiment-agnostic, different video models can be interchanged easily without re-training the IDM, and the IDM can be independently trained with readily available self-play data. We present a closed-loop, video-to-action policy that combines an action-free video world model with a carefully-designed IDM based on the robot embodiment Jacobian. We demonstrate that our IDM design is both data-efficient and scalable to high-dimensional action spaces....

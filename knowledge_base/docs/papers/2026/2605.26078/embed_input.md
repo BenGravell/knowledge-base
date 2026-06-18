@@ -1,0 +1,7 @@
+Global Convergence of Wasserstein Policy Gradient for Entropy-Regularized Reinforcement Learning
+
+Topics include Policy gradients, Reinforcement learning, Optimal transport, Wasserstein distances, Entropy regularization.
+
+Analyzes Wasserstein policy gradient for entropy-regularized reinforcement learning, treating policy updates through optimal-transport geometry rather than standard Euclidean parameter steps. The result clarifies when this continuous-control-friendly policy-gradient flow converges globally.
+
+Wasserstein policy gradient (WPG) is a policy optimization method for reinforcement learning (RL) that exploits the optimal-transport geometry of action distributions. For the entropy-regularized RL objective, WPG evolves each state-conditional policy by transporting it along the action gradient of the soft Q-function together with a Langevin-type diffusion. Despite its appeal for continuous-control problems, its global convergence properties remain poorly understood. Standard Langevin analyses do not directly apply, because the RL objective depends on the policy through the Bellman recursion rather than through a static convex functional, and the Langevin drift is determined by the soft Q-function, whose regularity must be controlled along the policy iterates. In this paper, we develop a global convergence theory for WPG by exploiting the Bellman structure of entropy-regularized RL....

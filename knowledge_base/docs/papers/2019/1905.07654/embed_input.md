@@ -1,0 +1,18 @@
+Trajectory Optimization on Manifolds: A Theoretically-Guaranteed Embedded Sequential Convex Programming Approach
+
+Sequential Convex Programming (SCP) has recently gained popularity as a tool for trajectory optimization due to its sound theoretical properties and practical performance. Yet, most SCP-based methods for trajectory optimization are restricted to Euclidean settings, which precludes their application to problem instances where one must reason about manifold-type constraints (that is, constraints, such as loop closure, which restrict the motion of a system to a subset of the ambient space). The aim of this paper is to fill this gap by extending SCP-based trajectory optimization methods to a manifold setting. The key insight is to leverage geometric embeddings to lift a manifold-constrained trajectory optimization problem into an equivalent problem defined over a space enjoying a Euclidean structure. This insight allows one to extend existing SCP methods to a manifold setting in a fairly natural way. In particular, we present a SCP algorithm for manifold problems with refined theoretical guarantees that resemble those derived for the Euclidean setting, and demonstrate its practical performance via numerical experiments.
+
+## Introduction
+
+Trajectory optimization is a key problem in robotics, and it has thus been studied extensively through a variety of mathematical frameworks. Examples include sampling-based motion planning techniques, variational approaches such as CHOMP and STOMP, sum-of-squares methods, and sequential convex programming (SCP) techniques such as TrajOpt and GuSTO. Most of these methods, however, are restricted to Euclidean settings, which precludes their application (at least directly) to problem instances where one needs to reason about manifold-type constraints....
+
+Figure 1: The torus 𝕋2 is an embedded submanifold of ℝ3. The red trajectory, starting from ${\overline{x}}_{0}$ and finishing at ${\overline{x}}_{f}$, is characterized by dynamics with torus-type constraints and can be seen as an embedded curve in ℝ3 (Section II-B).
+
+TABLE II: Averaged results of experiments using a shooting method to accelerate the convergence of E-SCP, while resulting in lower trajectory cost than using E-SCP alone.
+
+In this paper we provided an SCP-based method for trajectory optimization with manifold constraints. Our key insight was to leverage geometric embeddings to lift a manifold-constrained trajectory optimization problem into an equivalent problem defined over a space enjoying Euclidean structure, where SCP can be readily applied. We derived sound theoretical guarantees and validated the proposed methodology via numerical experiments. Among other benefits, our method can easily accommodate implicitly-defined manifold constraints.
+This work opens the field to many future avenues of research....
+
+Problem (LEOCP)~1~ is linearized around an initial curve tuple $(x_{0},u_{0})$, where these initialization curves should be as close as possible to a feasible or even optimal curve for (LEOCP)~1~, although we do not require that $(x_{0},u_{0})$ is feasible for the embedded problem (EOCP). This allows one to initialize E-SCP with simple, even infeasible, guesses for solutions of (EOCP), such as a straight line in the manifold, as detailed in \[6, Section III.A\].
+
+and that this mapping is also defined when ${(q,w)} \in {\mathbb{R}}^{7}$. In other words, the original dynamics is equivalent to $\left( {\frac{1}{2}\Omega{(w)}q},{J^{- 1}{({u_{2} - {{w \times J}w}})}} \right)$ restricted to the subset $S^{3} \times {\mathbb{R}}^{3}$....

@@ -1,0 +1,5 @@
+Policy Optimization for Unknown Systems Using Differentiable Model Predictive Control
+
+Topics include Model predictive control, Predictive control, Uncertainty, Real-time systems, Online algorithms, Optimization, Planning, Control.
+
+Model-based policy optimization often struggles with inaccurate system dynamics models, leading to suboptimal closed-loop performance. This challenge is especially evident in Model Predictive Control (MPC) policies, which rely on the model for real-time trajectory planning and optimization. We introduce a novel policy optimization framework for MPC-based policies combining differentiable optimization with zeroth-order optimization. Our method combines model-based and model-free gradient estimation approaches, achieving faster transient performance compared to fully data-driven approaches while maintaining convergence guarantees, even under model uncertainty. We demonstrate the effectiveness of the proposed approach on a nonlinear control task involving a 12-dimensional quadcopter model.

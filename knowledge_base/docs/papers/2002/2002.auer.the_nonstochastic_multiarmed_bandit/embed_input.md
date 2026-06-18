@@ -1,0 +1,7 @@
+The Nonstochastic Multiarmed Bandit Problem
+
+Topics include Adversarial bandits, EXP3, Multi-armed bandits, Online learning, Regret bounds, Matrix games, Multiplicative weights.
+
+Introduces adversarial multi-armed bandit algorithms with optimal O(T^-1/2) per-round regret rates, removing stochastic assumptions about arm rewards. The work connects bandit feedback, multiplicative-weights ideas, strategy pools, and repeated matrix games, making EXP3 a core algorithm for nonstochastic online learning.
+
+In the multiarmed bandit problem, a gambler must decide which arm of K nonidentical slot machines to play in a sequence of trials so as to maximize his reward. This classical problem has received much attention because of the simple model it provides of the trade-off between exploration (trying out each arm to find the best one) and exploitation (playing the arm believed to give the best payoff). Past solutions for the bandit problem have almost always relied on assumptions about the statistics of the slot machines. In this work, we make no statistical assumptions whatsoever about the nature of the process generating the payoffs of the slot machines. We give a solution to the bandit problem in which an adversary, rather than a well-behaved stochastic process, has complete control over the payoffs. In a sequence of T plays, we prove that the per-round payoff of our algorithm approaches that of the best arm at the rate O(T-1/2 ). We show by a matching lower bound that this is the best possible....

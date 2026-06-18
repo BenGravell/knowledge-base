@@ -1,0 +1,219 @@
+## Introduction
+
+Ordinary least squares (OLS) regression from a finite sample is one of the most ubiquitous and widely used technique in machine learning. When faced with independent data, there are now sharp tools available to analyze its success optimally under relatively general assumptions. Indeed, a non-asymptotic theory matching the classical asymptotically optimal understanding from statistics has been developed over the last decade. However, once we relax the independence assumption and move toward data that exhibits correlations, the situation is much less well-understood---even for a problem as seemingly simple as linear regression. While sharp asymptotics are available through various limit theorems, there are no general results matching these in the finite sample regime.
+
+In this paper, we study the instance-specific performance of ordinary least squares in a setting with dependent data---and in contrast to much contemporary work on the theme---without imposing realizability.^11^1A distribution $\mathsf{P}_{X,Y}$ is (linearly) realizable if the regression function $x\mapsto{\mathbf{E}{\lbrack{{Y \mid X} = x}\rbrack}}$ is linear. If in addition to a realizability assumption the noise forms a martingale difference sequence, it is now well-known that martingale methods can be used to demonstrate that dependent linear regression is no harder than its independent counterpart. Furthermore, as long as one maintains such an assumption on the noise, a similar observation even holds true for generalized linear and bilinear models, and regression with square loss more generally.
+
+However, barring any such strong realizability assumption, martingale methods are no longer directly available, and neither are there any sharp non-asymptotics in the learning theory literature. Absent martingale techniques, a natural approach is to use the blocking technique to port concentration inequalities valid for independent data to the dependent setting. However, since blocking effectively reduces the sample size by a factor of the degree of dependence of the data, a judicious application is necessary in order to recover the correct noise level of the problem---the level predicted by the Central Limit Theorem (CLT).
+
+### Contributions
+
+This paper serves to explain how the combination of two simple yet powerful observations sidestep the aforementioned issues with blocking. To better appreciate these observations, we recall that the analysis of random design linear regression decomposes into: controlling the *lower tail* of the empirical covariance matrix; and controlling the interaction between the noise and the covariates.
+
+First, as noted by Mendelson, the dominant contribution to the error rate is due to the interaction of the noise with the covariates via the hypothesis class. In linear regression this interaction term takes the form of a random walk (see (2.6) and (2.8) below). While one must also analyze the lower tail of the empirical covariance matrix, its contribution to the final error tends to be lower order. This is exactly the point: the empirical covariance matrix tends to dominate its population counterpart under very mild assumptions. Hence deflating the sample size for this purpose by using dependency is of relatively minor consequence and only amounts to an additional burn-in.
+
+Second, turning to the random walk---the noise-class interaction term---the above issue with blocking can be remedied if one restricts its use to control only the largest scale of deviation. This observation can be traced to the moderate deviations literature, but does not seem to have made its way into the learning theory literature. To explain this idea, let us recall Bernstein's inequality: for $b > 0$, $\delta \in {}$, and a sequence of $n \in {\mathbb{N}}$ iid mean zero $b$-bounded scalar random variables $V_{1:n}$,
+
+In the moderate deviations bandwidth ($\delta \gtrsim {\exp{({- {{n\mathbf{E}V_{1}^{2}}/b^{2}}})}}$), the leading term of (1.1) is exactly of the expected order, seen from a central limit heuristic: $\sqrt{\frac{\mathbf{E}V_{1}^{2}{\ln{({1/\delta})}}}{n}}$. Assume now for sake of argument that $k \in {\mathbb{N}}$ divides $n$ and set $m = {n/k}$. Applying (1.1) instead to the $bk$-bounded variables ${{\overline{V}}_{i:m},{\overline{V}}_{i}} \triangleq {\sum_{j = {{ik} - k - 1}}^{ik}V_{j}}$ we find instead:
+
+The (normalized) variance of iid random variables tensorizes nicely (${k^{- 1}\mathbf{E}{({\overline{V}}_{1})}^{2}} = {\mathbf{E}V_{1}^{2}}$), and so the only difference between (1.1) and (1.2) is that the large deviations term has been inflated by a factor $k$. More generally, however, (1.2) remains valid as long as every $k$ samples are blockwise independent. The leading term of (1.2) already captures the correct variance term in the blockwise independent, one-dimensional and bounded setting.
+
+The above two paragraphs illustrate the core of our argument: by combining the above two observations we can entirely relegate any dependence on mixing to additive burn-in factors. In the sequel, we produce a more general version of this argument. To allow for arbitrary dimensions and handle unbounded processes, we first replace Bernstein's inequality with a corollary to Talagrand's inequality due to Einmahl and Li. To allow for $\beta$-mixing processes, we replace the blockwise independence assumption with the blocking strategy of Yu. By combining with control of the lower tail, which as noted above holds under mild assumptions, this leads to our main result Theorem 3.1, captured informally below.
+
+### Informal version of Theorem 3.1
+
+Past a mild burn-in, polynomial in relevant problem quantities including the $\beta$-mixing coefficients of the data, and for a fixed failure probability $\delta \in {}$, OLS with one-dimensional targets and $d_{\mathsf{X}}$-dimensional covariates enjoys the following excess risk guarantee:
+
+Moreover, the term $\sigma^{2}$ in (1.3) accurately captures the noise level of the problem solely via the relevant second order statistics; it is not inflated by any mixing times.
+
+The crux of this result is that past a burn-in, the OLS excess risk does not directly depend on mixing times, but only on the relevant second order statistics. Put differently, the effect of slow mixing has been relegated to a small additive term with higher order dependence on $1/n$. This stands in stark contrast to the usual invocation of the blocking technique where the effect of mixing typically enters *multiplicatively*, thereby degrading the rate of convergence uniformly across all sample-sizes and past any burn-in times.
+
+### Applicability
+
+Before we proceed with the main development, we remark that the class of $\beta$-mixing is quite broad; a few examples where Theorem 3.1 can be instantiated are as follows:
+
+all $\phi$-mixing processes are $\beta$-mixing,
+
+stationary uniformly ergodic Markov chains are $\beta$-mixing,
+
+stationary Gaussian vector autoregressive moving average (ARMA) processes are $\beta$-mixing,
+
+many other sub-classes of GARCH models, often studied in the economics and finance literature, are $\beta$-mixing.
+
+The list is far from exhaustive and further examples can for instance be found in Doukhan. The stationarity assumptions above can also typically be dropped. We also point out that it is precisely because we can handle misspecification that our result is of interest for many of these examples.
+
+### Outline
+
+The rest of this article is structured as follows. Section 2 fixes our notation and yields a more formal problem formulation. We provide our main result, Theorem 3.1, in Section 3. After stating our main theorem, we highlight its features and then proceed to compare it to related work in Section 3.1. We outline the proof of Theorem 3.1 and provide supporting results in Section 4, including separate analyses of the noise-interaction and the lower tail of the empirical covariance matrix. Section 5 concludes and technical details are relegated to Appendix A.
+
+## Preliminaries
+
+### Notation
+
+Expectation (resp. probability) with respect to all the randomness of the underlying probability space is denoted by $\mathbf{E}$ (resp. $\mathbf{P}$). For two probability measures $\mathsf{P}$ and $\mathsf{Q}$ defined on the same probability space, their total variation is denoted ${\|{\mathsf{P} - \mathsf{Q}}\|}_{\mathsf{T}\mathsf{V}}$. Maxima (resp. minima) of two numbers ${a,b} \in {\mathbb{R}}$ are denoted by ${a \vee b} = {\max{(a,b)}}$ (resp. ${a \land b} = {\min{(a,b)}}$). For an integer $n \in {\mathbb{N}}$, we also define the shorthand ${\lbrack n\rbrack} \triangleq {\{ 1,\ldots,n\}}$.
+
+The Euclidean norm on ${\mathbb{R}}^{d}$ is denoted $\parallel \cdot \parallel_{2}$, and the unit sphere in ${\mathbb{R}}^{d}$ is denoted ${\mathbb{S}}^{d - 1}$. The standard inner product on ${\mathbb{R}}^{d}$ is denoted $\langle \cdot, \cdot \rangle$. We embed matrices $M \in {\mathbb{R}}^{d_{1} \times d_{2}}$ in Euclidean space by vectorization: ${{\mathsf{v}\mathsf{e}\mathsf{c}}M} \in {\mathbb{R}}^{d_{1}d_{2}}$, where $\mathsf{v}\mathsf{e}\mathsf{c}$ is the operator that vertically stacks the columns of $M$ (from left to right and from top to bottom). For a matrix $M$, the Euclidean norm is the Frobenius norm, i.e., ${\| M\|}_{F} \triangleq {\|{{\mathsf{v}\mathsf{e}\mathsf{c}}M}\|}_{2}$. We similarly define the inner product of two matrices $M,N$ by ${\langle M,N\rangle} \triangleq {\langle{{\mathsf{v}\mathsf{e}\mathsf{c}}M},{{\mathsf{v}\mathsf{e}\mathsf{c}}N}\rangle}$. The transpose of a matrix $M$ is denoted by $M^{\mathsf{T}}$---and if $M$ is square---${tr}M$ denotes its trace. We also write ${\| M\|}_{\mathsf{o}\mathsf{p}}$ for the induced ${({\mathbb{R}}^{d}, \parallel \cdot \parallel_{2})}\rightarrow{({\mathbb{R}}^{d}, \parallel \cdot \parallel_{2})}$ norm. For two symmetric matrices $M,N$, we write $M \succ N$ ($M \succeq N)$ if $M - N$ is positive (semi-)definite. If $M$ is positive semidefinite we write ${\partial M} \triangleq {\{{x \in {\mathbb{R}}^{d}}\mid{{x^{\mathsf{T}}Mx} = 1}\}}$ for the boundary of the ellipsoid induced by $M$ (note that ${\mathbb{S}}^{d - 1} = {\partial I_{d}}$).
+
+### Problem Formulation
+
+We are given $n$ input-output tuples: $X_{1:n} \sim \mathsf{P}_{1:n}^{X}$ (taking values in ${\mathbb{R}}^{d_{\mathsf{X}}}$) and $Y_{1:n} \sim \mathsf{P}_{1:n}^{Y}$ (taking values in ${\mathbb{R}}^{d_{\mathsf{Y}}}$). Using these samples, the goal of the learner is to estimate the best linear hypothesis:
+
+where the distributions of $X$ and $Y$ in (2.1) are specified via:
+
+Note that (2.2) is equivalent to sampling from the uniform mixture over $(X_{1:n},Y_{1:n})$ with the index $i \in {\lbrack n\rbrack}$ sampled uniformly. The operator $\Sigma_{X} \triangleq {\mathbf{E}{\lbrack{XX^{\mathsf{T}}}\rbrack}}$ is the averaged covariance operator (with $X$ as in (2.2)). The excess risk of a linear hypothesis $M$ can then be written as:
+
+We now define the *noise variable* $W_{i} \triangleq {Y_{i} - {M_{\star}X_{i}}}$ but, as mentioned above, do not impose any (conditional) mean zero assumptions on the noise. To simplify the exposition, we will henceforth assume that $\Sigma_{X} \succ 0$, but our results easily extend to the case $\Sigma_{X} \succeq 0$ by restricting attention to the span of $\Sigma_{X}$. With these preliminaries in place, on the event that the design is nondegenerate, the OLS and its error equation can be specified as follows:
+
+Our task in the sequel is to establish that the choice $\hat{M}$ renders the excess risk (2.3) small. We note in passing that $\hat{M}$ is an empirical risk minimizer:
+
+### The Noise Term
+
+Let us also define the following prefiltered noise-class interaction variables:
+
+The square of the following (weighted and possibly biased) random walk effectively characterizes the noise level in our problem:
+
+We remark that by construction ${\mathbf{E}S_{n}} = 0$ using the optimality of $M_{\star}$ in (2.1). To see this, simply invoke the optimality equation for $M_{\star}$ and note that ${\mathbb{R}}^{d_{\mathsf{X}} \times d_{\mathsf{Y}}}$ induces a convex class in the corresponding $L^{2}$-space over the mixtures (2.2). Note however that the increments of (2.6) are not necessarily mean zero unless $X_{1:n}$ and $Y_{1:n}$ are stationary. However, since ${\mathbf{E}S_{n}} = 0$, we also have with $\overline{V_{i}} \triangleq {V_{i} - {\mathbf{E}V_{i}}}$:
+
+In light of (2.4) and (2.6), we have that the empirical excess risk depends on the norm of:
+
+Hence, we need to control the random walk in (2.7) and the lower tail of
+
+the prefiltered empirical covariance matrix. As mentioned previously, lower uniform laws for (2.9) are valid under mild assumptions, and blocking such results does not incur more than a worsening of the burn-in. Hence, the noise level of the problem is very much dictated by the random walk (2.6).
+
+### $\beta$-mixing and the Blocking Technique
+
+In the sequel we demonstrate that the standard blocking device combined with a (functional) version of Bernstein's inequality allows us to pass the distributional (or coarse) measure of dependency to a higher order additive term, yielding non-asymptotic rates consistent with the CLT as described in Section 1. We will also use blocking to derive our lower uniform law, controlling the lower tail of (2.9). To make these ideas rigorous we require the following standard measure of dependence (take $Z_{1:n} = {(X,Y)}_{1:n}$ below).
+
+### Definition 2.1
+
+Let $Z_{1:n}$ be a stochastic process. The $\beta$-mixing coefficients of $Z$, $\beta_{Z}{(i)}$, are:
+
+Intuitively, the coefficients $\beta_{Z}{(i)}$ in (2.10) measure the dependence at range $i$ of the process $Z_{1:n}$. This measurement is done in total variation distance by comparing the distribution of $Z_{t + i}$ with the conditional distribution $Z_{t + i} \mid Z_{1:t}$. More concretely, the notion of $\beta$-mixing allows us to use the blocking technique Yu. This technique splits the process $Z_{1:n}$ into blocks, such that every other block is approximately independent, leaving us with two separate processes, consisting of odd and even blocks, that are almost independent (see (4.1) below). One then proceeds to use $\beta$-mixing to construct a "parallel" probability space, approximating the original one, but in which the odd and even blocks *are independent*. The price we pay for this is measured in terms of the coefficients (2.10). The essence of this idea---to use that data points sufficiently separated in time are often roughly independent---can be traced back to Bernstein.
+
+## Main Result
+
+To give our main result for general target dimension we require one last preliminary notion. Given a $d$-dimensional square, symmetric positive semidefinite matrix $M \in {\mathbb{R}}^{d \times d}$, we say that its *effective* dimension is ${{\mathsf{e}\mathsf{d}\mathsf{i}\mathsf{m}}{(M)}} \triangleq {{tr}{M/{\| M\|}_{\mathsf{o}\mathsf{p}}}}$. Our main result is the following theorem.
+
+### Theorem 3.1
+
+Fix $\delta \in {}$ and ${n,m} \in {\mathbb{N}}$ with ${2m} \leq n$. Let $a_{1:{2m}}$ be a monotone partition of $\lbrack n\rbrack$ such that if $k \in a_{i}$, $l \in a_{j}$, and $i > j$, then $k > l$ holds. Set $a_{\max} \in {\text{argmax}_{i \in {\lbrack{2m}\rbrack}}{|a_{i}|}}$. Fix also a $\beta$-mixing sequence ${(X,Y)}_{1:n}$ of which each element admits at least $s \in {\lbrack 4,\infty)}$ moments. Assume that there exists a positive number $\mathsf{h} \in {\mathbb{R}}$ such that for every $v \in {\partial\Sigma_{X}}$ and $i \in {\lbrack n\rbrack}$ we have that ${\mathbf{E}{\langle v,X_{i}\rangle}^{4}} \leq {\mathsf{h}^{2}{\langle v,{\mathbf{E}{\lbrack{X_{i}X_{i}^{\mathsf{T}}}\rbrack}v}\rangle}}$. Define also the noise interaction terms:
+
+There exist universal positive constants $c_{1},c_{2},c_{3},c_{4},c_{5},c_{6}$ such that with probability at least $1 - \delta$:
+
+as long as the following burn-in conditions hold:
+
+and where $\beta_{X,Y}$ are the $\beta$-mixing coefficients of ${(X,Y)}_{1:n}$.
+
+To interpret Theorem 3.1 we proceed with a sequence of remarks, discussing its features. These remarks also serve to parse the terminology above and lead us to a simplified statement for stationary data and $1$-dimensional targets. We present this simplified version as Corollary 3.1 below.
+
+The dimensional scaling in (3.2) is captured by the effective dimension term ${\mathsf{e}\mathsf{d}\mathsf{i}\mathsf{m}}{(\Sigma)}$, which always lies in the interval $\lbrack 1,{d_{\mathsf{X}}d_{\mathsf{Y}}}\rbrack$. For one-dimensional targets and benign noise interaction, and since the $X_{i}$ in the noise term $V_{i}$ have been whitened (see (2.5)), we expect $\Sigma$ to be roughly isotropic. Indeed, whenever $d_{\mathsf{Y}} = 1$, the trivial bound ${{\mathsf{e}\mathsf{d}\mathsf{i}\mathsf{m}}{(\Sigma)}} \leq d_{\mathsf{X}}$ produces the familiar behavior: ${\|{{({\hat{M} - M_{\star}})}\sqrt{\Sigma_{X}}}\|}_{2}^{2} \lesssim {{\sigma^{2}d_{\mathsf{X}}}/n}$ with high probability.
+
+The scaling with $d_{\mathsf{X}},d_{\mathsf{Y}},\sigma^{2}$ and $n$ thus scales as expected in the iid regime, but also degrades gracefully with dependence. We reiterate that (3.2) does not depend directly on mixing in the leading order term. For comparison, under suitable regularity conditions, the noise term predicted by the CLT is:
+
+and one can achieve $\Sigma = {\Sigma_{CLT} + {o{}}}$ in most situations of practical interest by tuning the block-length; therefore, our analysis of OLS essentially matches the optimal asymptotics.
+
+Moreover, the constant $c_{1}$ appearing in (3.2) is quite benign and can be made arbitrarily close to $2$ by suitably inflating our burn-in constants $c_{2},c_{3},c_{4},c_{5},c_{6}$. We have however not been able to approach the optimal leading constant $1$ in front of ${\mathsf{e}\mathsf{d}\mathsf{i}\mathsf{m}}{(\Sigma)}$. This can be traced to an application of the triangular inequality in Corollary 4.1). ‣ 4.1 Blocking ‣ 4 Proof Overview ‣ The noise level in linear regression with dependent data").
+
+The moment bound ${\mathbf{E}{\langle v,X_{i}\rangle}^{4}} \leq {\mathsf{h}^{2}{\langle v,{\mathbf{E}{\lbrack{X_{i}X_{i}^{\mathsf{T}}}\rbrack}v}\rangle}{({v \in {\partial\Sigma_{X}}})}}$ is easily satisfied for e.g., Gaussian or bounded processes but is of course much milder than either assumption. The assumption that $s \geq 4$ can be relaxed to $s > 2$ by replacing our result controlling the lower tail, Theorem 4.3. We have chosen to present our result for $s \geq 4$ to strike a balance between expositional clarity and generality.
+
+The first burn-in condition of (3.3) is standard for control of the lower tail---beside the deflation factor $|a_{\max}|$, it is necessary even for iid data to guarantee that the \"denominator\" (2.9) is nonsingular. The second condition of (3.3)---in which a ratio of $s$:th and $2$nd moment of the noise variable appears---is the price we pay in the moderate deviations bandwidth for only having $s$ moments: it controls the rate at which the random walk (2.6) approaches asymptotic normality and reduces to the condition of Oliveira in the iid regime. This latter condition can in principle be removed with slightly modified constants if sufficiently many moments of the data-generating process satisfy a sub-Gaussian type moment equivalence condition (in which case the above-mentioned ratio is constant). Without such an assumption, we note that some polynomial dependence on $1/\delta$ is necessary under our tail assumptions and is not an artifact of our analysis; OLS is not deviation-optimal in the entire range of $\delta \in {}$---due to the presence of the random walk (2.6) in the numerator---unless the noise variables have Gaussian-like tails.
+
+The conditions in (3.4) and (3.5) relate to dependence. The last condition (3.5) simply asks that our process mixes sufficiently fast. If the mixing coefficients $\beta_{X,Y}{({|a_{i}|})}$ are exponential, this amounts to a logarithmic burn-in in $1/\delta$. However, we can still handle slow, polynomial mixing rates, at the cost of a polynomial burn-in in $1/\delta$. The conditions in (3.4) asks that the odd and even blocks are balanced in terms of their length and second order statistics. It is trivially satisfied for (weakly) stationary processes analyzed using a uniform blocking length (length of the $a_{i}$).
+
+In light of the above remarks, we are now in position to simplify Theorem 3.1. If we impose stationarity, quite a few terms in the burn-in conditions (3.3),(3.4) and (3.5) either simplify or vanish. Further restricting to the case where targets are $1$-dimensional and letting the sample-size be divisible by the block-length yields the corollary below.
+
+### Corollary 3.1
+
+Fix $\delta \in {}$ and ${n,\tau} \in {\mathbb{N}}$ and let $2\tau$ divide $n$. Fix also a joint distribution of $1$-dimensional targets and $d_{\mathsf{X}}$-dimensional covariates $\mathsf{P}^{X,Y}$ with at least $s \in {\lbrack 4,\infty)}$ moments. Let ${(X,Y)}_{1:n}$ be a stationary $\beta$-mixing sequence with marginals equal to $\mathsf{P}^{X,Y}$. Assume further that there exists a positive number $\mathsf{h} \in {\mathbb{R}}$ such that for every $v \in {\partial\Sigma_{X}}$ we have that ${\mathbf{E}{\langle v,X\rangle}^{4}} \leq \mathsf{h}^{2}$ where $X \sim \mathsf{P}^{X}$. Define also the noise interaction term: $\sigma^{2} \triangleq \frac{1}{\tau}\sup_{v \in {\mathbb{S}}^{d_{\mathsf{X}} - 1}}\mathbf{E}\left\lbrack \left( \sum_{i = 1}^{\tau}\left. \langle\overline{V_{i}},v \right)^{2} \right\rbrack \right.$. There exist universal positive constants $c_{1},c_{2},c_{3},c_{4}$ such that with probability at least $1 - \delta$:
+
+as long as the following burn-in conditions hold:
+
+Corollary 3.1 takes a very similar form to---by now---standard results in the iid regime. Indeed, if the data is stationary the price we pay for dependence is that:
+
+variance and moment terms need to be computed in blocks;
+
+the burn-in is deflated by a factor of the block-length (the first two parts of (3.7)); and
+
+we incur an additional burn-in penalizing slow mixing---the last part of (3.7) asks that the block-length is not \"too small\".
+
+### Comparison to Related Work
+
+Having established our main result, Theorem 3.1, we now provide a more detailed comparison to the relevant literature. Most closely related to our results is Nagaraj et al., who study bounded linear regression models in which the data comes from an exponentially ergodic Markov chain. They find that strictly realizable linear regression is no harder than its iid counterpart in this setting, and show that a parallelized gradient algorithm achieves the optimal rate. More interestingly, in the absence of realizability, they also establish a lower bound demonstrating that the worst-case (global minimax) excess risk across all Markov chains with a given mixing time is deflated by said mixing time, thereby establishing a gap between realizable and non-realizable learning from dependent data.
+
+Of course, their lower bound is no longer valid if one drops the requirement that the predictor performs uniformly well across all distributions with a prescribed mixing time. It is exactly herein that our analyses differ. While Nagaraj et al. characterize the worst-case (or global) complexity of linear regression, we focus on the instance-specific (or local) complexity. In other words, they compete against the worst distribution at a given level of mixing, whereas we compete against a fixed distribution. To appreciate this distinction, let us momentarily assume that $d_{\mathsf{X}} = d_{\mathsf{Y}} = 1$. The noise term $\sigma^{2}$ in Theorem 3.1 can be upper-bounded as:
+
+by the Cauchy-Schwarz inequality. The right hand side of (3.8) is precisely inflated by the (maximal) block-length $\max_{i \in {\lbrack{2m}\rbrack}}{|a_{i}|}$.
+
+Seen in this light, our results being sharper in terms of the measure of dependency reduces to stating that our results are sharper by an application of the Cauchy-Schwarz Inequality. Moreover, the statement that the global complexity is worse than its iid counterpart by a factor of the mixing time amounts in our setting to stating that there exists a distribution achieving equality in (3.8). We remark that such a distribution is easily constructed by taking $X_{1:n}$ and $Y_{1:n}$ to be constant within each block and stationary across the blocks; this is precisely when the application of the Cauchy-Schwarz inequality in (3.8) turns to equality. To further appreciate the distinction between our results, note that our result measures dependence through correlation. By contrast, a result scaling with the mixing time measures dependence in a stronger variational sense. That is, the former measures dependence at the level of orthogonality of the random variables themselves, whereas the latter measures it at the level of orthogonality of all measurable functions of these random variables.
+
+### Further Related Work
+
+Another closely related line of work studies parameter identification in auto-regressive models. When the noise model is strictly realizable---the variables $W_{1:n}$ form a martingale difference sequence with respect to the filtration generated by $X_{1:n}$---identification is possible at the iid rate even in the absence of mixing. Naturally, our results do not cover the mixing-free regime as we consider: the agnostic setting in which self-normalized martingale arguments are not available; and excess risk bounds instead of parameter identification---it seems unlikely that (3.2) holds without some notion of stochastic stability due to the presence of $\Sigma_{X}$ on the left hand side.
+
+More generally---moving beyond linear time-series models---several authors have considered learning under various weak dependency notions. Kuznetsov and Mohri give generalization bounds in a more general setting using the same blocking technique---due to Yu ---used here. Statements similar in spirit can also be found in e.g., Steinwart and Christmann, Duchi et al. and most recently Roy et al.. However, they all suffer the dependency deflation discussed above and in our introduction (Section 1). We also note that Ziemann and Tu obtain rates for strictly realizable square loss that---similar to ours here---relegate mixing times into additive burn-in factors. While they treat more general hypothesis classes, they do not go beyond strict realizability, and their analysis rests on the assumption that the noise interaction term is a martingale difference sequence.
+
+## Proof Overview
+
+Theorem 3.1 is the direct consequence of two separate results: Theorem 4.2, which controls the centered noise (2.7) term, and Theorem 4.3, which bounds the lower tail of the normalized empirical covariance matrix (2.9). We prove Theorem 4.2 by blocking the Fuk-Nagaev inequality of Einmahl and Li, and Theorem 4.3 by a truncation argument combined with blocking. These results are found in Section 4.2 and Section 4.3. Our proof idea is heavily inspired by that of Oliveira and the idea is very much to adjust his approach in such a way that blocking does not affect the leading term in the rate.^22^2At a high level, for iid data, this proof strategy first appeared in the journal version of Oliveira. As either result relies on blocking, it is now pertinent to describe this technique in a little more detail.
+
+### Blocking
+
+Recall that we partition $\lbrack n\rbrack$ into $2m$ consecutive intervals, denoted $a_{j}$ for $j \in {\lbrack{2m}\rbrack}$, so that ${\sum_{j = 1}^{2m}{|a_{j}|}} = n$. Denote further by $O$ (resp. by $E$) the union of the oddly (resp. evenly) indexed subsets of $\lbrack n\rbrack$. We further abuse notation by writing ${\beta_{Z}{(a_{i})}} = {\beta_{Z}{({|a_{i}|})}}$ in the sequel.
+
+We split the process $Z_{1:n}$ as:
+
+Let ${\overset{\sim}{Z}}_{1:{|O|}}^{o}$ and ${\overset{\sim}{Z}}_{1:{|E|}}^{e}$ be blockwise decoupled versions of (4.1). That is we posit that ${\overset{\sim}{Z}}_{1:{|O|}}^{o} \sim \mathsf{P}_{{\overset{\sim}{Z}}_{1:{|O|}}^{o}}$ and ${\overset{\sim}{Z}}_{1:{|E|}}^{e} \sim \mathsf{P}_{{\overset{\sim}{Z}}_{1:{|E|}}^{e}}$, where:
+
+The process ${\overset{\sim}{Z}}_{1:n}$ with the same marginals as ${\overset{\sim}{Z}}_{1:{|O|}}^{o}$ and ${\overset{\sim}{Z}}_{1:{|E|}}^{e}$ is said to be the decoupled version of $Z_{1:n}$. To be clear: $\mathsf{P}_{{\overset{\sim}{Z}}_{1:n}} \triangleq {\mathsf{P}_{Z_{a_{1}}} \otimes \mathsf{P}_{Z_{a_{2}}} \otimes \cdots \otimes \mathsf{P}_{Z_{a_{2m}}}}$, so that ${\overset{\sim}{Z}}_{1:{|O|}}^{o}$ and ${\overset{\sim}{Z}}_{1:{|E|}}^{e}$ are alternatingly embedded in ${\overset{\sim}{Z}}_{1:n}$. The following result is key---by skipping every other block, ${\overset{\sim}{Z}}_{1:n}$ may be used in place of $Z_{1:n}$ for evaluating scalar functions at the cost of an additive mixing-related term.
+
+### Proposition 4.1 (Lemma 2.6 in Yu (1994); Proposition 1 in Kuznetsov and Mohri (2017))
+
+Fix a $\beta$-mixing process $Z_{1:n}$ and let ${\overset{\sim}{Z}}_{1:n}$ be its decoupled version. For any measurable function $f$ of $Z_{1:{|O|}}^{o}$ (resp. $g$ of $Z_{1:{|E|}}^{e}$) with joint range $\lbrack 0,1\rbrack$ we have that:
+
+The following corollary to Proposition 4.1; Proposition 1 in Kuznetsov and Mohri ). ‣ 4.1 Blocking ‣ 4 Proof Overview ‣ The noise level in linear regression with dependent data") is convenient for controlling norms of random walks.
+
+### Corollary 4.1 (Lemma 3 in Kuznetsov and Mohri (2017))
+
+Let $Z_{1:n}$ be a $\beta$-mixing process taking values in a normed space $(\mathsf{Z}, \parallel \cdot \parallel )$, and let ${\overset{\sim}{Z}}_{1:n}$ be its decoupled version. For any $\varepsilon \geq {{\mathbf{E}\left\| {\frac{1}{|O|}{\sum_{i \in O}{\overset{\sim}{Z}}_{i}}} \right\|} \vee {\mathbf{E}\left\| {\frac{1}{|E|}{\sum_{i \in E}{\overset{\sim}{Z}}_{i}}} \right\|}}$ we have that:
+
+where $\varepsilon_{o} = {\varepsilon - {\mathbf{E}\left\| {\frac{1}{|O|}{\sum_{i \in O}{\overset{\sim}{Z}}_{i}}} \right\|}}$ and $\varepsilon_{e} = {\varepsilon - {\mathbf{E}\left\| {\frac{1}{|E|}{\sum_{i \in E}{\overset{\sim}{Z}}_{i}}} \right\|}}$.
+
+In short, up to a mild failure additional failure probability term, we only need to control the tensor product processes (4.2).
+
+### Dependent Random Walks
+
+Once equipped with Corollary 4.1). ‣ 4.1 Blocking ‣ 4 Proof Overview ‣ The noise level in linear regression with dependent data"), we still require control of the independent blocks. The following Fuk-Nagaev inequality due to Einmahl and Li provides such control.
+
+### Theorem 4.1 (Theorem 4 in Einmahl and Li (2008))
+
+Fix $s > 2$, a separable normed space $(\mathsf{U}, \parallel \cdot \parallel )$ and a $\mathsf{U}$-valued sequence $U_{1:n}$ of independent random variables. Assume that ${\mathbf{E}{\| U_{i}\|}^{s}} < \infty$ for $i \in {\lbrack n\rbrack}$. Then for any $\varepsilon \in {(0,\infty)}$, $\eta \in {(0,1\rbrack}$, and $t \geq 0$, we have that:
+
+where $\Lambda \triangleq {\sup_{v \in \mathcal{S}^{\ast}}{\mathbf{E}{\sum_{i = 1}^{n}{v^{2}{(U_{i})}}}}}$ and where $\mathcal{S}^{\ast}$ is unit disk in the dual space of $(\mathsf{U}, \parallel \cdot \parallel )$. Moreover, we may take $C_{\varepsilon,\eta,s} = \left( {1 + {{({{2s}/e})}^{2s}{({2{({1 + {2/\varepsilon}})}{({3 + {4/\eta}})}})}^{2}} + \varepsilon^{- s}} \right)$.^33^3The constant $C_{\varepsilon,\eta,s}$ is not specified exactly in Einmahl and Li. This constant is easy to obtain by observing that their $K_{s}$, which may be taken to be the best constant such that ${({\log x})}^{2s} \leq {K_{s}x}$ for $x \geq 1$, is upper-bounded by ${({{2s}/e})}^{2s}$.
+
+If our data were drawn independently, Theorem 4.1). ‣ 4.2 Dependent Random Walks ‣ 4 Proof Overview ‣ The noise level in linear regression with dependent data") would give us the required control of the random walk (2.7). The right hand side of (4.5). ‣ 4.2 Dependent Random Walks ‣ 4 Proof Overview ‣ The noise level in linear regression with dependent data")) consists of a *mixed tail*: a sub-Gaussian term with a CLT-like weak variance term $\Lambda$; and a polynomial term accounting for the fact that we only imposed the existence of $s$ moments. With the preliminary results Corollary 4.1). ‣ 4.1 Blocking ‣ 4 Proof Overview ‣ The noise level in linear regression with dependent data") and Theorem 4.1). ‣ 4.2 Dependent Random Walks ‣ 4 Proof Overview ‣ The noise level in linear regression with dependent data") in place, we are now in position to control dependent random walks of the form (2.7).
+
+### Theorem 4.2
+
+Fix $s > 2$, a separable normed space $(\mathsf{Z}, \parallel \cdot \parallel )$, constants ${\varepsilon,\eta} > 0$, and set $C_{\varepsilon,\eta,s} = \left( {1 + {{({{2s}/e})}^{2s}{({2{({1 + {2/\varepsilon}})}{({3 + {4/\eta}})}})}^{2}} + \varepsilon^{- s}} \right)$. Fix also a consecutive partition $a_{1:{2m}}$ of $\lbrack n\rbrack$ and let $Z_{1:n}$ be a mean zero, $\beta$-mixing process taking values in $\mathsf{Z}$ with block decoupled version ${\overset{\sim}{Z}}_{1:n}$. Let $O$ be the union of the odd $a_{i}$ and $E$ be the union of the even $a_{i}$. Assume that ${\mathbf{E}{\| Z_{i}\|}^{s}} < \infty$ for $i \in {\lbrack n\rbrack}$. For every ${\varepsilon,\eta} > 0$ and $\delta \in {}$, we have that:
+
+where $\Lambda_{\text{sgn}} \triangleq {\sup_{v \in \mathcal{S}^{\ast}}{\frac{1}{|\text{sgn}|}{\sum_{a_{i} \subset \text{sgn}}{\mathbf{E}v^{2}\left( {\sum_{j \in a_{i}}Z_{j}} \right)}}}}$ for $\text{sgn} \in {\{ O,E\}}$, $\mathcal{S}^{\ast}$ is unit disk in the dual space of $(\mathsf{Z}, \parallel \cdot \parallel )$, and $\sqrt{r} \geq {\max_{\text{sgn} \in {\{ O,E\}}}\frac{\mathbf{E}\left\| {\frac{1}{\sqrt{|\text{sgn}|}}{\sum_{i \in \text{sgn}}{\overset{\sim}{Z}}_{i}}} \right\|}{\sqrt{\Lambda_{\text{sgn}}}}}$.
+
+In Theorem 4.2 we have combined the blocking technique with the Fuk-Nagaev inequality (4.5). ‣ 4.2 Dependent Random Walks ‣ 4 Proof Overview ‣ The noise level in linear regression with dependent data")). The right hand side of (4.6) is exactly as in (4.5). ‣ 4.2 Dependent Random Walks ‣ 4 Proof Overview ‣ The noise level in linear regression with dependent data")) but instantiated to our setting and with extra additive mixing-related term.
+
+### The Lower Tail of the Empirical Covariance Matrix
+
+We now proceed to analyze the lower tail of the empirical covariance matrix (2.9).
+
+### Theorem 4.3
+
+Fix $\delta > 0$ and a consecutive partition $a_{1:{2m}}$ of $\lbrack n\rbrack$. Let $X_{1:n}$ be a sequence of $\beta$-mixing random variables taking values in ${\mathbb{R}}^{d_{\mathsf{X}}}$ with finite fourth moment. Assume that there exists a positive number $\mathsf{h} \in {\mathbb{R}}$ such that for every $v \in {\partial\Sigma_{X}}$ and $i \in {\lbrack n\rbrack}$, we have ${\mathbf{E}{\langle v,X_{i}\rangle}^{4}} \leq {\mathsf{h}^{2}{\langle v,{\mathbf{E}{\lbrack{X_{i}X_{i}^{\mathsf{T}}}\rbrack}v}\rangle}}$. There exists a positive universal constant $C \in {\mathbb{R}}$ such that as long as
+
+It is by now a well-established fact that lower uniform laws of the form (4.8) hold under mild assumptions for various function classes (linear functions on ${\mathbb{R}}^{d_{\mathsf{X}}}$ in this case). Since these assumptions are quite mild and only affect burn-in conditions, deflating the sample-size via blocking does not deflate the final convergence rate. The particular approach we have chosen here to establish Theorem 4.3 is to combine blocking with the approach found in. We remark that similar statements hold if one instead blocks the arguments of say Oliveira or Koltchinskii and Mendelson.
+
+## Summary
+
+The leading order term of our main result, Theorem 3.1, does not directly depend on any mixing-time type quantities. It mimics the asymptotic rate and scales solely in terms of the second order statistics of the process at hand. To arrive at this result, we rely on two facts:
+
+The lower tail of the empirical covariance matrix (2.9) is well-behaved under mild assumptions. In an excess risk bound, the contribution of the lower uniform law to the overall error is not of leading order. Hence, incurring a sample size deflation for this purpose is not critical.
+
+By combining blocking with a version of Bernstein's inequality, we are able to push the effect of blocking to only affect the large deviations regime. In the moderate and small deviations regimes, control of the leading order of the random walk in (2.7) is not directly impacted by slow mixing.

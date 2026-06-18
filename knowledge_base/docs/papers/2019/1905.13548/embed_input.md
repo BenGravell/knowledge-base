@@ -1,0 +1,17 @@
+Sparse Optimal Control of Networks with Multiplicative Noise via Policy Gradient
+
+Topics include Optimal control, Multiplicative noise, Networks, Sensor placement, Actuator placement.
+
+Showed that one can use policy gradient to automatically design the placement of sensors and actuators in a controller for linear systems with multiplicative noise. Achieved by encoding the preference for certain kinds of sparsity patterns with sparsity-promoting convex regularizers in the objective function.
+
+We give algorithms for designing near-optimal sparse controllers using policy gradient with applications to control of systems corrupted by multiplicative noise, which is increasingly important in emerging complex dynamical networks. Various regularization schemes are examined and incorporated into the optimization by the use of gradient, subgradient, and proximal gradient methods. Numerical experiments on a large networked system show that the algorithms converge to performant sparse mean-square stabilizing controllers.
+
+## Introduction
+
+Emerging highly distributed networked dynamical systems, such as critical infrastructure for power, water, and transportation, are high-dimensional and increasingly instrumented with new sensing, actuation, and communication technologies. A key problem is to design high performance control architectures that limit the number of actuators, sensors, and actuator-sensor communication links to reduce complexity and cost. Sparse control architectures may be crucial for managing complexity in emerging complex networks, but require solution of extremely difficult mixed combinatorial-continuous optimization problems.
+
+There is a variety of performance metrics and optimization methodology for sparse control architecture design in the recent literature. Examples include structural rank conditions from Liu et al.; Ruths and Ruths; Olshevsky, controllability and observability Gramians from Pasqualetti et al.; Summers et al.; Tzoumas et al.; Jadbabaie et al., and optimal and robust control metrics from Hassibi et al.; Polyak et al.; Jovanović and Dhingra; Summers; Taha et al.; Zare and Jovanović, which are optimized via greedy algorithms, convex and mixed-integer optimization, and randomization.
+
+We developed three policy gradient algorithms for solving the sparse gain design problem for networked dynamical systems with multiplicative noise. We showed that the regularized LQR cost does not necessarily have a unique local minimum, hampering efforts to guarantee global convergence of the algorithms. Nevertheless, efficacy of the algorithms is demonstrated empirically via computational simulations. Through various regularization functions we identified sparsity patterns for near-optimal actuator, sensor, and actuator-sensor link removal. This paves the way for data-driven control design in the model-free setting for such systems.
+
+Future work will attempt to prove unique local minimization of the regularized LQR cost or provide a set of restrictions under which such a condition holds. A salient issue with policy gradient methods relates to scalability; for large systems the gradient calculation is computationally expensive. Hence we will explore low-rank approximations of the gradient and consequent effects on convergence. We will also extend this work to the unknown-model setting and explore alternative model-based learning schemes.

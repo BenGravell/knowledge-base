@@ -1,0 +1,7 @@
+Planning in Information Space for a Quadrotor Helicopter in a GPS-denied Environment
+
+Topics include Belief-space planning, Quadrotors, Global positioning system-denied navigation, Information space, Uncertainty, Robotics.
+
+Plans quadrotor motion in information space so that candidate trajectories account for localization uncertainty in GPS-denied environments. The paper highlights the difference between geometrically feasible paths and paths that keep the vehicle sufficiently well localized to fly safely.
+
+This paper describes a motion planning algorithm for a quadrotor helicopter flying autonomously without GPS. Without accurate global positioning, the vehicle's ability to localize itself varies across the environment, since different environmental features provide different degrees of localization. If the vehicle plans a path without regard to how well it can localize itself along that path, it runs the risk of becoming lost. We use the Belief Roadmap (BRM) algorithm, an information-space extension of the Probabilistic Roadmap algorithm, to plan vehicle trajectories that incorporate sensing. We show that the original BRM can be extended to use the Unscented Kalman Filter (UKF), and describe a sampling algorithm that minimizes the number of samples required to find a good path. Finally, we demonstrate the BRM path-planning algorithm on the helicopter, navigating in an indoor environment with a laser range-finder.

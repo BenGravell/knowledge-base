@@ -1,0 +1,17 @@
+Local Search for Policy Iteration in Continuous Control
+
+We present an algorithm for local, regularized, policy improvement in reinforcement learning (RL) that allows us to formulate model-based and model-free variants in a single framework. Our algorithm can be interpreted as a natural extension of work on KL-regularized RL and introduces a form of tree search for continuous action spaces. We demonstrate that additional computation spent on model-based policy improvement during learning can improve data efficiency, and confirm that model-based policy improvement during action selection can also be beneficial. Quantitatively, our algorithm improves data efficiency on several continuous control benchmarks (when a model is learned in parallel), and it provides significant improvements in wall-clock time in high-dimensional domains (when a ground truth model is available). The unified framework also helps us to better understand the space of model-based and model-free algorithms. In particular, we demonstrate that some benefits attributed to model-based RL can be obtained without a model, simply by utilizing more computation.
+
+## Introduction
+
+Stable policy optimization in high-dimensions, and continuous action spaces, can be a challenge even in simulation. In recent years, a variety of deep RL algorithms have been developed, both for the model-free and model-based setting, that aim to tackle this challenge. In continuous control, recent progress on scalable (distributed) algorithms now allows us to solve problems with high-dimensional observation and action spaces end-to-end, provided adequate computation for simulation and learning is available....
+
+Compared to a more simplistic policy gradient or actor-critic method all of these model-based techniques have one thing in common: they use additional computation (by performing a search or gradient based optimization) either at the time of action selection or in the policy improvement step. From this observation three questions naturally arise: 1) If data-efficiency can be improved via additional computation how should this computation be spent (i.e. can an off-policy algorithm be as efficient as a model-based algorithm by performing more policy updates)?...
+
+Experimentally we show that with a learned model our algorithm achieves a notable improvement in data efficiency compared to state-of-the art model-free approaches. Where a the system model is known (e.g. when working with physical simulations) our algorithm allows us to balance computation effectively and can achieve a better computational trade off than conventional high-throughput model-free setups.
+
+Much remains to be done: we have only sampled a small number of design choices within the presented framework, and we expect that the benefits we have observed might transfer to related algorithms. We hope that the perspective of this work will inspire others to investigate other algorithms that flexibly blend the use of model-based and model-free approaches.
+
+## Experiments
+
+For such a policy iteration scheme to be effective, a lightweight estimate of $\mu_{K}^{\ast}$ is desirable. In a model free setting this is largely impractical for $K > 1$ since a Monte-Carlo estimator of Eq. may be very hard to construct (it would at least require priviliged access to the environment; i.e. the ability to reset to any given state to perform the required K-step rollouts). For $K = 1$ we recover the method from Abdolmaleki et al....

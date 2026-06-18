@@ -1,0 +1,23 @@
+PointPillars: Fast Encoders for Object Detection from Point Clouds
+
+Object detection in point clouds is an important aspect of many robotics applications such as autonomous driving. In this paper we consider the problem of encoding a point cloud into a format appropriate for a downstream detection pipeline. Recent literature suggests two types of encoders; fixed encoders tend to be fast but sacrifice accuracy, while encoders that are learned from data are more accurate, but slower. In this work we propose PointPillars, a novel encoder which utilizes PointNets to learn a representation of point clouds organized in vertical columns (pillars). While the encoded features can be used with any standard 2D convolutional detection architecture, we further propose a lean downstream network. Extensive experimentation shows that PointPillars outperforms previous encoders with respect to both speed and accuracy by a large margin. Despite only using lidar, our full detection pipeline significantly outperforms the state of the art, even among fusion methods, with respect to both the 3D and bird's eye view KITTI benchmarks. This detection performance is achieved while running at 62 Hz: a 2 - 4 fold runtime improvement....
+
+## Introduction
+
+Deploying autonomous vehicles (AVs) in urban environments poses a difficult technological challenge. Among other tasks, AVs need to detect and track moving objects such as vehicles, pedestrians, and cyclists in realtime. To achieve this, autonomous vehicles rely on several sensors out of which the lidar is arguably the most important. A lidar uses a laser scanner to measure the distance to the environment, thus generating a sparse point cloud representation....
+
+Following the tremendous advances in deep learning methods for computer vision, a large body of literature has investigated to what extent this technology could be applied towards object detection from lidar point clouds. While there are many similarities between the modalities, there are two key differences: 1) the point cloud is a sparse representation, while an image is dense and 2) the point cloud is 3D, while the image is 2D. As a result object detection from point clouds does not trivially lend itself to standard image convolutional pipelines.
+
+## Conclusion
+
+In this paper, we introduce PointPillars, a novel deep network and encoder that can be trained end-to-end on lidar point clouds. We demonstrate that on the KITTI challenge, PointPillars dominates all existing methods by offering higher detection performance (mAP on both BEV and 3D) at a faster speed. Our results suggests that PointPillars offers the best architecture so far for 3D object detection from lidar.
+
+### Dataset
+
+In this paper, we use the Single Shot Detector (SSD) setup to perform 3D object detection. Similar to SSD, we match the priorboxes to the ground truth using 2D Intersection over Union (IoU). Bounding box height and elevation were not used for matching; instead given a 2D match, the height and elevation become additional regression targets.
+
+### Quantitative Analysis
+
+Some early works focus on either using 3D convolutions or a projection of the point cloud into the image. Recent methods tend to view the lidar point cloud from a bird's eye view. This overhead perspective offers several advantages such as lack of scale ambiguity and the near lack of occlusion.
+
+However, the bird's eye view tends to be extremely sparse which makes direct application of convolutional neural networks impractical and inefficient....

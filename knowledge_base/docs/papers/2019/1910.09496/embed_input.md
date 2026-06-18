@@ -1,0 +1,19 @@
+Policy Optimization for H2 Linear Control with H∞ Robustness Guarantee: Implicit Regularization and Global Convergence
+
+Topics include Nonconvex optimization, Policy gradients, Reinforcement learning, Optimal control, Stability analysis, Safety, Robustness, Optimization, Control, Learning, Policy optimization, PO, Linear quadratic regulator.
+
+Policy optimization (PO) is a key ingredient for reinforcement learning (RL). For control design, certain constraints are usually enforced on the policies to optimize, accounting for either the stability, robustness, or safety concerns on the system. Hence, PO is by nature a constrained (nonconvex) optimization in most cases, whose global convergence is challenging to analyze in general. More importantly, some constraints that are safety-critical, e.g., the H_infinity-norm constraint that guarantees the system robustness, are difficult to enforce as the PO methods proceed. Recently, policy gradient methods have been shown to converge to the global optimum of linear quadratic regulator (LQR), a classical optimal control problem, without regularizing/projecting the control iterates onto the stabilizing set, its (implicit) feasible set. This striking result is built upon the coercive property of the cost, ensuring that the iterates remain feasible as the cost decreases. In this paper, we study the convergence theory of PO for H_2 linear control with H_infinity-norm robustness guarantee....
+
+## Introduction
+
+Recent years have witnessed tremendous success of reinforcement learning (RL) in various sequential decision-making applications and continuous control tasks. Interestingly, most successes hinge on the algorithmic framework of *policy optimization* (PO), umbrellaing policy gradient (PG) methods, actor-critic methods, trust-region and proximal PO methods, etc. This inspires an increasing interest in studying the convergence theory, especially global convergence to optimal policies, of PO methods; see recent progresses in both classical RL contexts, and continuous control benchmarks.
+
+Indeed, PO provides a general framework for control design.^11^1Hereafter, we will mostly adhere to the terminologies and notational convention in the control literature, which are equivalent to, and can be easily translated to those in the RL literature, e.g., cost v.s. reward, control v.s. action, etc. Consider a general control design problem for the following discrete-time nonlinear dynamical system
+
+### PO landscape and algorithms for $\mathcal{H}_{\infty}$ control synthesis
+
+Our algorithms are based on the condition that an initial policy satisfying the specified $\mathcal{H}_{\infty}$-norm constraint is available. To efficiently find such an initialization, it is natural to study the PO landscape of $\mathcal{H}_{\infty}$ control synthesis, where the goal is to find the controller that not only satisfies certain $\mathcal{H}_{\infty}$-norm bound, but also minimizes it. It seems that the cost function for $\mathcal{H}_{\infty}$ control is still coercive....
+
+Key to the locally linear rates is that the property of *gradient dominance* holds locally around the optimum for mixed design problems. Such a property has been shown to hold globally for LQR problems, and also hold locally for zero-sum LQ games. The Q-quadratic rate echoes back the rate of Gauss-Newton with $\eta = {1/2}$ for LQR problems. This globally sublinear and locally (super-)linear convergence resembles the behavior of (Quasi)-Newton methods for nonconvex optimization, and policy gradient methods for zero-sum LQ games.
+
+The proof of Lemma 3.2. ‣ 3.1 Optimization Landscape ‣ 3 Landscape and Algorithms ‣ Policy Optimization for ℋ₂ Linear Control with ℋ_∞ Robustness Guarantee: Implicit Regularization and Global Convergence") is provided in §B.3....

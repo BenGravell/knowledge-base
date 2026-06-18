@@ -1,0 +1,17 @@
+MultiPath: Multiple Probabilistic Anchor Trajectory Hypotheses for Behavior Prediction
+
+Predicting human behavior is a difficult and crucial task required for motion planning. It is challenging in large part due to the highly uncertain and multi-modal set of possible outcomes in real-world domains such as autonomous driving. Beyond single MAP trajectory prediction, obtaining an accurate probability distribution of the future is an area of active interest. We present MultiPath, which leverages a fixed set of future state-sequence anchors that correspond to modes of the trajectory distribution. At inference, our model predicts a discrete distribution over the anchors and, for each anchor, regresses offsets from anchor waypoints along with uncertainties, yielding a Gaussian mixture at each time step. Our model is efficient, requiring only one forward inference pass to obtain multi-modal future distributions, and the output is parametric, allowing compact communication and analytical probabilistic queries. We show on several datasets that our model achieves more accurate predictions, and compared to sampling baselines, does so with an order of magnitude fewer trajectories.
+
+## Introduction
+
+We focus on the problem of predicting future agent states, which is a crucial task for robot planning in real-world environments. We are particularly interested in addressing this problem for self-driving vehicles, an application with a potentially enormous societal impact. Importantly, predicting the future of other agents in this domain is vital for safe, comfortable and efficient operation. For example, it is important to know whether to yield to a vehicle if they are going to cut in front of our robot or when would be the best time to merge into traffic....
+
+A fundamental aspect of future state prediction is that it is inherently stochastic, as agents cannot know each other's motivations. When driving, we can never really be sure what other drivers will do next, and it is important to consider multiple outcomes and their likelihoods.
+
+## Conclusion
+
+We have introduced MultiPath, a model which predicts parametric distributions of future trajectories for agents in real-world settings. Through synthetic and real-world datasets, we have shown the benefits of MultiPath over previous single-trajectory and stochastic models in achieving likelihood and trajectory-set metrics and needing only 1 feed-forward inference pass.
+
+The first stage is fully convolutional to preserve spatial structure; it takes the 3D input representation described above and outputs a 3D feature map of the entire top-down scene. We opt to use ResNet-based architectures for this scene-level feature extractor. We employ depth-wise thinned-out networks for all experiments, and a different number of residual layers depending on the dataset. See Sec. B.2 for a speed-accuracy analysis of different ResNet setups.
+
+The Gaussian parameters $\mu_{t}^{k}$ and $\Sigma_{t}^{k}$ are directly predicted by our model as a function of $\mathbf{x}$ for each time-step of each anchor trajectory $\mathbf{a}_{t}^{k}$. Note in the Gaussian distribution mean, $a_{t}^{k} + \mu_{t}^{k}$, the $\mu_{t}^{k}$ represents a scene-specific offset from the anchor state $a_{t}^{k}$; it can be thought of as modeling a scene-specific residual or error term on top of the prior anchor distribution. This allows the model to refine the static anchor trajectories to the current context, with variations coming from, *e.g*....

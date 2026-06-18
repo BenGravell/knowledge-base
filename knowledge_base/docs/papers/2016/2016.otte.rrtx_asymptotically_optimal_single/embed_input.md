@@ -1,0 +1,7 @@
+RRTX: Asymptotically Optimal Single-Query Sampling-Based Motion Planning with Quick Replanning
+
+Topics include Motion planning, Sampling-based planning, Asymptotic optimality, Dynamic environments, Replanning, RRTX, Rapidly-exploring random tree star, Graph search.
+
+Same asymptotic optimality and probabilistically complete properties as RRT*, but can handle reactions to suddenly-appearing obstacles.
+
+Dynamic environments have obstacles that unpredictably appear, disappear, or move. We present the first sampling-based replanning algorithm that is asymptotically optimal and single-query (designed for situation in which a priori offline computation is unavailable). Our algorithm, RRTX, refines and repairs the same search-graph over the entire duration of navigation (in contrast to previous single-query replanning algorithms that prune and then regrow some or all of the search-tree). Whenever obstacles change and/or the robot moves, a graph rewiring cascade quickly remodels the existing search-graph and repairs its shortest-path-to-goal sub-tree to reflect the new information. Both graph and tree are built directly in the robot's state-space; thus, the resulting plan(s) respect the kinematics of the robot and continue to improve during navigation. RRTX is probabilistically complete and makes no distinction between local and global planning, yet it reacts quickly enough for real-time high-speed navigation through unpredictably changing environments....
