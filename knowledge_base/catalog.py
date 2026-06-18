@@ -32,6 +32,8 @@ TAIL_HEADING_RE = re.compile(
     re.IGNORECASE,
 )
 START_HEADING_RE = re.compile(r"^(introduction|abstract)\b", re.IGNORECASE)
+FRONT_MATTER_HEADING_RE = re.compile(r"^(contents|preface|chapter\s+0\b)", re.IGNORECASE)
+BODY_START_HEADING_RE = re.compile(r"^(?:chapter\s+)?[1-9]\d*\b", re.IGNORECASE)
 NUMERIC_CITATION_RE = re.compile(r"\\?\[[\d,\s;:–—-]+\\?\]")
 PAREN_NUMERIC_CITATION_RE = re.compile(r"\(\s*\d+(?:\s*[,;]\s*\d+)*\s*\)")
 YEAR_CITATION_RE = re.compile(r"\([^()]{0,160}\b(?:19|20)\d{2}[a-z]?\b[^()]{0,160}\)")
@@ -545,17 +547,28 @@ def authorish_paragraph(text: str) -> bool:
 
 
 def content_start_index(lines: list[str]) -> int:
-    fallback = 0
+    abstract_index: int | None = None
+    body_index: int | None = None
+    saw_front_matter = False
     for index, line in enumerate(lines):
         match = HEADING_RE.match(line.strip())
         if not match:
             continue
-        heading = embedding_heading_key(match.group(2))
+        raw_heading = match.group(2).strip()
+        heading = embedding_heading_key(raw_heading)
         if re.match(r"^introduction\b", heading, re.IGNORECASE):
             return index
-        if fallback == 0 and re.match(r"^abstract\b", heading, re.IGNORECASE):
-            fallback = index
-    return fallback
+        if abstract_index is None and re.match(r"^abstract\b", heading, re.IGNORECASE):
+            abstract_index = index
+        if body_index is None and BODY_START_HEADING_RE.match(raw_heading):
+            body_index = index
+        if FRONT_MATTER_HEADING_RE.match(heading):
+            saw_front_matter = True
+    if abstract_index is not None:
+        return abstract_index
+    if body_index is not None:
+        return body_index
+    return len(lines) if saw_front_matter else 0
 
 
 def content_end_index(lines: list[str], start: int) -> int:

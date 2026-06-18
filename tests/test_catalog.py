@@ -161,6 +161,39 @@ class CatalogHelperTests(unittest.TestCase):
 
         self.assertEqual(cleaned, "## Introduction\n\nUseful paragraph with enough words.")
 
+    def test_embedding_sidecar_rejects_front_matter_only_monograph(self) -> None:
+        cleaned = clean_embedding_sidecar_text(
+            "# Monograph Title\n\n"
+            "Author Name\n\n"
+            "###### Contents\n\n"
+            "1. 0 Preface\n\n"
+            "## Chapter 0 Preface\n\n"
+            "This preface thanks colleagues and describes the manuscript history, but it is not the technical body."
+        )
+
+        self.assertEqual(cleaned, "")
+
+    def test_embedding_sidecar_monograph_starts_at_first_real_chapter(self) -> None:
+        cleaned = clean_embedding_sidecar_text(
+            "# Monograph Title\n\n"
+            "Author Name\n\n"
+            "###### Contents\n\n"
+            "1. 0 Preface\n"
+            "2. 1 Matrix Methods\n\n"
+            "## Chapter 0 Preface\n\n"
+            "This preface thanks colleagues and describes manuscript history.\n\n"
+            "## Chapter 1 Matrix Methods\n\n"
+            "Matrix concentration inequalities control random matrices with useful noncommutative tail bounds.\n\n"
+            "## References\n\n"
+            "Reference noise."
+        )
+
+        self.assertEqual(
+            cleaned,
+            "## Chapter 1 Matrix Methods\n\n"
+            "Matrix concentration inequalities control random matrices with useful noncommutative tail bounds.",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
