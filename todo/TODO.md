@@ -8,6 +8,8 @@
   - fallback to open-source pdfs when available from the links_alt metadata field
   - last-ditch fallback is using metadata alone for embed text
 
+use ideas from https://claude.ai/share/72b92f25-d1d2-4b8a-8bc7-da878d237c05
+
 ## perf
 
 Tree and Timeline pages need major performance increase for handling large number of items.
