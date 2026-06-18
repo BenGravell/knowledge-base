@@ -30,7 +30,7 @@ from knowledge_base.tree.model import (
 )
 from knowledge_base.tree.validation import format_tree_validation_report, validate_tree
 
-MKDOCS_YML = KB_DIR / "mkdocs.yml"
+SITE_CONFIG = KB_DIR / "zensical.yml"
 TREE_YML = KB_DIR / "tree.yml"
 METADATA_ROOT = KB_DIR / "docs" / "papers"
 UNCATEGORIZED_CATEGORY = "Uncategorized"
@@ -236,7 +236,7 @@ if not tree_validation_report.ok:
     raise RuntimeError(format_tree_validation_report(tree_validation_report, max_results=50))
 
 
-with open(MKDOCS_YML, encoding="utf-8") as f:
+with open(SITE_CONFIG, encoding="utf-8") as f:
     config = yaml.load(f, Loader=YAML_LOADER)
 
 ids = IdFactory()

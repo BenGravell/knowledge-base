@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import os
+import shlex
 import shutil
 import subprocess
 import sys
+import time
 from collections.abc import Callable
 from pathlib import Path
 
@@ -14,13 +16,14 @@ KB_DIR = Path(__file__).resolve().parent
 SOURCE_DOCS_DIR = KB_DIR / "docs"
 STAGED_DOCS_DIR = KB_DIR / ".generated" / "docs"
 ZENSICAL_CONFIG = KB_DIR / ".zensical.generated.yml"
+ZENSICAL_SOURCE_CONFIG = KB_DIR / "zensical.yml"
 GENERATED_DOCS_DIR_ENV = "KB_GENERATED_DOCS_DIR"
 
 GENERATED_FILE_SCRIPTS = (
-    KB_DIR / "generate_papers.py",
-    KB_DIR / "map" / "copy_assets.py",
-    KB_DIR / "semantic_search" / "copy_assets.py",
-    KB_DIR / "tree" / "generate_tree_data.py",
+    ("paper pages and search data", KB_DIR / "generate_papers.py"),
+    ("map assets", KB_DIR / "map" / "copy_assets.py"),
+    ("semantic search assets", KB_DIR / "semantic_search" / "copy_assets.py"),
+    ("tree, analytics, and timeline data", KB_DIR / "tree" / "generate_tree_data.py"),
 )
 
 
@@ -39,6 +42,29 @@ def executable(name: str) -> str:
     return str(Path(sys.executable).parent / name)
 
 
+def rel(path: Path) -> str:
+    return str(path.relative_to(REPO_ROOT))
+
+
+def log(message: str) -> None:
+    print(f"kb: {message}", file=sys.stderr, flush=True)
+
+
+def elapsed_text(start: float) -> str:
+    return f"{time.perf_counter() - start:.1f}s"
+
+
+def run_step(label: str, action: Callable[[], object]) -> None:
+    start = time.perf_counter()
+    log(f"{label}...")
+    try:
+        action()
+    except Exception:
+        log(f"{label} failed after {elapsed_text(start)}")
+        raise
+    log(f"{label} done in {elapsed_text(start)}")
+
+
 def copy_docs_ignore(directory: str, names: list[str]) -> set[str]:
     ignored = {"__pycache__"} & set(names)
     if Path(directory) == SOURCE_DOCS_DIR and "papers" in names:
@@ -47,9 +73,9 @@ def copy_docs_ignore(directory: str, names: list[str]) -> set[str]:
 
 
 def write_zensical_config() -> None:
-    config = yaml.safe_load((KB_DIR / "mkdocs.yml").read_text(encoding="utf-8"))
+    config = yaml.safe_load(ZENSICAL_SOURCE_CONFIG.read_text(encoding="utf-8"))
     if not isinstance(config, dict):
-        raise RuntimeError("knowledge_base/mkdocs.yml must contain a mapping")
+        raise RuntimeError(f"{rel(ZENSICAL_SOURCE_CONFIG)} must contain a mapping")
 
     config["docs_dir"] = ".generated/docs"
     theme = dict(config.get("theme") or {})
@@ -61,20 +87,35 @@ def write_zensical_config() -> None:
 
 
 def materialize_generated_docs() -> None:
+    log(f"preparing {rel(STAGED_DOCS_DIR)}")
     if STAGED_DOCS_DIR.exists():
-        shutil.rmtree(STAGED_DOCS_DIR)
-    shutil.copytree(SOURCE_DOCS_DIR, STAGED_DOCS_DIR, ignore=copy_docs_ignore)
-    write_zensical_config()
+        run_step(f"clear {rel(STAGED_DOCS_DIR)}", lambda: shutil.rmtree(STAGED_DOCS_DIR))
+    run_step(
+        f"copy {rel(SOURCE_DOCS_DIR)} to {rel(STAGED_DOCS_DIR)}",
+        lambda: shutil.copytree(SOURCE_DOCS_DIR, STAGED_DOCS_DIR, ignore=copy_docs_ignore),
+    )
+    run_step(f"write {rel(ZENSICAL_CONFIG)}", write_zensical_config)
 
     env = os.environ.copy()
     env[GENERATED_DOCS_DIR_ENV] = str(STAGED_DOCS_DIR)
-    for script in GENERATED_FILE_SCRIPTS:
-        subprocess.run((sys.executable, str(script.relative_to(REPO_ROOT))), cwd=REPO_ROOT, env=env, check=True)
+    for label, script in GENERATED_FILE_SCRIPTS:
+        script_path = rel(script)
+        command = (sys.executable, script_path)
+        run_step(
+            f"generate {label} ({script_path})",
+            lambda command=command: subprocess.run(command, cwd=REPO_ROOT, env=env, check=True),
+        )
 
 
 def run_zensical(command: str, args: list[str]) -> int:
     materialize_generated_docs()
-    return subprocess.call((executable("zensical"), command, "-f", str(ZENSICAL_CONFIG.relative_to(REPO_ROOT)), *args))
+    command_line = (executable("zensical"), command, "-f", rel(ZENSICAL_CONFIG), *args)
+    start = time.perf_counter()
+    log(f"start {shlex.join(command_line)}")
+    result = subprocess.call(command_line)
+    status = "finished" if result == 0 else f"exited with {result}"
+    log(f"zensical {command} {status} after {elapsed_text(start)}")
+    return result
 
 
 CUSTOM_COMMANDS: dict[str, Callable[[list[str]], int]] = {

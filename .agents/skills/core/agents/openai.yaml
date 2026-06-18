@@ -1,4 +1,4 @@
 interface:
   display_name: "Core"
-  short_description: "Shared commands and conventions for this MkDocs knowledge base."
+  short_description: "Shared commands and conventions for this Zensical knowledge base."
   default_prompt: "Use this skill for knowledge-base repo context before editing metadata, docs, map files, or tree navigation."

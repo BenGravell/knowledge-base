@@ -33,7 +33,7 @@ _Avoid_: message prefix, fix heuristic, regex-routed audit case
 Human-maintained hierarchical navigation and classification source rooted at `knowledge_base/tree.yml`.
 It names branches and leaves that locate metadata-backed entries and supporting pages in the public knowledge base.
 
-_Avoid_: MkDocs nav, category list, site menu
+_Avoid_: site nav, category list, site menu
 
 ### Tree Placement
 
@@ -60,7 +60,7 @@ _Avoid_: map cache helper, semantic search cache helper, embedding script glue
 ### Generated Asset Contract
 
 Canonical in-process contract for generated static-site asset names, published
-paths, browser globals, and empty placeholder payloads shared by MkDocs
-gen-files producers and browser adapters.
+paths, browser globals, and empty placeholder payloads shared by Zensical
+generated-file producers and browser adapters.
 
 _Avoid_: JS filename strings, generated file glue, copy-script constants

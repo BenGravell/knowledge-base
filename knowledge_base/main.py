@@ -1,7 +1,7 @@
 import itertools
 from typing import Any
 
-from knowledge_base.utils.site_links import material_icon_svg
+from knowledge_base.utils.site_links import site_icon_svg
 
 TIMELINE_PREVIEW_PROFILES = (
     {
@@ -76,8 +76,8 @@ def _timeline_preview_dots(profile: dict[str, Any]) -> list[tuple[float, float]]
 
 def define_env(env: Any) -> None:
     @env.macro
-    def material_icon(icon_name: str) -> str:
-        return material_icon_svg(icon_name)
+    def site_icon(icon_name: str) -> str:
+        return site_icon_svg(icon_name)
 
     @env.macro
     def timeline_preview():

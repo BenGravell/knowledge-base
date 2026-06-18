@@ -150,7 +150,7 @@ KB_DIR = MAP_DIR.parent  # knowledge_base/
 REPO_ROOT = KB_DIR.parent  # repo root
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
-MKDOCS_YML = KB_DIR / "mkdocs.yml"
+SITE_CONFIG = KB_DIR / "zensical.yml"
 DEFAULT_CACHE = MAP_DIR / "embedding_cache.json"
 DEFAULT_OUTPUT = MAP_DIR / MAP_DATA.name
 DEFAULT_SIMILARITY_OUTPUT = MAP_DIR / MAP_SIMILARITY.name
@@ -1458,7 +1458,7 @@ def main() -> None:
     print("=" * 60)
 
     # ---- load config -------------------------------------------------------
-    with open(MKDOCS_YML, encoding="utf-8") as f:
+    with open(SITE_CONFIG, encoding="utf-8") as f:
         config = yaml.safe_load(f)
     paper_to_category = parse_nav_categories(config)
     nav_order = parse_nav_category_order(config)

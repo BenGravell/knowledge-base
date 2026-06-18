@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from functools import lru_cache
 from importlib import resources
-from importlib.util import find_spec
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote
@@ -28,14 +27,14 @@ PAPER_SITE_LINK_SOURCES = {
     "search": {"search.md"},
 }
 FALLBACK_NAV_ICONS = {
-    "detail": "material/file-document-outline",
-    "map": "material/map",
-    "tree": "material/file-tree-outline",
-    "timeline": "material/timeline-clock-outline",
-    "search": "material/magnify",
+    "detail": "lucide/file-text",
+    "map": "lucide/map",
+    "tree": "lucide/folder-tree",
+    "timeline": "lucide/history",
+    "search": "lucide/search",
 }
-FALLBACK_EXTERNAL_ICON = "material/open-in-new"
-FALLBACK_INTERNAL_ICON = "material/chevron-right"
+FALLBACK_EXTERNAL_ICON = "lucide/external-link"
+FALLBACK_INTERNAL_ICON = "lucide/chevron-right"
 
 
 def clean_text(value: Any) -> str:
@@ -47,7 +46,7 @@ def as_list(value: Any) -> list[Any]:
 
 
 @lru_cache(maxsize=8)
-def load_mkdocs_config(path: str = "mkdocs.yml") -> dict[str, Any]:
+def load_site_config(path: str = "zensical.yml") -> dict[str, Any]:
     config_path = Path(path)
     if not config_path.exists():
         return {}
@@ -57,17 +56,14 @@ def load_mkdocs_config(path: str = "mkdocs.yml") -> dict[str, Any]:
 
 
 @lru_cache(maxsize=128)
-def material_icon_svg(icon_name: str) -> str:
+def site_icon_svg(icon_name: str) -> str:
     icon = clean_text(icon_name)
     if not icon:
         return ""
 
-    for package in ("zensical", "material"):
-        if find_spec(package) is None:
-            continue
-        icon_path = resources.files(package) / "templates" / ".icons" / f"{icon}.svg"
-        if icon_path.is_file():
-            return icon_path.read_text(encoding="utf-8")
+    icon_path = resources.files("zensical") / "templates" / ".icons" / f"{icon}.svg"
+    if icon_path.is_file():
+        return icon_path.read_text(encoding="utf-8")
 
     raise FileNotFoundError(f"Icon not found: {icon}")
 
@@ -109,8 +105,8 @@ def nav_icon_for_key(config: dict[str, Any], key: str) -> str:
     return FALLBACK_NAV_ICONS.get(key, "")
 
 
-def paper_site_link_specs(config_path: str = "mkdocs.yml") -> list[dict[str, str]]:
-    config = load_mkdocs_config(config_path)
+def paper_site_link_specs(config_path: str = "zensical.yml") -> list[dict[str, str]]:
+    config = load_site_config(config_path)
     return [
         {
             "key": key,
@@ -121,7 +117,7 @@ def paper_site_link_specs(config_path: str = "mkdocs.yml") -> list[dict[str, str
     ]
 
 
-def site_link_data(config_path: str = "mkdocs.yml") -> dict[str, Any]:
+def site_link_data(config_path: str = "zensical.yml") -> dict[str, Any]:
     specs = [
         {
             "key": "detail",
@@ -134,13 +130,13 @@ def site_link_data(config_path: str = "mkdocs.yml") -> dict[str, Any]:
         "links": [
             {
                 **spec,
-                "iconSvg": material_icon_svg(spec["icon"]) if spec.get("icon") else "",
+                "iconSvg": site_icon_svg(spec["icon"]) if spec.get("icon") else "",
             }
             for spec in specs
         ],
         "fallbackIcons": {
-            "external": material_icon_svg(FALLBACK_EXTERNAL_ICON),
-            "internal": material_icon_svg(FALLBACK_INTERNAL_ICON),
+            "external": site_icon_svg(FALLBACK_EXTERNAL_ICON),
+            "internal": site_icon_svg(FALLBACK_INTERNAL_ICON),
         },
     }
 
@@ -183,7 +179,7 @@ def make_paper_site_link(
         "variant": "internal",
         "external": False,
         "icon": icon_name,
-        "icon_svg": material_icon_svg(icon_name) if icon_name else "",
+        "icon_svg": site_icon_svg(icon_name) if icon_name else "",
     }
 
 
@@ -192,7 +188,7 @@ def paper_site_links(
     *,
     base_path: str = "../..",
     include_detail: bool = False,
-    config_path: str = "mkdocs.yml",
+    config_path: str = "zensical.yml",
 ) -> list[dict[str, str | bool]]:
     links: list[dict[str, str | bool]] = []
     if include_detail:

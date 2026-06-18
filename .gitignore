@@ -158,7 +158,7 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
+# Static site output
 /site
 
 # mypy

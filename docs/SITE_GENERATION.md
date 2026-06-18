@@ -31,8 +31,8 @@ generated-file scripts:
 - `knowledge_base/semantic_search/copy_assets.py` publishes the Semantic Search index and vector table.
 - `knowledge_base/tree/generate_tree_data.py` publishes Tree browser data.
 
-`knowledge_base/mkdocs.yml` remains the Zensical-compatible site config. Tree
-data is generated directly from `knowledge_base/tree.yml`. For the in-process
+`knowledge_base/zensical.yml` is the source Zensical site config. Tree data is
+generated directly from `knowledge_base/tree.yml`. For the in-process
 Tree model design, see
 [knowledge_base/tree/README.md](../knowledge_base/tree/README.md).
 

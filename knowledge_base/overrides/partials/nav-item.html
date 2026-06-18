@@ -30,13 +30,13 @@
   {% elif title in config.extra.nav_icons %}
     {{ config.extra.nav_icons[title] }}
   {% elif ref.children %}
-    material/folder-outline
+    lucide/folder
   {% elif nav_item.url and nav_item.url is string and nav_item.url.startswith("http") %}
-    material/open-in-new
+    lucide/external-link
   {% elif nav_item.children %}
-    material/folder-outline
+    lucide/folder
   {% else %}
-    material/file-document-outline
+    lucide/file-text
   {% endif %}
 {% endmacro %}
 {% macro render_icon(nav_item, ref) %}

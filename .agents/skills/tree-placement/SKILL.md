@@ -26,7 +26,7 @@ The audit lists every `docs/papers/**/metadata.yml` item whose generated `papers
 
 1. Insert each missing paper into `knowledge_base/tree.yml` under the closest appropriate branch.
 2. Refer to paper entries with their literal metadata path, such as `docs/papers/2025/2506.11513/metadata.yml`.
-3. Remember that the site build converts literal metadata paths to generated MkDocs pages such as `papers/2506_11513.md`.
+3. Remember that the site build converts literal metadata paths to generated Zensical pages such as `papers/2506_11513.md`.
 4. Use embedding nearest neighbors as an initial guess, not as the final answer.
 5. Prefer existing categories whenever they fit.
 6. Create new categories only when the abstract and tags make existing tree branches a poor conceptual fit.
@@ -44,5 +44,5 @@ Run from `knowledge_base/`:
 
 ```bash
 python scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
-mkdocs build
+kb build
 ```

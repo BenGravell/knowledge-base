@@ -40,18 +40,11 @@
   let previewNodeId = null;
   let hydrateIndex = 0;
   const sunburstPaletteVars = [
-    '--kb-map-node-color-1',
-    '--kb-map-node-color-2',
-    '--kb-map-node-color-3',
-    '--kb-map-node-color-4',
-    '--kb-map-node-color-5',
-    '--kb-map-node-color-6',
-    '--kb-map-node-color-7',
-    '--kb-map-node-color-8',
-    '--kb-map-node-color-9',
-    '--kb-map-node-color-10',
-    '--kb-map-node-color-11',
-    '--kb-map-node-color-12',
+    '--kb-color-blue',
+    '--kb-color-teal',
+    '--kb-color-rose',
+    '--kb-color-gold',
+    '--kb-color-green',
   ];
   const sunburstLabelFontSize = 10;
   const sunburstLabelCollisionGap = 2.5;
@@ -2146,7 +2139,7 @@
     const palette = sunburstPaletteVars.map(function (name) {
       return style.getPropertyValue(name).trim();
     }).filter(Boolean);
-    return palette.length ? palette : ['#2276c9', '#12877f', '#c33d80', '#b66d18', '#4c8a2f'];
+    return palette.length ? palette : ['currentColor'];
   }
 
   function observeSunburstPalette() {

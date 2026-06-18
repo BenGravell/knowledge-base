@@ -607,7 +607,7 @@ def publish_paper_assets(paper_records: list[dict[str, Any]]) -> None:
     with open_generated(SITE_LINK_DATA.published_path, "w") as out:
         out.write(
             SITE_LINK_DATA.js_assignment(
-                site_link_data(str(KB_DIR / "mkdocs.yml")),
+                site_link_data(str(KB_DIR / "zensical.yml")),
                 separators=(",", ":"),
             )
         )

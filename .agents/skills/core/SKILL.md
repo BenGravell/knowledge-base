@@ -1,6 +1,6 @@
 ---
 name: core
-description: Shared project context for the knowledge-base repository. Use before editing or auditing MkDocs content, paper metadata, tree navigation, map scripts, or repository agent workflows in this personal publications knowledge base.
+description: Shared project context for the knowledge-base repository. Use before editing or auditing Zensical site content, paper metadata, tree navigation, map scripts, or repository agent workflows in this personal publications knowledge base.
 ---
 
 # Core
@@ -13,14 +13,14 @@ Read `../ponytail/SKILL.md` after this skill for the default repo working style 
 
 ## Project Shape
 
-This is a personal knowledge base of publications, distilled notes, and paper summaries, published as a static site via MkDocs.
+This is a personal knowledge base of publications, distilled notes, and paper summaries, published as a static site via Zensical.
 
 Important paths:
 
-- `knowledge_base/docs/`: MkDocs markdown content, generated paper pages, paper metadata, and templates.
+- `knowledge_base/docs/`: Zensical markdown content, generated paper pages, paper metadata, and templates.
 - `knowledge_base/docs/papers/`: paper entries. New entries go here.
 - `knowledge_base/docs/templates/metadata.yml`: template for paper metadata.
-- `knowledge_base/tree.yml`: editable Tree nav source injected into `mkdocs.yml` through the local `tree-nav` plugin.
+- `knowledge_base/tree.yml`: editable Tree taxonomy source used by generated Tree, Map, and Timeline assets.
 - `knowledge_base/map/`: embedding, UMAP, and graph generation scripts.
 - `knowledge_base/scripts/`: audit and utility scripts. Source-specific prefill entrypoints live in `knowledge_base/scripts/prefill/`.
 - `knowledge_base/site/`: generated site output. Do not edit it directly.
@@ -37,7 +37,7 @@ Install dependencies and activate the Pixi environment:
 eval "$(./dev shell-hook)"
 ```
 
-Run MkDocs commands from the repo root:
+Run Zensical commands through the local wrapper from the repo root:
 
 ```bash
 kb serve

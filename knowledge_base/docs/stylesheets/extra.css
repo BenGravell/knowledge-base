@@ -18,6 +18,11 @@
   --kb-app-border: color-mix(in srgb, var(--md-default-fg-color) 15%, transparent);
   --kb-app-panel: color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
   --kb-app-header-bg: color-mix(in srgb, var(--md-code-bg-color) 82%, var(--kb-app-panel));
+  --kb-site-header-bg: var(--kb-color-blue);
+  --kb-site-header-ink: #ffffff;
+  --kb-site-header-search-bg: #ffffff;
+  --kb-site-header-search-fg: #1f2937;
+  --kb-site-header-search-placeholder: #526173;
   /* Source palette for Map branch nodes and home-page decorative previews. */
   --kb-map-node-color-1: #005AB5;
   --kb-map-node-color-2: #A52A00;
@@ -185,6 +190,11 @@ body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content__inne
 .md-header,
 .md-tabs {
   z-index: var(--kb-z-site-header) !important;
+}
+
+.md-header {
+  background-color: var(--kb-site-header-bg) !important;
+  color: var(--kb-site-header-ink);
 }
 
 .md-overlay {
@@ -498,15 +508,15 @@ body:has(#semantic-search-app) .md-header__button[for="__toc"] {
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   height: 1.8rem;
-  border: 1px solid color-mix(in srgb, var(--md-primary-bg-color) 20%, transparent);
+  border: 1px solid color-mix(in srgb, var(--kb-site-header-ink) 62%, transparent);
   border-radius: 8px;
-  background: color-mix(in srgb, var(--md-primary-bg-color) 10%, transparent);
-  color: var(--md-primary-bg-color);
+  background: var(--kb-site-header-search-bg);
+  color: var(--kb-site-header-search-fg);
 }
 
 .kb-header-search__form:focus-within {
-  border-color: color-mix(in srgb, var(--md-primary-bg-color) 58%, transparent);
-  background: color-mix(in srgb, var(--md-primary-bg-color) 18%, transparent);
+  border-color: var(--kb-site-header-ink);
+  background: var(--kb-site-header-search-bg);
 }
 
 .kb-header-search__button {
@@ -526,14 +536,14 @@ body:has(#semantic-search-app) .md-header__button[for="__toc"] {
   height: 100%;
   border: 0;
   background: transparent;
-  color: var(--md-primary-bg-color);
+  color: var(--kb-site-header-search-fg);
   font: inherit;
   font-size: 0.74rem;
   outline: 0;
 }
 
 .kb-header-search__input::placeholder {
-  color: color-mix(in srgb, var(--md-primary-bg-color) 72%, transparent);
+  color: var(--kb-site-header-search-placeholder);
   opacity: 1;
 }
 
@@ -545,7 +555,7 @@ body:has(#semantic-search-app) .md-header__button[for="__toc"] {
 }
 
 .kb-header-search__button:hover {
-  color: var(--md-accent-fg-color);
+  color: var(--kb-site-header-bg);
 }
 
 @media screen and (max-width: 44.984375em) {
@@ -772,7 +782,11 @@ a.md-nav__link[href*="portfolio"]:hover {
   display: block;
   inline-size: 1em;
   block-size: 1em;
-  fill: currentColor;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
 }
 
 /* Use one stable primary-sidebar rhythm on every page. */
@@ -805,14 +819,18 @@ body {
   justify-content: center;
   margin-inline-end: var(--kb-nav-icon-gap);
   color: var(--md-default-fg-color--light);
-  opacity: 0.82;
+  opacity: 1;
 }
 
 .md-sidebar--primary .kb-nav-icon svg {
   display: block;
   inline-size: var(--kb-nav-icon-size);
   block-size: var(--kb-nav-icon-size);
-  fill: currentcolor;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.25;
 }
 
 .md-sidebar--primary .md-nav__link:hover .kb-nav-icon,
@@ -1206,7 +1224,11 @@ body:has(.kb-home-bento) .md-content {
   display: block;
   inline-size: 100%;
   block-size: 100%;
-  fill: currentcolor;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.15;
 }
 
 .md-typeset .kb-bento-card p {
@@ -3826,7 +3848,11 @@ body:has(#ct-app) .md-content__inner {
   display: block;
   inline-size: 0.82rem;
   block-size: 0.82rem;
-  fill: currentColor;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
 }
 
 .paper-link-pill__icon--external svg {

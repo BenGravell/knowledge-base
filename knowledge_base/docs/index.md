@@ -13,7 +13,7 @@ render_macros: true
   <a class="kb-bento-card kb-bento-card--map" href="map/">
     <h3>
       <span class="kb-bento-title-icon" aria-hidden="true">
-        {{ material_icon(config.extra.nav_icons.map) }}
+        {{ site_icon(config.extra.nav_icons.map) }}
       </span>
       <span>Map</span>
     </h3>
@@ -33,7 +33,7 @@ render_macros: true
   <a class="kb-bento-card kb-bento-card--tree" href="tree/">
     <h3>
       <span class="kb-bento-title-icon" aria-hidden="true">
-        {{ material_icon(config.extra.nav_icons.tree) }}
+        {{ site_icon(config.extra.nav_icons.tree) }}
       </span>
       <span>Tree</span>
     </h3>
@@ -76,7 +76,7 @@ render_macros: true
   <a class="kb-bento-card kb-bento-card--timeline" href="timeline/">
     <h3>
       <span class="kb-bento-title-icon" aria-hidden="true">
-        {{ material_icon(config.extra.nav_icons.timeline) }}
+        {{ site_icon(config.extra.nav_icons.timeline) }}
       </span>
       <span>Timeline</span>
     </h3>
@@ -89,7 +89,7 @@ render_macros: true
   <a class="kb-bento-card kb-bento-card--search" href="search/">
     <h3>
       <span class="kb-bento-title-icon" aria-hidden="true">
-        {{ material_icon(config.extra.nav_icons.search) }}
+        {{ site_icon(config.extra.nav_icons.search) }}
       </span>
       <span>Search</span>
     </h3>
@@ -115,7 +115,7 @@ render_macros: true
   <details class="kb-home-expander kb-home-expander--analytics">
     <summary>
       <span class="kb-bento-title-icon" aria-hidden="true">
-        {{ material_icon(config.extra.nav_icons.analytics) }}
+        {{ site_icon(config.extra.nav_icons.analytics) }}
       </span>
       <span class="kb-home-expander-summary-text">
         <span class="kb-home-expander-title">Analytics</span>
@@ -129,7 +129,7 @@ render_macros: true
   <details class="kb-home-expander kb-home-expander--about">
     <summary>
       <span class="kb-bento-title-icon" aria-hidden="true">
-        {{ material_icon(config.extra.nav_icons.about) }}
+        {{ site_icon(config.extra.nav_icons.about) }}
       </span>
       <span class="kb-home-expander-summary-text">
         <span class="kb-home-expander-title">About</span>

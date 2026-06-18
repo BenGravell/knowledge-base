@@ -33,7 +33,7 @@ from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
-MKDOCS_YML = KB_DIR / "mkdocs.yml"
+SITE_CONFIG = KB_DIR / "zensical.yml"
 EMBEDDING_CACHE = KB_DIR / "map" / "embedding_cache.json"
 TREE_YML = KB_DIR / "tree.yml"
 
@@ -428,10 +428,10 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    with MKDOCS_YML.open("r", encoding="utf-8") as f:
+    with SITE_CONFIG.open("r", encoding="utf-8") as f:
         config = yaml.safe_load(f)
     if not isinstance(config, dict):
-        sys.exit(f"Could not parse site config: {MKDOCS_YML}")
+        sys.exit(f"Could not parse site config: {SITE_CONFIG}")
 
     tree_model = load_tree_model(
         args.tree_yml,

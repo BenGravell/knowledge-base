@@ -34,6 +34,6 @@ This repo has no issue tracker workflow. Future work lives in markdown under `to
 - Run checks only when they add task-specific signal; do not run broad test/build commands by default.
 - Unit tests are permitted for Python logic changes when they cover the touched behavior, when adding or editing tests, or when verifying test/pre-commit wiring. Prefer the narrowest useful command: a single test file or focused unittest target before the full unit suite.
 - For metadata, Tree, or paper-placement work, use the smallest relevant repository script named by the loaded skill instead of a general test run.
-- For UX control changes, use the smallest relevant site check; default to `mkdocs build` from `knowledge_base/` only when the change could affect rendered pages or navigation.
+- For UX control changes, use the smallest relevant site check; default to `kb build` from the repo root only when the change could affect rendered pages or navigation.
 - For pre-commit changes, run the specific affected hook when possible; run all hooks only when hook composition changed or the user asks for full verification.
 - Ponytail's runnable-check rule does not require checks outside the narrow cases above.

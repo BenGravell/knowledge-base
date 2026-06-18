@@ -37,7 +37,7 @@ CHILD_PROGRESS_RE = re.compile(rf"^\s*{re.escape(PROGRESS_PREFIX)}\s+(\d+)/(\d+)
 HOT_START_STATUS_PATHS = (
     "knowledge_base/docs",
     "knowledge_base/tree.yml",
-    "knowledge_base/mkdocs.yml",
+    "knowledge_base/zensical.yml",
     "knowledge_base/catalog.py",
     "knowledge_base/config.py",
     "knowledge_base/dev_cli.py",

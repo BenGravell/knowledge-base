@@ -16,7 +16,7 @@
       {% include "partials/logo.html" %}
     </a>
     <label class="md-header__button md-icon" for="__drawer" aria-label="Toggle navigation" title="Toggle navigation">
-      {% set icon = config.theme.icon.menu or "material/menu" %}
+      {% set icon = config.theme.icon.menu or "lucide/menu" %}
       {% include ".icons/" ~ icon ~ ".svg" %}
     </label>
     <div class="md-header__title">
@@ -32,7 +32,7 @@
       <div class="kb-header-search" role="search">
         <form class="kb-header-search__form" action="{{ 'search/' | url }}" method="get">
           <button class="kb-header-search__button md-icon" type="submit" aria-label="Search paper metadata">
-            {% set icon = config.theme.icon.search or "material/magnify" %}
+            {% set icon = config.theme.icon.search or "lucide/search" %}
             {% include ".icons/" ~ icon ~ ".svg" %}
           </button>
           <input id="kb-header-search-input" class="kb-header-search__input" type="search" name="q" aria-label="Search paper metadata" placeholder="Search papers, authors, tags" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false">

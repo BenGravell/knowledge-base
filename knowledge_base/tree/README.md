@@ -24,7 +24,7 @@ The generated site later publishes those papers as `papers/<paper_id>.md`.
 ## Main Modules
 
 - `nav_source.py` loads the standalone Tree nav from `tree.yml` or from
-  `mkdocs.yml` fallback config. It also contains low-level source path helpers.
+  `zensical.yml` fallback config. It also contains low-level source path helpers.
 - `model.py` converts raw nav data into `TreeModel`, `TreeBranch`, `TreeLeaf`,
   `TreeChild`, `TreePlacement`, and `TreeOrder`.
 - `validation.py` checks local links, metadata coverage, and optional
