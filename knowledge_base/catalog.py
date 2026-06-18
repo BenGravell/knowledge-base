@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import date
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Literal
 from urllib.parse import quote
@@ -22,15 +24,19 @@ YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
 MetadataYear = int | str
 UrlKey = Literal["detail", "tree", "map", "timeline", "search"]
 EMBED_TEXT_SIDECAR = "embed_text.md"
-LEGACY_FULL_TEXT_SIDECAR = "full_text.md"
+EMBED_INPUT_SIDECAR = "embed_input.md"
+
 # Loose storage safety valve; embedding backends may need chunking below this.
 EMBED_TEXT_MAX_CHARS = 5_000_000
-EMBEDDING_SUMMARY_MAX_CHARS = 900
-EMBEDDING_ABSTRACT_MAX_CHARS = 1_200
-EMBEDDING_CONTENT_MAX_CHARS = 2_400
-EMBEDDING_EXCERPT_MAX_CHARS = 650
+
+# Strictest downstream embedding model today is all-MiniLM-L6-v2 via fastembed.
+EMBEDDING_CHUNK_MAX_TOKENS = 256
+EMBEDDING_CHUNK_MAX_CHARS = 2_000
+EMBEDDING_MIN_CHUNK_CHARS = 160
+EMBEDDING_TOKENIZER_VOCAB = Path(__file__).with_name("tokenizers") / "all-MiniLM-L6-v2-vocab.txt"
 
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.*?)\s*$")
+EMBEDDING_INPUT_CHUNK_RE = re.compile(r"^<!-- chunk (\{.*\}) -->\s*$", re.MULTILINE)
 TAIL_HEADING_RE = re.compile(
     r"^(references|bibliography|acknowledg(?:e)?ments?|funding|appendix|supplementary)\b",
     re.IGNORECASE,
@@ -43,6 +49,70 @@ PAREN_NUMERIC_CITATION_RE = re.compile(r"\(\s*\d+(?:\s*[,;]\s*\d+)*\s*\)")
 YEAR_CITATION_RE = re.compile(r"\([^()]{0,160}\b(?:19|20)\d{2}[a-z]?\b[^()]{0,160}\)")
 COMPACT_CITATION_RE = re.compile(r"\b(?:[A-Z]{2,}|[A-Z][A-Za-z]+)[0-9]{2}[a-z]?\b")
 LATEX_SPACE_RE = re.compile(r"\\hspace\{[^}]*\}")
+LATEX_BARE_URL_RE = re.compile(r"\\+urlhttps?://\S+")
+LATEX_URL_RE = re.compile(r"\\+url\{[^}]*\}")
+LATEX_URL_COMMAND_RE = re.compile(r"\\+url\b")
+NESTED_URL_CITATION_RE = re.compile(r"\([^()]*\([^()]*https?://[^)]*\)[^()]*\)")
+PAREN_URL_RE = re.compile(r"\([^()]*https?://[^)]*\)")
+MARKDOWN_LINK_RE = re.compile(r"\[([^]]+)]\((?:https?://|#)[^)]+\)")
+URL_RE = re.compile(r"https?://\S+")
+URL_POINTER_BOILERPLATE_RE = re.compile(
+    r"\s*(?:"
+    r"(?:the\s+)?(?:published|final|journal|official|peer-reviewed)\s+version"
+    r"(?:\s+of\s+(?:this|the)\s+(?:draft|paper|article|work|preprint))?"
+    r"|(?:this|the)\s+(?:draft|paper|article|work|preprint)"
+    r")\s+(?:is\s+)?available\s+(?:at|from|online\s+at)\b.*$",
+    re.IGNORECASE,
+)
+EMBEDDING_SENTENCE_ABBREVIATIONS = (
+    "e.g.",
+    "i.e.",
+    "cf.",
+    "viz.",
+    "vs.",
+    "etc.",
+    "et al.",
+    "Fig.",
+    "Eq.",
+    "Sec.",
+    "No.",
+    "Nos.",
+    "MS.",
+    "MSS.",
+    "Mr.",
+    "Mrs.",
+    "Ms.",
+    "Dr.",
+    "Prof.",
+    "St.",
+)
+EMBEDDING_TRAILING_ABBREVIATION_RE = re.compile(
+    r"(?:^|\s)(?:cf|viz|vs|etc|Fig|Eq|Sec|No|Nos|MS|MSS|Mr|Mrs|Ms|Dr|Prof|St)\.$"
+)
+EMBEDDING_FIELD_PREFIX_RE = re.compile(
+    r"^(?:title|tags|summary|abstract|content|results|contributions?|"
+    r"limitation and future work|limitations?|future work):\s*",
+    re.IGNORECASE,
+)
+EMBEDDING_PREFERRED_SECTION_RE = re.compile(
+    r"^(abstract|introduction|conclusion|discussion|limitations?|future work)\b",
+    re.IGNORECASE,
+)
+EMBEDDING_SKIP_SECTION_RE = re.compile(
+    r"^(related work|background|preliminaries|notation|proof|lemma|theorem|definition|"
+    r"corollary|proposition|appendix|supplementary|references|bibliography)\b",
+    re.IGNORECASE,
+)
+EMBEDDING_HIGH_SIGNAL_RE = re.compile(
+    r"\b(we propose|we introduce|we present|we develop|we show|we prove|we demonstrate|"
+    r"we evaluate|this paper|our method|our approach|results show|outperform|improve|"
+    r"converges?|guarantee|our framework|our algorithm|our model)\b",
+    re.IGNORECASE,
+)
+EMBEDDING_LOW_SIGNAL_RE = re.compile(
+    r"^(the rest of this paper|notation\.|we use .+ to denote|for simplicity|table\s+\w*:|figure\s+\d+:)",
+    re.IGNORECASE,
+)
 
 
 def clean_scalar(value: Any) -> str:
@@ -205,6 +275,22 @@ class CatalogLoadIssue:
     message: str
 
 
+@dataclass(frozen=True, slots=True)
+class EmbeddingContentBlock:
+    section: str
+    text: str
+    index: int
+
+
+@dataclass(frozen=True, slots=True)
+class EmbeddingInputChunk:
+    id: str
+    role: str
+    section: str
+    weight: float
+    text: str
+
+
 class CatalogLoadError(ValueError):
     issues: tuple[CatalogLoadIssue, ...]
 
@@ -276,6 +362,7 @@ class Entry:
     map_path: str
     timeline_path: str
     search_path: str
+    embedding_chunks: tuple[EmbeddingInputChunk, ...]
     embedding_text: str
     embedding_hash: str
 
@@ -287,6 +374,8 @@ class Entry:
         *,
         metadata_root: Path,
         generated_root: Path = Path("papers"),
+        write_embedding_input_sidecar: bool = False,
+        refresh_embedding_input_sidecar: bool = False,
     ) -> Entry:
         record = _validate_metadata_record(metadata_path, data)
         paper_id = paper_id_from_metadata(metadata_path, data, metadata_root)
@@ -332,13 +421,17 @@ class Entry:
         map_path = f"map/#paper={quoted_id}"
         timeline_path = f"timeline/#paper={quoted_id}"
         search_path = f"search/?paper={quoted_id}"
-        embedding_text = build_embedding_text(
+        cached_embedding_chunks = () if refresh_embedding_input_sidecar else embedding_input_sidecar_chunks(metadata_path)
+        embedding_chunks = cached_embedding_chunks or build_embedding_chunks(
             metadata_path=metadata_path,
             title=title,
             tags=tags,
             summary=summary,
             abstract=abstract,
         )
+        embedding_text = render_embedding_input_chunks(embedding_chunks)
+        if (write_embedding_input_sidecar or refresh_embedding_input_sidecar) and not cached_embedding_chunks:
+            write_text_if_changed(embedding_input_sidecar_path(metadata_path), embedding_chunks_sidecar_text(embedding_chunks))
         return cls(
             metadata_path=metadata_path,
             id=paper_id,
@@ -373,8 +466,9 @@ class Entry:
             map_path=map_path,
             timeline_path=timeline_path,
             search_path=search_path,
+            embedding_chunks=embedding_chunks,
             embedding_text=embedding_text,
-            embedding_hash=content_hash(embedding_text),
+            embedding_hash=content_hash(embedding_chunks_sidecar_text(embedding_chunks)),
         )
 
     def url(self, key: UrlKey, base_path: str = "..") -> str:
@@ -401,6 +495,8 @@ class Catalog:
         metadata_root: Path = Path("docs/papers"),
         *,
         generated_root: Path = Path("papers"),
+        write_embedding_input_sidecars: bool = False,
+        refresh_embedding_input_sidecars: bool = False,
     ) -> Catalog:
         entries: list[Entry] = []
         issues: list[CatalogLoadIssue] = []
@@ -426,6 +522,8 @@ class Catalog:
                         data,
                         metadata_root=metadata_root,
                         generated_root=generated_root,
+                        write_embedding_input_sidecar=write_embedding_input_sidecars,
+                        refresh_embedding_input_sidecar=refresh_embedding_input_sidecars,
                     )
                 )
             except CatalogLoadError as exc:
@@ -481,25 +579,149 @@ def build_embedding_text(
     summary: str,
     abstract: str,
 ) -> str:
-    parts = [
-        f"Title: {title}",
-        f"Tags: {', '.join(tags)}",
-        f"Summary: {compact_inline_for_embedding(summary, EMBEDDING_SUMMARY_MAX_CHARS)}",
-    ]
-    if abstract:
-        parts.append(f"Abstract: {compact_inline_for_embedding(abstract, EMBEDDING_ABSTRACT_MAX_CHARS)}")
+    return render_embedding_input_chunks(
+        build_embedding_chunks(
+            metadata_path=metadata_path,
+            title=title,
+            tags=tags,
+            summary=summary,
+            abstract=abstract,
+        )
+    )
+
+
+def build_embedding_chunks(
+    *,
+    metadata_path: Path | None = None,
+    title: str,
+    tags: tuple[str, ...],
+    summary: str,
+    abstract: str,
+) -> tuple[EmbeddingInputChunk, ...]:
+    chunks: list[EmbeddingInputChunk] = []
+
+    def add(role: str, section: str, weight: float, text: str) -> None:
+        for piece in chunk_embedding_text(clean_embedding_chunk_text(text)):
+            if role == "body" and not keep_embedding_paragraph(piece):
+                continue
+            chunks.append(
+                EmbeddingInputChunk(
+                    id=f"{role}-{len(chunks) + 1:04d}",
+                    role=role,
+                    section=section,
+                    weight=weight,
+                    text=piece,
+                )
+            )
+
+    parts = [clean_inline(title)]
+    if tags:
+        parts.append(f"Topics include {', '.join(tags)}.")
+    add("metadata", "Metadata", 3.0, "\n\n".join(parts))
+    add("summary", "Summary", 2.0, summary)
+    add("abstract", "Abstract", 2.0, abstract)
+
     content = embedding_sidecar_text(metadata_path) if metadata_path else ""
     if content:
-        parts.append(f"Content: {compact_embedding_content(content)}")
-    return "\n".join(part for part in parts if part.split(": ", 1)[-1].strip())
+        for block in embedding_content_blocks(content):
+            if not keep_embedding_block(block):
+                continue
+            section = clean_inline(block.section)
+            weight = 1.5 if EMBEDDING_PREFERRED_SECTION_RE.match(section) else 1.0
+            text = clean_embedding_chunk_text(block.text)
+            if not keep_embedding_paragraph(text):
+                continue
+            add("body", section or "Paper Body", weight, text)
+
+    return tuple(chunk for chunk in chunks if chunk.text.strip())
 
 
 def embedding_sidecar_path(metadata_path: Path) -> Path | None:
-    for name in (EMBED_TEXT_SIDECAR, LEGACY_FULL_TEXT_SIDECAR):
-        path = metadata_path.with_name(name)
-        if path.is_file():
-            return path
+    path = metadata_path.with_name(EMBED_TEXT_SIDECAR)
+    if path.is_file():
+        return path
     return None
+
+
+def embedding_input_sidecar_path(metadata_path: Path) -> Path:
+    return metadata_path.with_name(EMBED_INPUT_SIDECAR)
+
+
+def embedding_input_sidecar_text(metadata_path: Path) -> str:
+    return render_embedding_input_chunks(embedding_input_sidecar_chunks(metadata_path))
+
+
+def embedding_input_sidecar_chunks(metadata_path: Path) -> tuple[EmbeddingInputChunk, ...]:
+    path = embedding_input_sidecar_path(metadata_path)
+    if not path.is_file():
+        return ()
+    return parse_embedding_input_sidecar(path.read_text(encoding="utf-8"))
+
+
+def parse_embedding_input_sidecar(text: str) -> tuple[EmbeddingInputChunk, ...]:
+    raw = text.strip()
+    if not raw:
+        return ()
+
+    matches = list(EMBEDDING_INPUT_CHUNK_RE.finditer(raw))
+    if not matches:
+        return (EmbeddingInputChunk(id="cached-0000", role="cached", section="", weight=1.0, text=raw),)
+
+    chunks: list[EmbeddingInputChunk] = []
+    for index, match in enumerate(matches):
+        start = match.end()
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(raw)
+        chunk_text = raw[start:end].strip()
+        if not chunk_text:
+            continue
+        try:
+            metadata = json.loads(match.group(1))
+        except json.JSONDecodeError:
+            metadata = {}
+        try:
+            weight = float(metadata.get("weight") or 1.0)
+        except (TypeError, ValueError):
+            weight = 1.0
+        chunks.append(
+            EmbeddingInputChunk(
+                id=clean_scalar(metadata.get("id")) or f"cached-{index:04d}",
+                role=clean_scalar(metadata.get("role")) or "cached",
+                section=clean_scalar(metadata.get("section")),
+                weight=weight,
+                text=chunk_text,
+            )
+        )
+    return tuple(chunks)
+
+
+def render_embedding_input_chunks(chunks: Iterable[EmbeddingInputChunk]) -> str:
+    return "\n\n".join(chunk.text.strip() for chunk in chunks if chunk.text.strip()).strip()
+
+
+def embedding_chunks_sidecar_text(chunks: Iterable[EmbeddingInputChunk]) -> str:
+    parts = ["<!-- embedding-input:v1 -->"]
+    for chunk in chunks:
+        text = chunk.text.strip()
+        if not text:
+            continue
+        metadata = json.dumps(
+            {
+                "id": chunk.id,
+                "role": chunk.role,
+                "section": chunk.section,
+                "weight": chunk.weight,
+            },
+            ensure_ascii=False,
+            sort_keys=True,
+        )
+        parts.append(f"<!-- chunk {metadata} -->\n\n{text}")
+    return "\n\n".join(parts).rstrip() + "\n"
+
+
+def write_text_if_changed(path: Path, text: str) -> None:
+    if path.exists() and path.read_text(encoding="utf-8") == text:
+        return
+    path.write_text(text, encoding="utf-8")
 
 
 def embedding_sidecar_text(metadata_path: Path) -> str:
@@ -509,64 +731,349 @@ def embedding_sidecar_text(metadata_path: Path) -> str:
     return clean_embedding_sidecar_text(path.read_text(encoding="utf-8"))
 
 
+def clean_embedding_chunk_text(text: str) -> str:
+    lines: list[str] = []
+    for line in clean_scalar(text).splitlines():
+        stripped = line.strip()
+        if not stripped:
+            lines.append("")
+        elif stripped.startswith("#"):
+            lines.append(normalized_embedding_heading(stripped) or stripped)
+        else:
+            lines.append(clean_embedding_line(stripped))
+    return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
+
+
+def chunk_embedding_text(
+    text: str,
+    *,
+    max_tokens: int = EMBEDDING_CHUNK_MAX_TOKENS,
+    max_chars: int = EMBEDDING_CHUNK_MAX_CHARS,
+    min_chars: int = EMBEDDING_MIN_CHUNK_CHARS,
+) -> list[str]:
+    text = text.strip()
+    if not text:
+        return []
+    if embedding_chunk_fits(text, max_tokens=max_tokens, max_chars=max_chars):
+        return [clean_excerpt_boundary(text)]
+
+    chunks: list[str] = []
+    current = ""
+    for unit in embedding_chunk_units(text):
+        if not embedding_chunk_fits(unit, max_tokens=max_tokens, max_chars=max_chars):
+            if current:
+                chunks.append(current)
+                current = ""
+            chunks.extend(split_oversized_embedding_unit(unit, max_tokens=max_tokens, max_chars=max_chars))
+            continue
+        separator = "\n\n" if current.startswith("#") and "\n\n" not in current else " "
+        candidate = f"{current}{separator}{unit}".strip()
+        if not current or embedding_chunk_fits(candidate, max_tokens=max_tokens, max_chars=max_chars):
+            current = candidate
+        else:
+            chunks.append(current)
+            current = unit
+    if current:
+        chunks.append(current)
+
+    if len(chunks) > 1 and len(chunks[-1]) < min_chars:
+        merged = f"{chunks[-2]} {chunks[-1]}".strip()
+        if embedding_chunk_fits(merged, max_tokens=max_tokens, max_chars=max_chars):
+            chunks[-2:] = [merged]
+
+    return [clean_excerpt_boundary(chunk) for chunk in chunks if chunk.strip()]
+
+
+def embedding_chunk_units(text: str) -> list[str]:
+    units: list[str] = []
+    for paragraph in re.split(r"\n\s*\n", text):
+        paragraph = paragraph.strip()
+        if not paragraph:
+            continue
+        if paragraph.startswith("#"):
+            units.append(paragraph)
+            continue
+        units.extend(sentence.strip() for sentence in split_embedding_sentences(paragraph) if sentence.strip())
+    return units
+
+
+def split_oversized_embedding_unit(
+    text: str,
+    *,
+    max_tokens: int = EMBEDDING_CHUNK_MAX_TOKENS,
+    max_chars: int = EMBEDDING_CHUNK_MAX_CHARS,
+) -> list[str]:
+    pieces: list[str] = []
+    current = ""
+    for word in text.split():
+        candidate = f"{current} {word}".strip() if current else word
+        if embedding_chunk_fits(candidate, max_tokens=max_tokens, max_chars=max_chars):
+            current = candidate
+            continue
+        if current:
+            prefix, suffix = split_trailing_embedding_abbreviation(current)
+            if suffix:
+                if prefix:
+                    pieces.append(prefix)
+                current = suffix
+                candidate = f"{current} {word}".strip()
+                if embedding_chunk_fits(candidate, max_tokens=max_tokens, max_chars=max_chars):
+                    current = candidate
+                    continue
+            pieces.append(current)
+            current = ""
+        if embedding_chunk_fits(word, max_tokens=max_tokens, max_chars=max_chars):
+            current = word
+        else:
+            pieces.extend(split_oversized_embedding_word(word, max_tokens=max_tokens, max_chars=max_chars))
+    if current:
+        pieces.append(current)
+    return pieces
+
+
+def split_trailing_embedding_abbreviation(text: str) -> tuple[str, str]:
+    if not EMBEDDING_TRAILING_ABBREVIATION_RE.search(text):
+        return text, ""
+    prefix, separator, suffix = text.rpartition(" ")
+    if not separator:
+        return text, ""
+    return prefix.strip(), suffix.strip()
+
+
+def split_oversized_embedding_word(
+    text: str,
+    *,
+    max_tokens: int = EMBEDDING_CHUNK_MAX_TOKENS,
+    max_chars: int = EMBEDDING_CHUNK_MAX_CHARS,
+) -> list[str]:
+    pieces: list[str] = []
+    remaining = text
+    while remaining:
+        cut = min(len(remaining), max_chars)
+        while cut > 1 and not embedding_chunk_fits(remaining[:cut], max_tokens=max_tokens, max_chars=max_chars):
+            cut //= 2
+        pieces.append(remaining[:cut])
+        remaining = remaining[cut:]
+    return pieces
+
+
+def embedding_chunk_fits(
+    text: str,
+    *,
+    max_tokens: int = EMBEDDING_CHUNK_MAX_TOKENS,
+    max_chars: int = EMBEDDING_CHUNK_MAX_CHARS,
+) -> bool:
+    return len(text) <= max_chars and embedding_token_count(text) <= max_tokens
+
+
+@lru_cache(maxsize=65_536)
+def embedding_token_count(text: str) -> int:
+    return len(embedding_tokenizer().encode(text).ids)
+
+
+@lru_cache(maxsize=1)
+def embedding_tokenizer() -> Any:
+    from tokenizers import Tokenizer
+    from tokenizers.models import WordPiece
+    from tokenizers.normalizers import BertNormalizer
+    from tokenizers.pre_tokenizers import BertPreTokenizer
+    from tokenizers.processors import TemplateProcessing
+
+    tokenizer = Tokenizer(WordPiece.from_file(str(EMBEDDING_TOKENIZER_VOCAB), unk_token="[UNK]"))
+    tokenizer.normalizer = BertNormalizer(lowercase=True)
+    tokenizer.pre_tokenizer = BertPreTokenizer()
+    cls_id = tokenizer.token_to_id("[CLS]")
+    sep_id = tokenizer.token_to_id("[SEP]")
+    tokenizer.post_processor = TemplateProcessing(
+        single="[CLS] $A [SEP]",
+        pair="[CLS] $A [SEP] $B:1 [SEP]:1",
+        special_tokens=[("[CLS]", cls_id), ("[SEP]", sep_id)],
+    )
+    return tokenizer
+
+
 def compact_inline_for_embedding(text: str, max_chars: int) -> str:
-    return truncate_embedding_text(clean_inline(text), max_chars)
+    return truncate_embedding_text(clean_embedding_line(clean_inline(text)), max_chars)
 
 
-def compact_embedding_content(markdown: str, max_chars: int = EMBEDDING_CONTENT_MAX_CHARS) -> str:
-    paragraphs = [
-        paragraph
-        for paragraph in (part.strip() for part in re.split(r"\n\s*\n", markdown.strip()))
-        if keep_embedding_paragraph(paragraph)
+def compact_embedding_content(markdown: str, max_chars: int = EMBEDDING_CHUNK_MAX_CHARS) -> str:
+    blocks = [
+        block
+        for block in (compact_embedding_block(block) for block in embedding_content_blocks(markdown))
+        if block is not None
     ]
-    if not paragraphs:
+    if not blocks:
         return ""
-    filtered = "\n\n".join(paragraphs)
+
+    filtered = render_embedding_blocks(blocks)
     if len(filtered) <= max_chars:
         return filtered
 
-    selected: list[str] = []
-    for index in embedding_excerpt_indexes(len(paragraphs)):
-        excerpt = truncate_embedding_text(paragraphs[index], EMBEDDING_EXCERPT_MAX_CHARS)
-        candidate = "\n\n".join([*selected, excerpt]) if selected else excerpt
-        if len(candidate) <= max_chars:
-            selected.append(excerpt)
+    selected: list[EmbeddingContentBlock] = []
+    selected_indexes: set[int] = set()
+
+    def try_add(block: EmbeddingContentBlock) -> None:
+        if block.index in selected_indexes:
+            return
+        candidate = sorted([*selected, block], key=lambda item: item.index)
+        if len(render_embedding_blocks(candidate)) <= max_chars:
+            selected.append(block)
+            selected_indexes.add(block.index)
+
+    intro = [block for block in blocks if section_matches(block, "introduction") or section_matches(block, "abstract")]
+    preferred = [block for block in blocks if EMBEDDING_PREFERRED_SECTION_RE.match(block.section)]
+    conclusion = [
+        block
+        for block in blocks
+        if re.match(r"^(conclusion|discussion|limitations?|future work)\b", block.section, re.IGNORECASE)
+    ]
+
+    for block in intro[:1]:
+        try_add(block)
+    for block in high_signal_blocks(intro, limit=2):
+        try_add(block)
+    for block in conclusion[:2]:
+        try_add(block)
+    if len({block.section for block in blocks}) <= 1:
+        try_add(blocks[-1])
+    for block in intro[1:3]:
+        try_add(block)
+    for block in high_signal_blocks(preferred, limit=4):
+        try_add(block)
+    for block in blocks[:4]:
+        try_add(block)
+    if not selected:
+        for block in blocks:
+            try_add(block)
+            if selected:
+                break
+
+    return render_embedding_blocks(sorted(selected, key=lambda item: item.index))
+
+
+def embedding_content_blocks(markdown: str) -> list[EmbeddingContentBlock]:
+    blocks: list[EmbeddingContentBlock] = []
+    section = ""
+    for part in (part.strip() for part in re.split(r"\n\s*\n", markdown.strip())):
+        if not part:
             continue
-        remaining = max_chars - (len("\n\n".join(selected)) + (2 if selected else 0))
-        if remaining >= 120:
-            selected.append(truncate_embedding_text(excerpt, remaining))
-        break
-    return "\n\n".join(selected).strip()
+        lines = part.splitlines()
+        heading = normalized_embedding_heading(lines[0].strip()) if len(lines) == 1 else ""
+        if heading:
+            section = heading.lstrip("#").strip()
+            continue
+        if keep_embedding_paragraph(part):
+            blocks.append(EmbeddingContentBlock(section=section, text=part, index=len(blocks)))
+    return blocks
 
 
-def embedding_excerpt_indexes(count: int) -> list[int]:
-    indexes: list[int] = []
+def compact_embedding_block(block: EmbeddingContentBlock) -> EmbeddingContentBlock | None:
+    if not keep_embedding_block(block):
+        return None
+    text = compact_embedding_block_text(block.text)
+    if not text:
+        return None
+    return EmbeddingContentBlock(section=block.section, text=text, index=block.index)
 
-    def add(candidates: Iterable[int]) -> None:
-        for index in candidates:
-            if 0 <= index < count and index not in indexes:
-                indexes.append(index)
 
-    add(range(min(3, count)))
-    add(range(max(0, count - 2), count))
-    add((count // 2, count // 3, (2 * count) // 3))
-    add(range(3, count))
-    return indexes
+def keep_embedding_block(block: EmbeddingContentBlock) -> bool:
+    if EMBEDDING_SKIP_SECTION_RE.match(block.section):
+        return False
+    text = block.text.strip()
+    if EMBEDDING_LOW_SIGNAL_RE.match(text):
+        return False
+    if text.startswith(("TABLE ", "Figure ")):
+        return False
+    return True
+
+
+def compact_embedding_block_text(text: str, max_chars: int = EMBEDDING_CHUNK_MAX_CHARS) -> str:
+    text = text.strip()
+    if len(text) <= max_chars:
+        return clean_excerpt_boundary(text)
+    sentences = split_embedding_sentences(text)
+    selected: list[str] = []
+    for sentence in sentences:
+        sentence = sentence.strip()
+        if not sentence:
+            continue
+        candidate = " ".join([*selected, sentence]) if selected else sentence
+        if len(candidate) <= max_chars:
+            selected.append(sentence)
+        elif selected:
+            break
+    return clean_excerpt_boundary(" ".join(selected))
+
+
+def render_embedding_blocks(blocks: Iterable[EmbeddingContentBlock]) -> str:
+    parts: list[str] = []
+    current_section = ""
+    for block in blocks:
+        if block.section and block.section != current_section:
+            parts.append(f"## {block.section}")
+            current_section = block.section
+        parts.append(block.text)
+    return "\n\n".join(parts).strip()
+
+
+def section_matches(block: EmbeddingContentBlock, name: str) -> bool:
+    return bool(re.match(rf"^{re.escape(name)}\b", block.section, re.IGNORECASE))
+
+
+def high_signal_blocks(blocks: Iterable[EmbeddingContentBlock], limit: int) -> list[EmbeddingContentBlock]:
+    selected: list[EmbeddingContentBlock] = []
+    for block in blocks:
+        if EMBEDDING_HIGH_SIGNAL_RE.search(block.text):
+            selected.append(block)
+            if len(selected) >= limit:
+                break
+    return selected
 
 
 def truncate_embedding_text(text: str, max_chars: int) -> str:
     text = text.strip()
     if max_chars <= 0 or len(text) <= max_chars:
-        return text
-    cut = text[: max_chars - 3].rstrip()
-    sentence = max(cut.rfind(". "), cut.rfind("? "), cut.rfind("! "))
-    if sentence >= max_chars // 2:
-        cut = cut[: sentence + 1]
-    else:
-        word = cut.rfind(" ")
-        if word >= max_chars // 2:
-            cut = cut[:word]
-    return f"{cut.rstrip()}..."
+        return clean_excerpt_boundary(text)
+    sentences = split_embedding_sentences(text)
+    selected: list[str] = []
+    for sentence in sentences:
+        sentence = sentence.strip()
+        if not sentence:
+            continue
+        candidate = " ".join([*selected, sentence]) if selected else sentence
+        if len(candidate) <= max_chars:
+            selected.append(sentence)
+        elif selected:
+            break
+    if selected:
+        return clean_excerpt_boundary(" ".join(selected))
+    cut = text[:max_chars].rstrip()
+    word = cut.rfind(" ")
+    if word >= max_chars // 2:
+        cut = cut[:word]
+    return clean_excerpt_boundary(cut)
+
+
+def clean_excerpt_boundary(text: str) -> str:
+    text = re.sub(r"\s+[^.?!]*:\s*$", "", text.strip())
+    return re.sub(r"\.{3,}$", ".", text).strip()
+
+
+def split_embedding_sentences(text: str) -> list[str]:
+    protected = text
+    replacements = {
+        source: source.replace(".", "<dot>")
+        for source in EMBEDDING_SENTENCE_ABBREVIATIONS
+    }
+    for source, target in replacements.items():
+        protected = protected.replace(source, target)
+    protected = re.sub(r"\b([A-Z])\.", r"\1<dot>", protected)
+    protected = re.sub(r"\b(\d+)\.\s+(?=[A-Z])", r"\1<dot> ", protected)
+    sentences = re.split(r"(?<=[.!?])\s+", protected)
+    for source, target in replacements.items():
+        sentences = [sentence.replace(target, source) for sentence in sentences]
+    sentences = [sentence.replace("<dot>", ".") for sentence in sentences]
+    return sentences
 
 
 def clean_embedding_sidecar_text(markdown: str) -> str:
@@ -667,7 +1174,8 @@ def normalized_embedding_heading(line: str) -> str:
     if not match:
         return ""
     marker, heading = match.groups()
-    heading = re.sub(r"\s+", " ", embedding_heading_key(heading)).strip(": ")
+    heading = clean_embedding_line(embedding_heading_key(heading))
+    heading = re.sub(r"\s+", " ", heading).strip(": ")
     if not heading:
         return ""
     level = "###" if len(marker) > 2 and heading.casefold() != "abstract" else "##"
@@ -701,12 +1209,26 @@ def clean_embedding_lines(lines: list[str]) -> list[str]:
 
 def clean_embedding_line(line: str) -> str:
     line = LATEX_SPACE_RE.sub("", line)
+    line = LATEX_BARE_URL_RE.sub("", line)
+    line = LATEX_URL_RE.sub("", line)
+    line = LATEX_URL_COMMAND_RE.sub("", line)
+    line = MARKDOWN_LINK_RE.sub(r"\1", line)
+    line = NESTED_URL_CITATION_RE.sub("", line)
+    line = PAREN_URL_RE.sub("", line)
+    line = URL_RE.sub("", line)
+    line = URL_POINTER_BOILERPLATE_RE.sub("", line)
     line = NUMERIC_CITATION_RE.sub("", line)
     line = PAREN_NUMERIC_CITATION_RE.sub("", line)
     line = YEAR_CITATION_RE.sub("", line)
     line = COMPACT_CITATION_RE.sub("", line)
+    line = EMBEDDING_FIELD_PREFIX_RE.sub("", line)
+    line = re.sub(r"\b(?:on|in|at|by|for|from|with)\s+\\?\[\s*\\?\]", "", line)
+    line = re.sub(r"\\?\[\s*\\?\]", "", line)
+    line = re.sub(r"\(\s*[,;:]?\s*\)", "", line)
     line = re.sub(r"(?:\s*[;,]\s*){2,}", " ", line)
     line = re.sub(r"\s+([.,;:])", r"\1", line)
+    line = re.sub(r"\b(?:on|in|at|by|for|from|with)([.,;:])", r"\1", line)
+    line = re.sub(r"\b(?:on|in|at|by|for|from|with)\s+([.,;:])", r"\1", line)
     line = re.sub(r"\s+", " ", line).strip()
     return line
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 import tempfile
 import unittest
 from pathlib import Path
@@ -146,6 +147,33 @@ class EmbeddingWorkbenchTests(unittest.TestCase):
         self.assertEqual(result.matrix.tolist(), [[1.0, 0.0], [0.5, 0.5], [0.0, 1.0]])
         self.assertEqual(table.ids, ("left", "middle", "right"))
         self.assertEqual(table.matrix.tolist(), [[1.0, 0.0], [0.5, 0.5], [0.0, 1.0]])
+
+    def test_chunk_rows_aggregate_to_paper_vectors(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            cache_path = Path(tmp) / "embedding_cache.json"
+            rows = [
+                EmbeddingRow("paper:metadata", "Metadata text", "hm", paper_id="paper", weight=3.0),
+                EmbeddingRow("paper:body", "Body text", "hb", paper_id="paper", weight=1.0),
+                EmbeddingRow("other:metadata", "Other text", "ho", paper_id="other", weight=1.0),
+            ]
+
+            result = refresh_embedding_cache(
+                rows,
+                cache_path=cache_path,
+                model="model-a",
+                embed_texts=lambda _texts: [[1.0, 0.0], [0.0, 1.0], [0.0, 1.0]],
+            )
+            table = load_embedding_table(cache_path)
+            raw_table = load_embedding_table(cache_path, aggregate=False)
+            saved = json.loads(cache_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(result.matrix.shape, (2, 2))
+        self.assertAlmostEqual(float(result.matrix[0, 0]), 3 / math.sqrt(10), places=6)
+        self.assertAlmostEqual(float(result.matrix[0, 1]), 1 / math.sqrt(10), places=6)
+        self.assertEqual(table.ids, ("paper", "other"))
+        self.assertEqual(raw_table.ids, ("paper:metadata", "paper:body", "other:metadata"))
+        self.assertEqual(saved["papers"]["paper:metadata"]["paper_id"], "paper")
+        self.assertEqual(saved["papers"]["paper:metadata"]["weight"], 3.0)
 
 
 if __name__ == "__main__":

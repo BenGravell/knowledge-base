@@ -17,7 +17,7 @@ from typing import Any
 import numpy as np
 from fastembed import TextEmbedding
 
-from knowledge_base.catalog import Catalog
+from knowledge_base.catalog import Catalog, Entry, content_hash
 from knowledge_base.embedding_workbench import EmbeddingRow, refresh_embedding_cache
 from knowledge_base.generated_assets import (
     SEMANTIC_BROWSER_MODEL,
@@ -48,29 +48,46 @@ def clean_scalar(value: object) -> str:
     return str(value or "").strip()
 
 
-def load_papers() -> list[dict[str, Any]]:
+def embedding_rows_for_entry(entry: Entry) -> list[EmbeddingRow]:
     return [
-        {
-            "id": entry.id,
-            "title": entry.title,
-            "label": entry.title_label,
-            "algorithm": entry.algorithm,
-            "authors": entry.authors,
-            "year": entry.year,
-            "tags": entry.tags,
-            "abstract": entry.abstract,
-            "summary": entry.summary,
-            "url": entry.url("detail"),
-            "mapUrl": entry.url("map"),
-            "treeUrl": entry.url("tree"),
-            "timelineUrl": entry.url("timeline"),
-            "searchUrl": entry.url("search"),
-            "byline": entry.byline,
-            "embed_text": entry.embedding_text,
-            "hash": entry.embedding_hash,
-        }
-        for entry in Catalog.from_metadata_root(METADATA_ROOT).entries
+        EmbeddingRow(
+            id=f"{entry.id}:{chunk.id}",
+            text=chunk.text,
+            content_hash=content_hash(chunk.text),
+            paper_id=entry.id,
+            weight=chunk.weight,
+        )
+        for chunk in entry.embedding_chunks
     ]
+
+
+def load_papers() -> tuple[list[dict[str, Any]], list[EmbeddingRow]]:
+    papers: list[dict[str, Any]] = []
+    rows: list[EmbeddingRow] = []
+    for entry in Catalog.from_metadata_root(METADATA_ROOT, write_embedding_input_sidecars=True).entries:
+        papers.append(
+            {
+                "id": entry.id,
+                "title": entry.title,
+                "label": entry.title_label,
+                "algorithm": entry.algorithm,
+                "authors": entry.authors,
+                "year": entry.year,
+                "tags": entry.tags,
+                "abstract": entry.abstract,
+                "summary": entry.summary,
+                "url": entry.url("detail"),
+                "mapUrl": entry.url("map"),
+                "treeUrl": entry.url("tree"),
+                "timelineUrl": entry.url("timeline"),
+                "searchUrl": entry.url("search"),
+                "byline": entry.byline,
+                "embed_text": entry.embedding_text,
+                "hash": entry.embedding_hash,
+            }
+        )
+        rows.extend(embedding_rows_for_entry(entry))
+    return papers, rows
 
 
 def l2_normalize(matrix: np.ndarray) -> np.ndarray:
@@ -210,16 +227,16 @@ def write_bytes_atomic(path: Path, content: bytes) -> None:
 
 
 def generate(args: argparse.Namespace) -> None:
-    papers = load_papers()
+    papers, rows = load_papers()
     print(f"Found {len(papers)} papers")
 
     def embed_changed(texts: list[str]) -> np.ndarray:
-        print(f"Embedding {len(texts)} changed paper(s) with {args.model}")
+        print(f"Embedding {len(texts)} changed chunk(s) with {args.model}")
         embedder = TextEmbedding(args.model)
         return np.asarray(list(embedder.embed(texts, batch_size=32)), dtype=np.float32)
 
     embedding_refresh = refresh_embedding_cache(
-        [EmbeddingRow(id=paper["id"], text=paper["embed_text"], content_hash=paper["hash"]) for paper in papers],
+        rows,
         cache_path=args.cache,
         model=args.model,
         embed_texts=embed_changed,
@@ -228,11 +245,11 @@ def generate(args: argparse.Namespace) -> None:
     if embedding_refresh.model_changed:
         print(f"Model changed ({embedding_refresh.previous_model} -> {args.model}); rebuilt cache")
     if embedding_refresh.pruned_ids:
-        print(f"Removed {len(embedding_refresh.pruned_ids)} stale cached paper(s)")
+        print(f"Removed {len(embedding_refresh.pruned_ids)} stale cached chunk(s)")
     if embedding_refresh.changed_count:
-        print(f"Refreshed {embedding_refresh.changed_count} paper embedding(s)")
+        print(f"Refreshed {embedding_refresh.changed_count} chunk embedding(s)")
     else:
-        print("All paper embeddings are cached")
+        print("All embedding chunks are cached")
 
     matrix = l2_normalize(embedding_refresh.matrix)
     quantized = quantize_normalized(matrix)

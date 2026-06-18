@@ -107,7 +107,7 @@ import yaml
 from scipy.spatial import KDTree as cKDTree
 from sklearn.preprocessing import normalize
 
-from knowledge_base.catalog import Catalog
+from knowledge_base.catalog import Catalog, Entry, content_hash
 from knowledge_base.embedding_workbench import (
     EmbeddingRow,
     refresh_embedding_cache,
@@ -163,6 +163,19 @@ AGGREGATE_COLLISION_EPSILON = 1e-3
 # ---------------------------------------------------------------------------
 # Helper utilities
 # ---------------------------------------------------------------------------
+
+
+def embedding_rows_for_entry(entry: Entry) -> list[EmbeddingRow]:
+    return [
+        EmbeddingRow(
+            id=f"{entry.id}:{chunk.id}",
+            text=chunk.text,
+            content_hash=content_hash(chunk.text),
+            paper_id=entry.id,
+            weight=chunk.weight,
+        )
+        for chunk in entry.embedding_chunks
+    ]
 
 
 def compute_umap_positions(
@@ -1353,9 +1366,11 @@ def main() -> None:
     # ---- collect papers ----------------------------------------------------
     print("\n[1/6] Collecting paper metadata…")
     papers: list[dict[str, Any]] = []
-    catalog = Catalog.from_metadata_root(METADATA_ROOT)
+    rows: list[EmbeddingRow] = []
+    catalog = Catalog.from_metadata_root(METADATA_ROOT, write_embedding_input_sidecars=True)
     for entry in catalog.entries:
         pid = entry.id
+        rows.extend(embedding_rows_for_entry(entry))
 
         cat_info = paper_to_category.get(
             pid,
@@ -1395,10 +1410,9 @@ def main() -> None:
 
     # ---- refresh embedding cache ------------------------------------------
     print("\n[3/6] Refreshing embedding cache…")
-    rows = [EmbeddingRow(id=p["id"], text=p["embed_text"], content_hash=p["hash"]) for p in papers]
 
     def embed_changed(texts: list[str]) -> np.ndarray:
-        print(f"    {len(texts)} paper(s) need (re-)embedding  ({len(papers) - len(texts)} cached)")
+        print(f"    {len(texts)} chunk(s) need (re-)embedding")
         return embed_fn(texts)
 
     embedding_refresh = refresh_embedding_cache(
@@ -1415,11 +1429,11 @@ def main() -> None:
             "Discarded cached embeddings."
         )
     if embedding_refresh.pruned_ids:
-        print(f"    Removed {len(embedding_refresh.pruned_ids)} stale cached paper(s) with no metadata.yml")
+        print(f"    Removed {len(embedding_refresh.pruned_ids)} stale cached chunk(s)")
     if not embedding_refresh.changed_count:
-        print(f"    All {len(papers)} papers are cached — skipping embedding API call")
+        print(f"    All {len(rows)} embedding chunk(s) are cached — skipping embedding API call")
     else:
-        print(f"    Refreshed {embedding_refresh.changed_count} embedding(s)")
+        print(f"    Refreshed {embedding_refresh.changed_count} chunk embedding(s)")
 
     cache = embedding_refresh.cache
     embeddings = embedding_refresh.matrix

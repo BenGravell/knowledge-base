@@ -23,6 +23,7 @@ METADATA_ROOT = KB_DIR / "docs" / "papers"
 SIDECAR_NAME = "embed_text.md"
 DEFAULT_SLEEP_SECONDS = 3.0
 MIN_MARKDOWN_CHARS = 1_000
+MIN_BODY_CHARS = 500
 
 IMAGE_MARKDOWN_RE = re.compile(r"!\[[^\]]*]\([^)]*\)")
 HTML_IMAGE_RE = re.compile(r"<(?:img|source)\b[^>]*>", re.IGNORECASE)
@@ -37,6 +38,18 @@ BLANK_LINES_RE = re.compile(r"\n{3,}")
 UNUSABLE_HTML_MARKERS = (
     "Conversion to HTML had a Fatal error",
     "Conversion to HTML failed",
+)
+ARXIV_ABS_URL_RE = re.compile(r"^https?://(?:www\.)?arxiv\.org/abs/", re.IGNORECASE)
+ARXIV_ABS_PAGE_MARKERS = ("abs-outer", "submission-history", "View PDF")
+NON_BODY_HEADING_RE = re.compile(
+    r"^(?:"
+    r"abstract|title:|authors?:|quick links|submission history|access paper|current browse context|"
+    r"subjects?:|comments?:|journal reference|report number|cite as|view a pdf|"
+    r"arxiv-issued doi|computer science\b|mathematics\b|physics\b|statistics\b|"
+    r"electrical engineering and systems science\b|economics\b|quantitative biology\b|"
+    r"quantitative finance\b"
+    r")",
+    re.IGNORECASE,
 )
 
 HTML_HEADERS = {
@@ -81,7 +94,7 @@ def fetch_html(sources: list[HtmlSource], timeout: int) -> tuple[HtmlSource, str
             errors.append(f"{source.label}: {exc}")
             continue
         if response.status_code == 200 and "<html" in response.text[:2048].casefold():
-            if not usable_html(response.text):
+            if not usable_html(response.text, response.url):
                 errors.append(f"{source.label}: unusable HTML")
                 continue
             return source, response.text
@@ -89,7 +102,11 @@ def fetch_html(sources: list[HtmlSource], timeout: int) -> tuple[HtmlSource, str
     return None, "; ".join(errors)
 
 
-def usable_html(html: str) -> bool:
+def usable_html(html: str, final_url: str = "") -> bool:
+    if final_url and ARXIV_ABS_URL_RE.match(final_url):
+        return False
+    if all(marker in html for marker in ARXIV_ABS_PAGE_MARKERS):
+        return False
     return not any(marker in html for marker in UNUSABLE_HTML_MARKERS)
 
 
@@ -181,6 +198,22 @@ def sidecar_markdown(entry: Entry, markdown: str) -> str:
     return f"{clean_embedding_sidecar_text(markdown)}\n"
 
 
+def paper_body_markdown(markdown: str) -> str:
+    body: list[str] = []
+    keep = False
+    for line in markdown.splitlines():
+        if line.startswith("#"):
+            heading = normalized_heading(line).strip(": ")
+            keep = bool(heading and not NON_BODY_HEADING_RE.match(heading))
+        if keep:
+            body.append(line)
+    return "\n".join(body)
+
+
+def has_paper_body(markdown: str, min_chars: int = MIN_BODY_CHARS) -> bool:
+    return readable_markdown_chars(paper_body_markdown(markdown)) >= min_chars
+
+
 def write_sidecar(path: Path, text: str, dry_run: bool) -> None:
     if dry_run:
         return
@@ -203,6 +236,8 @@ def process_entry(entry: Entry, args: argparse.Namespace) -> str:
         return f"skip pandoc {entry.id}: {message[-1] if message else exc}"
 
     sidecar = sidecar_markdown(entry, markdown)
+    if not has_paper_body(sidecar):
+        return f"skip no-body {entry.id}: {source.label}"
     if readable_markdown_chars(sidecar) < args.min_chars:
         return f"skip too-short {entry.id}: {source.label}"
 
@@ -215,6 +250,8 @@ def self_test() -> None:
     assert remove_rich_content_from_html("<figure><img src='x'><figcaption>Figure 1</figcaption></figure>")
     assert "img" not in remove_rich_content_from_markdown("before ![x](http://example.test/x.png) after")
     assert not usable_html("<html>Conversion to HTML had a Fatal error</html>")
+    assert not usable_html("<html><main class='abs-outer'>submission-history View PDF</main></html>")
+    assert not usable_html("<html><main>Paper body</main></html>", "https://arxiv.org/abs/1203.3538")
     assert "{.ltx_ref}" not in remove_rich_content_from_markdown("[1](#bib){.ltx_ref}")
     assert remove_rich_content_from_markdown("[1](#bib) [home](/)") == "1 home"
     assert remove_rich_content_from_markdown("<figcaption>Caption</figcaption>") == "Caption"
@@ -224,6 +261,11 @@ def self_test() -> None:
     assert "view the build logs" not in strip_source_footer("Body\n\nExperimental support, please view the build logs")
     assert remove_duplicate_title("# Same\n\nBody", "Same") == "Body"
     assert body_after_duplicate_title("UI\n\n# Same\n\nBody", "Same") == "Body"
+    assert not has_paper_body("## Abstract\n\nOnly abstract text.\n\n## Submission history\n\nNo paper body.", min_chars=20)
+    assert has_paper_body(
+        "## Abstract\n\nOnly abstract text.\n\n## Introduction\n\nThis section contains enough paper body words.",
+        min_chars=20,
+    )
     cleaned = clean_embedding_sidecar_text(
         "# Paper\n\n- arXiv ID: [x](https://arxiv.org/abs/x)\n- HTML source: [ar5iv](https://ar5iv.test)\n\n"
         "Alice Example University\n\n###### Abstract\n\nUseful idea [12].\n\n"

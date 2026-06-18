@@ -19,7 +19,7 @@ not_in_nav: |
 
 exclude_docs: |
   papers/**/embed_text.md
-  papers/**/full_text.md
+  papers/**/embed_input.md
 
 plugins:
   - macros:
