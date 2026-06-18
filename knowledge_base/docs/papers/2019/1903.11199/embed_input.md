@@ -268,152 +268,148 @@ Now, let us look into the problem of how we can guarantee the safety-critical co
 
 <!-- chunk {"id": "body-0066", "role": "body", "section": "V-A Dynamic Walking on Stepping Stones", "weight": 1.0} -->
 
-where $O_{1}F{(x)}$ and $O_{2}F{(x)}$ are the distances between the swing foot $F$ and the centers of the two circles at $O_{1}$ and $O_{2}$ respectively. Since ${{h_{i}{(x)}},i} \in {\{ 1,2\}}$ are position constraints, they have relative-degree 2.
+where $O_{1}F{(x)}$ and $O_{2}F{(x)}$ are the distances between the swing foot $F$ and the centers of the two circles at $O_{1}$ and $O_{2}$ respectively.
 
 <!-- chunk {"id": "body-0067", "role": "body", "section": "V-A Dynamic Walking on Stepping Stones", "weight": 1.0} -->
 
-We thus use the tools of the exponential CBF to design $\alpha_{i,1},\alpha_{i,2}$ and pick $u$ s.t., ${{L_{f}^{2}h_{i}{(x,u)}} + {L_{g}L_{f}h_{i}{(x)}u}} \geq {{- {\alpha_{i,1}h_{i}{(x)}}} - {\alpha_{i,2}{\overset{˙}{h}}_{i}{(x)}}}$. This results in enforcing ${h_{i}{(x)}} \geq 0$ resulting in dynamic walking on stepping stones. Fig. 2a shows $h_{1},h_{2}$ plotted against time to illustrate that they are non-negative. Fig. 2b illustrates snapshots from simulation of walking over a stepping stone terrain with different step lengths.
+Fig. 2b illustrates snapshots from simulation of walking over a stepping stone terrain with different step lengths. This method can also be used to walk over a terrain of stepping stones with changing step width or step height.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "V-A Dynamic Walking on Stepping Stones", "weight": 1.0} -->
-
-This method can also be used to walk over a terrain of stepping stones with changing step width or step height.
-
-<!-- chunk {"id": "body-0069", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
 
 Our next example is from the automotive domain. Many modern Advanced Driver Assistance Systems (ADAS) provide prime examples of safety-critical constraints. For instance, in Adaptive Cruise Control (ACC) the vehicle's speed is regulated to a user-set speed when there is no vehicle immediately ahead in the lane, yet if a vehicle is detected ahead then a safe following distance is maintained. On the other hand, in Lane Keeping (LK) the vehicle's steering is controlled so as to maintain the vehicle within a lane. Furthermore, two or more ADAS control modules can be simultaneously activated and designing provably correct controllers for simultaneous operation becomes critical; this subsection follows, but see also.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
 
 In order to demonstrate adaptive cruise control and lane keeping in an experimental setting, we will consider a Khepera robot modeled as a unicycle model
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
 
 where ${(p_{x},p_{y})},\psi,v,\omega$ represent the 2D position, orientation, and longitudinal and angular velocities of the robot respectively, with $x \in {\mathbb{R}}^{5}$ the resulting state vector. Further, $u_{l}$ is the longitudinal force and $u_{a}$ is the angular torque and serve as control inputs. The mass and inertia are $m,I_{z}$ respectively and $a$ represents the distance from the center of the wheel-base to the point of interest $(p_{x},p_{y})$. This model can be written as a nonlinear control affine system as given.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
 
 As mentioned, adaptive speed regulation comprises of following a user-set speed when there is no vehicle ahead in the lane. This will be formulated as a soft constraint through a CLF. However, when there is a vehicle ahead, the speed needs to be adaptively reduced so as to maintain a fixed time-headway based follow distance.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
 
 Here, $D$ is the distance to the vehicle ahead, $\tau$ is minimum time-headway to be maintained, and $v_{f}$ is the velocity of the vehicle (follower)---see for the derivation.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
 
 Similarly, the objective of lane keeping is to maintain the vehicle within the lane. We need to enforce a safety-critical constraint of the form $y_{lat} \leq d_{max}$, where $y_{lat}$ is the lateral distance w.r.t. the center of the lane and $d_{max}$ is the distance from the center of the lane to either end of the lane that captures the lane width.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
 
 Here, $a_{max}$ is the maximum lateral acceleration and $v_{lat}$ is the lateral velocity of the vehicle. More details about the properties of this CBF are detailed.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "V-B Automotive Systems: Automatic Cruise Control and Lane Keeping", "weight": 1.0} -->
 
 Finally, the performance objectives such as driving the longitudinal velocity to a user-defined velocity ($v\rightarrow v_{d}$), creating a smoother path following ($\omega\rightarrow 0$), and following the desired path (${(x,y)}\rightarrow R_{d}$) are specified through output functions that are regulated to zero through CLFs. As earlier, the CLF and CBF conditions are unified into a single controller via (CLF-CBF QP) given in Section II-C. Fig. 3a shows experimental results on the Khepera robot where simultaneous enforcement of lane keeping and adaptive speed regulation safety constraints are enforced. Fig. 3b illustrates the value of the CBFs in experiments and simulation.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "V-C Dynamic Balancing on Segways", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "V-C Dynamic Balancing on Segways", "weight": 1.0} -->
 
 To demonstrate the application of control barrier functions as "safety filters," we will consider their experimental realization on a Segway type robot, i.e., a two-wheeled inverted pendulum. In particular, this subsection summarizes the results of which provided the first experimental evaluation of CBFs on a robotic system that is not statically stable. To realize these results, a Ninebot Segway was rebuilt, with only the original chassis and motors remaining---all of the electronics were customized to allow for the real-time control of the system via optimization based controllers. The objective is to ensure "safe" operation of the Segway, defined in this case as the robot not tipping over, i.e., always staying upright. Additionally, the goal is to achieve this safety condition even while using a nominal controller for the system (that may not be safe) and thus modifying the controller in a minimally invasive fashion so as to ensure safety.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "V-C Dynamic Balancing on Segways", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "V-C Dynamic Balancing on Segways", "weight": 1.0} -->
 
 The result will be a safety filter, or an Active Set Invariance Filter (ASIF) of the form illustrated in Fig. 4, where the nominal control input, $u_{des}$, is filtered through a QP of the form (CBF-QP) to ensure safety in the system.
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "V-C Dynamic Balancing on Segways", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "V-C Dynamic Balancing on Segways", "weight": 1.0} -->
 
 The dynamics of the Segway can be written in the standard form given, where in this case the input, $u$, is the voltage input into the motors and $x = {(v,\phi,\overset{˙}{\phi})}^{T}$, where $v$ is the forward velocity of the Segway, $\phi$ is the angle of the pendulum from upright, and $\overset{˙}{\phi}$ is the rate of change of this angle. Correspondingly, there are input bounds on the system of the following form: $u \in {{\lbrack{- 15},15\rbrack}V}$ (this input bounds will play a role in determining the CBF that will be implemented on hardware). The safety constraint for the system is that the pendulum component of the robot stays upright, i.e., that the Segway does not tip over.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "V-C Dynamic Balancing on Segways", "weight": 1.0} -->
+<!-- chunk {"id": "body-0079", "role": "body", "section": "V-C Dynamic Balancing on Segways", "weight": 1.0} -->
 
 This can be captured by the condition that the angle of the pendulum, $\phi$, stays within a bounded region, in this case chosen to be $\phi \in {{\lbrack{- \frac{\pi}{12}},\frac{\pi}{12}\rbrack}{rad}}$. Finally, to ensure valid inputs, we also restrict the rate of change of the angle of the pendulum to be $\overset{˙}{\phi} \in {{{\lbrack{- {2\pi}},{2\pi}\rbrack}{rad}}/s}$, and the forward velocity of the Segway to be $v \in {{{\lbrack{- 5},5\rbrack}m}/s}$. Finally, the nominal controller for the system, $u_{des} = {k{(x)}}$, is chosen to be a standard PD controller that tracks a desired signal, i.e., an angle of the pendulum and velocity for the wheels.
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "V-C Dynamic Balancing on Segways", "weight": 1.0} -->
+<!-- chunk {"id": "body-0080", "role": "body", "section": "V-C Dynamic Balancing on Segways", "weight": 1.0} -->
 
 Since the safety constraint is to keep the Segway upright, i.e.,
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "V-C Dynamic Balancing on Segways", "weight": 1.0} -->
+<!-- chunk {"id": "body-0081", "role": "body", "section": "V-C Dynamic Balancing on Segways", "weight": 1.0} -->
 
 Yet, while these could be implemented via a CBF-QP to enforce these conditions, they will not enforce all of the additional constraints necessary to guarantee experimental implementation. Therefore, the Hamilton-Jacobi method was utilized to determine the safe set $\mathcal{C}$ resulting by enforcing all the above-mentioned constraints. In particular, a reachability analysis was performed over a 75x75x75 grid of the state space with the edges of the grid at the state constraints given in the previous paragraph. The resulting safe set can be seen in Fig. 5a. A control barrier function can then be synthesized from this set---in this case, polynomial regression was used to create an analytic expression that can be used in the safety filter.
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "V-C Dynamic Balancing on Segways", "weight": 1.0} -->
+<!-- chunk {"id": "body-0082", "role": "body", "section": "V-C Dynamic Balancing on Segways", "weight": 1.0} -->
 
 The safety filter was implemented on hardware using the general framework indicated in Fig. 4. In particular, the CLF-QP was solved onboard the hardware on a BeagleBone Black with an average computation time of 0.4 ms, with the resulting signal $u_{act}$ passed to the motor controller. To demonstrate the ability of the ASIF to enforce safety, the desired pendulum angle was passed to the system in the form of a sinusoidal signal with an amplitude exceeding the $\frac{\pi}{12}$ angle constraint. Two experiments were then performed, one without and one with the ASIF, i.e., the CLF-QP active. The results can be seen in Fig. 5b, wherein the system remains safe only when the safety filter, implementing the CBF, is active. Finally, to show the potential power of CBFs, a disturbance is added to the system in the form of a kick---the system is able to stay upright, and hence safe, with CBFs while the systems fails without them (illustrated in Fig. 5c).
 
-<!-- chunk {"id": "body-0084", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0083", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 Another robotic application of CBFs involves the long duration autonomy problem for multi-robot systems. This problem considers a team of robots deployed over long time scales which are asked to execute tasks (such as environmental monitoring, search and rescue, or precision agriculture) that require more than a single charge of the battery of the robots. An effective control paradigm to use in this case is the constraint-based control, where survivability constraints, i.e., conditions for the robots to remain operational over long temporal scales, can be enforced by means of CBFs and included in a single constrained optimization problem.
 
-<!-- chunk {"id": "body-0085", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0084", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 where $x_{i} \in {\mathbb{R}}^{n}$ and $u_{i} \in {\mathbb{R}}^{m}$, $i = {1,\ldots,N}$, are the state and the input of robot $i$, respectively, and $f$ and $g$ are locally Lipschitz. As the energy plays an important role in ensuring persistent operation, we augment the state $x_{i}$ by the energy $E_{i}$ stored in robot $i$'s battery obtaining: $\chi_{i} = {\lbrack x_{i}^{T},E_{i}\rbrack}^{T}$. The energy dynamics are given by
 
-<!-- chunk {"id": "body-0086", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0085", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 where $\hat{f}$ and $\hat{g}$ are also assumed to be locally Lipschitz.
 
-<!-- chunk {"id": "body-0087", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 We assume the robot workspace is endowed with charging stations, interpreted as regions of the state space where robots can charge their batteries. Letting
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0087", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 be a static mapping from robot $i$'s state to its position $p_{i} \in {\mathbb{R}}^{d}$, $d = 2$ for ground robots or $d = 3$ for aerial robots, we define
 
-<!-- chunk {"id": "body-0089", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0088", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 as the function that evaluates the energy that robot $i$ requires to reach a charging station starting from position $p_{i}$.
 
-<!-- chunk {"id": "body-0090", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 We are now ready to encode the survivability constraints mentioned above.
 
-<!-- chunk {"id": "body-0091", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 i. e. each robot always has enough energy to reach a charging station with a minimum desired amount of energy, $E_{min}$.
 
-<!-- chunk {"id": "body-0092", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0091", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 We can combine these two objectives by defining the logical and of these constraints, $h_{e,i} = {h_{c,i} \land h_{o,i}}$, as
 
-<!-- chunk {"id": "body-0093", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0092", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 and enforcing differential constraints affine in the control variable $u_{i}$, which are analogous to, as shown.
 
-<!-- chunk {"id": "body-0094", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0093", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 Considering the environmental monitoring task, we reformulate the task itself using CBFs which can be then combined with the ones related to survivability introduced above in order to implement persistent environmental monitoring. Consider $N$ robots tasked with monitoring a compact and convex set $\Omega \subset {\mathbb{R}}^{d}$.
 
-<!-- chunk {"id": "body-0095", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0094", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 where $x$ is the ensemble state of the robots, $\{\Omega_{1},\ldots,\Omega_{N}\}$ is the Voronoi tessellation of the set $\Omega$, the value ${{\phi{(q)}} \in {\mathbb{R}}},{{\phi{(q)}} \geq {0{\forall q}} \in \Omega}$, encodes the importance of the point $q$, and where the quality of the sensor coverage associated with the point $q$ decreases quadratically with the distance $\|{{p{(x_{i})}} - q}\|$. The further away the point to monitor is, the worse the coverage is, and the higher the coverage cost $J$ is.
 
-<!-- chunk {"id": "body-0096", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0095", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 Defining the barrier function related to the task as ${h_{t}{(\chi)}} = {- {J{(x)}}}$, where $\chi$ represents the ensemble compound state of the robots, containing $x_{i}$ and $E_{i}$ of each robot, we can express the constraint as
 
-<!-- chunk {"id": "body-0097", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0096", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 As shown, the constraint ensures that the zero superlevel set of the function $h_{t}{(\chi)}$ is asymptotically stable, with the effect of minimizing the coverage cost $J$ defined above.
 
-<!-- chunk {"id": "body-0098", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0097", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 Additionally, safety, specifically intended as collision avoidance, can be guaranteed by ensuring that
 
-<!-- chunk {"id": "body-0099", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0098", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 ${{{\forall i},j} \in {\{ 1,\ldots,N\}}},{i \neq j}$, where $\Delta > 0$ is the safety distance to be maintained between any two robots, $i$ and $j$, located at positions $p{(x_{i})}$ and $p{(x_{j})}$. Similarly to what has been done to obtain, we can define
 
-<!-- chunk {"id": "body-0100", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0099", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 which combines energy and safety constraints, in order to formulate a differential constraint analogous to.
 
-<!-- chunk {"id": "body-0101", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0100", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 where $\kappa > 0$ is a weighting factor and the gradients involved in the computation of the Lie derivatives are intended as a particular class of generalized gradients (see ). Note that introducing the relaxation variable $\delta$, as discussed in Section II, allows us to trade the execution of the coverage task for safety and energy, i. e., survivability.
 
-<!-- chunk {"id": "body-0102", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
+<!-- chunk {"id": "body-0101", "role": "body", "section": "V-D Long Duration Autonomy", "weight": 1.0} -->
 
 The persistent environmental monitoring strategy has been implemented on the Robotarium, where six ground mobile robots have been asked to monitor a given domain over a time horizon that is longer than their (simulated) battery life (see Fig. 6). The robots perform coverage control by minimizing the cost by enforcing the constraint. Additionally, they have to avoid two obstacles moving in the environment (robots circled in red in Fig. 6) and never run out of energy. This is realized by means of the constraint. Six charging stations (blue circles, which turn yellow when the robots are charging) allow the robots to recharge their battery. The charging stations are projected onto the testbed, together with the boundary of the Voronoi tessellation of the domain to cover. The execution of the controller solution of is summarized in Fig. 6.
 
-<!-- chunk {"id": "body-0103", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0102", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 This paper presented a summary of recent results in safety-critical control based upon a novel form of control barrier functions. The basis theoretic foundations of this formulation were reviewed, all with selected application domains. Due to the recent activity in this domain, and the pressing need for safety in the context of autonomous systems, the authors imagine control barrier functions to become an essential component of modern control system design.

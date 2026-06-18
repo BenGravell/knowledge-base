@@ -92,7 +92,7 @@ where ${ap} \in {AP}$ is an atomic proposition and $\phi,\phi_{1}$ and $\phi_{2}
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "III-A cLTL+", "weight": 1.0} -->
 
-We use $\Phi$ to denote the set of all inner logic formulas defined according to. Although the inner logic is identical to LTL, we present the semantics here for the sake of completeness.
+of all inner logic formulas defined according to. Although the inner logic is identical to LTL, we present the semantics here for the sake of completeness.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "III-A cLTL+", "weight": 1.0} -->
 

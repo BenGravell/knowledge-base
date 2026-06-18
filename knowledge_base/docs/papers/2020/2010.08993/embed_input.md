@@ -227,7 +227,7 @@ The worst case tracking error for the plan computed with LMTD-RRT was $0.199$, w
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "V-B 6D Quadrotor Model", "weight": 1.0} -->
 
-We select $a = 6$ in Alg. 2. We use $10^{6}$ more samples in Alg. 1 to estimate $L_{f - g}$, and conduct a KS test resulting in a $p$-value of $0.43 \gg 0.05$. We obtain $\hat{\gamma} = 0.205$, $c = 0.011$, and $\epsilon = 0.134$.
+As $f_{0}{(x)}$ is a simple integrator term, we assume it is known and we set ${g_{0}{(x)}} = x$, while $g_{1}{(x)}$ is learned with a neural network with one hidden layer of size 4000. We select $a = 6$ in Alg. 2. We use $10^{6}$ more samples in Alg. 1 to estimate $L_{f - g}$, and conduct a KS test resulting in a $p$-value of $0.43 \gg 0.05$. We obtain $\hat{\gamma} = 0.205$, $c = 0.011$, and $\epsilon = 0.134$.
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "V-B 6D Quadrotor Model", "weight": 1.0} -->
 

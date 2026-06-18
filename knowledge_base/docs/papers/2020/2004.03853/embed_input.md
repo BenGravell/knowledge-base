@@ -204,7 +204,7 @@ An *optimal transport map* is a function that maps one probability measure to an
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
 
-To better illustrate our method, we focus on the concrete application of *color transfer*, though our methodology is applicable more widely to, e.g., the other applications mentioned in and voice transfer. The color transfer problem is defined by two images, the *input image* and the *target image*. The goal is to transfer the colors of the target image to the input image, thereby creating a third image, the *output image*; see Figure 4. We now describe how the color transfer problem can be reformulated as a sequence of shape-constrained regression problems, following. Each pixel in the input and target images is associated to an RGB color triple in ${\lbrack 0,1\rbrack}^{3}$, once each entry is normalized by 256.
+To better illustrate our method, we focus on the concrete application of *color transfer*, though our methodology is applicable more widely to, e.g., the other applications mentioned in and voice transfer. The color transfer problem is defined by two images, the *input image* and the *target image*. The goal is to transfer the colors of the target image to the input image, thereby creating a third image, the *output image*; see Figure 4. We now describe how the color transfer problem can be reformulated as a sequence of shape-constrained regression problems, following.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Shape-Constrained Optimal Transport Maps and Color Transfer", "weight": 1.0} -->
 

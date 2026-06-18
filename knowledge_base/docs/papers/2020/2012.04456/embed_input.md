@@ -328,11 +328,11 @@ In what follows, we discuss how the above loss functions relate to the principle
 
 <!-- chunk {"id": "body-0082", "role": "body", "section": "Applying the principles of a good loss function and introducing PaCMAP's loss", "weight": 1.0} -->
 
-This is a result of the slow growth of the square function ${\overset{\sim}{d}}_{ab} = {d_{ab}^{2} + 1}$ that is used in the loss of PaCMAP, when $d_{ab}$ is very small (which encourages small gradients for very small $d_{ij}$ values), and the fact that $\text{Loss}_{NB}$ saturates for large $d_{ij}$ (encourages slow growth for large $d_{ij}$ values). This can be seen in Figure 7b. These nice properties of $\text{Loss}_{NB}$ enable PaCMAP to meet Principles 4 and 6. For further points, $\text{Loss}_{FP}$ induces strong repulsive force for very small $d_{ik}$, but the force dramatically decreases to almost zero when $d_{ik}$ increases. In this way, PaCMAP's loss meets the requirements of Principles 3 and 5.
+This is a result of the slow growth of the square function ${\overset{\sim}{d}}_{ab} = {d_{ab}^{2} + 1}$ that is used in the loss of PaCMAP, when $d_{ab}$ is very small (which encourages small gradients for very small $d_{ij}$ values), and the fact that $\text{Loss}_{NB}$ saturates for large $d_{ij}$ (encourages slow growth for large $d_{ij}$ values). This can be seen in Figure 7b. These nice properties of $\text{Loss}_{NB}$ enable PaCMAP to meet Principles 4 and 6. For further points, $\text{Loss}_{FP}$ induces strong repulsive force for very small $d_{ik}$, but the force dramatically decreases to almost zero when $d_{ik}$ increases.
 
 <!-- chunk {"id": "body-0083", "role": "body", "section": "Applying the principles of a good loss function and introducing PaCMAP's loss", "weight": 1.0} -->
 
-Compared to $\text{Loss}_{FP}$ where the gradient (force) is almost zero for $d_{ik}$ values that are not too small, $\text{Loss}_{NB}$ induces an effective gradient (force) for a much wider range of $d_{ij}$. As a result of this trade-off, $\text{Loss}_{NB}$ is dominant when $d_{ik}$ is not too small, implying that Principle 2 is obeyed.
+In this way, PaCMAP's loss meets the requirements of Principles 3 and 5. Compared to $\text{Loss}_{FP}$ where the gradient (force) is almost zero for $d_{ik}$ values that are not too small, $\text{Loss}_{NB}$ induces an effective gradient (force) for a much wider range of $d_{ij}$. As a result of this trade-off, $\text{Loss}_{NB}$ is dominant when $d_{ik}$ is not too small, implying that Principle 2 is obeyed.
 
 <!-- chunk {"id": "body-0084", "role": "body", "section": "Applying the principles of a good loss function and introducing PaCMAP's loss", "weight": 1.0} -->
 
@@ -532,7 +532,8 @@ We now formally introduce the Pairwise Controlled Manifold Approximation Project
 
 <!-- chunk {"id": "body-0133", "role": "body", "section": "The PaCMAP Algorithm", "weight": 1.0} -->
 
-To take advantage of existing implementations of k-NN algorithms, for each sample we first select the min (nN B + 50,N) nearest neighbors according to the Euclidean distance and from this subset we pick the nN B nearest neighbors according to the scaled distance di j2, select (recall that N is the total number of observations). • construct nM N = ⌊nN B × M N _⌋ mid-near pairs. For each pair, construct it by sampling 6 observations, using xi and the 2nd nearest observation to xi as the mid-near pair. • construct nF P = ⌊nN B × F P _⌋ further pairs by sampling non-neighbor points. • apply the initialization procedure i n i t to set the initial values of Y. • run AdamOptimizer niterations iterations to optimize the loss function LossPaCMAP while simultaneously adjusting the weights according to the above scheme.
+To take advantage of existing implementations of k-NN algorithms, for each sample we first select the min (nN B + 50,N) nearest neighbors according to the Euclidean distance and from this subset we pick the nN B nearest neighbors according to the scaled distance di j2, select (recall that N is the total number of observations). • construct nM N = ⌊nN B × M N _⌋ mid-near pairs. For each pair, construct it by sampling 6 observations, using xi and the 2nd nearest observation to xi as the mid-near pair. • construct nF P = ⌊nN B × F P _⌋ further pairs by sampling non-neighbor points. • apply the initialization procedure i n i t to set the initial values of Y.
+• run AdamOptimizer niterations iterations to optimize the loss function LossPaCMAP while simultaneously adjusting the weights according to the above scheme.
 
 <!-- chunk {"id": "body-0134", "role": "body", "section": "Graph construction", "weight": 1.0} -->
 

@@ -200,11 +200,11 @@ where $k_{c}$ is defined in Eq. 25 ‣ 4 Contraction Theory Based ℒ₁-Adaptiv
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Performance Analysis", "weight": 1.0} -->
 
-The analysis consists of two parts: we first derive bounds between the desired trajectory and the reference system $\|{{x^{\star}{(t)}} - {x_{r}{(t)}}}\|$. Then we derive the bounds between the states of the reference system and the actual system $\left. \parallel{{x_{r}{(t)}} - {x{(t)}}}\parallel \right.$. Recall that we refer to the actual system as the $\mathcal{L}_{1}$ closed loop system, which is given by Eq. 1 with the control law in Eq. 13. Finally, the triangle inequality produces the desired bound on $\left. \parallel{{x^{\star}{(t)}} - {x{(t)}}}\parallel \right.$. In this way, the reference system behaves as an 'anchor system' for the analysis. These bounds are illustrated in Fig. 3.
+The analysis consists of two parts: we first derive bounds between the desired trajectory and the reference system $\|{{x^{\star}{(t)}} - {x_{r}{(t)}}}\|$. Then we derive the bounds between the states of the reference system and the actual system $\left. \parallel{{x_{r}{(t)}} - {x{(t)}}}\parallel \right.$. Recall that we refer to the actual system as the $\mathcal{L}_{1}$ closed loop system, which is given by Eq. 1 with the control law in Eq. 13. Finally, the triangle inequality produces the desired bound on $\left. \parallel{{x^{\star}{(t)}} - {x{(t)}}}\parallel \right.$. In this way, the reference system behaves as an 'anchor system' for the analysis.
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Performance Analysis", "weight": 1.0} -->
 
-Furthermore, we provide the justification of treating the bandwidth $\omega$ of $C{(s)}$ and the adaptation rate $\Gamma$ as tuning-knobs. Indeed, the upcoming analysis will show that we can ensure that ${x{(t)}} \in {\Omega{(\rho,{x^{\star}{(t)}})}}$ (see Eq. 4) for all $t \geq 0$.
+These bounds are illustrated in Fig. 3. Furthermore, we provide the justification of treating the bandwidth $\omega$ of $C{(s)}$ and the adaptation rate $\Gamma$ as tuning-knobs. Indeed, the upcoming analysis will show that we can ensure that ${x{(t)}} \in {\Omega{(\rho,{x^{\star}{(t)}})}}$ (see Eq. 4) for all $t \geq 0$.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Performance Analysis", "weight": 1.0} -->
 

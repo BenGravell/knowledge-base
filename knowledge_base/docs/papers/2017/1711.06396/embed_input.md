@@ -162,11 +162,11 @@ With less than 4000 training point clouds, training our network from scratch wil
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Data Augmentation", "weight": 1.0} -->
 
-The first form of data augmentation applies perturbation independently to each ground truth 3D bounding box together with those LiDAR points within the box. Specifically, around Z-axis we rotate $\mathbf{b}_{i}$ and the associated $\Omega_{i}$ with respect to $(x_{c},y_{c},z_{c})$ by a uniformally distributed random variable ${\Delta\theta} \in {\lbrack{- {\pi/10}},{+ {\pi/10}}\rbrack}$. Then we add a translation $({\Deltax},{\Deltay},{\Deltaz})$ to the XYZ components of $\mathbf{b}_{i}$ and to each point in $\Omega_{i}$, where $\Deltax$, $\Deltay$, $\Deltaz$ are drawn independently from a Gaussian distribution with mean zero and standard deviation 1.0.
+The first form of data augmentation applies perturbation independently to each ground truth 3D bounding box together with those LiDAR points within the box. Specifically, around Z-axis we rotate $\mathbf{b}_{i}$ and the associated $\Omega_{i}$ with respect to $(x_{c},y_{c},z_{c})$ by a uniformally distributed random variable ${\Delta\theta} \in {\lbrack{- {\pi/10}},{+ {\pi/10}}\rbrack}$.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Data Augmentation", "weight": 1.0} -->
 
-To avoid physically impossible outcomes, we perform a collision test between any two boxes after the perturbation and revert to the original if a collision is detected. Since the perturbation is applied to each ground truth box and the associated LiDAR points independently, the network is able to learn from substantially more variations than from the original training data.
+Then we add a translation $({\Deltax},{\Deltay},{\Deltaz})$ to the XYZ components of $\mathbf{b}_{i}$ and to each point in $\Omega_{i}$, where $\Deltax$, $\Deltay$, $\Deltaz$ are drawn independently from a Gaussian distribution with mean zero and standard deviation 1.0. To avoid physically impossible outcomes, we perform a collision test between any two boxes after the perturbation and revert to the original if a collision is detected. Since the perturbation is applied to each ground truth box and the associated LiDAR points independently, the network is able to learn from substantially more variations than from the original training data.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Data Augmentation", "weight": 1.0} -->
 

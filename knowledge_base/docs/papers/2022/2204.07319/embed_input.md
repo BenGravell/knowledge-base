@@ -208,11 +208,11 @@ In order to have a *unified formulation*, instead of using the F-S frame as in w
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Derivation of the path following error", "weight": 1.0} -->
 
-We now derive the dynamics of the path following errors (position and possibly orientation errors) between the vehicle and the path to be stabilized in order to achieve path following. The formulation is inspired by the work in and is presented next. Let $P$ be a point moving along the path that plays the role of a "*reference point*" for the vehicle to track so as to achieve path following. Let $\{\mathcal{P}\}$ be the P-T frame attached to this point defined by rotating the inertial frame by angle $\psi_{\mathcal{P}}$, where $\psi_{\mathcal{P}}$ is the angle that the tangent vector at $P$ makes with $x_{\mathcal{I}}$; see Fig. 3.1.
+We now derive the dynamics of the path following errors (position and possibly orientation errors) between the vehicle and the path to be stabilized in order to achieve path following. The formulation is inspired by the work in and is presented next. Let $P$ be a point moving along the path that plays the role of a "*reference point*" for the vehicle to track so as to achieve path following.
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Derivation of the path following error", "weight": 1.0} -->
 
-Let $\mathbf{e}_{\mathcal{P}} \triangleq {\lbrack s_{1},y_{1}\rbrack}^{\top} \in {\mathbb{R}}^{2}$ be a vector defining the position error between the vehicle and the *referene point* $P$, where $s_{1}$ and $y_{1}$ are called *along-track* and *cross-track* errors, respectively. This vector can be viewed as the position vector of the vehicle expressed in $\{\mathcal{P}\}$. According to this definition, it is given by
+Let $\{\mathcal{P}\}$ be the P-T frame attached to this point defined by rotating the inertial frame by angle $\psi_{\mathcal{P}}$, where $\psi_{\mathcal{P}}$ is the angle that the tangent vector at $P$ makes with $x_{\mathcal{I}}$; see Fig. 3.1. Let $\mathbf{e}_{\mathcal{P}} \triangleq {\lbrack s_{1},y_{1}\rbrack}^{\top} \in {\mathbb{R}}^{2}$ be a vector defining the position error between the vehicle and the *referene point* $P$, where $s_{1}$ and $y_{1}$ are called *along-track* and *cross-track* errors, respectively. This vector can be viewed as the position vector of the vehicle expressed in $\{\mathcal{P}\}$. According to this definition, it is given by
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Derivation of the path following error", "weight": 1.0} -->
 

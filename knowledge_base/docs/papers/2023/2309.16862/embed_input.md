@@ -129,11 +129,11 @@ We train the model on the collected dataset for $500$ epochs with an Adam optimi
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "V-B Safe Motion Planning with Implicit Neural Representation", "weight": 1.0} -->
 
-We evaluate our proposed approach on a set of simulated tabletop manipulation problems generated using MotionBenchMaker. The Fetch robot needs to plan to grasp an object, avoiding collisions with the table and obstacles upon it (Fig. 1). We create 50 problems by randomly perturbing the positions ($\pm 2.5$cm in $x,y,z$) and orientations ($\pm 15^{\circ}$) of the objects of a nominal scene and the relative pose of the robot's base ($\pm 10$cm in $x,y,z$ and $\pm 90^{\circ}$) with respect to the table. The environment is represented as a point cloud-like set of noisy 3D spheres of different radii that covers the (unknown to the planner) collision geometries of all objects. We assume that the table's geometry is noise-free while the objects on top are noisily sensed, per Sec. V-A.
+We evaluate our proposed approach on a set of simulated tabletop manipulation problems generated using MotionBenchMaker. The Fetch robot needs to plan to grasp an object, avoiding collisions with the table and obstacles upon it (Fig. 1). We create 50 problems by randomly perturbing the positions ($\pm 2.5$cm in $x,y,z$) and orientations ($\pm 15^{\circ}$) of the objects of a nominal scene and the relative pose of the robot's base ($\pm 10$cm in $x,y,z$ and $\pm 90^{\circ}$) with respect to the table. The environment is represented as a point cloud-like set of noisy 3D spheres of different radii that covers the (unknown to the planner) collision geometries of all objects.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "V-B Safe Motion Planning with Implicit Neural Representation", "weight": 1.0} -->
 
-Note that these problems were designed by to be challenging and "realistic" from the motion planning perspective and require the robot to plan long, elaborate paths that need to avoid the table and then dodge collisions with the objects on top.
+We assume that the table's geometry is noise-free while the objects on top are noisily sensed, per Sec. V-A. Note that these problems were designed by to be challenging and "realistic" from the motion planning perspective and require the robot to plan long, elaborate paths that need to avoid the table and then dodge collisions with the objects on top.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "V-B Safe Motion Planning with Implicit Neural Representation", "weight": 1.0} -->
 

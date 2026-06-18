@@ -522,11 +522,11 @@ We conducted the comparison in the Hard dynamic environment from Section IX-D at
 
 <!-- chunk {"id": "body-0130", "role": "body", "section": "IX-E STSFC Ablation", "weight": 1.0} -->
 
-Table VIII summarizes the results. At $v_{\max} = 2.5$ m/s, the worst-case baseline achieves only 80% success rate because the large uniform inflation radius results in replanning failures and stoppage when the agent gets hit by dynamic obstacles. The STSFC approach maintains a 100% success rate by inflating obstacles proportionally to each time layer, preserving more free space in earlier layers while still guaranteeing safety. STSFC also achieves substantially lower computation time (8.9 vs. 15.5 ms), faster travel time (43.8 vs. 58.8 s), and a much smoother trajectory (jerk integral 330.6 vs. 1392.2 m/s^2^). At $v_{\max} = 5.0$ m/s, both approaches achieve 100% success, as the faster trajectory (and hence shorter traversal time) reduces the worst-case inflation radius and allows the worst-case approach to succeed without many replanning failures. Nevertheless, STSFC still provides lower computation time (5.0 vs. 6.4 ms), faster travel time (22.7 vs.
+Table VIII summarizes the results. At $v_{\max} = 2.5$ m/s, the worst-case baseline achieves only 80% success rate because the large uniform inflation radius results in replanning failures and stoppage when the agent gets hit by dynamic obstacles. The STSFC approach maintains a 100% success rate by inflating obstacles proportionally to each time layer, preserving more free space in earlier layers while still guaranteeing safety. STSFC also achieves substantially lower computation time (8.9 vs. 15.5 ms), faster travel time (43.8 vs. 58.8 s), and a much smoother trajectory (jerk integral 330.6 vs. 1392.2 m/s^2^). At $v_{\max} = 5.0$ m/s, both approaches achieve 100% success, as the faster trajectory (and hence shorter traversal time) reduces the worst-case inflation radius and allows the worst-case approach to succeed without many replanning failures.
 
 <!-- chunk {"id": "body-0131", "role": "body", "section": "IX-E STSFC Ablation", "weight": 1.0} -->
 
-23.5 s), and a smoother trajectory (jerk integral 669.6 vs. 753.3 m/s^2^) than the worst-case baseline.
+Nevertheless, STSFC still provides lower computation time (5.0 vs. 6.4 ms), faster travel time (22.7 vs. 23.5 s), and a smoother trajectory (jerk integral 669.6 vs. 753.3 m/s^2^) than the worst-case baseline.
 
 <!-- chunk {"id": "body-0132", "role": "body", "section": "IX-F Dynamic Environments without Ground Truth Obstacle Knowledge", "weight": 1.0} -->
 

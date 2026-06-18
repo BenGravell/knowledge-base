@@ -271,7 +271,7 @@ For each time step, we pool together 64 actions from policies trained with each 
 
 <!-- chunk {"id": "body-0067", "role": "body", "section": "OGPO preserves action variance \"orthogonal\" to task success", "weight": 1.0} -->
 
-We include snapshots across four phases of training, from offline to completion.
+When $> 0.6$ we consider majority of actions having the same ${\nabla_{a}Q}{(s,a)}$ unit vectors, and $\leq 0.6$ as there not being a consensus, at which, we compute K-means clusters over ${\nabla_{a}Q}{(s,a)}$ with cluster centers shown as black crosses in Figure˜15. We include snapshots across four phases of training, from offline to completion.
 
 <!-- chunk {"id": "body-0068", "role": "body", "section": "OGPO preserves action variance \"orthogonal\" to task success", "weight": 1.0} -->
 
@@ -334,52 +334,56 @@ The following ablations are designed to systematically isolate various subcompon
 
 <!-- chunk {"id": "body-0082", "role": "body", "section": "Which Further Design Decisions Explain the Performance of OGPO and OGPO+?", "weight": 1.0} -->
 
-Second, using Figure˜19 as reference, Best-of-$N$ inference provides only marginal gains by itself and can increase oscillations when the critic is imperfect. This is consistent with the role of Best-of-$N$ as a verifier of critic learning at inference time, rather as a significant mechanism for policy improvement (chow2025inference; huang2025is). In contrast, the success buffer used in OGPO+ consistently improves sample efficiency and asymptotic performance by anchoring policy improvement to successful behavior. We provide a mathematical basis for the intuition that conditional flow matching (CFM) loss between $\overline{}$, and the success buffer actions increases the GCP lower-bound on successful modes in Section˜E.3.
+Second, using Figure˜19 as reference, Best-of-$N$ inference provides only marginal gains by itself and can increase oscillations when the critic is imperfect. This is consistent with the role of Best-of-$N$ as a verifier of critic learning at inference time, rather as a significant mechanism for policy improvement (chow2025inference; huang2025is). In contrast, the success buffer used in OGPO+ consistently improves sample efficiency and asymptotic performance by anchoring policy improvement to successful behavior.
 
 <!-- chunk {"id": "body-0083", "role": "body", "section": "Which Further Design Decisions Explain the Performance of OGPO and OGPO+?", "weight": 1.0} -->
 
+We provide a mathematical basis for the intuition that conditional flow matching (CFM) loss between $\overline{}$, and the success buffer actions increases the GCP lower-bound on successful modes in Section˜E.3. Moreover, we modify the advantage computation from $\hat{A} = \frac{{Q_{targ}{(s_{t},a_{t,0})}} - \hat{V}}{\hat{}}$, where ${\hat{}}^{(i)}\leftarrow\sqrt{\frac{1}{N_{\text{group}}}{\sum_{j}\left( {{Q_{targ}{(s^{(i)},a_{0}^{(i,j)})}} - {\hat{V}}^{(i)}} \right)^{2}}}$ and find that GRPO-style variance normalization hurts performance.
+
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Which Further Design Decisions Explain the Performance of OGPO and OGPO+?", "weight": 1.0} -->
+
 Finally, we ablate the offline-to-online Q-learning recipe proposed in Warm Start RL (WSRL, zhou2024efficient) with and without Calibrated Q-Learning (CalQL, (nakamoto_cal-ql_2024)), and compare against OGPO, OGPO+, and OGPO+CA. We find that CalQL+WSRL slightly improves vanilla OGPO, but fail to mitigate the policy collapse as prevented by OGPO+ and OGPO+CA.
-
-<!-- chunk {"id": "body-0084", "role": "body", "section": "Generative Control Policies", "weight": 1.0} -->
-
-The success of diffusion models in image generation (ho2020denoising; song2020denoising; rombach2022high) has inspired their adoption for robotic control. Diffusion Policy (chi2023diffusion) demonstrated that denoising diffusion probabilistic models (DDPMs) can effectively parameterize visuomotor policies by iteratively denoising action sequences conditioned on observations. Flow-matching policies (lipman2022flow; liu2022flow) offer a more efficient alternative by learning velocity fields that transport noise to action distributions through ordinary differential equations (ODEs), achieving comparable performance with fewer integration steps.
 
 <!-- chunk {"id": "body-0085", "role": "body", "section": "Generative Control Policies", "weight": 1.0} -->
 
-Recent work has sought to improve the generative modeling capacity. Notably, shortcut models (frans2024one) condition on desired step sizes to enable few-step generation, while consistency models (song2023consistency) distill multi-step diffusion into single-step generation. Recently, (pan2025much) introduced Minimally Iterative Policies (MIP), demonstrating that two-step regression-based policies can match full flow model performance, suggesting that distributional learning may be less critical than previously believed. Orthogonally, tokenized autoregressive policies such as FAST (pertsch2025fast) encode continuous action chunks via discrete cosine transforms to enable efficient training of vision-language-action (VLA) models on high-frequency control data.
+The success of diffusion models in image generation (ho2020denoising; song2020denoising; rombach2022high) has inspired their adoption for robotic control. Diffusion Policy (chi2023diffusion) demonstrated that denoising diffusion probabilistic models (DDPMs) can effectively parameterize visuomotor policies by iteratively denoising action sequences conditioned on observations. Flow-matching policies (lipman2022flow; liu2022flow) offer a more efficient alternative by learning velocity fields that transport noise to action distributions through ordinary differential equations (ODEs), achieving comparable performance with fewer integration steps.
 
 <!-- chunk {"id": "body-0086", "role": "body", "section": "Generative Control Policies", "weight": 1.0} -->
 
+Recent work has sought to improve the generative modeling capacity. Notably, shortcut models (frans2024one) condition on desired step sizes to enable few-step generation, while consistency models (song2023consistency) distill multi-step diffusion into single-step generation. Recently, (pan2025much) introduced Minimally Iterative Policies (MIP), demonstrating that two-step regression-based policies can match full flow model performance, suggesting that distributional learning may be less critical than previously believed. Orthogonally, tokenized autoregressive policies such as FAST (pertsch2025fast) encode continuous action chunks via discrete cosine transforms to enable efficient training of vision-language-action (VLA) models on high-frequency control data.
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Generative Control Policies", "weight": 1.0} -->
+
 For OGPO, we demonstrate flow and diffusion-based policies as representative of the general IGP formulation and leave generalization to other formulations as future work.
-
-<!-- chunk {"id": "body-0087", "role": "body", "section": "Reinforcement Learning for Robotic Policy Finetuning", "weight": 1.0} -->
-
-The incorporation of Reinforcement Learning (RL) into robotic policy training mirrors the post-training paradigm in large language models (ouyang2022training; shao2024deepseekmath). On-policy methods such as REINFORCE (williams1992simple) and PPO (schulman2017proximal) update policies using only data from the current policy iteration, ensuring stable but sample-inefficient learning. DPPO (ren2024diffusion) extends PPO to diffusion policies by computing policy gradients through the denoising chain, while Reinflow (zhang2025reinflow) applies similar principles to flow-matching policies.
 
 <!-- chunk {"id": "body-0088", "role": "body", "section": "Reinforcement Learning for Robotic Policy Finetuning", "weight": 1.0} -->
 
-Off-policy algorithms promise greater sample efficiency by maintaining replay buffers of past experiences. Classical approaches such as SAC (haarnoja2018soft), TD3 (fujimoto2018addressing), and REDQ (chen2021randomized) learn Q-functions from off-policy data to guide policy updates. Temporal difference learning mitigates the requirement of the policy to compute Monte Carlo return to the go. However, naive application to IGPs in the RL-finetuning regime can exhibit training instabilities due to large initial distributional shifts and value overestimation. To mitigate these, (mark2024policy; li2025reinforcement) proposed using Q functions merely to rank stochastic policy actions and fine-tuning the policy using the Best-of-N actions. However, driving policy improvement via Q-function ranking can be inefficient as it requires exploration away from the mean values of the flow policy.
+The incorporation of Reinforcement Learning (RL) into robotic policy training mirrors the post-training paradigm in large language models (ouyang2022training; shao2024deepseekmath). On-policy methods such as REINFORCE (williams1992simple) and PPO (schulman2017proximal) update policies using only data from the current policy iteration, ensuring stable but sample-inefficient learning. DPPO (ren2024diffusion) extends PPO to diffusion policies by computing policy gradients through the denoising chain, while Reinflow (zhang2025reinflow) applies similar principles to flow-matching policies.
 
 <!-- chunk {"id": "body-0089", "role": "body", "section": "Reinforcement Learning for Robotic Policy Finetuning", "weight": 1.0} -->
 
+Off-policy algorithms promise greater sample efficiency by maintaining replay buffers of past experiences. Classical approaches such as SAC (haarnoja2018soft), TD3 (fujimoto2018addressing), and REDQ (chen2021randomized) learn Q-functions from off-policy data to guide policy updates. Temporal difference learning mitigates the requirement of the policy to compute Monte Carlo return to the go. However, naive application to IGPs in the RL-finetuning regime can exhibit training instabilities due to large initial distributional shifts and value overestimation. To mitigate these, (mark2024policy; li2025reinforcement) proposed using Q functions merely to rank stochastic policy actions and fine-tuning the policy using the Best-of-N actions. However, driving policy improvement via Q-function ranking can be inefficient as it requires exploration away from the mean values of the flow policy.
+
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Reinforcement Learning for Robotic Policy Finetuning", "weight": 1.0} -->
+
 Concurrently, RL-100 (lei2025rl) presents a comprehensive real-world RL framework built on diffusion policies, demonstrating deployment-grade success rates across eight manipulation tasks. RL-100 adopts the same bi-level MDP formulation and clipped PPO surrogate as DPPO, unifying imitation and reinforcement learning under a single objective across both offline and online stages, and additionally incorporates consistency distillation for high-frequency deployment. While RL-100 demonstrates impressive real-world reliability, its policy optimization remains fully on-policy, requiring iterative offline data expansion to achieve sample efficiency. OGPO instead decouples the bi-level MDP via off-policy critic learning, achieving comparable or superior sample efficiency in simulation without requiring multiple rounds of offline RL pre-training.
-
-<!-- chunk {"id": "body-0090", "role": "body", "section": "Finetuning Strategies for Generative Control Policies", "weight": 1.0} -->
-
-Existing approaches to finetuning GCPs differ along the axis of *what* is optimized. Steering methods, exemplified by DSRL (wagenmaker2025steering), optimize the distribution over initial noise $a_{K}$ while freezing the pretrained denoising network. This constrains policy improvement within the support of the pretrained IGP distribution. Residual policy approaches such as EXPO (dong2025expo) train an additional network $^{\text{res}}$ that modifies the final action $a_{\text{res}} = {{}_{}^{}{(a_{t,0},s_{t})}}$, allowing mode shifts within the BC policy support but fails to facilitate discovery of new behaviors.
 
 <!-- chunk {"id": "body-0091", "role": "body", "section": "Finetuning Strategies for Generative Control Policies", "weight": 1.0} -->
 
-Policy-agnostic RL (PA-RL) (mark2024policy) and Q-chunking (QC) (li2025reinforcement) employ Q-functions to rank behavior cloned policies with high-value actions or use ${\nabla_{a}Q}{(s,a)}$. Q-learning with Adjoint Matching (QAM) (li2026q) uses adjoint matching to convert the critic's action-gradient into a step-wise training objective for expressive flow or diffusion policies, avoiding direct backpropagation through the full denoising process. In the image generation domain, Flow-GRPO (liu2025flow) concurrently applied GRPO (shao2024deepseekmath) to flow matching models for text-to-image alignment, sharing with OGPO the ODE-to-SDE conversion for injecting stochasticity into deterministic flow policies and the use of group-relative advantage estimation over parallel denoising trajectories.
+Existing approaches to finetuning GCPs differ along the axis of *what* is optimized. Steering methods, exemplified by DSRL (wagenmaker2025steering), optimize the distribution over initial noise $a_{K}$ while freezing the pretrained denoising network. This constrains policy improvement within the support of the pretrained IGP distribution. Residual policy approaches such as EXPO (dong2025expo) train an additional network $^{\text{res}}$ that modifies the final action $a_{\text{res}} = {{}_{}^{}{(a_{t,0},s_{t})}}$, allowing mode shifts within the BC policy support but fails to facilitate discovery of new behaviors.
 
 <!-- chunk {"id": "body-0092", "role": "body", "section": "Finetuning Strategies for Generative Control Policies", "weight": 1.0} -->
 
-However, Flow-GRPO operates in the on-policy, bandit-like setting: rewards are terminal (image-level), the "environment" is a single-step generation with no dynamics, and advantages are estimated via group normalization of final rewards rather than learned Q-functions.
+Policy-agnostic RL (PA-RL) (mark2024policy) and Q-chunking (QC) (li2025reinforcement) employ Q-functions to rank behavior cloned policies with high-value actions or use ${\nabla_{a}Q}{(s,a)}$. Q-learning with Adjoint Matching (QAM) (li2026q) uses adjoint matching to convert the critic's action-gradient into a step-wise training objective for expressive flow or diffusion policies, avoiding direct backpropagation through the full denoising process. In the image generation domain, Flow-GRPO (liu2025flow) concurrently applied GRPO (shao2024deepseekmath) to flow matching models for text-to-image alignment, sharing with OGPO the ODE-to-SDE conversion for injecting stochasticity into deterministic flow policies and the use of group-relative advantage estimation over parallel denoising trajectories.
 
 <!-- chunk {"id": "body-0093", "role": "body", "section": "Finetuning Strategies for Generative Control Policies", "weight": 1.0} -->
 
+However, Flow-GRPO operates in the on-policy, bandit-like setting: rewards are terminal (image-level), the "environment" is a single-step generation with no dynamics, and advantages are estimated via group normalization of final rewards rather than learned Q-functions.
+
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Finetuning Strategies for Generative Control Policies", "weight": 1.0} -->
+
 In contrast, OGPO addresses the multi-step robotic control setting, where off-policy TD-learning is essential for sample efficiency across long environment horizons, and the two-level MDP structure enables reuse of costly environment transitions while performing on-policy updates purely within the denoising MDP. However, in addition to zero-order optimization via Q functions, OGPO performs SFT via Success Buffer actions for enhanced sample efficiency.
 
-<!-- chunk {"id": "body-0094", "role": "body", "section": "Conclusion and Limitations", "weight": 1.5} -->
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Conclusion and Limitations", "weight": 1.5} -->
 
 We introduce OGPO, an approach that combines the best of on-policy and off-policy methods for fine-tuning generative control policies (GCPs) and enjoys high success rates and sample efficiency across numerous tasks. However, OGPO still has limitations, the most important being that the parallel denoising rollouts required to estimate Q-values can be prohibitively expensive for large VLA models due to the high inference costs. Future work focusing on Q-function learning fidelity can help ameliorate this limitation by reducing the number of parallel GCP rollouts.

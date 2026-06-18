@@ -74,11 +74,11 @@ However, if alone, the loss in Eq. 1 leads to representation collapse, yielding 
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Training Objective", "weight": 1.0} -->
 
-Let ${\mathbf{Z}} \in {\mathbb{R}}^{N \times B \times d}$ denote the tensor of latent embeddings collected over the history length $N$, the batch size $B$, and where $d$ denotes the embedding dimension. Assessing normality directly in high-dimensional spaces is challenging, as most classical normality tests are designed for univariate data and do not scale reliably with dimensionality. SIGReg circumvents this limitation by projecting embeddings onto $M$ random unit-norm directions ${\mathbf{u}}^{(m)} \in {\mathbb{S}}^{d - 1}$ and optimizing the univariate Epps--Pulley test statistic $T{( \cdot )}$ along the resulting one-dimensional projections ${\mathbf{h}}^{(m)} = {{\mathbf{Z}}{\mathbf{u}}^{(m)}}$, as illustrated in Fig.1.
+Let ${\mathbf{Z}} \in {\mathbb{R}}^{N \times B \times d}$ denote the tensor of latent embeddings collected over the history length $N$, the batch size $B$, and where $d$ denotes the embedding dimension. Assessing normality directly in high-dimensional spaces is challenging, as most classical normality tests are designed for univariate data and do not scale reliably with dimensionality.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Training Objective", "weight": 1.0} -->
 
-By the Cramér--Wold theorem, matching all one-dimensional marginals is equivalent to matching the full joint distribution.
+SIGReg circumvents this limitation by projecting embeddings onto $M$ random unit-norm directions ${\mathbf{u}}^{(m)} \in {\mathbb{S}}^{d - 1}$ and optimizing the univariate Epps--Pulley test statistic $T{( \cdot )}$ along the resulting one-dimensional projections ${\mathbf{h}}^{(m)} = {{\mathbf{Z}}{\mathbf{u}}^{(m)}}$, as illustrated in Fig.1. By the Cramér--Wold theorem, matching all one-dimensional marginals is equivalent to matching the full joint distribution.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Training Objective", "weight": 1.0} -->
 

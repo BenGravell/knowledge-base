@@ -96,7 +96,7 @@ Diffusion Preliminaries We adopt the notation and setup for diffusion models. Th
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Scene Diffusion Setup", "weight": 1.0} -->
 
-Therefore ${\mathbf{z}}_{t} = {{\alpha_{t}{\mathbf{x}}} + {\sigma_{t}\mathbf{\epsilon}_{t}}}$, where $\mathbf{\epsilon}_{t} \sim {\mathcal{N}{(0,{\mathbf{I}})}}$. One major departure from the classic diffusion setup in our amortized diffusion regime is that we do not assume a uniform noise level $t \in {\mathbb{R}}$ for the entire scene tensor $\mathbf{x}$. Instead, we have $t \in {\mathbb{R}}^{\mathcal{T}}$ where $t$ can be relaxed to have a different value per physical timestep in the scene tensor as described in Sec. 3.2.
+Instead, we have $t \in {\mathbb{R}}^{\mathcal{T}}$ where $t$ can be relaxed to have a different value per physical timestep in the scene tensor as described in Sec. 3.2. We utilize the commonly used $\alpha$-cosine schedule where $\alpha_{t} = {\cos{({{\pi t}/2})}}$ and $\sigma_{t} = {\sin{({{\pi t}/2})}}$. At the highest noise level of $t = 1$, the forward diffusion process completely destroys the initial scene tensor $\mathbf{x}$ resulting in ${\mathbf{z}}_{t} = \mathbf{\epsilon}_{t} \sim {\mathcal{N}{(0,{\mathbf{I}})}}$. Assuming a Markovian transition process, we have the transition distributions ${q{(\left.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Scene Diffusion Setup", "weight": 1.0} -->
 

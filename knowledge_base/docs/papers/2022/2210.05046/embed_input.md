@@ -156,11 +156,11 @@ We now present two methods to obtain the solutions to problems and.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "III-B1 Iterative Algorithm - KGFL", "weight": 1.0} -->
 
-The KGFL algorithm is an iterative algorithm based on gradient descent. The gradients of the cost in Problem with respect to the parameters $K$, $G$ and $J$ can be explicitly computed. These gradients are utilized in an iterative manner to obtain the estimates $\hat{z}$, $\hat{\zeta}$ and $\hat{\eta}$. Algorithm 1 outlines the Koopman Generator-based Feedback Linearization (KGFL) algorithm. The parameters $K$, $G$ and $J$ at iteration $i$ are denoted by $K{(i)}$, $G{(i)}$ and $J{(i)}$ respectively. In the algorithm, the state transformation parameter $K$ is computed while keeping the control transformation parameters $G$ and $J$ fixed from the previous iterations. Subsequently, the control transformation parameters $G$ and $J$ are fixed while keeping the state transformation parameters fixed. In the algorithm, we denote the cost function in Problem as $C$ and its gradient with a parameter $Q$ as $\nabla_{Q}$ C.
+The KGFL algorithm is an iterative algorithm based on gradient descent. The gradients of the cost in Problem with respect to the parameters $K$, $G$ and $J$ can be explicitly computed. These gradients are utilized in an iterative manner to obtain the estimates $\hat{z}$, $\hat{\zeta}$ and $\hat{\eta}$. Algorithm 1 outlines the Koopman Generator-based Feedback Linearization (KGFL) algorithm. The parameters $K$, $G$ and $J$ at iteration $i$ are denoted by $K{(i)}$, $G{(i)}$ and $J{(i)}$ respectively. In the algorithm, the state transformation parameter $K$ is computed while keeping the control transformation parameters $G$ and $J$ fixed from the previous iterations. Subsequently, the control transformation parameters $G$ and $J$ are fixed while keeping the state transformation parameters fixed.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "III-B1 Iterative Algorithm - KGFL", "weight": 1.0} -->
 
-We emphasize that the dictionaries $D$, $\theta$ and $\gamma$ may not contain all the nonlinearities of the system's dynamics. Hence, we solve the data-driven feedback linearization problem in a least-squares sense.
+In the algorithm, we denote the cost function in Problem as $C$ and its gradient with a parameter $Q$ as $\nabla_{Q}$ C. We emphasize that the dictionaries $D$, $\theta$ and $\gamma$ may not contain all the nonlinearities of the system's dynamics. Hence, we solve the data-driven feedback linearization problem in a least-squares sense.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "III-B1 Iterative Algorithm - KGFL", "weight": 1.0} -->
 

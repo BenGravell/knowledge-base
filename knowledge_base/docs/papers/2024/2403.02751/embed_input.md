@@ -240,152 +240,156 @@ In practice, we do not have prior knowledge of the set of correspondences $\math
 
 <!-- chunk {"id": "body-0060", "role": "body", "section": "Monocular Pose Estimation", "weight": 1.0} -->
 
-Non-invasive Pose Correction. While fusing Splat-Loc poses with existing pose estimates like VIO is beyond the scope of this work, we will address challenges that arises when using Splat-Plan to plan high-level plans in a GSplat while using existing pose estimates to stabilize (i.e., for control). Fundamentally, discrepancies between the one in which the GSplat is trained in $\mathcal{T}_{\text{gs}}$ and the running coordinate frame of the existing localization module $\mathcal{T}_{(\text{control},t)}$ can vary with time, either due to noise or drift. Yet, poses from Splat-Loc are inherently tied to the GSplat coordinate frame, leading to potentially more informative state estimates of whether the robot is in collision or not. In turn, these estimates can be passed into Splat-Plan to create safer trajectories if necessary, as depicted in Fig. 1.
+Non-invasive Pose Correction. While fusing Splat-Loc poses with existing pose estimates like VIO is beyond the scope of this work, we will address challenges that arises when using Splat-Plan to plan high-level plans in a GSplat while using existing pose estimates to stabilize (i.e., for control). Fundamentally, discrepancies between the one in which the GSplat is trained in $\mathcal{T}_{\text{gs}}$ and the running coordinate frame of the existing localization module $\mathcal{T}_{(\text{control},t)}$ can vary with time, either due to noise or drift. Yet, poses from Splat-Loc are inherently tied to the GSplat coordinate frame, leading to potentially more informative state estimates of whether the robot is in collision or not.
 
 <!-- chunk {"id": "body-0061", "role": "body", "section": "Monocular Pose Estimation", "weight": 1.0} -->
 
-However, the trajectory that Splat-Plan returns again lives in $\mathcal{T}_{\text{gs}}$ and not necessarily the running coordinate frame of the existing localization, which is crucially used for control. To overcome this mismatch, we necessarily need to transform the outputs of Splat-Plan into the control localization frame. Namely, there exists a transform ${{}_{}^{\text{control},t}{}_{}^{}}:{\mathcal{T}_{\text{gs}}\rightarrow\mathcal{T}_{(\text{control},t)}}$ that maps poses in the GSplat frame to ones in the control localization frame. Therefore, the waypoints that we send to the robot are ${{}_{}^{(\text{control},t)}{}_{}^{}}{({X{(T)}})}$, which is depicted in Fig. 1 as the input to the robot.
+In turn, these estimates can be passed into Splat-Plan to create safer trajectories if necessary, as depicted in Fig. 1. However, the trajectory that Splat-Plan returns again lives in $\mathcal{T}_{\text{gs}}$ and not necessarily the running coordinate frame of the existing localization, which is crucially used for control. To overcome this mismatch, we necessarily need to transform the outputs of Splat-Plan into the control localization frame. Namely, there exists a transform ${{}_{}^{\text{control},t}{}_{}^{}}:{\mathcal{T}_{\text{gs}}\rightarrow\mathcal{T}_{(\text{control},t)}}$ that maps poses in the GSplat frame to ones in the control localization frame.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Monocular Pose Estimation", "weight": 1.0} -->
+
+Therefore, the waypoints that we send to the robot are ${{}_{}^{(\text{control},t)}{}_{}^{}}{({X{(T)}})}$, which is depicted in Fig. 1 as the input to the robot.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We demonstrate the effectiveness of our navigation pipeline for GSplat maps, examining its performance in real-world scenes on hardware and in simulation. In addition, we perform ablative studies comparing our algorithms against existing methods.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "VI-A1 Test Environments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "VI-A1 Test Environments", "weight": 1.0} -->
 
 We benchmark Splat-Plan and Splat-Loc independently on four different environments: Stonehenge, a fully-synthetic scene, and three real-world scenes Statues, Flightroom, and Old Union. For Stonehenge, we captured image-pose pairs by rendering the Stonehenge mesh in Blender. For the other scenes, we recorded a video from a mobile phone and processed the image frames through structure-from-motion to retrieve corresponding camera poses and intrinsics.
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "VI-A2 Splat-Loc Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "VI-A2 Splat-Loc Evaluations", "weight": 1.0} -->
 
 We compare Splat-Loc to existing pose estimation methods, including a baseline GS-Loc, based on the localization component of existing GSplat SLAM methods. We leverage finite differences to estimate the gradient of the photometric loss function utilized in the pose estimator, which might not be particularly fast or robust, especially for larger errors in the initial pose estimate. While these methods optimize over the re-rendering loss composed of the photometric loss, and in some cases, depth and semantic-related loss terms, in our baseline, we optimize only over the photometric loss, since we assume the robot in these evaluations does not have an RGB-D camera for depth measurements. As a result, our baseline essentially matches the GSplat SLAM method. In addition, we compare our pose estimator to the Point-to-plane Iterative Closest Point (ICP) and Colored-ICP algorithms, assuming these point-cloud methods have privileged $3$D information that the incremental estimation of Splat-Loc does not have.
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "VI-A2 Splat-Loc Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "VI-A2 Splat-Loc Evaluations", "weight": 1.0} -->
 
 Furthermore, we examine two variants of our pose estimator: Splat-Loc-Glue, which utilizes LightGlue for feature matching; and Splat-Loc-SIFT, which utilizes SIFT for feature matching.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "VI-A2 Splat-Loc Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "VI-A2 Splat-Loc Evaluations", "weight": 1.0} -->
 
 In each scene, we run 10 trials (of $100$ frames each) of each pose estimation algorithm. We evaluate the rotation error (R.E.) and translation error (T.E.) with respect to the ground-truth pose, the computation time (C.T.) per frame, and the overall success rate (S.R.). Here, success indicates the generation of a solution regardless of its quality. The performance of pose estimation algorithms often depends on the error associated with the initial estimate of the pose. As such, we test our system across a range of different errors in the initial estimate of the pose. In this study, we assume an initial estimate of the pose is available. We generate the initial estimate by taking the ground truth pose then applying a rotation $\delta_{R}$ about a random axis and the translation $\delta_{t}$ in a random direction.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "VI-A2 Splat-Loc Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "VI-A2 Splat-Loc Evaluations", "weight": 1.0} -->
 
 We provide the summary statistics of the error in the pose estimates computed by each algorithm, in addition to the computation time on a trial with $100$ frames in the Statues scene in Table I. We note that all methods had a perfect success rate in this problem. The GS-Loc algorithm achieves the lowest accuracy and requires the greatest computation time, unlike Colored-ICP, Splat-Loc-SIFT, and Splat-Loc-Glue, which achieve much-higher accuracy with a rotation error less than a degree and a translation error less than $15$cm. GS-Loc requires a computation time of about 36.15 s per frame, which is about two orders of magnitude slower than the next-slowest method ICP, which requires a computation time of about 110 ms. Colored-ICP, Splat-Loc-SIFT, and Splat-Loc-Glue require less than 100 ms of computation time. Compared to all methods, Splat-Loc-Glue yields pose estimates with the lowest mean rotation and translation error, less than $0.06^{\circ}$ and 4 mm, respectively, and achieves the fastest mean computation time, less than 42 ms.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "VI-A2 Splat-Loc Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "VI-A2 Splat-Loc Evaluations", "weight": 1.0} -->
 
 The computation time of Splat-Loc may be about a standard deviation greater during the first call, which may be due to the time spent loading the models and initializing the GPU kernels.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "VI-A2 Splat-Loc Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "VI-A2 Splat-Loc Evaluations", "weight": 1.0} -->
 
 Lastly, we examine the performance of the pose estimation algorithms in problems with a larger error in the initial estimate of the pose, with $\delta_{R} = 30^{\circ}$ and $\delta_{t} = {0.5m}$ in the synthetic Stonehenge scene. We present the performance of each algorithm on each metric in Table II, where we note that ICP and Colored-ICP do not provide accurate estimates of the robot's pose. Moreover, the pose estimation errors achieved by ICP and Colored-ICP have a significant variance. In contrast, Splat-Loc-SIFT and Splat-Loc-Glue yield pose estimates of high accuracy with average rotation and translation errors less than $0.5$ deg. and $5$mm, respectively. However, Splat-Loc-SIFT achieves a lower success rate, compared to Splat-Loc-Glue, which achieves a perfect success rate.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "VI-A3 Splat-Plan Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "VI-A3 Splat-Plan Evaluations", "weight": 1.0} -->
 
 Splat-Plan is benchmarked against three different methods: a point-cloud planner, a sampling-based planner (RRT\* using Proposition 1), and a NeRF-based planner. Furthermore, we perform ablations against variations of the point-cloud planner in order to expose flaws when planning against point clouds compared to the full scene geometry. For each simulation scene, we train a dense and sparse GSplat, totaling 8 scenes. In every scene, we run 100 start and goal locations distributed in a circle around the boundary of the scene.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "VI-A3 Splat-Plan Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "VI-A3 Splat-Plan Evaluations", "weight": 1.0} -->
 
 In the simulated tests, we represent the robot using balls of various sizes in order to generate interesting trajectories due to the fact that the simulated scenes are not trained in metric scale.^33^3Nerfstudio adopts the NeRF conventions in scaling the scene to fit within the confines of a two-unit-length cube centered at the origin, with the poses of the camera residing within a ${\lbrack{- 1},1\rbrack}^{3}$-bounding box. We disable this feature for the hardware Maze scene.. Additional parameters, such as the number of Gaussians, can be found in Table III.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "VI-A3 Splat-Plan Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "VI-A3 Splat-Plan Evaluations", "weight": 1.0} -->
 
 While point cloud-based planners are ubiquitously used, they can sometimes fall short when the scene geometry is not dense or if the scene is very cluttered. To this end, we developed four variants of the Safe Flight Corridor (SFC). SFC-1 ingests the GSplat means as a point cloud, runs Dijkstra to retrieve a feasible initial path seed, creates collision sets with respect to the point cloud, synthesizes a polytope corridor that marginally intersects with the point cloud, and finally deflates the polytopes by the robot radius. These polytopes are fed to the same spline optimizer that Splat-Plan uses. SFC-2 executes the same pipeline as SFC-1, but the point cloud representation is sampled from the surface of the ellipsoids. We sample 20 points from each ellipsoid in the scene to simulate a typical amount of points a Lidar or depth image would produce (approximately 2-5 million points). SFC-3 uses the Splat-Plan occupancy grid to retrieve a feasible path seed, while the means are still used to create polytopes.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "VI-A3 Splat-Plan Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "VI-A3 Splat-Plan Evaluations", "weight": 1.0} -->
 
 Finally, SFC-4 uses the Splat-Plan occupancy grid, synthesizes polytopes using the means, but deflates the polytope by the robot radius and the maximum eigenvalue of the ellipsoid whose mean was used to create a particular halfspace in the polytope. These variants are all potential solutions to apply SFC to GSplat environments. We summarize the tradeoffs of all methods in Table IV.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "VI-A3 Splat-Plan Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "VI-A3 Splat-Plan Evaluations", "weight": 1.0} -->
 
 Visually, the paths generated by Splat-Plan are smooth, safe, and non-conservative. This fact is validated in Fig., where Splat-Plan's trajectories in blue are safe (minimum distances greater than 0 with respect to the GSplat collision geometry). Unfortunately, because many of these scenes were captured in the real-world, no ground-truth mesh exists. Moreover, we inspect the point cloud and mesh created by COLMAP and notice poor overall reconstruction of the collision geometry. Therefore, we elected to use the GSplat ellipsoidal geometry in place of the ground-truth geometry due to its high-quality approximation.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "VI-A3 Splat-Plan Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "VI-A3 Splat-Plan Evaluations", "weight": 1.0} -->
 
 Notice that these trajectories are non-conservative compared to the SFC methods. More importantly, we see that Splat-Plan never fails to return a trajectory, highlighted by the 0 failure rate. All other methods have failures, other than NeRF-Nav by virtue of it being an end-to-end optimization method. Finally, Splat-Plan has comparable execution times to SFC. Note that as SFC does not use GPU, we rewrote the codebase in Pytorch to yield comparable times to Splat-Plan.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "VI-A3 Splat-Plan Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "VI-A3 Splat-Plan Evaluations", "weight": 1.0} -->
 
 Finally, in terms of memory, we observe that in the scene with the most Gaussians (Old Union), GPU memory usage hovered around 3.1 GB, with the GSplat itself requiring 1.6 GB and the binary occupancy grid, 1.5GB.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "VI-B1 Test Environment", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "VI-B1 Test Environment", "weight": 1.0} -->
 
 We test Splat-Nav in the Maze scene using a drone. Images to train Maze were captured using the RGB camera onboard the drone. We utilize Nerfstudio to train the Semantic GSplat, using its default parameters. In Figure, we show the true training images captured by the drone, the rendered RGB image from the GSplat at the same camera pose, and the semantic relevancy for the associated language query. First, we note that the rendered image is photorealistic, highlighting the remarkable visual quality of the trained Gaussian Splat. Second, the semantic relevancy spatially agrees with the expected location of the queried object, making the semantic field suitable for open-vocabulary goal querying.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "VI-B2 Hardware", "weight": 1.0} -->
+<!-- chunk {"id": "body-0079", "role": "body", "section": "VI-B2 Hardware", "weight": 1.0} -->
 
 We test our pipeline on the Modal AI development drone platform measuring $29$ cm x $20$ cm x $10$ cm (diagonal length of $36.6$ cm). In the hardware tests, we approximate the robot using a sphere with diameter $0.5m$. Readers can find our test parameters in Table III. An OptiTrack motion capture system is solely used for evaluation purposes. Any other markers, such as ArUco tags, in the scene are purely cosmetic.
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "VI-B3 Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0080", "role": "body", "section": "VI-B3 Implementation", "weight": 1.0} -->
 
 We run the pose estimator and the planner ROS2 nodes on a desktop computer with an Nvidia RTX 4090 GPU and an Intel i9 13900K CPU, which communicates with the drone via WiFi. We emphasize that both modules are running asynchronously. At a frequency of about 3 Hz, the drone transmits images from its cameras and associated VIO poses to the desktop computer. Splat-Loc ingests the VIO pose ${\hat{T}}_{t,0}$ and the image $I_{t}$ to compute the pose estimate ${\hat{T}}_{t}$ of the drone body after applying rigid body transforms to transform the camera pose to the body frame. We run the estimator continuously, synchronized with the stream of images published from the drone via ROS2.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "VI-B3 Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0081", "role": "body", "section": "VI-B3 Implementation", "weight": 1.0} -->
 
 The planning module ingests ${\hat{T}}_{t}$ as $x_{0}$ and computes a safe trajectory for the drone to follow toward the language-conditioned goal $x_{f}$. The re-plan node, which runs Splat-Plan based on $x_{0}$, updates the spline(s) $X{(T)}$ as frequently as possible. The waypoint node, which operates asynchronously from the re-plan node, measures the running time since the $X{(T)}$ was last updated and returns positions, velocities, acceleration, and jerk at this running time. The waypoint node runs at 10 Hz. This architecture allows the drone to continue following a smooth spline even when Splat-Plan is still computing the next plan. However, we find that simply sending position waypoints can cause the drone to jerk when $X{(T)}$ is updated, as successive splines need not be close to one another. To rectify this issue, we forward integrate the waypoint velocities to get positions.
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "VI-B3 Implementation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0082", "role": "body", "section": "VI-B3 Implementation", "weight": 1.0} -->
 
 Finally, these positions undergo ${{}_{}^{(\text{control},t)}{}_{}^{}}{({X{(T)}})}$ before being sent to the drone. Additionally, we run a Kalman Filter to smooth ${}_{}^{(\text{control},t)}{}_{}^{}$, as both the Splat-Loc and VIO pose estimates can be somewhat noisy.
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "VI-B4 Goal Specification", "weight": 1.0} -->
+<!-- chunk {"id": "body-0083", "role": "body", "section": "VI-B4 Goal Specification", "weight": 1.0} -->
 
 In the Maze, we specify the goal locations for the drone via natural language, comprising of the following objects: a keyboard, beachball, phonebook, and microwave. We query the semantic Gaussian Splat for the location of these objects using the following text prompts: "keyboard," "beachball," "phonebook" and "microwave," corresponding to these objects, without negative prompts. These objects are placed in locations that require dynamic motions, such as hard turns and elevation maneuvers, to reach. Moreover, all tests begin at the same position at hover, and the objects are positioned relative to this position so that they are not immediately visible when the drone first begins flight.
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "VI-B5 Control Schemes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0084", "role": "body", "section": "VI-B5 Control Schemes", "weight": 1.0} -->
 
 Our hardware tests consist of three different control schemes, coined Open-loop, Closed-loop VIO, and Splat-Loc. Open-loop tests do not not re-plan, and therefore does not use Splat-Loc estimates. One trajectory is created at the start $T = 0$, and the control node returns the corresponding waypoint at that point in time. No forward integration of the velocities is necessary since only one trajectory is ever created. Closed-loop VIO and Splat-Loc are re-planning control schemes where the re-plan node updates the trajectory $X{(T)}$ as frequently as possible. Closed-loop VIO uses the VIO estimate as $x_{0}$ and no additional transform is applied to the waypoint. Conversely, Splat-Loc uses the Splat-Loc pose estimate as $x_{0}$, and the smoothed ${}_{}^{(\text{control},t)}{}_{}^{}$ is applied to the Splat-Plan trajectories to transform them into the VIO control frame.
 
-<!-- chunk {"id": "body-0084", "role": "body", "section": "VI-B5 Control Schemes", "weight": 1.0} -->
+<!-- chunk {"id": "body-0085", "role": "body", "section": "VI-B5 Control Schemes", "weight": 1.0} -->
 
 Our hardware tests consist of all combinations of goal locations and control schemes. In addition, we run these combinations 10 times for statistical significance, yielding a total of 120 flights.
 
-<!-- chunk {"id": "body-0085", "role": "body", "section": "VI-B6 Splat-Loc Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "VI-B6 Splat-Loc Evaluations", "weight": 1.0} -->
 
 We validate the performance of Splat-Loc in hardware experiments in the Maze scene, showing that Splat-Loc achieves relatively the same level of accuracy as the onboard VIO in estimating the drone's pose, without requiring any special calibration or re-initialization procedures for frame alignment, which the onboard VIO requires. In Table V, we provide the rotation and translation errors of the Splat-Loc estimates, with the MOCAP poses as the ground-truth estimates. We note that Splat-Loc achieves rotation errors of about 3 deg and translation errors of about 4 cm, which is comparable to the accuracy of the VIO estimates, shown in Table VI. However, Splat-Loc failed in one of the closed-loop trials with the "keyboard" goal location. As a result, the rotation and translation errors for this goal location is higher compared to the those of the other goal locations. The failure case is visualized in Figure 9, where the drone goes past the keyboard. We note that the failure likely occurred because the drone's camera was pointing towards an area of the scene which was not really covered in the video used in training the GSplat.
 
-<!-- chunk {"id": "body-0086", "role": "body", "section": "VI-B6 Splat-Loc Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0087", "role": "body", "section": "VI-B6 Splat-Loc Evaluations", "weight": 1.0} -->
 
 We discuss strategies for addressing such failure cases in Section VIII. In Figure 8, we show the estimated trajectories of the drone using MOCAP, the onboard VIO, and Splat-Loc, demonstrating the effectiveness of Splat-Loc. Essentially, all the pose estimators achieve comparable estimation accuracy. However, unlike the MOCAP system, Splat-Loc does not require a specialized hardware system and is amenable to any monocular camera. Moreover, Splat-Loc runs at about $25$ Hz on average, which is fast-enough for real-time operation. The bulk of the computation time is utilized in computing the feature matches and in solving the PnP problem, which requires about $10$ milliseconds.
 
-<!-- chunk {"id": "body-0087", "role": "body", "section": "VI-B7 Splat-Plan Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0088", "role": "body", "section": "VI-B7 Splat-Plan Evaluations", "weight": 1.0} -->
 
 Visualizations of 120 trajectories across four goal locations and three control schemes can be found in Fig. 9. Note that all flights were collision-free with respect to the true scene except for one flight using Splat-Loc to navigate to the keyboard. The drone was oriented toward the edge of the scene, where features were few and the GSplat quality was poor. The poor quality can be attributed to the lack of training images pointing toward the edges of the scene, as we wanted to reconstruct the foreground in the highest quality. These qualitative results indicate that, within the confines of our controlled setting, all control schemes work equally well. These results are promising for Splat-Loc from a convenience point of view. We noticed that the VIO of the drone would drift in subsequent runs, necessitating the reinitialization of the VIO at the start of every run. In addition, as the VIO is not calibrated to be in the GSplat frame, we manually aligned the frames by zero-ing the VIO of the drone at the same position for all flights and for collection of training data.
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "VI-B7 Splat-Plan Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "VI-B7 Splat-Plan Evaluations", "weight": 1.0} -->
 
 Meanwhile, Splat-Loc needed no such alignment, and was kept running continuously throughout all experiments without zero-ing (even in control schemes that do not use Splat-Loc).
 
-<!-- chunk {"id": "body-0089", "role": "body", "section": "VI-B7 Splat-Plan Evaluations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "VI-B7 Splat-Plan Evaluations", "weight": 1.0} -->
 
 Qualitatively, we see similar trends in Fig. 10. All control schemes are unsafe at different times, but in similar amounts. Note that some curves dip below 0, yet are verifiably safe in real-life. This is due to a variety of reasons, the most of prominent of which are: the difference in the set robot radius ($0.25$ cm) versus the true radius ($0.18$ cm), errors in aligning the motion capture frame into the frame of the GSplat (because the GSplat was not trained using motion capture), and the tracking capabilities of the drone. Note that the safety violation of all control schemes is relatively small compared to the size of the drone, which allows error in low-level tracking to obfuscate advantages of one method over another, especially in cluttered environments.
 
-<!-- chunk {"id": "body-0090", "role": "body", "section": "VI-B8 Fast Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0091", "role": "body", "section": "VI-B8 Fast Control", "weight": 1.0} -->
 
 We stress test Splat-Plan by increasing $v_{\max}$ until the onboard VIO could no longer track the desired waypoint with enough accuracy to avoid collision, which was ${1.5m}/s$. These speeds, coupled with the clutter in the environment, allowed for dynamic flight, which is visualized in the right column of Fig. 9. We point readers toward the associated videos hosted on our website to better visualize the trajectories.
 
-<!-- chunk {"id": "body-0091", "role": "body", "section": "VI-B9 Closed-loop Endurance", "weight": 1.0} -->
+<!-- chunk {"id": "body-0092", "role": "body", "section": "VI-B9 Closed-loop Endurance", "weight": 1.0} -->
 
 Finally, we stress test the Splat-Loc re-planning pipeline through endurance flights. The pipeline is left to continually execute. Once the drone reaches a goal location, another goal location is set. We demonstrate collision-free flight over the order of minutes, which can again be visualized on our website.
 
-<!-- chunk {"id": "body-0092", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0093", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We introduce an efficient navigation pipeline termed *Splat-Nav* for robots operating in GSplat environments. Splat-Nav consists of a guaranteed-safe planning module *Splat-Plan*, which allows for real-time planning ($>$ 2 Hz) by leveraging the ellipsoidal representation inherent in GSplats for efficient collision-checking and safe corridor generation, facilitating real-time online replanning. Splat-Plan demonstrates superior performance in terms of conservativeness, safety, success rate and comparable computation times compared to point-cloud and NeRF methods on the same scene. Moreover, our proposed pose estimation module *Splat-Loc* computes high-accuracy pose estimates faster (25 Hz) and more reliably compared to existing pose estimation algorithms for radiance fields, such as NeRFs. We present extensive hardware and simulation results, highlighting the effectiveness of Splat-Nav.
 
-<!-- chunk {"id": "body-0093", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0094", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
 We only tested Splat-Nav in pre-constructed scenes. Existing GSplat SLAM algorithms do not run in real-time, limiting the application of our method in online mapping. In future work, we seek to examine the derivation of real-time GSplat mapping methods, integrated with the planning and pose estimation algorithms proposed in this work. Additionally, the results from Section VI-A2 suggest that we can incorporate Splat-Loc as a localization module within online GSplat SLAM algorithms to improve localization accuracy and the resulting map quality.
 
-<!-- chunk {"id": "body-0094", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0095", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
 We assumed that the pre-constructed scenes were correct. Safety of the planned trajectories depends on the quality of the underlying GSplat map. As noted in Remark 3. ‣ IV Planning with Safe Polytopes ‣ Splat-Nav: Safe Real-Time Robot Navigation in Gaussian Splatting Maps"), we can use different confidence levels of the ellipsoids to account for uncertainty in an object in the GSplat map. Splat-Plan cannot do anything if an obstacle is completely missing from the scene, which is a fundamental limitation of the GSplat map representation. Likewise, Splat-Plan could fail if the initialization graph-search procedure which utilizes Dijkstra fails to find a path to the goal, which could occur in maps with a coarse resolution. Future work will examine uncertainty quantification of different regions within a GSplat scene to aid the design of active-planning algorithms that enable a robot to collect additional observations in low-quality regions, such as areas with missing/non-existent geometry, while updating the GSplat scene representation via online mapping.
 
-<!-- chunk {"id": "body-0095", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
 We only tested Splat-Nav in a static scene. This could be a limitation in many practical problems. Using NeRFs and GSplat for dynamic environments remains an open area of research, especially in scenes without prerecorded motion. Splat-Plan is fast enough to be extended easily to problems with dynamic scenes so long as the underlying dynamic GSplat representation is available.
 
-<!-- chunk {"id": "body-0096", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
 The performance of Splat-Loc depends on the presence of informative features in the scene. We can address this in two ways: through planning and by incorporating additional sensor data. Future work will explore the design of planning algorithms that bias the path towards feature-rich regions, improving localization accuracy during path execution. Future work will also incorporate IMU data to improve the robustness of the pose estimator, particularly in featureless regions of the scene where the PnP-RANSAC procedure might fail.
 
-<!-- chunk {"id": "body-0097", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0098", "role": "body", "section": "Limitations and Future Work", "weight": 1.5} -->
 
 Splat-Plan and Splat-Nav require loading the GSplat model onto the GPU, which takes up about 10 GB of GPU memory. Many drone platforms do not have the onboard compute resources to load the GSplat model, hindering onboard computation. Future work will seek to reduce the memory-usage demands of GSplat models, e.g., using sparse GSplat models.

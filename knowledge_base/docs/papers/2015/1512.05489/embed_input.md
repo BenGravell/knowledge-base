@@ -267,11 +267,11 @@ which minimizes a linear cost over the set of all $\delta$-suboptimal solutions 
 
 <!-- chunk {"id": "body-0067", "role": "body", "section": "7.1.A. Consistent Noisy Measurements", "weight": 1.0} -->
 
-Decision problem of the observer: The observer aims to identify a linear hypothesis ${F_{\theta}{(s,x)}} ≔ \left\langle \theta,x \right\rangle$, $\theta \in \Theta$, that best predicts the agent's responses to new signals, where the search space $\Theta$ is set to the $\infty$-norm ball around the nominal model $\theta_{0}$ described above. We assume that the observer minimizes the suboptimality loss (4b. ‣ 2. Inverse Optimization under Perfect Information ‣ Data-driven Inverse Optimization with Imperfect Information")) and uses the expected value to measure risk. Moreover, the observer solves the distributionally robust inverse optimization problem over a $1$-Wasserstein ball around the empirical distribution on the training samples, where the $\infty$-norm is used as the transportation cost on $\Xi$. Note that this problem can be reformulated as the tractable linear program (25. ‣ 5. Linear Hypotheses ‣ Data-driven Inverse Optimization with Imperfect Information")) by virtue of Theorem 5.2. ‣ 5.
+Decision problem of the observer: The observer aims to identify a linear hypothesis ${F_{\theta}{(s,x)}} ≔ \left\langle \theta,x \right\rangle$, $\theta \in \Theta$, that best predicts the agent's responses to new signals, where the search space $\Theta$ is set to the $\infty$-norm ball around the nominal model $\theta_{0}$ described above. We assume that the observer minimizes the suboptimality loss (4b. ‣ 2. Inverse Optimization under Perfect Information ‣ Data-driven Inverse Optimization with Imperfect Information")) and uses the expected value to measure risk. Moreover, the observer solves the distributionally robust inverse optimization problem over a $1$-Wasserstein ball around the empirical distribution on the training samples, where the $\infty$-norm is used as the transportation cost on $\Xi$. Note that this problem can be reformulated as the tractable linear program (25. ‣ 5. Linear Hypotheses ‣ Data-driven Inverse Optimization with Imperfect Information")) by virtue of Theorem 5.2.
 
 <!-- chunk {"id": "body-0068", "role": "body", "section": "7.1.A. Consistent Noisy Measurements", "weight": 1.0} -->
 
-Linear Hypotheses ‣ Data-driven Inverse Optimization with Imperfect Information").
+‣ 5. Linear Hypotheses ‣ Data-driven Inverse Optimization with Imperfect Information").
 
 <!-- chunk {"id": "body-0069", "role": "body", "section": "7.1.A. Consistent Noisy Measurements", "weight": 1.0} -->
 
@@ -387,11 +387,11 @@ Decision problem of the agent: Assume that there are $n$ products with prices $s
 
 <!-- chunk {"id": "body-0097", "role": "body", "section": "7.2.B. Consistent Noisy Measurements", "weight": 1.0} -->
 
-Sample a square matrix $A$ uniformly form ${\lbrack{- 1},1\rbrack}^{n \times n}$, denote by $R$ the orthogonal matrix consisting of the orthonormal eigenvectors of ${({A + A^{\intercal}})}/2$ and set $Q_{xx}^{\star} ≔ {R^{\intercal}DR}$, where $D$ is a diagonal matrix whose main diagonal is sampled uniformly form ${\lbrack 0.2,1\rbrack}^{n}$. Moreover, the gradient $q^{\star}$ is sampled uniformly from ${\lbrack{- 2},0\rbrack}^{n}$. Finally, define the agent's feasible set as ${{\mathbb{X}}{(s)}} = {\lbrack 0,5\rbrack}^{n}$, which can be brought to the standard form of Assumption 5.1. ‣ 5.
+Sample a square matrix $A$ uniformly form ${\lbrack{- 1},1\rbrack}^{n \times n}$, denote by $R$ the orthogonal matrix consisting of the orthonormal eigenvectors of ${({A + A^{\intercal}})}/2$ and set $Q_{xx}^{\star} ≔ {R^{\intercal}DR}$, where $D$ is a diagonal matrix whose main diagonal is sampled uniformly form ${\lbrack 0.2,1\rbrack}^{n}$. Moreover, the gradient $q^{\star}$ is sampled uniformly from ${\lbrack{- 2},0\rbrack}^{n}$. Finally, define the agent's feasible set as ${{\mathbb{X}}{(s)}} = {\lbrack 0,5\rbrack}^{n}$, which can be brought to the standard form of Assumption 5.1.
 
 <!-- chunk {"id": "body-0098", "role": "body", "section": "7.2.B. Consistent Noisy Measurements", "weight": 1.0} -->
 
-Linear Hypotheses ‣ Data-driven Inverse Optimization with Imperfect Information") by setting
+‣ 5. Linear Hypotheses ‣ Data-driven Inverse Optimization with Imperfect Information") by setting
 
 <!-- chunk {"id": "body-0099", "role": "body", "section": "7.2.B. Consistent Noisy Measurements", "weight": 1.0} -->
 
@@ -415,11 +415,11 @@ Decision problem of the observer: The observer aims to identify the best quadrat
 
 <!-- chunk {"id": "body-0104", "role": "body", "section": "7.2.B. Consistent Noisy Measurements", "weight": 1.0} -->
 
-Note that no hypothesis $F_{\theta}{(s,x)}$, $\theta \in \Theta$, can vanish identically due to the term $\left\langle x,s \right\rangle$. Note also that the agent's true objective function corresponds to $\theta^{\star} = {(Q_{xx}^{\star},q^{\star})} \in \Theta$. We assume that the observer minimizes the suboptimality loss (4b. ‣ 2. Inverse Optimization under Perfect Information ‣ Data-driven Inverse Optimization with Imperfect Information")), uses the expected value to measure risk and solves the distributionally robust inverse optimization problem over a $2$-Wasserstein ball around the empirical distribution on the training samples, where the $2$-norm is used as the transportation cost on $\Xi$. By Theorem 6.3. ‣ 6. Quadratic Hypotheses ‣ Data-driven Inverse Optimization with Imperfect Information"), the emerging inverse optimization problem is conservatively approximated by the tractable semidefinite program (53. ‣ 6.
+Note that no hypothesis $F_{\theta}{(s,x)}$, $\theta \in \Theta$, can vanish identically due to the term $\left\langle x,s \right\rangle$. Note also that the agent's true objective function corresponds to $\theta^{\star} = {(Q_{xx}^{\star},q^{\star})} \in \Theta$. We assume that the observer minimizes the suboptimality loss (4b. ‣ 2. Inverse Optimization under Perfect Information ‣ Data-driven Inverse Optimization with Imperfect Information")), uses the expected value to measure risk and solves the distributionally robust inverse optimization problem over a $2$-Wasserstein ball around the empirical distribution on the training samples, where the $2$-norm is used as the transportation cost on $\Xi$. By Theorem 6.3. ‣ 6. Quadratic Hypotheses ‣ Data-driven Inverse Optimization with Imperfect Information"), the emerging inverse optimization problem is conservatively approximated by the tractable semidefinite program (53.
 
 <!-- chunk {"id": "body-0105", "role": "body", "section": "7.2.B. Consistent Noisy Measurements", "weight": 1.0} -->
 
-Quadratic Hypotheses ‣ Data-driven Inverse Optimization with Imperfect Information")).
+‣ 6. Quadratic Hypotheses ‣ Data-driven Inverse Optimization with Imperfect Information")).
 
 <!-- chunk {"id": "body-0106", "role": "body", "section": "7.2.B. Consistent Noisy Measurements", "weight": 1.0} -->
 
@@ -455,11 +455,11 @@ Note that for any fixed $\varepsilon$ the figure reports the out-of-sample risk 
 
 <!-- chunk {"id": "body-0114", "role": "body", "section": "7.2.B. Model Uncertainty", "weight": 1.0} -->
 
-Assume next that the agent's objective function is not contained in the set of hypotheses $F_{\theta}{(s,x)}$, $\theta \in \Theta$, but that the signals and the agent's responses are unaffected by noise. Specifically, in analogy to, we assume that the true utility function is given by ${U{(x)}} ≔ \left\langle 1,\sqrt{{Ax} - b} \right\rangle$, where $A$ is a diagonal matrix whose main diagonal is sampled uniformly from ${\lbrack 0.5,1\rbrack}^{n}$, while $b$ is sampled uniformly from ${\lbrack 0,0.25\rbrack}^{n}$. The square root is applied componentwise and evaluates to $- \infty$ for negative arguments. Otherwise, we consider the exact same experimental setup as in Section 7.2.B.
+Assume next that the agent's objective function is not contained in the set of hypotheses $F_{\theta}{(s,x)}$, $\theta \in \Theta$, but that the signals and the agent's responses are unaffected by noise. Specifically, in analogy to, we assume that the true utility function is given by ${U{(x)}} ≔ \left\langle 1,\sqrt{{Ax} - b} \right\rangle$, where $A$ is a diagonal matrix whose main diagonal is sampled uniformly from ${\lbrack 0.5,1\rbrack}^{n}$, while $b$ is sampled uniformly from ${\lbrack 0,0.25\rbrack}^{n}$. The square root is applied componentwise and evaluates to $- \infty$ for negative arguments.
 
 <!-- chunk {"id": "body-0115", "role": "body", "section": "7.2.B. Model Uncertainty", "weight": 1.0} -->
 
-Figure 3(c) shows the out-of-sample suboptimality and predictability risk of the optimal estimator $\hat{\theta}{(\varepsilon)}$ as a function of $\varepsilon$, indicating that the best results are obtained for strictly positive Wasserstein radii, which enable the observer to combat over-fitting to the training samples.
+Otherwise, we consider the exact same experimental setup as in Section 7.2.B. Figure 3(c) shows the out-of-sample suboptimality and predictability risk of the optimal estimator $\hat{\theta}{(\varepsilon)}$ as a function of $\varepsilon$, indicating that the best results are obtained for strictly positive Wasserstein radii, which enable the observer to combat over-fitting to the training samples.
 
 <!-- chunk {"id": "body-0116", "role": "body", "section": "7.2.B. Comparison of Different Data-Driven Inverse Optimization Schemes", "weight": 1.0} -->
 

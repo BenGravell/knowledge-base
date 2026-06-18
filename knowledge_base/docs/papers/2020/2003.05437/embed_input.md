@@ -262,11 +262,11 @@ Neither of these bounds represents a strict improvement over the other or over t
 
 <!-- chunk {"id": "body-0066", "role": "body", "section": "Remark 5.3 (Uniform Bounds on Factors)", "weight": 1.0} -->
 
-Compare these results with (5.5. ‣ 5.2. Growth and Concentration ‣ 5. A Product of Independent Random Matrices ‣ Matrix Concentration for Products")), (5.6. ‣ 5.2. Growth and Concentration ‣ 5. A Product of Independent Random Matrices ‣ Matrix Concentration for Products")), and (5.8). As for the proof, the growth bound (5.9. ‣ 5.2. Growth and Concentration ‣ 5. A Product of Independent Random Matrices ‣ Matrix Concentration for Products")) is an immediate consequence of the definition ${\mathbf{Z}}_{n} = {{\mathbf{Y}}_{n}\cdots{\mathbf{Y}}_{1}{\mathbf{Z}}_{0}}$. The concentration result (5.10. ‣ 5.2. Growth and Concentration ‣ 5. A Product of Independent Random Matrices ‣ Matrix Concentration for Products")) follows if we repeat the proof of (5.6. ‣ 5.2. Growth and Concentration ‣ 5.
+Compare these results with (5.5. ‣ 5.2. Growth and Concentration ‣ 5. A Product of Independent Random Matrices ‣ Matrix Concentration for Products")), (5.6. ‣ 5.2. Growth and Concentration ‣ 5. A Product of Independent Random Matrices ‣ Matrix Concentration for Products")), and (5.8). As for the proof, the growth bound (5.9. ‣ 5.2. Growth and Concentration ‣ 5. A Product of Independent Random Matrices ‣ Matrix Concentration for Products")) is an immediate consequence of the definition ${\mathbf{Z}}_{n} = {{\mathbf{Y}}_{n}\cdots{\mathbf{Y}}_{1}{\mathbf{Z}}_{0}}$. The concentration result (5.10. ‣ 5.2. Growth and Concentration ‣ 5. A Product of Independent Random Matrices ‣ Matrix Concentration for Products")) follows if we repeat the proof of (5.6.
 
 <!-- chunk {"id": "body-0067", "role": "body", "section": "Remark 5.3 (Uniform Bounds on Factors)", "weight": 1.0} -->
 
-A Product of Independent Random Matrices ‣ Matrix Concentration for Products")), using the growth bound (5.9. ‣ 5.2. Growth and Concentration ‣ 5. A Product of Independent Random Matrices ‣ Matrix Concentration for Products")) in place of (5.5. ‣ 5.2. Growth and Concentration ‣ 5. A Product of Independent Random Matrices ‣ Matrix Concentration for Products")).
+‣ 5.2. Growth and Concentration ‣ 5. A Product of Independent Random Matrices ‣ Matrix Concentration for Products")), using the growth bound (5.9. ‣ 5.2. Growth and Concentration ‣ 5. A Product of Independent Random Matrices ‣ Matrix Concentration for Products")) in place of (5.5. ‣ 5.2. Growth and Concentration ‣ 5. A Product of Independent Random Matrices ‣ Matrix Concentration for Products")).
 
 <!-- chunk {"id": "body-0068", "role": "body", "section": "Expectation Bounds for the Spectral Norm", "weight": 1.0} -->
 

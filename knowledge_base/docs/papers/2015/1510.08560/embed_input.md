@@ -240,58 +240,62 @@ Under this assumption, by the triangle inequality, ${\nabla^{2}f}{( \cdot )}$ is
 
 <!-- chunk {"id": "body-0060", "role": "body", "section": "Assumption 5.1", "weight": 1.0} -->
 
-(see e.g. \[18, Section 1.3\]) The analysis of Theorem 3 (and Lemma B.4 it builds upon) considers the $U = 0$ case (see e.g. (36 ‣ Proof. ‣ 4.2 Convergence rate with averaging ‣ 4 Quadratic component functions ‣ Why Random Reshuffling Beats Stochastic Gradient Descent")) and (48 ‣ Proof. ‣ 4.2 Convergence rate with averaging ‣ 4 Quadratic component functions ‣ Why Random Reshuffling Beats Stochastic Gradient Descent"))) applying a first-order Taylor approximation to the gradient of the component functions at $x = x_{0}^{k}$ where ${\|{x - x^{\ast}}\|} = {\|{x_{0}^{k} - x^{\ast}}\|} = {\mathcal{O}{(\alpha_{k})}}$ by Lemma B.1.
+(see e.g. \[18, Section 1.3\]) The analysis of Theorem 3 (and Lemma B.4 it builds upon) considers the $U = 0$ case (see e.g. (36 ‣ Proof. ‣ 4.2 Convergence rate with averaging ‣ 4 Quadratic component functions ‣ Why Random Reshuffling Beats Stochastic Gradient Descent")) and (48 ‣ Proof.
 
 <!-- chunk {"id": "body-0061", "role": "body", "section": "Assumption 5.1", "weight": 1.0} -->
 
-Therefore, when $U \neq 0$, an extra correction term $\eta = {\mathcal{O}{(\alpha_{k}^{2})}}$ needs to be added to the analysis. However, we show in the next theorem that this correction term does not cause a slow down in the convergence rate (in terms of dependency in $k$) compared to the quadratic case because the $q$-suffix averages of this $\mathcal{O}{(\alpha_{k}^{2})}$ correction term decays like $\mathcal{O}{({1/k})}$.^88^8This is due to the fact that the sequence $\alpha_{k}^{2}$ is summable when $s > {1/2}$.
+‣ 4.2 Convergence rate with averaging ‣ 4 Quadratic component functions ‣ Why Random Reshuffling Beats Stochastic Gradient Descent"))) applying a first-order Taylor approximation to the gradient of the component functions at $x = x_{0}^{k}$ where ${\|{x - x^{\ast}}\|} = {\|{x_{0}^{k} - x^{\ast}}\|} = {\mathcal{O}{(\alpha_{k})}}$ by Lemma B.1. Therefore, when $U \neq 0$, an extra correction term $\eta = {\mathcal{O}{(\alpha_{k}^{2})}}$ needs to be added to the analysis.
 
 <!-- chunk {"id": "body-0062", "role": "body", "section": "Assumption 5.1", "weight": 1.0} -->
 
+However, we show in the next theorem that this correction term does not cause a slow down in the convergence rate (in terms of dependency in $k$) compared to the quadratic case because the $q$-suffix averages of this $\mathcal{O}{(\alpha_{k}^{2})}$ correction term decays like $\mathcal{O}{({1/k})}$.^88^8This is due to the fact that the sequence $\alpha_{k}^{2}$ is summable when $s > {1/2}$.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Assumption 5.1", "weight": 1.0} -->
+
 We will also need one more technical assumption that appeared in a number of papers in the literature for analyzing incremental methods to rule out the case that the iterates diverge to infinity. In particular, this assumption is made in for generalizing Theorem 20 on the rate of deterministic IG from quadratic functions to general smooth functions which we will be referring to.
-
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Assumption 5.2", "weight": 1.0} -->
-
-Iterates ${\{ x_{j}^{k}\}}_{j,k}$ generated are uniformly bounded, i.e. there exists a non-empty compact Euclidean ball $\mathcal{X} \subset {\mathbb{R}}^{n}$ that contains all the iterates a.s.^99^9Note that if this assumption holds and if $f_{i}$ is three-times continuously differentiable on the compact set $\mathcal{X}$, then the third-order derivatives are bounded and Assumption 5.1 holds.
 
 <!-- chunk {"id": "body-0064", "role": "body", "section": "Assumption 5.2", "weight": 1.0} -->
 
+Iterates ${\{ x_{j}^{k}\}}_{j,k}$ generated are uniformly bounded, i.e. there exists a non-empty compact Euclidean ball $\mathcal{X} \subset {\mathbb{R}}^{n}$ that contains all the iterates a.s.^99^9Note that if this assumption holds and if $f_{i}$ is three-times continuously differentiable on the compact set $\mathcal{X}$, then the third-order derivatives are bounded and Assumption 5.1 holds.
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Assumption 5.2", "weight": 1.0} -->
+
 Equipped with these two assumptions, all the results of Theorem 3 extend naturally with minor modifications. In particular, $P_{i}$ (which is a constant Hessian matrix in the setting of Theorem 3) needs to be replaced by ${\nabla^{2}f_{i}}{(x^{\ast})}$ or ${\nabla^{2}f_{i}}{(x_{i - 1}^{k})}$ depending on the context.
-
-<!-- chunk {"id": "body-0065", "role": "body", "section": "An RR algorithm with bias removal", "weight": 1.0} -->
-
-Part $({iii})$ of Theorem 4 (see also part $({iii})$ of Theorem 3) shows that if the estimate of the bias term ${\hat{r}}_{q,k}$ given by (51 ‣ Theorem 4. ‣ 5 Extension to smooth component functions ‣ Why Random Reshuffling Beats Stochastic Gradient Descent")) is subtracted from the $q$-suffix averaged RS iterates, then the distance to the optimal solution of the $q$-suffix averaged iterates becomes on the order of $\mathcal{O}{({1/k})}$ for $0 < q < 1$ and on the order of $\mathcal{O}{({\log{k/k}})}$ for $q = 1$ with high probability.
 
 <!-- chunk {"id": "body-0066", "role": "body", "section": "An RR algorithm with bias removal", "weight": 1.0} -->
 
-By strong convexity, this translates into a rate of $\overset{\sim}{\mathcal{O}}{({1/k^{2}})}$ in the suboptimality of the objective values (where $\overset{\sim}{\mathcal{O}}$ ignores the logarithmic terms in $k$ appearing when $q = 1$.). We call this "subtraction operation", bias removal. Algorithm DRR describes how this can be implemented. In a practical implementation, the number of cycles can be fixed in advance to a certain number $K$, and the estimation of the bias can be done only once at the last ($K$-th) cycle (see Step $({ii})$ of Algorithm 1) and then can be subtracted from the averaged iterates.
+Part $({iii})$ of Theorem 4 (see also part $({iii})$ of Theorem 3) shows that if the estimate of the bias term ${\hat{r}}_{q,k}$ given by (51 ‣ Theorem 4. ‣ 5 Extension to smooth component functions ‣ Why Random Reshuffling Beats Stochastic Gradient Descent")) is subtracted from the $q$-suffix averaged RS iterates, then the distance to the optimal solution of the $q$-suffix averaged iterates becomes on the order of $\mathcal{O}{({1/k})}$ for $0 < q < 1$ and on the order of $\mathcal{O}{({\log{k/k}})}$ for $q = 1$ with high probability.
 
 <!-- chunk {"id": "body-0067", "role": "body", "section": "An RR algorithm with bias removal", "weight": 1.0} -->
+
+By strong convexity, this translates into a rate of $\overset{\sim}{\mathcal{O}}{({1/k^{2}})}$ in the suboptimality of the objective values (where $\overset{\sim}{\mathcal{O}}$ ignores the logarithmic terms in $k$ appearing when $q = 1$.). We call this "subtraction operation", bias removal. Algorithm DRR describes how this can be implemented. In a practical implementation, the number of cycles can be fixed in advance to a certain number $K$, and the estimation of the bias can be done only once at the last ($K$-th) cycle (see Step $({ii})$ of Algorithm 1) and then can be subtracted from the averaged iterates.
+
+<!-- chunk {"id": "body-0068", "role": "body", "section": "An RR algorithm with bias removal", "weight": 1.0} -->
 
 Input: Initial point x00 ∈ ℝn, number of cycles K ∈ ℕ, suffix averaging parameter q ∈ (0, 1], stepsize parameters R &gt; 0 and s ∈ (1/2,1).
 Initialization: ${\overline{x}}_{1,0} = 0 \in {\mathbb{R}}^{n}$, v̂0 = 0 ∈ ℝn, ${\overline{\alpha}}_{1,0} = 0 \in {\mathbb{R}}$, Ĥ0 = 0 ∈ ℝn × n.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "An RR algorithm with bias removal", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "An RR algorithm with bias removal", "weight": 1.0} -->
 
 Output: ${\overline{x}}_{q,K} - {\hat{b}}_{q,K}$.
 Algorithm 1 De-biased Random Reshuffling (DRR)
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "An RR algorithm with bias removal", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "An RR algorithm with bias removal", "weight": 1.0} -->
 
 The bias removal of the DRR algorithm requires an $n \times n$ matrix inversion which requires $\approx n^{3}$ arithmetic operations (if there is more structure on the Hessian of $f_{i}$ such as low-rankness or sparsity this could be improved to $\approx n^{2}$), but accelerates the convergence with high-probability. For small or moderate $n$, this could be done efficiently and incrementally processing the functions one at a time; however for large $n$ this may be impractical or infeasible limiting the applicability of this method. Nevertheless, the expensive matrix inversion step does not need to be done at every cycle, it suffices to do it only once at the end of the last cycle. Figure 3 compares the performance of SGD, RR and DRR methods in terms of the histogram of the distance to the optimal solution (left panel) and suboptimality of the objective function (right panel) on a randomly generated quadratic example with a dense Hessian matrix with parameters $m = 50$, $n = 20$.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "An RR algorithm with bias removal", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "An RR algorithm with bias removal", "weight": 1.0} -->
 
 For a fair comparison, we run all the algorithms with the same amount of CPU time. In particular, in Figure 3 we run DRR for 0.5 seconds including the bias correction step, and run RR and SGD for the same amount of time. We observe that SGD is consistently performing the worst, whereas DRR leads often to a better solution than RR both in terms of distances to the optimal solution and suboptimality. Figure 3 repeats the experiment with 5 seconds, we see a clearer separation between the histograms of the RR method and the De-biased RR method. We see similar results when we run the algorithms for different amount of times. These results show that the asymptotic performance would get better if one removes the bias term and typically we need more cycles for the bias correction term to be effective. The results also illustrate the results of Theorem 3 and 4 on the biasedness of the RR iterations in the sense that asymptotically an improvement can be obtained by subtracting the bias.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We analyzed the random reshuffling (RR) method for minimizing a finite sum of convex component functions. When the objective function is strongly convex and the component functions are smooth, averaged RR iterates converge at rate $\sim {1/k^{s}}$ to the optimal solution almost surely (which translates into a rate of $1/k^{2s}$ in the suboptimality of the objective value) for a diminishing stepsize $\alpha_{k} = {\Theta{({1/k^{s}})}}$ with $s \in {({1/2},1)}$. This is faster than SGD's $\Omega{(\frac{1}{k})}$ rate. Viewing RR as a gradient descent method with random gradient errors, this result builds on first showing that gradient errors $E_{k}$ satisfying $E_{k} = {\mathcal{O}{(\alpha_{k})}}$ and then relating the gradient error sequence to an i.i.d sequence to which martingale theory is applicable.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 Note that the gradient errors in SGD are larger with a $\mathcal{O}{}$ variance, which leads to a less accurate gradient descent direction. Beyond RR and SGD comparison, these results also give insight into the fast convergence properties of without-replacement sampling strategies compared to with-replacement sampling strategies.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 After characterizing the convergence rate of RR, we look into second-order terms in the asymptotic expansion of the averaged RR iterates and obtain high probability bounds. We use these bounds to develop a new method that can accelerate the convergence rate of RR to $\mathcal{O}{(\frac{1}{k^{2}})}$ with high probability. Finally, we show that the $\mathcal{O}{(\frac{1}{k^{2}})}$ rate can also be achieved in expectation (which is a weaker notion of convergence with respect to convergence with high probability) for the $s = 1$ case by adjusting the stepsize to the strong convexity constant of the objective properly.

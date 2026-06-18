@@ -508,171 +508,76 @@ We believe that further scaling of both model parameters and dataset size and qu
 
 <!-- chunk {"id": "body-0125", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Large Model Training\
-Andrew M. Dai, Core Contributor\
-David R. So, Core Contributor\
-Dmitry Lepikhin, Core Contributor\
-Jonathan H. Clark, Core Contributor\
-Maxim Krikun, Core Contributor\
-Melvin Johnson, Core Contributor\
-Nan Du, Core Contributor\
-Rohan Anil, Core Contributor\
-Siamak Shakeri, Core Contributor\
-Xavier Garcia, Core Contributor\
-Yanping Huang, Core Contributor\
-Yi Tay, Core Contributor\
-Yong Cheng, Core Contributor\
-Yonghui Wu, Core Contributor\
-Yuanzhong Xu, Core Contributor\
-Yujing Zhang, Core Contributor\
-Zachary Nado, Core Contributor\
-Pre-training Data and Mixture Workstream\
-Siamak Shakeri, Lead\
-Andrew M. Dai, Core Contributor\
-Bryan Richter, Core Contributor\
-Nan Du, Core Contributor\
-Alex Polozov, Contributor\
-Andrew Nystrom, Contributor\
-Fangxiaoyu Feng, Contributor\
-Hanzhao Lin, Contributor\
-Jacob Austin, Contributor\
-Jacob Devlin, Contributor\
-Kefan Xiao, Contributor\
-Maxim Krikun, Contributor\
-Melvin Johnson, Contributor\
-Orhan Firat, Contributor\
-Parker Riley, Contributor\
-Steven Zheng, Contributor\
-Zhongtao Liu, Contributor\
-Architecture and Modeling Workstream\
-Andrew M.
+Large Model Training\ Andrew M. Dai, Core Contributor\ David R. So, Core Contributor\ Dmitry Lepikhin, Core Contributor\ Jonathan H. Clark, Core Contributor\ Maxim Krikun, Core Contributor\ Melvin Johnson, Core Contributor\ Nan Du, Core Contributor\ Rohan Anil, Core Contributor\ Siamak Shakeri, Core Contributor\ Xavier Garcia, Core Contributor\ Yanping Huang, Core Contributor\ Yi Tay, Core Contributor\ Yong Cheng, Core Contributor\ Yonghui Wu, Core Contributor\ Yuanzhong Xu, Core Contributor\ Yujing Zhang, Core Contributor\ Zachary Nado, Core Contributor\ Pre-training Data and Mixture Workstream\ Siamak Shakeri, Lead\ Andrew M. Dai, Core Contributor\ Bryan Richter, Core Contributor\ Nan Du, Core Contributor\ Alex Polozov, Contributor\ Andrew Nystrom, Contributor\ Fangxiaoyu Feng, Contributor\ Hanzhao Lin, Contributor\ Jacob Austin, Contributor\ Jacob Devlin, Contributor\ Kefan Xiao, Contributor\ Maxim Krikun, Contributor\ Melvin Johnson, Contributor\ Orhan Firat, Contributor\ Parker Riley, Contributor\ Steven Zheng, Contributor\ Zhongtao Liu, Contributor\ Architecture and Modeling Workstream\ Andrew M. Dai,
 
 <!-- chunk {"id": "body-0126", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Dai, Co-Lead\
-Dmitry Lepikhin, Co-Lead\
-David R. So, Core Contributor\
-Jiahui Yu, Core Contributor\
-Siamak Shakeri, Core Contributor\
-Xavier Garcia, Core Contributor\
-Yonghui Wu, Core Contributor\
-Guy Gur-Ari, Contributor\
-Mostafa Dehghani, Contributor\
-Orhan Firat, Contributor\
-Weikang Zhou, Contributor\
-Yanping Huang, Contributor\
-Gaurav Mishra, Co-Lead\
-Jonathan H. Clark, Co-Lead\
-Mark Omernick, Co-Lead\
-Sebastian Ruder, Co-Lead (Tech Report)\
-Melvin Johnson, Core Contributor\
-Yanping Huang, Core Contributor\
-Ambrose Slone, Contributor\
-Andrew M.
+Co-Lead\ Dmitry Lepikhin, Co-Lead\ David R. So, Core Contributor\ Jiahui Yu, Core Contributor\ Siamak Shakeri, Core Contributor\ Xavier Garcia, Core Contributor\ Yonghui Wu, Core Contributor\ Guy Gur-Ari, Contributor\ Mostafa Dehghani, Contributor\ Orhan Firat, Contributor\ Weikang Zhou, Contributor\ Yanping Huang, Contributor\ Gaurav Mishra, Co-Lead\ Jonathan H. Clark, Co-Lead\ Mark Omernick, Co-Lead\ Sebastian Ruder, Co-Lead (Tech Report)\ Melvin Johnson, Core Contributor\ Yanping Huang, Core Contributor\ Ambrose Slone, Contributor\ Andrew M. Dai, Contributor\ Colin Cherry, Contributor\ Denny Zhou, Contributor\ Gustavo Hernandez Abrego, Contributor\ Jacob Austin, Contributor\ Jan Botha, Contributor\ John Wieting, Contributor\ Joshua Maynez, Contributor\ Kathleen Kenealy, Contributor\ Kefan Xiao, Contributor\ Kevin Brooks, Contributor\ Linting Xue, Contributor\ Markus Freitag, Contributor\ Martin Polacek, Contributor\ Maxim Krikun, Contributor\ Michele Catasta, Contributor\ Orhan Firat,
 
 <!-- chunk {"id": "body-0127", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Dai, Contributor\
-Colin Cherry, Contributor\
-Denny Zhou, Contributor\
-Gustavo Hernandez Abrego, Contributor\
-Jacob Austin, Contributor\
-Jan Botha, Contributor\
-John Wieting, Contributor\
-Joshua Maynez, Contributor\
-Kathleen Kenealy, Contributor\
-Kefan Xiao, Contributor\
-Kevin Brooks, Contributor\
-Linting Xue, Contributor\
-Markus Freitag, Contributor\
-Martin Polacek, Contributor\
-Maxim Krikun, Contributor\
-Michele Catasta, Contributor\
-Orhan Firat, Contributor\
-Parker Riley, Contributor\
-Pengcheng Yin, Contributor\
-Sebastian Gehrmann, Contributor\
-Siamak Shakeri, Contributor\
-Xavier Garcia, Contributor\
-Xuezhi Wang, Contributor\
-Kathy Meier-Hellstern, Co-Lead\
-Kevin Robinson, Co-Lead\
-Christopher A.
+Contributor\ Parker Riley, Contributor\ Pengcheng Yin, Contributor\ Sebastian Gehrmann, Contributor\ Siamak Shakeri, Contributor\ Xavier Garcia, Contributor\ Xuezhi Wang, Contributor\ Kathy Meier-Hellstern, Co-Lead\ Kevin Robinson, Co-Lead\ Christopher A. Choquette-Choo, Core Contributor\ Daniel Smilkov, Core Contributor\ Emily Reif, Core Contributor\ Alicia Parrish, Contributor\ Alex Castro Ros, Contributor\ Clément Crepy, Contributor\ Dasha Valter, Contributor\ Jeremy Hurwitz, Contributor\ Katherine Lee, Contributor\ Marie Pellat, Contributor\ Matthew Jagielski, Contributor\ Orhan Firat, Contributor\ Renee Shelby, Contributor\ Shachi Dave, Contributor\ Sneha Kudugunta, Contributor\ Sunipa Dev, Contributor\ Melvin Johnson, Lead\ Abe Ittycheriah, Core Contributor\ Aditya Siddhant, Core Contributor\ Andy Coenen, Core Contributor\ Daniel Sohn, Core Contributor\ Frederick Liu, Core Contributor\ Gustavo Hernandez Abrego, Core Contributor\ Jacob Devlin, Core Contributor\ Kelvin Xu, Core Contributor\ Le Hou, Core Contributor\ Matthew Lamm, Core Contributor\ Music
 
 <!-- chunk {"id": "body-0128", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Choquette-Choo, Core Contributor\ Daniel Smilkov, Core Contributor\ Emily Reif, Core Contributor\ Alicia Parrish, Contributor\ Alex Castro Ros, Contributor\ Clément Crepy, Contributor\ Dasha Valter, Contributor\ Jeremy Hurwitz, Contributor\ Katherine Lee, Contributor\ Marie Pellat, Contributor\ Matthew Jagielski, Contributor\ Orhan Firat, Contributor\ Renee Shelby, Contributor\ Shachi Dave, Contributor\ Sneha Kudugunta, Contributor\ Sunipa Dev, Contributor\ Melvin Johnson, Lead\ Abe Ittycheriah, Core Contributor\ Aditya Siddhant, Core Contributor\ Andy Coenen, Core Contributor\ Daniel Sohn, Core Contributor\ Frederick Liu, Core Contributor\ Gustavo Hernandez Abrego, Core Contributor\ Jacob Devlin, Core Contributor\ Kelvin Xu, Core Contributor\ Le Hou, Core Contributor\ Matthew Lamm, Core Contributor\ Music Li, Core Contributor\ Rohan Anil, Core Contributor\ Roopali Vij, Core Contributor\ Simon Tokumine, Core Contributor\ Siddhartha Brahma, Core Contributor\ Tom Kwiatkowski, Core Contributor\ Vincent Zhao, Core Contributor\ Vitaly Nikolaev, Core Contributor\ Vlad
+Li, Core Contributor\ Rohan Anil, Core Contributor\ Roopali Vij, Core Contributor\ Simon Tokumine, Core Contributor\ Siddhartha Brahma, Core Contributor\ Tom Kwiatkowski, Core Contributor\ Vincent Zhao, Core Contributor\ Vitaly Nikolaev, Core Contributor\ Vlad Feinberg, Core Contributor\ Wei Li, Core Contributor\ Yong Cheng, Core Contributor\ Yunhan Xu, Core Contributor\ Yunxuan Li, Core Contributor\ Jonathan H. Clark, Contributor\ John Nham, Contributor\ Kevin Robinson, Contributor\ Pidong Wang, Contributor\ Siyuan Qiao, Contributor\ Zirui Wang, Contributor\ Laurent El Shafey, Co-Lead\ Yujing Zhang, Co-Lead\ Daniel Sohn, Core Contributor\ Dmitry Lepikhin, Core Contributor\ Hyeontaek Lim, Core Contributor\ Marcello Maggioni, Core Contributor\ Michael Isard, Core Contributor\ Paul Barham, Core Contributor\ Qiao Zhang, Core Contributor\ Tao Wang, Core Contributor\ Yash Katariya, Core Contributor\ Yonghui Wu, Core Contributor\ Aurko Roy, Contributor\ Benjamin Lee, Contributor\ Brennan Saeta, Contributor\ Hadi Hashemi, Contributor\
 
 <!-- chunk {"id": "body-0129", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Feinberg, Core Contributor\ Wei Li, Core Contributor\ Yong Cheng, Core Contributor\ Yunhan Xu, Core Contributor\ Yunxuan Li, Core Contributor\ Jonathan H.
+Junwhan Ahn, Contributor\ Rajkumar Samuel, Contributor\ Steven Hand, Contributor\ Weikang Zhou, Contributor\ Zhifeng Chen, Contributor\ Long Context Workstream\ Melvin Johnson, Co-Lead\ Siamak Shakeri, Co-Lead\ Kiran Vodrahalli, Core Contributor\ Aakanksha Chowdhery, Contributor\ Ethan Dyer, Contributor\ Emanuel Taropa, Co-Lead\ Rohan Anil, Co-Lead\ Wei Li, Core Contributor\ Vlad Feinberg, Core Contributor\ Yujing Zhang, Core Contributor\ Zachary Nado, Core Contributor\ Aurko Roy, Contributor\ James Bradbury, Contributor\ Reiner Pope, Contributor\ Code Pre-training Workstream\ Emanuel Taropa, Co-Lead\ Eric Chu, Co-Lead\ Kefan Xiao, Co-Lead\ Rohan Anil, Co-Lead\ Alex Polozov, Core Contributor\ Aroma Mahendru, Core Contributor\ Jacob Austin, Core Contributor\ Jeffrey Hui, Core Contributor\ Joshua Howland, Core Contributor\ Vlad Feinberg, Core Contributor\ Michele Catasta, Contributor\ Vedant Misra, Contributor\ Yanping Huang, Co-Lead\ Zhifeng Chen, Co-Lead\ Chang Lan, Core
 
 <!-- chunk {"id": "body-0130", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Clark, Contributor\ John Nham, Contributor\ Kevin Robinson, Contributor\ Pidong Wang, Contributor\ Siyuan Qiao, Contributor\ Zirui Wang, Contributor\ Laurent El Shafey, Co-Lead\ Yujing Zhang, Co-Lead\ Daniel Sohn, Core Contributor\ Dmitry Lepikhin, Core Contributor\ Hyeontaek Lim, Core Contributor\ Marcello Maggioni, Core Contributor\ Michael Isard, Core Contributor\ Paul Barham, Core Contributor\ Qiao Zhang, Core Contributor\ Tao Wang, Core Contributor\ Yash Katariya, Core Contributor\ Yonghui Wu, Core Contributor\ Aurko Roy, Contributor\ Benjamin Lee, Contributor\ Brennan Saeta, Contributor\ Hadi Hashemi, Contributor\ Junwhan Ahn, Contributor\ Rajkumar Samuel, Contributor\ Steven Hand, Contributor\ Weikang Zhou, Contributor\ Zhifeng Chen, Contributor\ Long Context Workstream\ Melvin Johnson, Co-Lead\ Siamak Shakeri, Co-Lead\ Kiran Vodrahalli, Core Contributor\ Aakanksha Chowdhery, Contributor\ Ethan Dyer, Contributor\ Emanuel Taropa, Co-Lead\ Rohan Anil, Co-Lead\ Wei Li, Core
+Contributor\ Jian Li, Core Contributor\ Tao Wang, Core Contributor\ Vijay Vasudevan, Core Contributor\ Wenhao Jia, Core Contributor\ Yuanzhong Xu, Core Contributor\ Andrew M. Dai, Core Contributor\ Jonathan H. Clark, Core Contributor\ Kevin Robinson, Core Contributor\ Maysam Moussalem, Core Contributor\ Sebastian Ruder, Core Contributor\ Siamak Shakeri, Core Contributor\ Jacob Austin, Contributor\
 
 <!-- chunk {"id": "body-0131", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Contributor\ Vlad Feinberg, Core Contributor\ Yujing Zhang, Core Contributor\ Zachary Nado, Core Contributor\ Aurko Roy, Contributor\ James Bradbury, Contributor\ Reiner Pope, Contributor\ Code Pre-training Workstream\ Emanuel Taropa, Co-Lead\ Eric Chu, Co-Lead\ Kefan Xiao, Co-Lead\ Rohan Anil, Co-Lead\ Alex Polozov, Core Contributor\ Aroma Mahendru, Core Contributor\ Jacob Austin, Core Contributor\ Jeffrey Hui, Core Contributor\ Joshua Howland, Core Contributor\ Vlad Feinberg, Core Contributor\ Michele Catasta, Contributor\ Vedant Misra, Contributor\ Yanping Huang, Co-Lead\ Zhifeng Chen, Co-Lead\ Chang Lan, Core Contributor\ Jian Li, Core Contributor\ Tao Wang, Core Contributor\ Vijay Vasudevan, Core Contributor\ Wenhao Jia, Core Contributor\ Yuanzhong Xu, Core Contributor\ Andrew M.
+Technical Program Management and Product Management
 
 <!-- chunk {"id": "body-0132", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Dai, Core Contributor\
-Jonathan H. Clark, Core Contributor\
-Kevin Robinson, Core Contributor\
-Maysam Moussalem, Core Contributor\
-Sebastian Ruder, Core Contributor\
-Siamak Shakeri, Core Contributor\
-Jacob Austin, Contributor\
+Andrew M. Dai, Co-Lead (pretraining, design)
 
 <!-- chunk {"id": "body-0133", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Technical Program Management and Product Management
+Dmitry Lepikhin, Co-Lead (pretraining, design)
 
 <!-- chunk {"id": "body-0134", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Andrew M. Dai, Co-Lead (pretraining, design)
+Siamak Shakeri, Co-Lead (pretraining, data, long context)
 
 <!-- chunk {"id": "body-0135", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Dmitry Lepikhin, Co-Lead (pretraining, design)
+Melvin Johnson, Co-Lead (long context, instruction tuning)
 
 <!-- chunk {"id": "body-0136", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Siamak Shakeri, Co-Lead (pretraining, data, long context)
+Emanuel Taropa, Co-Lead (optimization, downstream design, code capability)
 
 <!-- chunk {"id": "body-0137", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Melvin Johnson, Co-Lead (long context, instruction tuning)
+Rohan Anil, Co-Lead (optimization, downstream design, code capability)
 
 <!-- chunk {"id": "body-0138", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Emanuel Taropa, Co-Lead (optimization, downstream design, code capability)
+Lead: Individual(s) responsible for the entire workstream throughout the project.
 
 <!-- chunk {"id": "body-0139", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Rohan Anil, Co-Lead (optimization, downstream design, code capability)
+Core Contributor: Individual that had significant contributions to the workstream throughout the project.
 
 <!-- chunk {"id": "body-0140", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Lead: Individual(s) responsible for the entire workstream throughout the project.
+Contributor: Individual that had contributions to the project and was partially involved with the effort.
 
 <!-- chunk {"id": "body-0141", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Core Contributor: Individual that had significant contributions to the workstream throughout the project.
+Within each role, contributions are equal, and individuals are ordered alphabetically by their first name. Ordering within each role does not indicate ordering of the contributions.
 
 <!-- chunk {"id": "body-0142", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
-Contributor: Individual that had contributions to the project and was partially involved with the effort.
-
-<!-- chunk {"id": "body-0143", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
-
-Within each role, contributions are equal, and individuals are ordered alphabetically by their first name. Ordering within each role does not indicate ordering of the contributions.
-
-<!-- chunk {"id": "body-0144", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
-
 We would like to thank our reviewers and colleagues for valuable inputs and discussion on the project -- Jeff Dean, Zoubin Ghahramani, Johan Schalkwyk, Carrie Grimes Bostock, Eli Collins, Claire Cui, Noah Constant, Pengcheng Yin, Bin Ni, Scott Huffman, Salem Haykal, Zhishuai Zhang, Mia Chen, Heather Yoon, Natacha Mainville, Yanqi Zhou and Seojin Bang. We thank Lora Aroyo, Aida Davani, Emily Denton, Ben Hutchinson, Bec Johnson, Shayne Longpre, Vinodkumar Prabhakaran, Rida Qadri, and Greg Yauney for discussion and experiments on related aspects of responsible AI.
 
-<!-- chunk {"id": "body-0145", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
+<!-- chunk {"id": "body-0143", "role": "body", "section": "Authorship, attribution, and acknowledgements", "weight": 1.0} -->
 
 Our work builds on top of the work of many, many teams at Google. We'd especially like to recognize the Pax team, the Pathways infrastructure team, the Sax team, AIDA team, the JAX team, the Flaxformer team, the XLA team, the Plaque team, the Borg team, and the Datacenter networking infrastructure team. We gratefully acknowledge the support from our colleagues in infrastructure optimizations and resource management, including James Groeneveld, Dragos Stefanescu, Donghyun Koo, Michael Vorburger, Ken Durden, Steven Chan, Denis Vnukov, Adekunle Bello, Bryan Chiang, Nejc Trdin, Masoud Moshref, Ginger Perng, Josh Newlan, John Schuett, Bekir Diker, Nima George, Constant Segal, and many others.

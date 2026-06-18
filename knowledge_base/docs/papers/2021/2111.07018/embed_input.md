@@ -225,7 +225,7 @@ Combining our identification sample complexity result in Theorem 4.1 ‣ 4 Syste
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "Numerical Experiments", "weight": 1.0} -->
 
-We provide experiments to investigate the efficiency and verify the theory of the proposed algorithms on synthetic datasets. Throughout, we show results from a synthetic experiment where entries of the true system matrices $({\mathbf{A}}_{1:s},{\mathbf{B}}_{1:s})$ were generated randomly from a standard normal distribution. We further scale each $\mathbf{A}_{i}$ to have ${\|\mathbf{A}_{i}\|} \leq 0.5$. Since this guarantees the MJS itself is MSS, as we discussed in Sec 4, we set controller $\mathbf{K}_{1:s} = 0$ in system identification Algorithm 1 and initial stabilizing controller $\mathbf{K}_{1:s}^{} = 0$ in adaptive MJS-LQR Algorithm 2.
+We provide experiments to investigate the efficiency and verify the theory of the proposed algorithms on synthetic datasets. Throughout, we show results from a synthetic experiment where entries of the true system matrices $({\mathbf{A}}_{1:s},{\mathbf{B}}_{1:s})$ were generated randomly from a standard normal distribution. We further scale each $\mathbf{A}_{i}$ to have ${\|\mathbf{A}_{i}\|} \leq 0.5$.
 
 <!-- chunk {"id": "body-0057", "role": "body", "section": "Numerical Experiments", "weight": 1.0} -->
 

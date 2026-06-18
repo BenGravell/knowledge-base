@@ -38,11 +38,11 @@ Furthermore, we propose a one-step gradient approximation for training HRM, whic
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-Leveraging its enhanced effective depth, HRM excels at tasks that demand extensive search and backtracking. Using only 1,000 input-output examples, without pre-training or CoT supervision, HRM learns to solve problems that are intractable for even the most advanced LLMs. For example, it achieves near-perfect accuracy in complex Sudoku puzzles (Sudoku-Extreme Full) and optimal pathfinding in 30x30 mazes, where state-of-the-art CoT methods completely fail (0% accuracy). In the Abstraction and Reasoning Corpus (ARC) AGI Challenge ^,\,\ ^ - a benchmark of inductive reasoning - HRM, trained from scratch with only the official dataset (\~1000 examples), with only 27M parameters and a 30x30 grid context (900 tokens), achieves a performance of 40.3%, which substantially surpasses leading CoT-based models like o3-mini-high (34.5%) and Claude 3.7 8K context (21.2%), despite their considerably larger parameter sizes and context lengths, as shown in Figure˜1.
+Leveraging its enhanced effective depth, HRM excels at tasks that demand extensive search and backtracking. Using only 1,000 input-output examples, without pre-training or CoT supervision, HRM learns to solve problems that are intractable for even the most advanced LLMs. For example, it achieves near-perfect accuracy in complex Sudoku puzzles (Sudoku-Extreme Full) and optimal pathfinding in 30x30 mazes, where state-of-the-art CoT methods completely fail (0% accuracy).
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-This represents a promising direction toward the development of next-generation AI reasoning systems with universal computational capabilities.
+In the Abstraction and Reasoning Corpus (ARC) AGI Challenge ^,\,\ ^ - a benchmark of inductive reasoning - HRM, trained from scratch with only the official dataset (\~1000 examples), with only 27M parameters and a 30x30 grid context (900 tokens), achieves a performance of 40.3%, which substantially surpasses leading CoT-based models like o3-mini-high (34.5%) and Claude 3.7 8K context (21.2%), despite their considerably larger parameter sizes and context lengths, as shown in Figure˜1. This represents a promising direction toward the development of next-generation AI reasoning systems with universal computational capabilities.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Hierarchical Reasoning Model", "weight": 1.0} -->
 

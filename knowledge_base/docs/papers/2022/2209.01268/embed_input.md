@@ -243,11 +243,11 @@ Note that, in PANTHER^\*^, position and rotation are coupled together in the opt
 
 <!-- chunk {"id": "body-0060", "role": "body", "section": "II-E Testing", "weight": 1.0} -->
 
-In testing time the procedure is as follows (see Fig. 5): The observation is fed into the neural network, which produces ${(\mathcal{T}_{k})}_{k \in {\{ 0,\ldots,{n_{s} - 1}\}}}$ (i.e., the intermediate position control points and the total times). Then, for each $\mathcal{T}_{k}$, the initial and final conditions are imposed to generate the position trajectory, defined by all the position control points ${(\mathcal{Q}_{\mathbf{p}})}_{k}$ and the total time $T_{k}$. The optimal $\psi$ control points $\left( \mathcal{Q}_{\psi} \right)_{k}$ are then obtained as explained in Section II-D.
+In testing time the procedure is as follows (see Fig. 5): The observation is fed into the neural network, which produces ${(\mathcal{T}_{k})}_{k \in {\{ 0,\ldots,{n_{s} - 1}\}}}$ (i.e., the intermediate position control points and the total times). Then, for each $\mathcal{T}_{k}$, the initial and final conditions are imposed to generate the position trajectory, defined by all the position control points ${(\mathcal{Q}_{\mathbf{p}})}_{k}$ and the total time $T_{k}$.
 
 <!-- chunk {"id": "body-0061", "role": "body", "section": "II-E Testing", "weight": 1.0} -->
 
-Then, and using the observation, each triple $\left( {(\mathcal{Q}_{\mathbf{p}})}_{k},\left( \mathcal{Q}_{\psi} \right)_{k},T_{k} \right)$ is ranked according to the cost and the constraint satisfaction.
+The optimal $\psi$ control points $\left( \mathcal{Q}_{\psi} \right)_{k}$ are then obtained as explained in Section II-D. Then, and using the observation, each triple $\left( {(\mathcal{Q}_{\mathbf{p}})}_{k},\left( \mathcal{Q}_{\psi} \right)_{k},T_{k} \right)$ is ranked according to the cost and the constraint satisfaction.
 
 <!-- chunk {"id": "body-0062", "role": "body", "section": "II-E Testing", "weight": 1.0} -->
 
@@ -311,7 +311,7 @@ In these simulations, the task is to fly from $x = 0$ m to $x = 15$ m avoiding m
 
 <!-- chunk {"id": "body-0077", "role": "body", "section": "III-D Several Obstacles", "weight": 1.0} -->
 
-Note how even though Deep-PANTHER has been trained with only one obstacle, it is able to succeed at all times when the number of obstacles is 1 or 2. When the number of obstacles is 3, 4, or 5, Deep-PANTHER is able to succeed on average. The failures could be addressed by incorporating multiple obstacles in the training (instead of only one obstacle), which is left as future work.
+are available in Fig. 12. Note how even though Deep-PANTHER has been trained with only one obstacle, it is able to succeed at all times when the number of obstacles is 1 or 2. When the number of obstacles is 3, 4, or 5, Deep-PANTHER is able to succeed on average. The failures could be addressed by incorporating multiple obstacles in the training (instead of only one obstacle), which is left as future work.
 
 <!-- chunk {"id": "body-0078", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 

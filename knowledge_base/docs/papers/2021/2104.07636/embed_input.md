@@ -174,11 +174,11 @@ Consistency: As a measure of the consistentcy of the super-resolution outputs, w
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Automated metrics", "weight": 1.0} -->
 
-Classification Accuracy: Table 3 compares our 4$\times$ natural image super-resolution models with previous work in terms of object classification on low-resolution images. We mirror the evaluation setup of and apply 4$\times$ super-resolution models to 56$\times$`<!-- -->`{=html}56 center crops from the validation set of ImageNet. Then, we report classification error based on a pre-trained ResNet-50. Since, our super-resolution models are trained on the task of 64$\times$`<!-- -->`{=html}64 $\rightarrow$ 256$\times$`<!-- -->`{=html}256, we use bicubic interpolation to resize the input 56$\times$`<!-- -->`{=html}56 to 64$\times$`<!-- -->`{=html}64, then we apply 4$\times$ super-resolution, followed by resizing back to 224$\times$`<!-- -->`{=html}224.
+Classification Accuracy: Table 3 compares our 4$\times$ natural image super-resolution models with previous work in terms of object classification on low-resolution images. We mirror the evaluation setup of and apply 4$\times$ super-resolution models to 56$\times$`<!-- -->`{=html}56 center crops from the validation set of ImageNet.
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Automated metrics", "weight": 1.0} -->
 
-SR3 outperforms existing methods by a large margin on top-1 and top-5 classification errors, demonstrating high perceptual quality of SR3 outputs. The Regression model achieves strong performance compared to existing methods demonstrating the strength of our baseline model. However, SR3 significantly outperforms Regression re-affirming the limitation of conventional metrics such as PSNR and SSIM.
+Then, we report classification error based on a pre-trained ResNet-50. Since, our super-resolution models are trained on the task of 64$\times$`<!-- -->`{=html}64 $\rightarrow$ 256$\times$`<!-- -->`{=html}256, we use bicubic interpolation to resize the input 56$\times$`<!-- -->`{=html}56 to 64$\times$`<!-- -->`{=html}64, then we apply 4$\times$ super-resolution, followed by resizing back to 224$\times$`<!-- -->`{=html}224. SR3 outperforms existing methods by a large margin on top-1 and top-5 classification errors, demonstrating high perceptual quality of SR3 outputs. The Regression model achieves strong performance compared to existing methods demonstrating the strength of our baseline model. However, SR3 significantly outperforms Regression re-affirming the limitation of conventional metrics such as PSNR and SSIM.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Automated metrics", "weight": 1.0} -->
 

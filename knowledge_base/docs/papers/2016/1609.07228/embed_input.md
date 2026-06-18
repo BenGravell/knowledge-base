@@ -146,7 +146,9 @@ Now that the whole tree can be treated as a multi-class classifier, any subtree 
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Hierarchical Randomized Divide-and-Conquer", "weight": 1.0} -->
 
-1:an initial approximate k-nearest neighbor graph Gi n i t, data set D, maximum iteration number I, Candidate pool size P, new neighbor checking num L. 2:an approximate kNN graph G. 4:Graph Gn e w records all the new added candidate neighbors of each point. Gn e w = Gi n i t. 5:Graph Go l d records all the old candidate neighbors of each point at previous iterations. Go l d = ⌀
+1:an initial approximate k-nearest neighbor graph Gi n i t, data set D, maximum iteration number I, Candidate pool size P, new neighbor checking num L.
+2:an approximate kNN graph G.
+4:Graph Gn e w records all the new added candidate neighbors of each point. Gn e w = Gi n i t. 5:Graph Go l d records all the old candidate neighbors of each point at previous iterations. Go l d = ⌀
 6:Graph Gr n e w records all the new added reverse candidate neighbors of each point. 7:Graph Gr o l d records all the old reverse candidate neighbors of each point. 10: for all point i in D do
 11: N Nn e w is the neighbor set of point i in Gn e w. 12: N No l d is the neighbor set of of point i in Go l d. 13: for all point j in N Nn e w do
 14: for all point k in N Nn e w do
@@ -158,7 +160,8 @@ Now that the whole tree can be treated as a multi-class classifier, any subtree 
 23: calculate the distance between j and l. 24: add l to j’s entry in G. mark l as o l d. 25: add j to l’s entry in G and Gr o l d. 30: for all point i in D do
 31: Reserve the closest P points to i in respective
 35: for all point i in D do
-36: l = 0. N N is the neighbor set of i in G. Algorithm 4 Approximate kNN Graph Refinement Algorithm
+36: l = 0. N N is the neighbor set of i in G.
+Algorithm 4 Approximate kNN Graph Refinement Algorithm
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Hierarchical Randomized Divide-and-Conquer", "weight": 1.0} -->
 

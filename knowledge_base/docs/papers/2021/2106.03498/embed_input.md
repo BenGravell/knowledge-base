@@ -321,18 +321,22 @@ We now demonstrate that the issue of identifiability can be resolved if there is
 
 <!-- chunk {"id": "body-0080", "role": "body", "section": "Uniqueness of IRL with multiple discount rates", "weight": 1.0} -->
 
-An Adam optimizer is adopted with $\alpha = 0.005$, ${(\beta_{1},\beta_{2})} = {(0.5,0.9)}$ with overall 2000 minimization steps. With the same set of 6 random initializations for the minimization procedure, the training loss $L_{doub}$ also decays rapidly to close to 0. This again suggests that the learnt reward matrix $\overset{\sim}{R}$ can lead to policies ${\overset{\sim}{\Pi}}_{1}$ and ${\overset{\sim}{\Pi}}_{2}$, each optimal when using the corresponding discount factor $\gamma_{1}$ and $\gamma_{2}$, that are close to the given policies $\Pi_{1}$ and $\Pi_{2}$; see Figures 9 and 10.
+An Adam optimizer is adopted with $\alpha = 0.005$, ${(\beta_{1},\beta_{2})} = {(0.5,0.9)}$ with overall 2000 minimization steps.
 
 <!-- chunk {"id": "body-0081", "role": "body", "section": "Uniqueness of IRL with multiple discount rates", "weight": 1.0} -->
 
-What differs from the single optimal policy case is that, with the additional information $\Pi_{2}$, we are able to consistently recover $R_{tr}$ up to a constant shift; see Figures 6 and 7. Some numerical error remains, due to the optimization algorithm used, as seen by the fact the graphs in Figure 6 do still vary, and the error in the value function $v_{1}$ in 7(a). Nevertheless, the errors are an order of magnitude less than was observed in Figure 5 when using observations under a single discount rate.
+With the same set of 6 random initializations for the minimization procedure, the training loss $L_{doub}$ also decays rapidly to close to 0. This again suggests that the learnt reward matrix $\overset{\sim}{R}$ can lead to policies ${\overset{\sim}{\Pi}}_{1}$ and ${\overset{\sim}{\Pi}}_{2}$, each optimal when using the corresponding discount factor $\gamma_{1}$ and $\gamma_{2}$, that are close to the given policies $\Pi_{1}$ and $\Pi_{2}$; see Figures 9 and 10. What differs from the single optimal policy case is that, with the additional information $\Pi_{2}$, we are able to consistently recover $R_{tr}$ up to a constant shift; see Figures 6 and 7. Some numerical error remains, due to the optimization algorithm used, as seen by the fact the graphs in Figure 6 do still vary, and the error in the value function $v_{1}$ in 7(a).
 
 <!-- chunk {"id": "body-0082", "role": "body", "section": "Uniqueness of IRL with multiple discount rates", "weight": 1.0} -->
+
+Nevertheless, the errors are an order of magnitude less than was observed in Figure 5 when using observations under a single discount rate.
+
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Uniqueness of IRL with multiple discount rates", "weight": 1.0} -->
 
 (a) ℓ2 error of learnt value
 function v1 with discount γ1
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "Uniqueness of IRL with multiple discount rates", "weight": 1.0} -->
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Uniqueness of IRL with multiple discount rates", "weight": 1.0} -->
 
 (b) ℓ2 error of learnt value
 function v2 with discount γ2

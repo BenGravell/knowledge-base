@@ -164,11 +164,11 @@ We evaluate TDP across diverse zero-shot planning tasks featuring non-convex and
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-While existing diffusion planners (e.g., MCTD \[yoon2025montecarlotreediffusion\], Hierarchical Diffuser \[chen2024simplehierarchicalplanningdiffusion\]) excel on standard offline benchmarks, they suffer from zero-shot scenarios as discussed in Sec.. Consequently, we focus comparisons on recent zero-shot planning approaches, particularly Trajectory Aggregation Tree (TAT) \[feng2024resistingstochasticrisksdiffusion\], Monte-Carlo sampling \[lu2025what\], and stochastic sampling \[wang2025inferencetimepolicysteeringhuman\]. We design our benchmarks to challenge planners with unseen test-time objectives, in contrast to offline benchmarks that only test learned dynamics aligned with the training distribution. For completeness, we provide supplementary comparisons with sequential approaches (i.e., MCTD \[yoon2025montecarlotreediffusion\], Diffusion-Forcing \[chen2024diffusionforcingnexttokenprediction\]) on standard maze benchmarks in Appendix J.
+While existing diffusion planners (e.g., MCTD \[yoon2025montecarlotreediffusion\], Hierarchical Diffuser \[chen2024simplehierarchicalplanningdiffusion\]) excel on standard offline benchmarks, they suffer from zero-shot scenarios as discussed in Sec.. Consequently, we focus comparisons on recent zero-shot planning approaches, particularly Trajectory Aggregation Tree (TAT) \[feng2024resistingstochasticrisksdiffusion\], Monte-Carlo sampling \[lu2025what\], and stochastic sampling \[wang2025inferencetimepolicysteeringhuman\]. We design our benchmarks to challenge planners with unseen test-time objectives, in contrast to offline benchmarks that only test learned dynamics aligned with the training distribution.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-Notably, despite being designed specifically for zero-shot planning, TDP still surpasses these sequential approaches on standard benchmarks.
+For completeness, we provide supplementary comparisons with sequential approaches (i.e., MCTD \[yoon2025montecarlotreediffusion\], Diffusion-Forcing \[chen2024diffusionforcingnexttokenprediction\]) on standard maze benchmarks in Appendix J. Notably, despite being designed specifically for zero-shot planning, TDP still surpasses these sequential approaches on standard benchmarks.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Baselines and Ablations", "weight": 1.0} -->
 

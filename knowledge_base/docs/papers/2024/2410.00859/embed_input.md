@@ -94,11 +94,11 @@ In this section, we instantiate the imitation learning framework to motivate our
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Taylor Series Imitation Learning", "weight": 1.0} -->
 
-We first introduce the setting for imitation learning. Suppose we are given an expert controller ${\mathbf{π}}^{\star}$, a policy class $\Pi$, a distribution of initial conditions $\mathcal{D}$, and $N$ sample trajectories ${\{ x_{0:{K - 1}}^{(i)}\}}_{i = 1}^{N}$ of length $K$, with ${\{ x_{0}^{(i)}\}}_{i = 1}^{N}$ sampled i.i.d from $\mathcal{D}$. As formalized in Fact 3.6. ‣ 3.1 Taylor Series Imitation Learning ‣ 3 Motivating Smoothness: Imitation Learning Frameworks ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024.
+We first introduce the setting for imitation learning. Suppose we are given an expert controller ${\mathbf{π}}^{\star}$, a policy class $\Pi$, a distribution of initial conditions $\mathcal{D}$, and $N$ sample trajectories ${\{ x_{0:{K - 1}}^{(i)}\}}_{i = 1}^{N}$ of length $K$, with ${\{ x_{0}^{(i)}\}}_{i = 1}^{N}$ sampled i.i.d from $\mathcal{D}$. As formalized in Fact 3.6. ‣ 3.1 Taylor Series Imitation Learning ‣ 3 Motivating Smoothness: Imitation Learning Frameworks ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Taylor Series Imitation Learning", "weight": 1.0} -->
 
-An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis]."), our goal is to find an approximate policy $\hat{\mathbf{π}} \in \Pi$ such that given a suitably small accuracy parameter $\epsilon$, the closed-loop states ${\hat{x}}_{t}$ and $x_{t}^{\star}$ induced by $\hat{\mathbf{π}}$ and ${\mathbf{π}}^{\star}$, respectively, satisfy, with high probability over $x_{0} \sim \mathcal{D}$,
+This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis]."), our goal is to find an approximate policy $\hat{\mathbf{π}} \in \Pi$ such that given a suitably small accuracy parameter $\epsilon$, the closed-loop states ${\hat{x}}_{t}$ and $x_{t}^{\star}$ induced by $\hat{\mathbf{π}}$ and ${\mathbf{π}}^{\star}$, respectively, satisfy, with high probability over $x_{0} \sim \mathcal{D}$,
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Taylor Series Imitation Learning", "weight": 1.0} -->
 
@@ -158,11 +158,11 @@ However, using randomized smoothing to obtain a smoothed policy has three key di
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Example 3.14", "weight": 1.0} -->
 
-Consider the system ${f{(x_{t},u_{t})}} = {{2x_{t}} + u_{t}}$ and controller ${\pi^{\star}{(x)}} = {\min{({\max{({- {2x}},{- 1})}},1)}}$. We can see that as $\sigma\rightarrow\infty$ (where $\sigma$ is the smoothing parameter from Definition 3.12. ‣ 3.3 First Approach: Randomized Smoothing ‣ 3 Motivating Smoothness: Imitation Learning Frameworks ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024.
+Consider the system ${f{(x_{t},u_{t})}} = {{2x_{t}} + u_{t}}$ and controller ${\pi^{\star}{(x)}} = {\min{({\max{({- {2x}},{- 1})}},1)}}$. We can see that as $\sigma\rightarrow\infty$ (where $\sigma$ is the smoothing parameter from Definition 3.12. ‣ 3.3 First Approach: Randomized Smoothing ‣ 3 Motivating Smoothness: Imitation Learning Frameworks ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Example 3.14", "weight": 1.0} -->
 
-An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].")), we have ${\pi^{rs}{(x)}}\rightarrow 0$ for all $x$.
+This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].")), we have ${\pi^{rs}{(x)}}\rightarrow 0$ for all $x$.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Example 3.14", "weight": 1.0} -->
 
@@ -178,94 +178,98 @@ Given an MPC as in Section 2.1 and weight $\eta > 0$, the barrier MPC is defined
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Problem 4.2 (Barrier MPC)", "weight": 1.0} -->
 
-where ${\phi{(x_{0},u)}} = {{{Px_{0}} + w} - {Gu}} \in {\mathbb{R}}^{m}$ is the (vector) residual of constraints for $x_{0}$ and $u$, and the vector $d$ is set to $d:={{\nabla_{u}{\sum_{i = 1}^{m}{\log{({\phi_{i}{(0,u)}})}}}}|}_{u = 0}$. We denote by $u^{\eta}{(x_{0})}$ the minimizer of 4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024.
+where ${\phi{(x_{0},u)}} = {{{Px_{0}} + w} - {Gu}} \in {\mathbb{R}}^{m}$ is the (vector) residual of constraints for $x_{0}$ and $u$, and the vector $d$ is set to $d:={{\nabla_{u}{\sum_{i = 1}^{m}{\log{({\phi_{i}{(0,u)}})}}}}|}_{u = 0}$. We denote by $u^{\eta}{(x_{0})}$ the minimizer of 4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally.
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Problem 4.2 (Barrier MPC)", "weight": 1.0} -->
 
-Some remarks are in order. First, the choice of $d$ in 4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024.
+This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].") for a given $x_{0}$ and by ${{\mathbf{π}}_{mpc}^{\eta}{(x)}}:={{{{\arg\min}_{u_{0}}\min_{u_{1:{T - 1}}}}\mathcal{V}^{\eta}}{(x,u)}}$ the associated control policy.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Problem 4.2 (Barrier MPC)", "weight": 1.0} -->
 
-An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].") is made so as to ensure that ${{{\arg\min}_{u^{\eta}}\mathcal{V}^{\eta}}{(0,u^{\eta})}} = 0$, i.e. that ${\mathbf{π}}_{mpc}^{\eta}$ satisfies ${{\mathbf{π}}_{mpc}^{\eta}{}} = {{\mathbf{π}}_{mpc}{}} = 0$, which is a necessary condition for the controller to be stabilizing at the origin. Further, note that ${\| d\|}^{2}$ is a constant by construction, a fact that turns out to be useful in Theorem 4.8.
+Some remarks are in order. First, the choice of $d$ in 4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Problem 4.2 (Barrier MPC)", "weight": 1.0} -->
 
-Secondly, the technical assumptions about the constraint polytope in Section 2.1 containing a full-dimensional ball of radius $r$ and being contained inside an origin-centered ball of radius $R$ are both inherited by 4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].").
+This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].") is made so as to ensure that ${{{\arg\min}_{u^{\eta}}\mathcal{V}^{\eta}}{(0,u^{\eta})}} = 0$, i.e. that ${\mathbf{π}}_{mpc}^{\eta}$ satisfies ${{\mathbf{π}}_{mpc}^{\eta}{}} = {{\mathbf{π}}_{mpc}{}} = 0$, which is a necessary condition for the controller to be stabilizing at the origin.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Error Bound for Barrier MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Problem 4.2 (Barrier MPC)", "weight": 1.0} -->
 
-To kick off our analysis of the barrier MPC, we first give the following upper bound on the distance between the optimal solution of 4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].") and that of explicit MPC in Section 2.1. Our result is based on standard techniques to analyze the sub-optimality gap in interior-point methods and crucially uses the strong convexity of our quadratic cost in 4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024.
+Further, note that ${\| d\|}^{2}$ is a constant by construction, a fact that turns out to be useful in Theorem 4.8. Secondly, the technical assumptions about the constraint polytope in Section 2.1 containing a full-dimensional ball of radius $r$ and being contained inside an origin-centered ball of radius $R$ are both inherited by 4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].").
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Error Bound for Barrier MPC", "weight": 1.0} -->
 
-An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].").
+To kick off our analysis of the barrier MPC, we first give the following upper bound on the distance between the optimal solution of 4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].") and that of explicit MPC in Section 2.1. Our result is based on standard techniques to analyze the sub-optimality gap in interior-point methods and crucially uses the strong convexity of our quadratic cost in 4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "First-Derivative Bound for the Barrier MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Error Bound for Barrier MPC", "weight": 1.0} -->
+
+This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].").
+
+<!-- chunk {"id": "body-0052", "role": "body", "section": "First-Derivative Bound for the Barrier MPC", "weight": 1.0} -->
 
 To prove our main result (Theorem 4.8) on the spectral norm of the Hessian, we first establish the following technical result bounding the first derivative of $u^{\eta}$ with respect to $x_{0}$. This result may be of independent interest, since it formulates the Jacobian of the log-barrier smoothed solution as a convex combination of derivatives associated with sets of active constraints from the original MPC problem. Our proof starts with the first-order optimality condition for $u^{\eta}$ and obtains the desired simplification by applying the Sherman-Morrison-Woodbury identity (Fact A.3. ‣ Appendix A Technical Results from Matrix Analysis ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].")).
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Main Result: Smoothness Bound for the Barrier MPC", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Main Result: Smoothness Bound for the Barrier MPC", "weight": 1.0} -->
 
 We are now ready to state our main result, which effectively shows that $u^{\eta}$ (and hence ${\mathbf{π}}_{mpc}^{\eta}$) satisfies the conditions of 3.5. Our proof of Theorem 4.8 starts with Lemma 4.5 and computes another derivative. To get an upper bound on the operator norm of the Hessian so obtained, our proof then crucially hinges on Lemma B.11 and Theorem B.13, which provide explicit lower bounds on residuals when minimizing a quadratic cost plus a self-concordant barrier over a polytope, a result we believe to be of independent interest to the optimization community.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Learning Guarantees for Barrier MPC", "weight": 1.0} -->
-
-We now revisit the learning guarantees discussed in Section 3, adapted specifically to a log-barrier MPC expert. We begin by considering the stability properties of barrier MPC. Since we are interested in establishing ${\|{{\hat{x}}_{t} - x_{t}^{\star}}\|} \leq \epsilon$, where $\hat{x}$ is the state under the learned policy and $x^{\star}$ is the state under the expert, and since we consider MPC controllers which stabilize to the origin, we can relax our local incremental input-to-state stability requirements to simply input-to-state stability (ISS) with minimal assumptions. Definition 4.9. ‣ 4.4 Learning Guarantees for Barrier MPC ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024.
-
 <!-- chunk {"id": "body-0054", "role": "body", "section": "Learning Guarantees for Barrier MPC", "weight": 1.0} -->
 
-An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].") introduces this weaker input-to-state stability property, and Lemma 4.10 shows that ISS policies are locally $\delta$ISS. We then observe that there is considerable prior work showing that ISS holds under minimal assumptions for barrier MPC, meaning 3.3 is satisfied for barrier MPC.
+We now revisit the learning guarantees discussed in Section 3, adapted specifically to a log-barrier MPC expert. We begin by considering the stability properties of barrier MPC. Since we are interested in establishing ${\|{{\hat{x}}_{t} - x_{t}^{\star}}\|} \leq \epsilon$, where $\hat{x}$ is the state under the learned policy and $x^{\star}$ is the state under the expert, and since we consider MPC controllers which stabilize to the origin, we can relax our local incremental input-to-state stability requirements to simply input-to-state stability (ISS) with minimal assumptions. Definition 4.9. ‣ 4.4 Learning Guarantees for Barrier MPC ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Assumption 4.11", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Learning Guarantees for Barrier MPC", "weight": 1.0} -->
 
-The parameters of the barrier MPC controller ${\mathbf{π}}_{mpc}^{\eta}$ in 4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].") are chosen such that the system is input-to-state stabilizing. Consequently, by Lemma 4.10 and Corollary 4.7, it is incrementally input-to-state stabilizing over $t \leq K$ for some with linear gain function $\gamma$.
+This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].") introduces this weaker input-to-state stability property, and Lemma 4.10 shows that ISS policies are locally $\delta$ISS. We then observe that there is considerable prior work showing that ISS holds under minimal assumptions for barrier MPC, meaning 3.3 is satisfied for barrier MPC.
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "Assumption 4.11", "weight": 1.0} -->
 
+The parameters of the barrier MPC controller ${\mathbf{π}}_{mpc}^{\eta}$ in 4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].") are chosen such that the system is input-to-state stabilizing. Consequently, by Lemma 4.10 and Corollary 4.7, it is incrementally input-to-state stabilizing over $t \leq K$ for some with linear gain function $\gamma$.
+
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Assumption 4.11", "weight": 1.0} -->
+
 This shows that ${\mathbf{π}}_{mpc}^{\eta}$ satisfies the even weaker notion of locally $\delta$ISS as required in 3.3. We now state our end-to-end learning guarantee, an extension of Fact 3.6. ‣ 3.1 Taylor Series Imitation Learning ‣ 3 Motivating Smoothness: Imitation Learning Frameworks ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].").
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 The experiments presented below first appeared in our previous work \[pfrommer2024sample\]. We include these here for completeness.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 We demonstrate the advantage of barrier MPC over randomized smoothing for the double integrator system visualized in Figure 1. The matrices describing the dynamics are $A = \begin{bmatrix}
 \end{bmatrix}$ and $B = \begin{bmatrix}
 \end{bmatrix}$, and the cost matrices are given by $Q_{t} = I$, $R_{t} = {0.01I}$, with horizon length $T = 10$. Our constraints for 4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].") are ${\| x\|}_{\infty} \leq 10$ and ${\| u\|}_{\infty} \leq 1$.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 This is the same setup as in \[ahn2023model\], which we note asymptotically stabilizes the system to the origin.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Experiments", "weight": 1.0} -->
-
-We sample $N \in {\{ 20,50\}}$ trajectories of length $K = 20$ using ${\mathbf{π}}_{mpc}^{\eta}$ and ${\mathbf{π}}^{rs}$ and smoothing parameters $\eta$ (4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].")) and $\sigma$ (Definition 3.12. ‣ 3.3 First Approach: Randomized Smoothing ‣ 3 Motivating Smoothness: Imitation Learning Frameworks ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024.
-
 <!-- chunk {"id": "body-0061", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].")) ranging from $10^{- 4}$ to $10^{3}$ and $10^{- 4}$ to $20$, respectively. We use $\mathcal{P} = {\mathcal{N}{(0,I)}}$ for the randomized smoothing distribution. For each parameter set, we trained a 4-layer multi-layer perceptron (MLP) using GELU activations \[hendrycks2016gaussian\] to ensure smoothness of $\Pi$. We used AdamW \[loshchilov2018decoupled\] with a learning rate of $3 \cdot 10^{- 4}$ and weight decay of $10^{- 3}$ in order to ensure boundedness of the weights (see \[pfrommer2022tasil\]).
+We sample $N \in {\{ 20,50\}}$ trajectories of length $K = 20$ using ${\mathbf{π}}_{mpc}^{\eta}$ and ${\mathbf{π}}^{rs}$ and smoothing parameters $\eta$ (4.2. ‣ 4 Our Approach to Smoothing: Barrier MPC ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally. This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].")) and $\sigma$ (Definition 3.12. ‣ 3.3 First Approach: Randomized Smoothing ‣ 3 Motivating Smoothness: Imitation Learning Frameworks ‣ Improved Sample Complexity of Imitation Learning for Barrier Model Predictive ControlThe first two authors contributed equally.
 
 <!-- chunk {"id": "body-0062", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-We visualize the smoothness properties of the chosen expert ${\mathbf{π}}^{\star}$ of each method (either ${\mathbf{π}}_{mpc}^{\eta}$ or ${\mathbf{π}}^{rs}$) across the choices of $\eta,\sigma$ in Figure 3. For small Hessian norms (i.e. the large $\eta,\sigma$ regime), barrier MPC has larger gradient norm $\|{\nabla{\mathbf{π}}^{\star}}\|$ than randomized smoothing. This shows that ${\mathbf{π}}_{mpc}^{\eta}$ prevents oversmoothing in comparison to ${\mathbf{π}}^{rs}$.
+This work extends our previous result in [pfrommer2024sample], which has been accepted for publication in CDC 2024. An earlier version of this manuscript was submitted as part of DP’s Master’s thesis [pfrommer2024samplethesis].")) ranging from $10^{- 4}$ to $10^{3}$ and $10^{- 4}$ to $20$, respectively. We use $\mathcal{P} = {\mathcal{N}{(0,I)}}$ for the randomized smoothing distribution. For each parameter set, we trained a 4-layer multi-layer perceptron (MLP) using GELU activations \[hendrycks2016gaussian\] to ensure smoothness of $\Pi$. We used AdamW \[loshchilov2018decoupled\] with a learning rate of $3 \cdot 10^{- 4}$ and weight decay of $10^{- 3}$ in order to ensure boundedness of the weights (see \[pfrommer2022tasil\]).
 
 <!-- chunk {"id": "body-0063", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-While randomized smoothing reduces $\|{\nabla^{2}{\mathbf{π}}^{\star}}\|$ by essentially flattening the function, ${\mathbf{π}}_{mpc}^{\eta}$ achieves equally smooth functions while still maintaining control of the system. This effect is also seen in Figure 2, where we visualize the barrier MPC controller for different $\eta$ and see that, even for large $\eta$, we successfully stabilize to the origin.
+We visualize the smoothness properties of the chosen expert ${\mathbf{π}}^{\star}$ of each method (either ${\mathbf{π}}_{mpc}^{\eta}$ or ${\mathbf{π}}^{rs}$) across the choices of $\eta,\sigma$ in Figure 3. For small Hessian norms (i.e. the large $\eta,\sigma$ regime), barrier MPC has larger gradient norm $\|{\nabla{\mathbf{π}}^{\star}}\|$ than randomized smoothing. This shows that ${\mathbf{π}}_{mpc}^{\eta}$ prevents oversmoothing in comparison to ${\mathbf{π}}^{rs}$.
 
 <!-- chunk {"id": "body-0064", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-One interesting phenomenon is that the maximum gradient of ${\mathbf{π}}_{mpc}^{\eta}$ begins decreasing much earlier than ${\mathbf{π}}^{rs}$. This is due to the fact that ${\mathbf{π}}^{rs}$ smooths only locally, meaning that if the smoothing radius is sufficiently small, the gradient will not be affected. Meanwhile, ${\mathbf{π}}_{mpc}^{\eta}$ always performs a *global* form of smoothing, so even for small $\eta$, the controller is smoothed everywhere.
+While randomized smoothing reduces $\|{\nabla^{2}{\mathbf{π}}^{\star}}\|$ by essentially flattening the function, ${\mathbf{π}}_{mpc}^{\eta}$ achieves equally smooth functions while still maintaining control of the system. This effect is also seen in Figure 2, where we visualize the barrier MPC controller for different $\eta$ and see that, even for large $\eta$, we successfully stabilize to the origin.
 
 <!-- chunk {"id": "body-0065", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
+One interesting phenomenon is that the maximum gradient of ${\mathbf{π}}_{mpc}^{\eta}$ begins decreasing much earlier than ${\mathbf{π}}^{rs}$. This is due to the fact that ${\mathbf{π}}^{rs}$ smooths only locally, meaning that if the smoothing radius is sufficiently small, the gradient will not be affected. Meanwhile, ${\mathbf{π}}_{mpc}^{\eta}$ always performs a *global* form of smoothing, so even for small $\eta$, the controller is smoothed everywhere.
+
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Experiments", "weight": 1.0} -->
+
 In Figure 3, we also compare the trajectory error when imitating trajectories from ${\mathbf{π}}^{rs},{\mathbf{π}}_{mpc}^{\eta}$ for equivalent levels of smoothness. We can see that for $N = 20$ and $N = 50$, ${\mathbf{π}}_{mpc}^{\eta}$ significantly outperforms ${\mathbf{π}}^{rs}$ across all smoothness levels. This effect is particularly pronounced in the very smooth regime, where imitating ${\mathbf{π}}^{rs}$ proves unstable due to the inherit instability of $(A,B)$, leading to extremely large imitation errors. Meanwhile, ${\mathbf{π}}_{mpc}^{\eta}$ is strictly easier to imitate the more smoothing that is applied. Overall, these experiments confirm our hypothesis that not all smoothing techniques perform equally and that barrier MPC is an effective smoothing technique that outperforms randomized smoothing for the purposes of imitation learning.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 We consider two methods for smoothing MPC policies for constrained linear systems: randomized smoothing and barrier MPC. While the former is known to have the theoretically optimal ratio of approximation error to Hessian norm, it may not preserve the stability or constraint satisfaction properties of the underlying controller and hence is not always well-suited for controls applications. We show that the log-barrier-based MPC yields a smooth control with optimal error to smoothness ratio along some direction. Additionally, it better ensures constraint satisfaction while also retaining the stability properties of the original policy. We show how these properties enable theoretical guarantees when learning barrier MPC and demonstrate experimentally its better performance compared to a randomized smoothing baseline.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Our key technical contribution towards proving the smoothness of barrier MPC is a lower bound on the optimality gap of the analytic center associated with a convex Lipschitz function, which we hope could be of independent interest to the broader optimization community. Extending our results to smoothing nonlinear MPC policies would be a fruitful direction for future work.

@@ -134,11 +134,11 @@ Our experiment comprises 100 simulation runs. In each run we generate $N \in {\{
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Experiment 1: Out-of-Sample Performance", "weight": 1.0} -->
 
-Note that $1 - {{\hat{\eta}}_{N}{(\varepsilon)}}$ quantifies the probability (with respect to the training data) that $\mathbb{P}$ belongs to the Wasserstein ball of radius $\varepsilon$ around the empirical distribution ${\hat{\mathbb{P}}}_{N}$. Thus, $1 - {{\hat{\eta}}_{N}{(\varepsilon)}}$ increases with $\varepsilon$. The average CCR benefits from the regularization induced by the distributional robustness and increases with $\varepsilon$ as long as the empirical confidence $1 - {{\hat{\eta}}_{N}{(\varepsilon)}}$ is smaller than 1.
+Note that $1 - {{\hat{\eta}}_{N}{(\varepsilon)}}$ quantifies the probability (with respect to the training data) that $\mathbb{P}$ belongs to the Wasserstein ball of radius $\varepsilon$ around the empirical distribution ${\hat{\mathbb{P}}}_{N}$. Thus, $1 - {{\hat{\eta}}_{N}{(\varepsilon)}}$ increases with $\varepsilon$.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Experiment 1: Out-of-Sample Performance", "weight": 1.0} -->
 
-As soon as the Wasserstein ball is large enough to contain the distribution $\mathbb{P}$ with high confidence (${1 - {{\hat{\eta}}_{N}{(\varepsilon)}}} \lesssim 1$), however, any further increase of $\varepsilon$ is detrimental to the average CCR.
+The average CCR benefits from the regularization induced by the distributional robustness and increases with $\varepsilon$ as long as the empirical confidence $1 - {{\hat{\eta}}_{N}{(\varepsilon)}}$ is smaller than 1. As soon as the Wasserstein ball is large enough to contain the distribution $\mathbb{P}$ with high confidence (${1 - {{\hat{\eta}}_{N}{(\varepsilon)}}} \lesssim 1$), however, any further increase of $\varepsilon$ is detrimental to the average CCR.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Experiment 2: The Effect of the Wasserstein Ball", "weight": 1.0} -->
 

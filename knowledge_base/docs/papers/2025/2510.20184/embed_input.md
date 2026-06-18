@@ -928,20 +928,16 @@ When solving nonstandard GCS problems via the method solve_from_ilp, it is impor
 
 <!-- chunk {"id": "body-0228", "role": "body", "section": "Edge variables", "weight": 1.0} -->
 
-To simplify the definition of certain constraints and objective functions, GCSOPT allows each edge $e \in \mathcal{E}$ to be associated with auxiliary variables ${\mathbf{x}}_{e} \in {\mathbb{R}}^{n_{e}}$. The edge constraint set and objective function are then $\mathcal{X}_{e} \subseteq {\mathbb{R}}^{n_{v} + n_{w} + n_{e}}$ and $f_{e}:{{\mathbb{R}}^{n_{v} + n_{w} + n_{e}}\rightarrow{\mathbb{R}}}$. Although this can simplify the implementation, the resulting GCS problem is mathematically equivalent to the one in Section 2.
+Although this can simplify the implementation, the resulting GCS problem is mathematically equivalent to the one in Section 2. Indeed, we can define an equivalent edge constraint set as the projection of $\mathcal{X}_{e}$ onto the subspace of the variables ${\mathbf{x}}_{v}$ and ${\mathbf{x}}_{w}$, and an equivalent edge objective function as the partial minimization of $f_{e}$ over the extra variable ${\mathbf{x}}_{e}$. These sets and functions satisfy all convexity, closure, and boundedness assumptions required by our framework (see, e.g., (boyd2004convex Section 3.2.5) for convexity). Thus, they can replace $\mathcal{X}_{e}$ and $f_{e}$, eliminating the extra variables ${\mathbf{x}}_{e}$.
 
-<!-- chunk {"id": "body-0229", "role": "body", "section": "Edge variables", "weight": 1.0} -->
-
-Indeed, we can define an equivalent edge constraint set as the projection of $\mathcal{X}_{e}$ onto the subspace of the variables ${\mathbf{x}}_{v}$ and ${\mathbf{x}}_{w}$, and an equivalent edge objective function as the partial minimization of $f_{e}$ over the extra variable ${\mathbf{x}}_{e}$. These sets and functions satisfy all convexity, closure, and boundedness assumptions required by our framework (see, e.g., (boyd2004convex Section 3.2.5) for convexity). Thus, they can replace $\mathcal{X}_{e}$ and $f_{e}$, eliminating the extra variables ${\mathbf{x}}_{e}$.
-
-<!-- chunk {"id": "body-0230", "role": "body", "section": "Conclusions and future works", "weight": 1.0} -->
+<!-- chunk {"id": "body-0229", "role": "body", "section": "Conclusions and future works", "weight": 1.0} -->
 
 This paper introduces a unified methodology for solving GCS problems, extending the ideas from marcucci2024shortest beyond the SPP. Given an ILP that models an optimization problem over a weighted graph, our method automatically constructs an efficient MICP formulation for the corresponding GCS problem. We have implemented this framework in the Python library GCSOPT and demonstrated its applicability through a wide range of numerical examples.
 
-<!-- chunk {"id": "body-0231", "role": "body", "section": "Conclusions and future works", "weight": 1.0} -->
+<!-- chunk {"id": "body-0230", "role": "body", "section": "Conclusions and future works", "weight": 1.0} -->
 
 Our experiments show that the proposed MICPs often retain the strength of the ILP formulations that they build upon. For problems such as the SPP and MSAP in GCS, the convex relaxations of our MICPs provide tight lower bounds, and the branch-and-bound solver converges in a few iterations.
 
-<!-- chunk {"id": "body-0232", "role": "body", "section": "Conclusions and future works", "weight": 1.0} -->
+<!-- chunk {"id": "body-0231", "role": "body", "section": "Conclusions and future works", "weight": 1.0} -->
 
 As future work, we highlight that our library currently relies on general-purpose branch-and-bound solvers. We expect that specialized optimization algorithms designed to exploit the graph structure underlying our problems could be substantially faster. Furthermore, although already broadly applicable, the framework proposed in this paper admits several natural extensions. It could be adapted to incorporate extended formulations conforti2010extended or semidefinite formulations of graph optimization problems. It could also be extended to hypergraphs, i.e., graphs where edges can connect more than two vertices. Beyond graphs, analogous methodologies may be developed for other classes of discrete optimization problems, such as Boolean satisfiability or equilibrium problems arising in game theory.

@@ -46,65 +46,69 @@ The proposed approach, EpicFlow, consists of three steps, as illustrated in Figu
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Sparse set of matches", "weight": 1.0} -->
 
-The first step of our approach extracts a sparse set of matches, see Figure 3. Any state-of-the-art matching algorithm can be used to compute the initial set of sparse matches. In our experiments, we compare the results when using DeepMatching or a subset of an estimated nearest-neighbor field. We defer to Section 5.1 for a description of these matching algorithms. In both cases, we obtain $\sim 5000$ matches for an image of resolution $1024 \times 436$, *i.e*., an average of around one match per 90 pixels. We also evaluate the impact of matching quality and density on the performance of EpicFlow by generating artificial matches from the ground-truth in Section 5.3.
+The first step of our approach extracts a sparse set of matches, see Figure 3. Any state-of-the-art matching algorithm can be used to compute the initial set of sparse matches. In our experiments, we compare the results when using DeepMatching or a subset of an estimated nearest-neighbor field. We defer to Section 5.1 for a description of these matching algorithms. In both cases, we obtain $\sim 5000$ matches for an image of resolution $1024 \times 436$, *i.e*., an average of around one match per 90 pixels.
 
-<!-- chunk {"id": "body-0012", "role": "body", "section": "Interpolation method", "weight": 1.0} -->
+<!-- chunk {"id": "body-0012", "role": "body", "section": "Sparse set of matches", "weight": 1.0} -->
 
-We estimate a dense correspondence field ${\mathbf{F}}:{I\rightarrow I^{\prime}}$ between a source image $I$ and a target image $I^{\prime}$ by interpolating a sparse set of inputs matches $\mathcal{M} = {\{{({\mathbf{p}}_{m},{}_{}^{})}\}}$. The interpolation requires a distance $D:{{I \times I}\rightarrow{\mathbb{R}}^{+}}$ between pixels, see Section 3.3. We consider here two options for the interpolation.
+We also evaluate the impact of matching quality and density on the performance of EpicFlow by generating artificial matches from the ground-truth in Section 5.3. In the following, we denote by $\mathcal{M} = {\{{({\mathbf{p}}_{m},{}_{}^{})}\}}$ the sparse set of input matches, where each match $({\mathbf{p}}_{m},{}_{}^{})$ defines a correspondence between a pixel ${\mathbf{p}}_{m}$ in the first image and and a pixel ${\mathbf{p}}_{m}^{\prime}$ in the second image.
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Interpolation method", "weight": 1.0} -->
 
-$\bullet$ Locally-weighted affine (LA) estimation. The second estimator is based on fitting a local affine transformation. The correspondence field ${\mathbf{F}}_{LA}{({\mathbf{p}})}$ is interpolated using a locally-weighted affine estimator at a pixel ${\mathbf{p}} \in I$ as ${{\mathbf{F}}_{LA}{({\mathbf{p}})}} = {{A_{\mathbf{p}}{\mathbf{p}}} + t_{\mathbf{p}}^{\top}}$, where $A_{\mathbf{p}}$ and $t_{\mathbf{p}}$ are the parameters of an affine transformation estimated for pixel $\mathbf{p}$.
+We estimate a dense correspondence field ${\mathbf{F}}:{I\rightarrow I^{\prime}}$ between a source image $I$ and a target image $I^{\prime}$ by interpolating a sparse set of inputs matches $\mathcal{M} = {\{{({\mathbf{p}}_{m},{}_{}^{})}\}}$. The interpolation requires a distance $D:{{I \times I}\rightarrow{\mathbb{R}}^{+}}$ between pixels, see Section 3.3. We consider here two options for the interpolation.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Interpolation method", "weight": 1.0} -->
 
+$\bullet$ Locally-weighted affine (LA) estimation. The second estimator is based on fitting a local affine transformation. The correspondence field ${\mathbf{F}}_{LA}{({\mathbf{p}})}$ is interpolated using a locally-weighted affine estimator at a pixel ${\mathbf{p}} \in I$ as ${{\mathbf{F}}_{LA}{({\mathbf{p}})}} = {{A_{\mathbf{p}}{\mathbf{p}}} + t_{\mathbf{p}}^{\top}}$, where $A_{\mathbf{p}}$ and $t_{\mathbf{p}}$ are the parameters of an affine transformation estimated for pixel $\mathbf{p}$.
+
+<!-- chunk {"id": "body-0015", "role": "body", "section": "Interpolation method", "weight": 1.0} -->
+
 Local interpolation. Note that the influence of remote matches is either negligible, or could harm the interpolation, for example when objects move differently. Therefore, we restrict the set of matches used in the interpolation at a pixel $\mathbf{p}$ to its $K$ nearest neighbors according to the distance $D$, which we denote as $\mathcal{N}_{K}{({\mathbf{p}})}$. In other words, we replace the summation over $\mathcal{M}$ in the NW operator by a summation over $\mathcal{N}_{K}{({\mathbf{p}})}$, and likewise for building the overdetermined system to fit the affine transformation for ${\mathbf{F}}_{LA}$.
-
-<!-- chunk {"id": "body-0015", "role": "body", "section": "Edge-preserving distance", "weight": 1.0} -->
-
-Using the Euclidean distance for the interpolation presented above is possible. However, in this case the interpolation is simply based on the position of the input matches and does not respect motion boundaries. Suppose for a moment that the motion boundaries are known. We can, then, use a geodesic distance $D_{G}$ based on these motion boundaries.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Edge-preserving distance", "weight": 1.0} -->
 
-where $\mathcal{P}_{{\mathbf{p}},{\mathbf{q}}}$ denotes the set of all possible paths between $\mathbf{p}$ and $\mathbf{q}$, and $C{({\mathbf{p}}_{s})}$ the cost of crossing pixel ${\mathbf{p}}_{s}$ (the viscosity in physics). In our settings, $C$ corresponds to the motion boundaries. Hence, a pixel belonging to a motion layer is close to all other pixels from the same layer according to $D_{G}$, but far from everything beyond the boundaries. Since each pixel is interpolated based on its neighbors, the interpolation will respect the motion boundaries.
+Using the Euclidean distance for the interpolation presented above is possible. However, in this case the interpolation is simply based on the position of the input matches and does not respect motion boundaries. Suppose for a moment that the motion boundaries are known. We can, then, use a geodesic distance $D_{G}$ based on these motion boundaries.
 
 <!-- chunk {"id": "body-0017", "role": "body", "section": "Edge-preserving distance", "weight": 1.0} -->
 
-In practice, we use an alternative to true motion boundaries, making the plausible assumption that *image edges* are a superset of *motion boundaries*. This way, the distance between pixels belonging to the same region will be low. It ensures a proper edge-respecting interpolation as long as the number of matches in each region is sufficient. Similarly, Criminisi *et al*. showed that geodesic distances are a natural tool for edge-preserving image editing operations (denoising, texture flattening, etc.) and it was also used recently to generate object proposals. In practice, we set the cost map $C$ using a recent state-of-the-art edge detector, namely the "structured edge detector" (SED) ^11^1 Figure 4 shows an example of a SED map, as well as examples of geodesic distances and neighbor sets $\mathcal{N}_{K}{({\mathbf{p}})}$ for different pixels $\mathbf{p}$.
+where $\mathcal{P}_{{\mathbf{p}},{\mathbf{q}}}$ denotes the set of all possible paths between $\mathbf{p}$ and $\mathbf{q}$, and $C{({\mathbf{p}}_{s})}$ the cost of crossing pixel ${\mathbf{p}}_{s}$ (the viscosity in physics). In our settings, $C$ corresponds to the motion boundaries. Hence, a pixel belonging to a motion layer is close to all other pixels from the same layer according to $D_{G}$, but far from everything beyond the boundaries. Since each pixel is interpolated based on its neighbors, the interpolation will respect the motion boundaries.
 
 <!-- chunk {"id": "body-0018", "role": "body", "section": "Edge-preserving distance", "weight": 1.0} -->
 
+In practice, we use an alternative to true motion boundaries, making the plausible assumption that *image edges* are a superset of *motion boundaries*. This way, the distance between pixels belonging to the same region will be low. It ensures a proper edge-respecting interpolation as long as the number of matches in each region is sufficient. Similarly, Criminisi *et al*. showed that geodesic distances are a natural tool for edge-preserving image editing operations (denoising, texture flattening, etc.) and it was also used recently to generate object proposals. In practice, we set the cost map $C$ using a recent state-of-the-art edge detector, namely the "structured edge detector" (SED) ^11^1 Figure 4 shows an example of a SED map, as well as examples of geodesic distances and neighbor sets $\mathcal{N}_{K}{({\mathbf{p}})}$ for different pixels $\mathbf{p}$.
+
+<!-- chunk {"id": "body-0019", "role": "body", "section": "Edge-preserving distance", "weight": 1.0} -->
+
 Notice how neighbors are found on the same objects/parts of the image with $D_{G}$, in contrast to Euclidean distance (see also Figure 6).
-
-<!-- chunk {"id": "body-0019", "role": "body", "section": "Fast approximation", "weight": 1.0} -->
-
-The geodesic distance can be rapidly computed from a point to all other pixels. For instance, Weber *et al*. propose parallel algorithms that simulate an advancing wavefront. Nevertheless, the computational cost for computing the geodesic distance between all pixels and all matches (as required by our interpolation scheme) is high. We now propose an efficient approximation ${\overset{\sim}{D}}_{G}$.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Fast approximation", "weight": 1.0} -->
 
-A key observation is that neighboring pixels are often interpolated similarly, suggesting a strategy that would leverage such local information. In this section we employ the term 'match' to refer to ${\mathbf{p}}_{m}$ instead of $({\mathbf{p}}_{m},{}_{}^{})$.
+The geodesic distance can be rapidly computed from a point to all other pixels. For instance, Weber *et al*. propose parallel algorithms that simulate an advancing wavefront. Nevertheless, the computational cost for computing the geodesic distance between all pixels and all matches (as required by our interpolation scheme) is high. We now propose an efficient approximation ${\overset{\sim}{D}}_{G}$.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Fast approximation", "weight": 1.0} -->
 
-Geodesic Voronoi diagram. We first define a clustering $L$, such that $L{({\mathbf{p}})}$ assigns a pixel $\mathbf{p}$ to its closest match according to the geodesic distance, *i.e*., we have ${L{({\mathbf{p}})}} = {{\operatorname{argmin}_{{\mathbf{p}}_{m}}D_{G}}{({\mathbf{p}},{\mathbf{p}}_{m})}}$. $L$ defines geodesic Voronoi cells, as shown in Figure 5(c).
+A key observation is that neighboring pixels are often interpolated similarly, suggesting a strategy that would leverage such local information. In this section we employ the term 'match' to refer to ${\mathbf{p}}_{m}$ instead of $({\mathbf{p}}_{m},{}_{}^{})$.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Fast approximation", "weight": 1.0} -->
 
-where $D_{G}^{\mathcal{G}}$ is a graph-based approximation of the geodesic distance between two matches. To define $D_{G}^{\mathcal{G}}$ we use a neighborhood graph $\mathcal{G}$ whose nodes are $\{{\mathbf{p}}_{m}\}$. Two matches ${\mathbf{p}}_{m}$ and ${\mathbf{p}}_{n}$ are connected by an edge if they are neighbors in $L$. The edge weight is then defined as the geodesic distance between ${\mathbf{p}}_{m}$ and ${\mathbf{p}}_{n}$, where the geodesic distance calculation is restricted to the Voronoi cells of ${\mathbf{p}}_{m}$ and ${\mathbf{p}}_{n}$.
+Geodesic Voronoi diagram. We first define a clustering $L$, such that $L{({\mathbf{p}})}$ assigns a pixel $\mathbf{p}$ to its closest match according to the geodesic distance, *i.e*., we have ${L{({\mathbf{p}})}} = {{\operatorname{argmin}_{{\mathbf{p}}_{m}}D_{G}}{({\mathbf{p}},{\mathbf{p}}_{m})}}$. $L$ defines geodesic Voronoi cells, as shown in Figure 5(c).
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Fast approximation", "weight": 1.0} -->
 
-We, then, calculate the approximate geodesic distance between any two matches ${\mathbf{p}}_{m},{\mathbf{p}}_{n}$ using Dijkstra's algorithm on $\mathcal{G}$, see Figure 5(d).
+where $D_{G}^{\mathcal{G}}$ is a graph-based approximation of the geodesic distance between two matches. To define $D_{G}^{\mathcal{G}}$ we use a neighborhood graph $\mathcal{G}$ whose nodes are $\{{\mathbf{p}}_{m}\}$. Two matches ${\mathbf{p}}_{m}$ and ${\mathbf{p}}_{n}$ are connected by an edge if they are neighbors in $L$. The edge weight is then defined as the geodesic distance between ${\mathbf{p}}_{m}$ and ${\mathbf{p}}_{n}$, where the geodesic distance calculation is restricted to the Voronoi cells of ${\mathbf{p}}_{m}$ and ${\mathbf{p}}_{n}$.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Fast approximation", "weight": 1.0} -->
 
-Piecewise field. So far, we have built an approximation of the distance between pixels and match points. We now show that our interpolation model results in a piece-wise correspondence field (either constant for the Nadaraya-Watson estimator, or piece-wise affine for LA). This property is crucial to obtain a fast interpolation scheme, and experiments shows that it does not impact the accuracy. Let us consider a pixel $\mathbf{p}$ such that ${L{({\mathbf{p}})}} = {\mathbf{p}}_{m}$. The distance between $\mathbf{p}$ and any match ${\mathbf{p}}_{n}$ is the same as the one between ${\mathbf{p}}_{m}$ and ${\mathbf{p}}_{n}$ up to a constant independent from ${\mathbf{p}}_{n}$ (Equation 4).
+We, then, calculate the approximate geodesic distance between any two matches ${\mathbf{p}}_{m},{\mathbf{p}}_{n}$ using Dijkstra's algorithm on $\mathcal{G}$, see Figure 5(d).
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Fast approximation", "weight": 1.0} -->
 
-where all the sums are for ${({\mathbf{p}}_{n},{}_{}^{})} \in {\mathcal{N}_{K}{({\mathbf{p}})}} = {\mathcal{N}_{K}{({\mathbf{p}}_{m})}}$. The same reasoning holds for the weighted affine interpolator, which is invariant to a multiplication of the weights by a constant factor. As a consequence, it suffices to compute $|\mathcal{M}|$ estimations (one per match) and to propagate it to the pixel assigned to this match. This is orders of magnitude faster than an independent estimation for each pixel, *e.g*. as done. We summarize the approach in Algorithm 1 for Nadaraya-Watson estimator. The algorithm is similar for LA interpolator (*e.g*.
+Piecewise field. So far, we have built an approximation of the distance between pixels and match points. We now show that our interpolation model results in a piece-wise correspondence field (either constant for the Nadaraya-Watson estimator, or piece-wise affine for LA). This property is crucial to obtain a fast interpolation scheme, and experiments shows that it does not impact the accuracy. Let us consider a pixel $\mathbf{p}$ such that ${L{({\mathbf{p}})}} = {\mathbf{p}}_{m}$. The distance between $\mathbf{p}$ and any match ${\mathbf{p}}_{n}$ is the same as the one between ${\mathbf{p}}_{m}$ and ${\mathbf{p}}_{n}$ up to a constant independent from ${\mathbf{p}}_{n}$ (Equation 4).
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Fast approximation", "weight": 1.0} -->
+
+where all the sums are for ${({\mathbf{p}}_{n},{}_{}^{})} \in {\mathcal{N}_{K}{({\mathbf{p}})}} = {\mathcal{N}_{K}{({\mathbf{p}}_{m})}}$. The same reasoning holds for the weighted affine interpolator, which is invariant to a multiplication of the weights by a constant factor. As a consequence, it suffices to compute $|\mathcal{M}|$ estimations (one per match) and to propagate it to the pixel assigned to this match. This is orders of magnitude faster than an independent estimation for each pixel, *e.g*. as done. We summarize the approach in Algorithm 1 for Nadaraya-Watson estimator. The algorithm is similar for LA interpolator (*e.g*.
+
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Fast approximation", "weight": 1.0} -->
 
 Input: a pair of images I, I′, a set ℳ of matches
 Output: dense correspondence field FN W
@@ -116,127 +120,127 @@ Output: dense correspondence field FN W
 7 For each pixel p
 Algorithm 1 Interpolation with Nadaraya-Watson
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Optical Flow Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Optical Flow Estimation", "weight": 1.0} -->
 
 Coarse-to-fine vs. EpicFlow. The output of the sparse-to-dense interpolation is a dense correspondence field. This field is used as initialization of a variational energy minimization method. In contrast to our approach, state-of-the-art methods usually rely on a coarse-to-fine scheme to compute the full-scale correspondence field. To the best of our knowledge, there exists no theoretical proof or guarantee that a coarse-to-fine minimization leads to a consistent estimation that accurately minimizes the full-scale energy. Thus, the coarse-to-fine scheme should be considered as a heuristic to provide an initialization for the full-scale flow.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Optical Flow Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Optical Flow Estimation", "weight": 1.0} -->
 
 Our approach can be thought of as an alternative to the above strategy, by offering a smart heuristic to accurately initialize the optical flow before performing energy minimization at the full-scale. This offers several advantages over the coarse-to-fine scheme. First, the cost map $C$ in our method acts as a prior on boundary location. Such a prior could also be incorporated by a local smoothness weight in the coarse-to-fine minimization, but would then be difficult to interpret at coarse scales where boundaries might strongly overlap. In addition, since our method directly works at the full image resolution, it avoids possible issues related to the presence of thin objects that could be oversmoothed at coarse scales. Such errors at coarse scales are propagated to finer scales as the coarse-to-fine approach proceeds, see Figure 2.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Optical Flow Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Optical Flow Estimation", "weight": 1.0} -->
 
 Variational Energy Minimization. We minimize an energy defined as a sum of a data term and a smoothness term. We use the same data term as, based on a classical color-constancy and gradient-constancy assumption with a normalization factor. For the smoothness term, we penalize the flow gradient norm, with a local smoothness weight $\alpha$ as: ${\alpha{({\mathbf{x}})}} = {\exp\left( {- {\kappa{\|{{\nabla_{2}I}{({\mathbf{x}})}}\|}}} \right)}$ with $\kappa = 5$. We have also experimented using SED instead and obtained similar performance.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Optical Flow Estimation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Optical Flow Estimation", "weight": 1.0} -->
 
 For minimization, we initialize the solution with the output of our sparse-to-dense interpolation and use the approach of without the coarse-to-fine scheme. More precisely, we perform 5 fixed point iterations, *i.e*., compute the non-linear weights (that appear when applying Euler-Lagrange equations ) and the flow updates 5 times iteratively. The flow updates are computed by solving linear systems using 30 iterations of the successive over relaxation method.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 $\bullet$ *MPI-Sintel dataset* is a challenging evaluation benchmark obtained from an animated movie. It contains multiple sequences including large/rapid motions. We only use the 'final' version that features realistic rendering effects such as motion, defocus blur and atmospheric effects.\
 $\bullet$ The *Kitti dataset* contains photos shot in city streets from a driving platform. It features large displacements, different materials (complex 3D objects like trees), a large variety of lighting conditions and non-lambertian surfaces. $\bullet$ The *Middlebury dataset* has been extensively used for evaluating optical flow methods. It contains complex motions, but displacements are limited to a few pixels.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 As, we optimize the parameters on a subset (20%) of the MPI-Sintel training set. We then report average endpoint error (AEE) on the remaining MPI-Sintel training set (80%), the Kitti training set and the Middlebury training set. This allows us to evaluate the impact of parameters on different datasets and avoid overfitting. The parameters are typically $a \simeq 1$ for the coefficient in the kernel $k_{D}$, the number of neighbors is $K \simeq 25$ for NW interpolation and $K \simeq 100$ when using LA. In Section 5.4, we compare to the state of the art on the test sets. In this case, the parameters are optimized on the training set of the corresponding dataset. Timing is reported for one CPU-core at 3.6GHz.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Experiments", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
 In the following, we first describe two types of input matches in Section 5.1. Section 5.2 then studies the different parameters of our approach. In Section 5.3, we compare our method to a variational approach with a coarse-to-fine scheme. Finally, we show that EpicFlow outperforms current methods on challenging datasets in Section 5.4.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Input matches", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Input matches", "weight": 1.0} -->
 
 To generate input matches, we use and compare two recent matching algorithms. They each produce about 5000 matches per image.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Input matches", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Input matches", "weight": 1.0} -->
 
 $\bullet$ The first one is DeepMatching (DM), used in DeepFlow, which has shown excellent performance for optical flow. It builds correspondences by computing similarities of non-rigid patches, allowing for some deformations. We use the online code^22^2 on images downscaled by a factor 2. A reciprocal verification is included in DM. As a consequence, the majority of matches in occluded areas are pruned, see matches in Figure 6 (left).
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Input matches", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Input matches", "weight": 1.0} -->
 
 $\bullet$ The second one is a recent variant of PatchMatch that relies on kd-trees and local propagation to compute a dense correspondence field (KPM). We use the online code to extract the dense correspondence field^33^3 It is noisy, as it is based on small patches without global regularization, as well as often incorrect in case of occlusion. Thus, we perform a two-way matching and eliminate non-reciprocal matches to remove incorrect correspondences. We also subsample these pruned correspondences to speed-up the interpolation. We have experimentally verified on several image pairs that this subsampling does not result in a loss of performance.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Input matches", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Input matches", "weight": 1.0} -->
 
 Pruning of matches. In both cases, matches are extracted locally and might be incorrect in regions with low texture. Thus, we remove matches corresponding to patches with low saliency, which are determined by the eigenvalues of autocorrelation matrix. Furthermore, we perform a consistency check to remove outliers. We run the sparse-to-dense interpolation once with the Nadaraya-Watson estimator and remove matches for which the difference to the initial estimate is over 5 pixels.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Input matches", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Input matches", "weight": 1.0} -->
 
 We also experiment with synthetic sparse matches of various densities and noise levels in Section 5.3, in order to evaluate the sensitivity of EpicFlow to the quality of the matching approach.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
 
 In this section, we evaluate the impact of the matches and the interpolator. We also compare the quality of the sparse-to-dense interpolation and EpicFlow. Furthermore, we examime the impact of the geodesic distance and its approximation as well as the impact of the quality of the contour detector.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
 
 Matches and interpolators. Table 1 compares the result of our sparse-to-dense interpolation, *i.e*., before energy minimization, and EpicFlow for different matches (DM and KPM) and for the two interpolation schemes: Nadaraya-Watson (NW) and locally-weighted affine (LA). The approximated geodesic distance is used in the interpolation, see Section 3.4.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
 
 We can observe that KPM is consistently outperformed by DeepMatching (DM) on MPI-Sintel and Kitti datasets, with a gap of 2 and 8 pixels respectively. Kitti contains many repetitive textures like trees or roads, which are often mismatched by KPM. Note that DM is significantly more robust to repetitive textures than KPM, as it uses a multi-scale scoring scheme. The results on Middlebury are comparable and below 1 pixel.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
 
 We also observe that LA performs better than NW on Kitti, while the results are comparable on MPI-Sintel and Middlebury. This is due to the specificity of the Kitti dataset, where the scene consists of planar surfaces and, thus, affine transformations are more suitable than translations to approximate the flow. Based on these results, we use DM matches and LA interpolation in the remainder of the experimental section.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
 
 The interpolation is robust to the neighborhood size $K$ with for instance an AEE of $4.082,4.053,4.068$ and $4.076$ for $K = {50,100,160}$ (optimal value on the training set), $200$ respectively, on MPI-Sintel with the LA estimator and before variational minimization. We also implemented a variant where we use all matches closer than a threshold and obtained similar performance.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
 
 Sparse-to-dense interpolation versus EpicFlow. We also evaluate the gain due to the variational minimization using the interpolation as initialization. We can see in Table 1 that this step clearly improves the performance in all cases. The improvement is around 0.5 pixel. Figure 7 presents results for three image pairs with the initialization only and the final result of EpicFlow (row three and four). While the flow images look similar overall, the minimization allows to further smooth and refine the flow, explaining the gain in performance. Yet, it preserves discontinuities and small details, such as the legs in the right column. In the following, results are reported for EpicFlow, *i.e*., after the variational minimization step.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
 
 Edge-aware versus Euclidean distances. We now study the impact of different distances. First, we examine the effect of approximating the geodesic distance (Section 3.4). Table 2 shows that our approximation has a negligible impact when compared to the exact geodesic distance. Note that the exact version performs distance computation as well as local estimation per pixel and is, thus, an order of magnitude slower to compute, see last column of Table 2.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
 
 Next, we compare the geodesic distance and Euclidean distances. Table 2 shows that using a Euclidean distance leads to a significant drop in performance, in particular for the MPI-Sintel dataset, the drop is 1 pixel. This confirms the importance of our edge-preserving distance. Note that the result with the Euclidean distance is reported with an exact version, *i.e*., the interpolation is computed pixelwise.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
 
 We also compare to a mixed approach, in which the neighbor list $\mathcal{N}_{K}$ is constructed using the Euclidean distance, but weights $k_{\overset{\sim}{D}}{({\mathbf{p}}_{m},{\mathbf{p}})}$ are set according to the approximate geodesic distance. Table 2 shows that this leads to a drop of performance by around $0.3$ pixels for MPI-Sintel and Kitti. Figure 6 illustrates the reason: none of the Euclidean neighbor matches (yellow) belong to the region corresponding to the selected pixel (red), but all of geodesic neighbor matches (blue) belong to it. This demonstrates the importance of using an edge-preserving geodesic distance throughout the whole pipeline, in contrast to who interpolates matches found in a Euclidean neigbhorhood.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Impact of the different parameters", "weight": 1.0} -->
 
 Impact of contour detector. We also evaluate the impact of the contour detector in Table 2, *i.e*., the SED detector is replaced by the Berkeley gPb detector or the Canny edge detector. Using gPb leads to a small drop in performance (around $0.1$ pixel on Kitti and $0.5$ on MPI-Sintel) and significantly increases the computation time. Canny edges perform similar to the Euclidean distance. This can be explained by the insufficient quality of the Canny contours. Using the norm of image's gradient improves slightly over gPb. We found that this is due to the presence of holes when estimating contours with gPb. Finally, we perform experiments using ground-truth motion boundaries, computed from the norm of ground-truth flow gradient, and obtain an improvement of $0.1$ on MPI-Sintel ($0.2$ before the variational part). The ground-truth flow is not dense enough on Middlebury and Kitti datasets to estimate GT boundaries.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "EpicFlow versus coarse-to-fine scheme", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "EpicFlow versus coarse-to-fine scheme", "weight": 1.0} -->
 
 To show the benefit of our approach, we have carried out a comparison with a coarse-to-fine scheme. Our implementation of the variational approach is the same as in Section 4, with a coarse-to-fine scheme and DeepMatching integrated in the energy through a penalization of the difference between flow and matches. Table 3 compares EpicFlow to the variational approach with coarse-to-fine scheme, using exactly the same matches as input. EpicFlow performs better and is also faster. The gain is around $0.4$ pixel on MPI-Sintel and over $1$ pixel on Kitti. The important gain on Kitti might be explained by the affine model used for interpolation, which fits well the piecewise planar structure of the scene. On Middlebury, the variational approach achieves slightly better results, as this dataset does not contain large displacements.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "EpicFlow versus coarse-to-fine scheme", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "EpicFlow versus coarse-to-fine scheme", "weight": 1.0} -->
 
 Sensitivity to the matching quality. In order to get a better understanding of why EpicFlow performs better than a coarse-to-fine scheme, we have evaluated and compared their performances for different densities and error rates of the input matches. To that aim, we generated synthetic matches by taking the ground-truth flow, removing points in the occluded areas, subsampling to obtain the desired density and corrupting the matches to the desired percentage of incorrect matches. For each set of matches with a given density and quality, we have carefully determined the parameters of EpicFlow and the coarse-to-fine method on the MPI-Sintel training subset, and then evaluated them on the remaining training images.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "EpicFlow versus coarse-to-fine scheme", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "EpicFlow versus coarse-to-fine scheme", "weight": 1.0} -->
 
 Results in term of AEE are given in Figure 8, where density is represented vertically as the ratio of #matches / #non-occluded pixels and matching error is represented horizontally as the ratio of #false matches / #matches. We can observe that EpicFlow yields better results provided that the matching is sufficiently dense for a given error rate. For low-density or strongly corrupted matches, EpicFlow yields unsatisfactory performance (Figure 8 left), while the coarse-to-fine method remains relatively robust (Figure 8 right). This shows that our interpolation-based heuristic for initializing the flow takes better advantage of the input matches than a coarse-to-fine schemes for sufficiently dense matches and is able to recover from matching failures. We have indicated the position of DeepMatching and KPM in terms of density and quality on the plots: they lie inside the area in which EpicFlow outperforms a coarse-to-fine scheme.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Comparison with the state of the art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Comparison with the state of the art", "weight": 1.0} -->
 
 Results on MPI-Sintel test set are given in Table 4. Parameters are optimized on the MPI-Sintel training set. EpicFlow outperforms the state of the art with a gap of $0.5$ pixel in AEE compared to the second best performing method, TF+OFM, and $1$ pixel compared to the third one, DeepFlow. In particular, we improve for both AEE on occluded areas and AEE over all pixels and for all displacement ranges. In addition, our approach is significantly faster than most of the methods, *e.g*. an order of magnitude faster than the second best.
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Comparison with the state of the art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Comparison with the state of the art", "weight": 1.0} -->
 
 Table 5 reports the results on the Kitti test set for methods that do not use epipolar geometry or stereo vision. Parameters are optimized on the Kitti training set. We can see that EpicFlow performs best in terms of AEE on non-occluded areas. In term of percentage of erroneous pixels, our method is competitive with the other algorithms. When comparing the methods on both Kitti and MPI-Sintel, we outperform TF+OFM and DeepFlow (second and third on MPI-Sintel) on the Kitti dataset, in particular for occluded areas. We perform on par with NLTGV-SC on Kitti that we outperform by 2.5 pixels on MPI-Sintel.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Comparison with the state of the art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Comparison with the state of the art", "weight": 1.0} -->
 
 On the Middlebury test set, we obtain an AEE below $0.4$ pixel. This is competitive with the state of the art. In this dataset, there are no large displacements, and consequently, the benefits of a matching-based approach are limited. Note that we have slightly increased the number of fixed point iterations to 25 in the variational method for this dataset (still using one level) in order to get an additional smoothing effect. This leads to a gain of $0.1$ pixels (measured on the Middlebury training set when setting the parameters on MPI-Sintel training set).
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Comparison with the state of the art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Comparison with the state of the art", "weight": 1.0} -->
 
 Timings. While most methods often require several minutes to run on a single image pair, ours runs in 16.4 seconds for a MPI-Sintel image pair ($1024 \times 436$ pixels) on one CPU-core at 3.6Ghz. In detail, computing DeepMatching takes 15s, extracting SED edges 0.15s, dense interpolation 0.25s, and variational minimization 1s. We can observe that 91% of the time is spent on matching.
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Comparison with the state of the art", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Comparison with the state of the art", "weight": 1.0} -->
 
 Failure cases. EpicFlow can be incorrect due to errors in the sparse matches or errors in the contour extraction. Figure 9 (left column) shows an example where matches are missing on thin elements (spear and horns of the dragon). Thus, the optical flow takes the value of the surrounding region for these elements. An example for incorrect contour extraction is presented in Figure 9 (right column). The contour of the character's left arm is poorly detected. As a result, the motion of the arm spreads into the background.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 This paper introduces EpicFlow, a novel state-of-the-art optical flow estimation method. EpicFlow computes a dense correspondence field by performing a sparse-to-dense interpolation from an initial sparse set of matches, leveraging contour cues using an edge-aware geodesic distance. The approach builds upon the assumption that contours often coincide with motion discontinuities. The resulting dense correspondence field is fed as an initial optical flow estimate to a one-level variational energy minimization. Experimental results show that EpicFlow outperforms current coarse-to-fine approaches. Both the sparse set of matches and the contour estimates are key to our approach. Future work will focus on improving these two components separately as well as in an interleaved manner.

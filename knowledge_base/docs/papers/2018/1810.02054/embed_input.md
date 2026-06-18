@@ -128,11 +128,11 @@ In this section, we use synthetic data to corroborate our theoretical findings. 
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-We test three metrics with different widths ($m$). First, we test how the amount of over-parameterization affects the convergence rates. Second, we test the relation between the amount of over-parameterization and the number of pattern changes. Formally, at a given iteration $k$, we check $\frac{\sum_{i = 1}^{m}{\sum_{r = 1}^{m}{{\mathbb{I}}\left\{ {{\text{sign}\left( {\mathbf{w}_{r}{}^{\top}\mathbf{x}_{i}} \right)} \neq {\text{sign}\left( {\mathbf{w}_{r}{(k)}^{\top}\mathbf{x}_{i}} \right)}} \right\}}}}{mn}$ (there are $mn$ patterns). This aims to verify Lemma 3.2.
+We test three metrics with different widths ($m$). First, we test how the amount of over-parameterization affects the convergence rates. Second, we test the relation between the amount of over-parameterization and the number of pattern changes. Formally, at a given iteration $k$, we check $\frac{\sum_{i = 1}^{m}{\sum_{r = 1}^{m}{{\mathbb{I}}\left\{ {{\text{sign}\left( {\mathbf{w}_{r}{}^{\top}\mathbf{x}_{i}} \right)} \neq {\text{sign}\left( {\mathbf{w}_{r}{(k)}^{\top}\mathbf{x}_{i}} \right)}} \right\}}}}{mn}$ (there are $mn$ patterns).
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-Last, we test the relation between the amount of over-parameterization and the maximum of the distances between weight vectors and their initializations. Formally, at a given iteration $k$, we check $\max_{r \in {\lbrack m\rbrack}}\left\| {{\mathbf{w}_{r}{(k)}} - {\mathbf{w}_{r}{}}} \right\|_{2}$. This aims to verify Lemma 3.3 and Corollary 4.1.
+This aims to verify Lemma 3.2. Last, we test the relation between the amount of over-parameterization and the maximum of the distances between weight vectors and their initializations. Formally, at a given iteration $k$, we check $\max_{r \in {\lbrack m\rbrack}}\left\| {{\mathbf{w}_{r}{(k)}} - {\mathbf{w}_{r}{}}} \right\|_{2}$. This aims to verify Lemma 3.3 and Corollary 4.1.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Conclusion and Discussion", "weight": 1.5} -->
 

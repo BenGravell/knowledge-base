@@ -120,11 +120,11 @@ is the Kullback-Leibler divergence from $p$ to $q$. The feature moment matching 
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "New Algorithm", "weight": 1.0} -->
 
-To learn the MaxEnt IRL model in Eq. 10, we need to maximize the log-likelihood, which is convex in $\Theta$ and thus can be maximized using standard gradient-based methods --- in our experiments we used L-BFGS-B. The value and the gradient of the log-likelihood, required in the optimization algorithm, can be computed using the partition function $Z{(\Theta)}$ and the marginal distributions $p_{\Theta,t}{(s)}$, $p_{\Theta,t}{(s,a)}$, and $p_{\Theta,t}{(s,a,s^{\prime})}$, which denote the probability that the $t$-th state / state-action / state-action-state are $s$, $(s,a)$, or $(s,a,s^{\prime})$ respectively when $\tau$ is sampled from the MaxEnt distribution $p_{\Theta}{(\tau)}$. Specifically, with the partition function, we can easily compute the log-likelihood using Eq. 10.
+To learn the MaxEnt IRL model in Eq. 10, we need to maximize the log-likelihood, which is convex in $\Theta$ and thus can be maximized using standard gradient-based methods --- in our experiments we used L-BFGS-B. The value and the gradient of the log-likelihood, required in the optimization algorithm, can be computed using the partition function $Z{(\Theta)}$ and the marginal distributions $p_{\Theta,t}{(s)}$, $p_{\Theta,t}{(s,a)}$, and $p_{\Theta,t}{(s,a,s^{\prime})}$, which denote the probability that the $t$-th state / state-action / state-action-state are $s$, $(s,a)$, or $(s,a,s^{\prime})$ respectively when $\tau$ is sampled from the MaxEnt distribution $p_{\Theta}{(\tau)}$.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "New Algorithm", "weight": 1.0} -->
 
-On the other hand, with the marginals terms, the required gradients are given,
+Specifically, with the partition function, we can easily compute the log-likelihood using Eq. 10. On the other hand, with the marginals terms, the required gradients are given,
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "New Algorithm", "weight": 1.0} -->
 

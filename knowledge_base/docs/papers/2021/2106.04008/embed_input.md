@@ -187,12 +187,12 @@ The TinyML specialization comprises three foundational courses and one advanced 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Four-Course Spiral Design", "weight": 1.0} -->
 
 Course 1: Fundamentals of TinyML 1.1. Course 1 Overview 1.2. The Future of ML Is Tiny and Bright 1.3. Tiny Machine Learning Challenges 1.4. Getting Started With ML 1.5. The ML Paradigm 1.6. The Elements of Deep Learning 1.7. Exploring ML Scenarios 1.8. Building a Computer-Vision Model 1.9. Responsible AI Design 1.10. Summary
-Course 2: Applications of TinyML 2.1. Course 2 Overview 2.2. AI Life Cycle and ML Workflow 2.3. ML on Mobile and Edge Devices (Pt. 1) 2.4. ML on Mobile and Edge Devices (Pt. 2) 2.5. Keyword Spotting (KWS) 2.6. Data Engineering 2.7. Visual Wake Words (VWW) 2.8. Anomaly Detection 2.9. Responsible AI Development 2.10. Summary
-Course 3: Deploying TinyML 3.1. Course 3 Overview 3.2. Getting Started 3.3. Embedded Hardware and Software 3.4. TensorFlow Lite Micro 3.5. Deploying Keyword Spotting 3.6. KWS Custom-Data-Set Engineering 3.7.
+Course 2: Applications of TinyML 2.1. Course 2 Overview 2.2. AI Life Cycle and ML Workflow 2.3. ML on Mobile and Edge Devices (Pt. 1) 2.4. ML on Mobile and Edge Devices (Pt.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Four-Course Spiral Design", "weight": 1.0} -->
 
-Deploying Visual Wake Words 3.8. Gesturing Magic Wand 3.9. Responsible AI Deployment 3.10. Summary
+2) 2.5. Keyword Spotting (KWS) 2.6. Data Engineering 2.7. Visual Wake Words (VWW) 2.8. Anomaly Detection 2.9. Responsible AI Development 2.10. Summary
+Course 3: Deploying TinyML 3.1. Course 3 Overview 3.2. Getting Started 3.3. Embedded Hardware and Software 3.4. TensorFlow Lite Micro 3.5. Deploying Keyword Spotting 3.6. KWS Custom-Data-Set Engineering 3.7. Deploying Visual Wake Words 3.8. Gesturing Magic Wand 3.9. Responsible AI Deployment 3.10. Summary
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Four-Course Spiral Design", "weight": 1.0} -->
 
@@ -238,11 +238,11 @@ Course 2 examines ML applications in embedded devices. Participants study the co
 
 <!-- chunk {"id": "body-0059", "role": "body", "section": "Applications of TinyML (Course 2)", "weight": 1.0} -->
 
-We take an application-driven approach to teaching the technical components. For example, we use the keyword-spotting (KWS) example to demonstrate the importance of preprocessing sensor inputs, showing the power of FFTs (fft, ) and MFCCs (mfcc, ) through coding exercises. We additionally explore the importance of holistic architecture by discussing the QoS metrics that evaluate KWS applications and the "cascade architecture" (i.e., ML models staged one after another for efficiency) for deploying them (gruenstein2017cascade, ). As another example, through the lens of the visual wake words (VWW) application, we introduce transfer learning (transfer-learning, ), teaching students to develop their neural-network models without voluminous training data and expensive hardware. Supplementing the theoretical concepts is a coding exercise that employs transfer learning on a pretrained MobileNet (mobilenet, ) model to detect whether an individual is wearing a mask---a real-world application that will resonate with learners in light of Covid-19.
+We take an application-driven approach to teaching the technical components. For example, we use the keyword-spotting (KWS) example to demonstrate the importance of preprocessing sensor inputs, showing the power of FFTs (fft, ) and MFCCs (mfcc, ) through coding exercises. We additionally explore the importance of holistic architecture by discussing the QoS metrics that evaluate KWS applications and the "cascade architecture" (i.e., ML models staged one after another for efficiency) for deploying them (gruenstein2017cascade, ). As another example, through the lens of the visual wake words (VWW) application, we introduce transfer learning (transfer-learning, ), teaching students to develop their neural-network models without voluminous training data and expensive hardware.
 
 <!-- chunk {"id": "body-0060", "role": "body", "section": "Applications of TinyML (Course 2)", "weight": 1.0} -->
 
-As a final example, we use anomaly detection (AD), in the context of predictive maintenance for manufacturing, to demonstrate the power (and limitations) of supervised learning and deep neural networks by exploring *k* nearest neighbors (knn, ), an unsupervised traditional-ML technique, and comparing it with autoencoders (baldi2012autoencoders, ), an unsupervised neural-network technique.
+Supplementing the theoretical concepts is a coding exercise that employs transfer learning on a pretrained MobileNet (mobilenet, ) model to detect whether an individual is wearing a mask---a real-world application that will resonate with learners in light of Covid-19. As a final example, we use anomaly detection (AD), in the context of predictive maintenance for manufacturing, to demonstrate the power (and limitations) of supervised learning and deep neural networks by exploring *k* nearest neighbors (knn, ), an unsupervised traditional-ML technique, and comparing it with autoencoders (baldi2012autoencoders, ), an unsupervised neural-network technique.
 
 <!-- chunk {"id": "body-0061", "role": "body", "section": "Applications of TinyML (Course 2)", "weight": 1.0} -->
 

@@ -128,11 +128,11 @@ Additionally, it is worth noting that both SAC and TD-MPC use a larger batch siz
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Results", "weight": 1.0} -->
 
-Comparison to existing methods. We first compare the data-efficiency of TD-MPC2 to a set of strong baselines on $\mathbf{1}\mathbf{0}\mathbf{4}$ diverse tasks in an online RL setting. Aggregate results are shown in Figure. We find that TD-MPC2 outperforms prior methods across all task domains. The MyoSuite results are particularly noteworthy, as we did not run *any* TD-MPC2 experiments on this benchmark prior to the reported results. Individual task performances on some of the most difficult tasks (high-dimensional locomotion and multi-object manipulation) are shown in Figure and Figure. TD-MPC2 outperforms baselines by a large margin on these tasks, despite using the same hyperparameters across all tasks. Notably, TD-MPC sometimes diverges due to exploding gradients, whereas TD-MPC2 remains stable. We provide per-task visualization of gradients in Appendix G.
+Comparison to existing methods. We first compare the data-efficiency of TD-MPC2 to a set of strong baselines on $\mathbf{1}\mathbf{0}\mathbf{4}$ diverse tasks in an online RL setting. Aggregate results are shown in Figure. We find that TD-MPC2 outperforms prior methods across all task domains. The MyoSuite results are particularly noteworthy, as we did not run *any* TD-MPC2 experiments on this benchmark prior to the reported results. Individual task performances on some of the most difficult tasks (high-dimensional locomotion and multi-object manipulation) are shown in Figure and Figure. TD-MPC2 outperforms baselines by a large margin on these tasks, despite using the same hyperparameters across all tasks. Notably, TD-MPC sometimes diverges due to exploding gradients, whereas TD-MPC2 remains stable.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Results", "weight": 1.0} -->
 
-Similarly, we observe that DreamerV3 experiences occasional numerical instabilities (*Dog*) and generally struggles with tasks that require fine-grained object manipulation (*lift*, *pick*, *stack*). See Appendix D for the full single-task RL results.
+We provide per-task visualization of gradients in Appendix G. Similarly, we observe that DreamerV3 experiences occasional numerical instabilities (*Dog*) and generally struggles with tasks that require fine-grained object manipulation (*lift*, *pick*, *stack*). See Appendix D for the full single-task RL results.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Results", "weight": 1.0} -->
 

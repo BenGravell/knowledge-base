@@ -102,100 +102,104 @@ More concretely, we partition the latent space to learn a distributed representa
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Simulating Traffic Scenarios", "weight": 1.0} -->
 
-We model each traffic scenario as a sequential process where traffic actors interact and plan their behaviors at each timestep. Leveraging the differentiable observation module and joint actor policy, we can generate traffic scenarios by starting with an initial history of the actors $Y^{{- H}:0}$ and simulating their motion forward for T steps. Concretely, at each timestep t, we first extract scene context $X^{t}$, then sample actor plans $\mathcal{Y}^{t} \sim {P_{\theta,\gamma}{(\left. \mathcal{Y}^{t} \middle| X^{t} \right.)}}$ from our joint actor policy, shown in Figure 4.
+We model each traffic scenario as a sequential process where traffic actors interact and plan their behaviors at each timestep. Leveraging the differentiable observation module and joint actor policy, we can generate traffic scenarios by starting with an initial history of the actors $Y^{{- H}:0}$ and simulating their motion forward for T steps. Concretely, at each timestep t, we first extract scene context $X^{t}$, then sample actor plans $\mathcal{Y}^{t} \sim {P_{\theta,\gamma}{(\left.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Simulating Traffic Scenarios", "weight": 1.0} -->
 
+\mathcal{Y}^{t} \middle| X^{t} \right.)}}$ from our joint actor policy, shown in Figure 4.
+
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Simulating Traffic Scenarios", "weight": 1.0} -->
+
 We provide further discussion on trading off simulation quality and computation in Section 4.
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Learning from Examples and Common Sense", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Learning from Examples and Common Sense", "weight": 1.0} -->
 
 In this section, we describe our approach for learning multi-agent behaviors by leveraging large-scale datasets of human driving behaviors. We train by unrolling our policy (i.e., in closed-loop) and exploiting our fully differentiable formulation to directly optimize with back-propagation through the simulation over time. Furthermore, we propose a multi-task loss that balances between learning from demonstration and injecting common sense.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Backpropagation through Differentiable Simulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Backpropagation through Differentiable Simulation", "weight": 1.0} -->
 
 Learning from demonstration via behavior cloning yields good open-loop behaviors (i.e., accurate $P{(\left. \mathcal{Y}^{t} \middle| X^{t} \right.)}$ when $X^{t}$ comes from the observation distribution), but can suffer from compounding error in closed-loop execution (i.e., when $X^{t}$ is induced by the policy). To bridge this gap, we propose to unroll the policy for closed-loop training and compute the loss $\mathcal{L}^{t}$ at each simulation step $t$, as shown in Figure 5 (left). Since we model state transitions in a fully differentiable manner, we can directly optimize the total loss with back-propagation through the simulation across time. In particular, the gradient is back-propagated through action sampled from the policy at each timestep via reparameterization. This gives a direct signal for how current decision influences future states.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Augmenting Imitation with Common Sense", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Augmenting Imitation with Common Sense", "weight": 1.0} -->
 
 Pure imitation suffers from poor supervision when a stochastic policy inevitably deviates from the observed realization of the scenario. Furthermore, inherent bias in the collected data (e.g., lack of safety critical scenarios) means pure imitation can not reason about the danger of collision. Thus, we augment imitation with an auxiliary common sense objective, and use an time-adaptive multi-task loss to balance the supervision. Through the simulation horizon, we anneal $\lambda{(t)}$ to favour supervision from common sense over imitation.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Augmenting Imitation with Common Sense", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Augmenting Imitation with Common Sense", "weight": 1.0} -->
 
 Furthermore, we unroll the model in two distinct segments during training. First for $t \leq T_{\text{label}}$, we unroll with posterior samples from the model $\mathcal{Y}_{\text{post}}^{t} = {f{(X^{t},Z_{\text{post}}^{t})}}$ where $Z_{post}^{t}$ is conditioned on ground truth future $\mathcal{Y}_{\text{GT}}^{t}$. Subsequently for $T_{\text{label}} < t \leq T$, we use $\mathcal{Y}_{\text{prior}}^{t} = {f{(X^{t},Z_{\text{prior}}^{t})}}$ instead. Intuitively, posterior samples reconstruct the ground truth future, whereas prior samples cover diverse possible futures. We now describe both objectives in details, also shown in Figure 5 (right).
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Imitation Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Imitation Objective", "weight": 1.0} -->
 
 To learn from demonstrations, we adapt the variational learning objective of the CVAE framework and optimize the evidence-based lower bound (ELBO) of the log likelihood ${\log P}{(\left. \mathcal{Y}^{t} \middle| X^{t} \right.)}$ at each timestep $t \leq T_{\text{label}}$.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Imitation Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Imitation Objective", "weight": 1.0} -->
 
 We use Huber loss $L_{\delta}$ for reconstruction and reweight the KL term with $\beta$ as proposed.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Common Sense Objective", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Common Sense Objective", "weight": 1.0} -->
 
 We use a pair-wise collision loss and design a efficient differentiable relaxation to ease optimization. In particular, we approximate each vehicle with 5 circles, and compute L2 distance between centroids of the closest circles of each pair of actors. We apply this loss on prior samples from the model $\mathcal{Y}_{prior}^{t}$ to directly regularize $P{(\left. \mathcal{Y}^{t} \middle| X^{t} \right.)}$.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Experimental Evaluation", "weight": 1.0} -->
 
 In this section, we first describe the simulation setup and propose a suite of metrics for measuring simulation quality. We show our approach generates more realistic and diverse traffic scenarios as compared to a diverse set of baselines. Notably, training an imitation-based motion planner on synthetic data generated by TrafficSim outperforms in planning L2 as compared to using same amount of real data. This shows there's minimal behavior gap between TrafficSim and the real world. Lastly, we study how to tradeoff between simulation quality and computation.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Dataset", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Dataset", "weight": 1.0} -->
 
 We benchmark our approach on a large-scale self driving dataset ATG4D, which contains more than one million frames collected over several cities in North America with a 64-beam, roof-mounted LiDAR. Our labels are very precise 3D bounding box tracks. There are 6500 snippets in total, each 25 seconds long. In each city, we have access to high definition maps capturing the geometry and the topology of each road network. We consider a rectangular region of interest centered around the self-driving vehicle that spans 140 meters along the direction of its heading and 80 meters across. The region is fixed across time for each simulation.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Simulation Setup", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Simulation Setup", "weight": 1.0} -->
 
 In this work, we use real traffic states from ATG4D as initialization for the simulations. This give us realistic actor placement and dynamic state, thus controlling for domain gap that might arise from initialization. We subdivide full snippets into 11s chunks, using the first 3s as the initial states $Y^{{- H}:0}$, and the subsequent $T_{\text{label}} = {8s}$ as expert demonstration for training. We run the simulation forward for $T = 12$ seconds for both training and evaluation. We use $\delta_{t} = {0.5s}$ as the duration for a simulation tick (i.e., simulation frequency of $2Hz$). We use observed traffic light states from the log snippets for simulation.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Baselines", "weight": 1.0} -->
 
 We use a wide variety of baselines. The Intelligent Driver Model (IDM) is a heuristic car-following model that explicitly encode traffic rules. We adapt three state-of-the-art motion forecasting models for traffic simulation. MTP models multi-modal futures, but assume independence across actors. ESP models interaction at the output level, via social auto-regressive formulation. ILVM models interaction using a scene-level latent variable model. Finally, we consider imitation learning techniques that have been applied to learning driving behaviors. Following, DataAug adds perturbed trajectories to help the policy learn to recover from mistakes. Inspired, AdversarialIL learns a discriminator as supervision for the policy. We defer implementation details to the supplementary.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 Evaluating traffic simulation is challenging since there is no singular metric that can fully capture the quality of the generated traffic scenarios. Thus we propose a suite of metrics for measuring the diversity and realism, with a particular focus on *coverage* of real world scenarios. We provide implementation details in the supplementary. For all evaluations, we sample $K = 15$ scenarios from the model given each initial condition. More concretely, we create batches of $K$ scenarios with the same initialization. Then at each timestep, we sample a single $\mathcal{Y}_{(k)}^{t}$ from $P{(\left. \mathcal{Y}_{(k)}^{t} \middle| X_{(k)}^{t} \right.)}$ for each scenario $(k)$, all in parallel. After unrolling for $\frac{T}{\delta_{t}}$ steps, we obtain the full scenarios.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 Interaction Reasoning: To evaluate the consistency of the actors' behaviors, we propose to measure the scenario collision rate ($SCR$): the average percentage of actors in collision in each sampled scenario (thus lower being better). Two actors are considered in collision if the overlap between their bounding boxes at any time step is higher than a small IOU threshold.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 Traffic Rule Compliance: Traffic actors should comply with traffic rules. Thus, we propose to measure traffic rule violation (TRV) rate, and focus on two specific traffic rules: 1) staying within drivable areas, and 2) obey traffic light signals.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 Scenario Reconstruction: We use distance-based scenario reconstruction metric to evaluate the model's ability to sample a scenario close to the ground truth. (i.e., recovering irregular maneuvers and complex interactions collected from the real world). For each scenario sample, we calculate average distance error (ADE) across time, and final distance error (FDE) at the last labeled timestep. We calculate minSADE/minSFDE by selecting the best matching scenario sample, and meanSADE/meanSFDE by averaging over all scenario samples.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Metrics", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Metrics", "weight": 1.0} -->
 
 Diversity: Following, we use a map-aware average self distance (MASD) metric to measure the diversity of the sampled scenarios. In particular, we measure the average distance between the two most distinct sampled scenarios that do no violate traffic rules. We note that this metric can be exploited by models that generate diverse but unrealistic traffic scenarios.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Comparison Against Existing Approaches", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Comparison Against Existing Approaches", "weight": 1.0} -->
 
 Table 1 shows quantitative results. Car following models generate collision free behavior that strictly follows traffic rules, but do not recover naturalistic driving, and thus scores poorly on scenario reconstruction metrics. Motion forecasting models recover accurate traffic behavior, but exhibit unrealistic interactions and traffic rule violations when unrolled for a long simulation horizon. Imitation learning techniques attempt to bridge the gap between train and test, and thus results in marginally better scenario reconstruction as compared to motion forecasting baselines. However, they inject additional bias that results in worse collision rate and traffic rule violation. Our TrafficSim achieves the best of both worlds: best results on scenario reconstruction and interaction, and similar to IDM in traffic rule violation, without directly encoding the rules. We note that the ground truth TRV rate is 1.26%, since human exhibit non-compliant behaviors. Figure 6 shows qualitative visualization of traffic scenarios generated from TrafficSim. Figure 7 shows that TrafficSim can generate samples with irregular maneuvers and complex interactions, which cannot be captured by heuristic models like IDM.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "TrafficSim for Data Augmentation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "TrafficSim for Data Augmentation", "weight": 1.0} -->
 
 TrafficSim can be used to generate synthetic training data for learning better motion planners. More concretely, we generate $5s$ scenario snippets and train a planner to imitate behaviors of all actors in the scenario. As shown in Table 3, the planner trained with synthetic data generated from TrafficSim significantly outperforms baselines in open-loop planning metrics when evaluated against real scenarios. Most notably, we achieve *lower* planning L2 error, while matching collision rate and progress of planner trained with the same amount of real data. This shows that the scenarios generated from TrafficSim are realistic and have minimal gap from behaviors observed in the real world, and can be used as effective data augmentation. We show more details on this experiment in the supplementary.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Ablation Study", "weight": 1.0} -->
 
 We show the importance of each component of our model and training methodology in Table 2. Open-loop training ($\mathcal{M}_{0}$ & $\mathcal{M}_{1}$) performs poorly due to compounding error at test-time. Closed-loop training with back-propagation through simulation ($\mathcal{M}_{2}$) is the most important component in learning a robust policy. Explicitly modelling longer horizon plan (i.e., $\mathcal{Y}^{t} = {\{ Y^{t + 1},\ldots,Y^{t + T_{\text{plan}}}\}}$ instead of $Y^{T + 1}$) ($\mathcal{M}_{3}$) improves interaction reasoning. Augmenting imitation with common sense ($\mathcal{M}^{\ast}$) further reduces collision and traffic rule violation rates.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Multi-Step Update for Fast Simulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Multi-Step Update for Fast Simulation", "weight": 1.0} -->
 
 We can achieve faster simulation by running model inference once per $\kappa$ ticks of the simulation. This is possible since TrafficSim explicitly models the actor plans $\mathcal{Y}^{t} = {\{ Y^{t + 1},Y^{t + 2},\ldots,Y^{t + T_{\text{plan}}}\}}$ and accurately captures future interactions in the planning horizon $T_{\text{plan}}$ even without extracting scene context at the highest simulation frequency. In particular, we can choose the desired tradeoff between simulation quality and speed by modulating $\kappa$ at simulation-time without retraining, as long as $\kappa \leq T_{\text{plan}}$. Table 4 shows we can effectively achieve 4x speedup with minimal degradation in simulation quality. Runtime is profiled on a single Nvidia GTX 1080 Ti.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Incorporating Constraints at Simulation-Time", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Incorporating Constraints at Simulation-Time", "weight": 1.0} -->
 
 Explicitly modelling actor plans $\mathcal{Y}^{t}$ at each timestep also makes it easy to incorporate additional constraints at simulation time. In particular, we can define constraints such as avoiding collision and obeying traffic rules over the actor plans $\mathcal{Y}^{t}$, to anticipate and prevent undesired behaviors in the future. Concretely, we evaluate two optimization methods for avoiding collision: 1) rejection sampling which discard actor plans that collide and re-sample, and 2) gradient-based optimization of the scene latent $Z^{t}$ to minimize the differentiable relaxation of collision. Table 5 shows that both methods are effective in reducing collision while keeping the simulation realistic. More details in supplementary.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "TrafficSim for interactive Simulation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "TrafficSim for interactive Simulation", "weight": 1.0} -->
 
 We create an interactive simulation tool to showcase how simulation designers can leverage TrafficSim to construct and preview interesting traffic scenarios. In particular, they can alter traffic light states and add, modify, or remove actors during simulation. In response, TrafficSim generates realistic variants of the traffic scenario. We show visual demonstrations in the supplementary.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 In this work, we have proposed a novel method for generating diverse and realistic traffic simulation. TrafficSim is a multi-agent behavior model that generates socially-consistent plans for all actors in the scene jointly. It is learned using back-propagation through the fully differentiable simulation, by imitating trajectory observations from a real-world self driving dataset and incorporating common sense. TrafficSim enables exciting new possibilities in data augmentation, interactive scenario design, and safety evaluation. For future work, we aim to extend this work to learn controllable actors where we can specify attributes such as goal, route, and style.

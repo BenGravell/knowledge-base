@@ -204,7 +204,8 @@ for all state-action pairs. Here, $Q_{h}$ (resp. $V_{h}$) indicates the running 
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "A model-based algorithm: Monotonic Value Propagation", "weight": 1.0} -->
 
-1 input: state space 𝒮, action space 𝒜, horizon H, total number of episodes K, confidence parameter δ, $c_{1} = \frac{460}{9}$, $c_{2} = {2\sqrt{2}}$, $c_{3} = \frac{544}{9}$. 2 initialization: set $\delta^{\prime}\leftarrow\frac{\delta}{200SAH^{2}K^{2}}$, and for all (s,a,s′,h) ∈ 𝒮 × 𝒜 × 𝒮 × [H], set θh(s,a) ← 0, κh(s,a) ← 0, Nhall(s,a,s′) ← 0, Nh(s,a,s′) ← 0, Nh(s,a) ← 0, Qh(s,a) ← H, Vh(s) ← H. Set πk such that πhk(s) = arg maxaQh(s,a) for all s ∈ 𝒮 and h ∈ [H].
+1 input: state space 𝒮, action space 𝒜, horizon H, total number of episodes K, confidence parameter δ, $c_{1} = \frac{460}{9}$, $c_{2} = {2\sqrt{2}}$, $c_{3} = \frac{544}{9}$. 2 initialization: set $\delta^{\prime}\leftarrow\frac{\delta}{200SAH^{2}K^{2}}$, and for all (s,a,s′,h) ∈ 𝒮 × 𝒜 × 𝒮 × [H], set θh(s,a) ← 0, κh(s,a) ← 0, Nhall(s,a,s′) ← 0, Nh(s,a,s′) ← 0, Nh(s,a) ← 0, Qh(s,a) ← H, Vh(s) ← H.
+Set πk such that πhk(s) = arg maxaQh(s,a) for all s ∈ 𝒮 and h ∈ [H].
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "A model-based algorithm: Monotonic Value Propagation", "weight": 1.0} -->
 

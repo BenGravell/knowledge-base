@@ -40,11 +40,11 @@ We explain the competitive performance of Sketchy with observations of fast spec
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Regret and Optimization", "weight": 1.0} -->
 
-The optimization problem of training a deep neural network has a non-convex objective loss function $f$. Since finding the global optimum is computationally intractable in general, theoretical guarantees focus on convergence to an $\varepsilon$-approximate first-order optimum: a point $x$ such that ${\|{{\nabla f}{(x)}}\|} \leq \varepsilon$. A smooth non-convex problem can be reduced to solving a series of offline convex problems. The convex sub-problems have form ${f_{t}{(x)}} = {{f{(x)}} + {c{\|{x - x_{t}}\|}^{2}}}$, where $c$ is a constant and $x_{t}$ is an iterate in the optimization process. Using online-to-batch conversion, we can translate the regret bound of an online convex optimization (OCO) algorithm to convergence guarantees for offline optimization. For more details of this reduction, see Appendix B.1.
+The optimization problem of training a deep neural network has a non-convex objective loss function $f$. Since finding the global optimum is computationally intractable in general, theoretical guarantees focus on convergence to an $\varepsilon$-approximate first-order optimum: a point $x$ such that ${\|{{\nabla f}{(x)}}\|} \leq \varepsilon$. A smooth non-convex problem can be reduced to solving a series of offline convex problems. The convex sub-problems have form ${f_{t}{(x)}} = {{f{(x)}} + {c{\|{x - x_{t}}\|}^{2}}}$, where $c$ is a constant and $x_{t}$ is an iterate in the optimization process. Using online-to-batch conversion, we can translate the regret bound of an online convex optimization (OCO) algorithm to convergence guarantees for offline optimization.
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Regret and Optimization", "weight": 1.0} -->
 
-Therefore, non-convex optimization guarantees can be obtained from regret bounds, and we focus on the latter in this paper.
+For more details of this reduction, see Appendix B.1. Therefore, non-convex optimization guarantees can be obtained from regret bounds, and we focus on the latter in this paper.
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Regret and Optimization", "weight": 1.0} -->
 

@@ -110,11 +110,11 @@ Finally, as in model-based MPC, for convex polytopic (or quadratic) constraints 
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Robust data-driven MPC", "weight": 1.0} -->
 
-In this section, we propose a multi-step robust data-driven MPC scheme and we prove practical exponential stability of the closed loop in the presence of bounded additive output measurement noise. The scheme includes a slack variable, which is regularized in the cost and compensates noise both in the initial data $(u^{d},y^{d})$ used for prediction and in the online measurement updates $\left( u_{\lbrack{t - n},{t - 1}\rbrack},y_{\lbrack{t - n},{t - 1}\rbrack} \right)$. Section IV-A contains the scheme, which is essentially a robust modification of the nominal scheme of Section III, as well as detailed explanations of the key ingredients. In Sections IV-B and IV-C, we prove two technical Lemmas, which will be required for our main theoretical results. Recursive feasibility of the closed loop is proven in Section IV-D.
+In this section, we propose a multi-step robust data-driven MPC scheme and we prove practical exponential stability of the closed loop in the presence of bounded additive output measurement noise. The scheme includes a slack variable, which is regularized in the cost and compensates noise both in the initial data $(u^{d},y^{d})$ used for prediction and in the online measurement updates $\left( u_{\lbrack{t - n},{t - 1}\rbrack},y_{\lbrack{t - n},{t - 1}\rbrack} \right)$. Section IV-A contains the scheme, which is essentially a robust modification of the nominal scheme of Section III, as well as detailed explanations of the key ingredients. In Sections IV-B and IV-C, we prove two technical Lemmas, which will be required for our main theoretical results.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Robust data-driven MPC", "weight": 1.0} -->
 
-In Section IV-E, we show that, under suitable assumptions, the closed loop resulting from the application of the multi-step MPC scheme leads to a practically exponentially stable closed loop. Moreover, if the noise bound tends to zero, then the region of attraction of the closed loop approaches the set of all initially feasible points. In this section, we do not consider output constraints, i.e., ${\mathbb{Y}} = {\mathbb{R}}^{p}$. In, we recently extended the results of this section by incorporating tightened output constraints in order to guarantee closed-loop constraint satisfaction despite noisy data.
+Recursive feasibility of the closed loop is proven in Section IV-D. In Section IV-E, we show that, under suitable assumptions, the closed loop resulting from the application of the multi-step MPC scheme leads to a practically exponentially stable closed loop. Moreover, if the noise bound tends to zero, then the region of attraction of the closed loop approaches the set of all initially feasible points. In this section, we do not consider output constraints, i.e., ${\mathbb{Y}} = {\mathbb{R}}^{p}$. In, we recently extended the results of this section by incorporating tightened output constraints in order to guarantee closed-loop constraint satisfaction despite noisy data.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "IV-A Robust MPC scheme", "weight": 1.0} -->
 
@@ -228,7 +228,7 @@ Further, we define the noisy version of $\xi$ as
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "IV-B Local upper bound of Lyapunov function", "weight": 1.0} -->
 
-Denote the (not invertible) linear transformation from $\xi$ to an arbitrary but fixed state $x$ in some minimal realization by $T$, i.e., $x_{t} = {T\xi_{t}}$. Clearly, this implies ${\parallel x_{t}\parallel}_{2}^{2} \leq {{\parallel T\parallel}_{2}^{2}{\parallel\xi_{t}\parallel}_{2}^{2}} ≕ {\Gamma_{x}{\parallel\xi_{t}\parallel}_{2}^{2}}$. Note that $\xi$ is the state of a detectable state-space realization and thus, there exists an IOSS Lyapunov function ${W{(\xi)}} = {\parallel\xi\parallel}_{P}^{2}$, similar to the proof of Theorem 2.
+Note that $\xi$ is the state of a detectable state-space realization and thus, there exists an IOSS Lyapunov function ${W{(\xi)}} = {\parallel\xi\parallel}_{P}^{2}$, similar to the proof of Theorem 2. For some $\gamma > 0$, define $V_{t} ≔ {{J_{L}^{\ast}{({\overset{\sim}{\xi}}_{t})}} + {\gammaW{(\xi_{t})}}}$. The following result shows that, for the state $\xi$, a meaningful quadratic upper bound on $V$ can be proven.
 
 <!-- chunk {"id": "body-0057", "role": "body", "section": "IV-C Prediction error bound", "weight": 1.0} -->
 

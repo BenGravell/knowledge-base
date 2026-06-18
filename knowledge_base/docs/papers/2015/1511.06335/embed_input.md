@@ -141,11 +141,11 @@ Determining hyperparameters by cross-validation on a validation set is not an op
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
-During greedy layer-wise pretraining we initialize the weights to random numbers drawn from a zero-mean Gaussian distribution with a standard deviation of 0.01. Each layer is pretrained for 50000 iterations with a dropout rate of $20\%$. The entire deep autoencoder is further finetuned for 100000 iterations without dropout. For both layer-wise pretraining and end-to-end finetuning of the autoencoder the minibatch size is set to 256, starting learning rate is set to 0.1, which is divided by 10 every 20000 iterations, and weight decay is set to 0. All of the above parameters are set to achieve a reasonably good reconstruction loss and are held constant across all datasets. Dataset-specific settings of these parameters might improve performance on each dataset, but we refrain from this type of unrealistic parameter tuning. To initialize centroids, we run $k$-means with 20 restarts and select the best solution. In the KL divergence minimization phase, we train with a constant learning rate of 0.01.
+During greedy layer-wise pretraining we initialize the weights to random numbers drawn from a zero-mean Gaussian distribution with a standard deviation of 0.01. Each layer is pretrained for 50000 iterations with a dropout rate of $20\%$. The entire deep autoencoder is further finetuned for 100000 iterations without dropout. For both layer-wise pretraining and end-to-end finetuning of the autoencoder the minibatch size is set to 256, starting learning rate is set to 0.1, which is divided by 10 every 20000 iterations, and weight decay is set to 0. All of the above parameters are set to achieve a reasonably good reconstruction loss and are held constant across all datasets. Dataset-specific settings of these parameters might improve performance on each dataset, but we refrain from this type of unrealistic parameter tuning. To initialize centroids, we run $k$-means with 20 restarts and select the best solution.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Implementation", "weight": 1.0} -->
 
-The convergence threshold is set to ${tol} = {0.1\%}$. Our implementation is based on Python and Caffe and is available at
+In the KL divergence minimization phase, we train with a constant learning rate of 0.01. The convergence threshold is set to ${tol} = {0.1\%}$. Our implementation is based on Python and Caffe and is available at
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Implementation", "weight": 1.0} -->
 

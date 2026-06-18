@@ -235,13 +235,8 @@ Sample s, a, b ∼ νt, then obtain Q̂ (s,a,b) using the sampling oracle.
 
 <!-- chunk {"id": "body-0058", "role": "body", "section": "Online Algorithm with Function Approximation", "weight": 1.0} -->
 
-0: $\overline{x_{T^{\prime}}}$ as average of {xt}, t ∈ [T′]
-min player: Initialize w0 = 0. Sample s ∼ σ(s), a ∼ xt(⋅|s), b ∼ ft(⋅|s), s′ ∼ 𝒫(⋅|s,a,b), b′ ∼ ft(⋅|s), observe:gn = [r (s,a,b) + γ Vk − 1 (s′)] ⋅ (∇θlog ft (b|s)−∇θlog ft (b′|s)). Update: wn + 1 = Proj𝒲 [wn − 2 α′ ⋅ (wn⊤ ∇θlog ft (b|s) ∇θlog ft (b|s)−gn)]. ${\hat{w}}^{t} = {\frac{1}{N^{\prime}}{\sum_{n = 1}^{N^{\prime}}w_{n}}}$. max player: Initialize w0 = 0.
+max player: Initialize w0 = 0. Sample s ∼ σ(s), a ∼ xt(⋅|s), b ∼ ft(⋅|s), s′ ∼ 𝒫(⋅|s,a,b), a′ ∼ xt(⋅|s), observe:gn = [r (s,a,b) + γ Vk − 1 (s′)] ⋅ (∇ξlog xt (a|s)−∇ξlog xt (a′|s)). Update: wn + 1 = Proj𝒲 [wn−2 α′ ⋅ (wn⊤ ∇ξlog xt (a|s) ∇ξlog xt (a|s)−gn)]. ${\hat{w}}^{t} = {\frac{1}{N^{\prime}}{\sum_{n = 1}^{N^{\prime}}w_{n}}}$. Algorithm 4 Online Greedy Step with Function-Approx
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Online Algorithm with Function Approximation", "weight": 1.0} -->
-
-Sample s ∼ σ(s), a ∼ xt(⋅|s), b ∼ ft(⋅|s), s′ ∼ 𝒫(⋅|s,a,b), a′ ∼ xt(⋅|s), observe:gn = [r (s,a,b) + γ Vk − 1 (s′)] ⋅ (∇ξlog xt (a|s)−∇ξlog xt (a′|s)). Update: wn + 1 = Proj𝒲 [wn−2 α′ ⋅ (wn⊤ ∇ξlog xt (a|s) ∇ξlog xt (a|s)−gn)]. ${\hat{w}}^{t} = {\frac{1}{N^{\prime}}{\sum_{n = 1}^{N^{\prime}}w_{n}}}$. Algorithm 4 Online Greedy Step with Function-Approx
-
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 This paper gave the first quantitative analysis of policy gradient methods for general two-player zero-sum Markov games with function approximation. We quantified the performance gap of the output policy in terms of the number of iterations, number of samples, concentrability coefficients, and approximation error. An interesting direction is to extend our results to more advanced PG methods such as PPO.

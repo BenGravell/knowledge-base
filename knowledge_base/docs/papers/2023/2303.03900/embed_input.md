@@ -458,11 +458,11 @@ Unfortunately, however, the asset return distribution $\mathbb{P}$ is unknown in
 
 <!-- chunk {"id": "body-0115", "role": "body", "section": "Distributionally Robust Log-Optimal Portfolio Selection", "weight": 1.0} -->
 
-which is an instance of with ${L{(s)}} = {- {\log{(s)}}}$ if $s > 0$ and ${L{(s)}} = {+ \infty}$ if $s \leq 0$. If the transportation cost function is set to ${c{(z,\hat{z})}} = {\|{z - \hat{z}}\|}^{p}$ for some norm $\parallel \cdot \parallel$ on ${\mathbb{R}}^{d}$ and exponent $p \geq 1$, then ${\mathbb{B}}_{\varepsilon}{(\hat{\mathbb{P}})}$ reduces to the $p$-th Wasserstein ball of radius $\varepsilon^{p}$ around $\hat{\mathbb{P}}$. One readily verifies that any such Wasserstein ball contains distributions that assign a strictly positive mass to 0.
+One readily verifies that any such Wasserstein ball contains distributions that assign a strictly positive mass to 0. Thus, the worst-case expected log-utility of any portfolio $\theta \in \Theta$ is unbounded from above, which implies that problem is infeasible. To ensure that problem is well-defined, the cost of moving any fixed probability mass towards 0 must tend to infinity. This can be ensured, for example, by setting $c{(z,\hat{z})} = \sum_{i \in {\lbrack d\rbrack}}|\log{(z_{i}/{\hat{z}}_{i})})|$ with ${{dom}{({c{( \cdot,\hat{z})}})}} = {\mathbb{R}}_{+ +}^{d}$ for every $\hat{z} \in {\mathbb{R}}_{+ +}^{d}$.
 
 <!-- chunk {"id": "body-0116", "role": "body", "section": "Distributionally Robust Log-Optimal Portfolio Selection", "weight": 1.0} -->
 
-Thus, the worst-case expected log-utility of any portfolio $\theta \in \Theta$ is unbounded from above, which implies that problem is infeasible. To ensure that problem is well-defined, the cost of moving any fixed probability mass towards 0 must tend to infinity. This can be ensured, for example, by setting $c{(z,\hat{z})} = \sum_{i \in {\lbrack d\rbrack}}|\log{(z_{i}/{\hat{z}}_{i})})|$ with ${{dom}{({c{( \cdot,\hat{z})}})}} = {\mathbb{R}}_{+ +}^{d}$ for every $\hat{z} \in {\mathbb{R}}_{+ +}^{d}$. Even though it is nonconvex in both of its arguments, this transportation cost function defines a metric on $\mathcal{Z}$ that gives rise to a valid optimal transport discrepancy.
+Even though it is nonconvex in both of its arguments, this transportation cost function defines a metric on $\mathcal{Z}$ that gives rise to a valid optimal transport discrepancy.
 
 <!-- chunk {"id": "body-0117", "role": "body", "section": "Distributionally Robust Log-Optimal Portfolio Selection", "weight": 1.0} -->
 

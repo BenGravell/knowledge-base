@@ -56,11 +56,11 @@ As a consequence, the developers have no choice but to use a hodgepodge of frame
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Logically centralized control for distributed RL", "weight": 1.0} -->
 
-It is desirable for a single programming model to capture all the requirements of RL training. This can be done without eschewing high-level frameworks that structure the computation. Our key insight is that for each distributed RL algorithm, an equivalent algorithm can be written that exhibits logically centralized program control (Figure 2(b)). That is, instead of having independently executing processes (A, B, C, D in Figure 2(a)) coordinate among themselves (e.g., through RPCs, shared memory, parameter servers, or collective communication), a single driver program (D in Figure 2(b) and 2(c)) can delegate algorithm sub-tasks to other processes to execute in parallel. In this paradigm, the worker processes A, B, and C passively hold state (e.g., policy or simulator state) but execute no computations until called by D.
+It is desirable for a single programming model to capture all the requirements of RL training. This can be done without eschewing high-level frameworks that structure the computation. Our key insight is that for each distributed RL algorithm, an equivalent algorithm can be written that exhibits logically centralized program control (Figure 2(b)). That is, instead of having independently executing processes (A, B, C, D in Figure 2(a)) coordinate among themselves (e.g., through RPCs, shared memory, parameter servers, or collective communication), a single driver program (D in Figure 2(b) and 2(c)) can delegate algorithm sub-tasks to other processes to execute in parallel.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Logically centralized control for distributed RL", "weight": 1.0} -->
 
-To support nested computations, we propose extending the centralized control model with hierarchical delegation of control (Figure 2(c)), which allows the worker processes (e.g., B, C) to further delegate work (e.g., simulations, gradient computation) to sub-workers of their own when executing tasks.
+In this paradigm, the worker processes A, B, and C passively hold state (e.g., policy or simulator state) but execute no computations until called by D. To support nested computations, we propose extending the centralized control model with hierarchical delegation of control (Figure 2(c)), which allows the worker processes (e.g., B, C) to further delegate work (e.g., simulations, gradient computation) to sub-workers of their own when executing tasks.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "Logically centralized control for distributed RL", "weight": 1.0} -->
 

@@ -152,11 +152,11 @@ Here we examine meta-RL in a setting that has been widely used in the neuroscien
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "The \"two-step task\"", "weight": 1.0} -->
 
-We used a modified version of the two-step task, designed to bolster the utility of model-based over model-free control. The task's structure is diagrammed in Figure 5a. From the first-stage state $S_{1}$, action $a_{1}$ leads to second-stage states $S_{2}$ and $S_{3}$ with probability 0.75 and 0.25, respectively, while action $a_{2}$ leads to $S_{2}$ and $S_{3}$ with probabilities 0.25 and 0.75. One second-stage state yielded a reward of 1.0 with probability 0.9 (and otherwise zero); the other yielded the same reward with probability 0.1. The identity of the higher-valued state was assigned randomly for each episode. Thus, the expected values for the two first-stage actions were either $r_{a}$ = 0.9 and $r_{b}$ = 0.1, or $r_{a}$ = 0.1 and $r_{b}$ = 0.9.
+We used a modified version of the two-step task, designed to bolster the utility of model-based over model-free control. The task's structure is diagrammed in Figure 5a. From the first-stage state $S_{1}$, action $a_{1}$ leads to second-stage states $S_{2}$ and $S_{3}$ with probability 0.75 and 0.25, respectively, while action $a_{2}$ leads to $S_{2}$ and $S_{3}$ with probabilities 0.25 and 0.75. One second-stage state yielded a reward of 1.0 with probability 0.9 (and otherwise zero); the other yielded the same reward with probability 0.1. The identity of the higher-valued state was assigned randomly for each episode.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "The \"two-step task\"", "weight": 1.0} -->
 
-All three states were represented by one-hot vectors, with the transition model held constant across episodes: i.e. only the expected value of the second stage states changed from episode to episode.
+Thus, the expected values for the two first-stage actions were either $r_{a}$ = 0.9 and $r_{b}$ = 0.1, or $r_{a}$ = 0.1 and $r_{b}$ = 0.9. All three states were represented by one-hot vectors, with the transition model held constant across episodes: i.e. only the expected value of the second stage states changed from episode to episode.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "The \"two-step task\"", "weight": 1.0} -->
 

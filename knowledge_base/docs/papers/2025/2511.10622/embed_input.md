@@ -156,11 +156,11 @@ Each of these three steps can be written in the form of the iterations $z^{k + 1
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Verification framework", "weight": 1.0} -->
 
-In this section, we introduce our verification framework for certifying the global worst-case performance of SCP methods for parametric non-convex optimization. In Subsection 4.1, we formulate the verification problem as an optimization problem that maximizes a performance metric subject to constraints that i) encode the SCP steps, ii) enforce the parameter is in a set $\mathcal{X}$, iii) enforce that the initial point is in a set $S$, and iv) impose optimality on the true solution to problem \\tagform@1. In Subsection 4.2, we show how to encode the algorithm steps (the convex QPs and rounding steps) as constraints in the verification problem. Then in the next three subsections, we focus on three specific cases: verifying suboptimality when feasibility of the final iterate can be guaranteed in Subsection 4.3, verifying the level of constraint violation when feasibility cannot be guaranteed in Subsection 4.4, and verifying the feasibility of convex subproblems with linear constraints in Subsection 4.5.
+In this section, we introduce our verification framework for certifying the global worst-case performance of SCP methods for parametric non-convex optimization. In Subsection 4.1, we formulate the verification problem as an optimization problem that maximizes a performance metric subject to constraints that i) encode the SCP steps, ii) enforce the parameter is in a set $\mathcal{X}$, iii) enforce that the initial point is in a set $S$, and iv) impose optimality on the true solution to problem \\tagform@1. In Subsection 4.2, we show how to encode the algorithm steps (the convex QPs and rounding steps) as constraints in the verification problem.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Verification framework", "weight": 1.0} -->
 
-Finally, in Subsection 4.6, we show how to incorporate inexact solves to the convex subproblems into our framework.
+Then in the next three subsections, we focus on three specific cases: verifying suboptimality when feasibility of the final iterate can be guaranteed in Subsection 4.3, verifying the level of constraint violation when feasibility cannot be guaranteed in Subsection 4.4, and verifying the feasibility of convex subproblems with linear constraints in Subsection 4.5. Finally, in Subsection 4.6, we show how to incorporate inexact solves to the convex subproblems into our framework.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Formulating the verification problem", "weight": 1.0} -->
 

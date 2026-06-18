@@ -61,7 +61,8 @@ In what follows, we first define the autonomy system and our attack formulation 
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Generating Safety-Critical Scenarios", "weight": 1.0} -->
 
-1:Sensory input x, initial state s0 of the perturbed actor, adversarial objective ℒadv, number of queries N. 2:Pick the perturbed actor vadv heuristically
+1:Sensory input x, initial state s0 of the perturbed actor, adversarial objective ℒadv, number of queries N.
+2:Pick the perturbed actor vadv heuristically
 3:Generate physically plausible trajectories set 𝒯adv
 4:Initialize observation set ℋ = ⌀
 6: Select δ(k) based on black-box algorithms and historical observations ℋ.
@@ -154,11 +155,11 @@ For RS, the perturbations sampled from a pre-defined orthonormal basis are added
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Overall Adversarial Scenario Generation Algorithm", "weight": 1.0} -->
 
-We summarize our proposed AdvSim framework in Algorithm 1. Given an initial traffic scene, we pick the actors to be perturbed using heuristics, such as the closest reachable actors, and then sample physically plausible trajectories $\mathcal{T}_{adv}$ to ensure that our perturbations remain in this set. We then obtain the perturbation ${\mathbf{δ}}^{(k)}$ at iteration $k$ based on historical observations $\mathcal{H}$ using a selected black-box search algorithm (L. 5). We roll out the kinematics bicycle model states with initial state $\mathbf{s}_{0}$ and the perturbation ${\mathbf{δ}}^{(k)}$, and project onto the feasible set $\mathcal{T}_{adv}$ to obtain the adversarial trajectories for the perturbed actors (L. 6). After that, we update the sensor data accordingly (L.
+We summarize our proposed AdvSim framework in Algorithm 1. Given an initial traffic scene, we pick the actors to be perturbed using heuristics, such as the closest reachable actors, and then sample physically plausible trajectories $\mathcal{T}_{adv}$ to ensure that our perturbations remain in this set. We then obtain the perturbation ${\mathbf{δ}}^{(k)}$ at iteration $k$ based on historical observations $\mathcal{H}$ using a selected black-box search algorithm (L. 5). We roll out the kinematics bicycle model states with initial state $\mathbf{s}_{0}$ and the perturbation ${\mathbf{δ}}^{(k)}$, and project onto the feasible set $\mathcal{T}_{adv}$ to obtain the adversarial trajectories for the perturbed actors (L. 6).
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Overall Adversarial Scenario Generation Algorithm", "weight": 1.0} -->
 
-7) and evaluate the full autonomy system on generated scenarios to compute $\mathcal{L}_{adv}$ (L. 8-9). Finally, after running the procedure for $N$ iterations, we obtain the adversarial behaviors of perturbed actors as well as corresponding simulated LiDAR data.
+After that, we update the sensor data accordingly (L. 7) and evaluate the full autonomy system on generated scenarios to compute $\mathcal{L}_{adv}$ (L. 8-9). Finally, after running the procedure for $N$ iterations, we obtain the adversarial behaviors of perturbed actors as well as corresponding simulated LiDAR data.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Experiments", "weight": 1.0} -->
 

@@ -84,11 +84,11 @@ The first network in the stack always gets the images $I_{1}$ and $I_{2}$ as inp
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Stacking Two Networks for Flow Refinement", "weight": 1.0} -->
 
-To make assessment of the previous error and computing an incremental update easier for the network, we also optionally warp the second image $I_{2}{(x,y)}$ via the flow $w_{i}$ and bilinear interpolation to ${{\overset{\sim}{I}}_{2,i}{(x,y)}} = {I_{2}{({x + u_{i}},{y + v_{i}})}}$. This way, the next network in the stack can focus on the remaining increment between $I_{1}$ and ${\overset{\sim}{I}}_{2,i}$. When using warping, we additionally provide ${\overset{\sim}{I}}_{2,i}$ and the error $e_{i} = {\|{{\overset{\sim}{I}}_{2,i} - I_{1}}\|}$ as input to the next network; see Figure 2.
+To make assessment of the previous error and computing an incremental update easier for the network, we also optionally warp the second image $I_{2}{(x,y)}$ via the flow $w_{i}$ and bilinear interpolation to ${{\overset{\sim}{I}}_{2,i}{(x,y)}} = {I_{2}{({x + u_{i}},{y + v_{i}})}}$. This way, the next network in the stack can focus on the remaining increment between $I_{1}$ and ${\overset{\sim}{I}}_{2,i}$.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Stacking Two Networks for Flow Refinement", "weight": 1.0} -->
 
-Thanks to bilinear interpolation, the derivatives of the warping operation can be computed (see supplemental material for details). This enables training of stacked networks end-to-end.
+When using warping, we additionally provide ${\overset{\sim}{I}}_{2,i}$ and the error $e_{i} = {\|{{\overset{\sim}{I}}_{2,i} - I_{1}}\|}$ as input to the next network; see Figure 2. Thanks to bilinear interpolation, the derivatives of the warping operation can be computed (see supplemental material for details). This enables training of stacked networks end-to-end.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Stacking Two Networks for Flow Refinement", "weight": 1.0} -->
 

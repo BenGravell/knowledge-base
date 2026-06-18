@@ -200,11 +200,11 @@ The constraints are $\begin{bmatrix}
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Case study", "weight": 1.0} -->
 
-We compare the open-loop predictions obtained by solving DeePC and. The performance of problem was similar to that of DeePC, and therefore, we do not include it here. The parameters $\lambda_{g}$ and $\delta$ are tuned through validation from the intervals $\lbrack 10,10^{7}\rbrack$ and $\lbrack 10^{- 3},10^{3}\rbrack$, respectively. The open-loop prediction error and realized cost during validation are plotted in Figure 2 as the function of $\lambda_{g}$ (or $\delta$ for ). We choose $\lambda_{g} = 54.29$ and $\delta = 0.091$, as these values achieve the lowest open-loop cost on the validation set. With the validated parameter values, the predicted trajectories are tested for both methods. Both the validation and the testing was performed under a 100 noise realizations. The whole experiment was repeated for signal-to-noise ratios (SNR) 10, 5, and 3.
+We compare the open-loop predictions obtained by solving DeePC and. The performance of problem was similar to that of DeePC, and therefore, we do not include it here. The parameters $\lambda_{g}$ and $\delta$ are tuned through validation from the intervals $\lbrack 10,10^{7}\rbrack$ and $\lbrack 10^{- 3},10^{3}\rbrack$, respectively. The open-loop prediction error and realized cost during validation are plotted in Figure 2 as the function of $\lambda_{g}$ (or $\delta$ for ). We choose $\lambda_{g} = 54.29$ and $\delta = 0.091$, as these values achieve the lowest open-loop cost on the validation set. With the validated parameter values, the predicted trajectories are tested for both methods. Both the validation and the testing was performed under a 100 noise realizations.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Case study", "weight": 1.0} -->
 
-Table I shows the mean realized open-loop cost and the prediction error statistics for different SNR levels.
+The whole experiment was repeated for signal-to-noise ratios (SNR) 10, 5, and 3. Table I shows the mean realized open-loop cost and the prediction error statistics for different SNR levels.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Case study", "weight": 1.0} -->
 

@@ -80,7 +80,7 @@ The loss function uses a term $s$ that learns invariance to data transformations
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Method", "weight": 1.0} -->
 
-Given an image $i$ sampled from a dataset $\mathcal{D}$, two transformations $t$ and $t^{\prime}$ are sampled from a distribution $\mathcal{T}$ to produce two different views $x = {t{(i)}}$ and $x^{\prime} = {t^{\prime}{(i)}}$ of $i$. These transformations are random crops of the image, followed by color distortions. The distribution $\mathcal{T}$ is described in Appendix C.
+Given an image $i$ sampled from a dataset $\mathcal{D}$, two transformations $t$ and $t^{\prime}$ are sampled from a distribution $\mathcal{T}$ to produce two different views $x = {t{(i)}}$ and $x^{\prime} = {t^{\prime}{(i)}}$ of $i$. These transformations are random crops of the image, followed by color distortions.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Method", "weight": 1.0} -->
 
@@ -104,11 +104,11 @@ where $Z^{I}$ and $Z^{\prime I}$ are the batches of embeddings corresponding to 
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Implementation details", "weight": 1.0} -->
 
-Implementation details for pretraining with VICReg on the 1000-classes ImagetNet dataset without labels are as follows. Coefficients $\lambda$ and $\mu$ are $25$ and $\nu$ is 1 in Eq., and $\epsilon$ is $0.0001$ in Eq.. We give more details on how we choose the coefficients of the loss function in Appendix D.4. The encoder network $f_{\theta}$ is a standard ResNet-50 backbone He et al. with 2048 output units. The expander $h_{\phi}$ is composed of two fully-connected layers with batch normalization (BN) Ioffe & Szegedy and ReLU, and a third linear layer. The sizes of all 3 layers were set to 8192. As with Barlow Twins, performance improves when the size of the expander layers is larger than the dimension of the representation. The impact of the expander dimension on performance is studied in Appendix D.
+Implementation details for pretraining with VICReg on the 1000-classes ImagetNet dataset without labels are as follows. Coefficients $\lambda$ and $\mu$ are $25$ and $\nu$ is 1 in Eq., and $\epsilon$ is $0.0001$ in Eq.. We give more details on how we choose the coefficients of the loss function in Appendix D.4. The encoder network $f_{\theta}$ is a standard ResNet-50 backbone He et al. with 2048 output units. The expander $h_{\phi}$ is composed of two fully-connected layers with batch normalization (BN) Ioffe & Szegedy and ReLU, and a third linear layer. The sizes of all 3 layers were set to 8192. As with Barlow Twins, performance improves when the size of the expander layers is larger than the dimension of the representation.
 
 <!-- chunk {"id": "body-0027", "role": "body", "section": "Implementation details", "weight": 1.0} -->
 
-The training protocol follows those of BYOL and Barlow Twins: LARS optimizer You et al.; Goyal et al. run for 1000 epochs with a weight decay of $10^{- 6}$ and a learning rate ${lr} = {{{{batch\_size}/256} \times b}ase\_lr}$, where $batch\_size$ is set to $2048$ by default and $base\_lr$ is a base learning rate set to $0.2$. The learning rate follows a cosine decay schedule Loshchilov & Hutter, starting from $0$ with $10$ warmup epochs and with final value of $0.002$.
+The impact of the expander dimension on performance is studied in Appendix D. The training protocol follows those of BYOL and Barlow Twins: LARS optimizer You et al.; Goyal et al. run for 1000 epochs with a weight decay of $10^{- 6}$ and a learning rate ${lr} = {{{{batch\_size}/256} \times b}ase\_lr}$, where $batch\_size$ is set to $2048$ by default and $base\_lr$ is a base learning rate set to $0.2$. The learning rate follows a cosine decay schedule Loshchilov & Hutter, starting from $0$ with $10$ warmup epochs and with final value of $0.002$.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Results", "weight": 1.0} -->
 

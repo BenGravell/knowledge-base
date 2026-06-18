@@ -255,134 +255,138 @@ We next focus on the condition. The structure of is analogous to, with the diffe
 
 <!-- chunk {"id": "body-0059", "role": "body", "section": "Bounds on the relative error", "weight": 1.0} -->
 
-Different, cannot be checked from data as it depends on the (unknown) optimal controller $K_{opt}$ via $M_{o}$. Nonetheless, an interesting fact related to is that this condition is actually easier to satisfy than. This indicates in particular that the robust solution in Theorem 5.4 does not introduce much conservatism with respect to the baseline solution in Theorem 4.3.
+Different, cannot be checked from data as it depends on the (unknown) optimal controller $K_{opt}$ via $M_{o}$. Nonetheless, an interesting fact related to is that this condition is actually easier to satisfy than.
 
 <!-- chunk {"id": "body-0060", "role": "body", "section": "Bounds on the relative error", "weight": 1.0} -->
 
-We now elaborate on this point.\
-In both Theorems 4.3 and 5.4, the performance gap between $\overline{K}$ and $K_{opt}$ holds for *any* optimal solution $(\gamma_{o},Q_{o},P_{o},L_{o})$ to problem, and this is possible since by Theorem 3.2 all the solutions are such that $K_{opt} = {U_{0}Q_{o}P_{o}^{- 1}}$ with $\mathcal{H}_{2}$-norm ${\|{\mathcal{T}{(K_{opt})}}\|}_{2}^{2} = {{{trace}{(P_{o})}} + {{trace}{(L_{o})}}}$. We now derive a particular (optimal) solution, the derivation being analogous to the one in Lemma 3.
+This indicates in particular that the robust solution in Theorem 5.4 does not introduce much conservatism with respect to the baseline solution in Theorem 4.3. We now elaborate on this point.\
+In both Theorems 4.3 and 5.4, the performance gap between $\overline{K}$ and $K_{opt}$ holds for *any* optimal solution $(\gamma_{o},Q_{o},P_{o},L_{o})$ to problem, and this is possible since by Theorem 3.2 all the solutions are such that $K_{opt} = {U_{0}Q_{o}P_{o}^{- 1}}$ with $\mathcal{H}_{2}$-norm ${\|{\mathcal{T}{(K_{opt})}}\|}_{2}^{2} = {{{trace}{(P_{o})}} + {{trace}{(L_{o})}}}$.
 
 <!-- chunk {"id": "body-0061", "role": "body", "section": "Bounds on the relative error", "weight": 1.0} -->
 
-This particular solution is optimal as it achieves the same cost of any other optimal solution (Theorem 3.2). The special feature of this solution is that $G_{o}$ is the *minimum norm* least-squares solution to with $K = K_{opt}$, and so is $Q_{o} = {G_{o}P_{o}}$. Since $M_{o} = {Q_{o}P_{o}^{- 1}Q_{o}^{\top}}$, condition turns out to be satisfied more easily than since the matrix $\overline{M}$ appearing in is instead not necessarily associated to any minimum norm solution. We note that $Q_{o}$ (thus $M_{o}$) decreases as the norm of $W_{0}$ increases, which happens for instance when the number $T$ of collected data increases. This implies in particular that $V_{o}$ approaches $0$ as $W_{0}$ increases.
+We now derive a particular (optimal) solution, the derivation being analogous to the one in Lemma 3. Let $P_{o} \succ 0$ be the unique solution to ${{{{({A + {BK_{opt}}})}P_{o}{({A + {BK_{opt}}})}^{\top}} - P_{o}} + I} = 0$. In particular, $P_{o}$ is the *controllability Gramian* of the closed-loop system. Let now
 
 <!-- chunk {"id": "body-0062", "role": "body", "section": "Bounds on the relative error", "weight": 1.0} -->
 
+This particular solution is optimal as it achieves the same cost of any other optimal solution (Theorem 3.2). The special feature of this solution is that $G_{o}$ is the *minimum norm* least-squares solution to with $K = K_{opt}$, and so is $Q_{o} = {G_{o}P_{o}}$. Since $M_{o} = {Q_{o}P_{o}^{- 1}Q_{o}^{\top}}$, condition turns out to be satisfied more easily than since the matrix $\overline{M}$ appearing in is instead not necessarily associated to any minimum norm solution. We note that $Q_{o}$ (thus $M_{o}$) decreases as the norm of $W_{0}$ increases, which happens for instance when the number $T$ of collected data increases. This implies in particular that $V_{o}$ approaches $0$ as $W_{0}$ increases.
+
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Bounds on the relative error", "weight": 1.0} -->
+
 In turn, this means that the formulation does not introduce much conservatism with respect to the formulation since the performance bound
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Nonlinear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Nonlinear systems", "weight": 1.0} -->
 
 The previous analysis extends to the problem of finding the LQR law for a nonlinear system around an equilibrium using data collected from the nonlinear system. In fact, around an equilibrium a nonlinear system can be expressed via its first order approximation plus a reminder, which acts as a process disturbance for the linearized dynamics.\
 Consider a smooth nonlinear system
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Nonlinear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Nonlinear systems", "weight": 1.0} -->
 
 where $\xi$ is a process disturbance, and let $(\overline{x},\overline{u})$ be a *known* equilibrium pair, that is such that $\overline{x} = {f{(\overline{x},\overline{u})}}$. Thus, we can rewrite the dynamics as
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Nonlinear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Nonlinear systems", "weight": 1.0} -->
 
 and with $d:={\xi + r}$, where $r$ accounts for higher-order terms and it has the property that is goes to zero faster than $\deltax$ and $\deltau$, namely we have
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Nonlinear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Nonlinear systems", "weight": 1.0} -->
 
 where $R{({\deltax},{\deltau})}$ ia a matrix of smooth functions with the property that $R{({\deltax},{\deltau})}$ goes to zero as ${\lbrack{\deltax^{\top}\deltau^{\top}}\rbrack}^{\top}$ goes to zero. Now, if the pair $(A,B)$ defining the linearized system is stabilizable then a controller $K$ rendering $A + {BK}$ stable also exponentially stabilizes the equilibrium $(\overline{x},\overline{u})$ for the original nonlinear system. Thus, the analysis in Theorem 5.4 carries over directly to this case (similar conclusions apply to Theorem 5.5).
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
 
 Several de-noising strategies can be adopted when the noise features are known, popular methods being the Singular Spectrum Analysis, the Cadzow algorithm, and structured low-rank approximation. Here, we discuss a simple de-noising strategy based on averaging of *ensembles*.\
 Roughly, the idea is that for signals affected by random noise the components due to noise can be filtered out by taking an average of several signal "cycles". This can be done by considering a single trajectory of length $T_{\ast}$ and cutting it into $N$ pieces of length $T$ (single trajectory ensemble) or by taking $N$ measurements of length $T$ (multiple trajectory ensemble). We now elaborate on this idea considering the case of multiple trajectory ensembles.\
 Given $N$ matrices $S^{(n)}$ with $n = {1,\ldots,N}$, let
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
 
 denote their average. For a given $N$, let
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
 
 be the dynamics of over a generic experiment (cycle) $n$ with $n = {1,\ldots,N}$. Thus, $x^{(n)}$, $u^{(n)}$ and $d^{(n)}$ are the state, input, and disturbance signals associated with the experiment $n$. By linearity, if we collect $T$ samples in each experiment the resulting tuples
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
 
 Hence, the average signals still provide a valid input-output system trajectory, meaning that all previous results apply to this case without any modifications.\
 For random noise, however, using can be advantageous with respect to using, that is one single experiment. To see this, consider the case of $N$ (repeated) experiments carried out with persistently exciting input signals $u^{(n)} = u$ for all $n = {1,\ldots,N}$ and arbitrary initial states, and suppose that the noise realizations $d^{(n)}$ are *i.i.d.* with zero mean and covariance matrix $\sigma^{2}I$. Under these conditions holds with ${\overline{U}}_{0} = U_{0}$, *i.e.* ${\overline{X}}_{1} = {{A{\overline{X}}_{0}} + {BU_{0}} + {\overline{D}}_{0}}$.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
 
 This ensures that the average trajectory arises from a persistently exciting input, which is needed for having fulfilled (the average of persistently exciting signals need not result in a persistently exciting signal). With this appraoch, and (thus and ) become easier to satisfy. In fact,
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
 
 where the accuracy of the approximation increases with $T$ (the relation being exact in terms of *expectation*). Hence,
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "De-noising through averaging", "weight": 1.0} -->
 
 showing an approximate reduction by a factor of $N$ (indeed, this is nothing but a consequence of the fact that averaging $N$ *i.i.d* realizations reduces the variance by a factor of $N$). This procedure is illustrated in the numerical simulations which follow.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Monte Carlo simulations", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "Monte Carlo simulations", "weight": 1.0} -->
 
 In this section, we support our theoretical findings through simulations on linear and nonlinear systems.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
 
 We consider $100$ systems as in with $n = 3$ and $m = 1$, under three types of noise: *white Gaussian noise* (WGN), constant bias and sinusoidal disturbances. In all the cases, we also consider different levels of noise. For every type (and level) of noise we test and in all the systems. Numerical simulations have been carried out in Matlab. For each experiment, we choose the entries of the matrices $A$ and $B$ and of the initial state from a normal distribution with zero mean and unit variance, abbreviated by $\mathcal{N}{}$ (command randn). For each experiment, the controller was designed using $T = 20$ samples generated by applying an input signal $u \sim {\mathcal{N}{}}$ (by Lemma 1 condition requires a minimum of $7$ samples).\
 WGN has been generated taking $d \sim {\mathcal{N}{(0,{\sigma^{2}I})}}$, where $\sigma$ represents the standard deviation.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
 
 We varied $\sigma$ considering different scenarios of the signal-to-noise (SNR), computed (command snr) by comparing the variables $Bu$ (signal) and $d$ (noise). This SNR measures how much noise enters the system relatively to the intended input signal. Constant bias was chosen by applying to each input channel a value $\kappa$ taken from a uniform distribution in $({- \overline{\kappa}},\overline{\kappa})$. Finally, sinusoidal disturbance was chosen by applying to each input channel a signal $\kappa{\sin{(k)}}$ with $\kappa$ given as above.\
 We denote by $\mathcal{S}$ the percentage of times we get a stabilizing controller. We also compute the performance gap between the controller found via and and the optimal one.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
 
 Specifically, for each type (and level) of noise, we let $\overline{K}^{(k)}$ and $K_{opt}^{(k)}$ with $k = {1,\ldots,100}$ denote the controller found via or and the optimal one for the $k$-th experiment, and let
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0079", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
 
 represent the relative performance error. We denote by $\mathcal{M}$ the median of $\mathcal{E}_{k}$ through all the experiments that return a stabilizing controller. Each type (and level) of noise was tested with the same set of plant matrices and inputs. Finally, we denote by $\mathcal{V}$ the percentage of times we infer stability via and assuming some prior knowledge on $d$. As for WGN, we selected $\delta$ in and by taking $\hat{\sigma} = {1.5\sigma}$ ($50\%$ overestimate of $\sigma$) and by setting $\delta = {\sqrt{T}\hat{\sigma}}$ (*cf.* ).
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0080", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
 
 As for constant and sinusoidal disturbances, we consider a worst-case estimate ${\hat{D}}_{0} = {\overline{\kappa}\mathbf{1}_{n \times T}}$ where $\mathbf{1}_{n \times T}$ is the $n \times T$ matrix of all ones, yielding $\delta = {\sqrt{Tn}\overline{\kappa}}$. These values of $\delta$ give a correct over-approximation of the norm of $D_{0}$ in all the experiments. These values of $\delta$ are also used to implement. Specifically, we implemented by first computing the smallest $\mu^{2}$ such that ${\delta^{2}I} \preceq {\mu^{2}RR^{\top}}$ with the choice $R = X_{1}$ and then by performing a line search on $\eta_{1}$. The choice $R = X_{1}$ has robust stability interpretations and proved effective in the simulations.\
 For solving and we used CVX.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0081", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
 
 In all experiments, both methods and perform well for reasonable values of the SNR ($\geq 25$dB) as well as for low-medium SNR values in the range $$dB. The method performs better in terms of relative error but is slightly less robust, in line with the discussion in Section 5.2. For very low SNR ($\leq 5$dB) the performance of both methods drop. We note (not reported in Table 1) that both methods settle to $\mathcal{S} = {76\%}$ for SNR $\leq {- 5}$dB regardless of $\sigma$. This happens since $76\%$ of systems are open-loop stable, and $K = 0$ is feasible for both methods when $U_{0}$, $X_{0}$ and $X_{1}$ have full-row rank.
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0082", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
 
 For both and, robustness to noise can be further enhanced by adding a weight $\alpha > 1$ to the term ${trace}{(V)}$, so as to favour robustness over accuracy relative to $K_{opt}$ (*cf.* Section 5). For instance, for WGN with $\sigma = 0.1$ the program achieves $\mathcal{S} = {96\%}$ with $\alpha = 10$, but at the expense of a reduced performance $\mathcal{M} = 0.0380$. Using a weight $\alpha > 1$ can be beneficial also for stability inference (quantity $\mathcal{V}$) since smaller $V$ render and easier to fulfil. For instance, under the same conditions as above $\mathcal{V}$ increases from $11\%$ to $46\%$.
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0083", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
 
 For WGN, robustness can be increased also by averaging trajectories from multiple experiments (*cf.* Section 6.3) This is advantageous with respect to adding a penalty on ${trace}{(V)}$ because no performance losses are introduced. To emphasize this point, the last three rows of Table 1 report the results with $N = 100$ repeated experiments for each system, although $N = 10$ suffices to get $\mathcal{S} = {96\%}$ with median relative error $\mathcal{M} = 0.0034$ for $\sigma = 0.1$, and $\mathcal{S} = {90\%}$ with $\mathcal{M} = 0.0296$ for $\sigma = 0.5$.
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0084", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
 
 With stable dynamics increasing $T$ is usually beneficial for performance. From a theoretical viewpoint, this is due the fact that increasing $T$ reduces the term ${trace}{(V_{0})}$, thus the relative error (*cf.* Section 6.1.2). With unstable dynamics this advantage is offset by the fact that the noise effect amplifies, and this renders stability more difficult to achieve. In fact, we observed that decreasing $T$ actually gives an increase of $\mathcal{S}$ in almost all scenarios since in this case stabilization of the unstable systems becomes easier. (for instance, with $T = 10$ we obtain $\mathcal{S} = {82\%}$ for WGN with $\sigma = 0.5$).
 
-<!-- chunk {"id": "body-0084", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
+<!-- chunk {"id": "body-0085", "role": "body", "section": "Random linear systems", "weight": 1.0} -->
 
 We have also tested our methods on the Laplacian system considered. With, under the same setting (input and noise in $\mathcal{N}{})$, an average of $N = 10$ trajectories of length $T = 20$ is sufficient to get $\mathcal{S} = {100\%}$ with $\mathcal{M} = 0.6569$ over $100$ experiments made by randomly changing input and noise patterns. To further decrease $\mathcal{M}$ one needs to increase $T$ (and $N$). In this case, increasing $T$ does not bring issues since the dynamics are mildly unstable and the input signals have zero mean.
 
-<!-- chunk {"id": "body-0085", "role": "body", "section": "Nonlinear inverted pendulum", "weight": 1.0} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "Nonlinear inverted pendulum", "weight": 1.0} -->
 
 Consider the Euler discretization of an inverted pendulum. The system is as in with
 
-<!-- chunk {"id": "body-0086", "role": "body", "section": "Nonlinear inverted pendulum", "weight": 1.0} -->
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Nonlinear inverted pendulum", "weight": 1.0} -->
 
 where $\Delta$ is the sampling time, $m$ is the mass, $\ell$ is the distance from the base to the center of mass of the balanced body, $\mu$ is the coefficient of rotational friction, and $g$ is the acceleration due to gravity. The states $x_{1},x_{2}$ are the angular position and velocity, respectively, $u$ is the applied torque. The system has an unstable equilibrium in ${(\overline{x},\overline{u})} = {}$ corresponding to the pendulum upright position so that ${\deltax} = x$ and ${\deltau} = u$.
 
-<!-- chunk {"id": "body-0087", "role": "body", "section": "Nonlinear inverted pendulum", "weight": 1.0} -->
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Nonlinear inverted pendulum", "weight": 1.0} -->
 
 We assume that the parameters are $\Delta = 0.01$, $m = \ell = 1$, $\mu = 0.01$, and $g = 9.8$.\
 We made $100$ experiments by considering initial conditions in $\mathcal{N}{(0,0.1)}$, corresponding to an initial displacement from the equilibrium of about $\pm 10^{\circ}$, and $u \sim {\mathcal{N}{}}$. The results are in line with the previous ones. In particular, when $\xi = 0$ (the only disturbance source is the nonlinearity) we obtain $\mathcal{S} = {100\%}$ with $\mathcal{M} = 0.0356$ using with trajectories of length $T = 20$. We also considered the case of WGN noise affecting the velocity dynamics, *i.e.* with $u$ replaced by $u + \xi$ with $\xi \sim {\mathcal{N}{(0,\sigma)}}$.
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "Nonlinear inverted pendulum", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Nonlinear inverted pendulum", "weight": 1.0} -->
 
 In this case, we obtain $\mathcal{S} = {100\%}$ for $\sigma \leq 0.1$ (SNR $\geq 20$dB) up to $\mathcal{S} = {12\%}$ for $\sigma = 1$ (SNR $\approx 0$dB). Similar results are obtained with and under different settings, that is with different types of noise and samples $T$. Since the equilibrium is unstable, reducing $T$ can be beneficial for values of $u$ and $\xi$ that steer the system far from the equilibrium (for instance, using $T = 10$ we get $\mathcal{S} = {36\%}$ for WGN $\sigma = 1$). As for linear systems, at the expense of reduced performance, robustness can be enhanced by adding a weight $\alpha > 1$ to the term ${trace}{(V)}$ (for instance, setting $\alpha = 10$ we obtain $\mathcal{S} = {64\%}$ for WGN with $\sigma = 1$).
 
-<!-- chunk {"id": "body-0089", "role": "body", "section": "Concluding remarks", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Concluding remarks", "weight": 1.0} -->
 
 The design of (optimal) controllers from noisy data is a very challenging and largely unsolved problem. In this paper we took some steps in this direction for the LQR problem. By resorting to a convex SDP formulation of the LQR problem, we proposed two novel methods that explicitly account for noise through an augmented cost function which favours noise-robust solutions. Both method provides finite sample stability guarantees, and do not require specific noise models such as the noise being white.\
 A great leap forward would come from extending the ideas of this paper to incorporate state and input *safety* constraints. At the moment of writing, we aim at tackling this challenge using concepts and tools from *set-invariance* control. For stabilization problems with no optimality requirements, recent results have shown that data-based formulations of set-invariance properties can be efficiently cast as linear programs, and they can handle noisy data.

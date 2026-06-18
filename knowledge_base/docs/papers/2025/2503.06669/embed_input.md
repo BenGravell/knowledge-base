@@ -120,11 +120,11 @@ Despite considerable advancements in gathering diverse robot demonstrations, the
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "IV-A Latent Action Model", "weight": 1.0} -->
 
-To extract latent actions from video frames $\{ I_{t},I_{t + H}\}$, the latent action model is constructed around an inverse dynamics model-based encoder $\mathbf{I}{(\left. z_{t} \middle| {I_{t},I_{t + H}} \right.)}$ and a forward dynamics model-based decoder $\mathbf{F}{(\left. I_{t + H} \middle| {I_{t},z_{t}} \right.)}$. The encoder employs a spatial-temporal transformer with casual temporal masks following Bruce et al., while the decoder is a spatial transformer that takes the initial frame and discretized latent action tokens $z_{t} = {\lbrack z_{t}^{0},\ldots,z_{t}^{k - 1}\rbrack}$ as input, with $k$ set to 4.
+To extract latent actions from video frames $\{ I_{t},I_{t + H}\}$, the latent action model is constructed around an inverse dynamics model-based encoder $\mathbf{I}{(\left. z_{t} \middle| {I_{t},I_{t + H}} \right.)}$ and a forward dynamics model-based decoder $\mathbf{F}{(\left. I_{t + H} \middle| {I_{t},z_{t}} \right.)}$.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "IV-A Latent Action Model", "weight": 1.0} -->
 
-The latent action tokens are quantized using a VQ-VAE objective, with a codebook of size $|C|$.
+The encoder employs a spatial-temporal transformer with casual temporal masks following Bruce et al., while the decoder is a spatial transformer that takes the initial frame and discretized latent action tokens $z_{t} = {\lbrack z_{t}^{0},\ldots,z_{t}^{k - 1}\rbrack}$ as input, with $k$ set to 4. The latent action tokens are quantized using a VQ-VAE objective, with a codebook of size $|C|$.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "IV-B Latent Planner", "weight": 1.0} -->
 

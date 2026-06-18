@@ -308,11 +308,11 @@ ${Acc} = \frac{\#Hits}{{\#Hits} + {\#Misses}}$. We perform this experiment on 10
 
 <!-- chunk {"id": "body-0076", "role": "body", "section": "Visual Question Answering", "weight": 1.0} -->
 
-Typical VQA pipelines antol2015vqa; gao2015you; malinowski_iccv15; ren_nips15 consist of a CNN to process images and an RNN language model for questions. The image and the question representations are fused to predict the answer, typically with a $1000$-way classification ($1000$ being the size of the answer space). Since this is a classification problem, we pick an answer (the score $y^{c}$ in ) and use its score to compute Grad-CAM visualizations over the image to explain the answer. Despite the complexity of the task, involving both visual and textual components, the explanations (of the VQA model from Lu *et al*. Lu2015 ) described in Fig. 12 are surprisingly intuitive and informative. We quantify the performance of Grad-CAM via correlation with occlusion maps, as in Sec. 5.3.
+Typical VQA pipelines antol2015vqa; gao2015you; malinowski_iccv15; ren_nips15 consist of a CNN to process images and an RNN language model for questions. The image and the question representations are fused to predict the answer, typically with a $1000$-way classification ($1000$ being the size of the answer space). Since this is a classification problem, we pick an answer (the score $y^{c}$ in ) and use its score to compute Grad-CAM visualizations over the image to explain the answer. Despite the complexity of the task, involving both visual and textual components, the explanations (of the VQA model from Lu *et al*. Lu2015 ) described in Fig. 12 are surprisingly intuitive and informative.
 
 <!-- chunk {"id": "body-0077", "role": "body", "section": "Visual Question Answering", "weight": 1.0} -->
 
-Grad-CAM achieves a rank correlation (with occlusion maps) of 0.60 $\pm$ 0.038 whereas Guided Backpropagation achieves 0.42 $\pm$ 0.038, indicating higher faithfulness of our Grad-CAM visualization.
+We quantify the performance of Grad-CAM via correlation with occlusion maps, as in Sec. 5.3. Grad-CAM achieves a rank correlation (with occlusion maps) of 0.60 $\pm$ 0.038 whereas Guided Backpropagation achieves 0.42 $\pm$ 0.038, indicating higher faithfulness of our Grad-CAM visualization.
 
 <!-- chunk {"id": "body-0078", "role": "body", "section": "Visual Question Answering", "weight": 1.0} -->
 

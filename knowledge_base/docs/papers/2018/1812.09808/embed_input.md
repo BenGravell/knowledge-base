@@ -202,7 +202,7 @@ where $\parallel \cdot \parallel$ denotes the Euclidean norm on ${\mathbb{R}}^{l
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Linear-Quadratic Problem", "weight": 1.0} -->
 
-In fact, the main motivation of this distributionally robust LQ formulation is to relax the assumption of Gaussian disturbance distributions in LQG, and to obtain a useful control policy when the true distribution deviates from a Gaussian distribution.
+Note that, unlike the standard LQG, the LQ problems with Wasserstein penalty do not assume that the probability distribution of random disturbances is Gaussian. In fact, the main motivation of this distributionally robust LQ formulation is to relax the assumption of Gaussian disturbance distributions in LQG, and to obtain a useful control policy when the true distribution deviates from a Gaussian distribution.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Investment-Consumption Problem", "weight": 1.0} -->
 

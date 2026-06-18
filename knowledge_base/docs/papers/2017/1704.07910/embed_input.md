@@ -246,11 +246,11 @@ We compare our method to other cost functions used for point-cloud registration 
 
 <!-- chunk {"id": "body-0062", "role": "body", "section": "SIMULATION", "weight": 1.0} -->
 
-As a matter of isolating the effects of the SIE based estimation, we define a simulated experiment where the task is to determine the relative poses of two point-clouds, given a set of point-to-point correspondences, some of which are correct and some which are outliers ^11^1We define a function ${F{(k,n,\sigma)}} = {\{ A,B\}}$ that samples a set of test instance point correspondences $A,B$, where $k$ is the number of inlier matches and $n$ is the number of outlier matches. The $k$ inliers in $A$ are uniformly sampled in ${\lbrack 0,1\rbrack}^{3}$ and the inliers in $B$ are identical to the inliers in $A$ but with added Gaussian noise, with a standard deviation of 0.01.
+As a matter of isolating the effects of the SIE based estimation, we define a simulated experiment where the task is to determine the relative poses of two point-clouds, given a set of point-to-point correspondences, some of which are correct and some which are outliers ^11^1We define a function ${F{(k,n,\sigma)}} = {\{ A,B\}}$ that samples a set of test instance point correspondences $A,B$, where $k$ is the number of inlier matches and $n$ is the number of outlier matches.
 
 <!-- chunk {"id": "body-0063", "role": "body", "section": "SIMULATION", "weight": 1.0} -->
 
-The $n$ outliers in $A$ are uniformly sampled in ${\lbrack 0,1\rbrack}^{3}$ and each corresponding outlier in $B$ is uniformly sampled around the outlier in $A$ in the interval of ${\lbrack{- 1},1\rbrack}^{3}$. For an initial guess $T_{0}$, the inlier points are transformed by $T_{0}$ and the outlier points are kept as is. This ensures that the outlier points do not beneficially change the estimation of $T$..
+The $k$ inliers in $A$ are uniformly sampled in ${\lbrack 0,1\rbrack}^{3}$ and the inliers in $B$ are identical to the inliers in $A$ but with added Gaussian noise, with a standard deviation of 0.01. The $n$ outliers in $A$ are uniformly sampled in ${\lbrack 0,1\rbrack}^{3}$ and each corresponding outlier in $B$ is uniformly sampled around the outlier in $A$ in the interval of ${\lbrack{- 1},1\rbrack}^{3}$. For an initial guess $T_{0}$, the inlier points are transformed by $T_{0}$ and the outlier points are kept as is. This ensures that the outlier points do not beneficially change the estimation of $T$..
 
 <!-- chunk {"id": "body-0064", "role": "body", "section": "SIMULATION", "weight": 1.0} -->
 

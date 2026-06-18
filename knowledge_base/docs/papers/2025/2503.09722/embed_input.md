@@ -148,11 +148,11 @@ The control perspective focuses on the properties of the dynamical map $f$, and 
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "The limitations of prior work", "weight": 1.0} -->
 
-Recall from Eq.˜2.4 that imitation in the $\{ 0,1\}$ loss (as considered in Eq.˜2.4) yields at most ${poly}{(H)}$ compounding error, a now-classical argument present, e.g., in the the seminal Dagger paper Ross and Bagnell. Recent work by Foster et al. shows improved dependence on horizon when the imitation error is measured in the trajectory-wise Hellinger distance, which can be achieved algorithmically by minimizing a $\log$-loss. Remark˜B.1. ‣ B.4 Impossibility of Estimation in the {0,1}-Loss (Section˜2.4) ‣ Appendix B Appendix for Section˜2 ‣ Appendix ‣ The Pitfalls of Imitation Learning when Actions are Continuous") discusses the classical fact that the Hellinger distance is qualitatively equivalent to the Total Variation distance, which, when specialized to per-timestep imitation of deterministic experts, is equal to the $\{ 0,1\}$-loss considered in Eq.˜2.4.
+Recall from Eq.˜2.4 that imitation in the $\{ 0,1\}$ loss (as considered in Eq.˜2.4) yields at most ${poly}{(H)}$ compounding error, a now-classical argument present, e.g., in the the seminal Dagger paper Ross and Bagnell. Recent work by Foster et al. shows improved dependence on horizon when the imitation error is measured in the trajectory-wise Hellinger distance, which can be achieved algorithmically by minimizing a $\log$-loss. Remark˜B.1.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "The limitations of prior work", "weight": 1.0} -->
 
-Hence, the findings in both Ross and Bagnell and Foster et al. implicitly require that it be feasible to imitate in the binary, $\{ 0,1\}$ sense.
+‣ B.4 Impossibility of Estimation in the {0,1}-Loss (Section˜2.4) ‣ Appendix B Appendix for Section˜2 ‣ Appendix ‣ The Pitfalls of Imitation Learning when Actions are Continuous") discusses the classical fact that the Hellinger distance is qualitatively equivalent to the Total Variation distance, which, when specialized to per-timestep imitation of deterministic experts, is equal to the $\{ 0,1\}$-loss considered in Eq.˜2.4. Hence, the findings in both Ross and Bagnell and Foster et al. implicitly require that it be feasible to imitate in the binary, $\{ 0,1\}$ sense.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "The limitations of prior work", "weight": 1.0} -->
 

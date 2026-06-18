@@ -490,11 +490,11 @@ We do not use a hyper-parameter regularization function for $\omega^{feat}$. We 
 
 <!-- chunk {"id": "body-0123", "role": "body", "section": "Data weighting", "weight": 1.0} -->
 
-To LS + reg $\times$ 3 + feat, we add data weighting, as described in §4.3. We use $\Omega^{reg} = {\{\omega\mid{{\mathbf{1}^{T}\omega} = 0}\}}$ and ${r^{reg}{(\omega^{reg})}} = {{(0.01)}{\|\omega^{reg}\|}_{2}^{2}}$. This introduces 3,500 hyper-parameters in the case of the small dataset, and 35,000 hyper-parameters for the large dataset. We use the initialization $\omega = 0$. We refer to this model as *LS + reg $\times$ 3 + feat + weighting*. This method performs the best on the small dataset, in terms of test error. On the full dataset, it performs slightly worse than the model without data weighting, likely because of the overfitting phenomenon discussed in §4.6.
+To LS + reg $\times$ 3 + feat, we add data weighting, as described in §4.3. We use $\Omega^{reg} = {\{\omega\mid{{\mathbf{1}^{T}\omega} = 0}\}}$ and ${r^{reg}{(\omega^{reg})}} = {{(0.01)}{\|\omega^{reg}\|}_{2}^{2}}$. This introduces 3,500 hyper-parameters in the case of the small dataset, and 35,000 hyper-parameters for the large dataset. We use the initialization $\omega = 0$. We refer to this model as *LS + reg $\times$ 3 + feat + weighting*. This method performs the best on the small dataset, in terms of test error.
 
 <!-- chunk {"id": "body-0124", "role": "body", "section": "Data weighting", "weight": 1.0} -->
 
-We show the training examples with the lowest data weights and the training examples with the highest weights in figure 2 and figure 3 respectively, on the small dataset. The training data points with low weights seem harder to classify (for example, (b) and (c) in figure 2 could be interpreted as nines).
+On the full dataset, it performs slightly worse than the model without data weighting, likely because of the overfitting phenomenon discussed in §4.6. We show the training examples with the lowest data weights and the training examples with the highest weights in figure 2 and figure 3 respectively, on the small dataset. The training data points with low weights seem harder to classify (for example, (b) and (c) in figure 2 could be interpreted as nines).
 
 <!-- chunk {"id": "body-0125", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 

@@ -74,15 +74,15 @@ Then, we denote state output of a tracker for the $i$-th actor at time $t_{j}$ a
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "III-B Modeling multimodal trajectories", "weight": 1.0} -->
 
-Following our previous work, we first rasterize an actor-specific BEV raster image encoding the actor's map surrounding and neighboring actors (e.g., other vehicles and pedestrians), as exemplified in Figure 1.
+Following our previous work, we first rasterize an actor-specific BEV raster image encoding the actor's map surrounding and neighboring actors (e.g., other vehicles and pedestrians), as exemplified in Figure 1. Then, given $i$-th actor's raster image and state estimate $\mathbf{s}_{ij}$ at time step $t_{j}$, we use a CNN model to predict a multitude of $M$ possible future state sequences ${\{{\lbrack{\overset{\sim}{\mathbf{s}}}_{im{({j + 1})}},\ldots,{\overset{\sim}{\mathbf{s}}}_{im{({j + H})}}\rbrack}\}}_{m = {1,\ldots,M}}$, as well as each sequence's probability $p_{im}$ such that ${\sum_{m}p_{im}} = 1$, where $m$ indicates mode index and $H$ denotes the number of future
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "III-B Modeling multimodal trajectories", "weight": 1.0} -->
 
-Then, given $i$-th actor's raster image and state estimate $\mathbf{s}_{ij}$ at time step $t_{j}$, we use a CNN model to predict a multitude of $M$ possible future state sequences ${\{{\lbrack{\overset{\sim}{\mathbf{s}}}_{im{({j + 1})}},\ldots,{\overset{\sim}{\mathbf{s}}}_{im{({j + H})}}\rbrack}\}}_{m = {1,\ldots,M}}$, as well as each sequence's probability $p_{im}$ such that ${\sum_{m}p_{im}} = 1$, where $m$ indicates mode index and $H$ denotes the number of future consecutive time steps for which we predict states (or prediction horizon). For a detailed description of the rasterization method, we refer the reader to our previous work.
+consecutive time steps for which we predict states (or prediction horizon).
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "III-B Modeling multimodal trajectories", "weight": 1.0} -->
 
-Without the loss of generality, in this work we simplify the task to infer $i$-th actor's future $x$- and $y$-positions instead of full state estimates, while the remaining states can be derived by considering $\mathbf{s}_{ij}$ and the future position estimates. Both past and future positions at time $t_{j}$ are represented in the actor-centric coordinate system derived from actor's state at time $t_{j}$, where forward direction is $x$-axis, left-hand direction is $y$-axis, and actor's bounding box centroid is the origin.
+For a detailed description of the rasterization method, we refer the reader to our previous work. Without the loss of generality, in this work we simplify the task to infer $i$-th actor's future $x$- and $y$-positions instead of full state estimates, while the remaining states can be derived by considering $\mathbf{s}_{ij}$ and the future position estimates. Both past and future positions at time $t_{j}$ are represented in the actor-centric coordinate system derived from actor's state at time $t_{j}$, where forward direction is $x$-axis, left-hand direction is $y$-axis, and actor's bounding box centroid is the origin.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "III-B Modeling multimodal trajectories", "weight": 1.0} -->
 

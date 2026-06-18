@@ -59,11 +59,11 @@ The following theorem is concerned with the optimality (in terms of size of the 
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "MPC design and properties", "weight": 1.0} -->
 
-The multi-step models previously introduced can not be directly used in existing robust MPC schemes. Therefore we propose a new multirate MPC approach where the predicted behavior of the system is optimized by considering a prediction/control horizon of $N_{p}$ "long" steps, with index ${j \in {\mathbb{N}}},$ each one consisting of $\overline{p}$ "short" sampling times with index $k$. Note that the "short" sampling interval is the one assumed for the true system. The optimal control problem is thus solved at every long step $j$ (i.e. every $\overline{p}$ short steps) and the solution provides the values of the control input to be applied at each step $k$ in the interval $\{{j\overline{p}},\ldots,{{{({j + 1})}\overline{p}} - 1}\}$ according to a standard receding horizon formulation. For clarity, we represent the long and short sampling times on a common time-scale in Figure 1.
+The multi-step models previously introduced can not be directly used in existing robust MPC schemes. Therefore we propose a new multirate MPC approach where the predicted behavior of the system is optimized by considering a prediction/control horizon of $N_{p}$ "long" steps, with index ${j \in {\mathbb{N}}},$ each one consisting of $\overline{p}$ "short" sampling times with index $k$. Note that the "short" sampling interval is the one assumed for the true system. The optimal control problem is thus solved at every long step $j$ (i.e. every $\overline{p}$ short steps) and the solution provides the values of the control input to be applied at each step $k$ in the interval $\{{j\overline{p}},\ldots,{{{({j + 1})}\overline{p}} - 1}\}$ according to a standard receding horizon formulation.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "MPC design and properties", "weight": 1.0} -->
 
-Also, in the remainder we will use the upper-case letters to denote variables defined at a long sampling time.
+For clarity, we represent the long and short sampling times on a common time-scale in Figure 1. Also, in the remainder we will use the upper-case letters to denote variables defined at a long sampling time.
 
 <!-- chunk {"id": "body-0016", "role": "body", "section": "MPC design and properties", "weight": 1.0} -->
 

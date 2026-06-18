@@ -552,11 +552,11 @@ where $R$ is a positive-definite matrix. In addition to the 20 maneuvers, the li
 
 <!-- chunk {"id": "body-0135", "role": "body", "section": "Quadrotor Model", "weight": 1.0} -->
 
-For each $x_{i}{(t)}$ in $\mathcal{T}$ we obtain controllers and funnels using the method described in Section 4. We obtained time-varying Taylor expansions of degree 3 computed around the nominal trajectory. The approach from Section 4.3.2 along with the time-sampled approximation described in Section 4.2 (with 15 time samples) was used to synthesize a (time-varying) linear feedback controller around each trajectory. The methods described in Section 4.3.1 were used to take into account the parametric uncertainty that the system is subject to. The computation time for each funnel was approximately 20-25 minutes. The directed graph $\mathcal{G}{(\mathcal{F})}$ that encodes real-time composability between funnels (ref. Section 5.5) is fully connected. Moreover, the funnel corresponding to the trim trajectory is sequentially composable modulo invariances (ref. Section 5.2) with the other maneuvers in the library, allowing us to apply the trim trajectory before or after any of the maneuvers. A subset of the funnels is shown in Figure 12.
+For each $x_{i}{(t)}$ in $\mathcal{T}$ we obtain controllers and funnels using the method described in Section 4. We obtained time-varying Taylor expansions of degree 3 computed around the nominal trajectory. The approach from Section 4.3.2 along with the time-sampled approximation described in Section 4.2 (with 15 time samples) was used to synthesize a (time-varying) linear feedback controller around each trajectory. The methods described in Section 4.3.1 were used to take into account the parametric uncertainty that the system is subject to. The computation time for each funnel was approximately 20-25 minutes. The directed graph $\mathcal{G}{(\mathcal{F})}$ that encodes real-time composability between funnels (ref. Section 5.5) is fully connected. Moreover, the funnel corresponding to the trim trajectory is sequentially composable modulo invariances (ref. Section 5.2) with the other maneuvers in the library, allowing us to apply the trim trajectory before or after any of the maneuvers.
 
 <!-- chunk {"id": "body-0136", "role": "body", "section": "Quadrotor Model", "weight": 1.0} -->
 
-Note that the twelve-dimensional funnels have been projected down to the $x - y - z$ dimensions for the purpose of visualization.
+A subset of the funnels is shown in Figure 12. Note that the twelve-dimensional funnels have been projected down to the $x - y - z$ dimensions for the purpose of visualization.
 
 <!-- chunk {"id": "body-0137", "role": "body", "section": "Quadrotor Model", "weight": 1.0} -->
 

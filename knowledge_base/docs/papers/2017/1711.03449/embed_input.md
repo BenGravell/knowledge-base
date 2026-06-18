@@ -209,11 +209,11 @@ Recall that and are non-convex optimization problems, and hence computationally 
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Choice of Initial Guess", "weight": 1.0} -->
 
-For the quadcopter example, we have observed that the well-known A^⋆^ algorithm is able to provide good initial guesses. A^⋆^ is a graph search algorithm that is able to find obstacle-free paths by gridding the position space. It is similar to Dijkstra's algorithm, but uses a so-called heuristic function to perform a "best-first" search, see for details. In our quadcopter example, we use the A^⋆^ algorithm to find an obstacle-free path in the position space, which we use to initialize the states that correspond to the quadcopter's position. The remaining states are initialized with zero, while inputs are initialized with the steady state input that keeps the quadcopter in a hoovering position. The dual variables $\lambda_{k}^{(m)}$ are initialized with 0.05, and the discretization time $T_{\text{opt}}$ with 0.25. Fig. 2 depicts the initial guess used to generate the trajectory shown in Fig. 1.
+For the quadcopter example, we have observed that the well-known A^⋆^ algorithm is able to provide good initial guesses. A^⋆^ is a graph search algorithm that is able to find obstacle-free paths by gridding the position space. It is similar to Dijkstra's algorithm, but uses a so-called heuristic function to perform a "best-first" search, see for details. In our quadcopter example, we use the A^⋆^ algorithm to find an obstacle-free path in the position space, which we use to initialize the states that correspond to the quadcopter's position. The remaining states are initialized with zero, while inputs are initialized with the steady state input that keeps the quadcopter in a hoovering position.
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Choice of Initial Guess", "weight": 1.0} -->
 
-Notice that, due to gridding, the path in Fig. 2 exhibits a zigzag pattern.
+The dual variables $\lambda_{k}^{(m)}$ are initialized with 0.05, and the discretization time $T_{\text{opt}}$ with 0.25. Fig. 2 depicts the initial guess used to generate the trajectory shown in Fig. 1. Notice that, due to gridding, the path in Fig. 2 exhibits a zigzag pattern.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Simulation Results", "weight": 1.0} -->
 

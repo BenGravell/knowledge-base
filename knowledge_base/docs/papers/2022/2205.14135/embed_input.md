@@ -207,11 +207,11 @@ Table 6 shows that sequence length 16K outperforms length 512 by 4.3 points on M
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Path-X and Path-256", "weight": 1.0} -->
 
-The Path-X and Path-256 benchmarks are challenging tasks from the long-range arena benchmark designed to test long context. The task is to classify whether two points in a black and white 128$\times$`<!-- -->`{=html}128 (or 256$\times$`<!-- -->`{=html}256) image have a path connecting them, and the images are fed to the transformer one pixel at a time. In prior work, all transformer models have either run out of memory, or only achieved random performance. There has been a search for alternative architectures that can model such long context. We present here the first result of Transformer models being able to solve Path-X and Path-256 (Table 6). We pretrain a transformer on Path-64, and then transfer to Path-X by spatially interpolating the positional embeddings. FlashAttention achieves 61.4 accuracy on Path-X.
+The Path-X and Path-256 benchmarks are challenging tasks from the long-range arena benchmark designed to test long context. The task is to classify whether two points in a black and white 128$\times$`<!-- -->`{=html}128 (or 256$\times$`<!-- -->`{=html}256) image have a path connecting them, and the images are fed to the transformer one pixel at a time. In prior work, all transformer models have either run out of memory, or only achieved random performance. There has been a search for alternative architectures that can model such long context. We present here the first result of Transformer models being able to solve Path-X and Path-256 (Table 6). We pretrain a transformer on Path-64, and then transfer to Path-X by spatially interpolating the positional embeddings.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Path-X and Path-256", "weight": 1.0} -->
 
-Additionally, block-sparse FlashAttention enables the Transformers to scale to sequence length 64K, achieving 63.1 accuracy^44^4Path-256 requires longer sequences but has relatively shorter paths than Path-X, so it is easier to obtain a higher accuracy. on Path-256.
+FlashAttention achieves 61.4 accuracy on Path-X. Additionally, block-sparse FlashAttention enables the Transformers to scale to sequence length 64K, achieving 63.1 accuracy^44^4Path-256 requires longer sequences but has relatively shorter paths than Path-X, so it is easier to obtain a higher accuracy. on Path-256.
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "Benchmarking Attention", "weight": 1.0} -->
 

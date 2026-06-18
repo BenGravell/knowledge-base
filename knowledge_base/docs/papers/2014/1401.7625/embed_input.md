@@ -160,11 +160,11 @@ Algorithm 1 RES: Regularized Stochastic BFGS
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "II-B RES: Regularized Stochastic BFGS", "weight": 1.0} -->
 
-The resulting RES algorithm is summarized in Algorithm 1. The two core steps in each iteration are the descent in Step 4 and the update of the Hessian approximation ${\hat{\mathbf{B}}}_{t}$ in Step 8. Step 2 comprises the observation of $L$ samples that are required to compute the stochastic gradients in steps 3 and 5. The stochastic gradient $\hat{\mathbf{s}}{(\mathbf{w}_{t},{\overset{\sim}{\mathbf{θ}}}_{t})}$ in Step 3 is used in the descent iteration in Step 4.
+The resulting RES algorithm is summarized in Algorithm 1. The two core steps in each iteration are the descent in Step 4 and the update of the Hessian approximation ${\hat{\mathbf{B}}}_{t}$ in Step 8. Step 2 comprises the observation of $L$ samples that are required to compute the stochastic gradients in steps 3 and 5. The stochastic gradient $\hat{\mathbf{s}}{(\mathbf{w}_{t},{\overset{\sim}{\mathbf{θ}}}_{t})}$ in Step 3 is used in the descent iteration in Step 4. The stochastic gradient of Step 3 along with the stochastic gradient $\hat{\mathbf{s}}{(\mathbf{w}_{t + 1},{\overset{\sim}{\mathbf{θ}}}_{t})}$ of Step 5 are used to compute the variations in steps 6 and 7 that permit carrying out the update of the Hessian approximation ${\hat{\mathbf{B}}}_{t}$
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "II-B RES: Regularized Stochastic BFGS", "weight": 1.0} -->
 
-The stochastic gradient of Step 3 along with the stochastic gradient $\hat{\mathbf{s}}{(\mathbf{w}_{t + 1},{\overset{\sim}{\mathbf{θ}}}_{t})}$ of Step 5 are used to compute the variations in steps 6 and 7 that permit carrying out the update of the Hessian approximation ${\hat{\mathbf{B}}}_{t}$ in Step 8. Iterations are initialized at arbitrary variable $\mathbf{w}_{0}$ and positive definite matrix ${\hat{\mathbf{B}}}_{0}$ with the smallest eigenvalue larger than $\delta$.
+in Step 8. Iterations are initialized at arbitrary variable $\mathbf{w}_{0}$ and positive definite matrix ${\hat{\mathbf{B}}}_{0}$ with the smallest eigenvalue larger than $\delta$.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Convergence", "weight": 1.0} -->
 
@@ -244,7 +244,7 @@ For the well conditioned family RES reduces the number of functions processed fr
 
 <!-- chunk {"id": "body-0061", "role": "body", "section": "IV-B Choice of stochastic gradient average", "weight": 1.0} -->
 
-The stochastic gradients $\hat{\mathbf{s}}{(\mathbf{w},\overset{\sim}{\mathbf{θ}})}$ in are computed as an average of $L$ sample gradients ${\nabla f}{(\mathbf{w},{\mathbf{θ}}_{l})}$. To study the effect of the choice of $L$ on RES we consider problems as in (IV) with matrices $\mathbf{A}$ and vectors $\mathbf{b}$ generated as in Section IV-A.
+To study the effect of the choice of $L$ on RES we consider problems as in (IV) with matrices $\mathbf{A}$ and vectors $\mathbf{b}$ generated as in Section IV-A. We consider problems with $n = 50$, $\theta_{0} = 0.5$, and $\xi = 2$; set the RES parameters to $\delta = 10^{- 3}$ and $\Gamma = 10^{- 4}$; and the step size sequence to $\epsilon_{t} = {{\epsilon_{0}T_{0}}/{({T_{0} + t})}}$ with $\epsilon_{0} = 10^{- 1}$ and $T_{0} = 10^{3}$. We then consider different choices of $L$ and for each specific value generate $J = {1,000}$ problem instances.
 
 <!-- chunk {"id": "body-0062", "role": "body", "section": "IV-B Choice of stochastic gradient average", "weight": 1.0} -->
 

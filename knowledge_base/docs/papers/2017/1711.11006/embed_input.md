@@ -216,11 +216,11 @@ As expected for a Gauss-Newton method, all approaches show linear convergence. C
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "IV-C Local Contraction Rates for Quadruped Trot Tracking", "weight": 1.0} -->
 
-While Section IV-B gives an optimization example for a single motion, starting with an initial guess far from the optimal solution, we now show a comparison based on statistical data from $1000$ runs: the trotting gait from Section IV-B is now considered in a tracking MPC problem. All algorithms are initialized with an optimal, dynamically consistent solution, but the initial state is locally perturbed. The state perturbations are sampled from the hardware-experiments detailed. For every perturbation, we let different algorithms iterate until convergence. Fig. 5 compares average asymptotic contraction rates for four different algorithms. It shows the normalized difference between a fully converged optimal feedforward trajectory and trajectories obtained at previous iterations. Furthermore it shows first-order regressions approximating the local contraction rates, in terms of the slopes of the difference norms in the semi-logarithmic plot. It can be seen that GNMS outperforms iLQR in terms of local contraction rate. GNMS shows a contraction rate similar to GNMS.
+While Section IV-B gives an optimization example for a single motion, starting with an initial guess far from the optimal solution, we now show a comparison based on statistical data from $1000$ runs: the trotting gait from Section IV-B is now considered in a tracking MPC problem. All algorithms are initialized with an optimal, dynamically consistent solution, but the initial state is locally perturbed. The state perturbations are sampled from the hardware-experiments detailed. For every perturbation, we let different algorithms iterate until convergence. Fig. 5 compares average asymptotic contraction rates for four different algorithms. It shows the normalized difference between a fully converged optimal feedforward trajectory and trajectories obtained at previous iterations. Furthermore it shows first-order regressions approximating the local contraction rates, in terms of the slopes of the difference norms in the semi-logarithmic plot. It can be seen that GNMS outperforms iLQR in terms of local contraction rate.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "IV-C Local Contraction Rates for Quadruped Trot Tracking", "weight": 1.0} -->
 
-The example indicates better local convergence for iLQR-GNMS than for classical iLQR, GNMS and GNMS.
+GNMS shows a contraction rate similar to GNMS. The example indicates better local convergence for iLQR-GNMS than for classical iLQR, GNMS and GNMS.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "IV-C Local Contraction Rates for Quadruped Trot Tracking", "weight": 1.0} -->
 
@@ -250,7 +250,8 @@ multiple-shooting interval, compute A0, …, l − 1, B0, …, l − 1, defect d
 - send policy un+ (x) and X+ to the control system
 - forward integrate system dynamics for the multiple-shooting
 intervals 1 to M, obtain sensitivities Al, … AN − 1, Bl, …, BN − 1
-- quadratize cost function around X, U for multiple-shooting intervals l to N. Algorithm 2 iLQR-GNMS(M)-NMPC Algorithm
+- quadratize cost function around X, U for multiple-shooting intervals l to N.
+Algorithm 2 iLQR-GNMS(M)-NMPC Algorithm
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "IV-D Nonlinear MPC on HyQ", "weight": 1.0} -->
 

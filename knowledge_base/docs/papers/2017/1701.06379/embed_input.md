@@ -178,11 +178,11 @@ that in the literature of numerical algorithms in infinite dimensional spaces, i
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Assumption 3.1 (Semi-infinite regularity)", "weight": 1.0} -->
 
-These conditions are in fact equivalent if the norm $\parallel \cdot \parallel_{\Re}$ is induced by the original norm on $\mathbb{X}$, i.e., ${\|\alpha\|}_{\Re} ≔ {\|{\sum_{i = 1}^{n}{\alpha_{i}x_{i}}}\|}$. We note that $\mathcal{A}_{n}^{\ast}$ maps an infinite dimensional space to a finite dimensional one, and as such Assumption 3.1. ‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")(ii) ‣ Assumption 3.1 (Semi-infinite regularity). ‣ 3.2. Semi-infinite approximation ‣ 3.
+These conditions are in fact equivalent if the norm $\parallel \cdot \parallel_{\Re}$ is induced by the original norm on $\mathbb{X}$, i.e., ${\|\alpha\|}_{\Re} ≔ {\|{\sum_{i = 1}^{n}{\alpha_{i}x_{i}}}\|}$. We note that $\mathcal{A}_{n}^{\ast}$ maps an infinite dimensional space to a finite dimensional one, and as such Assumption 3.1. ‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")(ii) ‣ Assumption 3.1 (Semi-infinite regularity).
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "Assumption 3.1 (Semi-infinite regularity)", "weight": 1.0} -->
 
-Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") effectively necessitates that the null-space of $\mathcal{A}_{n}^{\ast}$ intersects the positive cone ${\mathbb{K}}^{\ast}$ only at $0$. In the following we show that this regularity condition leads to a zero duality gap between 29 and 32, as well as an upper bound for the dual optimizers. The latter turns out to be a critical quantity for the performance bounds of this study.
+‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") effectively necessitates that the null-space of $\mathcal{A}_{n}^{\ast}$ intersects the positive cone ${\mathbb{K}}^{\ast}$ only at $0$. In the following we show that this regularity condition leads to a zero duality gap between 29 and 32, as well as an upper bound for the dual optimizers. The latter turns out to be a critical quantity for the performance bounds of this study.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Remark 3.4 (Impact of norms on semi-infinite approximation)", "weight": 1.0} -->
 
@@ -190,11 +190,11 @@ The only norm that influences the semi-infinite program 29 is $\parallel \cdot \
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Remark 3.4 (Impact of norms on semi-infinite approximation)", "weight": 1.0} -->
 
-The norms of the dual pairs of vector spaces only appear in Theorem 3.3. ‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") to quantify the approximation error. Note that in (35. ‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")) the stronger the norm on $\mathbb{X}$, the higher $\| r_{n}\|$, and the lower ${\| c\|}_{\ast}$ and $\|\mathcal{A}\|$. On the other hand, the stronger the norm on $\mathbb{B}$, the higher $\| b\|$ and $\|\mathcal{A}\|$ and the lower $\gamma$ (cf. Assumption 3.1. ‣ 3.2. Semi-infinite approximation ‣ 3.
+The norms of the dual pairs of vector spaces only appear in Theorem 3.3. ‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") to quantify the approximation error. Note that in (35. ‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")) the stronger the norm on $\mathbb{X}$, the higher $\| r_{n}\|$, and the lower ${\| c\|}_{\ast}$ and $\|\mathcal{A}\|$. On the other hand, the stronger the norm on $\mathbb{B}$, the higher $\| b\|$ and $\|\mathcal{A}\|$ and the lower $\gamma$ (cf. Assumption 3.1.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Remark 3.4 (Impact of norms on semi-infinite approximation)", "weight": 1.0} -->
 
-Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")(ii) ‣ Assumption 3.1 (Semi-infinite regularity). ‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")).
+‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")(ii) ‣ Assumption 3.1 (Semi-infinite regularity). ‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")).
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Remark 3.4 (Impact of norms on semi-infinite approximation)", "weight": 1.0} -->
 
@@ -218,11 +218,11 @@ Following the construction in 29, we consider a collection of $n$-linearly indep
 
 <!-- chunk {"id": "body-0055", "role": "body", "section": "Semi-infinite results in the MDP setting", "weight": 1.0} -->
 
-Comparing with the program 29, we note that the finite dimensional subspace ${\mathbb{X}}_{n} \subset {{{\mathbb{R}} \times \mathcal{L}}{(S)}}$ is the subspace spanned by the basis elements $x_{0} = {}$ and $x_{i} = {(0,u_{i})}$ for all $i \in {\{ 1,\cdots,n\}}$, i.e., the subspace ${\mathbb{X}}_{n}$ is in fact $n + 1$ dimensional. Moreover, the norm constraint in is only imposed on the second coordinate of the decision variables $(\rho,\alpha)$ (i.e., ${\|\alpha\|}_{\Re} \leq \theta_{\mathcal{P}}$). The following lemmas address the operator norm and the respective regularity requirements of Assumption 3.1. ‣ 3.2. Semi-infinite approximation ‣ 3.
+Comparing with the program 29, we note that the finite dimensional subspace ${\mathbb{X}}_{n} \subset {{{\mathbb{R}} \times \mathcal{L}}{(S)}}$ is the subspace spanned by the basis elements $x_{0} = {}$ and $x_{i} = {(0,u_{i})}$ for all $i \in {\{ 1,\cdots,n\}}$, i.e., the subspace ${\mathbb{X}}_{n}$ is in fact $n + 1$ dimensional. Moreover, the norm constraint in is only imposed on the second coordinate of the decision variables $(\rho,\alpha)$ (i.e., ${\|\alpha\|}_{\Re} \leq \theta_{\mathcal{P}}$). The following lemmas address the operator norm and the respective regularity requirements of Assumption 3.1.
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "Semi-infinite results in the MDP setting", "weight": 1.0} -->
 
-Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") for the program.
+‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") for the program.
 
 <!-- chunk {"id": "body-0057", "role": "body", "section": "Remark 3.8 (AC dual optimizers bound)", "weight": 1.0} -->
 
@@ -262,7 +262,7 @@ To see this note that according to Definition 4.2. ‣ 4.1. Randomized approach 
 
 <!-- chunk {"id": "body-0066", "role": "body", "section": "Example 4.3 (TB candidate)", "weight": 1.0} -->
 
-Semi-infinite to Finite Programs: Randomized Approach ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"), this observation readily suggests that the function ${h{(\alpha,\varepsilon)}} ≔ {{\|{{\mathcal{A}_{n}\alpha} - b}\|}g^{- 1}{(\varepsilon)}}$ is indeed a TB candidate, and the suggested upper bound follows readily from Lemma 4.1. ‣ 4.1. Randomized approach ‣ 4. Semi-infinite to Finite Programs: Randomized Approach ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming").
+‣ 4.1. Randomized approach ‣ 4. Semi-infinite to Finite Programs: Randomized Approach ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"), this observation readily suggests that the function ${h{(\alpha,\varepsilon)}} ≔ {{\|{{\mathcal{A}_{n}\alpha} - b}\|}g^{- 1}{(\varepsilon)}}$ is indeed a TB candidate, and the suggested upper bound follows readily from Lemma 4.1. ‣ 4.1. Randomized approach ‣ 4. Semi-infinite to Finite Programs: Randomized Approach ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming").
 
 <!-- chunk {"id": "body-0067", "role": "body", "section": "Remark 4.5 (Curse of dimensionality)", "weight": 1.0} -->
 
@@ -274,11 +274,11 @@ To mitigate this inherent computational complexity, one may resort to a more ele
 
 <!-- chunk {"id": "body-0069", "role": "body", "section": "Remark 4.6 (Optimal choice of $\\theta_{\\mathcal{P}}$)", "weight": 1.0} -->
 
-In view of the a priori error in Theorem 4.4. ‣ 4.1. Randomized approach ‣ 4. Semi-infinite to Finite Programs: Randomized Approach ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"), the parameter $\theta_{\mathcal{P}}$ may be chosen so as to minimize the required number of samples. To this end, it suffices to maximize $z_{n}$ defined in (54b. ‣ 4.1. Randomized approach ‣ 4. Semi-infinite to Finite Programs: Randomized Approach ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")) over all $\theta_{\mathcal{P}} > {{\| b\|}\gamma^{- 1}}$, see Assumption 3.1. ‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")(ii) ‣ Assumption 3.1 (Semi-infinite regularity). ‣ 3.2. Semi-infinite approximation ‣ 3.
+In view of the a priori error in Theorem 4.4. ‣ 4.1. Randomized approach ‣ 4. Semi-infinite to Finite Programs: Randomized Approach ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"), the parameter $\theta_{\mathcal{P}}$ may be chosen so as to minimize the required number of samples. To this end, it suffices to maximize $z_{n}$ defined in (54b. ‣ 4.1. Randomized approach ‣ 4. Semi-infinite to Finite Programs: Randomized Approach ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")) over all $\theta_{\mathcal{P}} > {{\| b\|}\gamma^{- 1}}$, see Assumption 3.1. ‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")(ii) ‣ Assumption 3.1 (Semi-infinite regularity).
 
 <!-- chunk {"id": "body-0070", "role": "body", "section": "Remark 4.6 (Optimal choice of $\\theta_{\\mathcal{P}}$)", "weight": 1.0} -->
 
-Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"), where $\theta_{\mathcal{D}}$ is defined in (33. ‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")). One can show that the optimal choice in this respect is analytically available as
+‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"), where $\theta_{\mathcal{D}}$ is defined in (33. ‣ 3.2. Semi-infinite approximation ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")). One can show that the optimal choice in this respect is analytically available as
 
 <!-- chunk {"id": "body-0071", "role": "body", "section": "Remark 4.6 (Optimal choice of $\\theta_{\\mathcal{P}}$)", "weight": 1.0} -->
 
@@ -334,11 +334,11 @@ The error bounds in Theorem 5.3. ‣ 5.1. Structural convex optimization ‣ 5. 
 
 <!-- chunk {"id": "body-0084", "role": "body", "section": "Remark 5.5 (Inexact gradient)", "weight": 1.0} -->
 
-The a priori bound proposed by Theorem 5.3. ‣ 5.1. Structural convex optimization ‣ 5. Semi-infinite to Finite Program: Structural convex optimization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") involves the positive constants $c,C$, which are used to introduce an upper bound for the proxy-term. These constants potentially depend on $\theta_{\mathcal{D}}$, the size of the dual feasible set, hence also on $\theta_{\mathcal{P}}$. Therefore, unlike the randomized approach in Section 4, it is not immediately clear how $\theta_{\mathcal{P}}$ can be chosen to minimize the complexity of the proposed method, which in this case is the required number of iterations $k$ suggested in (74. ‣ 5.1. Structural convex optimization ‣ 5. Semi-infinite to Finite Program: Structural convex optimization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")) (cf. Remark 4.6. ‣ 4.1. Randomized approach ‣ 4.
+The a priori bound proposed by Theorem 5.3. ‣ 5.1. Structural convex optimization ‣ 5. Semi-infinite to Finite Program: Structural convex optimization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") involves the positive constants $c,C$, which are used to introduce an upper bound for the proxy-term. These constants potentially depend on $\theta_{\mathcal{D}}$, the size of the dual feasible set, hence also on $\theta_{\mathcal{P}}$. Therefore, unlike the randomized approach in Section 4, it is not immediately clear how $\theta_{\mathcal{P}}$ can be chosen to minimize the complexity of the proposed method, which in this case is the required number of iterations $k$ suggested in (74. ‣ 5.1. Structural convex optimization ‣ 5. Semi-infinite to Finite Program: Structural convex optimization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")) (cf. Remark 4.6.
 
 <!-- chunk {"id": "body-0085", "role": "body", "section": "Remark 5.5 (Inexact gradient)", "weight": 1.0} -->
 
-Semi-infinite to Finite Programs: Randomized Approach ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")). In the next section, we shall discuss how to address this issue in the MDP setting for particular constants $c,C$.
+‣ 4.1. Randomized approach ‣ 4. Semi-infinite to Finite Programs: Randomized Approach ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")). In the next section, we shall discuss how to address this issue in the MDP setting for particular constants $c,C$.
 
 <!-- chunk {"id": "body-0086", "role": "body", "section": "Structural convex optimization results in the MDP setting", "weight": 1.0} -->
 
@@ -414,68 +414,72 @@ the slower the convergence behavior with respect to the sample size $N$.
 
 <!-- chunk {"id": "body-0104", "role": "body", "section": "Randomized approach", "weight": 1.0} -->
 
-The features (i) ‣ Randomized approach: ‣ 7.1. Example 1: truncated LQG ‣ 7. Numerical Examples ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") and (ii) ‣ Randomized approach: ‣ 7.1. Example 1: truncated LQG ‣ 7. Numerical Examples ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") are positive impacts of increasing the number of basis functions. While (i) ‣ Randomized approach: ‣ 7.1. Example 1: truncated LQG ‣ 7. Numerical Examples ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") is predicted by Corollary 3.9. ‣ 3.3. Semi-infinite results in the MDP setting ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"), since the error due to the projection term becomes smaller, it is not entirely clear how to formally explain (ii) ‣ Randomized approach: ‣ 7.1. Example 1: truncated LQG ‣ 7.
+The features (i) ‣ Randomized approach: ‣ 7.1. Example 1: truncated LQG ‣ 7. Numerical Examples ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") and (ii) ‣ Randomized approach: ‣ 7.1. Example 1: truncated LQG ‣ 7. Numerical Examples ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") are positive impacts of increasing the number of basis functions. While (i) ‣ Randomized approach: ‣ 7.1. Example 1: truncated LQG ‣ 7. Numerical Examples ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") is predicted by Corollary 3.9.
 
 <!-- chunk {"id": "body-0105", "role": "body", "section": "Randomized approach", "weight": 1.0} -->
 
-Numerical Examples ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"). On the contrary, the feature (iii) ‣ Randomized approach: ‣ 7.1. Example 1: truncated LQG ‣ 7. Numerical Examples ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") is indeed a negative impact, as a high number of basis functions requires a large number of samples $N$ to produce reasonable approximation errors. This phenomena can be justified through the lens of Corollary 4.12. ‣ 4.2. Randomized results in the MDP setting ‣ 4. Semi-infinite to Finite Programs: Randomized Approach ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") where the approximation errors grows proportionally to $n$.
+‣ 3.3. Semi-infinite results in the MDP setting ‣ 3. Infinite to Semi-infinite Programs ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"), since the error due to the projection term becomes smaller, it is not entirely clear how to formally explain (ii) ‣ Randomized approach: ‣ 7.1. Example 1: truncated LQG ‣ 7. Numerical Examples ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"). On the contrary, the feature (iii) ‣ Randomized approach: ‣ 7.1. Example 1: truncated LQG ‣ 7. Numerical Examples ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") is indeed a negative impact, as a high number of basis functions requires a large number of samples $N$ to produce reasonable approximation errors. This phenomena can be justified through the lens of Corollary 4.12.
 
-<!-- chunk {"id": "body-0106", "role": "body", "section": "Structural convex optimization", "weight": 1.0} -->
+<!-- chunk {"id": "body-0106", "role": "body", "section": "Randomized approach", "weight": 1.0} -->
 
-Algorithm 1 was implemented with the parameters described in Corollary 5.8. ‣ 5.2. Structural convex optimization results in the MDP setting ‣ 5. Semi-infinite to Finite Program: Structural convex optimization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") leading to deterministic upper and lower bounds ($J_{n,\eta}^{UB}$ and $J_{n,\eta}^{LB}$, respectively) for the cost function $J_{n}^{AC}$, see also Theorem 5.3. ‣ 5.1. Structural convex optimization ‣ 5. Semi-infinite to Finite Program: Structural convex optimization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"). These bounds are computationally appealing as they provide a posteriori bounds on the approximation error that often is significantly smaller than the a priori bounds given by Theorem 5.3. ‣ 5.1. Structural convex optimization ‣ 5. Semi-infinite to Finite Program: Structural convex optimization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming").
+‣ 4.2. Randomized results in the MDP setting ‣ 4. Semi-infinite to Finite Programs: Randomized Approach ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") where the approximation errors grows proportionally to $n$.
 
 <!-- chunk {"id": "body-0107", "role": "body", "section": "Structural convex optimization", "weight": 1.0} -->
 
-This behavior can be seen in the simulation results summarized in Figure 3 where the number of basis functions is $n = 10$. Similar to Figure 2, the red dotted line is the optimal value of the original infinite program 16, which we approximated by using $10^{3}$ basis functions and $10^{6}$ iterations of Algorithm 1; it coincides with the one from the randomized method.
+Algorithm 1 was implemented with the parameters described in Corollary 5.8. ‣ 5.2. Structural convex optimization results in the MDP setting ‣ 5. Semi-infinite to Finite Program: Structural convex optimization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") leading to deterministic upper and lower bounds ($J_{n,\eta}^{UB}$ and $J_{n,\eta}^{LB}$, respectively) for the cost function $J_{n}^{AC}$, see also Theorem 5.3. ‣ 5.1. Structural convex optimization ‣ 5. Semi-infinite to Finite Program: Structural convex optimization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"). These bounds are computationally appealing as they provide a posteriori bounds on the approximation error that often is significantly smaller than the a priori bounds given by Theorem 5.3. ‣ 5.1. Structural convex optimization ‣ 5. Semi-infinite to Finite Program: Structural convex optimization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming").
 
 <!-- chunk {"id": "body-0108", "role": "body", "section": "Structural convex optimization", "weight": 1.0} -->
 
-(a) A priori error ε and a posteriori error Jn, ηUB − Jn, ηLB
+This behavior can be seen in the simulation results summarized in Figure 3 where the number of basis functions is $n = 10$. Similar to Figure 2, the red dotted line is the optimal value of the original infinite program 16, which we approximated by using $10^{3}$ basis functions and $10^{6}$ iterations of Algorithm 1; it coincides with the one from the randomized method.
 
 <!-- chunk {"id": "body-0109", "role": "body", "section": "Structural convex optimization", "weight": 1.0} -->
 
+(a) A priori error ε and a posteriori error Jn, ηUB − Jn, ηLB
+
+<!-- chunk {"id": "body-0110", "role": "body", "section": "Structural convex optimization", "weight": 1.0} -->
+
 (b) Upper bound Jn, ηUB and lower bound Jn, ηLB
-
-<!-- chunk {"id": "body-0110", "role": "body", "section": "Example 2: A fisheries management problem", "weight": 1.0} -->
-
-A natural approximation approach toward dynamic programming problems goes through a discretization scheme (e.g., discretization the state and/or action spaces). The main objective of this example is to compare the proposed LP-based approximation of this article with more standard discretization schemes. To this end, we borrow an example from \[24, Section 1.3\] and compare our results with the recent discretization method proposed. Consider the population growth model, known as Ricker model,
 
 <!-- chunk {"id": "body-0111", "role": "body", "section": "Example 2: A fisheries management problem", "weight": 1.0} -->
 
-where ${\vartheta_{1},\vartheta_{2}} \in {\mathbb{R}}_{+}$, $s_{t}$ is the population size in season $t$, and $a_{t}$ is the population to be left for spawning for the next season, i.e., the difference $s_{t} - a_{t}$ is the amount of fish captured in season $t$. The running reward function, to be maximized is ${\psi{(a,s)}} = {\varphi{({s - a})}}$, where $\varphi$ is the so-called shifted isoelastic utility function ${\varphi{(z)}}:={{3{({z + 0.5})}^{1/3}} - {(0.5)}^{1/3}}$ \[16, 13, Section 4.1\].
+A natural approximation approach toward dynamic programming problems goes through a discretization scheme (e.g., discretization the state and/or action spaces). The main objective of this example is to compare the proposed LP-based approximation of this article with more standard discretization schemes. To this end, we borrow an example from \[24, Section 1.3\] and compare our results with the recent discretization method proposed. Consider the population growth model, known as Ricker model,
 
 <!-- chunk {"id": "body-0112", "role": "body", "section": "Example 2: A fisheries management problem", "weight": 1.0} -->
 
-The state space is $S = {\lbrack\underset{¯}{\kappa},\overline{\kappa}\rbrack}$, for some ${\underset{¯}{\kappa},\overline{\kappa}} \in {\mathbb{R}}_{+}$. Since the population left for spawning cannot be greater than the total population, for each $s \in S$, the set of admissible actions is ${A{(s)}} = {\lbrack\underset{¯}{\kappa},s\rbrack}$. To fulfill Assumption 2.1. ‣ 2.2. Infinite LP characterization ‣ 2. Motivation: Control of MDP and LP Characterization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")(i) ‣ Assumption 2.1 (Control model). ‣ 2.2. Infinite LP characterization ‣ 2. Motivation: Control of MDP and LP Characterization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"), following the transformation suggested, we equivalently reformulate the above problem using the dynamics
+where ${\vartheta_{1},\vartheta_{2}} \in {\mathbb{R}}_{+}$, $s_{t}$ is the population size in season $t$, and $a_{t}$ is the population to be left for spawning for the next season, i.e., the difference $s_{t} - a_{t}$ is the amount of fish captured in season $t$. The running reward function, to be maximized is ${\psi{(a,s)}} = {\varphi{({s - a})}}$, where $\varphi$ is the so-called shifted isoelastic utility function ${\varphi{(z)}}:={{3{({z + 0.5})}^{1/3}} - {(0.5)}^{1/3}}$ \[16, 13, Section 4.1\].
 
 <!-- chunk {"id": "body-0113", "role": "body", "section": "Example 2: A fisheries management problem", "weight": 1.0} -->
 
-where the admissible actions set is now the state-independent set $A = {\lbrack\underset{¯}{\kappa},\overline{\kappa}\rbrack}$, and the running reward function is ${\psi{(a,s)}} = {\varphi{({s - a})}\mathbf{1}_{\{{s \geq a}\}}}$. The noise process ${(\xi_{t})}_{t \in {\mathbb{N}}}$ is a sequence of i.i.d. random variables which have a uniform density function $g$ supported on the interval $\lbrack 0,\lambda\rbrack$. Thus, the corresponding kernel is
+The state space is $S = {\lbrack\underset{¯}{\kappa},\overline{\kappa}\rbrack}$, for some ${\underset{¯}{\kappa},\overline{\kappa}} \in {\mathbb{R}}_{+}$. Since the population left for spawning cannot be greater than the total population, for each $s \in S$, the set of admissible actions is ${A{(s)}} = {\lbrack\underset{¯}{\kappa},s\rbrack}$. To fulfill Assumption 2.1. ‣ 2.2. Infinite LP characterization ‣ 2. Motivation: Control of MDP and LP Characterization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")(i) ‣ Assumption 2.1 (Control model). ‣ 2.2. Infinite LP characterization ‣ 2. Motivation: Control of MDP and LP Characterization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"), following the transformation suggested, we equivalently reformulate the above problem using the dynamics
 
 <!-- chunk {"id": "body-0114", "role": "body", "section": "Example 2: A fisheries management problem", "weight": 1.0} -->
 
-Note that to make the model consistent, we must have ${\vartheta_{1}a{\exp{({{- {\vartheta_{2}a}} + \xi})}}} \in {\lbrack\underset{¯}{\kappa},\overline{\kappa}\rbrack}$ for all ${(a,\xi)} \in {{\lbrack\underset{¯}{\kappa},\overline{\kappa}\rbrack} \times {\lbrack 0,\lambda\rbrack}}$. By defining an appropriate change of coordinate similar to Lemma 7.1. ‣ 7.1. Example 1: truncated LQG ‣ 7. Numerical Examples ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"), Assumption 2.1. ‣ 2.2. Infinite LP characterization ‣ 2.
+where the admissible actions set is now the state-independent set $A = {\lbrack\underset{¯}{\kappa},\overline{\kappa}\rbrack}$, and the running reward function is ${\psi{(a,s)}} = {\varphi{({s - a})}\mathbf{1}_{\{{s \geq a}\}}}$. The noise process ${(\xi_{t})}_{t \in {\mathbb{N}}}$ is a sequence of i.i.d. random variables which have a uniform density function $g$ supported on the interval $\lbrack 0,\lambda\rbrack$. Thus, the corresponding kernel is
 
 <!-- chunk {"id": "body-0115", "role": "body", "section": "Example 2: A fisheries management problem", "weight": 1.0} -->
 
-Motivation: Control of MDP and LP Characterization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") are fulfilled; we refer the reader to \[42, Section 7.2\] for further information and detailed analysis.
+Note that to make the model consistent, we must have ${\vartheta_{1}a{\exp{({{- {\vartheta_{2}a}} + \xi})}}} \in {\lbrack\underset{¯}{\kappa},\overline{\kappa}\rbrack}$ for all ${(a,\xi)} \in {{\lbrack\underset{¯}{\kappa},\overline{\kappa}\rbrack} \times {\lbrack 0,\lambda\rbrack}}$. By defining an appropriate change of coordinate similar to Lemma 7.1. ‣ 7.1. Example 1: truncated LQG ‣ 7. Numerical Examples ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming"), Assumption 2.1.
 
-<!-- chunk {"id": "body-0116", "role": "body", "section": "Randomized approach", "weight": 1.0} -->
+<!-- chunk {"id": "body-0116", "role": "body", "section": "Example 2: A fisheries management problem", "weight": 1.0} -->
 
-We implement the methodology presented in Section 4.2, resulting in a finite random convex program (65. ‣ 4.2. Randomized results in the MDP setting ‣ 4. Semi-infinite to Finite Programs: Randomized Approach ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")), where the uniform distribution on $K = {S \times A} = {\lbrack\underset{¯}{\kappa},\overline{\kappa}\rbrack}^{2}$ is used to draw the random samples. Figure 4 illustrates three cases with the number of basis functions $n \in {\{ 2,10,100\}}$ and the bound (68b). The colored tubes represent the results between $\lbrack{10\%},{90\%}\rbrack$ quantiles (shaded areas) as well as the means (solid lines) across $400$ independent experiments of the objective performance $J_{n,N}^{AC}$ as a function of the sample size $N$.
+‣ 2.2. Infinite LP characterization ‣ 2. Motivation: Control of MDP and LP Characterization ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming") are fulfilled; we refer the reader to \[42, Section 7.2\] for further information and detailed analysis.
 
 <!-- chunk {"id": "body-0117", "role": "body", "section": "Randomized approach", "weight": 1.0} -->
 
+We implement the methodology presented in Section 4.2, resulting in a finite random convex program (65. ‣ 4.2. Randomized results in the MDP setting ‣ 4. Semi-infinite to Finite Programs: Randomized Approach ‣ From Infinite to Finite Programs: Explicit Error Bounds with Applications to Approximate Dynamic Programming")), where the uniform distribution on $K = {S \times A} = {\lbrack\underset{¯}{\kappa},\overline{\kappa}\rbrack}^{2}$ is used to draw the random samples. Figure 4 illustrates three cases with the number of basis functions $n \in {\{ 2,10,100\}}$ and the bound (68b). The colored tubes represent the results between $\lbrack{10\%},{90\%}\rbrack$ quantiles (shaded areas) as well as the means (solid lines) across $400$ independent experiments of the objective performance $J_{n,N}^{AC}$ as a function of the sample size $N$.
+
+<!-- chunk {"id": "body-0118", "role": "body", "section": "Randomized approach", "weight": 1.0} -->
+
 It is interesting to note that in this example the optimal solution is captured even with $2$ basis functions and only $N = 20$ random samples. This becomes even more attractive when we compare the results with a direct discretization scheme depicted in \[42, Figure 2\].
-
-<!-- chunk {"id": "body-0118", "role": "body", "section": "Structural convex optimization", "weight": 1.0} -->
-
-Similar to the LQG example in Section 7.1, we also implement the smoothing methodology for the case of $n = 10$. The simulation results are reported in Figure 5.
 
 <!-- chunk {"id": "body-0119", "role": "body", "section": "Structural convex optimization", "weight": 1.0} -->
 
-(a) A priori error ε and a posteriori error Jn, ηUB − Jn, ηLB
+Similar to the LQG example in Section 7.1, we also implement the smoothing methodology for the case of $n = 10$. The simulation results are reported in Figure 5.
 
 <!-- chunk {"id": "body-0120", "role": "body", "section": "Structural convex optimization", "weight": 1.0} -->
+
+(a) A priori error ε and a posteriori error Jn, ηUB − Jn, ηLB
+
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Structural convex optimization", "weight": 1.0} -->
 
 (b) Upper bound Jn, ηUB and lower bound Jn, ηLB

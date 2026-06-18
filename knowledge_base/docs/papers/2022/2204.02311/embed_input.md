@@ -386,11 +386,11 @@ Using chain-of-thought prompting, we evaluate PaLM's performance on the arithmet
 
 <!-- chunk {"id": "body-0091", "role": "body", "section": "Results", "weight": 1.0} -->
 
-We highlight the results of PaLM on GSM8K in Figure 10--left. The prior SOTA on GSM8K, Cobbe et al., used a combination of model finetuning, chain-of-thought prompting^1111^11Note that in Cobbe et al. the intermediate reasoning steps were simply called the "solution," and the actual text was slightly different than the chain-of-thoughts used here., an external calculator, and a task-specific verifier. Using 8-shot chain-of-thought prompting in combination with an external calculator, PaLM 540B achieves a performance of 58%, which outperforms the prior SOTA of 55% from Cobbe et al. as shown in Table 10. This also significantly outperforms both PaLM 540B w/o chain-of-thought and PaLM 62B+chain-of-thought. We analyzed the errors for problems that the PaLM 62B model got wrong and found they typically are in following categories -- semantic understanding, one-step missing, and other errors. Scaling up to the 540B model size fixed a large amount of these errors as shown in Figure 9.
+We highlight the results of PaLM on GSM8K in Figure 10--left. The prior SOTA on GSM8K, Cobbe et al., used a combination of model finetuning, chain-of-thought prompting^1111^11Note that in Cobbe et al. the intermediate reasoning steps were simply called the "solution," and the actual text was slightly different than the chain-of-thoughts used here., an external calculator, and a task-specific verifier. Using 8-shot chain-of-thought prompting in combination with an external calculator, PaLM 540B achieves a performance of 58%, which outperforms the prior SOTA of 55% from Cobbe et al. as shown in Table 10. This also significantly outperforms both PaLM 540B w/o chain-of-thought and PaLM 62B+chain-of-thought. We analyzed the errors for problems that the PaLM 62B model got wrong and found they typically are in following categories -- semantic understanding, one-step missing, and other errors.
 
 <!-- chunk {"id": "body-0092", "role": "body", "section": "Results", "weight": 1.0} -->
 
-In the appendix, Figure 28 and 29 show sample examples of the errors corrected by scaling up the model size.
+Scaling up to the 540B model size fixed a large amount of these errors as shown in Figure 9. In the appendix, Figure 28 and 29 show sample examples of the errors corrected by scaling up the model size.
 
 <!-- chunk {"id": "body-0093", "role": "body", "section": "Results", "weight": 1.0} -->
 

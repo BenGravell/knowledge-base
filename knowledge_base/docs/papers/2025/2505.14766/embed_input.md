@@ -191,11 +191,11 @@ We evaluate Toto on three benchmarks: Boom, GIFT-Eval, and LSF. We compare again
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-Boom. We evaluate Toto's zero-shot forecasting performance alongside other foundation models, \[ansari2024chronoslearninglanguagetime, das2024a, Woo2024, shi2025timemoe, 10.5555/3692070.3693383, chen2024visionts\], as well as full-shot statistical baselines. We do not evaluate full-shot deep learning models on Boom; as discussed in Section, these models are often impractical in real-word observability systems at scale. Similarly, we were unable to evaluate TabPFN \[hoo2025tabpfn\] (a recent zero-shot model with strong performance on GIFT-Eval) on BOOM, as its open-source implementation's lack of support for batched inference made it impractically slow to run. Details of the inference settings and evaluation procedures for all models are described in Appendix C.2.
+Boom. We evaluate Toto's zero-shot forecasting performance alongside other foundation models, \[ansari2024chronoslearninglanguagetime, das2024a, Woo2024, shi2025timemoe, 10.5555/3692070.3693383, chen2024visionts\], as well as full-shot statistical baselines. We do not evaluate full-shot deep learning models on Boom; as discussed in Section, these models are often impractical in real-word observability systems at scale. Similarly, we were unable to evaluate TabPFN \[hoo2025tabpfn\] (a recent zero-shot model with strong performance on GIFT-Eval) on BOOM, as its open-source implementation's lack of support for batched inference made it impractically slow to run.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Experiments", "weight": 1.0} -->
 
-As shown in Table, Toto consistently outperforms other models, achieving 13.1% and 12.4% lower MASE and CRPS, respectively, than the next best (Moirai~Base~), and a significantly lower rank (2.351 vs. 4.278). Similar qualitative results hold on the Boomlet subset (Appendix D.1.1).
+Details of the inference settings and evaluation procedures for all models are described in Appendix C.2. As shown in Table, Toto consistently outperforms other models, achieving 13.1% and 12.4% lower MASE and CRPS, respectively, than the next best (Moirai~Base~), and a significantly lower rank (2.351 vs. 4.278). Similar qualitative results hold on the Boomlet subset (Appendix D.1.1).
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Experiments", "weight": 1.0} -->
 

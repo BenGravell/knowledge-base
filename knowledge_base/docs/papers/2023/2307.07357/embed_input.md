@@ -74,11 +74,11 @@ In this section, we give a brief introduction to the IO methodology used in this
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Inverse Optimization", "weight": 1.0} -->
 
-where ${\mathbb{X}}{(\hat{s})}$ is the expert's known constraint set, $F:{{{\mathbb{S}} \times {\mathbb{X}}}\rightarrow{\mathbb{R}}}$ is the expert's unknown cost function, where we define ${\mathbb{X}} ≔ {\bigcup_{\hat{s} \in {\mathbb{S}}}{{\mathbb{X}}{(\hat{s})}}}$. In our IO formulation, the signal space $\mathbb{S}$ may contain any information that the expert uses to solve the optimization problem. For example, in the context of routing problems, the signal may contain the demands of customers, time windows for the service of customers, the set of customers that need to be served, time of the day, day of the week, weather information, etc.
+where ${\mathbb{X}}{(\hat{s})}$ is the expert's known constraint set, $F:{{{\mathbb{S}} \times {\mathbb{X}}}\rightarrow{\mathbb{R}}}$ is the expert's unknown cost function, where we define ${\mathbb{X}} ≔ {\bigcup_{\hat{s} \in {\mathbb{S}}}{{\mathbb{X}}{(\hat{s})}}}$. In our IO formulation, the signal space $\mathbb{S}$ may contain any information that the expert uses to solve the optimization problem.
 
 <!-- chunk {"id": "body-0020", "role": "body", "section": "Inverse Optimization", "weight": 1.0} -->
 
-Since it would not be practical to formally (i.e., mathematically) define a signal space that contains all possible types of signals, we leave it as a general signal space $\mathbb{S}$. The expert's decision $\hat{x}$ is chosen from the set of optimizers of, i.e., $\hat{x} \in {{\operatorname{argmin}_{x \in {{\mathbb{X}}{(\hat{s})}}}F}{(\hat{s},x)}}$. Assume we have access to $N$ pairs of exogenous signals and respective expert optimal decisions ${\{{({\hat{s}}^{\lbrack i\rbrack},{\hat{x}}^{\lbrack i\rbrack})}\}}_{i = 1}^{N}$, that is,
+For example, in the context of routing problems, the signal may contain the demands of customers, time windows for the service of customers, the set of customers that need to be served, time of the day, day of the week, weather information, etc. Since it would not be practical to formally (i.e., mathematically) define a signal space that contains all possible types of signals, we leave it as a general signal space $\mathbb{S}$. The expert's decision $\hat{x}$ is chosen from the set of optimizers of, i.e., $\hat{x} \in {{\operatorname{argmin}_{x \in {{\mathbb{X}}{(\hat{s})}}}F}{(\hat{s},x)}}$.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Inverse Optimization", "weight": 1.0} -->
 
@@ -226,11 +226,11 @@ Consider the Vehicle Routing Problem with Time Windows (VRPTW)
 
 <!-- chunk {"id": "body-0057", "role": "body", "section": "IO for VRPTWs", "weight": 1.0} -->
 
-where $n$ is the number of customers, $K$ is the maximum number of vehicles available, $x_{ijk}$ is a binary variable equal to $1$ if the edge from node $i$ to node $j$ is traversed by vehicle $k$ in the solution, and $0$ otherwise, and $w_{ijk}$ is the weight of the edge connecting node $i$ to node $j$. In the constraint set of program, $x$ is the vector containing the variables $x_{ijk}$, the signal $\hat{s}$ is defined to be the list of time windows (one for each customer) that need to be respected, and ${\mathbb{X}}{(\hat{s})}$ is the set of feasible solutions for the VRPTW for time windows in $\hat{s}$. Notice that the set ${\mathbb{X}}{(\hat{s})}$ may depend on other parameters of the problem, such as the service time of each customer, the demands of each customer, the travel time between customers, etc.
+where $n$ is the number of customers, $K$ is the maximum number of vehicles available, $x_{ijk}$ is a binary variable equal to $1$ if the edge from node $i$ to node $j$ is traversed by vehicle $k$ in the solution, and $0$ otherwise, and $w_{ijk}$ is the weight of the edge connecting node $i$ to node $j$. In the constraint set of program, $x$ is the vector containing the variables $x_{ijk}$, the signal $\hat{s}$ is defined to be the list of time windows (one for each customer) that need to be respected, and ${\mathbb{X}}{(\hat{s})}$ is the set of feasible solutions for the VRPTW for time windows in $\hat{s}$.
 
 <!-- chunk {"id": "body-0058", "role": "body", "section": "IO for VRPTWs", "weight": 1.0} -->
 
-However, we make the constraint set explicitly dependent only on the time windows since this is the only external parameter that will change in this example. More details on the different formulations for the constraint set of VRPTWs can be found.
+Notice that the set ${\mathbb{X}}{(\hat{s})}$ may depend on other parameters of the problem, such as the service time of each customer, the demands of each customer, the travel time between customers, etc. However, we make the constraint set explicitly dependent only on the time windows since this is the only external parameter that will change in this example. More details on the different formulations for the constraint set of VRPTWs can be found.
 
 <!-- chunk {"id": "body-0059", "role": "body", "section": "IO for VRPTWs", "weight": 1.0} -->
 
@@ -458,124 +458,120 @@ Next, we incorporate these observations into our IO learning approach. One way t
 
 <!-- chunk {"id": "body-0115", "role": "body", "section": "IO for the Amazon Challenge", "weight": 1.0} -->
 
-Thus, we use as our hypothesis function, with $M_{ij} = {M_{ij}^{A} + M_{ij}^{R} + M_{ij}^{d}}$, where $M_{ij}^{A} = 0$ if zones $i$ and $j$ are in the same area, and $M_{ij}^{A} = 1$ otherwise, $M_{ij}^{R} = 0$ if zones $i$ and $j$ are in the same region, and $M_{ij}^{R} = 1$ otherwise, and $M_{ij}^{d} = {d{(i,j)}}$, that is, the difference between zones $i$ and $j$. Since for Algorithm we initialize $\theta_{1}$ as the Euclidean distance between zone centers, where the coordinates of the centers are given by their latitudes and longitudes, each component of $\theta_{1}$ is much smaller than 1.
+Since for Algorithm we initialize $\theta_{1}$ as the Euclidean distance between zone centers, where the coordinates of the centers are given by their latitudes and longitudes, each component of $\theta_{1}$ is much smaller than 1. This makes a penalization of one unit (such as the ones used for $M_{ij}^{A}$ and $M_{ij}^{R}$) enough to enforce that the resulting routes will respect the area sequence and region sequence behaviors. The same idea applies to the "one unit variance" penalization.
 
 <!-- chunk {"id": "body-0116", "role": "body", "section": "IO for the Amazon Challenge", "weight": 1.0} -->
 
-This makes a penalization of one unit (such as the ones used for $M_{ij}^{A}$ and $M_{ij}^{R}$) enough to enforce that the resulting routes will respect the area sequence and region sequence behaviors. The same idea applies to the "one unit variance" penalization.
+The final Amazon Challenge score achieved by our tailored approach is 0.0302, which significantly improves the 0.0535 score of the benchmark (i.e., general IO) approach. Figure shows the scores of the top 20 submissions of the Amazon Challenge. As can be seen, our score ranks 2nd compared to the 48 models that qualified for the final round of the Amazon Challenge. Compared to the initial weights fed to the tailored IO algorithm, considering only the set of weights changed by the first-order method, the change was of $28.6$% on average, with the 10th and 90th percentiles equal to $0.8$% and $68.8$%, respectively. These changes may be interpreted in the following sense: if the first-order algorithm increases the weight of the edge connecting zones A and B, it means that according to the data, the expert human driver considers this edge more costly than the initial weights (i.e., than the Euclidean distance between the zones), or in other words, the drivers have less preference in using this edge.
 
 <!-- chunk {"id": "body-0117", "role": "body", "section": "IO for the Amazon Challenge", "weight": 1.0} -->
 
-The final Amazon Challenge score achieved by our tailored approach is 0.0302, which significantly improves the 0.0535 score of the benchmark (i.e., general IO) approach. Figure shows the scores of the top 20 submissions of the Amazon Challenge. As can be seen, our score ranks 2nd compared to the 48 models that qualified for the final round of the Amazon Challenge. Compared to the initial weights fed to the tailored IO algorithm, considering only the set of weights changed by the first-order method, the change was of $28.6$% on average, with the 10th and 90th percentiles equal to $0.8$% and $68.8$%, respectively. These changes may be interpreted in the following sense: if the first-order algorithm increases the weight of the edge connecting zones A and B, it means that according to the data, the expert human driver considers this edge more costly than the initial weights (i.e., than the Euclidean distance between the zones), or in other words, the drivers have less preference in using this edge.
+Similarly, if the algorithm decreases the weight, we can interpret it as the drivers considering this edge less costly, thus, having a stronger preference in using this edge when driving. Moreover, to test the robustness of the learned model, we added Gaussian perturbations to the weights learned and computed the Amazon score of the perturbed model. Adding Gaussian perturbations with magnitudes (in expectation) of $0.1$% and $1$% compared to the average magnitude of the weight matrix led to an increase of $0.7$% and $4$% in the Amazon score, respectively. Thus, we observed the expected behavior from a robust model: small perturbations lead to small changes in the output of the model.
 
 <!-- chunk {"id": "body-0118", "role": "body", "section": "IO for the Amazon Challenge", "weight": 1.0} -->
 
-Similarly, if the algorithm decreases the weight, we can interpret it as the drivers considering this edge less costly, thus, having a stronger preference in using this edge when driving. Moreover, to test the robustness of the learned model, we added Gaussian perturbations to the weights learned and computed the Amazon score of the perturbed model. Adding Gaussian perturbations with magnitudes (in expectation) of $0.1$% and $1$% compared to the average magnitude of the weight matrix led to an increase of $0.7$% and $4$% in the Amazon score, respectively. Thus, we observed the expected behavior from a robust model: small perturbations lead to small changes in the output of the model.
-
-<!-- chunk {"id": "body-0119", "role": "body", "section": "IO for the Amazon Challenge", "weight": 1.0} -->
-
 In our experience, small perturbations on the learned model do not tend to lead to significant changes in the resulting route. To evaluate its robustness, we can add Gaussian perturbations to the weights learned for the Amazon Challenge and compute their effect on the Amazon score of the model. Adding Gaussian perturbations with magnitudes (in expectation) of $0.1$% and $1$% compared to the average magnitude of the weight matrix led to an increase of $0.7$% and $4$% in the Amazon score, respectively. Thus, we observed the expected behavior from a robust model: small perturbations lead to small changes in the output of the model while increasing the perturbations increases their impact on the model. We have added a discussion on this point to the revised version of the paper (page 21).
 
-<!-- chunk {"id": "body-0120", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0119", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
 
 In this section, we present further numerical experiments using the Amazon Challenge datasets, focusing on the computational and time complexity of Algorithm. Before we present our results, as discussed at the end of Section 4.2, recall that we apply our IO learning method separately for each depot in the Amazon Challenge training dataset. Thus, assuming we can run Algorithm in parallel for all depots, the complexity of computing the final IO model for all depots equals the complexity of computing the IO model for the largest depot in the dataset. For the Amazon Challenge, the largest depot dataset is DLA7 in Los Angeles, which we thus use to discuss the complexity of our approach.
 
-<!-- chunk {"id": "body-0121", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0120", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
 
 Dataset size versus performance. First, we study the performance of our IO approach by changing the size of the training dataset. That is, instead of using the entire training dataset of the Amazon Challenge to train the IO model, we test the impact of using only a fraction of the available data. Figure shows the results of this experiment. Figure 10(a) shows the Amazon score achieved, per epoch, by Algorithm using different fractions of the Amazon training dataset. Figure 10(b) shows the time it took to run Algorithm for 5 epochs, for the different fractions of the training dataset. As expected, the more data we feed to Algorithm, the better the score gets, and the longer the training takes. Interestingly, notice that using only $20\%$ of the data provided for the challenge, our IO approach is already able to learn a routing model that scores $0.0334$, which would still rank 2nd compared to the 48 models that qualified for the final round of the Amazon Challenge.
 
-<!-- chunk {"id": "body-0122", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0121", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
 
 (a) Amazon score on the test dataset, for models learned using different fractions of the training dataset.
 
-<!-- chunk {"id": "body-0123", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0122", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
 
 (b) Time taken to run 5 epochs of Algorithm 1.
 
-<!-- chunk {"id": "body-0124", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0123", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
 
 Time complexity and approximate A-FOP. In practice, the most time consuming component of Algorithm is solving the A-FOP (line 5). As previously explained, for the Amazon Challenge, this problem consists of a TSP over zones (see Step 2 in Section 4.2). Thus, for each epoch of Algorithm, we need to solve $N$ TSPs, where $N$ is the number of examples in the training dataset. For the depot DLA7, $N = 1133$, and each example contains, on average (rounded up), $23$ zones, where the largest instance has $37$ zones and the smallest has $9$ zones. Thus, for each epoch of Algorithm, we need to solve $1133$ TSPs, each with $23$ zones on average. Using an exact Gurobi-based TSP solver, running 5 epochs of Algorithm using the entire training dataset took $78.13$ minutes (see Figure 10(b)).
 
-<!-- chunk {"id": "body-0125", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0124", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
 
 Table 2. Summary of the results of Section 5.2. The Amazon scores are computed using the test dataset. The TSP solver refers to the solver used to solve the A-FOP in line 5 of Algorithm 1, and the training time is the time of running Algorithm 1 for 5 epochs.
 
-<!-- chunk {"id": "body-0126", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0125", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
 
 However, recall that as discussed in Remark 2.2. ‣ 2.3. First-order algorithm ‣ 2. Inverse Optimization ‣ Inverse Optimization for Routing Problems"), Algorithm can be used with an approximate A-FOP instead of an exact one. The idea here is that solving A-FOP approximately can be faster in practice, which may compensate for a potentially worse performance of the final learned IO model. We test this idea using Algorithm with approximate TSP solvers instead of the exact Gurobi-based one. For the approximate solvers, we test the LKH-3 and Google OR-Tools. The final Amazon score after 5 epochs of Algorithm using Google OR-Tools is $0.0306$, just slightly worse compared to the Gurobi and LKH-3 solvers, but taking only $69.51$ minutes in total. Interestingly, we can push this time even further. As can be seen in Figure 10(a), a good IO model can be achieved using Algorithm for only one epoch. Moreover, from Figure 10(a), it can also be seen that a good IO model can be learned using only $20\%$ of the training dataset.
 
-<!-- chunk {"id": "body-0127", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
+<!-- chunk {"id": "body-0126", "role": "body", "section": "Computational and time complexity", "weight": 1.0} -->
 
 Thus, using $20\%$ of the training dataset and running Algorithm using the Google OR-Tools TSP solver for 5 epochs, we achieve a final score of $0.0337$ ($0.0341$ after only one epoch) in only $12.72$ minutes (i.e., $2.54$ minutes per epoch on average). This showcases the learning efficiency of our IO methodology, making it also suitable for real-time applications, where models need to be learned/updated frequently, and the training time should not take more than a couple of minutes. Table summarizes the numerical results of this section.
 
-<!-- chunk {"id": "body-0128", "role": "body", "section": "Impact of the initial point", "weight": 1.0} -->
+<!-- chunk {"id": "body-0127", "role": "body", "section": "Impact of the initial point", "weight": 1.0} -->
 
 An important parameter of Algorithm is the initial point $\theta_{1}^{\lbrack 1\rbrack}$. In practice, the better the initial point, the faster the algorithm will converge, and perhaps more importantly, the better the test dataset performance of the final model tends to be. In this section, we investigate the impact of different choices of $\theta_{1}^{\lbrack 1\rbrack}$ for the numerical experiment of Section 3.2 and for the Amazon Challenge. In particular, we compare the "Euclidean distance" initialization used to generate the results shown in Figure 3(b) and Figure 10(a) with a "uniform" initialization, where $\theta_{1}^{\lbrack 1\rbrack}$ is a vector with all its components equal to the same number (this initialization could be used when no prior information on a good cost vector is known). Figure shows the results of this experiment.
 
-<!-- chunk {"id": "body-0129", "role": "body", "section": "Impact of the initial point", "weight": 1.0} -->
+<!-- chunk {"id": "body-0128", "role": "body", "section": "Impact of the initial point", "weight": 1.0} -->
 
 As can be seen, using the Euclidean distance can accelerate the convergence of the algorithm, as in the VRPTW scenario, as well as improve the test dataset performance of the learned model, as in the case of the final Amazon score of the learned models for the Amazon Challenge. This means that, although the Euclidean weights do not explain the routes in the dataset, there is a correlation between the Euclidean distance between nodes and the true weights used to generate the observed routes.
 
-<!-- chunk {"id": "body-0130", "role": "body", "section": "Impact of the initial point", "weight": 1.0} -->
+<!-- chunk {"id": "body-0129", "role": "body", "section": "Impact of the initial point", "weight": 1.0} -->
 
 (a) Average error between the routes generated by θtrue and θIO.
 
-<!-- chunk {"id": "body-0131", "role": "body", "section": "Impact of the initial point", "weight": 1.0} -->
+<!-- chunk {"id": "body-0130", "role": "body", "section": "Impact of the initial point", "weight": 1.0} -->
 
 (b) Amazon score of the learned models.
 
-<!-- chunk {"id": "body-0132", "role": "body", "section": "Alternative performance metric", "weight": 1.0} -->
+<!-- chunk {"id": "body-0131", "role": "body", "section": "Alternative performance metric", "weight": 1.0} -->
 
 (a) Performance of the general and tailored IO approaches using the zone sequence prediction error.
 
-<!-- chunk {"id": "body-0133", "role": "body", "section": "Alternative performance metric", "weight": 1.0} -->
+<!-- chunk {"id": "body-0132", "role": "body", "section": "Alternative performance metric", "weight": 1.0} -->
 
 (b) Performance of the general and tailored IO approaches using the Amazon score.
 
-<!-- chunk {"id": "body-0134", "role": "body", "section": "Alternative performance metric", "weight": 1.0} -->
+<!-- chunk {"id": "body-0133", "role": "body", "section": "Alternative performance metric", "weight": 1.0} -->
 
 In Section, we evaluated our results for the Amazon Challenge in terms of the Amazon score. In this section, we present results in terms of a zone sequence prediction error metric. Namely, given a zone sequence obtained from a learned IO model, and the zone sequence $\hat{x}$ from the training or test dataset, the prediction error $\text{Error}{(x,\hat{x})}$ counts how many zones in $\hat{x}$ are in the wrong position compared to $x$.
 
-<!-- chunk {"id": "body-0135", "role": "body", "section": "Alternative performance metric", "weight": 1.0} -->
+<!-- chunk {"id": "body-0134", "role": "body", "section": "Alternative performance metric", "weight": 1.0} -->
 
 Thus, given a dataset of $N$ examples of zone sequences and the respective sequences predicted by the IO model, we define the total (percentage) zone sequence prediction error across the entire dataset as $100{\sum_{i = 1}^{N}{{\text{Error}{(x^{\lbrack i\rbrack},{\hat{x}}^{\lbrack i\rbrack})}}/{\sum_{i = 1}^{N}L^{\lbrack i\rbrack}}}}$, where $L^{\lbrack i\rbrack}$ is the length of the $i$'th zone sequence. In other words, this value can be interpreted as the percentage of time the IO approach correctly predicts the position of a zone in the zone sequence. Figure 12(a) shows the performance of the general and our tailored IO approaches from Section 5.1 in terms of the zone sequence prediction error. For comparison, we also show their respective Amazon score in Figure 12(b).
 
-<!-- chunk {"id": "body-0136", "role": "body", "section": "Alternative performance metric", "weight": 1.0} -->
+<!-- chunk {"id": "body-0135", "role": "body", "section": "Alternative performance metric", "weight": 1.0} -->
 
 As can be seen, the IO models show (qualitatively) similar performance, in terms of both prediction error and Amazon score metrics.
 
-<!-- chunk {"id": "body-0137", "role": "body", "section": "Route examples", "weight": 1.0} -->
+<!-- chunk {"id": "body-0136", "role": "body", "section": "Route examples", "weight": 1.0} -->
 
 (a) Route example from the test dataset.
+
+<!-- chunk {"id": "body-0137", "role": "body", "section": "Route examples", "weight": 1.0} -->
+
+(b) Output route from the IO model.
 
 <!-- chunk {"id": "body-0138", "role": "body", "section": "Route examples", "weight": 1.0} -->
 
-(b) Output route from the IO model.
+(a) Route example from the test dataset.
 
 <!-- chunk {"id": "body-0139", "role": "body", "section": "Route examples", "weight": 1.0} -->
 
-(a) Route example from the test dataset.
+(b) Output route from the IO model.
 
 <!-- chunk {"id": "body-0140", "role": "body", "section": "Route examples", "weight": 1.0} -->
 
-(b) Output route from the IO model.
+In this section, we show some route examples, comparing the routes of human drivers from the Amazon Challenge dataset, with the routes from our IO approach. In Figure, we show an example where the zone sequence predicted by the IO model (i.e., Step 3 in Section 4.2) perfectly matches the one from the original route, where nodes of different colors represent different zones. As can be noticed, even though the zone sequence is the same, the sequence of stops within each zone is different. However, even with these differences, the Amazon score of the route in Figure 13(b) is still quite small ($0.0046$). This phenomenon is generally observed for the Amazon Challenge: perfectly predicting the zone sequence tends to lead to a small Amazon score, even with different sequences of stops within each zone. This observation supports our IO approach to the challenge, where we focused on predicting the correct zone sequence, instead of the stop sequences.
 
 <!-- chunk {"id": "body-0141", "role": "body", "section": "Route examples", "weight": 1.0} -->
 
-In this section, we show some route examples, comparing the routes of human drivers from the Amazon Challenge dataset, with the routes from our IO approach. In Figure, we show an example where the zone sequence predicted by the IO model (i.e., Step 3 in Section 4.2) perfectly matches the one from the original route, where nodes of different colors represent different zones. As can be noticed, even though the zone sequence is the same, the sequence of stops within each zone is different. However, even with these differences, the Amazon score of the route in Figure 13(b) is still quite small ($0.0046$). This phenomenon is generally observed for the Amazon Challenge: perfectly predicting the zone sequence tends to lead to a small Amazon score, even with different sequences of stops within each zone. This observation supports our IO approach to the challenge, where we focused on predicting the correct zone sequence, instead of the stop sequences.
-
-<!-- chunk {"id": "body-0142", "role": "body", "section": "Route examples", "weight": 1.0} -->
-
 In Figure we show an example where the zone sequence from the original route (Figure 14(a)) differs from the one predicted by the IO model (Figure 14(b)). In particular, the zone prediction error (defined in Section 5.3.2) between these two routes is $31.6$%. Still, since the zones predicted in the wrong order are close to each other, the Amazon score of the route in Figure 14(b) is relatively small ($0.0117$). This example provides some intuition on the results from Figure: even though the average zone prediction error of the proposed tailored IO approach is around $32$%, the fact that it still guarantees a low Amazon score means that even when predicting the wrong zone sequence, the predicted zones in general similar (i.e., geographically close) to the actual ones from the test dataset.
 
-<!-- chunk {"id": "body-0143", "role": "body", "section": "Conclusion and Further Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0142", "role": "body", "section": "Conclusion and Further Work", "weight": 1.5} -->
 
 In this work, we propose an Inverse Optimization (IO) methodology for learning the preferences of decision-makers in routing problems. To exemplify the potential and flexibility of our approach, we first apply it to a simple CVRP problem, where we give insight into how our IO algorithm works by modifying the learned edge weights by comparing the example routes to the optimal route we get using the current learned weights. Then, we apply it to a larger VRPTW example, comparing the performance of our proposed algorithm with different approaches from the literature. Finally, we show the real-world potential of our approach by using it to tackle the Amazon Challenge, where the goal of the challenge was to develop routing models that replicate the behavior of real-world expert human drivers. To do so, we first define what we call Restricted TSPs (i.e., TSPs for which only a subset of the nodes is required to be visited). Given a dataset of signals (nodes to be visited) and expert responses (R-TSPs tours), we have shown how to use IO to learn the edge weights that explain the observed data.
 
-<!-- chunk {"id": "body-0144", "role": "body", "section": "Conclusion and Further Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0143", "role": "body", "section": "Conclusion and Further Work", "weight": 1.5} -->
 
 In the context of the Amazon Challenge, learning these edge weights translates to learning the sequence of city zones preferred by expert human drivers. Then, from a sequence of zones, we constructed a complete TSP tour over the required stops. The final score of our approach is 0.0302, which ranks 2nd compared to the 48 models that qualified for the final round of the Amazon Challenge.
 
-<!-- chunk {"id": "body-0145", "role": "body", "section": "Conclusion and Further Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0144", "role": "body", "section": "Conclusion and Further Work", "weight": 1.5} -->
 
 As future research directions, it would be interesting to apply our methodology to different and more complex classes of routing problems, for instance, dynamic VRPs, routing problems with backhauls, as well as routing problems with continuous decision variables. Moreover, although in this work we focused on routing problems, our methodology could also be adapted and tailored to different classes of problems with a binary decision space, such as 0-1 knapsack problems. Given the modularity/flexibility of our IO methodology, we believe it has the potential to be used for a wide range of real-world decision-making problems.

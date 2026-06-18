@@ -358,11 +358,11 @@ Marshall and Olkin derive a convex optimization problem that provides a tight up
 
 <!-- chunk {"id": "body-0090", "role": "body", "section": "Comparison of Chebyshev Bounds", "weight": 1.0} -->
 
-which follows from \[4, Theorem 6.1\]. By construction, ${\text{R}^{\text{MO}}(\gamma)} \geq {\text{R}(\gamma)}$ since $\mathcal{P} \subset \mathcal{P}^{0}$. Note that $\text{R}^{\text{MO}}(\gamma)$ coincides with our relaxed Chebyshev bound $\text{R}^{\prime}(\gamma)$ for $\gamma \geq \left( {\mu + \frac{\sigma^{2}\theta}{T\mu}} \right)^{T}$, see Theorem 5.2 ‣ 5 Covariance Bounds ‣ Chebyshev Inequalities for Products of Random Variables"). Thus, $\text{R}^{\text{MO}}(\gamma)$ also coincides with our right-sided Chebyshev bound $\text{R}(\gamma)$ for large values of $\gamma$, see Proposition 5.1.
+which follows from \[4, Theorem 6.1\]. By construction, ${\text{R}^{\text{MO}}(\gamma)} \geq {\text{R}(\gamma)}$ since $\mathcal{P} \subset \mathcal{P}^{0}$. Note that $\text{R}^{\text{MO}}(\gamma)$ coincides with our relaxed Chebyshev bound $\text{R}^{\prime}(\gamma)$ for $\gamma \geq \left( {\mu + \frac{\sigma^{2}\theta}{T\mu}} \right)^{T}$, see Theorem 5.2 ‣ 5 Covariance Bounds ‣ Chebyshev Inequalities for Products of Random Variables").
 
 <!-- chunk {"id": "body-0091", "role": "body", "section": "Comparison of Chebyshev Bounds", "weight": 1.0} -->
 
-Note that the bound of Marshall and Olkin cannot be used to approximate our left-sided Chebyshev bound $\text{L}(\gamma)$ since the complement of $\mathcal{C}$ fails to be convex.
+Thus, $\text{R}^{\text{MO}}(\gamma)$ also coincides with our right-sided Chebyshev bound $\text{R}(\gamma)$ for large values of $\gamma$, see Proposition 5.1. Note that the bound of Marshall and Olkin cannot be used to approximate our left-sided Chebyshev bound $\text{L}(\gamma)$ since the complement of $\mathcal{C}$ fails to be convex.
 
 <!-- chunk {"id": "body-0092", "role": "body", "section": "Comparison of Chebyshev Bounds", "weight": 1.0} -->
 

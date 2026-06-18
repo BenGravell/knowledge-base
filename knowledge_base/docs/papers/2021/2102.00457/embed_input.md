@@ -160,11 +160,11 @@ Similar to PPV, MPV is related to the bias term. It captures the intensity of th
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Mean of indices of positive values", "weight": 1.0} -->
 
-The *Mean of Indices of Positive Values* (MIPV) captures information about the relative location of positive values in the convolution outputs, for example, distinguishing A from B in Table 1. Consider the convolution output $Z$ as an array of values, MIPV is computed by first recording the relative location of all positive values in the array, i.e., its indices in the array. Then the mean of the indices is calculated using Equation 4, where $I^{+}$ indicates the indices of positive values. Note that ${\text{PPV}{(Z)}} = {{|I^{+}|}/n} = {m/n}$, where $m$ is the number of positive values in $Z$. In the case where there are no positive values, $m = 0$, MIPV returns -1 to differentiate from the first index, considering we start with index 0.
+The *Mean of Indices of Positive Values* (MIPV) captures information about the relative location of positive values in the convolution outputs, for example, distinguishing A from B in Table 1. Consider the convolution output $Z$ as an array of values, MIPV is computed by first recording the relative location of all positive values in the array, i.e., its indices in the array. Then the mean of the indices is calculated using Equation 4, where $I^{+}$ indicates the indices of positive values. Note that ${\text{PPV}{(Z)}} = {{|I^{+}|}/n} = {m/n}$, where $m$ is the number of positive values in $Z$.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Mean of indices of positive values", "weight": 1.0} -->
 
-For example, the convolution output $A$ in the dummy example in Table 1 has positive values at locations $I^{+} = {\lbrack 6,7,8,9\rbrack}$ giving $\text{MIPV} = 7.5$.
+In the case where there are no positive values, $m = 0$, MIPV returns -1 to differentiate from the first index, considering we start with index 0. For example, the convolution output $A$ in the dummy example in Table 1 has positive values at locations $I^{+} = {\lbrack 6,7,8,9\rbrack}$ giving $\text{MIPV} = 7.5$.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Mean of indices of positive values", "weight": 1.0} -->
 

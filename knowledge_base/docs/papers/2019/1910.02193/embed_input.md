@@ -77,60 +77,56 @@ We first study the performance of our approach with synthetic data. In the Marko
 
 <!-- chunk {"id": "body-0019", "role": "body", "section": "Synthetic Data", "weight": 1.0} -->
 
-The error metrics we evaluate are: (i) clustering error $\text{CE} = {n^{- 1}\min_{k \in \mathcal{K}}{\sum_{j = 1}^{r}{|{\{ i:{{i \in \Omega_{j}};{i \notin {\hat{\Omega}}_{k{(j)}}}}\}}|}}}$ where $\mathcal{K}$ is given in Definition 3. ‣ 4.1 Relevant Definitions ‣ 4 Theoretical Guarantees ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L.
+‣ 4.1 Relevant Definitions ‣ 4 Theoretical Guarantees ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076."); (ii) ${\|{\overset{\sim}{\mathbf{π}} - {\mathbf{π}}}\|}_{1}$, i.e. the difference between $\overset{\sim}{\mathbf{P}}$ and $\mathbf{P}$ in terms of stationary distributions. For each parameter setup, we record the average of these two metrics over 100 experiments.
 
-<!-- chunk {"id": "body-0020", "role": "body", "section": "Synthetic Data", "weight": 1.0} -->
+<!-- chunk {"id": "body-0020", "role": "body", "section": "Without Perturbation ($\\mathbf{\\Delta} = 0$)", "weight": 1.0} -->
 
-Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076."); (ii) ${\|{\overset{\sim}{\mathbf{π}} - {\mathbf{π}}}\|}_{1}$, i.e. the difference between $\overset{\sim}{\mathbf{P}}$ and $\mathbf{P}$ in terms of stationary distributions. For each parameter setup, we record the average of these two metrics over 100 experiments.
+We first evaluate how the performance depend on number of clusters $r$ and noise magnitude $n_{\max}$. We set perturbation $\mathbf{\Delta} = 0$ for these test cases.
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "Without Perturbation ($\\mathbf{\\Delta} = 0$)", "weight": 1.0} -->
 
-We first evaluate how the performance depend on number of clusters $r$ and noise magnitude $n_{\max}$. We set perturbation $\mathbf{\Delta} = 0$ for these test cases. The experiment results are given in Fig.(1a ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076.")-1d ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z.
+The experiment results are given in Fig.(1a ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076.")-1d ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Without Perturbation ($\\mathbf{\\Delta} = 0$)", "weight": 1.0} -->
 
-Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076.")). We set $n_{\max} = 0.1$ in Fig.(1a ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076.")-1b ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z.
+We set $n_{\max} = 0.1$ in Fig.(1a ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076.")-1b ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Without Perturbation ($\\mathbf{\\Delta} = 0$)", "weight": 1.0} -->
 
-Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076.")) and $r = 6$ in Fig.(1c ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L.
+IIS-1838179, and NSF CAREER award CCF-1845076.")) and $r = 6$ in Fig.(1c ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076.")-1d ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Without Perturbation ($\\mathbf{\\Delta} = 0$)", "weight": 1.0} -->
-
-Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076.")-1d ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076.")).
-
-<!-- chunk {"id": "body-0025", "role": "body", "section": "With Perturbation ($\\mathbf{\\Delta} \\neq 0$)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "With Perturbation ($\\mathbf{\\Delta} \\neq 0$)", "weight": 1.0} -->
 
 In this test case, we fix ${n = 50},{{r = 6},{{n_{\max} = 0.05},{N = 10^{5}}}}$. The space of $\mathbf{\Delta}$ is a polytope which makes it difficult to sample uniformly, so instead for $i \in \Omega_{k}$, we sample $\mathbf{P}{(i,:)}$ from Dirichlet distribution with parameters $\alpha\mathbf{P}{(\Omega_{k},:)}$ and record $\mathbf{\Delta} = {\mathbf{P} - \overline{\mathbf{P}}}$.
 
+<!-- chunk {"id": "body-0025", "role": "body", "section": "With Perturbation ($\\mathbf{\\Delta} \\neq 0$)", "weight": 1.0} -->
+
+We sweep $\alpha$ and use scatter plots Fig.(1e ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076.")-1f ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award
+
 <!-- chunk {"id": "body-0026", "role": "body", "section": "With Perturbation ($\\mathbf{\\Delta} \\neq 0$)", "weight": 1.0} -->
 
-In this case, ${{\mathbb{E}}{\lbrack{\mathbf{P}{(i,:)}}\rbrack}} = {\mathbf{P}{(\Omega_{k},:)}}$ and $\alpha$ controls how much $\mathbf{P}{(i,:)}$ deviates from $\mathbf{P}{(\Omega_{k},:)}$. We sweep $\alpha$ and use scatter plots Fig.(1e ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L.
+IIS-1838179, and NSF CAREER award CCF-1845076.")) to show how the error metrics vary with $\|\mathbf{\Delta}\|$.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "With Perturbation ($\\mathbf{\\Delta} \\neq 0$)", "weight": 1.0} -->
-
-Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076.")-1f ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076.")) to show how the error metrics vary with $\|\mathbf{\Delta}\|$.
-
-<!-- chunk {"id": "body-0028", "role": "body", "section": "Practically Motivated Example---Patrol Robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Practically Motivated Example---Patrol Robot", "weight": 1.0} -->
 
 Now we consider a more realistic case involving Markov jump system that can possibly benefit from our approach. Assume in a region, we have $n$ stations each with position $p_{i} \in {\mathbb{R}}$ and at time $t$ there is only one active station $s_{t}$ that generates requests; the sequence of active stations $s_{0:t}$ follows a Markov chain $\mathbf{P}$. There is a robot with position $x_{t} \in {\mathbb{R}}$ at time $t$ aiming to reach the active station as fast and close as possible. Assuming the dynamics and control law of the robot are given by
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "Practically Motivated Example---Patrol Robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "Practically Motivated Example---Patrol Robot", "weight": 1.0} -->
 
 the closed-loop dynamics take the form
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "Practically Motivated Example---Patrol Robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "Practically Motivated Example---Patrol Robot", "weight": 1.0} -->
 
 which is a Markov jump model. In this setting, if the underlying Markov chain bears aggregatability property to some extent, we could use our approach to uncover the corresponding partition of modes as well as find an approximation of Markov transition matrix with stationary distribution that is easier to compute. Understanding the similarities between the stations' activation schedule can be useful to design improved control strategies for the robot.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Practically Motivated Example---Patrol Robot", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Practically Motivated Example---Patrol Robot", "weight": 1.0} -->
 
 In the experiment, we set ${n = 50},{{p_{i} = i},{{K = 0.7},{{n_{t} \sim {\mathcal{N}{(0,0.1)}}},{N = 10^{6}}}}}$ and sample $\overline{\mathbf{P}},\mathbf{P}$ same as 5.1.1 ‣ 5.1 Synthetic Data ‣ 5 Experiments ‣ Mode Clustering for Markov Jump Systems N. Ozay and Z. Du were supported by ONR grant N00014-18-1-2501, L. Balzano and Z. Du were supported by AFOSR YIP award FA9550-19-1-0026, and L. Balzano was supported by AFOSR YIP award FA9550-19-1-0026, NSF BIGDATA award IIS-1838179, and NSF CAREER award CCF-1845076.").
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "Conclusions & Future Work", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "Conclusions & Future Work", "weight": 1.0} -->
 
 In this paper, we consider the problem of model aggregation for Markov jump system from the perspective of clustering the modes based on their transition distributions. The proposed approach has guaranteed clustering error upper bound and exhibits decent performance in the experiments.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Conclusions & Future Work", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "Conclusions & Future Work", "weight": 1.0} -->
 
 There are several interesting directions for future work: (i) we will see how lumpable Markov chain can help reformulate the model reduction problem; (ii) in the algorithm, after obtaining an estimate of the Markov transition matrix, one might use it to get a better estimate of the mode sequence, so several iterations between estimating switching sequence and Markov transition matrix may make both estimates more accurate; (iii) after the mode clustering, it is worth investigating if we could use a single mode to characterize the switching dynamics of all the modes within the cluster so that we could truly reduce the number of modes in the model.

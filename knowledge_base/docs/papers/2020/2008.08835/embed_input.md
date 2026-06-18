@@ -166,7 +166,7 @@ Firstly, as Fast-Planner does, we compute the limits exceeding ratio,
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
 
-Then we obtain the new time span of $\mathbf{\Phi}_{f}$
+Note that $\mathbf{V}_{i}$, $\mathbf{A}_{j}$ and $\mathbf{J}_{k}$ are inversely proportional to $\bigtriangleupt$, the square of $\bigtriangleupt$ and the cubic of $\bigtriangleupt$, respectively, from Equ.2. Then we obtain the new time span of $\mathbf{\Phi}_{f}$
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Time Re-allocation and Trajectory Refinement", "weight": 1.0} -->
 

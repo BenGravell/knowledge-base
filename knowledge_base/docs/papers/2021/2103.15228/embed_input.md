@@ -189,11 +189,11 @@ When the system was simulated with low multiplicative noise variances $\sigma_{a
 
 <!-- chunk {"id": "body-0046", "role": "body", "section": "V-A LQG & MLQG with Low Multiplicative Noises", "weight": 1.0} -->
 
-The mean-square compensation of the MLQG compensator was verified via the convergence of the coupled Riccati equations and subsequently the corresponding collected $q_{k}$ data resulted in an optimal detector threshold $\alpha_{q,4}^{\star} = 8.247$ with false alarm rate being $0.89\%$. Similarly, when the $q_{k}$ data collected from the standard LQG was evaluated against a similarly computed threshold $\alpha_{q,4}^{\star} = 8.422$, it resulted in $0.86\%$ false alarms. Though both MLQG and LQG achieve mean-square compensation at a lower noise setting, the MLQG results in a tighter threshold than the LQG. Further, the resulting $H$ matrix from LQG compensator *ceased* to be Schur stable for $\sigma_{a,1}^{2} = \sigma_{c,1}^{2} > 0.11$ agreeing with results in Table I.
+The mean-square compensation of the MLQG compensator was verified via the convergence of the coupled Riccati equations and subsequently the corresponding collected $q_{k}$ data resulted in an optimal detector threshold $\alpha_{q,4}^{\star} = 8.247$ with false alarm rate being $0.89\%$. Similarly, when the $q_{k}$ data collected from the standard LQG was evaluated against a similarly computed threshold $\alpha_{q,4}^{\star} = 8.422$, it resulted in $0.86\%$ false alarms. Though both MLQG and LQG achieve mean-square compensation at a lower noise setting, the MLQG results in a tighter threshold than the LQG.
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "V-A LQG & MLQG with Low Multiplicative Noises", "weight": 1.0} -->
 
-Supposedly, if we used the unstable $H$ matrix in the LQG case, it resulted in ${\hat{\mathbb{E}}{\lbrack q_{k}\rbrack}}\rightarrow\infty$ when the variances became stronger and thereby restricted us from using even the simplest Markov bound in this case to obtain the detector threshold.
+Further, the resulting $H$ matrix from LQG compensator *ceased* to be Schur stable for $\sigma_{a,1}^{2} = \sigma_{c,1}^{2} > 0.11$ agreeing with results in Table I. Supposedly, if we used the unstable $H$ matrix in the LQG case, it resulted in ${\hat{\mathbb{E}}{\lbrack q_{k}\rbrack}}\rightarrow\infty$ when the variances became stronger and thereby restricted us from using even the simplest Markov bound in this case to obtain the detector threshold.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "V-B Effect of Multiplicative Noise Variance on the Worst Case False Alarm Rate", "weight": 1.0} -->
 

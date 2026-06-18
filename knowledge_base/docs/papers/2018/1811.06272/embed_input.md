@@ -50,11 +50,11 @@ We denote the distribution over $\mathcal{T}$ entailed by the SCM with $P^{\pi}$
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Intuition", "weight": 1.0} -->
 
-Here, we illustrate the main advantage of SCMs using the example of Alice's job choice from the introduction. We model it as contextual bandit with feedback shown in fig. 1. Alice has some initial knowledge given by the context $U_{c}$ that is available to her before taking action $A$ of joining company $A = a_{1}$ or $A = a_{2}$. We model Alice's decision as $A = {f_{\pi}{(U_{c},U_{a})}}$, where $U_{a}$ captures potential indeterminacy in Alice's decision making. The outcome $O = {f_{o}{(A,U_{c},U_{o})}}$ also depends on the scenario $U_{o}$, capturing all relevant, unobserved and highly complex properties of the two companies such as working conditions etc.
+Here, we illustrate the main advantage of SCMs using the example of Alice's job choice from the introduction. We model it as contextual bandit with feedback shown in fig. 1. Alice has some initial knowledge given by the context $U_{c}$ that is available to her before taking action $A$ of joining company $A = a_{1}$ or $A = a_{2}$. We model Alice's decision as $A = {f_{\pi}{(U_{c},U_{a})}}$, where $U_{a}$ captures potential indeterminacy in Alice's decision making.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Intuition", "weight": 1.0} -->
 
-Given this model, we can reason about alternate outcomes $f_{o}{(a_{1},u_{c},u_{o})}$ and $f_{o}{(a_{2},u_{c},u_{o})}$ for *same* the scenario $u_{o}$. This is not possible if we only model the outcome on the level of the conditional distribution $P_{O|{A,U_{c}}}.$
+The outcome $O = {f_{o}{(A,U_{c},U_{o})}}$ also depends on the scenario $U_{o}$, capturing all relevant, unobserved and highly complex properties of the two companies such as working conditions etc. Given this model, we can reason about alternate outcomes $f_{o}{(a_{1},u_{c},u_{o})}$ and $f_{o}{(a_{2},u_{c},u_{o})}$ for *same* the scenario $u_{o}$. This is not possible if we only model the outcome on the level of the conditional distribution $P_{O|{A,U_{c}}}.$
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Counterfactual inference in SCMs", "weight": 1.0} -->
 

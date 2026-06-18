@@ -112,11 +112,11 @@ for some (unknown) matrix $\hat{A}$. However, the procedure here is applicable m
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Remark 1", "weight": 1.0} -->
 
-The operator $A$ in (8. ‣ 2.2. New definition ‣ 2. Theory ‣ On dynamic mode decomposition: theory and applications")) is the least-squares/minimum-norm solution to the potentially over- or under-constrained problem ${AX} = Y$. That is, if there is an exact solution to ${AX} = Y$ (which is always the case if the vectors $x_{k}$ are linearly independent), then the choice (8. ‣ 2.2. New definition ‣ 2. Theory ‣ On dynamic mode decomposition: theory and applications")) minimizes ${\| A\|}_{F}$, where $\parallel A \parallel_{F} = {Tr}{(AA^{\ast})}^{1/2}$ denotes the Frobenius norm. If there is no $A$ that exactly satisfies ${AX} = Y$, then the choice (8. ‣ 2.2. New definition ‣ 2.
+The operator $A$ in (8. ‣ 2.2. New definition ‣ 2. Theory ‣ On dynamic mode decomposition: theory and applications")) is the least-squares/minimum-norm solution to the potentially over- or under-constrained problem ${AX} = Y$. That is, if there is an exact solution to ${AX} = Y$ (which is always the case if the vectors $x_{k}$ are linearly independent), then the choice (8. ‣ 2.2. New definition ‣ 2. Theory ‣ On dynamic mode decomposition: theory and applications")) minimizes ${\| A\|}_{F}$, where $\parallel A \parallel_{F} = {Tr}{(AA^{\ast})}^{1/2}$ denotes the Frobenius norm. If there is no $A$ that exactly satisfies ${AX} = Y$, then the choice (8.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Remark 1", "weight": 1.0} -->
 
-Theory ‣ On dynamic mode decomposition: theory and applications")) minimizes ${\|{{AX} - Y}\|}_{F}$.
+‣ 2.2. New definition ‣ 2. Theory ‣ On dynamic mode decomposition: theory and applications")) minimizes ${\|{{AX} - Y}\|}_{F}$.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Remark 1", "weight": 1.0} -->
 
@@ -211,11 +211,11 @@ We emphasize that because the above algorithm requires both an SVD of $X$ and a 
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Algorithm 3 (Exact DMD, alternative method)", "weight": 1.0} -->
 
-One then finds eigenvectors $w$ of $\overset{\sim}{A}$, and the projected DMD modes have the form $\hat{\varphi} = {Uw}$. Algorithm 3. ‣ 2.3. Comparing definitions ‣ 2. Theory ‣ On dynamic mode decomposition: theory and applications") is precisely analogous, with $U$ replaced by $Q$: one constructs ${\overset{\sim}{A}}_{Q} = {Q^{\ast}AQ}$, finds eigenvectors $v$ of ${\overset{\sim}{A}}_{Q}$, and the exact DMD modes have the form $\varphi = {Qw}$. In the case of a sequential time series, where $X$ and $Y$ are given by (2. ‣ 2.1. Standard definition ‣ 2.
+One then finds eigenvectors $w$ of $\overset{\sim}{A}$, and the projected DMD modes have the form $\hat{\varphi} = {Uw}$. Algorithm 3. ‣ 2.3. Comparing definitions ‣ 2. Theory ‣ On dynamic mode decomposition: theory and applications") is precisely analogous, with $U$ replaced by $Q$: one constructs ${\overset{\sim}{A}}_{Q} = {Q^{\ast}AQ}$, finds eigenvectors $v$ of ${\overset{\sim}{A}}_{Q}$, and the exact DMD modes have the form $\varphi = {Qw}$. In the case of a sequential time series, where $X$ and $Y$ are given by (2.
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "Algorithm 3 (Exact DMD, alternative method)", "weight": 1.0} -->
 
-Theory ‣ On dynamic mode decomposition: theory and applications")), projected DMD projects $A$ onto the space spanned by the first $m$ vectors $\{ z_{0},\ldots,z_{m - 1}\}$ (columns of $X$), while exact DMD projects $A$ onto the space spanned by all $m + 1$ vectors $\{ z_{0},\ldots,z_{m}\}$ (columns of $X$ and $Y$). In this sense, exact DMD is perhaps more natural, as it uses all of the data, rather than leaving out the last vector.
+‣ 2.1. Standard definition ‣ 2. Theory ‣ On dynamic mode decomposition: theory and applications")), projected DMD projects $A$ onto the space spanned by the first $m$ vectors $\{ z_{0},\ldots,z_{m - 1}\}$ (columns of $X$), while exact DMD projects $A$ onto the space spanned by all $m + 1$ vectors $\{ z_{0},\ldots,z_{m}\}$ (columns of $X$ and $Y$). In this sense, exact DMD is perhaps more natural, as it uses all of the data, rather than leaving out the last vector.
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "Algorithm 3 (Exact DMD, alternative method)", "weight": 1.0} -->
 

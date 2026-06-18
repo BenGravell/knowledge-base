@@ -341,11 +341,11 @@ where $Q_{V}{(s, \cdot, \cdot )}$ can be regarded as a matrix in $R^{{|\mathcal{
 
 <!-- chunk {"id": "body-0085", "role": "body", "section": "Value-Based Methods", "weight": 1.0} -->
 
-where we use $\text{Value}{( \cdot )}$ to denote the optimal value of a matrix zero-sum game, which can be obtained by solving a linear program. Thus, the Bellman operator $\mathcal{T}^{\ast}$ is $\gamma$-contractive in the $\ell_{\infty}$-norm and $V^{\ast}$ in (4.7) is the unique solution to the Bellman equation $V = {\mathcal{T}^{\ast}V}$. Moreover, letting ${p_{1}{(V)}},{p_{2}{(V)}}$ be any solution to the optimization problem in (4.9), we have that $\pi^{\ast} = {({p_{1}{(V^{\ast})}},{p_{2}{(V^{\ast})}})}$ is a Nash equilibrium specified by Definition 2.3.
+where we use $\text{Value}{( \cdot )}$ to denote the optimal value of a matrix zero-sum game, which can be obtained by solving a linear program. Thus, the Bellman operator $\mathcal{T}^{\ast}$ is $\gamma$-contractive in the $\ell_{\infty}$-norm and $V^{\ast}$ in (4.7) is the unique solution to the Bellman equation $V = {\mathcal{T}^{\ast}V}$.
 
 <!-- chunk {"id": "body-0086", "role": "body", "section": "Value-Based Methods", "weight": 1.0} -->
 
-Thus, based on the Bellman operator $\mathcal{T}^{\ast}$, proposes the value iteration algorithm, which creates a sequence of value functions ${\{ V_{t}\}}_{t \geq 1}$ satisfying $V_{t + 1} = {\mathcal{T}^{\ast}V_{t}}$ that converges to $V^{\ast}$ with a linear rate. Specifically, we have
+Moreover, letting ${p_{1}{(V)}},{p_{2}{(V)}}$ be any solution to the optimization problem in (4.9), we have that $\pi^{\ast} = {({p_{1}{(V^{\ast})}},{p_{2}{(V^{\ast})}})}$ is a Nash equilibrium specified by Definition 2.3. Thus, based on the Bellman operator $\mathcal{T}^{\ast}$, proposes the value iteration algorithm, which creates a sequence of value functions ${\{ V_{t}\}}_{t \geq 1}$ satisfying $V_{t + 1} = {\mathcal{T}^{\ast}V_{t}}$ that converges to $V^{\ast}$ with a linear rate. Specifically, we have
 
 <!-- chunk {"id": "body-0087", "role": "body", "section": "Value-Based Methods", "weight": 1.0} -->
 

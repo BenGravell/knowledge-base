@@ -135,73 +135,77 @@ For each candidate $b$, we solve Eq.˜2 by first minimizing a weighted task resi
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "IV-B Parallel Jacobian-IK", "weight": 1.0} -->
 
-where $D = {\text{diag}{({J^{\intercal}J})}}$. The interpolation between the gradient and Gauss-Newton step via the $\lambdaD$ damping term provides additional robustness near singularities and joint limits. To further stabilize convergence, each update $\Delta{\mathbf{θ}}$ is constrained by a trust region of radius $R$, preventing aggressive steps far from the solution. Candidate steps are also validated through a backtracking line-search for the scaling factor $\alpha$, accepting the first iterate that reduces the task residual. This LM step is shown in Alg.˜4 ‣ IV The HJCD-IK Algorithm ‣ HJCD-IK: GPU-Accelerated Inverse Kinematics through Batched Hybrid Jacobian Coordinate Descent") Lines 3-9.
+where $D = {\text{diag}{({J^{\intercal}J})}}$. The interpolation between the gradient and Gauss-Newton step via the $\lambdaD$ damping term provides additional robustness near singularities and joint limits. To further stabilize convergence, each update $\Delta{\mathbf{θ}}$ is constrained by a trust region of radius $R$, preventing aggressive steps far from the solution. Candidate steps are also validated through a backtracking line-search for the scaling factor $\alpha$, accepting the first iterate that reduces the task residual.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "IV-B Parallel Jacobian-IK", "weight": 1.0} -->
 
-If no scaled LM step can be found, we resort to two fallback strategies. The first, a dogleg method, shown in Alg.˜4
+This LM step is shown in Alg.˜4 ‣ IV The HJCD-IK Algorithm ‣ HJCD-IK: GPU-Accelerated Inverse Kinematics through Batched Hybrid Jacobian Coordinate Descent") Lines 3-9.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "IV-B Parallel Jacobian-IK", "weight": 1.0} -->
 
-If the dogleg also fails to improve the cost, a single-coordinate line search, shown in Alg.˜4
+If no scaled LM step can be found, we resort to two fallback strategies. The first, a dogleg method, shown in Alg.˜4
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "IV-B Parallel Jacobian-IK", "weight": 1.0} -->
 
+If the dogleg also fails to improve the cost, a single-coordinate line search, shown in Alg.˜4
+
+<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-B Parallel Jacobian-IK", "weight": 1.0} -->
+
 If all of these fail a random perturbation is made to avoid local minima (Alg.˜4 ‣ IV The HJCD-IK Algorithm ‣ HJCD-IK: GPU-Accelerated Inverse Kinematics through Batched Hybrid Jacobian Coordinate Descent") Line 17). This is repeated until convergence is reached (Alg.˜4 ‣ IV The HJCD-IK Algorithm ‣ HJCD-IK: GPU-Accelerated Inverse Kinematics through Batched Hybrid Jacobian Coordinate Descent") Line 18). These combined refinement stages are able to consistently return precise, feasible solutions from the coarse candidates, achieving sub-millimeter positional and sub-degree rotational accuracy.
-
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Results", "weight": 1.0} -->
-
-We benchmark HJCD-IK against three other parallel IK solvers-CuRobo, IKFlow, and PyRoki. These solvers represent different state-of-the-art approaches for solving IK problems based: GPU-accelerated optimization, generative modeling with normalizing flows, and differentiable JAX-based computation, respectively.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Results", "weight": 1.0} -->
 
-Ori. Err. (rad)
-Ori. Err. (rad)
-Ori. Err. (rad)
-Ori. Err. (rad)
+We benchmark HJCD-IK against three other parallel IK solvers-CuRobo, IKFlow, and PyRoki. These solvers represent different state-of-the-art approaches for solving IK problems based: GPU-accelerated optimization, generative modeling with normalizing flows, and differentiable JAX-based computation, respectively.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Results", "weight": 1.0} -->
 
 Ori. Err. (rad)
 Ori. Err. (rad)
 Ori. Err. (rad)
+Ori. Err. (rad)
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "V-A Methodology", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Results", "weight": 1.0} -->
+
+Ori. Err. (rad)
+Ori. Err. (rad)
+Ori. Err. (rad)
+
+<!-- chunk {"id": "body-0041", "role": "body", "section": "V-A Methodology", "weight": 1.0} -->
 
 All results were collected using a workstation with an Intel Core i7-14700HX CPU (20 core, 2.1 GHz base), an NVIDIA GeForce RTX 4060 (Laptop), Windows 11 (WSL - Ubuntu 24.04), and CUDA 12.5. We sample joint configurations from a Halton Sequence to obtain 100 feasible target poses. We compare timing results across batch sizes using two robot models with 7-DoF: Franka Panda and Fetch arm. We also expand the configuration space to increase redundancy of the Franka Panda robot by adding replicated revolute joints and links to test the system scalability of our approach.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "V-B Batch-size Scalability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "V-B Batch-size Scalability", "weight": 1.0} -->
 
 We first demonstrate the power of our approach through a scalability study using the 7-DoF Panda and Fetch robot arms across batch sizes of $M \in {\{ 1,10,100,1000,2000\}}$ as shown in Fig.˜3 and Table˜I. Across both robots, HJCD-IK benefits from increased batch size, yielding rapid error reductions with only modest per-target latency increases. On Panda, position/orientation error drops from $2.07 \times 10^{- 2}$mm/$1.66 \times 10^{- 3}$ at $B = 1$ to $9.21 \times 10^{- 6}$mm/$7.99 \times 10^{- 8}$rad at $B = 2000$ demonstrating reductions by $\sim {2.2 \times 10^{3}}$x and $\sim {2.1 \times 10^{4}}$x across position and orientation error, resulting in order-of-magnitude combined error improvements over baselines at larger batch sizes.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "V-B Batch-size Scalability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "V-B Batch-size Scalability", "weight": 1.0} -->
 
 Fetch showcases a smaller but similar trend in improvement as batch size increases of $\sim 5$x and $\sim 1.7$x, again surpassing the state of the art at larger batch sizes. HJCD-IK also occurs minimal latency penalties by increasing batch size. On the Panda Arm as $B = 1\rightarrow 2000$, solve time increases from 5.18ms to 8.58ms and on the Fetch Arm, solve time increases from 4.70ms to 8.72ms. This results in order of magnitude speedups over IKFLow, and more than 1.5x speedups over PyROki and cuRobo at larger batch sizes. Overall, we find that across all batch sizes, our approach (shown in orange), is able to outperform state-of-the-art baselines in terms of latency, while also generally surpassing all baselines in accuracy, remaining on or near the accuracy-latency Pareto frontier.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "V-C DoF Scalability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "V-C DoF Scalability", "weight": 1.0} -->
 
 We also assess scalability with respect to manipulator complexity by fixing the batch size to $B = 1000$ and evaluating the 7-, 12-, 18-, and 24-DoF Panda Arm variants using HJCD-IK, CuRobo, and PyRoki. As shown in Fig.˜4 and Table˜II, HJCD-IK maintains the lowest pose error at every DoF, with position confined to $1.10 - {1.67 \times 10^{- 6}}$mm and orientation error to $3.0 - {5.4 \times 10^{- 8}}$rad, indicating added redundancy does not inflate error. We note that as DoF increases, this error improvement grows to multiple orders-of-magnitude over baselines. Latency also remains competitive and performs at or better than baselines along all DoFs. Against PyRoki, HJCD-IK is consistently faster while maintaining better accuracy, presenting speedups ranging from 1.06x to 1.93x.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "V-C DoF Scalability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "V-C DoF Scalability", "weight": 1.0} -->
 
 Against CuRobo, HJCD-IK is faster through 18-DoFs, presenting speedups between 1.03x and 1.17x, and a slight slowdown for the 24-DoF system (albeit with the multiple-orders-of-magnitude accuracy improvement). Overall, HJCD-IK remains on or near the accuracy-latency Pareto frontier across all DoFs, showcasing competitive IK solve times while converging to lower errors.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "V-D Solution Space Distribution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "V-D Solution Space Distribution", "weight": 1.0} -->
 
 Returning batches of diverse solutions indicates that a batched local solver is doing a good job at sampling across the space of local optima to find good globalizing solutions. As such, to evaluate the diversity of solutions and extent of solution space coverage, we computed the Maximum Mean Discrepancy (MMD) score between solver joint configurations and a ground truth reference distribution. For each of the 100 randomly sampled target poses, solvers were initialized with a batch size of 2000 and the best 50 joint configurations with the smallest pose error were retained. These samples were compared against 50 ground truth samples generated by TRAC-IK, which were seeded with random initial joint configurations to create a diverse distribution over the feasible solution space.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "V-D Solution Space Distribution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "V-D Solution Space Distribution", "weight": 1.0} -->
 
 Table˜III showcases the MMD scores across solvers. Smaller MMD values indicate the solver's solution space distribution better approximate the ground truth coverage. HJCD-IK achieves the lowest MMD (0.02983), suggesting that it better represents the solution space by returning a diverse set of joint configurations despite the minimized return batch size. IKFlow demonstrates a competitive MMD score (0.03670), however, PyRoki (0.04514) and CuRobo (0.05348) exhibit noticeably higher values, indicating less diversity and coverage in returned solutions.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "V-D Solution Space Distribution", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "V-D Solution Space Distribution", "weight": 1.0} -->
 
 In addition to MMD, we also report the squared MMD ($\text{MMD}^{2}$) which provides additional information about the variance of the distribution as it is more sensitive to small discrepancies in coverage. HJCD-IK maintains the smallest squared MMD (0.00089), demonstrating its ability to consistently generate a diverse set of solutions per target pose. With a minimized return batch, HJCD-IK is still able to preserve redundancy in the solution manifold, ensuring robustness in a feasible solution. In contrast, IKFlow, PyRoki, and CuRobo all present high squared MMD scores indicating reduced variability in their batch of returned solutions.
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 HJCD-IK provides fast, accurate IK solutions for any kinematically redundant manipulator operating in SE by combining a massively parallel, orientation-aware greedy coordinate descent initialization, with a parallel Jacobian-based polishing scheme. Our experiments show that HJCD-IK outperforms the state-of-the-art methods, remaining on or near the accuracy-latency Pareto frontier across batch sizes and robot DoFs, resulting in either order-of-magnitude increases in latency or accuracy. HJCD-IK also provides lower MMD and MMD^2^ scores for batches of solutions, indicating greater solution diversity and coverage.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Conclusion and Future Work", "weight": 1.5} -->
 
 Looking ahead, there are several promising directions for future work. One of particular note is the integration of parallel collision-checking. This would enable the solver to directly return only collision-free solutions, increasing its practicality for real-world deployment. A second direction of note is that while our empirical results demonstrate HJCD-IK's strong performance, formal analysis of its convergence and optimality remains an important open area of research.

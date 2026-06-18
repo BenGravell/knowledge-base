@@ -82,11 +82,11 @@ Every AND node $(s,s^{\prime},s^{\operatorname{\prime\prime}})$, which we will a
 
 <!-- chunk {"id": "body-0021", "role": "body", "section": "AND/OR Search Tree Representation", "weight": 1.0} -->
 
-In this representation, plans are induced by *solution trees*. A solution tree $\mathcal{T}_{\sigma}$ is a sub-tree of the complete AND/OR search tree, with the properties that (i) the root ${(s_{0},s_{\infty})} \in \mathcal{T}_{\sigma}$, (ii) each OR node in $\mathcal{T}_{\sigma}$ has at most one child in $\mathcal{T}_{\sigma}$ and (iii) each AND node in $\mathcal{T}_{\sigma}$ as two children in $\mathcal{T}_{\sigma}$. The plan $\sigma$ and its objective $L{(\sigma)}$ can be computed from $\mathcal{T}_{\sigma}$ by a depth-first traversal of $\mathcal{T}_{\sigma}$, see Figure 1.
+In this representation, plans are induced by *solution trees*. A solution tree $\mathcal{T}_{\sigma}$ is a sub-tree of the complete AND/OR search tree, with the properties that (i) the root ${(s_{0},s_{\infty})} \in \mathcal{T}_{\sigma}$, (ii) each OR node in $\mathcal{T}_{\sigma}$ has at most one child in $\mathcal{T}_{\sigma}$ and (iii) each AND node in $\mathcal{T}_{\sigma}$ as two children in $\mathcal{T}_{\sigma}$.
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "AND/OR Search Tree Representation", "weight": 1.0} -->
 
-The correspondence of sub-trees to plans is many-to-one, as $\mathcal{T}_{\sigma}$, in addition to the plan itself, contains *the order* in which the plan was constructed. Figure 6 in the Appendix shows a example for a search and solution tree. Below we will discuss how to construct a favourable search order heuristic.
+The plan $\sigma$ and its objective $L{(\sigma)}$ can be computed from $\mathcal{T}_{\sigma}$ by a depth-first traversal of $\mathcal{T}_{\sigma}$, see Figure 1. The correspondence of sub-trees to plans is many-to-one, as $\mathcal{T}_{\sigma}$, in addition to the plan itself, contains *the order* in which the plan was constructed. Figure 6 in the Appendix shows a example for a search and solution tree. Below we will discuss how to construct a favourable search order heuristic.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Best-First AND/OR Planning", "weight": 1.0} -->
 

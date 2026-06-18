@@ -175,11 +175,11 @@ The major conclusions of our experiments comparing GRUs with various regularizat
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Tree-regularized models have fewer nodes than other forms of regularization", "weight": 1.0} -->
 
-Across tasks, we see that in the target regime of small decision trees (low average-path lengths), our proposed tree-regularization achieves higher prediction quality (higher AUCs). In the signal-and-noise HMM task, tree regularization (green line in Fig. 3(d)) achieves AUC values near 0.9 when its trees have an average path length of 10. Similar models with L1 or L2 regularization reach this AUC only with trees that are nearly double in complexity (path length over 25). On the Sepsis task (Fig. 4) we see AUC gains of 0.05-0.1 at path lengths of 2-10. On the TIMIT task (Fig. 5(a)), we see AUC gains of 0.05-0.1 at path lengths of 20-30. Finally, on the HIV CD4 blood cell count task in Fig. 5(b), we see AUC differences of between 0.03 and 0.15 for path lengths of 10-15.
+Across tasks, we see that in the target regime of small decision trees (low average-path lengths), our proposed tree-regularization achieves higher prediction quality (higher AUCs). In the signal-and-noise HMM task, tree regularization (green line in Fig. 3(d)) achieves AUC values near 0.9 when its trees have an average path length of 10. Similar models with L1 or L2 regularization reach this AUC only with trees that are nearly double in complexity (path length over 25).
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Tree-regularized models have fewer nodes than other forms of regularization", "weight": 1.0} -->
 
-The HIV adherence task in Fig. 5(d) has AUC gains of between 0.03 and 0.05 in the path length range of 19 to 25 while at smaller paths all methods are quite poor, indicating the problem's difficulty. Overall, these AUC gains are particularly useful in determining how to administer subsequent HIV therapies.
+On the Sepsis task (Fig. 4) we see AUC gains of 0.05-0.1 at path lengths of 2-10. On the TIMIT task (Fig. 5(a)), we see AUC gains of 0.05-0.1 at path lengths of 20-30. Finally, on the HIV CD4 blood cell count task in Fig. 5(b), we see AUC differences of between 0.03 and 0.15 for path lengths of 10-15. The HIV adherence task in Fig. 5(d) has AUC gains of between 0.03 and 0.05 in the path length range of 19 to 25 while at smaller paths all methods are quite poor, indicating the problem's difficulty. Overall, these AUC gains are particularly useful in determining how to administer subsequent HIV therapies.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Tree-regularized models have fewer nodes than other forms of regularization", "weight": 1.0} -->
 

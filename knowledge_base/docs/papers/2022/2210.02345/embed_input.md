@@ -205,11 +205,11 @@ It is worth highlighting that our method shows its full potential in unstructure
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "IV-A PLANAR SYSTEM IN SINGLE-CORRIDOR SCENARIO", "weight": 1.0} -->
 
-To this end, in a similar way to and, we employ the dynamic bicycle model with states ${\mathbf{x}} = \left\lbrack p_{x},p_{y},\psi,v,D,\delta \right\rbrack \in {\mathbb{R}}^{6}$ and inputs ${\mathbf{u}} = \left\lbrack \overset{˙}{D},\overset{˙}{\delta} \right\rbrack \in {\mathbb{R}}^{2}$, where ${\{ p_{x},p_{y},\psi,v,D,\delta\}} \in {\mathbb{R}}$, refer to the position, yaw, longitudinal velocity, throttle and steering angle. For the respective equations of motion and model coefficients, please refer to eq. 3.
+To this end, in a similar way to and, we employ the dynamic bicycle model with states ${\mathbf{x}} = \left\lbrack p_{x},p_{y},\psi,v,D,\delta \right\rbrack \in {\mathbb{R}}^{6}$ and inputs ${\mathbf{u}} = \left\lbrack \overset{˙}{D},\overset{˙}{\delta} \right\rbrack \in {\mathbb{R}}^{2}$, where ${\{ p_{x},p_{y},\psi,v,D,\delta\}} \in {\mathbb{R}}$, refer to the position, yaw, longitudinal velocity, throttle and steering angle. For the respective equations of motion and model coefficients, please refer to eq.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "IV-A PLANAR SYSTEM IN SINGLE-CORRIDOR SCENARIO", "weight": 1.0} -->
 
-To exploit the aforementioned convexity in the spatial constraints (13e), we adopt a similar approach presented in and, where the Euclidean position coordinates $\lbrack p_{x},p_{y}\rbrack$ are projected onto their corresponding spatial counterparts $\lbrack\xi,w\rbrack$. In addition, to guarantee the validity of the first-principles model's approximation, we impose constraints on the throttle, steering angle, their respective change rates, as well as the longitudinal and lateral accelerations ${\{ a_{\parallel},a_{\perp}\}} \in {\mathbb{R}}$. The numerical values associated with these constraints can be found in Table I.
+3. To exploit the aforementioned convexity in the spatial constraints (13e), we adopt a similar approach presented in and, where the Euclidean position coordinates $\lbrack p_{x},p_{y}\rbrack$ are projected onto their corresponding spatial counterparts $\lbrack\xi,w\rbrack$. In addition, to guarantee the validity of the first-principles model's approximation, we impose constraints on the throttle, steering angle, their respective change rates, as well as the longitudinal and lateral accelerations ${\{ a_{\parallel},a_{\perp}\}} \in {\mathbb{R}}$. The numerical values associated with these constraints can be found in Table I.
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "IV-A PLANAR SYSTEM IN SINGLE-CORRIDOR SCENARIO", "weight": 1.0} -->
 

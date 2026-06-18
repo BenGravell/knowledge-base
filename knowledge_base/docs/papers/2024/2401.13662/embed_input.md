@@ -448,11 +448,11 @@ Using the same technique as before, we can write the first expectation equivalen
 
 <!-- chunk {"id": "body-0109", "role": "body", "section": "Policy Gradient Algorithms as Instances of Mirror Learning", "weight": 1.0} -->
 
-This final expression is non-negative. Moreover, it is zero for $\pi$ sufficiently close to $\pi_{\text{old}}$, i.e. such that for all actions $a \in \mathcal{A}$ we have ${r_{\pi}{({a \mid s})}} = \frac{\pi{({a \mid s})}}{\pi_{\text{old}}{({a \mid s})}} \in {\lbrack{1 - \varepsilon},{1 + \varepsilon}\rbrack}$, because then the $clip$-function reduces to the identity function w.r.t. its first argument. Thus, the derivatives of this expression must also be zero at $\pi{( \cdot \mid s)} = \pi_{\text{old}}{( \cdot \mid s)}$. These properties are the exact conditions for a mapping to be considered a drift in the sense of Definition 5.1.
+This final expression is non-negative. Moreover, it is zero for $\pi$ sufficiently close to $\pi_{\text{old}}$, i.e. such that for all actions $a \in \mathcal{A}$ we have ${r_{\pi}{({a \mid s})}} = \frac{\pi{({a \mid s})}}{\pi_{\text{old}}{({a \mid s})}} \in {\lbrack{1 - \varepsilon},{1 + \varepsilon}\rbrack}$, because then the $clip$-function reduces to the identity function w.r.t. its first argument. Thus, the derivatives of this expression must also be zero at $\pi{( \cdot \mid s)} = \pi_{\text{old}}{( \cdot \mid s)}$.
 
 <!-- chunk {"id": "body-0110", "role": "body", "section": "Policy Gradient Algorithms as Instances of Mirror Learning", "weight": 1.0} -->
 
-With this preparation, we can now write the PPO update as
+These properties are the exact conditions for a mapping to be considered a drift in the sense of Definition 5.1. With this preparation, we can now write the PPO update as
 
 <!-- chunk {"id": "body-0111", "role": "body", "section": "Convergence Proof", "weight": 1.0} -->
 

@@ -52,11 +52,11 @@ The backward pass computes the sensitivities of the solution to P with respect t
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Primer on Differentiable Optimization", "weight": 1.0} -->
 
-where we used ${F{(z,\lambda,\theta)}} = 0$ so that $\frac{dF}{d\theta} = 0$ in the first equality. The invertibility of the KKT matrix $\frac{\partial F}{\partial w}$ follows from the IFT under suitable assumptions. Thus, computing the sensitivity matrix $\frac{\partial w}{\partial\theta}$ requires solving $p$ linear systems ${\frac{\partial F}{\partial w}\frac{\partial w}{\partial\theta_{i}}} = {- \frac{\partial F}{\partial\theta_{i}}}$, which enables computing Jacobian-vector products (JVP) for downstream uses. In machine learning applications, one typically uses the gradient of a function $\ell:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ of the solution $z$ to P.
+where we used ${F{(z,\lambda,\theta)}} = 0$ so that $\frac{dF}{d\theta} = 0$ in the first equality. The invertibility of the KKT matrix $\frac{\partial F}{\partial w}$ follows from the IFT under suitable assumptions. Thus, computing the sensitivity matrix $\frac{\partial w}{\partial\theta}$ requires solving $p$ linear systems ${\frac{\partial F}{\partial w}\frac{\partial w}{\partial\theta_{i}}} = {- \frac{\partial F}{\partial\theta_{i}}}$, which enables computing Jacobian-vector products (JVP) for downstream uses.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Primer on Differentiable Optimization", "weight": 1.0} -->
 
-Such gradients can be more efficiently computed using the vector-Jacobian product (VJP)
+In machine learning applications, one typically uses the gradient of a function $\ell:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ of the solution $z$ to P. Such gradients can be more efficiently computed using the vector-Jacobian product (VJP)
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Primer on Differentiable Optimization", "weight": 1.0} -->
 

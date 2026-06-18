@@ -412,11 +412,11 @@ Unlike the approach discussed in this article, the use of the reward as a "pseud
 
 <!-- chunk {"id": "body-0103", "role": "body", "section": "Variational Policy Search and Expectation Maximization", "weight": 1.0} -->
 
-Mathematically, this problem steps from the fact that supervised learning matches a target distribution by minimizing a KL-divergence of the form $D_{\text{KL}}{({p_{\text{tgt}} \parallel p_{\theta}})}$, where $p_{\text{tgt}}$ is the target distribution (e.g., the reward or exponentiated reward). RL instead minimizes a KL-divergence of the form $D_{\text{KL}}{({p_{\theta} \parallel p_{\text{tgt}}})}$, which prioritizes finding a mode of the target distribution rather than matching its moments. This issue is discussed in more detail in Section 5.3.5 of. In general, the issue manifests itself as risk-seeking behavior, though distinct in nature from the risk-seeking behavior discussed in Section 2.4.
+Mathematically, this problem steps from the fact that supervised learning matches a target distribution by minimizing a KL-divergence of the form $D_{\text{KL}}{({p_{\text{tgt}} \parallel p_{\theta}})}$, where $p_{\text{tgt}}$ is the target distribution (e.g., the reward or exponentiated reward). RL instead minimizes a KL-divergence of the form $D_{\text{KL}}{({p_{\theta} \parallel p_{\text{tgt}}})}$, which prioritizes finding a mode of the target distribution rather than matching its moments. This issue is discussed in more detail in Section 5.3.5 of.
 
 <!-- chunk {"id": "body-0104", "role": "body", "section": "Variational Policy Search and Expectation Maximization", "weight": 1.0} -->
 
-Note that Toussaint and Storkey, also propose an expectation-maximization based algorithm for control as inference, but in a framework that does in fact yield maximum expected reward solutions, with a similar formulation to the one in this article.
+In general, the issue manifests itself as risk-seeking behavior, though distinct in nature from the risk-seeking behavior discussed in Section 2.4. Note that Toussaint and Storkey, also propose an expectation-maximization based algorithm for control as inference, but in a framework that does in fact yield maximum expected reward solutions, with a similar formulation to the one in this article.
 
 <!-- chunk {"id": "body-0105", "role": "body", "section": "KL-Divergence Constraints for Policy Search", "weight": 1.0} -->
 

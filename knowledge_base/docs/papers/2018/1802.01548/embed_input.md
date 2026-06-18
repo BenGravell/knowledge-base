@@ -107,98 +107,102 @@ As in the baseline study, we first performed architecture search over small mode
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Methods Details", "weight": 1.0} -->
 
-This section complements the Methods section with the details necessary to reproduce our experiments. Possible ops: none (identity); 3x3, 5x5 and 7x7 separable (sep.) convolutions (convs.); 3x3 average (avg.) pool; 3x3 max pool; 3x3 dilated (dil.) sep. conv.; 1x7 then 7x1 conv. Evolved with $P$=$100$, $S$=$25$. CIFAR-10 dataset with 5k withheld examples for validation. Standard ImageNet dataset, 1.2M 331x331 images and 1k classes; 50k examples withheld for validation; standard validation set used for testing. During the search phase, each model trained for 25 epochs; N=3/F=24, 1 GPU. Each experiment ran on 450 K40 GPUs for 20k models (approx. 7 days). To optimize evolution, we tried 5 configurations with P/S of: 100/2, 100/50, 20/20, 100/25, 64/16, best was 100/25.
+This section complements the Methods section with the details necessary to reproduce our experiments. Possible ops: none (identity); 3x3, 5x5 and 7x7 separable (sep.) convolutions (convs.); 3x3 average (avg.) pool; 3x3 max pool; 3x3 dilated (dil.) sep. conv.; 1x7 then 7x1 conv. Evolved with $P$=$100$, $S$=$25$. CIFAR-10 dataset with 5k withheld examples for validation. Standard ImageNet dataset, 1.2M 331x331 images and 1k classes; 50k examples withheld for validation; standard validation set used for testing. During the search phase, each model trained for 25 epochs; N=3/F=24, 1 GPU. Each experiment ran on 450 K40 GPUs for 20k models (approx. 7 days).
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Methods Details", "weight": 1.0} -->
 
-The probability of the identity mutation was fixed at the small, arbitrary value of 0.05 and was not tuned. Other mutation probabilities were uniform, as described in the Methods. To optimize RL, started with parameters already tuned in the baseline study and further optimized learning rate in 8 configurations: 0.00003, 0.00006, 0.00012, 0.0002, 0.0004, 0.0008, 0.0016, 0.0032; best was 0.0008. To avoid selection bias, plots do not include optimization runs, as was decided a priori. Best few models were selected from each experiment and augmented to N=6/F=32, as in baseline study; batch 128, SGD with momentum rate 0.9, L2 weight decay $5 \times 10^{- 4}$, initial lr 0.024 with cosine decay, 600 epochs, ScheduledDropPath to 0.7 prob; auxiliary softmax with half-weight of main softmax. For Table 1, we used N/F of 6/32 and 6/36.
+To optimize evolution, we tried 5 configurations with P/S of: 100/2, 100/50, 20/20, 100/25, 64/16, best was 100/25. The probability of the identity mutation was fixed at the small, arbitrary value of 0.05 and was not tuned. Other mutation probabilities were uniform, as described in the Methods. To optimize RL, started with parameters already tuned in the baseline study and further optimized learning rate in 8 configurations: 0.00003, 0.00006, 0.00012, 0.0002, 0.0004, 0.0008, 0.0016, 0.0032; best was 0.0008. To avoid selection bias, plots do not include optimization runs, as was decided a priori.
 
 <!-- chunk {"id": "body-0026", "role": "body", "section": "Methods Details", "weight": 1.0} -->
 
-For ImageNet table, N/F were 6/190 and 6/448 and standard training methods: distributed sync SGD with 100 P100 GPUs; RMSProp optimizer with 0.9 decay and $\epsilon$=0.1, $4 \times 10^{- 5}$ weight decay, 0.1 label smoothing, auxiliary softmax weighted by 0.4; dropout probability 0.5; ScheduledDropPath to 0.7 probability (as in baseline---note that this trick only contributes 0.3% top-1 ImageNet acc.); 0.001 initial lr, decaying every 2 epochs by 0.97. Largest model used N=6/F=448. F always refers to the number of filters of convolutions in the first stack; after each reduction cell, this number is doubled. Wherever applicable, we used the same conditions as the baseline study.
+Best few models were selected from each experiment and augmented to N=6/F=32, as in baseline study; batch 128, SGD with momentum rate 0.9, L2 weight decay $5 \times 10^{- 4}$, initial lr 0.024 with cosine decay, 600 epochs, ScheduledDropPath to 0.7 prob; auxiliary softmax with half-weight of main softmax.
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "Comparison With RL and RS Baselines", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "Methods Details", "weight": 1.0} -->
 
-Currently, reinforcement learning (RL) is the predominant method for architecture search. In fact, today's state-of-the-art image classifiers have been obtained by architecture search with RL. Here we seek to compare our evolutionary approach against their RL algorithm. We performed large-scale side-by-side architecture-search experiments on CIFAR-10. We first optimized the hyper-parameters of the two approaches independently (details in Methods Details section). Then we ran 5 repeats of each of the two algorithms---and also of random search (RS).
+For Table 1, we used N/F of 6/32 and 6/36. For ImageNet table, N/F were 6/190 and 6/448 and standard training methods: distributed sync SGD with 100 P100 GPUs; RMSProp optimizer with 0.9 decay and $\epsilon$=0.1, $4 \times 10^{- 5}$ weight decay, 0.1 label smoothing, auxiliary softmax weighted by 0.4; dropout probability 0.5; ScheduledDropPath to 0.7 probability (as in baseline---note that this trick only contributes 0.3% top-1 ImageNet acc.); 0.001 initial lr, decaying every 2 epochs by 0.97. Largest model used N=6/F=448. F always refers to the number of filters of convolutions in the first stack; after each reduction cell, this number is doubled. Wherever applicable, we used the same conditions as the baseline study.
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Comparison With RL and RS Baselines", "weight": 1.0} -->
 
-As in the baseline study, the architecture-search experiments above were performed over small models, to be able to train them quicker. We then used the model augmentation trick by which we take an architecture discovered by the search (*e.g*. the output of an evolutionary experiment) and turn it into a full-size, accurate model, as described in the Methods.
+Currently, reinforcement learning (RL) is the predominant method for architecture search. In fact, today's state-of-the-art image classifiers have been obtained by architecture search with RL. Here we seek to compare our evolutionary approach against their RL algorithm. We performed large-scale side-by-side architecture-search experiments on CIFAR-10. We first optimized the hyper-parameters of the two approaches independently (details in Methods Details section). Then we ran 5 repeats of each of the two algorithms---and also of random search (RS).
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Comparison With RL and RS Baselines", "weight": 1.0} -->
 
+As in the baseline study, the architecture-search experiments above were performed over small models, to be able to train them quicker. We then used the model augmentation trick by which we take an architecture discovered by the search (*e.g*. the output of an evolutionary experiment) and turn it into a full-size, accurate model, as described in the Methods.
+
+<!-- chunk {"id": "body-0030", "role": "body", "section": "Comparison With RL and RS Baselines", "weight": 1.0} -->
+
 So far we have been comparing evolution with our reproduction of the experiments in the baseline study, but it is also informative to compare directly against the results reported by the baseline study. We select our evolved architecture with highest validation accuracy and call it AmoebaNet-A (Figure 5). Table 1 compares its test accuracy with the top model of the baseline study, NASNet-A. Such a comparison is not entirely controlled, as we have no way of ensuring the network training code was identical and that the same number of experiments were done to obtain the final model. The table summarizes the results of training AmoebaNet-A at sizes comparable to a NASNet-A version, showing that AmoebaNet-A is slightly more accurate (when matching model size) or considerably smaller (when matching accuracy). We did not train our model at larger sizes on CIFAR-10. Instead, we moved to ImageNet to do further comparisons in the next section.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "ImageNet Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "ImageNet Results", "weight": 1.0} -->
 
 Following the accepted standard, we compare our top model's classification accuracy on the popular ImageNet dataset against other top models from the literature. Again, we use AmoebaNet-A, the model with the highest validation accuracy on CIFAR-10 among our evolution experiments. We highlight that the model was evolved on CIFAR-10 and then transferred to ImageNet, so the evolved architecture cannot have overfit the ImageNet dataset. When re-trained on ImageNet, AmoebaNet-A performs comparably to the baseline for the same number of parameters (Table 2, model with F=190).
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "ImageNet Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "ImageNet Results", "weight": 1.0} -->
 
 ## Parameters
 ## Multiply-Adds
 Top-1 / Top-5 Accuracy (%)
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "ImageNet Results", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "ImageNet Results", "weight": 1.0} -->
 
 Finally, we focused on AmoebaNet-A exclusively and enlarged it, setting a new state-of-the-art accuracy on ImageNet of 83.9%/96.6% top-1/5 accuracy with 469M parameters (Table 2, model with F=448). Such high parameter counts may be beneficial in training other models too but we have not managed to do this yet.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 This section will suggest directions for future work, which we will motivate by speculating about the evolutionary process and by summarizing additional minor results. The details of these minor results have been relegated to the supplements, as they are not necessary to understand or reproduce our main results above.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Scope of results. Some of our findings may be restricted to the search spaces and datasets we used. A natural direction for future work is to extend the controlled comparison to more search spaces, datasets, and tasks, to verify generality, or to more algorithms. Supplement A presents preliminary results, performing evolutionary and RL searches over three search spaces (SP-I: same as in the Results section; SP-II: like SP-I but with more possible ops; SP-III: like SP-II but with more pairwise combinations) and three datasets (gray-scale CIFAR-10, MNIST, and gray-scale ImageNet), at a small-compute scale (on CPU, $F$=$8$, $N$=$1$). Evolution reached equal or better accuracy in all cases (Figure 6, top).
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Algorithm speed. In our comparison study, Figure 3 suggested that both RL and evolution are approaching a common accuracy asymptote. That raises the question of which algorithm gets there faster. The plots indicate that evolution reaches half-maximum accuracy in roughly half the time. We abstain, nevertheless, from further quantifying this effect since it depends strongly on how speed is measured (the number of models necessary to reach accuracy $a$ depends on $a$; the natural choice of $a = {a_{max}/2}$ may be too low to be informative; *etc*.). Algorithm speed may be more important when exploring larger spaces, where reaching the optimum can require more compute than is available. We saw an example of this in the SP-III space, where evolution stood out (Figure 6, bottom-right). Therefore, future work could explore evolving on even larger spaces.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Model speed. The speed of individual models produced is also relevant. Figure 4 demonstrated that evolved models are faster (lower FLOPs). We speculate that asynchronous evolution may be reducing the FLOPs because it is indirectly optimizing for speed even when training for a fixed number of epochs: fast models may do well because they "reproduce" quickly even if they initially lack the higher accuracy of their slower peers. Verifying this speculation could be the subject of future work. As mentioned in the Related Work section, in this work we only considered asynchronous algorithms (as opposed to generational evolutionary methods) to ensure high resource utilization. Future work may explore how asynchronous and generational algorithms compare with regard to model accuracy.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Benefits of aging evolution. Aging evolution seemed advantageous in additional small-compute-scale experiments, shown in Figure 7 and presented in more detail in Supplement B. These were carried out on CPU instead of GPU, and used a gray-scale version of CIFAR-10, to reduce compute requirements. In the supplement, we also show that these results tend to hold when varying the dataset or the search space.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Understanding aging evolution and regularization. We can speculate that aging may help navigate the training noise in evolutionary experiments, as follows. Noisy training means that models may sometimes reach high accuracy just by luck. In non-aging evolution (NAE, *i.e*. standard tournament selection), such lucky models may remain in the population for a long time---even for the whole experiment. One lucky model, therefore, can produce many children, causing the algorithm to focus on it, reducing exploration. Under aging evolution (AE), on the other hand, all models have a short lifespan, so the population is wholly renewed frequently, leading to more diversity and more exploration. In addition, another effect may be in play, which we describe next. In AE, because models die quickly, the only way an architecture can remain in the population for a long time is by being passed down from parent to child through the generations. Each time an architecture is inherited it must be re-trained. If it produces an inaccurate model when re-trained, that model is not selected by evolution and the architecture disappears from the population. The only way for an architecture to remain in the population for a long time is to re-train well repeatedly.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 In other words, AE can only improve a population through the inheritance of architectures that re-train well. (In contrast, NAE can improve a population by accumulating architectures/models that were lucky when they trained the first time). That is, AE is forced to pay attention to architectures rather than models. In other words, the addition of aging involves introducing additional information to the evolutionary process: architectures should re-train well. This additional information prevents overfitting to the training noise, which makes it a form of regularization in the broader mathematical sense^33^3 Regardless of the exact mechanism, in Supplement C we perform experiments to verify the plausibility of the conjecture that aging helps navigate noise. There we construct a toy search space where the only difficulty is a noisy evaluation. If our conjecture is true, AE should be better in that toy space too. We found this to be the case. We leave further verification of the conjecture to future work, noting that theoretical results may prove useful here.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Simplicity of aging evolution. A desirable feature of evolutionary algorithms is their simplicity. By design, the application of a mutation causes a random change. The process of constructing new architectures, therefore, is entirely random. What makes evolution different from random search is that only the good models are selected to be mutated. This selection tends to improve the population over time. In this sense, evolution is simply "random search plus selection". In outline, the process can be described briefly: "keep a population of N models and proceed in cycles: at each cycle, copy-mutate the best of S random models and kill the oldest in the population". Implementation-wise, we believe the methods of this paper are sufficient for a reader to understand evolution. The sophisticated nature of the RL alternative introduces complexity in its implementation: it requires back-propagation and poses challenges to parallelization. Even different implementations of the same algorithm have been shown to produce different results. Finally, evolution is also simple in that it has few meta-parameters, most of which do not need tuning. In our study, we only adjusted 2 meta-parameters and only through a handful of attempts (see Methods Details section).
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 In contrast, note that the RL baseline requires training an agent/controller which is often itself a neural network with many weights (such as an LSTM), and its optimization has more meta-parameters to adjust: learning rate schedule, greediness, batching, replay buffer, *etc*. (These meta-parameters are all in addition to the weights and training parameters of the image classifiers being searched, which are present in both approaches.) It is possible that through careful tuning, RL could be made to produce even better models than evolution, but such tuning would likely involve running many experiments, making it more costly. Evolution did not require much tuning, as described. It is also possible that random search would produce equally good models if run for a very long time, which would be very costly.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Interpreting architecture search. Another important direction for future work is that of analyzing architecture-search experiments (regardless of the algorithm used) to try to discover new neural network design patterns. Anecdotally, for example, we found that architectures with high output vertex fan-in (number of edges into the output vertex) tend to be favored in all our experiments. In fact, the models in the final evolved populations have a mean fan-in value that is 3 standard deviations above what would be expected from randomly generated models. We verified this pattern by training various models with different fan-in values and the results confirm that accuracy increases with fan-, as had been found in ResNeXt. Discovering broader patterns may require designing search spaces specifically for this purpose.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Discussion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Discussion", "weight": 1.5} -->
 
 Additional AmoebaNets. Using variants of the evolutionary process described, we obtained three additional models, which we named AmoebaNet-B, AmoebaNet-C, and AmoebaNet-D. We describe these models and the process that led to them in detail in Supplement D, but we summarize here. AmoebaNet-B was obtained through through platform-aware architecture search over a larger version of the NASNet space. AmoebaNet-C is simply a model that showed promise early on in the above experiments by reaching high accuracy with relatively few parameters; we mention it here for completeness, as it has been referenced in other work. AmoebaNet-D was obtained by manually extrapolating the evolutionary process and optimizing the resulting architecture for training speed. It is very efficient: AmoebaNet-D won the Stanford DAWNBench competition for lowest training cost on ImageNet.
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 This paper used an evolutionary algorithm to discover image classifier architectures.
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We proposed aging evolution, a variant of tournament selection by which genotypes die according to their age, favoring the young. This improved upon standard tournament selection while still allowing for efficiency at scale through asynchronous population updating. We open-sourced the code.^44^4 We also implemented simple mutations that permit the application of evolution to the popular NASNet search space.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We presented the first controlled comparison of algorithms for image classifier architecture search in a case study of evolution, RL and random search. We showed that evolution had somewhat faster search speed and stood out in the regime of scarcer resources / early stopping. Evolution also matched RL in final model quality, employing a simpler method.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We evolved AmoebaNet-A (Figure 5), a competitive image classifier. On ImageNet, it is the first evolved model to surpass hand-designs. Matching size, AmoebaNet-A has comparable accuracy to top image-classifiers discovered with other architecture-search methods. At large size, it sets a new state-of-the-art accuracy. We open-sourced code and checkpoint.^55^5

@@ -136,11 +136,11 @@ Furthermore, we study how the convergence rates (or iteration complexities) scal
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Quadratic Minimax Games", "weight": 1.0} -->
 
-matrices $\mathbf{A},\mathbf{B},\mathbf{C}$ and compute the condition number by $\kappa = \frac{\max{\{{|\lambda_{i}|}\}}}{\min{\{{\Re{(\lambda_{i})}}\}}}$ where $\lambda_{i}$ are eigenvalues of the Jacobian $\mathbf{J}$ of the gradient vector field. Once we have all these three matrices, we can compute the spectral radius $\rho$ of all algorithms with tuned step-sizes and momentum value. We plot $- {1/{\log{(\rho)}}}$ versus the condition number $\kappa$ in Figure 4 (right) to get a sense of how the relative iteration complexity scales as a function of condition number. We find that the iteration complexity of Alt-GDA scales linearly with the condition number, matching our prediction in Corollary 3. On the other hand, Sim-GDA takes roughly $\kappa^{2}$ iterations to convergence, as predicted in Theorem 4.
+matrices $\mathbf{A},\mathbf{B},\mathbf{C}$ and compute the condition number by $\kappa = \frac{\max{\{{|\lambda_{i}|}\}}}{\min{\{{\Re{(\lambda_{i})}}\}}}$ where $\lambda_{i}$ are eigenvalues of the Jacobian $\mathbf{J}$ of the gradient vector field. Once we have all these three matrices, we can compute the spectral radius $\rho$ of all algorithms with tuned step-sizes and momentum value. We plot $- {1/{\log{(\rho)}}}$ versus the condition number $\kappa$ in Figure 4 (right) to get a sense of how the relative iteration complexity scales as a function of condition number.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Quadratic Minimax Games", "weight": 1.0} -->
 
-In addition, Alt-GDA is slightly better than OGDA and EG as its curve is below that of OGDA and EG, albeit with the same slope.
+We find that the iteration complexity of Alt-GDA scales linearly with the condition number, matching our prediction in Corollary 3. On the other hand, Sim-GDA takes roughly $\kappa^{2}$ iterations to convergence, as predicted in Theorem 4. In addition, Alt-GDA is slightly better than OGDA and EG as its curve is below that of OGDA and EG, albeit with the same slope.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Generative Adversarial Networks", "weight": 1.0} -->
 

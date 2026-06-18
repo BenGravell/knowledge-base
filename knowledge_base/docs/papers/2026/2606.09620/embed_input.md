@@ -92,80 +92,88 @@ We define the *buffered timeframe* for robot $i$ as ${\lbrack{\hat{k}}_{\min}^{(
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "III-B Clustering", "weight": 1.0} -->
 
-This buffering step can create overlaps between expanded clusters: there may exist $m \neq m^{\prime}$ and a robot $i$ such that $i$ appears in both ${\hat{\mathcal{G}}}_{m}$ and ${\hat{\mathcal{G}}}_{m^{\prime}}$ with overlapping buffered timeframes, so that solving the two subproblems independently would produce conflicting trajectory updates. We detect all such overlaps and merge the corresponding clusters using a union-find procedure. However, naively merging all overlapping clusters can yield subproblems that are too large and negate the benefit of parallelization. We therefore estimate the resulting subproblem complexity as ${S{(\hat{\mathcal{G}})}} = {{{nnz}{(P)}} + {{nnz}{(A)}}}$, the number of nonzero entries in the objective and constraint matrices of the linearized QP; see Section III-C.
+This buffering step can create overlaps between expanded clusters: there may exist $m \neq m^{\prime}$ and a robot $i$ such that $i$ appears in both ${\hat{\mathcal{G}}}_{m}$ and ${\hat{\mathcal{G}}}_{m^{\prime}}$ with overlapping buffered timeframes, so that solving the two subproblems independently would produce conflicting trajectory updates. We detect all such overlaps and merge the corresponding clusters using a union-find procedure. However, naively merging all overlapping clusters can yield subproblems that are too large and negate the benefit of parallelization.
 
-<!-- chunk {"id": "body-0024", "role": "body", "section": "Experiment 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0024", "role": "body", "section": "III-B Clustering", "weight": 1.0} -->
+
+We therefore estimate the resulting subproblem complexity as ${S{(\hat{\mathcal{G}})}} = {{{nnz}{(P)}} + {{nnz}{(A)}}}$, the number of nonzero entries in the objective and constraint matrices of the linearized QP; see Section III-C. If merging two clusters would produce a component with ${S{(\hat{\mathcal{G}})}} > S_{\max}$, we split the group. Let ${\hat{\mathcal{G}}}_{1},\ldots,{\hat{\mathcal{G}}}_{P}$ denote the buffered subproblems whose union exceeds the threshold.
+
+<!-- chunk {"id": "body-0025", "role": "body", "section": "III-B Clustering", "weight": 1.0} -->
+
+We then keep $p^{\ast} = {\arg{\min_{p}S_{p}^{\ast}}}$ as a singleton and proceed with clustering. We repeat this procedure until all components satisfy $S \leq S_{\max}$ or are singletons.
+
+<!-- chunk {"id": "body-0026", "role": "body", "section": "Experiment 2", "weight": 1.0} -->
 
 We run the entire pipeline on $100$ randomized configurations with $N = 500$ vehicles, $K = 1000$ and $20\%$ allocated randomly (cf. Section˜IV-A) without the buffering and without the cap on the subproblem complexity, and compare the performances in terms of success rate and computation time with the base configuration. *Results.* Without buffering, the pipeline does not converge. Without the cap, subproblems merge uncontrollably in congested situations, resulting in intractable subproblems. The pipeline's robustness and performance can drop up to 30%.
 
-<!-- chunk {"id": "body-0025", "role": "body", "section": "III-C Subproblem solving", "weight": 1.0} -->
+<!-- chunk {"id": "body-0027", "role": "body", "section": "III-C Subproblem solving", "weight": 1.0} -->
 
 Next, we look at how to solve the resulting subproblems, each described by a cluster ${\hat{\mathcal{G}}}_{m}$. We adopt the SCP framework of for generating collision-free trajectories. The trajectory of robot $i$ is affine in its control inputs; velocities $v^{(i)}{\lbrack k\rbrack}$ for the single-integrator model.
 
-<!-- chunk {"id": "body-0026", "role": "body", "section": "III-C Subproblem solving", "weight": 1.0} -->
+<!-- chunk {"id": "body-0028", "role": "body", "section": "III-C Subproblem solving", "weight": 1.0} -->
 
 with the constraint matrix $C = {\lbrack{C_{box}^{\top}C_{coll}^{\top}}\rbrack}^{\top}$. The box inequality rows $C_{box}$ encode dynamics, initial and final position constraints, and box limits on the state and control inputs. The collision rows $C_{coll}$ enforce the non-convex collision avoidance constraint via a first-order Taylor expansion
 
-<!-- chunk {"id": "body-0027", "role": "body", "section": "III-C Subproblem solving", "weight": 1.0} -->
+<!-- chunk {"id": "body-0029", "role": "body", "section": "III-C Subproblem solving", "weight": 1.0} -->
 
 where $\overline{p}$ denotes the previous iterate and linearization point, and $R$ is the collision distance. The QP is solved iteratively using OSQP at default (tolerances: $10^{- 4}$) accuracy with updated linearizations until the trajectory improvement satisfies the prescribed tolerances; in this work we consider modest SCP accuracies (tolerances: $10^{- 3}$).
 
-<!-- chunk {"id": "body-0028", "role": "body", "section": "III-C Subproblem solving", "weight": 1.0} -->
+<!-- chunk {"id": "body-0030", "role": "body", "section": "III-C Subproblem solving", "weight": 1.0} -->
 
 In large-scale scenarios, certain subproblems can become numerically ill-conditioned, for instance in symmetric configurations. We mitigate this by perturbing the SCP initialization and, if a solve is infeasible, re-solving the subproblem with an adaptively coarsened discretization rate. The resulting trajectory is then interpolated to the global discretization and refined via a lightweight SCP polishing step, significantly increasing robustness for difficult configurations with labelled fractions above $10\%$.
 
-<!-- chunk {"id": "body-0029", "role": "body", "section": "III-C Subproblem solving", "weight": 1.0} -->
+<!-- chunk {"id": "body-0031", "role": "body", "section": "III-C Subproblem solving", "weight": 1.0} -->
 
 In the *direct shooting* formulation employed by and described so far, positions are obtained by integrating the full control history, ${p^{(i)}{\lbrack k\rbrack}} = {p_{0}^{(i)} + {h{\sum_{m = 0}^{k - 1}{v^{(i)}{\lbrack m\rbrack}}}}}$. Thus, each collision constraint row at timestep $k$ couples *all* $k$ preceding control inputs of both robots involved. Consequently, $C_{coll}$ comprises lower-triangular blocks, with $\mathcal{O}{({N^{2}K^{2}})}$ non-zero entries.
 
-<!-- chunk {"id": "body-0030", "role": "body", "section": "III-C Subproblem solving", "weight": 1.0} -->
+<!-- chunk {"id": "body-0032", "role": "body", "section": "III-C Subproblem solving", "weight": 1.0} -->
 
 However, it is possible to substantially reduce the number of non-zero entries (and, thus, increase the efficiency of the OSQP solver) by adopting a *direct transcription* formulation that augments the decision vector: $\chi = {\lbrack{p^{{(i)}\top}{\lbrack k\rbrack}},{v^{{(i)}\top}{\lbrack k\rbrack}}\rbrack}_{i,k}^{\top} \in {\mathbb{R}}^{4NK}$. The dynamics become local equality constraints $C_{dyn}$ between consecutive time steps, and each collision row can be directly encoded in the pairwise positions. The dynamics constraints are then locally banded; see Fig.˜7. The complexity reduces from $O{({N^{2}K^{2}})}$ to $O{({N^{2}K})}$ at the cost of a larger decision vector.
 
-<!-- chunk {"id": "body-0031", "role": "body", "section": "Experiment 3", "weight": 1.0} -->
+<!-- chunk {"id": "body-0033", "role": "body", "section": "Experiment 3", "weight": 1.0} -->
 
 We compare the *direct shooting* and the *direct transcription* formulations on randomized collision to assess the performance. For $N \in {\{ 2,4,6,8,10,12\}}$ and a time horizon of $T = {10\sqrt{N/2}}$, we sample the initial and final positions for each robot uniformly inside a ball of radius ${r{(N)}} = {5\sqrt{N/2}}$. We repeat the experiment with $50$ different seeds. The time steps are kept constant $K = 100$ and all robots are labelled. Cluster dimensions are scaled so that the congestion density is maintained across the experiments. We run the experiment for the modest SCP tolerance. *Results.* We report the statistics of the computation time for the two methods across varying numbers of robots in Fig.˜8. Overall, the direct transcription formulation improves over the direct shooting by up to two orders of magnitude for the larger problem instances and is the one that we adopt.
 
-<!-- chunk {"id": "body-0032", "role": "body", "section": "III-D Merging", "weight": 1.0} -->
+<!-- chunk {"id": "body-0034", "role": "body", "section": "III-D Merging", "weight": 1.0} -->
 
 After solving all subproblems in parallel, the local solutions are merged back into the global trajectory by overwriting each robot's state variables in its time window. The pipeline loop then rebuilds the collision graph and repeats. However, this procedure can introduce collisions elsewhere and possibly result in the pipeline oscillating on identical collision patterns. We detect such cycles by recording the signature $(\mathcal{R}_{m},{\lbrack k_{s},k_{e}\rbrack})$ of every subproblem at each iteration $\ell$, where $\mathcal{R}_{m} \subseteq {\{ 1,\ldots,N\}}$ and $\{ k_{s},\ldots,k_{e}\}$ is the time range of the subproblem.
 
-<!-- chunk {"id": "body-0033", "role": "body", "section": "III-D Merging", "weight": 1.0} -->
+<!-- chunk {"id": "body-0035", "role": "body", "section": "III-D Merging", "weight": 1.0} -->
 
 A subproblem at iteration $\ell$ is declared cyclic if there exists an earlier iteration $\ell^{\prime} < \ell$ containing a subproblem with the same robot set $\mathcal{R}_{m}$ and an overlapping time range ${{\{ k_{s},\ldots,k_{e}\}} \cap {\{ k_{s}^{\prime},\ldots,k_{e}^{\prime}\}}} \neq \varnothing$. Upon cycle detection, all subproblems with robot set $\mathcal{R}_{j}$ satisfying ${\mathcal{R}_{j} \cap \mathcal{R}_{m}} \neq \varnothing$ are locked into a single joint subproblem for all iterations $\ell^{\operatorname{\prime\prime}} \geq \ell$.
 
-<!-- chunk {"id": "body-0034", "role": "body", "section": "Examples", "weight": 1.0} -->
+<!-- chunk {"id": "body-0036", "role": "body", "section": "Examples", "weight": 1.0} -->
 
 In this section, we provide representative examples in simulation and real-world deployments to illustrate the qualitative and quantitative behavior of the proposed pipeline. All the data is collected on a MacBook Pro with an M3 Pro chip and 32GB of memory.
 
-<!-- chunk {"id": "body-0035", "role": "body", "section": "IV-A Case study: Motion planning for 500 crafts", "weight": 1.0} -->
+<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-A Case study: Motion planning for 500 crafts", "weight": 1.0} -->
 
 We consider a large-scale case study with $N = 500$ vehicles, $K = 1000$ timesteps and labelled robots from $0\%$ to $100\%$. The partial "manual" allocation is uniform at random over the robots and their target locations. As keyframe configurations we use a star, a heart, and the words "Way", "Water" and "of". For each pattern, vehicle positions are sampled by placing $N$ points with uniform spacing of $4.5m$ along the corresponding curve; the perimeters of the shapes are thus calculated to ensure uniform spacing. As the shapes have varying sizes we scale time horizons accordingly; the discretization rate is evaluated based on $K$ and the maximum distance any robot has to travel.
 
-<!-- chunk {"id": "body-0036", "role": "body", "section": "IV-A Case study: Motion planning for 500 crafts", "weight": 1.0} -->
+<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-A Case study: Motion planning for 500 crafts", "weight": 1.0} -->
 
 The position box is sized with a $40\%$ margin around the larger of the two initial and final shapes. We report the statistics over 50 planning repetitions for each ratio of labelled robots and each of the initial-terminal configurations in Fig.˜9. For each repetition we consider a different random seed to sample the "manual" allocation. The solver appears to be robust, with $100\%$ convergence rate up to $30\%$ labelled robots. For larger amounts of labelled robots the solver converges to a collision-free trajectory in $99\%$ of the instances. Overall, the speed of our planner--which is able to successfully find collision-free trajectories within seconds--allows for a smooth user experience during choreography planning. We visualize representative trajectories in Fig.˜11, showing time snapshots of the fleet as well as the aggregate spatial footprint of the motion over the full horizon. In general, the trajectories span a few hundred meters and take several minutes to complete.
 
-<!-- chunk {"id": "body-0037", "role": "body", "section": "IV-B Case study: Deployment of 24 robots on Lake Zürich", "weight": 1.0} -->
+<!-- chunk {"id": "body-0039", "role": "body", "section": "IV-B Case study: Deployment of 24 robots on Lake Zürich", "weight": 1.0} -->
 
 For the demonstration on Lake Zürich, we deployed a fleet of $24$ robots and choreographed transitions for $16$ robots spanning one to two minutes. Using our planner within the choreography tool, designers could iteratively adjust keyframes and re-synthesize collision-free, dynamically feasible trajectories within seconds per design iteration, despite individual transitions discretizing into more than 400 time steps. A picture from the live demonstration is shown in LABEL:fig:planning-cover, and one of the performed trajectories in Example 3 in Fig.˜11.
 
-<!-- chunk {"id": "body-0038", "role": "body", "section": "IV-C Case study: Deployment at the Time Space Existence 2025 Venice Biennale", "weight": 1.0} -->
+<!-- chunk {"id": "body-0040", "role": "body", "section": "IV-C Case study: Deployment at the Time Space Existence 2025 Venice Biennale", "weight": 1.0} -->
 
 For the demonstration at the Time Space Existence 2025 Venice Biennale, we deployed a fleet of $8$ robots and designed several keyframe-to-keyframe transitions. Using our planner within the choreography tool, designers could iteratively adjust keyframes and regenerate collision-free, dynamically feasible trajectories within $1$ to $2$ seconds per design iteration, despite the transition discretizing into more than $2000$ time steps. The final, executed trajectory comprised $2491$ steps and was computed in $1.23s$ with the proposed planner. A picture from the live demonstration is shown in Fig.˜10, and one of the performed trajectories in Example 4 in Fig.˜11.
 
-<!-- chunk {"id": "body-0039", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0041", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We summarize our main contributions and directions for future work.
 
-<!-- chunk {"id": "body-0040", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0042", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 *Contributions.* We studied the motion planning problem for large fleets of omnidirectional surface robots, motivated by interactive show design where a user iteratively edits sparse keyframes and expects collision-free trajectories within seconds, even when transitions span minutes and thousands of discretization steps. To address the core scalability bottleneck induced by collision constraints, we proposed an engineering-focused pipeline that (i) builds a collision graph from a fast yet effective initialization, (ii) decomposes the globally coupled problem into interaction clusters, and (iii) solves these clusters independently (and in parallel), while incorporating robustness mechanisms. At the cluster level, we further improved solve efficiency and robustness through a reformulation that increases the sparsity of the linearized QP s and a dynamic time-scale selection strategy.
 
-<!-- chunk {"id": "body-0041", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We validated the full system in simulations up to 500 robots and 1000 time steps, and the synthesized trajectories have been deployed in two real-world demonstrations, on Lake Zürich and in Venice. We systematically engineered the pipeline with the support of extensive ablations that isolate the effect of each design choice. Across the tested scenarios, the resulting planner substantially reduces runtime compared to traditional monolithic SCP pipelines and enables the fast turnaround required for iterative choreography design.
 
-<!-- chunk {"id": "body-0042", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 *Outlook.* On the optimization side, our cluster-level solver can be strengthened by exploring alternative subproblem parameterizations and solution spaces---for instance, planning directly in a contact space, or leveraging learned priors while enforcing feasibility via *hard*-constrained neural architectures so that safety and boundary conditions remain guaranteed. Moreover, both collision detection and subproblem solve time can be improved by exploiting parallelization over GPUs. On the choreography side, the allocation step offers a powerful handle to shape artistic intent: replacing the current cost structure $c_{ij}$ with richer, designer-controllable (and potentially learning-based) costs could encode style and incorporate human preference feedback to extend the framework to match the subjective notion of "visually-appealing" motion.

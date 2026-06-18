@@ -128,11 +128,11 @@ Next, we describe the constraints in the optimization problem. 1) $\mathbf{q}_{1
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "III-E Initialization for Grasping Trajectory Optimization", "weight": 1.0} -->
 
-The optimization problem in Eq. is a large-scale constrained nonlinear programming problem. For example, a Franka panda arm has $n = 7$ DOFs. If we set the number of time steps of the trajectory $T = 50$, the optimization problem has ${7 \times 2 \times 50} = 700$ variables. We utilize the Interior Point OPTimizer (Ipopt) interfaced with the CasADi framework to solve it. Ipopt can only find local solutions that are sensitive to the initialization of the variables. To obtain a good local solution and speed up the optimization, we use the following strategy to initiate the optimization. 1) Given a set of grasping poses $\mathcal{G} = {\{\mathbf{T}_{i}\}}_{i = 1}^{K}$ of a target, we first filter out grasps that are in-collision with other objects in the scene. This collision checking can be achieved by checking the signed distance values of the 3D points on the robot gripper of a given pose as described in Section III-C.
+The optimization problem in Eq. is a large-scale constrained nonlinear programming problem. For example, a Franka panda arm has $n = 7$ DOFs. If we set the number of time steps of the trajectory $T = 50$, the optimization problem has ${7 \times 2 \times 50} = 700$ variables. We utilize the Interior Point OPTimizer (Ipopt) interfaced with the CasADi framework to solve it. Ipopt can only find local solutions that are sensitive to the initialization of the variables. To obtain a good local solution and speed up the optimization, we use the following strategy to initiate the optimization. 1) Given a set of grasping poses $\mathcal{G} = {\{\mathbf{T}_{i}\}}_{i = 1}^{K}$ of a target, we first filter out grasps that are in-collision with other objects in the scene.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "III-E Initialization for Grasping Trajectory Optimization", "weight": 1.0} -->
 
-2) For the remaining grasps, we check if an inverse kinematics (IK) solution exists.
+This collision checking can be achieved by checking the signed distance values of the 3D points on the robot gripper of a given pose as described in Section III-C. 2) For the remaining grasps, we check if an inverse kinematics (IK) solution exists.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "III-E Initialization for Grasping Trajectory Optimization", "weight": 1.0} -->
 

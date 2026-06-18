@@ -88,11 +88,11 @@ An alternative formulation is to set a limit on the total traction power ${u^{lo
 
 <!-- chunk {"id": "body-0022", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
 
-We are now in a position to state the problem we wish to solve in this paper. Consider a collision-free *reference trajectory* computed, for example, by running a sampling-based motion planner. Let this trajectory be discretized into a set of waypoints $\mathcal{P}:={\{ P_{0},P_{1},\ldots,P_{n}\}}$, where, by construction, $P_{i} \in {\mathcal{W} \smallsetminus \mathcal{O}}$ for $i = {1,\ldots,n}$. The goal is to design a heuristic *smoothing algorithm* that uses the information about the vehicle's model -, obstacle set $\mathcal{O}$, and (discretized) reference trajectory $\mathcal{P}$ to compute a dynamically-feasible (with respect to model -), collision-free, and smooth trajectory that goes from $P_{0}$ to $P_{n}$ and has an optimized speed profile, see Figure 1.
+We are now in a position to state the problem we wish to solve in this paper. Consider a collision-free *reference trajectory* computed, for example, by running a sampling-based motion planner. Let this trajectory be discretized into a set of waypoints $\mathcal{P}:={\{ P_{0},P_{1},\ldots,P_{n}\}}$, where, by construction, $P_{i} \in {\mathcal{W} \smallsetminus \mathcal{O}}$ for $i = {1,\ldots,n}$.
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Problem Statement", "weight": 1.0} -->
 
-Our proposed algorithm is named CES and is presented in the next section.
+The goal is to design a heuristic *smoothing algorithm* that uses the information about the vehicle's model -, obstacle set $\mathcal{O}$, and (discretized) reference trajectory $\mathcal{P}$ to compute a dynamically-feasible (with respect to model -), collision-free, and smooth trajectory that goes from $P_{0}$ to $P_{n}$ and has an optimized speed profile, see Figure 1. Our proposed algorithm is named CES and is presented in the next section.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "The CES Algorithm", "weight": 1.0} -->
 
@@ -205,11 +205,11 @@ All numerical experiments were performed on a computer with an Intel(R) Core(TM)
 
 <!-- chunk {"id": "body-0051", "role": "body", "section": "IV-A Random Mazes", "weight": 1.0} -->
 
-In this scenario the workspace is a ${{100m} \times 100}m$ square with rectangular-shaped obstacles randomly placed within (the obstacle coverage was roughly 50%). The parameters for the model in equations - are $m = 833$ $kg$, $\mu = 0.8$, and ${\overline{U}}^{long} = 0.5$ $\mumg$. The reference trajectories, computed via differential FMT^∗^ by using 1,000 samples, were discretized into 257 waypoints with an average segment length equal to $0.56$ $m$. On average, each iteration (consisting of bubble generation, shape optimization, and speed optimization) required 119 ms, with a standard deviation of 14 ms. Specifically, the bubble generation algorithm required, on average, 26ms. The shape optimization algorithm required 74 ms. Finally, the speed optimization required 19 ms. A typical smoothed trajectory is portrayed in Figure 5.
+In this scenario the workspace is a ${{100m} \times 100}m$ square with rectangular-shaped obstacles randomly placed within (the obstacle coverage was roughly 50%). The parameters for the model in equations - are $m = 833$ $kg$, $\mu = 0.8$, and ${\overline{U}}^{long} = 0.5$ $\mumg$. The reference trajectories, computed via differential FMT^∗^ by using 1,000 samples, were discretized into 257 waypoints with an average segment length equal to $0.56$ $m$. On average, each iteration (consisting of bubble generation, shape optimization, and speed optimization) required 119 ms, with a standard deviation of 14 ms. Specifically, the bubble generation algorithm required, on average, 26ms. The shape optimization algorithm required 74 ms. Finally, the speed optimization required 19 ms.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "IV-A Random Mazes", "weight": 1.0} -->
 
-The traversal time reduction, which is computed according to the formula $\frac{t_{initial} - t_{final}}{t_{initial}} \cdot {100\%}$, ranges from a minimum of 0.2% to a maximum of 18%, with the average value being $3.54\%$. Figure 5 shows the smoothed trajectory for one of the 24 random mazes. We note that, apart from the benefit of reduction of traversal time, a smoothed trajectory may be easier to track for a lower-level controller.
+A typical smoothed trajectory is portrayed in Figure 5. The traversal time reduction, which is computed according to the formula $\frac{t_{initial} - t_{final}}{t_{initial}} \cdot {100\%}$, ranges from a minimum of 0.2% to a maximum of 18%, with the average value being $3.54\%$. Figure 5 shows the smoothed trajectory for one of the 24 random mazes. We note that, apart from the benefit of reduction of traversal time, a smoothed trajectory may be easier to track for a lower-level controller.
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "IV-B Lane Changing", "weight": 1.0} -->
 

@@ -124,15 +124,15 @@ We perform a sensitivity analysis in Section 6.1 to illustrate the insights from
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "Sensitivity analysis", "weight": 1.0} -->
 
-We analyze the sensitivity of $\epsilon$-RandUP to the sampling distribution and the smoothness of the reachability map. We consider a $2$-dimensional input ball $\mathcal{X} = {B{}}$ and the map ${f{(x)}} = {({Lx_{1}},x_{2})}$ with $L \geq 1$. Clearly, $\mathcal{X}^{\mathsf{c}}$ is $1$-convex and $f$ is $L$-Lipschitz continuous, so Corollary 3 applies for any sampling distribution satisfying Assumption 5.
+We analyze the sensitivity of $\epsilon$-RandUP to the sampling distribution and the smoothness of the reachability map. We consider a $2$-dimensional input ball $\mathcal{X} = {B{}}$ and the map ${f{(x)}} = {({Lx_{1}},x_{2})}$ with $L \geq 1$.
 
 <!-- chunk {"id": "body-0032", "role": "body", "section": "Sensitivity analysis", "weight": 1.0} -->
 
-We consider a distribution ${\mathbb{P}}_{\mathcal{X}}^{\alpha}$ that depends on a parameter $\alpha \geq 1$, such that ${\mathbb{P}}_{\mathcal{X}}^{\alpha}$ varies from a uniform distribution over $\mathcal{X}$ for $\alpha = 1$ to a uniform distribution over the boundary $\partial\mathcal{X}$ as $\alpha\rightarrow\infty$. Given $\delta_{M} = 10^{- 3}$, we determine the minimum padding $\epsilon$ guaranteeing ${{\mathbb{P}}{({{d_{H}{({\hat{\mathcal{Y}}}^{M},\mathcal{Y})}} \leq \epsilon})}} \geq {1 - \delta_{M}}$ using Corollary 3, see Appendix E.1. We take $M = 1000$ samples and present results in Figure 3.
+Clearly, $\mathcal{X}^{\mathsf{c}}$ is $1$-convex and $f$ is $L$-Lipschitz continuous, so Corollary 3 applies for any sampling distribution satisfying Assumption 5. We consider a distribution ${\mathbb{P}}_{\mathcal{X}}^{\alpha}$ that depends on a parameter $\alpha \geq 1$, such that ${\mathbb{P}}_{\mathcal{X}}^{\alpha}$ varies from a uniform distribution over $\mathcal{X}$ for $\alpha = 1$ to a uniform distribution over the boundary $\partial\mathcal{X}$ as $\alpha\rightarrow\infty$.
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Sensitivity analysis", "weight": 1.0} -->
 
-We observe better performance than the predicted finite-sample bounds and that distributions with a higher probability of sampling close to the boundary (i.e., larger values of $\alpha$) perform better, corresponding to lower Hausdorff distance errors. Also, $\epsilon$-RandUP performs better on problems with smoother reachability maps, as is visible from our empirical evaluation and theoretical bounds on the Hausdorff distance. This validates the discussion in Section 5.3.
+Given $\delta_{M} = 10^{- 3}$, we determine the minimum padding $\epsilon$ guaranteeing ${{\mathbb{P}}{({{d_{H}{({\hat{\mathcal{Y}}}^{M},\mathcal{Y})}} \leq \epsilon})}} \geq {1 - \delta_{M}}$ using Corollary 3, see Appendix E.1. We take $M = 1000$ samples and present results in Figure 3. We observe better performance than the predicted finite-sample bounds and that distributions with a higher probability of sampling close to the boundary (i.e., larger values of $\alpha$) perform better, corresponding to lower Hausdorff distance errors. Also, $\epsilon$-RandUP performs better on problems with smoother reachability maps, as is visible from our empirical evaluation and theoretical bounds on the Hausdorff distance. This validates the discussion in Section 5.3.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Verification of neural network controllers", "weight": 1.0} -->
 

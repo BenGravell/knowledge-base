@@ -50,11 +50,11 @@ With this choice of $\lambda$, we call the quadratic function $\overline{Q} = \o
 
 <!-- chunk {"id": "body-0013", "role": "body", "section": "Optimal quadratic averaging", "weight": 1.0} -->
 
-An algorithmic idea emerges. Given a current iterate $x_{k}$, form the quadratic lower-model $Q{( \cdot )}$ in with $\overline{x} = x_{k}$. Then let $Q_{k}$ be the optimal averaging of $Q$ and the quadratic lower model $Q_{k - 1}$ from the previous step. Finally define $x_{k + 1}$ to be the minimizer of $Q_{k}$, and repeat. Though attractive, the scheme does not converge at an optimal rate. Indeed, this algorithm is closely related to the suboptimal method; see Section 4.1 for a discussion. The main idea behind acceleration, natural in retrospect, is a separation of roles: one must maintain two sequences of points $x_{k}$ and $c_{k}$. The points $x_{k}$ will generate quadratic lower models as above, while $c_{k}$ will be the minimizers of the quadratics. We summarize the proposed method in Algorithm 1.
+An algorithmic idea emerges. Given a current iterate $x_{k}$, form the quadratic lower-model $Q{( \cdot )}$ in with $\overline{x} = x_{k}$. Then let $Q_{k}$ be the optimal averaging of $Q$ and the quadratic lower model $Q_{k - 1}$ from the previous step. Finally define $x_{k + 1}$ to be the minimizer of $Q_{k}$, and repeat. Though attractive, the scheme does not converge at an optimal rate. Indeed, this algorithm is closely related to the suboptimal method; see Section 4.1 for a discussion. The main idea behind acceleration, natural in retrospect, is a separation of roles: one must maintain two sequences of points $x_{k}$ and $c_{k}$. The points $x_{k}$ will generate quadratic lower models as above, while $c_{k}$ will be the minimizers of the quadratics.
 
 <!-- chunk {"id": "body-0014", "role": "body", "section": "Optimal quadratic averaging", "weight": 1.0} -->
 
-The rule for determining the iterate $x_{k}$ by a line search is entirely motivated by the geometric descent method.
+We summarize the proposed method in Algorithm 1. The rule for determining the iterate $x_{k}$ by a line search is entirely motivated by the geometric descent method.
 
 <!-- chunk {"id": "body-0015", "role": "body", "section": "Remark 2.1", "weight": 1.0} -->
 

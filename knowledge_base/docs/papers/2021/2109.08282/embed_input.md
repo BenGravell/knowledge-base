@@ -133,11 +133,11 @@ The first task is two-class (Fake/True News) text classification using one-layer
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Apply AdaLoss to Adam", "weight": 1.0} -->
 
-The second task is to solve the classical control problem: inverted pendulum swing-up. One popular algorithm is the actor-critic algorithm Konda and Tsitsiklis, where the actor algorithm is optimized by proximal policy gradient methods Zoph et al., and the critic algorithm is optimized by function approximation methods Fujimoto et al.. The actor-network and critic-network are fully connected layers with different depths. We use Adam and AdamLoss to optimize the actor-critic algorithm independently for four times and average the rewards. The code source is provided in the supplementary material. The left plot of Figure 5 implies that AdaLoss is very robust to different initialization, while the standard Adam is extremely sensitive to $\eta = \frac{1}{b_{0}}$. Interestingly, AdamLoss does better when starting with $\eta_{0} = \frac{1}{200}$. We plot the corresponding $1/b_{t}$ on the right-hand side in Figure 5.
+The second task is to solve the classical control problem: inverted pendulum swing-up. One popular algorithm is the actor-critic algorithm Konda and Tsitsiklis, where the actor algorithm is optimized by proximal policy gradient methods Zoph et al., and the critic algorithm is optimized by function approximation methods Fujimoto et al.. The actor-network and critic-network are fully connected layers with different depths. We use Adam and AdamLoss to optimize the actor-critic algorithm independently for four times and average the rewards. The code source is provided in the supplementary material. The left plot of Figure 5 implies that AdaLoss is very robust to different initialization, while the standard Adam is extremely sensitive to $\eta = \frac{1}{b_{0}}$. Interestingly, AdamLoss does better when starting with $\eta_{0} = \frac{1}{200}$.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Apply AdaLoss to Adam", "weight": 1.0} -->
 
-We see that regardless of the initialization of $b_{0}$, the final value ${1/b_{t}} \approx 0.01$ reaches a value between $0.002$ and $0.001$.
+We plot the corresponding $1/b_{t}$ on the right-hand side in Figure 5. We see that regardless of the initialization of $b_{0}$, the final value ${1/b_{t}} \approx 0.01$ reaches a value between $0.002$ and $0.001$.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Apply AdaLoss to Adam", "weight": 1.0} -->
 

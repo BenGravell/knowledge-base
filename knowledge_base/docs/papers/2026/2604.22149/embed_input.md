@@ -90,11 +90,11 @@ where ${C{(\tau_{t + 1}^{i})}} < 0$ for safe trajectories and ${C{(\tau_{t + 1}^
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "III-A Safety Filter Algorithm", "weight": 1.0} -->
 
-The filter then selects the control sequence with the minimum cost among all samples (line 5). If the minimum cost is negative, the nominal input $\mathbf{u}_{t}^{nom}$ is applied without intervention, and $U_{t + 1}^{safe}$ is updated to the minimum-cost sample $U_{t + 1}^{i^{\ast}}$ (lines 6--7). Otherwise, the filter applies the backup safe input $\mathbf{u}_{t}^{safe}$ from the previously stored safe sequence $U_{t}^{safe}$, and constructs $U_{t + 1}^{safe}$ by shifting $U_{t}^{safe}$ forward by one step (lines 8--9). The last input of the shifted sequence is chosen to drive the system toward, or keep it inside, a safe control invariant set. Details are provided in Section III-C.
+The filter then selects the control sequence with the minimum cost among all samples (line 5). If the minimum cost is negative, the nominal input $\mathbf{u}_{t}^{nom}$ is applied without intervention, and $U_{t + 1}^{safe}$ is updated to the minimum-cost sample $U_{t + 1}^{i^{\ast}}$ (lines 6--7). Otherwise, the filter applies the backup safe input $\mathbf{u}_{t}^{safe}$ from the previously stored safe sequence $U_{t}^{safe}$, and constructs $U_{t + 1}^{safe}$ by shifting $U_{t}^{safe}$ forward by one step (lines 8--9). The last input of the shifted sequence is chosen to drive the system toward, or keep it inside, a safe control invariant set.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "III-A Safety Filter Algorithm", "weight": 1.0} -->
 
-The applied safe input $\mathbf{u}_{t}^{safe}$ is then executed, and the updated safe sequence $U_{t + 1}^{safe}$ is stored for the next timestep (line 10).
+Details are provided in Section III-C. The applied safe input $\mathbf{u}_{t}^{safe}$ is then executed, and the updated safe sequence $U_{t + 1}^{safe}$ is stored for the next timestep (line 10).
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "III-B Sampling Distribution", "weight": 1.0} -->
 

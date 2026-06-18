@@ -247,136 +247,140 @@ We model a graph search problem to seek for an sequence of yaw angles $\Xi:=\lef
 
 <!-- chunk {"id": "body-0062", "role": "body", "section": "VII-A1 Problem Modeling", "weight": 1.0} -->
 
-At $\mathbf{p}_{i}$ expect $i = 0$, where the yaw angle is already determined by the current quadrotor's state, several graph nodes ${n_{i,j},j} \in \lbrack 0,1,\cdots,J\rbrack$ are created, each of which associates a different angle $\xi_{i,j}$ and the IG $g_{i,j}$ at the state $\left( \mathbf{p}_{r,i},\xi_{i,j} \right)$. For each pair of nodes $n_{i,j_{1}},n_{{i + 1},j_{2}}$ associated with adjacent positions, a graph edge from $n_{i,j_{1}}$ to $n_{{i + 1},j_{2}}$ is created. This process construct a directed graph as shown in Fig.12.
+At $\mathbf{p}_{i}$ expect $i = 0$, where the yaw angle is already determined by the current quadrotor's state, several graph nodes ${n_{i,j},j} \in \lbrack 0,1,\cdots,J\rbrack$ are created, each of which associates a different angle $\xi_{i,j}$ and the IG $g_{i,j}$ at the state $\left( \mathbf{p}_{r,i},\xi_{i,j} \right)$. For each pair of nodes $n_{i,j_{1}},n_{{i + 1},j_{2}}$ associated with adjacent positions, a graph edge from $n_{i,j_{1}}$ to $n_{{i + 1},j_{2}}$ is created.
 
 <!-- chunk {"id": "body-0063", "role": "body", "section": "VII-A1 Problem Modeling", "weight": 1.0} -->
 
+This process construct a directed graph as shown in Fig.12.
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "VII-A1 Problem Modeling", "weight": 1.0} -->
+
 where $\mu$ is used to adjust the weighting of smoothness.
-
-<!-- chunk {"id": "body-0064", "role": "body", "section": "VII-A2 Information Gain", "weight": 1.0} -->
-
-We employ a similar method to which assesses potential IG as the number of unmapped voxels that comply with the camera model and are visible (not blocked by occupied voxels). However, the original method does raycasting for every voxels inside the camera FOV to validate their visibility, which is too expensive to function online. Therefore, we adapt it to better suit the real-time planning in several ways: (a) As is, voxels inside the FOV are subsampled to approximate the actual gain, which leads to only slight error but great run time reduction. (b) The gains of different $\xi_{i,j}$ are evaluated in parallel. (c) We borrow the techniques from to avoid repeated raycasting. As depicted in Fig.13(a), we notice that at one position $\mathbf{p}_{r,i}$ where different $\xi_{i,j}$ are assessed, many voxels are in overlapping areas and are checked for visibility more than once.
 
 <!-- chunk {"id": "body-0065", "role": "body", "section": "VII-A2 Information Gain", "weight": 1.0} -->
 
-To avoid unnecessary repetition, we store the visibility of each voxel when it is checked for the first time, so that in subsequent check the visibility and be queried directly. In these ways, the overall IG evaluation time is reduced by over two orders of magnitude.
+We employ a similar method to which assesses potential IG as the number of unmapped voxels that comply with the camera model and are visible (not blocked by occupied voxels). However, the original method does raycasting for every voxels inside the camera FOV to validate their visibility, which is too expensive to function online. Therefore, we adapt it to better suit the real-time planning in several ways: (a) As is, voxels inside the FOV are subsampled to approximate the actual gain, which leads to only slight error but great run time reduction. (b) The gains of different $\xi_{i,j}$ are evaluated in parallel. (c) We borrow the techniques from to avoid repeated raycasting. As depicted in Fig.13(a), we notice that at one position $\mathbf{p}_{r,i}$ where different $\xi_{i,j}$ are assessed, many voxels are in overlapping areas and are checked for visibility more than once.
 
 <!-- chunk {"id": "body-0066", "role": "body", "section": "VII-A2 Information Gain", "weight": 1.0} -->
 
+To avoid unnecessary repetition, we store the visibility of each voxel when it is checked for the first time, so that in subsequent check the visibility and be queried directly. In these ways, the overall IG evaluation time is reduced by over two orders of magnitude.
+
+<!-- chunk {"id": "body-0067", "role": "body", "section": "VII-A2 Information Gain", "weight": 1.0} -->
+
 In the context of exploration, every voxel contributes equally to the IG of one quadrotor configuration, ensuring that all space can be covered by the sensors uniformly. However, in a point-to-point navigation we do not aim at full coverage but prefer focusing on space relevant to the flight. In particular, unknown voxels closer to the trajectory and the current position have higher influence to the flight. Therefore, we use Equ.16
-
-<!-- chunk {"id": "body-0067", "role": "body", "section": "VII-B Yaw Angle Optimization", "weight": 1.0} -->
-
-Given the optimal path $\Xi$ searched through the graph, we compute the trajectory of yaw angle $\phi{(t)}$ that is smooth, dynamically feasible and passes through the sequential angles $\xi_{j}$. We parameterize $\phi{(t)}$ as a uniform B-spline with control points $\Phi:=\left\{ \phi_{c,0},\phi_{c,1},\cdots,\phi_{c,N_{c}} \right\}$ and knot span $\deltat_{\phi}$. In this way, the convex hull property can be employed to ensure dynamic feasibility.
 
 <!-- chunk {"id": "body-0068", "role": "body", "section": "VII-B Yaw Angle Optimization", "weight": 1.0} -->
 
-Here the first term represents smoothness and the second term is a soft waypoint constraint enforcing $\phi{(t)}$ to pass through $\Xi$.
+Given the optimal path $\Xi$ searched through the graph, we compute the trajectory of yaw angle $\phi{(t)}$ that is smooth, dynamically feasible and passes through the sequential angles $\xi_{j}$. We parameterize $\phi{(t)}$ as a uniform B-spline with control points $\Phi:=\left\{ \phi_{c,0},\phi_{c,1},\cdots,\phi_{c,N_{c}} \right\}$ and knot span $\deltat_{\phi}$. In this way, the convex hull property can be employed to ensure dynamic feasibility.
 
 <!-- chunk {"id": "body-0069", "role": "body", "section": "VII-B Yaw Angle Optimization", "weight": 1.0} -->
 
+Here the first term represents smoothness and the second term is a soft waypoint constraint enforcing $\phi{(t)}$ to pass through $\Xi$.
+
+<!-- chunk {"id": "body-0070", "role": "body", "section": "VII-B Yaw Angle Optimization", "weight": 1.0} -->
+
 Thanks to the convex hull property of B-spline, the entire trajectory is guaranteed to be feasible given that the control points do not exceed the dynamic limits ${\overset{˙}{\phi}}_{max},{\overset{¨}{\phi}}_{max}$.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "VIII-A Implementation Details", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "VIII-A Implementation Details", "weight": 1.0} -->
 
 We present tests in both real world and simulation. In real-world experiments, a customized quadrotor platform equipped with an Intel RealSense Depth Camera D435 is used. All the state estimation, mapping, planning and control modules run on an Intel Core i7-8550U CPU. For simulation, we use a simulating tool containing the quadrotor dynamics model, random map generator and depth image renderer. The dynamics model relies on a numeric ODE solver odeint^44^4www.boost.org/doc/libs/1_73_0/libs/numeric/odeint/doc/html/index.html. The depth images are rendered in GPU by projecting point cloud of the surrounding obstacles onto the image plane. Random noises are added to them to better mimic the real measurements. All simulations run on an Intel Core i7-8700K CPU and GeForce GTX 1080 Ti GPU. The trajectory optimization is solved by a general non-linear optimization solver NLopt^55^5
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "VIII-A1 Global Planning", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "VIII-A1 Global Planning", "weight": 1.0} -->
 
 We use the approach to compute global reference trajectories. Note that we focus on evaluating the local replanning system, therefore, naive global trajectories are given, such as straight-line trajectory connecting the start and goal positions.
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "VIII-A2 Volumetric Mapping", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "VIII-A2 Volumetric Mapping", "weight": 1.0} -->
 
 In all tests, the quadrotor starts with no prior knowledge of the environments. A volumetric mapping framework fuses the depth images from the stereo camera into a occupancy grid map. An ESDF is derived from the occupancy grid map using an efficient distance transform algorithm to support the gradient-based optimization (Sect.IV) and visibility evaluation (Sect.VI-A2). Trilinear interpolation is also used to reduce the distance error induced by the discrete grid map.
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "VIII-A3 State Estimation and Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "VIII-A3 State Estimation and Control", "weight": 1.0} -->
 
 We localize the drone by a robust visual-inertial state estimator in real-world tests. In simulation, ground truth odometry is generated by the quadrotor dynamics model. We use a geometric controller to track both the position and yaw trajectory.
 
-<!-- chunk {"id": "body-0074", "role": "body", "section": "VIII-A3 State Estimation and Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0075", "role": "body", "section": "VIII-A3 State Estimation and Control", "weight": 1.0} -->
 
 The following evaluation is divided into two parts. The first part evaluates the perception-aware planning strategy, the second part tests the whole replanning framework.
 
-<!-- chunk {"id": "body-0075", "role": "body", "section": "VIII-A3 State Estimation and Control", "weight": 1.0} -->
+<!-- chunk {"id": "body-0076", "role": "body", "section": "VIII-A3 State Estimation and Control", "weight": 1.0} -->
 
 (c) Trajectories generated by the proposed method (red), FASTER (green), EWOK (cyan) and RE Traj. (yellow). Obstacles are set as gray transparent for clarity.
 
-<!-- chunk {"id": "body-0076", "role": "body", "section": "VIII-B1 Real-world Tests", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "VIII-B1 Real-world Tests", "weight": 1.0} -->
 
 We conduct comparative experiments to show the importance of introducing active perception. Specifically we compare the proposed strategy: the risk-aware refinement (Sect.VI) and active exploration yaw (Sect.VII) with the commonly used ones: the optimistic assumption and the velocity-tracking yaw. Optimistic assumption treats all unknown space as collision-free, which is frequently adopted such as. The velocity-tracking yaw relates the desired yaw angle to the velocity: ${\phi{(t)}} = {\text{arctan}{(\frac{v_{y}{(t)}}{v_{x}{(t)}})}}$, to increase the chance of seeing obstacles. Four local planners listed in Tab.I are tested in two scenes. Each planner is tested 3 times in both scenes and we record the number of successful flights. The maximum velocity and acceleration are set as ${3m}/s$ and ${2.5m}/s^{2}$. Whenever collision along the trajectory is detected and the collision point is closer than $0.5m$, emergency stop is conducted immediately for safety.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "VIII-B1 Real-world Tests", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "VIII-B1 Real-world Tests", "weight": 1.0} -->
 
 In the first scene, a straight-line global reference trajectory is given (Fig.14(a)). A large obstacle consisting of several boxes and boards are placed on the way. When the quadrotor approaches the obstacle, boxes in the front row will be revealed first, while others behind them are occluded and invisible at the beginning. Planners with optimistic assumption (A & B) are unaware of the potential danger behind. They simply replan trajectories to avoid the viewed boxes, along which there is low visibility to the boxes in the back, as showed in Fig.16(a). As a result, the quadrotor gets 'surprised' by the occluded boxes afterwards and pauses in emergency, as showed in Fig.15(a) and 15(b). In contrast, planners with risk awareness (C & D) generate trajectories that deviate a bit more laterally, along which visibility toward the unknown area in the back is higher (Fig.16(b)). Therefore in both cases the quadrotor reach the goal more times.
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "VIII-B1 Real-world Tests", "weight": 1.0} -->
+<!-- chunk {"id": "body-0079", "role": "body", "section": "VIII-B1 Real-world Tests", "weight": 1.0} -->
 
 However, with the velocity-tracking yaw (planner C), the quadrotor does not face toward the unknown area in the back quickly, which postpones the discovery of occluded boxes and causes 1 failure. In comparison, with the active exploration yaw (planner D) the quadrotor quickly turns toward the unknown area and observes the previously occluded boxes, enabling itself to take action earlier. This comparison is displayed in Fig.17.
 
-<!-- chunk {"id": "body-0079", "role": "body", "section": "VIII-B1 Real-world Tests", "weight": 1.0} -->
+<!-- chunk {"id": "body-0080", "role": "body", "section": "VIII-B1 Real-world Tests", "weight": 1.0} -->
 
 In the second scene, an obstacle is placed right behind the corner, which is invisible to the quadrotor until it turns right. The reference trajectory is set to pass through the obstacles deliberately (Fig.14(b)). In this scene, the quadrotor can only reach the goal safely with planner D. For other three planners, the quadrotor collides with the obstacle behind the corner, due to either the poor visibility of the replanned trajectories (planner A & B), or the delay of perception caused by the velocity-tracking yaw (planner C). Note that even emergency stop is conducted, the quadrotor fail to avoid collision in time (Fig.18). The comparisons of the replanned trajectories and yaw angle are displayed in Fig.19 and Fig.20 respectively.
 
-<!-- chunk {"id": "body-0080", "role": "body", "section": "VIII-B1 Real-world Tests", "weight": 1.0} -->
+<!-- chunk {"id": "body-0081", "role": "body", "section": "VIII-B1 Real-world Tests", "weight": 1.0} -->
 
 The experiments demonstrate two critical factors to survive in high-speed flights: (a) having good visibility toward the unknown regions that will influence the flight and (b) looking toward the relevant direction to eliminate those unknown regions actively. The proposed method takes into account these factors and guarantees safety for fast flight. More details about the experiments are presented in the attached video.
 
-<!-- chunk {"id": "body-0081", "role": "body", "section": "VIII-B2 Benchmark Comparisons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0082", "role": "body", "section": "VIII-B2 Benchmark Comparisons", "weight": 1.0} -->
 
 We compare the proposed strategy with the safe local exploration (SLE) presented in in simulation. This strategy originated from the "next-best-view" planner in the exploration literature, but is adapted for online functioning in goal reaching tasks. It repeatedly selects intermediate goals that are closer to the final goal and have higher information gain, after which a local planner replans new trajectories toward the goals. It also adopts the velocity-tracking yaw, as is detailed in Sect.VIII-B1. To compare the strategies fairly, we integrated both of them with our robust optimistic replanning (Sect.IV, V). They are tested in $10$ random maps with $5$ different obstacle densities, $5$ trials are conducted for each map. We compare the number of successful flight, flight time and flight distance. Samples of the maps are displayed in Fig.22(a), 22(b).
 
-<!-- chunk {"id": "body-0082", "role": "body", "section": "VIII-B2 Benchmark Comparisons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0083", "role": "body", "section": "VIII-B2 Benchmark Comparisons", "weight": 1.0} -->
 
 As is shown in Tab.II, the proposed strategy achieves higher number of successful flights when the scene gets more cluttered. Our strategy enforces visibility to dangerous unknown areas, and control the yaw angle to observe those areas actively. Therefore it can guarantee safety even the environment becomes very complex. For SLE, the velocity-tracking yaw is the major cause of failure, as it may not face toward dangerous unknown regions in time, as has been shown in Sect.VIII-B1.
 
-<!-- chunk {"id": "body-0083", "role": "body", "section": "VIII-B2 Benchmark Comparisons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0084", "role": "body", "section": "VIII-B2 Benchmark Comparisons", "weight": 1.0} -->
 
 (a) The quadrotor passes a horizontal cardboard, after which it will avoid the vertical pillar.
 
-<!-- chunk {"id": "body-0084", "role": "body", "section": "VIII-B2 Benchmark Comparisons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0085", "role": "body", "section": "VIII-B2 Benchmark Comparisons", "weight": 1.0} -->
 
 (b) Composite image of the flight experiment.
 
-<!-- chunk {"id": "body-0085", "role": "body", "section": "VIII-B2 Benchmark Comparisons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0086", "role": "body", "section": "VIII-B2 Benchmark Comparisons", "weight": 1.0} -->
 
 (c) The quadrotor flies in the narrow passages and avoids boxes.
 
-<!-- chunk {"id": "body-0086", "role": "body", "section": "VIII-B2 Benchmark Comparisons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0087", "role": "body", "section": "VIII-B2 Benchmark Comparisons", "weight": 1.0} -->
 
 Besides, our strategy is also more beneficial to achieve lower flight distance and time than SLE. SLE only selects intermediate goals and plans within the known unoccupied space, which is conservative. Besides, since the selection of intermediate goals takes information gain into account, the quadrotor tends to take some detours to gather more information, which leads to longer flight distance and time. In contrast, our strategy plans in both the known and unknown space, allowing more aggressive behaviors under the premise of safety. Moreover, instead of treating all unknown areas equally, it only focus on observing areas that are more relevant to the flight, which eliminates many unnecessary detours and improve the overall flight efficiency.
 
-<!-- chunk {"id": "body-0087", "role": "body", "section": "VIII-C1 Benchmark Comparisons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0088", "role": "body", "section": "VIII-C1 Benchmark Comparisons", "weight": 1.0} -->
 
 We compare our replanning framework with several state-of-the-art methods, FASTER, EWOK and RE Traj.. FASTER belongs to the hard-constrained category (Sect.II-A), and features maintaining a feasible and safe back-up trajectory in the free-known space at each replanning step to improve safety. It also adopts a mixed integer quadratic program (MIQP) formulation to obtain a more reasonable time allocation of the trajectories. Both belong to the gradient-based methods. They utilize a uniform B-spline trajectory representation to replan efficiently. further exploits the convex hull property of B-spline and introduces a kinodynamic path searching to find more promising initial trajectories. We also test the four methods in 10 random maps with 5 obstacle densities. Note that all benchmarked methods are open-source and we use their default parameter settings. The number of successful flights, average flight distance, flight time, energy (integral of squared jerk), computation time of each replanning, and total replan number in each flight are recorded. Samples of the maps and the trajectories generated by the four methods are shown in Fig.22.
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "VIII-C1 Benchmark Comparisons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "VIII-C1 Benchmark Comparisons", "weight": 1.0} -->
 
 As displayed in Fig.21, our method outperform others in the aspects of flight distance, flight time and energy consumption, with competitive computation efficiency. FASTER rarely fails in the tests, thanks to the back-up trajectories. However, due to the computationally demanding MIQP formulation, its overhead is higher. The other two benchmarked methods are more efficient. However, EWOK suffers from the local minima issue, so it usually fails or outputs low-quality solutions in dense environments. The kinodynamic path searching and B-spline optimization adopted by RE Traj. relieve the local minima significantly. Nonetheless, due to the lack of perception consideration, the succuss number is mediocre in dense environments. Compared to them, the proposed method search the solution space effectively with the guidance of topologically distinctive paths, and generates high-quality trajectories consistently. Safety is also reenforced by introducing perception awareness.
 
-<!-- chunk {"id": "body-0089", "role": "body", "section": "VIII-C1 Benchmark Comparisons", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "VIII-C1 Benchmark Comparisons", "weight": 1.0} -->
 
 (b) The quadrotor flies up the slope to the first goal (green circle), after which it flies toward the second goal.
 
-<!-- chunk {"id": "body-0090", "role": "body", "section": "VIII-C2 Indoor Flight Test", "weight": 1.0} -->
+<!-- chunk {"id": "body-0091", "role": "body", "section": "VIII-C2 Indoor Flight Test", "weight": 1.0} -->
 
 We conduct aggressive flight experiments in three indoor scenes (Fig.2, 23) to validate our planning system. Various types of obstacles are placed randomly and densely to make up the challenging flight environments. Distance of neighboring obstacles are only around 1 meter, making the space for safe navigation very limited. Besides, the high obstacle density makes visibility to the environment very restricted, since many obstacles are occluded by others, which poses greater challenges to the replanning algorithm.
 
-<!-- chunk {"id": "body-0091", "role": "body", "section": "VIII-C2 Indoor Flight Test", "weight": 1.0} -->
+<!-- chunk {"id": "body-0092", "role": "body", "section": "VIII-C2 Indoor Flight Test", "weight": 1.0} -->
 
 In each experiment, the final goal is set to 14$m$ away from the quadrotor. Straight-line global reference trajectories are given and local replanning is conducted within a horizon of 7 $m$. Samples of the online generated map and executed trajectories are presented in Fig.24. The velocity profile of one flight are showed in Fig.25(a), in which the maximum speed is ${2.90m}/s$ and average speed is ${1.77m}/s$. The flight distance and time are $14.12m$ and $8.0s$ respectively. We refer the readers to the attached video for more tests.
 
-<!-- chunk {"id": "body-0092", "role": "body", "section": "VIII-C3 Outdoor Flight Test", "weight": 1.0} -->
+<!-- chunk {"id": "body-0093", "role": "body", "section": "VIII-C3 Outdoor Flight Test", "weight": 1.0} -->
 
 Finally, we conduct fast flight tests in three different outdoor scenes, as displayed in in Fig.26, to validate our planning method in natural environments. The outdoor environments are typically unstructured and irregular, where the quadrotor should perform agile 3D maneuvers to avoid obstacles such as rocks and branches and leaves of trees. Note that despite the outdoor environments, we do not use external devices for localization.
 
-<!-- chunk {"id": "body-0093", "role": "body", "section": "VIII-C3 Outdoor Flight Test", "weight": 1.0} -->
+<!-- chunk {"id": "body-0094", "role": "body", "section": "VIII-C3 Outdoor Flight Test", "weight": 1.0} -->
 
 Results of the online generated map and executed trajectories are presented in Fig.27. In the first scene, the quadrotor flies through the forest to the goal $39m$ away from the initial position. The velocity profile is showed in Fig.25(b). The maximum speed is ${3.19m}/s$ and average speed is ${2.29m}/s$. The flight takes $40.78m$ and $17.83s$. In the second scene, the quadrotor flies up a slope to the first goal, after which it flies to the second goal. The first goal is $30m$ away and the change in height is $7m$. The second goal is $17m$ far. The whole flight takes $48.71m$ and $23.19s$. The third scene is a larger forest, where the goal is set to $45m$ away. The flight distance is $46.85m$, which takes $21.91s$ to finish. The maximum and average speed are ${3.41m}/s$ and ${2.14m}/s$.
 
-<!-- chunk {"id": "body-0094", "role": "body", "section": "VIII-C3 Outdoor Flight Test", "weight": 1.0} -->
+<!-- chunk {"id": "body-0095", "role": "body", "section": "VIII-C3 Outdoor Flight Test", "weight": 1.0} -->
 
 More details of the flights are showed in the attached video.
 
-<!-- chunk {"id": "body-0095", "role": "body", "section": "Conclusions", "weight": 1.0} -->
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Conclusions", "weight": 1.0} -->
 
 In this paper, we propose a robust and perception-aware replanning method for high-speed quadrotor autonomous navigation. The path-guided optimization and topological path searching are devised to escape from local minima and explore the solution space more thoroughly, through which higher robustness and optimality guarantee are obtained. The robust planner is further enhanced by the perception-aware strategy, which takes special caution about regions that may be dangerous to the quadrotor. The yaw angle of the quadrotor is also planned to actively explore the environments, especially areas that are relevant to the future flight. The planning system is evaluated comprehensively through benchmark comparisons. We integrate the planning method with global planning, state estimation, mapping, and control into a quadrotor platform and conduct extensive challenging indoor and outdoor flight tests. Results show that the proposed method is robust and capable of supporting fast and safe flights. We release the implementation of our system to the community.

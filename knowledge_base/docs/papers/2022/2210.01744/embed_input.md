@@ -141,7 +141,7 @@ For a given control, $\overset{\sim}{a}$, let $\overset{\sim}{a}{\lbrack t_{1},t
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "IV-B Bang-bang trajectory optimization", "weight": 1.0} -->
 
-Since the method is time-optimal, it is known that $t_{2}^{\prime} \leq t_{2}$ (they are equal only if $\overset{\sim}{a}{\lbrack t_{2},t_{F}\rbrack}$ is already time-optimal). The new control must satisfy
+We replace the middle portion with a bang-bang control ${\overset{\sim}{a}}^{\prime}{\lbrack t_{1},t_{2}^{\prime}\rbrack}$ using the methods of Section III-B. Since the method is time-optimal, it is known that $t_{2}^{\prime} \leq t_{2}$ (they are equal only if $\overset{\sim}{a}{\lbrack t_{2},t_{F}\rbrack}$ is already time-optimal). The new control must satisfy
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "IV-B Bang-bang trajectory optimization", "weight": 1.0} -->
 
@@ -189,11 +189,11 @@ These examples use a four-dimensional state space corresponding to a 2D workspac
 
 <!-- chunk {"id": "body-0047", "role": "body", "section": "V-A Kinodynamic planning for a 2D vehicle (4D state space)", "weight": 1.0} -->
 
-The BB-RRT has the advantage, much like RRT-Connect, in that there are no parameters to tune. RRT-Bi has parameters for the step size, the set of actions, and the connection distance (the trees do not exactly meet). For the example in Figure 4 ‣ V EXPERIMENTS ‣ Bang-Bang Boosting of RRTs").a, we used 24 constant acceleration actions, ${\Deltat} = 5$, and connection distances of ${\Deltaq} = 5$ and ${\Delta\overset{˙}{q}} = 2$; in the weighted-Euclidean metric, the velocity components were weighted 17.32 times more than the configuration components. Figures 4 ‣ V EXPERIMENTS ‣ Bang-Bang Boosting of RRTs").e and 4 ‣ V EXPERIMENTS ‣ Bang-Bang Boosting of RRTs").f show two more examples under the same conditions, for which BB-RRT took on average 0.0368s and 0.4072s, respectively, over 1000 runs. The speedup factors over RRT-Bi were 837.6 and 368.5.
+The BB-RRT has the advantage, much like RRT-Connect, in that there are no parameters to tune. RRT-Bi has parameters for the step size, the set of actions, and the connection distance (the trees do not exactly meet). For the example in Figure 4 ‣ V EXPERIMENTS ‣ Bang-Bang Boosting of RRTs").a, we used 24 constant acceleration actions, ${\Deltat} = 5$, and connection distances of ${\Deltaq} = 5$ and ${\Delta\overset{˙}{q}} = 2$; in the weighted-Euclidean metric, the velocity components were weighted 17.32 times more than the configuration components. Figures 4 ‣ V EXPERIMENTS ‣ Bang-Bang Boosting of RRTs").e and 4 ‣ V EXPERIMENTS ‣ Bang-Bang Boosting of RRTs").f show two more examples under the same conditions, for which BB-RRT took on average 0.0368s and 0.4072s, respectively, over 1000 runs.
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "V-A Kinodynamic planning for a 2D vehicle (4D state space)", "weight": 1.0} -->
 
-Again, RRT-Connect on the 2D projection was faster, by factors 6.65 and 12.5, respectively. Original and bang-bang optimized paths are shown green and purple, respectively.
+The speedup factors over RRT-Bi were 837.6 and 368.5. Again, RRT-Connect on the 2D projection was faster, by factors 6.65 and 12.5, respectively. Original and bang-bang optimized paths are shown green and purple, respectively.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "V-C Beyond pure double integrator dynamics", "weight": 1.0} -->
 

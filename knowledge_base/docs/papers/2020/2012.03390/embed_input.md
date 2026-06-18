@@ -214,16 +214,15 @@ In this section, we detail the optimization problem used in the MPC+HJI tracking
 <!-- chunk {"id": "body-0051", "role": "body", "section": "Optimization Problem", "weight": 1.0} -->
 
 Both the trajectory tracking objective and safety-preserving control constraint rely on optimizing over the robot steering and longitudinal force inputs simultaneously. Let $q_{k} = \begin{bmatrix}
-\end{bmatrix}^{T}$ be the state of the robot car with respect to a nominal trajectory at discrete time step $k$. $\Deltas_{k}$, $e_{k}$ and $\Delta\psi_{k}$ denote longitudinal, lateral, and heading error; $U_{x_{R},k}$, $U_{y_{R},k}$, and $r_{{}_{}^{}k}$ are body-frame longitudinal and lateral velocity, and yaw rate respectively as defined in Figure 5.
+\end{bmatrix}^{T}$ be the state of the robot car with respect to a nominal trajectory at discrete time step $k$.
 
 <!-- chunk {"id": "body-0052", "role": "body", "section": "Optimization Problem", "weight": 1.0} -->
 
-Let $u_{k} = \begin{bmatrix}
-\end{bmatrix}^{T}$ be the controls at step $k$ and let ${{A_{k}q_{k}} + {B_{k}^{-}u_{k}} + {B_{k}^{+}u_{k + 1}} + c_{k}} = q_{k + 1}$ denote linearized first-order-hold dynamics of Equation. We adopt the varying time steps method ($N_{short}$ time steps of size $\Deltat_{short}$ and $N_{long}$ time steps of size $\Deltat_{long}$) and stable handling envelope constraint from Brown et al. (expressed as $H_{k}$ and $G_{k}$ in the problem formulation below).
+We adopt the varying time steps method ($N_{short}$ time steps of size $\Deltat_{short}$ and $N_{long}$ time steps of size $\Deltat_{long}$) and stable handling envelope constraint from Brown et al. (expressed as $H_{k}$ and $G_{k}$ in the problem formulation below). To ensure the existence of a feasible solution, we use slack variables $\sigma_{\beta,k}$, $\sigma_{r,k}$, and $\sigma_{{}_{}^{}k}$ on the stability and HJI constraints. The HJI reachability constraint ${{M_{_{HJI}}u_{k}} + b_{_{HJI}}} \geq {- \sigma_{_{HJI}}}$ is activated only when ${V{(x_{_{rel}})}} \leq \epsilon$.
 
 <!-- chunk {"id": "body-0053", "role": "body", "section": "Optimization Problem", "weight": 1.0} -->
 
-To ensure the existence of a feasible solution, we use slack variables $\sigma_{\beta,k}$, $\sigma_{r,k}$, and $\sigma_{{}_{}^{}k}$ on the stability and HJI constraints. The HJI reachability constraint ${{M_{_{HJI}}u_{k}} + b_{_{HJI}}} \geq {- \sigma_{_{HJI}}}$ is activated only when ${V{(x_{_{rel}})}} \leq \epsilon$. Although HJI theory suggests that applying this constraint on the next action alone is sufficient, we apply it over the next $N_{_{HJI}} = 3$ timesteps (30ms lookahead) to account for the approximations inherent in our QP formulation. The MPC tracking problem is a quadratic program of the form
+Although HJI theory suggests that applying this constraint on the next action alone is sufficient, we apply it over the next $N_{_{HJI}} = 3$ timesteps (30ms lookahead) to account for the approximations inherent in our QP formulation. The MPC tracking problem is a quadratic program of the form
 
 <!-- chunk {"id": "body-0054", "role": "body", "section": "Optimization Problem", "weight": 1.0} -->
 

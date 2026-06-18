@@ -152,11 +152,11 @@ This update allows SAG to be efficiently applied to sparse data sets where $n$ a
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Re-weighting on early iterations", "weight": 1.0} -->
 
-In the update of $x$ in Algorithm 1, we normalize the direction $d$ by the total number of data points $n$. When initializing with $y_{i}^{0} = 0$ we believe this leads to steps that are too small on early iterations of the algorithm where we have only seen a fraction of the data points, because many $y_{i}$ variables contributing to $d$ are set to the uninformative zero-vector. Following Blatt et al., the more logical normalization is to divide $d$ by $m$, the number of data points that we have seen at least once (which converges to $n$ once we have seen the entire data set), leading to the update $x = {x - {\frac{\alpha}{m}d}}$. Although this modified SAG method appears more difficult to analyze, in our experiments we found that running the basic SAG algorithm from the very beginning with this modification outperformed the basic SAG algorithm as well as the SG/SAG hybrid algorithm mentioned in the Section 3.
+In the update of $x$ in Algorithm 1, we normalize the direction $d$ by the total number of data points $n$. When initializing with $y_{i}^{0} = 0$ we believe this leads to steps that are too small on early iterations of the algorithm where we have only seen a fraction of the data points, because many $y_{i}$ variables contributing to $d$ are set to the uninformative zero-vector. Following Blatt et al., the more logical normalization is to divide $d$ by $m$, the number of data points that we have seen at least once (which converges to $n$ once we have seen the entire data set), leading to the update $x = {x - {\frac{\alpha}{m}d}}$.
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Re-weighting on early iterations", "weight": 1.0} -->
 
-In addition to using the gradient information collected during the first $k$ iterations, this modified SAG algorithm is also advantageous over hybrid SG/SAG algorithms because it only requires estimating a single constant step size.
+Although this modified SAG method appears more difficult to analyze, in our experiments we found that running the basic SAG algorithm from the very beginning with this modification outperformed the basic SAG algorithm as well as the SG/SAG hybrid algorithm mentioned in the Section 3. In addition to using the gradient information collected during the first $k$ iterations, this modified SAG algorithm is also advantageous over hybrid SG/SAG algorithms because it only requires estimating a single constant step size.
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Exact and efficient regularization", "weight": 1.0} -->
 
@@ -275,11 +275,11 @@ Although the SAG algorithm can be applied more generally, in our experiments we 
 
 <!-- chunk {"id": "body-0067", "role": "body", "section": "Comparison to FG and SG Methods", "weight": 1.0} -->
 
-as a canonical problem satisfying our assumptions. In our experiments we set the regularization parameter $\lambda$ to $1/n$, which is in the range of the smallest values that would typically be used in practice, and thus which results in the most ill-conditioned problems of this form that would be encountered. Our experiments focus on the freely-available benchmark binary classification data sets listed in Table 2.
+as a canonical problem satisfying our assumptions. In our experiments we set the regularization parameter $\lambda$ to $1/n$, which is in the range of the smallest values that would typically be used in practice, and thus which results in the most ill-conditioned problems of this form that would be encountered.
 
 <!-- chunk {"id": "body-0068", "role": "body", "section": "Comparison to FG and SG Methods", "weight": 1.0} -->
 
-The *quantum* and *protein* data set was obtained from the KDD Cup 2004 website;^11^1 the *covertype* (based on the datset of Blackard, Jock, and Dean), *rcv1*, *news*, and *rcv1Full* data sets were obtained from the LIBSVM Data website; ^22^2 the *sido* data set was obtained from the Causality Workbench website,^33^3 the *spam* data set was prepared by \see Carbonetto, [2009, §2.6.5\] using the TREC 2005 corpus^44^4 and the *alpha* data set was obtained from the Pascal Large Scale Learning Challenge website^55^5 We added a (regularized) bias term to all data sets, and for dense features we standardized so that they would have a mean of zero and a variance of one.
+Our experiments focus on the freely-available benchmark binary classification data sets listed in Table 2. The *quantum* and *protein* data set was obtained from the KDD Cup 2004 website;^11^1 the *covertype* (based on the datset of Blackard, Jock, and Dean), *rcv1*, *news*, and *rcv1Full* data sets were obtained from the LIBSVM Data website; ^22^2 the *sido* data set was obtained from the Causality Workbench website,^33^3 the *spam* data set was prepared by \see Carbonetto, [2009, §2.6.5\] using the TREC 2005 corpus^44^4 and the *alpha* data set was obtained from the Pascal Large Scale Learning Challenge website^55^5 We added a (regularized) bias term to all data sets, and for dense features we standardized so that they would have a mean of zero and a variance of one.
 
 <!-- chunk {"id": "body-0069", "role": "body", "section": "Comparison to FG and SG Methods", "weight": 1.0} -->
 

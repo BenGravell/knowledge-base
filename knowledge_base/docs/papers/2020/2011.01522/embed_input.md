@@ -192,11 +192,11 @@ We consider an empirical system under study with the detector tuned to a false a
 
 <!-- chunk {"id": "body-0048", "role": "body", "section": "Numerical Simulation", "weight": 1.0} -->
 
-When the noises $w_{t}$ and $v_{t}$ are truly Gaussian, it is evident from Fig. 2 that the reachable set corresponding to the thresholds $\alpha_{q,1}^{\star} = \alpha_{r,2}^{\star} = 40$ is conservative and ensures that the false alarm does not exceed 5% but this also provides the attacker with the ability to launch a larger attack. However, with the knowledge of additional moments, the detector thresholds $\alpha_{q,2}^{\star} = 10.7684$, $\alpha_{q,4}^{\star} = 9.1315$ get tightened with $\alpha_{q,4}^{\star} \leq \alpha_{q,2}^{\star} \leq \alpha_{q,1}^{\star}$ as shown in Fig. 3.
+When the noises $w_{t}$ and $v_{t}$ are truly Gaussian, it is evident from Fig. 2 that the reachable set corresponding to the thresholds $\alpha_{q,1}^{\star} = \alpha_{r,2}^{\star} = 40$ is conservative and ensures that the false alarm does not exceed 5% but this also provides the attacker with the ability to launch a larger attack.
 
 <!-- chunk {"id": "body-0049", "role": "body", "section": "Numerical Simulation", "weight": 1.0} -->
 
-Further, this threshold tightening limits the attacker's ability to launch a larger attack which is depicted through the reachable sets corresponding to the thresholds $\alpha_{q,1}^{\star},\alpha_{q,2}^{\star},\alpha_{q,4}^{\star}$ as shown in Fig. 2. Subsequently, the false alarm rate corresponding to the threshold $\alpha_{\chi^{2}}$ was 5% as expected and with the thresholds $\alpha_{q,4}^{\star},\alpha_{q,2}^{\star},\alpha_{q,1}^{\star}$, it dropped to ${1\%},{0.45\%},{0\%}$ respectively.
+However, with the knowledge of additional moments, the detector thresholds $\alpha_{q,2}^{\star} = 10.7684$, $\alpha_{q,4}^{\star} = 9.1315$ get tightened with $\alpha_{q,4}^{\star} \leq \alpha_{q,2}^{\star} \leq \alpha_{q,1}^{\star}$ as shown in Fig. 3. Further, this threshold tightening limits the attacker's ability to launch a larger attack which is depicted through the reachable sets corresponding to the thresholds $\alpha_{q,1}^{\star},\alpha_{q,2}^{\star},\alpha_{q,4}^{\star}$ as shown in Fig. 2. Subsequently, the false alarm rate corresponding to the threshold $\alpha_{\chi^{2}}$ was 5% as expected and with the thresholds
 
 <!-- chunk {"id": "body-0050", "role": "body", "section": "Numerical Simulation", "weight": 1.0} -->
 

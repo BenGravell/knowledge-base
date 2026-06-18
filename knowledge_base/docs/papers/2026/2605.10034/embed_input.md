@@ -92,11 +92,11 @@ We define an *interactivity score* $S_{\text{int}} \in {\lbrack 0,1\rbrack}$ to 
 
 <!-- chunk {"id": "body-0023", "role": "body", "section": "Evaluation Splits", "weight": 1.0} -->
 
-where each component $c_{i}$ captures a distinct aspect of scenario difficulty and is clipped to $\lbrack 0,1\rbrack$ via a normalization threshold $\tau_{i}$. The lane-change multiplier $\lambda_{\text{lane}}$ take the value $1.0$ if reaching the goal requires a lane change or turn, and $0.5$ otherwise. The components $c_{i}$ are: number of unique agents whose ground-truth trajectories intersect with the ego's ground-truth trajectory, ego acceleration and steering changes, number of simulation steps where the ego's time-to-collision with an agent falls below 3 s, number of agents within a 40 m radius and distance to the ego's goal. We provide more details in Sec. C. We select the 1,000 scenarios with the highest $S_{\text{int}}$ to form the *Interactive1k split*. The weights $w_{i}$ and normalization thresholds $\tau_{i}$ can be found in Tab. 6.
+where each component $c_{i}$ captures a distinct aspect of scenario difficulty and is clipped to $\lbrack 0,1\rbrack$ via a normalization threshold $\tau_{i}$. The lane-change multiplier $\lambda_{\text{lane}}$ take the value $1.0$ if reaching the goal requires a lane change or turn, and $0.5$ otherwise. The components $c_{i}$ are: number of unique agents whose ground-truth trajectories intersect with the ego's ground-truth trajectory, ego acceleration and steering changes, number of simulation steps where the ego's time-to-collision with an agent falls below 3 s, number of agents within a 40 m radius and distance to the ego's goal. We provide more details in Sec. C. We select the 1,000 scenarios with the highest $S_{\text{int}}$ to form the *Interactive1k split*. The weights $w_{i}$ and normalization thresholds $\tau_{i}$ can be found in Tab.
 
 <!-- chunk {"id": "body-0024", "role": "body", "section": "Evaluation Splits", "weight": 1.0} -->
 
-To complement the Interactive1k split and retain coverage of the broader driving distribution, we additionally construct a Random1k split by uniformly sampling 1,000 scenarios from the WOMD validation set.
+6. To complement the Interactive1k split and retain coverage of the broader driving distribution, we additionally construct a Random1k split by uniformly sampling 1,000 scenarios from the WOMD validation set.
 
 <!-- chunk {"id": "body-0025", "role": "body", "section": "Traffic Agents", "weight": 1.0} -->
 

@@ -223,7 +223,8 @@ Algorithm 1 Control") can escape a large class of (but not all) high-order saddl
 
 <!-- chunk {"id": "body-0056", "role": "body", "section": "IV-A Algorithm setup", "weight": 1.0} -->
 
-0: 1) Loss J (K) with its gradient. 2) Thresholds gth, ι. 3) Constant T, τ, step size η. 4) Function λHan, min (K) that returns the minimum singular value of the Hankel matrix of K. 5) Function reduce_order (K) that finds the approximate order of K. 1: Set t = 0, tperturb = −τ − 1 and initialize a stabilizing controller K0.
+0: 1) Loss J (K) with its gradient. 2) Thresholds gth, ι. 3) Constant T, τ, step size η. 4) Function λHan, min (K) that returns the minimum singular value of the Hankel matrix of K. 5) Function reduce_order (K) that finds the approximate order of K.
+1: Set t = 0, tperturb = −τ − 1 and initialize a stabilizing controller K0.
 
 <!-- chunk {"id": "body-0057", "role": "body", "section": "IV-A Algorithm setup", "weight": 1.0} -->
 

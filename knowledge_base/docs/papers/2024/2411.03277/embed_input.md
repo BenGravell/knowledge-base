@@ -134,11 +134,11 @@ Consider a coercive, invex function (i.e., every critical point is a global mini
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Example 3.4 (Homotopy from invexity to convexity)", "weight": 1.0} -->
 
-For functions as simple as $v_{i}$ one can find simpler homotopies (e.g., a straight-line), however, to the best of our knowledge, being able to guarantee the mere existence of such a homotopy is new. Proposition 3.2. ‣ 3 Stability preserving homotopies ‣ Asymptotic stability equals exponential stability—while you twist your eyes") provides us with the existence of a homotopy from a smooth Lyapunov function $V$ to $V_{q}$, along continuous^88^8It is not evident, and currently unknown, whether smoothness can be preserved throughout the homotopy, see Step (iii) of the proof of Proposition 3.2. ‣ 3 Stability preserving homotopies ‣ Asymptotic stability equals exponential stability—while you twist your eyes"). Lyapunov functions that assert $0 \in {\mathbb{R}}^{n}$ is GAS along the homotopy. Differently put, we can find a homotopy from a coercive, invex function, to a convex function, such that along the homotopy the minimizer is preserved.
+Next, consider the homotopy ${(s^{\prime},x)}\mapsto x^{{1/2} + {{({3/2})}s^{\prime}}}$ to construct the path from $v_{i}$ to $x\mapsto{v_{q}{(x)}}:=x^{2}$, along continuous functions such that $0$ is the global minimizer throughout^77^7For a simulation of this homotopy, see wjongeneel.nl/figinvex.gif., see Figure 3.1. For functions as simple as $v_{i}$ one can find simpler homotopies (e.g., a straight-line), however, to the best of our knowledge, being able to guarantee the mere existence of such a homotopy is new. Proposition 3.2.
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Example 3.4 (Homotopy from invexity to convexity)", "weight": 1.0} -->
 
-This might be of independent interest. $\circ$
+‣ 3 Stability preserving homotopies ‣ Asymptotic stability equals exponential stability—while you twist your eyes") provides us with the existence of a homotopy from a smooth Lyapunov function $V$ to $V_{q}$, along continuous^88^8It is not evident, and currently unknown, whether smoothness can be preserved throughout the homotopy, see Step (iii) of the proof of Proposition 3.2. ‣ 3 Stability preserving homotopies ‣ Asymptotic stability equals exponential stability—while you twist your eyes"). Lyapunov functions that assert $0 \in {\mathbb{R}}^{n}$ is GAS along the homotopy. Differently put, we can find a homotopy from a coercive, invex function, to a convex function, such that along the homotopy the minimizer is preserved. This might be of independent interest. $\circ$
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Example 3.4 (Homotopy from invexity to convexity)", "weight": 1.0} -->
 
@@ -170,104 +170,108 @@ To exemplify Theorem 3.6. ‣ 3 Stability preserving homotopies ‣ Asymptotic s
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Example 3.7 (Equilibria on ${\\mathbb{S}}^{2}$)", "weight": 1.0} -->
 
-Exploiting this structure and our previous work \[ref:JongeneelSchwan2024TAC\], we can construct an explicit homotopy between these two vector fields that preserves stability of $S$ on ${\mathbb{S}}^{2} \smallsetminus {\{ N\}}$^99^9For a numerical simulation of the homotopy, see wjongeneel.nl/figStereoS2.gif. Note that the homotopy is through the canonical vector field indeed.. $\circ$
+The origin is GAS under both $X$ and $Y$ (e.g., consider the canonical quadratic Lyapunov function). Let $\Pi_{N}$ be the stereographic projection from ${\mathbb{S}}^{2} \smallsetminus {\{ N\}}$ to ${\mathbb{R}}^{2}$.
 
-<!-- chunk {"id": "body-0043", "role": "body", "section": "Remark 3.8 (Weaker notions of stability)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0043", "role": "body", "section": "Example 3.7 (Equilibria on ${\\mathbb{S}}^{2}$)", "weight": 1.0} -->
+
+Then, to transform $X$ and $Y$ to vector fields on ${\mathbb{S}}^{2} \smallsetminus {\{ N\}}$, we construct the pushforwards ${(\Pi_{N}^{- 1})}_{\ast}X$ and ${(\Pi_{N}^{- 1})}_{\ast}Y$, see Figure 3.2. Exploiting this structure and our previous work \[ref:JongeneelSchwan2024TAC\], we can construct an explicit homotopy between these two vector fields that preserves stability of $S$ on ${\mathbb{S}}^{2} \smallsetminus {\{ N\}}$^99^9For a numerical simulation of the homotopy, see wjongeneel.nl/figStereoS2.gif. Note that the homotopy is through the canonical vector field indeed.. $\circ$
+
+<!-- chunk {"id": "body-0044", "role": "body", "section": "Remark 3.8 (Weaker notions of stability)", "weight": 1.0} -->
 
 In general, one cannot relax GAS to mere stability. A reason being that the (Hopf) index of Lyapunov stable equilibria is not fixed \[ref:krasnosel1984geometrical, Sec. 52\], yet, this index is a homotopy invariant (e.g., for GAS the index is fixed). In Section, we do elaborate on ISS. $\circ$
 
-<!-- chunk {"id": "body-0044", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0045", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
 
 As in \[ref:grune1999asymptotic\], we can also study "disturbed" systems of the form
 
-<!-- chunk {"id": "body-0045", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
 
 where $f:{{{\mathbb{R}}^{n} \times D}\rightarrow{\mathbb{R}}^{n}}$, with $D \subseteq {\mathbb{R}}^{m}$, is continuous, and locally Lipschitz on ${\mathbb{R}}^{n} \smallsetminus {{\{ 0\}} \times D}$. We let $\mathcal{D}_{I}$ denote the set of measurable, locally essentially bounded functions ${\mathbb{R}} \supseteq I \ni t\mapsto{d{(t)}} \in D$, with ${d{( \cdot )}} \in \mathcal{D}$ overloading notation, indicating any function of appropriate length. Whenever relevant, we do assume that our solutions are forward complete (e.g., we can appeal to \[ref:angeli1999forward, Cor.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
 
 2.11\]), we denote them using semiflow notation as $\varphi^{t}{(x_{0},{d{( \cdot )}})}$.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0048", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
 
 Leveraging intuition from linear systems theory, input-to-state stability was derived as a stability notion invariant under coordinate transformations (homeomorphisms that fix $0$) \[ref:sontagbasicconcepts2008input\]. In particular, a system (4.1) is said to be Input-to-State Stable (ISS) when there are $\beta \in {\mathcal{K}\mathcal{L}}$ and $\gamma \in \mathcal{K}_{\infty}$ such that
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
 
 for all $t \geq 0$, $x_{0} \in {\mathbb{R}}^{n}$ and any ${d{( \cdot )}} \in \mathcal{D}$. For the corresponding Lyapunov theory, see \[ref:sontag1995characterizations\]. Constraining the transient, a system (4.1) is said to be Input-to-State Exponentially Stable (ISES) when there are constants ${M,a} \in {\mathbb{R}}_{> 0}$ and a $\alpha \in \mathcal{K}_{\infty}$ such that
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
 
 for all $t \geq 0$, $x_{0} \in {\mathbb{R}}^{n}$ and any ${d{( \cdot )}} \in \mathcal{D}$. It can be shown \[ref:grune1999asymptotic, Thm. 3\], that there is always a coordinate transformation that brings an ISS system into one that is ISES with normalized constants, that is, $M = a = 1$.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
 
 for all $t \geq 0$, $x_{0} \in {\mathbb{R}}^{n}$ and any ${d{( \cdot )}} \in \mathcal{D}$, e.g., see \[ref:AvdSL2, Ch. 8\]. However, this means that $\overset{˙}{x} = {{- x} + d}$ can be understood, in particular, as a canonical system with a finite (unitary) linear $L_{2}$ gain. Indeed, \[ref:grune1999asymptotic, Thm. 4\] shows that an ISES system can be transformed into a system with such an $L_{2}$ gain.
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Input-to-State Stability", "weight": 1.0} -->
 
 Here, we focus on homotopies through coordinate transformations of $x$ and $d$, for otherwise we could "remove" the disturbance, e.g., consider ${\lbrack 0,1\rbrack} \ni \theta\mapsto{f{(x,{\thetad})}}$. Now, to exemplify why the existence of a homotopy from any ISS system, through coordinate transformation, to $\overset{˙}{x} = {{- x} + d}$ is too strong, consider the following example. Example 4.1. ‣ 4 Input-to-State Stability ‣ Asymptotic stability equals exponential stability—while you twist your eyes") implies in particular that a naïve generalization of Section to ISS is impossible.
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Example 4.1 (No canonical system)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Example 4.1 (No canonical system)", "weight": 1.0} -->
 
 Consider the linear ISS system
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Example 4.1 (No canonical system)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Example 4.1 (No canonical system)", "weight": 1.0} -->
 
 ‣ 4 Input-to-State Stability ‣ Asymptotic stability equals exponential stability—while you twist your eyes")) satisfies ${\langle{\partial_{x}{S{(x)}}},{{Ax} + {R{(d)}}}\rangle} \leq {\frac{1}{2}{({{\| d\|}_{2}^{2} - {\| x\|}_{2}^{2}})}}$ and thus, (4.4. ‣ 4 Input-to-State Stability ‣ Asymptotic stability equals exponential stability—while you twist your eyes")) satisfies the canonical $L_{2}$ gain bound (4.3). $\circ$
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Example 4.1 (No canonical system)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Example 4.1 (No canonical system)", "weight": 1.0} -->
 
 The way to interpret the upcoming proposition is as follows. Given a solution under (4.1), assumed to be ISS. This solution is understood as fixed data and now someone gradually applies a change of coordinates to both $x$ and $d$. It turns out that by doing so, one can always transform this solution data into data satisfying (4.3), thus, into a system like $\overset{˙}{x} = {{- x} + d}$. Indeed, it follows directly that ISS is preserved throughout, e.g., see \[ref:kellett2015input\] for more on ISS and coordinate transformations. However, comparing again to Section, we cannot readily say more beyond paths of coordinate transformations, e.g., first one should topologize $\mathcal{D}$ to study continuity of ${d{( \cdot )}}\mapsto{\varphi^{t}{(x_{0},{d{( \cdot )}})}}$.
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Example 4.1 (No canonical system)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Example 4.1 (No canonical system)", "weight": 1.0} -->
 
 In this work we refrain from completing this study as it does not add to the central message while it requires significant technical machinery, however, without doing so we cannot formally discuss homotopies of solutions^1010^10This is also why "and ISS equals finite energy" is not part of our title cf. \[ref:grune1999asymptotic\]..
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "A view from optimal transport", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "A view from optimal transport", "weight": 1.0} -->
 
 Suppose there is a smooth Lyapunov function $V$, asserting that $0 \in {\mathbb{R}}^{n}$ is GAS under some ODE $\overset{˙}{x} = {X{(x)}}$. To refine our understanding beyond Theorem 3.2. ‣ 3 Stability preserving homotopies ‣ Asymptotic stability equals exponential stability—while you twist your eyes") and towards a similar result for vector fields, we note that our desire relates to optimal transport (OT). Let ${\mu_{0},\mu_{1}} \in {\mathcal{P}{({\mathbb{R}}^{n})}}$ be Borel probability measures on ${\mathbb{R}}^{n}$.
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "A view from optimal transport", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "A view from optimal transport", "weight": 1.0} -->
 
 Now, if $f$ is sufficiently regular, we can conclude that ${{\nabla\log}f}{(x;s)}$ renders $0$ GAS, for each fixed $s$. It is particularly interesting that the standard Gaussian measure results in the canonical ODE $\overset{˙}{x} = {- x}$. In what follows we touch upon this viewpoint.
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "A view from optimal transport", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "A view from optimal transport", "weight": 1.0} -->
 
 where $T\#\mu$ denotes the pushforward of $\mu$. Brenier \[ref:brenier1991polar\] showed that if $\mu \ll \lambda^{n}$, then, there is a convex map $\phi:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$, being $\mu$-a.e. differentiable, such that ${\nabla{\phi\#\mu}} = \nu$ solves (5.1). We do a simple example.
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Conclusion and future work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Conclusion and future work", "weight": 1.5} -->
 
 We have provided a step towards better understanding Conley's converse question in some generality, yet, many open problems remain. Although directly working with flows has benefits, e.g., see \[ref:aguiar2023universal\], the main open problem is the extension to vector fields and generic attractors. Several other questions are as follows.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Conclusion and future work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Conclusion and future work", "weight": 1.5} -->
 
 Open problem 1: characterize stability of (2.1) throughout the homotopy.
 
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Conclusion and future work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0062", "role": "body", "section": "Conclusion and future work", "weight": 1.5} -->
 
 Open problem 2: prove or disprove that Proposition 3.2. ‣ 3 Stability preserving homotopies ‣ Asymptotic stability equals exponential stability—while you twist your eyes") holds for $n = 5$. A counterexample would disprove the smooth Poincaré conjecture for ${\mathbb{S}}^{4}$.
 
-<!-- chunk {"id": "body-0062", "role": "body", "section": "Conclusion and future work", "weight": 1.5} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Conclusion and future work", "weight": 1.5} -->
 
 Although we work with semiflows, to leverage converse Lyapunov theory we rely on vector fields generating them. Removing this condition is non-trivial, illustrated by \[ref:fathi2019smoothing, Sec. 7\], but also not futile, as illustrated below.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Example 6.1 (An attractor on the mapping torus)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Example 6.1 (An attractor on the mapping torus)", "weight": 1.0} -->
 
 To construct an example of a semiflow that does not correspond to a vector field, one can appeal to maps with a "negative orientation", e.g., a smooth vector field $X$ always results in a flow $\varphi{( \cdot;X)}$ such that the diffeomorphism $\varphi^{t}{( \cdot;X)}$ is isotopic to the identity^1111^11Consider the homotopy ${\lbrack 0,1\rbrack} \ni s\mapsto\varphi^{\tau{({1 - s})}}$ from $\varphi^{\tau}$ to $\varphi^{0} = {id}$..
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Example 6.1 (An attractor on the mapping torus)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Example 6.1 (An attractor on the mapping torus)", "weight": 1.0} -->
 
 Open problem 3: prove or disprove that Proposition 3.2. ‣ 3 Stability preserving homotopies ‣ Asymptotic stability equals exponential stability—while you twist your eyes") holds for all semiflows that render $0$ GAS (not just the ones generated by vector fields).
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Example 6.1 (An attractor on the mapping torus)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Example 6.1 (An attractor on the mapping torus)", "weight": 1.0} -->
 
 Section touched upon connections with OT. Motivated by work in the context of geometry processing \[ref:solomon2019optimalV\], we believe that more work is warranted.
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Example 6.1 (An attractor on the mapping torus)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Example 6.1 (An attractor on the mapping torus)", "weight": 1.0} -->
 
 Open problem 4: elucidate what OT can tell us about the existence of stability preserving homotopies on the level of vector fields, and vice versa.
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Example 6.1 (An attractor on the mapping torus)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Example 6.1 (An attractor on the mapping torus)", "weight": 1.0} -->
 
 Our work also benefits from more explicit results, e.g., see \[ref:bramburger2021deep\].

@@ -121,11 +121,11 @@ Memory Usage. Muon uses only one momentum buffer, while AdamW uses two momentum 
 
 <!-- chunk {"id": "body-0028", "role": "body", "section": "Analysis", "weight": 1.0} -->
 
-Communication Overhead. For each device, the additional DP gathering is only required by the local DP partitioned parameters $\mathbf{p}$. Therefore, the communication cost is less than the reduce-scatter of $\mathbf{G}$ or the all-gather of $\mathbf{P}$. Besides, Muon only requires the Newton-Schulz iteration steps in bf16, thus further reducing the communication overhead to 50% comparing to fp32. Overall, the communication workload of Distributed Muon is $(1,1.25\rbrack$ of that of Distributed AdamW. The upper-bound is calculated as that the communication of Distributed Muon is 4 (fp32 $\mathbf{G}$ reduce-scatter) + 2 (bf16 Muon gather) + 4 (fp32 $\mathbf{P}$ all-gather), while Distributed AdamW is 4 + 4.
+Communication Overhead. For each device, the additional DP gathering is only required by the local DP partitioned parameters $\mathbf{p}$. Therefore, the communication cost is less than the reduce-scatter of $\mathbf{G}$ or the all-gather of $\mathbf{P}$. Besides, Muon only requires the Newton-Schulz iteration steps in bf16, thus further reducing the communication overhead to 50% comparing to fp32. Overall, the communication workload of Distributed Muon is $(1,1.25\rbrack$ of that of Distributed AdamW.
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Analysis", "weight": 1.0} -->
 
-In practice, as we usually train with multiple DP, the empirical additional cost usually is closer to the lower-bound 1.^44^4If TP is enabled, Distributed Muon needs an extra bf16 TP gather on TP group..
+The upper-bound is calculated as that the communication of Distributed Muon is 4 (fp32 $\mathbf{G}$ reduce-scatter) + 2 (bf16 Muon gather) + 4 (fp32 $\mathbf{P}$ all-gather), while Distributed AdamW is 4 + 4. In practice, as we usually train with multiple DP, the empirical additional cost usually is closer to the lower-bound 1.^44^4If TP is enabled, Distributed Muon needs an extra bf16 TP gather on TP group..
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Analysis", "weight": 1.0} -->
 

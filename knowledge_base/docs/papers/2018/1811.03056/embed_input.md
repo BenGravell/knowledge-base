@@ -116,11 +116,11 @@ For these reasons, we focus on OFU methods, introducing two new algorithms with 
 
 <!-- chunk {"id": "body-0029", "role": "body", "section": "Tabular MDPs", "weight": 1.0} -->
 
-We present the ORLC (optimistic RL with certificates) Algorithm shown in Algorithm 1 (see the appendix for a version with empirically tighter confidence bounds but same theoretical guarantees). It shares similar structure with recent OFU algorithms like UBEV and UCBVI-BF but has some significant differences highlighted in red. Before each episode $k$, Algorithm 1 computes an optimistic estimate ${\overset{\sim}{Q}}_{k,h}$ of $Q_{h}^{\star}$ in Line 1 by dynamic programming on the empirical model $({\hat{P}}_{k},{\hat{r}}_{k})$ with confidence intervals $\psi_{k,h}$. Importantly, it also computes ${\underset{\sim}{Q}}_{k,h}$, a pessimistic estimate of $Q_{h}^{\pi_{k}}$ in similar fashion in Line 1.
+We present the ORLC (optimistic RL with certificates) Algorithm shown in Algorithm 1 (see the appendix for a version with empirically tighter confidence bounds but same theoretical guarantees). It shares similar structure with recent OFU algorithms like UBEV and UCBVI-BF but has some significant differences highlighted in red. Before each episode $k$, Algorithm 1 computes an optimistic estimate ${\overset{\sim}{Q}}_{k,h}$ of $Q_{h}^{\star}$ in Line 1 by dynamic programming on the empirical model $({\hat{P}}_{k},{\hat{r}}_{k})$ with confidence intervals $\psi_{k,h}$.
 
 <!-- chunk {"id": "body-0030", "role": "body", "section": "Tabular MDPs", "weight": 1.0} -->
 
-The optimistic and pessimistic estimates ${\underset{\sim}{Q}}_{k,h},{\overset{\sim}{Q}}_{k,h}$ (resp. ${\underset{\sim}{V}}_{k,h},{\overset{\sim}{V}}_{k,h}$) allow us to compute the certificates $\epsilon_{k}$ and $\mathcal{I}_{k}$ and enables more sample-efficient learning. Specifically, Algorithm 1 uses a novel form of confidence intervals $\psi$ that explicitly depends on this difference.
+Importantly, it also computes ${\underset{\sim}{Q}}_{k,h}$, a pessimistic estimate of $Q_{h}^{\pi_{k}}$ in similar fashion in Line 1. The optimistic and pessimistic estimates ${\underset{\sim}{Q}}_{k,h},{\overset{\sim}{Q}}_{k,h}$ (resp. ${\underset{\sim}{V}}_{k,h},{\overset{\sim}{V}}_{k,h}$) allow us to compute the certificates $\epsilon_{k}$ and $\mathcal{I}_{k}$ and enables more sample-efficient learning. Specifically, Algorithm 1 uses a novel form of confidence intervals $\psi$ that explicitly depends on this difference.
 
 <!-- chunk {"id": "body-0031", "role": "body", "section": "MDPs With Linear Side Information", "weight": 1.0} -->
 

@@ -38,11 +38,11 @@ Our contributions. In this paper, we provide positive answers to both questions.
 
 <!-- chunk {"id": "body-0010", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-For general multiple-input and multiple-output (MIMO) systems, building on Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") and Theorem 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), we then show (in Section 4; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") and Section 5.1 ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217.
+For general multiple-input and multiple-output (MIMO) systems, building on Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") and Theorem 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), we then show (in Section 4; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") and Section 5.1 ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng
 
 <!-- chunk {"id": "body-0011", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
-The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") respectively) how balanced truncation and modal truncation may be applied to general (non observer-based, possibly unstable) LQG controllers to yield lower-order controllers with bounded LQG performance gap (compared to that of the original controller).
+is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") respectively) how balanced truncation and modal truncation may be applied to general (non observer-based, possibly unstable) LQG controllers to yield lower-order controllers with bounded LQG performance gap (compared to that of the original controller).
 
 <!-- chunk {"id": "body-0012", "role": "body", "section": "Introduction", "weight": 1.5} -->
 
@@ -130,105 +130,113 @@ Classical results on controller reduction often focus on the case when the trunc
 
 <!-- chunk {"id": "body-0033", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
 
-Both Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261.
+‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") and Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") provide a
 
 <!-- chunk {"id": "body-0034", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
 
-Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") and Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") provide a set of sufficient conditions for a reduced-order controller to internally stabilize the original plant. We comment here on some similarities and differences between the two sets of sufficient conditions. First, condition 2 in Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217.
+set of sufficient conditions for a reduced-order controller to internally stabilize the original plant.
 
 <!-- chunk {"id": "body-0035", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
 
-The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261.
+We comment here on some similarities and differences between the two sets of sufficient conditions. First, condition 2 in Lemma 3.
 
 <!-- chunk {"id": "body-0036", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
 
-Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") is stated in terms of the $\mathcal{L}_{\infty}$ norm, while 7; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") in Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") requires the $\mathcal{H}_{\infty}$ norm, thus condition 2 in Lemma 3.
+‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") is stated in terms of the $\mathcal{L}_{\infty}$ norm, while 7; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam
 
 <!-- chunk {"id": "body-0037", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
 
-‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261.
+Fazel); and nali@seas.harvard.edu (Na Li).") in Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") requires the $\mathcal{H}_{\infty}$ norm, thus condition 2 in Lemma 3.
 
 <!-- chunk {"id": "body-0038", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
 
-Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") is in fact a weaker requirement than 7; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).")^55^5Note that an unstable transfer function may have finite $\mathcal{L}_{\infty}$ norm and only stable transfer functions can have finite $\mathcal{H}_{\infty}$ norm; for the definition of the $\mathcal{L}_{\infty}$ and $\mathcal{H}_{\infty}$ norm, the reader can refer to the notation in Section 1.2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam
+‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") is in fact a weaker requirement than 7; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na
 
 <!-- chunk {"id": "body-0039", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
 
-Fazel); and nali@seas.harvard.edu (Na Li).")..
+Li).")^55^5Note that an unstable transfer function may have finite $\mathcal{L}_{\infty}$ norm and only stable transfer functions can have finite $\mathcal{H}_{\infty}$ norm; for the definition of the $\mathcal{L}_{\infty}$ and $\mathcal{H}_{\infty}$ norm, the reader can refer to the notation in Section 1.2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).")..
 
 <!-- chunk {"id": "body-0040", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
 
-In addition, Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") requires that $\mathbf{\Delta}{({I - {\mathbf{G}\mathbf{K}}})}^{- 1}$ should be stable, whilst Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261.
+In addition, Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") requires that $\mathbf{\Delta}{({I - {\mathbf{G}\mathbf{K}}})}^{- 1}$ should be stable, whilst Lemma 3.
 
 <!-- chunk {"id": "body-0041", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
 
-Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") makes no such requirement. However, a key advantage of Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") over Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650.
+‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") makes no such requirement.
 
 <!-- chunk {"id": "body-0042", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
 
-The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") is that it does not require $\mathbf{K}$ and its reduced-order counterpart $\mathbf{K}_{r}$ to have the same number of poles in ${Re{(s)}} > 0$ or to have no poles on the imaginary axis. This suggests that effective controller reduction may not necessitate preserving all unstable poles of $\mathbf{K}$ --- this intuition will turn out to be useful for Theorem 3.
+However, a key advantage of Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") over Lemma 3.
 
 <!-- chunk {"id": "body-0043", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
 
-‣ 5.2 Modal truncation on unstable component(s) ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261.
+‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") is that it does not require $\mathbf{K}$ and its reduced-order counterpart $\mathbf{K}_{r}$ to have the same number of poles in ${Re{(s)}} > 0$ or
 
 <!-- chunk {"id": "body-0044", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
 
-Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") (Section 5.2 ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261.
+to have no poles on the imaginary axis.
 
 <!-- chunk {"id": "body-0045", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
 
-Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).")), which shows that controller reduction via unstable modal truncation is in fact possible.
+This suggests that effective controller reduction may not necessitate preserving all unstable poles of $\mathbf{K}$ --- this intuition will turn out to be useful for Theorem 3.
 
-<!-- chunk {"id": "body-0046", "role": "body", "section": "A new bound on the perturbed LQG cost", "weight": 1.0} -->
+<!-- chunk {"id": "body-0046", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
+
+‣ 5.2 Modal truncation on unstable component(s) ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") (Section 5.2 ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS
+
+<!-- chunk {"id": "body-0047", "role": "body", "section": "Remark 1 (Lemma 3. ‣ 3.1 A novel sufficient condition for internal stability ‣ 3 Robust stability and LQG performance ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\") versus Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).\"))", "weight": 1.0} -->
+
+2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).")), which shows that controller reduction via unstable modal truncation is in fact possible.
+
+<!-- chunk {"id": "body-0048", "role": "body", "section": "A new bound on the perturbed LQG cost", "weight": 1.0} -->
 
 Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") presents sufficient conditions to guarantee the closed-loop stability using the reduced-order controller $\mathbf{K}_{r}$. In many situations (such as policy optimization for LQG in ), we also need to understand the closed-loop performance under this new controller $\mathbf{K}_{r}$. Our next technical result show that if the error $\mathbf{\Delta} ≔ {\mathbf{K}_{r} - \mathbf{K}}$ is stable, the change of the LQG cost 5; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") can also be bounded.
 
-<!-- chunk {"id": "body-0047", "role": "body", "section": "A new bound on the perturbed LQG cost", "weight": 1.0} -->
+<!-- chunk {"id": "body-0049", "role": "body", "section": "A new bound on the perturbed LQG cost", "weight": 1.0} -->
 
 The proof builds on the analysis techniques in Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).").
 
-<!-- chunk {"id": "body-0048", "role": "body", "section": "Controller reduction via balanced truncation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0050", "role": "body", "section": "Controller reduction via balanced truncation", "weight": 1.0} -->
 
 In this section, we discuss controller reduction strategies using balanced truncation and apply Theorem 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") and Theorem 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") to derive stability and performance guarantees.
 
-<!-- chunk {"id": "body-0049", "role": "body", "section": "Balanced truncation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0051", "role": "body", "section": "Balanced truncation", "weight": 1.0} -->
 
 We begin with a result reviewing the following well-known fact about balanced truncation: for asymptotically stable transfer functions, under appropriate assumptions, a reduced-order transfer function resulting from balanced truncation is also asymptotically stable.
 
-<!-- chunk {"id": "body-0050", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0052", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
 
 In general, the dynamical controller $\mathbf{K}$ is not stable itself, i.e., $A_{\mathsf{K}}$ in 3; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") has unstable eigenvalues. The standard balanced truncation procedure cannot be applied to unstable systems directly. Our strategy is to divide the controller $\mathbf{K}$ into a stable part and unstable part
 
-<!-- chunk {"id": "body-0051", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0053", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
 
 where $\mathbf{K}_{<}$ of order $n_{1}$ contains all stable poles (i.e., those on the open left-half plane) and $\mathbf{K}_{\geq}$ of order $n_{2}$ contains the remaining poles (i.e., those on the closed right-half plane), and ${n_{1} + n_{2}} = n$. In this section, we assume the controller contains at least one stable pole ($n_{1} \geq 1$).
 
-<!-- chunk {"id": "body-0052", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0054", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
 
 The separation 24; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") is always possible by computing the Jordan normal form of $A_{\mathsf{K}}$ such that
 
-<!-- chunk {"id": "body-0053", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0055", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
 
 where $Q_{\mathsf{K}} \in {\mathbb{R}}^{n \times n}$ is an invertible coordinate transformation^77^7Since any real-valued matrix can be expressed in a Jordan canonical form, such a transformation $Q_{\mathsf{K}}$ always exists., the eigenvalues of ${\hat{A}}_{\mathsf{K}, <} \in {\mathbb{R}}^{n_{1} \times n_{1}}$ are in the open left-half plane, and the eigenvalues of ${\hat{A}}_{\mathsf{K}, \geq} \in {\mathbb{R}}^{n_{2} \times n_{2}}$ are in the closed right-half plane, and ${n_{1} + n_{2}} = n$.
 
-<!-- chunk {"id": "body-0054", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0056", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
 
 Therefore, the stable and unstable parts in 24; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") can be expressed as
 
-<!-- chunk {"id": "body-0055", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0057", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
 
 We can then perform a balanced truncation on the stable part $\mathbf{K}_{<}$ and get a reduced-order controller
 
-<!-- chunk {"id": "body-0056", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0058", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
 
 where the order is $n_{r} < n_{1}$. The final reduced-order controller becomes
 
-<!-- chunk {"id": "body-0057", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0059", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
 
 which has order $r:={n_{r} + n_{2}} < n$. This process is summarized in Algorithm 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).").
 
-<!-- chunk {"id": "body-0058", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0060", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
 
 0: 1) A controller K with a minimal order-n state-space realization $\mathbf{K} = \begin{bmatrix}
 A_{\mathsf{K}} &amp; B_{\mathsf{K}} \\
@@ -239,23 +247,23 @@ A_{\mathsf{K}} &amp; B_{\mathsf{K}} \\
 4: return the reduced-order controller Kr = Kr, &lt; + K≥ (of order r = nr + n2 &lt; n).
 Algorithm 2 Balanced truncation for an unstable controller with stable part
 
-<!-- chunk {"id": "body-0059", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
+<!-- chunk {"id": "body-0061", "role": "body", "section": "Controller reduction", "weight": 1.0} -->
 
 Based on Theorems 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") and 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), under appropriate conditions, the resulting controller $\mathbf{K}_{r}$ from Algorithm 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") remains a stabilizing controller and has a similar LQG cost compared to the original controller $\mathbf{K}$.
 
-<!-- chunk {"id": "body-0060", "role": "body", "section": "Controller reduction via modal truncation", "weight": 1.0} -->
-
-In this section, we proceed to discuss controller reduction by modal truncation, which may apply to the truncation of either stable or unstable component(s) in a controller. In particular, we first apply modal truncation on the stable part of a controller in Section 5.1 ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261.
-
-<!-- chunk {"id": "body-0061", "role": "body", "section": "Controller reduction via modal truncation", "weight": 1.0} -->
-
-Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), and then discuss the performance of modal truncation on possibly unstable component(s) for SISO systems in Section 5.2 ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261.
-
 <!-- chunk {"id": "body-0062", "role": "body", "section": "Controller reduction via modal truncation", "weight": 1.0} -->
 
-Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).").
+In this section, we proceed to discuss controller reduction by modal truncation, which may apply to the truncation of either stable or unstable component(s) in a controller.
 
-<!-- chunk {"id": "body-0063", "role": "body", "section": "Modal truncation on stable component(s)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0063", "role": "body", "section": "Controller reduction via modal truncation", "weight": 1.0} -->
+
+In particular, we first apply modal truncation on the stable part of a controller in Section 5.1 ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), and then discuss the performance of modal truncation on possibly unstable component(s) for SISO systems in Section 5.2 ‣ 5 Controller reduction via modal truncation ‣ On
+
+<!-- chunk {"id": "body-0064", "role": "body", "section": "Controller reduction via modal truncation", "weight": 1.0} -->
+
+Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).").
+
+<!-- chunk {"id": "body-0065", "role": "body", "section": "Modal truncation on stable component(s)", "weight": 1.0} -->
 
 0: 1) A controller K with a minimal order-n state-space realization $\mathbf{K} = \begin{bmatrix}
 A_{\mathsf{K}} &amp; B_{\mathsf{K}} \\
@@ -267,136 +275,131 @@ A_{\mathsf{K}} &amp; B_{\mathsf{K}} \\
 6: return the reduced order controller Kr:= K − Δ.
 Algorithm 3 Modal truncation
 
-<!-- chunk {"id": "body-0064", "role": "body", "section": "Modal truncation on stable component(s)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0066", "role": "body", "section": "Modal truncation on stable component(s)", "weight": 1.0} -->
 
 The basic idea of modal truncation begins with writing the controller $\mathbf{K}$ 3; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") into ${\mathbf{K}{(s)}} = {\sum_{i = 1}^{k}{C_{i}{({{sI} - A_{i}})}^{- 1}B_{i}}}$, where $A_{i}$ contains a mode corresponding to an eigenvalue of $\lambda_{i}$ in $\mathbf{K}$. This is always possible by considering its standard Jordan form
 
-<!-- chunk {"id": "body-0065", "role": "body", "section": "Modal truncation on stable component(s)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0067", "role": "body", "section": "Modal truncation on stable component(s)", "weight": 1.0} -->
 
 where each $A_{i}$ is a Jordan block of order $n_{i}$, and ${{\sum_{i = 1}^{k}n_{i}} = n}.$ Let $\lambda_{i}$ denote the eigenvalue associated with each Jordan block $A_{i}$. We then directly remove some modes that are less significant according the criterion defined below
 
-<!-- chunk {"id": "body-0066", "role": "body", "section": "Modal truncation on stable component(s)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0068", "role": "body", "section": "Modal truncation on stable component(s)", "weight": 1.0} -->
 
 The detailed steps are listed in Algorithm 3 ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).").
 
-<!-- chunk {"id": "body-0067", "role": "body", "section": "Modal truncation on stable component(s)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0069", "role": "body", "section": "Modal truncation on stable component(s)", "weight": 1.0} -->
 
 As a counterpart to balanced truncation, we can derive upper bounds the LQG cost change when performing modal truncation on the stable part of a controller $\mathbf{K}$.
 
-<!-- chunk {"id": "body-0068", "role": "body", "section": "Modal truncation on unstable component(s)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0070", "role": "body", "section": "Modal truncation on unstable component(s)", "weight": 1.0} -->
 
 Next, we introduce the following result, which studies the LQG cost change when truncating unstable mode(s) of a controller $\mathbf{K}$, for single-input single-output (SISO) systems.
 
-<!-- chunk {"id": "body-0069", "role": "body", "section": "Remark 2", "weight": 1.0} -->
+<!-- chunk {"id": "body-0071", "role": "body", "section": "Remark 2", "weight": 1.0} -->
 
 We note a limitation of our result, namely the requirement that the truncated Jordan blocks have non-zero eigenvalues. Hence, the procedure does not work when we wish to truncate a Jordan block corresponding to an zero eigenvalue. In addition, due to the relative simplicity of defining zeros for SISO systems, we chose to limit our attention to SISO systems. Extending to general MIMO remains future work.
 
-<!-- chunk {"id": "body-0070", "role": "body", "section": "Connecting near pole-zero cancellation to small Jordan block", "weight": 1.0} -->
+<!-- chunk {"id": "body-0072", "role": "body", "section": "Connecting near pole-zero cancellation to small Jordan block", "weight": 1.0} -->
 
 An intuitive way of defining "near non-minimality" for a transfer function $\mathbf{G}{(s)}$ is the existence of a pair of pole $p_{i}$ and zero $q_{i}$ which are "close" to each other. Assuming that $p_{i}$ is a simple pole, when this happens, we then conjecture that the coefficient corresponding to the term $\frac{1}{s - p_{i}}$ in the partial fraction decomposition of $\mathbf{G}{(s)}$ is small, i.e. the Jordan block corresponding to the pole $p_{i}$ is small.
 
-<!-- chunk {"id": "body-0071", "role": "body", "section": "Connecting near pole-zero cancellation to small Jordan block", "weight": 1.0} -->
+<!-- chunk {"id": "body-0073", "role": "body", "section": "Connecting near pole-zero cancellation to small Jordan block", "weight": 1.0} -->
 
 Below, we formalize this idea in the case $p_{i}$ is a simple pole^88^8We believe a similar result holds for the general case when $p_{i}$ is a repeated pole, and leave the precise characterization to future work..
 
-<!-- chunk {"id": "body-0072", "role": "body", "section": "Comparing balanced truncation to modal truncation", "weight": 1.0} -->
+<!-- chunk {"id": "body-0074", "role": "body", "section": "Comparing balanced truncation to modal truncation", "weight": 1.0} -->
 
 We here compare the performance of balanced truncation versus modal truncation. Consider the following plant and controller pair
 
-<!-- chunk {"id": "body-0073", "role": "body", "section": "Comparing balanced truncation to modal truncation", "weight": 1.0} -->
-
-It is easy to check numerically that $\mathbf{K}$ internally stabilize $\mathbf{G}$. Indeed, the closed-loop poles (i.e., eigenvalues of $A_{cl}$ in 4; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).")) are (-0.38,-2.53, -2.15), each with multiplicity 2. Note that this controller $\mathbf{K}$ has an unstable mode $\lambda = 0.2$, thus the standard balanced truncation in Lemma 4. ‣ 4.1 Balanced truncation ‣ 4 Controller reduction via balanced truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217.
-
-<!-- chunk {"id": "body-0074", "role": "body", "section": "Comparing balanced truncation to modal truncation", "weight": 1.0} -->
-
-The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") is inapplicable directly.
-
 <!-- chunk {"id": "body-0075", "role": "body", "section": "Comparing balanced truncation to modal truncation", "weight": 1.0} -->
 
-As discussed in Section 4.2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), we separate the controller as $\mathbf{K} = {\mathbf{K}_{<} + \mathbf{K}_{\geq}}$, and perform reduction on the stable part $\mathbf{K}_{<}$ (i.e. Algorithms 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") and 3 ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217.
+It is easy to check numerically that $\mathbf{K}$ internally stabilize $\mathbf{G}$. Indeed, the closed-loop poles (i.e., eigenvalues of $A_{cl}$ in 4; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).")) are (-0.38,-2.53, -2.15), each with multiplicity 2. Note that this controller $\mathbf{K}$ has an unstable mode $\lambda = 0.2$, thus the standard balanced truncation in Lemma 4.
 
 <!-- chunk {"id": "body-0076", "role": "body", "section": "Comparing balanced truncation to modal truncation", "weight": 1.0} -->
 
-The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).")).
+‣ 4.1 Balanced truncation ‣ 4 Controller reduction via balanced truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") is inapplicable directly.
 
-<!-- chunk {"id": "body-0077", "role": "body", "section": "Remark 3 (System generation)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0077", "role": "body", "section": "Comparing balanced truncation to modal truncation", "weight": 1.0} -->
 
-To illustrate Theorem 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") and our results in Sections 4; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") and 5; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), we need to consider a plant $\mathbf{G}$ and a (possibly unstable) controller $\mathbf{K}$ that is internally stabilizing. To generate such instances, we first generate a random stable and minimal system, $\mathbf{K}_{<}$ and another unstable part $\mathbf{K}_{\geq}$.
+As discussed in Section 4.2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), we separate the controller as $\mathbf{K} = {\mathbf{K}_{<} + \mathbf{K}_{\geq}}$, and perform reduction on the stable part $\mathbf{K}_{<}$ (i.e. Algorithms 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") and 3 ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF
 
-<!-- chunk {"id": "body-0078", "role": "body", "section": "Remark 3 (System generation)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0078", "role": "body", "section": "Comparing balanced truncation to modal truncation", "weight": 1.0} -->
 
-We define the augmented system $\mathbf{K} = {\mathbf{K}_{<} + \mathbf{K}_{\geq}}$, and compute a stabilizing controller for $\mathbf{K}$, which we call $\mathbf{G}$. Finally, we treat $\mathbf{G}$ as the system plant and $\mathbf{K}$ as the controller. It is thus clear that $\mathbf{K}$ internally stabilizes $\mathbf{G}$ (duality between plant and controller).
+ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).")).
 
 <!-- chunk {"id": "body-0079", "role": "body", "section": "Remark 3 (System generation)", "weight": 1.0} -->
 
-After performing balanced truncation and modal truncation, we get two reduced-order controllers (of order 2) $\mathbf{K}_{r,{bt}}$ and $\mathbf{K}_{r,{mt}}$ respectively. Both $\mathbf{K}_{r,{bt}}$ and $\mathbf{K}_{r,{mt}}$ satisfy the bound in 16; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), thus internally stabilizes the plant, guaranteed by Theorem 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).").
+To illustrate Theorem 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") and our results in Sections 4; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") and 5; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), we need to consider a plant $\mathbf{G}$ and a (possibly unstable) controller $\mathbf{K}$ that is internally stabilizing. To generate such instances, we first generate a random stable and minimal system, $\mathbf{K}_{<}$ and another unstable part $\mathbf{K}_{\geq}$.
 
 <!-- chunk {"id": "body-0080", "role": "body", "section": "Remark 3 (System generation)", "weight": 1.0} -->
 
-Indeed, under Assumption 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), the LQG cost of the two truncated controllers are listed in Table 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."). In this example, the LQG cost of the balanced truncation is very close to the original performance, while the modal truncated controller has a slightly higher LQG cost. Note that the quantity $\left. \parallel{\mathbf{K} - \mathbf{K}_{r}}\parallel \right._{\mathcal{H}_{\infty}}$ is significantly smaller in the case of balanced truncation.
+We define the augmented system $\mathbf{K} = {\mathbf{K}_{<} + \mathbf{K}_{\geq}}$, and compute a stabilizing controller for $\mathbf{K}$, which we call $\mathbf{G}$. Finally, we treat $\mathbf{G}$ as the system plant and $\mathbf{K}$ as the controller. It is thus clear that $\mathbf{K}$ internally stabilizes $\mathbf{G}$ (duality between plant and controller).
 
 <!-- chunk {"id": "body-0081", "role": "body", "section": "Remark 3 (System generation)", "weight": 1.0} -->
 
-Theorem 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") states that the upper bound on ${J{(\mathbf{K}_{r})}} - {J{(\mathbf{K})}}$ is tighter when $\left. \parallel{\mathbf{K} - \mathbf{K}_{r}}\parallel \right._{\mathcal{H}_{\infty}}$ is smaller; since $\left. \parallel{\mathbf{K} - \mathbf{K}_{r,{bt}}}\parallel \right._{\mathcal{H}_{\infty}} < \left.
+After performing balanced truncation and modal truncation, we get two reduced-order controllers (of order 2) $\mathbf{K}_{r,{bt}}$ and $\mathbf{K}_{r,{mt}}$ respectively. Both $\mathbf{K}_{r,{bt}}$ and $\mathbf{K}_{r,{mt}}$ satisfy the bound in 16; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), thus internally stabilizes the plant, guaranteed by Theorem 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).").
 
 <!-- chunk {"id": "body-0082", "role": "body", "section": "Remark 3 (System generation)", "weight": 1.0} -->
 
-\parallel{\mathbf{K} - \mathbf{K}_{r,{mt}}}\parallel \right._{\mathcal{H}_{\infty}}$, this explains why $J{(\mathbf{K}_{r,{bt}})}$ is lower than $J{(\mathbf{K}_{r,{mt}})}$ in this case. We provide more extensive comparisons in Appendix D; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).").
+Indeed, under Assumption 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), the LQG cost of the two truncated controllers are listed in Table 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."). In this example, the LQG cost of the balanced truncation is very close to the original performance, while the modal truncated controller has a slightly higher LQG cost. Note that the quantity $\left. \parallel{\mathbf{K} - \mathbf{K}_{r}}\parallel \right._{\mathcal{H}_{\infty}}$ is significantly smaller in the case of balanced truncation.
 
 <!-- chunk {"id": "body-0083", "role": "body", "section": "Remark 3 (System generation)", "weight": 1.0} -->
 
-Scaling effect of $\left. \parallel\mathbf{\Delta}\parallel \right._{\mathcal{H}_{\infty}}$. We next study how the performance gap behaves as a function of the size of the truncated component. For this analysis, we (randomly) generate five stable and minimal SISO systems of order 4, $\mathbf{K}_{r}$, and augment the system by adding a stable mode $\mathbf{\Delta}$, where
+Theorem 2; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") states that the upper bound on ${J{(\mathbf{K}_{r})}} - {J{(\mathbf{K})}}$ is tighter when $\left. \parallel{\mathbf{K} - \mathbf{K}_{r}}\parallel \right._{\mathcal{H}_{\infty}}$ is smaller; since $\left. \parallel{\mathbf{K} - \mathbf{K}_{r,{bt}}}\parallel \right._{\mathcal{H}_{\infty}} < \left.
 
 <!-- chunk {"id": "body-0084", "role": "body", "section": "Remark 3 (System generation)", "weight": 1.0} -->
 
-We denote the augmented system as $\mathbf{K}:={\mathbf{K}_{r} + \mathbf{\Delta}}$. We then generate a stabilizing controller, $\mathbf{G}$, which stabilizes $\mathbf{K}$. Viewing $\mathbf{G}$ as the system plant, we then compare the LQG cost of $\mathbf{K}$ and $\mathbf{K}_{r}$ on the system $\mathbf{G}$, as the $\mathcal{H}_{\infty}$ norm of the truncated component, i.e. $\left. \parallel\mathbf{\Delta}\parallel \right._{\mathcal{H}_{\infty}}$, varies (to be precise, we plot 30 $\mathbf{\Delta}$'s, each corresponding to a different $\epsilon$, where we let $\epsilon$ range (equally spaced) between 0.0001 and 0.05).
+\parallel{\mathbf{K} - \mathbf{K}_{r,{mt}}}\parallel \right._{\mathcal{H}_{\infty}}$, this explains why $J{(\mathbf{K}_{r,{bt}})}$ is lower than $J{(\mathbf{K}_{r,{mt}})}$ in this case. We provide more extensive comparisons in Appendix D; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).").
 
 <!-- chunk {"id": "body-0085", "role": "body", "section": "Remark 3 (System generation)", "weight": 1.0} -->
 
-As we can see in Figure 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), for the five set of controllers, there is close to a linear relationship (with different slopes) between the LQG cost gap ratio $\frac{{J{(\mathbf{K}_{r})}} - {J{(\mathbf{K})}}}{J{(\mathbf{K})}}$ and the $\mathcal{H}_{\infty}$ norm of the truncated component, i.e. $\left. \parallel\mathbf{\Delta}\parallel \right._{\mathcal{H}_{\infty}}$; this is consistent with the upper bound on $J{(\mathbf{K}_{r})}$ in Theorem 3.
+Scaling effect of $\left. \parallel\mathbf{\Delta}\parallel \right._{\mathcal{H}_{\infty}}$. We next study how the performance gap behaves as a function of the size of the truncated component. For this analysis, we (randomly) generate five stable and minimal SISO systems of order 4, $\mathbf{K}_{r}$, and augment the system by adding a stable mode $\mathbf{\Delta}$, where
 
 <!-- chunk {"id": "body-0086", "role": "body", "section": "Remark 3 (System generation)", "weight": 1.0} -->
 
+We denote the augmented system as $\mathbf{K}:={\mathbf{K}_{r} + \mathbf{\Delta}}$. We then generate a stabilizing controller, $\mathbf{G}$, which stabilizes $\mathbf{K}$. Viewing $\mathbf{G}$ as the system plant, we then compare the LQG cost of $\mathbf{K}$ and $\mathbf{K}_{r}$ on the system $\mathbf{G}$, as the $\mathcal{H}_{\infty}$ norm of the truncated component, i.e. $\left. \parallel\mathbf{\Delta}\parallel \right._{\mathcal{H}_{\infty}}$, varies (to be precise, we plot 30 $\mathbf{\Delta}$'s, each corresponding to a different $\epsilon$, where we let $\epsilon$ range (equally spaced) between 0.0001 and 0.05).
+
+<!-- chunk {"id": "body-0087", "role": "body", "section": "Remark 3 (System generation)", "weight": 1.0} -->
+
+As we can see in Figure 1; zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), for the five set of controllers, there is close to a linear relationship (with different slopes) between the LQG cost gap ratio $\frac{{J{(\mathbf{K}_{r})}} - {J{(\mathbf{K})}}}{J{(\mathbf{K})}}$ and the $\mathcal{H}_{\infty}$ norm of the truncated component, i.e. $\left. \parallel\mathbf{\Delta}\parallel \right._{\mathcal{H}_{\infty}}$; this is consistent with the upper bound on $J{(\mathbf{K}_{r})}$ in Theorem 3.
+
+<!-- chunk {"id": "body-0088", "role": "body", "section": "Remark 3 (System generation)", "weight": 1.0} -->
+
 ‣ 5.2 Modal truncation on unstable component(s) ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).").
 
-<!-- chunk {"id": "body-0087", "role": "body", "section": "Truncating unstable mode(s)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0089", "role": "body", "section": "Truncating unstable mode(s)", "weight": 1.0} -->
 
 We here consider an example to illustrate Theorem 3. ‣ 5.2 Modal truncation on unstable component(s) ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."). Consider the following plant $\mathbf{G}$
 
-<!-- chunk {"id": "body-0088", "role": "body", "section": "Truncating unstable mode(s)", "weight": 1.0} -->
+<!-- chunk {"id": "body-0090", "role": "body", "section": "Truncating unstable mode(s)", "weight": 1.0} -->
 
 It can be verified that the controller ${\mathbf{K} = \begin{bmatrix}
 \end{bmatrix}},$ with
 
-<!-- chunk {"id": "body-0089", "role": "body", "section": "Truncating unstable mode(s)", "weight": 1.0} -->
-
-internally stabilizes $\mathbf{G}$. Applying Algorithm 3 ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261.
-
-<!-- chunk {"id": "body-0090", "role": "body", "section": "Truncating unstable mode(s)", "weight": 1.0} -->
-
-Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), we obtain an order 2 controller $\mathbf{K}_{r}$, which removes the last (unstable) mode of $A_{\mathsf{K}}$, leading to ${\mathbf{K}_{r} = \begin{bmatrix}
-\end{bmatrix}},$ with
-
 <!-- chunk {"id": "body-0091", "role": "body", "section": "Truncating unstable mode(s)", "weight": 1.0} -->
 
-The truncated component $\mathbf{\Delta}$ is unstable and takes the form
+Applying Algorithm 3 ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."), we obtain an order 2 controller $\mathbf{K}_{r}$, which removes the last (unstable) mode of $A_{\mathsf{K}}$, leading to ${\mathbf{K}_{r} =
 
 <!-- chunk {"id": "body-0092", "role": "body", "section": "Truncating unstable mode(s)", "weight": 1.0} -->
 
-which satisfies the bound 32. ‣ 5.2 Modal truncation on unstable component(s) ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."). Thus, Theorem 3.
+The truncated component $\mathbf{\Delta}$ is unstable and takes the form
 
 <!-- chunk {"id": "body-0093", "role": "body", "section": "Truncating unstable mode(s)", "weight": 1.0} -->
 
-‣ 5.2 Modal truncation on unstable component(s) ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") guarantees that the reduced-order controller $\mathbf{K}_{r}$ still internally stabilizes the plant.
+which satisfies the bound 32. ‣ 5.2 Modal truncation on unstable component(s) ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li)."). Thus, Theorem 3.
 
 <!-- chunk {"id": "body-0094", "role": "body", "section": "Truncating unstable mode(s)", "weight": 1.0} -->
 
-Indeed, numerical computation shows that the LQG cost of the original controller, $J{(\mathbf{K})}$, is 343.2, while the LQG cost of the truncated controller, $J{(\mathbf{K}_{r})}$, is 58.2. In this case, modal truncation not only yields a stabilizing lower-order controller, but also a cost of lower LQG cost.^1111^11For this instance, the theoretical upper bound posited in Theorem 3. ‣ 5.2 Modal truncation on unstable component(s) ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650.
+‣ 5.2 Modal truncation on unstable component(s) ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") guarantees that the reduced-order controller $\mathbf{K}_{r}$ still internally stabilizes the plant.
 
 <!-- chunk {"id": "body-0095", "role": "body", "section": "Truncating unstable mode(s)", "weight": 1.0} -->
 
-The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") is significantly larger than the original cost.
+Indeed, numerical computation shows that the LQG cost of the original controller, $J{(\mathbf{K})}$, is 343.2, while the LQG cost of the truncated controller, $J{(\mathbf{K}_{r})}$, is 58.2. In this case, modal truncation not only yields a stabilizing lower-order controller, but also a cost of lower LQG cost.^1111^11For this instance, the theoretical upper bound posited in Theorem 3.
 
-<!-- chunk {"id": "body-0096", "role": "body", "section": "Conclusion", "weight": 1.5} -->
+<!-- chunk {"id": "body-0096", "role": "body", "section": "Truncating unstable mode(s)", "weight": 1.0} -->
+
+‣ 5.2 Modal truncation on unstable component(s) ‣ 5 Controller reduction via modal truncation ‣ On Controller Reduction in Linear Quadratic Gaussian Control with Performance BoundsThe work of Zhaolin Ren and Na Li is supported by NSF CNS 2003111, NSF AI institute 2112085, and ONR YIP N00014-19-1-2217. The work of Yang Zheng is supported by NSF ECCS-2154650. The work of Maryam Fazel was supported by NSF TRIPODS II 2023166, CCF 1839291, CCF 2007036, and CCF 2212261. Emails: zhaolinren@g.harvard.edu (Zhaolin Ren); zhengy@eng.ucsd.edu (Yang Zheng); mfazel@uw.edu (Maryam Fazel); and nali@seas.harvard.edu (Na Li).") is significantly larger than the original cost.
+
+<!-- chunk {"id": "body-0097", "role": "body", "section": "Conclusion", "weight": 1.5} -->
 
 We have presented on controller reduction for general non observer-based controllers using balanced truncation and modal truncation. For SISO systems, we demonstrate how LQG control may be performed even when there are no stable components in the controller. We hope that our work will be useful not only for policy optimization in LQG control but also for the controller reduction community. Two interesting future directions are 1) extending truncation of unstable modes to MIMO systems and 2) applying the results to escape saddle points in the LQG policy optimization.

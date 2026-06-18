@@ -228,11 +228,11 @@ The algorithm differs from RRT\* in that once a solution is found, it focuses th
 
 <!-- chunk {"id": "body-0057", "role": "body", "section": "Informed RRT\\*", "weight": 1.0} -->
 
-Sample: Given two poses, ${\mathbf{x}_{from},\mathbf{x}_{to}} \in X_{free}$ and a maximum heuristic value, $c_{\max} \in {\mathbb{R}}$, the function ${\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}}\left( \mathbf{x}_{from},\mathbf{x}_{to},c_{\max} \right)$ returns independent and identically distributed (i.i.d.) samples from the state space, $\mathbf{x}_{new} \in X$, such that the cost of an optimal path between $\mathbf{x}_{from}$ and $\mathbf{x}_{to}$ that is constrained to go through $\mathbf{x}_{new}$ is less than $c_{\max}$ as described in Section III and Alg. 2.
+Sample: Given two poses, ${\mathbf{x}_{from},\mathbf{x}_{to}} \in X_{free}$ and a maximum heuristic value, $c_{\max} \in {\mathbb{R}}$, the function ${\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}}\left( \mathbf{x}_{from},\mathbf{x}_{to},c_{\max} \right)$ returns independent and identically distributed (i.i.d.) samples from the state space, $\mathbf{x}_{new} \in X$, such that the cost of an optimal path between $\mathbf{x}_{from}$ and $\mathbf{x}_{to}$ that is constrained to go through $\mathbf{x}_{new}$ is less than $c_{\max}$ as described in Section III and Alg.
 
 <!-- chunk {"id": "body-0058", "role": "body", "section": "Informed RRT\\*", "weight": 1.0} -->
 
-In most planning problems, $\mathbf{x}_{from} \equiv \mathbf{x}_{start}$, $\mathbf{x}_{to} \equiv \mathbf{x}_{goal}$, and lines 2 to 2 of Alg. 2 can be calculated once at the start of the problem.
+2. In most planning problems, $\mathbf{x}_{from} \equiv \mathbf{x}_{start}$, $\mathbf{x}_{to} \equiv \mathbf{x}_{goal}$, and lines 2 to 2 of Alg. 2 can be calculated once at the start of the problem.
 
 <!-- chunk {"id": "body-0059", "role": "body", "section": "Informed RRT\\*", "weight": 1.0} -->
 
