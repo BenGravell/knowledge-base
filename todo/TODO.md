@@ -1,15 +1,5 @@
 # TODO
 
-## github.com/turbopuffer/alyze
-
-My recommendation: do not integrate alyze for embeddings now. Do a small spike only if you want hybrid search. The minimal useful spike would be:
-Build a tiny lexical inverted index from title, tags, summary, abstract, and embed_text.md.
-Compare simple Python tokenization/BM25-ish scoring against alyze.
-Keep alyze only if Unicode segmentation, stemming, or browser WASM speed visibly improves search quality.
-One adjacent embedding improvement is worth considering first: chunk embed_text.md into passages, embed chunks, then aggregate or expose passage-level matches. all-MiniLM-L6-v2 is meant for sentences/short paragraphs and truncates long input, so feeding up to 60k characters as one paper vector is likely wasting useful full text.
-Sources: turbopuffer/alyze README and source, Unicode UAX #29, FastEmbed docs, Transformers.js docs, Hugging Face model cards for mxbai-embed-large-v1 and all-MiniLM-L6-v2.
-
-
 ## perf
 
 Tree and Timeline pages need major performance increase for handling large number of items.
