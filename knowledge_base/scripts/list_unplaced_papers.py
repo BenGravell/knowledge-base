@@ -64,30 +64,55 @@ def as_list(value: Any) -> list[Any]:
     return []
 
 
+def fast_paper_id_from_file(metadata_file: Path) -> str:
+    with metadata_file.open("r", encoding="utf-8") as f:
+        for line in f:
+            if not line.startswith("id:"):
+                continue
+            value = yaml.safe_load(line.partition(":")[2].strip())
+            if value:
+                return paper_id_from_file(metadata_file, {"id": value})
+    return paper_id_from_file(metadata_file, {})
+
+
+def collect_paper_paths(metadata_root: Path) -> dict[str, Path]:
+    paths: dict[str, Path] = {}
+    metadata_files = sorted(metadata_root.rglob("metadata.yml"))
+    for index, metadata_file in enumerate(metadata_files, start=1):
+        paths[fast_paper_id_from_file(metadata_file)] = metadata_file
+        emit_progress(index, len(metadata_files), "Collect unplaced-paper IDs", every=100)
+    return paths
+
+
+def load_paper(metadata_file: Path, paper_id: str | None = None) -> Paper | None:
+    with metadata_file.open("r", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+    if not isinstance(data, dict):
+        return None
+
+    paper_id = paper_id or paper_id_from_file(metadata_file, data)
+    title = " ".join(str(data.get("title") or paper_id).split())
+    algorithm = " ".join(str(data.get("algorithm") or "").split())
+    abstract = str(data.get("abstract") or "").strip()
+    tags = tuple(str(tag) for tag in as_list(data.get("tags")))
+    return Paper(
+        id=paper_id,
+        title=title,
+        algorithm=algorithm,
+        metadata_path=metadata_file,
+        generated_path=f"papers/{paper_id}.md",
+        abstract=abstract,
+        tags=tags,
+    )
+
+
 def collect_papers(metadata_root: Path) -> dict[str, Paper]:
     papers: dict[str, Paper] = {}
     metadata_files = sorted(metadata_root.rglob("metadata.yml"))
     for index, metadata_file in enumerate(metadata_files, start=1):
-        with metadata_file.open("r", encoding="utf-8") as f:
-            data = yaml.safe_load(f)
-        if not isinstance(data, dict):
-            emit_progress(index, len(metadata_files), "Collect unplaced-paper metadata", every=100)
-            continue
-
-        paper_id = paper_id_from_file(metadata_file, data)
-        title = " ".join(str(data.get("title") or paper_id).split())
-        algorithm = " ".join(str(data.get("algorithm") or "").split())
-        abstract = str(data.get("abstract") or "").strip()
-        tags = tuple(str(tag) for tag in as_list(data.get("tags")))
-        papers[paper_id] = Paper(
-            id=paper_id,
-            title=title,
-            algorithm=algorithm,
-            metadata_path=metadata_file,
-            generated_path=f"papers/{paper_id}.md",
-            abstract=abstract,
-            tags=tags,
-        )
+        paper = load_paper(metadata_file)
+        if paper is not None:
+            papers[paper.id] = paper
         emit_progress(index, len(metadata_files), "Collect unplaced-paper metadata", every=100)
     return papers
 
@@ -315,6 +340,14 @@ def print_markdown(
             print("  - Nearest placed neighbors: unavailable")
 
 
+def print_empty(format_name: str) -> None:
+    if format_name == "json":
+        print("[]")
+    elif format_name == "markdown":
+        print("# Unplaced Papers\n")
+        print("0 paper(s) have metadata but are missing from the Tree.\n")
+
+
 def print_json(
     missing: list[Paper],
     nav_locations: dict[str, list[str]],
@@ -410,9 +443,18 @@ def main() -> None:
         base_dir=KB_DIR,
         metadata_root=METADATA_ROOT,
     )
-    papers = collect_papers(METADATA_ROOT)
     nav_locations = collect_nav_locations(tree_model)
-    missing = [paper for paper_id, paper in sorted(papers.items()) if paper_id not in nav_locations]
+    paper_paths = collect_paper_paths(METADATA_ROOT)
+    missing_ids = [paper_id for paper_id in sorted(paper_paths) if paper_id not in nav_locations]
+    if not missing_ids:
+        print_empty(args.format)
+        return
+
+    missing = [
+        paper
+        for paper_id in missing_ids
+        if (paper := load_paper(paper_paths[paper_id], paper_id)) is not None
+    ]
     display = missing[: args.max_results] if args.max_results is not None else missing
     needs_embeddings = args.neighbors > 0 or args.write_tree
     embeddings: dict[str, list[float]] = load_embeddings(EMBEDDING_CACHE) if needs_embeddings else {}

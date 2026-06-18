@@ -26,13 +26,15 @@ The public site is published at
 
 ## Spin up from scratch
 
-Prerequisites: Python `>=3.11,<3.14` and Poetry.
+Needs `git` plus `curl` or `wget`; no Python or Poetry install is required.
+The `./dev` wrapper installs local tooling on first use, then keeps using the
+checked-in Poetry lock.
 
 ```bash
 git clone https://github.com/BenGravell/knowledge-base.git
 cd knowledge-base
-poetry install
-poetry run mkdocs serve -f knowledge_base/mkdocs.yml
+./dev install
+./dev run mkdocs serve -f knowledge_base/mkdocs.yml
 ```
 
 Open the URL printed by MkDocs, usually <http://127.0.0.1:8000/>.
@@ -41,7 +43,11 @@ Open the URL printed by MkDocs, usually <http://127.0.0.1:8000/>.
 
 ### Serve the site locally
 
-Run `poetry run mkdocs serve -f knowledge_base/mkdocs.yml` from the repo root.
+From the repo root, run
+
+```bash
+./dev run mkdocs serve -f knowledge_base/mkdocs.yml
+```
 
 ### Add papers
 
@@ -49,20 +55,20 @@ Put URLs in `todo/PAPERS_FUNNEL.md`, route them, prefill metadata, audit it, the
 
 ```bash
 # Route URLs into todo/papers/<SOURCE>.md or todo/PAPERS_MISC.md.
-poetry run python knowledge_base/scripts/funnel_papers.py
+./dev run python knowledge_base/scripts/funnel_papers.py
 
 # List prefill sources, then run the populated ones.
-poetry run python -m knowledge_base.scripts.prefill --help
-poetry run python -m knowledge_base.scripts.prefill arxiv
-poetry run python -m knowledge_base.scripts.prefill openreview
+./dev run python -m knowledge_base.scripts.prefill --help
+./dev run python -m knowledge_base.scripts.prefill arxiv
+./dev run python -m knowledge_base.scripts.prefill openreview
 
 # Audit raw metadata after prefill and fix reported files.
-poetry run python knowledge_base/scripts/audit_metadata.py knowledge_base --audit-status raw
+./dev run python knowledge_base/scripts/audit_metadata.py knowledge_base --audit-status raw
 
 # Find unplaced papers, edit knowledge_base/tree.yml, then verify.
-poetry run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 3
-poetry run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
-poetry run mkdocs build -f knowledge_base/mkdocs.yml
+./dev run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 3
+./dev run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
+./dev run mkdocs build -f knowledge_base/mkdocs.yml
 ```
 
 Use the source names printed by the prefill help, such as `ieee`, `mlr`, or `taylor_francis`; replace the example source commands with whichever `todo/papers/*.md` files the funnel populated.
@@ -77,23 +83,33 @@ Reuse of paper text remains governed by each paper's original license and rights
 Run the ingest script from the repo root:
 
 ```bash
-poetry run python knowledge_base/scripts/ingest_arxiv_full_text.py --id 2402.08954
+./dev run python knowledge_base/scripts/ingest_arxiv_full_text.py --id 2402.08954
 ```
 
 The script requires `pandoc` on `PATH`, skips existing sidecars unless `--force` is passed, and probes only entries with `arxiv_id`. It strips author blocks, references, source chrome, images, and obvious table/math noise before writing `embed_text.md`.
 
 ### Develop Python scripts or site helpers
 
-Work from the repo root, use Poetry, and run the narrowest check that covers the change.
+For a script-only change, run a syntax/import check on the edited file:
+
+```bash
+./dev run python -m py_compile knowledge_base/scripts/refresh_offline_data.py
+```
+
+Replace the path with the file you changed. If the change affects MkDocs rendering, navigation, or plugins, run:
+
+```bash
+./dev run mkdocs build -f knowledge_base/mkdocs.yml
+```
 
 ### Refresh offline data
 
 If local generated data is stale, refresh it from the repo root:
 
 ```bash
-poetry run python knowledge_base/scripts/refresh_offline_data.py
+./dev run python knowledge_base/scripts/refresh_offline_data.py
 ```
 
 ### Deploy
 
-Run `poetry run mkdocs gh-deploy -f knowledge_base/mkdocs.yml` from the repo root.
+Run `./dev run mkdocs gh-deploy -f knowledge_base/mkdocs.yml` from the repo root.

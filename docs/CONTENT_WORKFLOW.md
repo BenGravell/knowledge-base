@@ -11,8 +11,8 @@ Create a new directory under `knowledge_base/docs/papers/` and add a
 After metadata exists:
 
 ```bash
-poetry run python knowledge_base/scripts/audit_metadata.py
-poetry run python knowledge_base/scripts/validate_tree.py
+./dev run python knowledge_base/scripts/audit_metadata.py
+./dev run python knowledge_base/scripts/validate_tree.py
 ```
 
 ## Batch funnel
@@ -22,8 +22,8 @@ into source-specific files under `todo/papers/`, or into `todo/PAPERS_MISC.md`
 when the source is unknown:
 
 ```bash
-poetry run python knowledge_base/scripts/funnel_papers.py --dry-run
-poetry run python knowledge_base/scripts/funnel_papers.py
+./dev run python knowledge_base/scripts/funnel_papers.py --dry-run
+./dev run python knowledge_base/scripts/funnel_papers.py
 ```
 
 ## Source prefill scripts
@@ -39,18 +39,18 @@ Generated metadata starts as `audit_status: raw` and should be reviewed with
 Run a prefill script with its default input file:
 
 ```bash
-poetry run python knowledge_base/scripts/prefill/arxiv.py
-poetry run python knowledge_base/scripts/prefill/ieee.py
+./dev run python knowledge_base/scripts/prefill/arxiv.py
+./dev run python knowledge_base/scripts/prefill/ieee.py
 ```
 
 Common options shared by the prefill scripts:
 
 ```bash
-poetry run python knowledge_base/scripts/prefill/<source>.py --input todo/papers/<SOURCE>.md
-poetry run python knowledge_base/scripts/prefill/<source>.py --first 5
-poetry run python knowledge_base/scripts/prefill/<source>.py --list-skipped
-poetry run python knowledge_base/scripts/prefill/<source>.py --overwrite
-poetry run python knowledge_base/scripts/prefill/<source>.py --reingest
+./dev run python knowledge_base/scripts/prefill/<source>.py --input todo/papers/<SOURCE>.md
+./dev run python knowledge_base/scripts/prefill/<source>.py --first 5
+./dev run python knowledge_base/scripts/prefill/<source>.py --list-skipped
+./dev run python knowledge_base/scripts/prefill/<source>.py --overwrite
+./dev run python knowledge_base/scripts/prefill/<source>.py --reingest
 ```
 
 ## Metadata audit
@@ -58,26 +58,26 @@ poetry run python knowledge_base/scripts/prefill/<source>.py --reingest
 Audit all paper metadata files:
 
 ```bash
-poetry run python knowledge_base/scripts/audit_metadata.py
+./dev run python knowledge_base/scripts/audit_metadata.py
 ```
 
 Audit only entries marked `audit_status: partial`:
 
 ```bash
-poetry run python knowledge_base/scripts/audit_metadata.py --audit-status partial
+./dev run python knowledge_base/scripts/audit_metadata.py --audit-status partial
 ```
 
 List entries still marked `audit_status: raw`:
 
 ```bash
-poetry run python knowledge_base/scripts/list_raw_papers.py
+./dev run python knowledge_base/scripts/list_raw_papers.py
 ```
 
 Add `audit_status` to older metadata files that do not have it yet:
 
 ```bash
-poetry run python knowledge_base/scripts/add_audit_status.py --dry-run
-poetry run python knowledge_base/scripts/add_audit_status.py
+./dev run python knowledge_base/scripts/add_audit_status.py --dry-run
+./dev run python knowledge_base/scripts/add_audit_status.py
 ```
 
 ## Tree placement
@@ -95,23 +95,23 @@ scenes.
 Validate `knowledge_base/tree.yml` local links and paper placement:
 
 ```bash
-poetry run python knowledge_base/scripts/validate_tree.py
-poetry run python knowledge_base/scripts/validate_tree.py --check-algorithm-labels
+./dev run python knowledge_base/scripts/validate_tree.py
+./dev run python knowledge_base/scripts/validate_tree.py --check-algorithm-labels
 ```
 
 Suggest likely fixes for Tree and metadata algorithm-label disagreements:
 
 ```bash
-poetry run python knowledge_base/scripts/suggest_tree_algorithm_labels.py
-poetry run python knowledge_base/scripts/suggest_tree_algorithm_labels.py --min-confidence high
-poetry run python knowledge_base/scripts/suggest_tree_algorithm_labels.py --format json
-poetry run streamlit run knowledge_base/apps/tree_label_review_app.py
+./dev run python knowledge_base/scripts/suggest_tree_algorithm_labels.py
+./dev run python knowledge_base/scripts/suggest_tree_algorithm_labels.py --min-confidence high
+./dev run python knowledge_base/scripts/suggest_tree_algorithm_labels.py --format json
+./dev run streamlit run knowledge_base/apps/tree_label_review_app.py
 ```
 
 Find generated paper pages that are missing from the Tree nav:
 
 ```bash
-poetry run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 3
-poetry run python knowledge_base/scripts/list_unplaced_papers.py --format paths
-poetry run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
+./dev run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 3
+./dev run python knowledge_base/scripts/list_unplaced_papers.py --format paths
+./dev run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
 ```

@@ -3,23 +3,23 @@ repos:
     hooks:
       - id: ruff-check
         name: ruff check
-        entry: poetry run ruff check --fix
+        entry: ./dev run ruff check --fix
         language: system
         types_or: [python, pyi]
       - id: ruff-format
         name: ruff format
-        entry: poetry run ruff format
+        entry: ./dev run ruff format
         language: system
         types_or: [python, pyi]
       - id: pyrefly
         name: pyrefly
-        entry: poetry run pyrefly check
+        entry: ./dev run pyrefly check
         language: system
         pass_filenames: false
         types_or: [python, pyi]
       - id: unit-tests
         name: unit tests
-        entry: poetry run python -m unittest discover -s tests -p test_*.py
+        entry: ./dev run python -m unittest discover -s tests -p test_*.py
         language: system
         pass_filenames: false
         always_run: true

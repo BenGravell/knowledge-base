@@ -30,38 +30,37 @@ Important paths:
 
 Run repository commands from the repo root unless a command says otherwise.
 
-Install and shell:
+Install dependencies:
 
 ```bash
-poetry install
-poetry shell
+./dev install
 ```
 
 Run MkDocs commands from the repo root:
 
 ```bash
-mkdocs serve -f knowledge_base/mkdocs.yml
-mkdocs build -f knowledge_base/mkdocs.yml
-mkdocs gh-deploy -f knowledge_base/mkdocs.yml
+./dev run mkdocs serve -f knowledge_base/mkdocs.yml
+./dev run mkdocs build -f knowledge_base/mkdocs.yml
+./dev run mkdocs gh-deploy -f knowledge_base/mkdocs.yml
 ```
 
 Map utilities:
 
 ```bash
-python knowledge_base/map/generate_map_data.py
-python knowledge_base/map/preview_map.py
+./dev run python knowledge_base/map/generate_map_data.py
+./dev run python knowledge_base/map/preview_map.py
 ```
 
 Human-oriented dev tools:
 
 ```bash
-python knowledge_base/scripts/audit_metadata.py
-streamlit run knowledge_base/apps/generator_app.py
+./dev run python knowledge_base/scripts/audit_metadata.py
+./dev run streamlit run knowledge_base/apps/generator_app.py
 ```
 
 ## Conventions
 
-- Python is `>=3.11, <3.14` and managed with Poetry.
+- Python is `>=3.11, <3.14`; use `./dev` so uv can bootstrap Python and Poetry locally.
 - New knowledge entries go under `knowledge_base/docs/` following the structure of existing files.
 - Paper URL lists live under `todo/papers/<SOURCE>.md`.
 - Source-specific prefill scripts live under `knowledge_base/scripts/prefill/<source>.py`.
@@ -69,7 +68,7 @@ streamlit run knowledge_base/apps/generator_app.py
 - Do not promote `audit_status` to `reviewed`. Agents may set it to `partial` after meaningful manual review or correction.
 - There is no general test suite.
 - Do not run programmatic tests except when a task skill explicitly requires a verification command or UX controls changed.
-- When UX controls changed, verify with `mkdocs build -f knowledge_base/mkdocs.yml` from the repo root and check for warnings.
+- When UX controls changed, verify with `./dev run mkdocs build -f knowledge_base/mkdocs.yml` from the repo root and check for warnings.
 
 ## Sub-Agent Delegation
 

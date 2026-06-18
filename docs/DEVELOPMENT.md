@@ -5,28 +5,27 @@ from the repository root unless a section says otherwise.
 
 ## Fresh checkout
 
-Prerequisites:
-
-- Python `>=3.11,<3.14`
-- Poetry
+Needs `git` plus `curl` or `wget`; no Python or Poetry install is required.
+The `./dev` wrapper installs local tooling on first use, then keeps using the
+checked-in Poetry lock.
 
 ```bash
 git clone https://github.com/BenGravell/knowledge-base.git
 cd knowledge-base
-poetry install
-poetry run mkdocs serve -f knowledge_base/mkdocs.yml
+./dev install
+./dev run mkdocs serve -f knowledge_base/mkdocs.yml
 ```
 
 Build the site from the repository root:
 
 ```bash
-poetry run mkdocs build -f knowledge_base/mkdocs.yml
+./dev run mkdocs build -f knowledge_base/mkdocs.yml
 ```
 
 Deploy to GitHub Pages from the repository root:
 
 ```bash
-poetry run mkdocs gh-deploy -f knowledge_base/mkdocs.yml
+./dev run mkdocs gh-deploy -f knowledge_base/mkdocs.yml
 ```
 
 ## Development checks
@@ -34,27 +33,27 @@ poetry run mkdocs gh-deploy -f knowledge_base/mkdocs.yml
 Lint and type-check Python code from the repository root:
 
 ```bash
-poetry run ruff check knowledge_base tests
-poetry run ruff format --check knowledge_base tests
-poetry run pyrefly check
+./dev run ruff check knowledge_base tests
+./dev run ruff format --check knowledge_base tests
+./dev run pyrefly check
 ```
 
 Run unit tests from the repository root:
 
 ```bash
-poetry run python -m unittest discover -s tests -p 'test_*.py'
+./dev run python -m unittest discover -s tests -p 'test_*.py'
 ```
 
 Install the pre-commit hooks once:
 
 ```bash
-pre-commit install
+./dev run pre-commit install
 ```
 
 Run all pre-commit hooks manually:
 
 ```bash
-pre-commit run --all-files
+./dev run pre-commit run --all-files
 ```
 
 ## Local generated data
@@ -63,7 +62,7 @@ Refresh local generated data and validate that the site is self-consistent from
 the repository root:
 
 ```bash
-poetry run python knowledge_base/scripts/refresh_offline_data.py
+./dev run python knowledge_base/scripts/refresh_offline_data.py
 ```
 
 Use `--force` to recompute cached embeddings, or `--strict` to also fail on
@@ -77,13 +76,13 @@ timing report at the end. For deeper profiling, wrap it with `/usr/bin/time`.
 Generate and edit a `metadata.yml` entry from an arXiv ID:
 
 ```bash
-poetry run streamlit run knowledge_base/apps/generator_app.py
+./dev run streamlit run knowledge_base/apps/generator_app.py
 ```
 
 Review Tree and metadata algorithm-label disagreements interactively:
 
 ```bash
-poetry run streamlit run knowledge_base/apps/tree_label_review_app.py
+./dev run streamlit run knowledge_base/apps/tree_label_review_app.py
 ```
 
 The Tree Label Review app uses the same suggestions as

@@ -34,6 +34,36 @@ KB_DIR = Path(__file__).resolve().parents[1]
 REPO_ROOT = KB_DIR.parent
 CONSOLE = Console()
 CHILD_PROGRESS_RE = re.compile(rf"^\s*{re.escape(PROGRESS_PREFIX)}\s+(\d+)/(\d+)(?:\s+(.*))?$")
+HOT_START_STATUS_PATHS = (
+    "knowledge_base/docs",
+    "knowledge_base/tree.yml",
+    "knowledge_base/mkdocs.yml",
+    "knowledge_base/mkdocs.refresh.yml",
+    "knowledge_base/catalog.py",
+    "knowledge_base/config.py",
+    "knowledge_base/embedding_workbench.py",
+    "knowledge_base/generated_assets.py",
+    "knowledge_base/generate_papers.py",
+    "knowledge_base/map",
+    "knowledge_base/semantic_search",
+    "knowledge_base/tree",
+    "pyproject.toml",
+    "poetry.lock",
+)
+HOT_START_REQUIRED_FILES = (
+    KB_DIR / "map" / "embedding_cache.json",
+    KB_DIR / "map" / "embedding_cache.vectors.npy",
+    KB_DIR / "map" / "map-data.js",
+    KB_DIR / "map" / "map-similarity.i16",
+    KB_DIR / "semantic_search" / "embedding_cache.json",
+    KB_DIR / "semantic_search" / "embedding_cache.vectors.npy",
+    KB_DIR / "semantic_search" / "semantic-search-index.json",
+    KB_DIR / "semantic_search" / "semantic-search-settings.json",
+    KB_DIR / "semantic_search" / "semantic-search-vectors.i8",
+    KB_DIR / "site" / "index.html",
+    KB_DIR / "site" / "map" / "index.html",
+    KB_DIR / "site" / "search" / "index.html",
+)
 
 
 @dataclass(frozen=True)
@@ -80,6 +110,46 @@ def subprocess_env() -> dict[str, str]:
 def site_has_paper_pages() -> bool:
     papers_dir = KB_DIR / "site" / "papers"
     return papers_dir.exists() and next(papers_dir.rglob("index.html"), None) is not None
+
+
+def hot_start_fast_path(args: argparse.Namespace) -> tuple[bool, str]:
+    if args.no_fast_path:
+        return False, "disabled by --no-fast-path"
+    if (
+        args.force
+        or args.strict
+        or args.skip_map
+        or args.skip_semantic_search
+        or args.skip_audit
+        or args.skip_build
+        or args.full_build
+        or args.map_backend != "fastembed"
+        or args.fastembed_device != "auto"
+        or args.audit_severity != "error"
+    ):
+        return False, "custom options require running the requested steps"
+
+    missing = [path for path in HOT_START_REQUIRED_FILES if not path.exists()]
+    if missing:
+        return False, f"missing {len(missing)} generated output(s)"
+    if not site_has_paper_pages():
+        return False, "site paper pages are missing"
+
+    status = subprocess.run(
+        ["git", "status", "--porcelain=v1", "--untracked-files=all", "--", *HOT_START_STATUS_PATHS],
+        cwd=REPO_ROOT,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        check=False,
+    )
+    if status.returncode:
+        return False, "git status failed"
+    if status.stdout.strip():
+        return False, "tracked refresh inputs or outputs changed"
+    return True, "tracked refresh inputs and generated outputs are clean"
 
 
 def run_command(
@@ -349,6 +419,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Print the planned commands without running them.",
     )
+    parser.add_argument(
+        "--no-fast-path",
+        action="store_true",
+        help="Always run refresh steps even when the default hot-start no-op check is clean.",
+    )
     return parser.parse_args()
 
 
@@ -361,6 +436,15 @@ def main() -> int:
     CONSOLE.print(f"Working directory: {REPO_ROOT}", style="dim", markup=False, highlight=False)
     if args.dry_run:
         CONSOLE.print("Dry run: no commands will be executed.", style="yellow")
+    else:
+        fast_path_start_ns = time.perf_counter_ns()
+        fast_path, reason = hot_start_fast_path(args)
+        if fast_path:
+            elapsed_s = (time.perf_counter_ns() - fast_path_start_ns) / 1_000_000_000
+            CONSOLE.print(f"Hot-start no-op: {reason}.", style="green")
+            CONSOLE.print(f"Offline generated data is already fresh ({format_duration(elapsed_s)}).", style="green")
+            return 0
+        CONSOLE.print(f"Hot-start fast path skipped: {reason}.", style="dim")
 
     with Progress(
         SpinnerColumn(),

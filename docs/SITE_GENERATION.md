@@ -7,19 +7,19 @@ Commands in this file run from the repository root.
 Serve the site locally:
 
 ```bash
-poetry run mkdocs serve -f knowledge_base/mkdocs.yml
+./dev run mkdocs serve -f knowledge_base/mkdocs.yml
 ```
 
 Build the static site:
 
 ```bash
-poetry run mkdocs build -f knowledge_base/mkdocs.yml
+./dev run mkdocs build -f knowledge_base/mkdocs.yml
 ```
 
 Deploy to GitHub Pages:
 
 ```bash
-poetry run mkdocs gh-deploy -f knowledge_base/mkdocs.yml
+./dev run mkdocs gh-deploy -f knowledge_base/mkdocs.yml
 ```
 
 During `mkdocs serve` and `mkdocs build`, MkDocs runs these gen-files scripts
@@ -42,39 +42,39 @@ and renders the resulting node map with Sigma.js and Graphology.
 Regenerate embeddings and graph data:
 
 ```bash
-poetry run python knowledge_base/map/generate_map_data.py
+./dev run python knowledge_base/map/generate_map_data.py
 ```
 
 Useful variants:
 
 ```bash
-poetry run python knowledge_base/map/generate_map_data.py --force
-poetry run python knowledge_base/map/generate_map_data.py --backend fastembed
-poetry run python knowledge_base/map/generate_map_data.py --backend voyage
-poetry run python knowledge_base/map/generate_map_data.py --skip-force-layout
+./dev run python knowledge_base/map/generate_map_data.py --force
+./dev run python knowledge_base/map/generate_map_data.py --backend fastembed
+./dev run python knowledge_base/map/generate_map_data.py --backend voyage
+./dev run python knowledge_base/map/generate_map_data.py --skip-force-layout
 ```
 
 Preview the layout quickly with Plotly:
 
 ```bash
-poetry run python knowledge_base/map/preview_map.py
-poetry run python knowledge_base/map/preview_map.py --serve
-poetry run python knowledge_base/map/preview_map.py --out preview.html
+./dev run python knowledge_base/map/preview_map.py
+./dev run python knowledge_base/map/preview_map.py --serve
+./dev run python knowledge_base/map/preview_map.py --out preview.html
 ```
 
 Smoke-test the served MkDocs Map page in headless Chrome:
 
 ```bash
-poetry run python knowledge_base/scripts/verify_map_view.py --url http://127.0.0.1:8000/map/
+./dev run python knowledge_base/scripts/verify_map_view.py --url http://127.0.0.1:8000/map/
 ```
 
 Measure the Tree page default-load plus top-level branch-click timing:
 
 ```bash
-poetry run mkdocs build -f knowledge_base/mkdocs.yml
-poetry run python knowledge_base/scripts/measure_tree_view.py
-poetry run python knowledge_base/scripts/measure_tree_view.py --runs 7 --viewport 1366x900
-poetry run python knowledge_base/scripts/measure_tree_view.py --reduced-motion
+./dev run mkdocs build -f knowledge_base/mkdocs.yml
+./dev run python knowledge_base/scripts/measure_tree_view.py
+./dev run python knowledge_base/scripts/measure_tree_view.py --runs 7 --viewport 1366x900
+./dev run python knowledge_base/scripts/measure_tree_view.py --reduced-motion
 ```
 
 ## Semantic Search
@@ -94,7 +94,7 @@ runtime.
 Regenerate the Semantic Search index after paper metadata changes:
 
 ```bash
-poetry run python knowledge_base/semantic_search/generate_semantic_search_index.py
+./dev run python knowledge_base/semantic_search/generate_semantic_search_index.py
 ```
 
 Semantic Search intentionally uses `sentence-transformers/all-MiniLM-L6-v2` /
