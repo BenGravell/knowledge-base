@@ -117,13 +117,13 @@ function topMatches(queryVector, limit) {
 }
 
 async function fetchJson(url) {
-  const response = await fetch(url, { cache: 'no-cache' });
+  const response = await fetch(url);
   if (!response.ok) throw new Error(`Could not load ${url}: ${response.status}`);
   return response.json();
 }
 
 async function fetchArrayBuffer(url) {
-  const response = await fetch(url, { cache: 'no-cache' });
+  const response = await fetch(url);
   if (!response.ok) throw new Error(`Could not load ${url}: ${response.status}`);
   return response.arrayBuffer();
 }

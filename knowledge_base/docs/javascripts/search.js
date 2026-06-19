@@ -14,6 +14,9 @@
   const semanticSettingsUrl = '../javascripts/semantic-search-settings.json';
   const semanticLimit = 80;
   const semanticDisplayLimit = 20;
+  const semanticWarmupDelayMs = 800;
+  const semanticQueryWarmupDelayMs = 250;
+  const semanticQueryCacheLimit = 8;
   const fallbackSemanticScoreThreshold = 0.25;
   const metadataConnectorWords = new Set(['and']);
   const modeLabels = {
@@ -93,9 +96,14 @@
   let worker = null;
   let workerReady = false;
   let workerLoading = false;
+  let workerWarmupStarted = false;
+  let workerWarmupTimer = null;
+  let semanticQueryWarmupTimer = null;
+  let pendingSemanticWarmQuery = '';
   let lastSemanticQuery = '';
   let latestSemanticRows = null;
-  let semanticRequestId = 0;
+  const semanticRowsCache = new Map();
+  const semanticRowsInFlight = new Set();
   let semanticSuggestedScoreThreshold = null;
   let semanticScoreThreshold = fallbackSemanticScoreThreshold;
   let semanticThresholdTouched = false;
@@ -184,6 +192,12 @@
     state.q = input.value.trim();
     syncUrl(true);
     render();
+  });
+
+  input.addEventListener('focus', () => scheduleSemanticWarmup(0), { once: true });
+  input.addEventListener('input', () => {
+    scheduleSemanticWarmup(0);
+    scheduleSemanticQueryWarmup();
   });
 
   input.addEventListener('keydown', event => {
@@ -292,6 +306,7 @@
   });
 
   render();
+  scheduleSemanticWarmup(semanticWarmupDelayMs);
 
   function render() {
     syncControls();
@@ -330,7 +345,6 @@
     renderFacetFilters(papers);
     if (!state.q) {
       workerLoading = false;
-      semanticRequestId += 1;
       latestSemanticRows = null;
       lastSemanticQuery = '';
       renderCount(0, 'results');
@@ -344,7 +358,15 @@
       return;
     }
 
-    const requestId = ++semanticRequestId;
+    const cachedRows = cachedSemanticRows(state.q);
+    if (cachedRows) {
+      latestSemanticRows = cachedRows;
+      lastSemanticQuery = state.q;
+      workerLoading = false;
+      renderSemanticRows(cachedRows);
+      return;
+    }
+
     lastSemanticQuery = state.q;
     latestSemanticRows = null;
     workerLoading = true;
@@ -352,9 +374,9 @@
     panel.classList.remove('is-empty');
     renderProgress(workerReady ? 'Embedding query...' : 'Loading embedding model and vector index...');
 
-    const activeWorker = ensureWorker(requestId);
+    const activeWorker = ensureWorker();
     if (workerReady) {
-      activeWorker.postMessage({ type: 'query', query: state.q, limit: semanticLimit });
+      requestSemanticRows(state.q);
     } else {
       activeWorker.postMessage({ type: 'init' });
     }
@@ -562,7 +584,7 @@
     );
   }
 
-  function ensureWorker(requestId) {
+  function ensureWorker() {
     if (worker) return worker;
     worker = new Worker(workerUrl, { type: 'module' });
     worker.addEventListener('message', event => {
@@ -573,32 +595,120 @@
         if (lastSemanticQuery && state.mode === 'semantic' && state.q === lastSemanticQuery) {
           workerLoading = true;
           renderProgress('Embedding query...');
-          worker.postMessage({ type: 'query', query: lastSemanticQuery, limit: semanticLimit });
+          requestSemanticRows(lastSemanticQuery);
         } else {
           workerLoading = false;
+          warmPendingSemanticQuery();
         }
       } else if (message.type === 'status') {
         renderProgress(message.message || 'Working...');
       } else if (message.type === 'results') {
+        const query = message.query || '';
+        const rows = message.results || [];
+        semanticRowsInFlight.delete(semanticQueryKey(query));
+        cacheSemanticRows(query, rows);
         if (state.mode !== 'semantic') return;
-        if (requestId !== semanticRequestId && message.query !== state.q) return;
+        if (query !== state.q) return;
         workerLoading = false;
         applyWorkerSemanticScoreSuggestion(message.scoreThreshold);
-        latestSemanticRows = message.results || [];
-        lastSemanticQuery = message.query || state.q;
+        latestSemanticRows = rows;
+        lastSemanticQuery = query || state.q;
         renderSemanticRows(latestSemanticRows);
       } else if (message.type === 'error') {
+        semanticRowsInFlight.clear();
         if (state.mode !== 'semantic') return;
         workerLoading = false;
         renderError(message.message || 'Semantic search failed.');
       }
     });
     worker.addEventListener('error', event => {
+      semanticRowsInFlight.clear();
       if (state.mode !== 'semantic') return;
       workerLoading = false;
       renderError(event.message || 'Semantic search worker failed.');
     });
     return worker;
+  }
+
+  function scheduleSemanticWarmup(delay) {
+    if (workerReady || workerWarmupStarted || !window.Worker) return;
+    if (workerWarmupTimer) {
+      window.clearTimeout(workerWarmupTimer);
+      workerWarmupTimer = null;
+    }
+    if (!delay) {
+      warmSemanticSearch();
+      return;
+    }
+    workerWarmupTimer = window.setTimeout(() => {
+      workerWarmupTimer = null;
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(warmSemanticSearch, { timeout: 2000 });
+      } else {
+        warmSemanticSearch();
+      }
+    }, delay);
+  }
+
+  function warmSemanticSearch() {
+    if (workerReady || workerWarmupStarted || !window.Worker) return;
+    workerWarmupStarted = true;
+    ensureWorker().postMessage({ type: 'init' });
+  }
+
+  function scheduleSemanticQueryWarmup() {
+    if (semanticQueryWarmupTimer) {
+      window.clearTimeout(semanticQueryWarmupTimer);
+      semanticQueryWarmupTimer = null;
+    }
+    if (state.mode !== 'semantic') return;
+    const query = input.value.trim();
+    if (query.length < 2) return;
+    pendingSemanticWarmQuery = query;
+    semanticQueryWarmupTimer = window.setTimeout(() => {
+      semanticQueryWarmupTimer = null;
+      warmPendingSemanticQuery();
+    }, semanticQueryWarmupDelayMs);
+  }
+
+  function warmPendingSemanticQuery() {
+    const query = pendingSemanticWarmQuery.trim();
+    if (!query || state.mode !== 'semantic' || input.value.trim() !== query) return;
+    if (workerLoading) return;
+    if (!workerReady || cachedSemanticRows(query, { touch: false })) return;
+    requestSemanticRows(query);
+  }
+
+  function requestSemanticRows(query) {
+    const key = semanticQueryKey(query);
+    if (!key || semanticRowsInFlight.has(key)) return;
+    semanticRowsInFlight.add(key);
+    ensureWorker().postMessage({ type: 'query', query, limit: semanticLimit });
+  }
+
+  function cacheSemanticRows(query, rows) {
+    const key = semanticQueryKey(query);
+    if (!key) return;
+    if (semanticRowsCache.has(key)) semanticRowsCache.delete(key);
+    semanticRowsCache.set(key, rows);
+    while (semanticRowsCache.size > semanticQueryCacheLimit) {
+      semanticRowsCache.delete(semanticRowsCache.keys().next().value);
+    }
+  }
+
+  function cachedSemanticRows(query, options = {}) {
+    const key = semanticQueryKey(query);
+    if (!key || !semanticRowsCache.has(key)) return null;
+    const rows = semanticRowsCache.get(key);
+    if (options.touch !== false) {
+      semanticRowsCache.delete(key);
+      semanticRowsCache.set(key, rows);
+    }
+    return rows;
+  }
+
+  function semanticQueryKey(query) {
+    return normalizeText(query);
   }
 
   function syncControls() {
@@ -675,7 +785,7 @@
   }
 
   function loadSemanticSettings() {
-    fetch(semanticSettingsUrl, { cache: 'no-cache' })
+    fetch(semanticSettingsUrl)
       .then(response => (response.ok ? response.json() : null))
       .then(settingsData => {
         if (!settingsData) {
