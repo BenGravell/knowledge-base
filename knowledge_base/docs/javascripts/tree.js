@@ -2607,8 +2607,15 @@
   }
 
   function readHashId() {
-    const hash = window.location.hash.slice(1);
     try {
+      const query = new URLSearchParams(window.location.search);
+      const queryNodeId = query.get('ct');
+      if (queryNodeId) return queryNodeId;
+
+      const queryPaperId = query.get('paper');
+      if (queryPaperId && paperNodes.has(queryPaperId)) return paperNodes.get(queryPaperId);
+
+      const hash = window.location.hash.slice(1);
       const params = new URLSearchParams(hash);
       const nodeId = params.get('ct');
       if (nodeId) return nodeId;

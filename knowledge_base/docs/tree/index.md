@@ -29,7 +29,5 @@ hide:
   </div>
 </div>
 
-<script src="../javascripts/site-link-data.js"></script>
-<script src="../javascripts/paper-link-pills.js"></script>
-<script src="../javascripts/tree-data.js"></script>
-<script src="../javascripts/tree.js"></script>
+<!-- kb:app-scripts tree -->
+<!-- /kb:app-scripts -->

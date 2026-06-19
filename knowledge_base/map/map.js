@@ -4119,6 +4119,14 @@
   }
 
   function readFocusPaperId() {
+    try {
+      const query = new URLSearchParams(window.location.search);
+      const paperId = query.get('paper') || query.get('node');
+      if (paperId) return paperId;
+    } catch (error) {
+      // Keep supporting hash-only browsers/links if query parsing fails.
+    }
+
     const hash = window.location.hash.slice(1);
     if (!hash) return null;
 

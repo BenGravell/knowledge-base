@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import json
+import posixpath
 import re
 from dataclasses import dataclass
+from pathlib import PurePosixPath
 from typing import Any
 
 
@@ -68,6 +70,12 @@ class JsonAsset:
         return data
 
 
+@dataclass(frozen=True)
+class AppScriptBundle:
+    name: str
+    assets: tuple[GeneratedAsset | JsonAsset, ...]
+
+
 SITE_LINK_DATA = JsonAsset(
     "site-link-data.js",
     global_name="kbSiteLinkData",
@@ -109,6 +117,73 @@ SEMANTIC_SEARCH_INDEX = JsonAsset("semantic-search-index.json")
 SEMANTIC_SEARCH_SETTINGS = JsonAsset("semantic-search-settings.json")
 SEMANTIC_SEARCH_VECTORS = GeneratedAsset("semantic-search-vectors.i8")
 
+ANALYTICS_SCRIPT = GeneratedAsset("analytics.js")
+GRAPHOLOGY_VENDOR_SCRIPT = GeneratedAsset("graphology.umd.min.js", "javascripts/vendor")
+HOME_BENTO_SCRIPT = GeneratedAsset("home-bento.js")
+MAP_SCRIPT = GeneratedAsset("map.js")
+PAPER_LINK_PILLS_SCRIPT = GeneratedAsset("paper-link-pills.js")
+SEARCH_SCRIPT = GeneratedAsset("search.js")
+SIGMA_VENDOR_SCRIPT = GeneratedAsset("sigma.min.js", "javascripts/vendor")
+TIMELINE_SCRIPT = GeneratedAsset("timeline.js")
+TREE_SCRIPT = GeneratedAsset("tree.js")
+
+HOME_APP_SCRIPTS = AppScriptBundle(
+    "home",
+    (ANALYTICS_DATA, HOME_BENTO_SCRIPT, ANALYTICS_SCRIPT),
+)
+MAP_APP_SCRIPTS = AppScriptBundle(
+    "map",
+    (
+        GRAPHOLOGY_VENDOR_SCRIPT,
+        SIGMA_VENDOR_SCRIPT,
+        MAP_DATA,
+        SITE_LINK_DATA,
+        PAPER_LINK_PILLS_SCRIPT,
+        MAP_SCRIPT,
+    ),
+)
+SEARCH_APP_SCRIPTS = AppScriptBundle(
+    "search",
+    (SITE_LINK_DATA, PAPER_LINK_PILLS_SCRIPT, SEARCH_DATA, SEARCH_SCRIPT),
+)
+TREE_APP_SCRIPTS = AppScriptBundle(
+    "tree",
+    (SITE_LINK_DATA, PAPER_LINK_PILLS_SCRIPT, TREE_DATA, TREE_SCRIPT),
+)
+TIMELINE_APP_SCRIPTS = AppScriptBundle(
+    "timeline",
+    (SITE_LINK_DATA, PAPER_LINK_PILLS_SCRIPT, TIMELINE_DATA, TIMELINE_SCRIPT),
+)
+ANALYTICS_APP_SCRIPTS = AppScriptBundle(
+    "analytics",
+    (ANALYTICS_DATA, ANALYTICS_SCRIPT),
+)
+
+APP_SCRIPT_BUNDLES = {
+    bundle.name: bundle
+    for bundle in (
+        HOME_APP_SCRIPTS,
+        MAP_APP_SCRIPTS,
+        SEARCH_APP_SCRIPTS,
+        TREE_APP_SCRIPTS,
+        TIMELINE_APP_SCRIPTS,
+        ANALYTICS_APP_SCRIPTS,
+    )
+}
+APP_SCRIPT_PAGES = {
+    "index.md": HOME_APP_SCRIPTS,
+    "map.md": MAP_APP_SCRIPTS,
+    "search.md": SEARCH_APP_SCRIPTS,
+    "tree/index.md": TREE_APP_SCRIPTS,
+    "timeline.md": TIMELINE_APP_SCRIPTS,
+}
+APP_SCRIPT_BLOCK_RE = re.compile(
+    r"<!--\s*kb:app-scripts\s+(?P<bundle>[a-z0-9_-]+)\s*-->"
+    r".*?"
+    r"<!--\s*/kb:app-scripts\s*-->",
+    re.S,
+)
+
 SEMANTIC_BROWSER_MODEL = "Xenova/all-MiniLM-L6-v2"
 SEMANTIC_SCORE_THRESHOLD = 0.25
 
@@ -143,3 +218,36 @@ SEMANTIC_SEARCH_PLACEHOLDER_SETTINGS: dict[str, Any] = {
     "scoreThreshold": SEMANTIC_SEARCH_PLACEHOLDER_MANIFEST["scoreThreshold"],
     "scoreThresholdCalibration": SEMANTIC_SEARCH_PLACEHOLDER_MANIFEST["scoreThresholdCalibration"],
 }
+
+
+def page_relative_asset_path(page_source: str | PurePosixPath, asset: GeneratedAsset | JsonAsset) -> str:
+    source = PurePosixPath(str(page_source).replace("\\", "/"))
+    source_parent = source.parent.as_posix()
+    start = "." if source_parent == "." else source_parent
+    return posixpath.relpath(asset.published_path, start)
+
+
+def app_script_bundle(bundle: str | AppScriptBundle) -> AppScriptBundle:
+    if isinstance(bundle, AppScriptBundle):
+        return bundle
+    try:
+        return APP_SCRIPT_BUNDLES[bundle]
+    except KeyError as exc:
+        raise ValueError(f"Unknown app script bundle: {bundle}") from exc
+
+
+def render_app_script_tags(page_source: str | PurePosixPath, bundle: str | AppScriptBundle) -> str:
+    scripts = app_script_bundle(bundle).assets
+    return "\n".join(f'<script src="{page_relative_asset_path(page_source, asset)}"></script>' for asset in scripts)
+
+
+def render_app_script_blocks(markdown: str, page_source: str | PurePosixPath) -> str:
+    def replace(match: re.Match[str]) -> str:
+        bundle = app_script_bundle(match.group("bundle"))
+        return (
+            f"<!-- kb:app-scripts {bundle.name} -->\n"
+            f"{render_app_script_tags(page_source, bundle)}\n"
+            "<!-- /kb:app-scripts -->"
+        )
+
+    return APP_SCRIPT_BLOCK_RE.sub(replace, markdown)

@@ -19,7 +19,7 @@ import yaml
 
 from knowledge_base.catalog import Catalog
 from knowledge_base.config import KB_DIR
-from knowledge_base.generated_assets import ANALYTICS_DATA, TIMELINE_DATA, TREE_DATA
+from knowledge_base.generated_assets import ANALYTICS_DATA, TIMELINE_DATA, TREE_DATA, render_app_script_tags
 from knowledge_base.generated_files import open_generated
 from knowledge_base.tree.model import (
     TreeBranch,
@@ -736,9 +736,7 @@ body:has(.md-content__inner > #an-app) .md-grid,body:has(.md-content__inner > #a
   </section>
 </div>
 
-<script src="../javascripts/analytics-data.js"></script>
-<script src="../javascripts/analytics.js"></script>
-"""
+""" + render_app_script_tags("analytics.md", "analytics") + "\n"
 
 
 ANALYTICS_CSS = ANALYTICS_PAGE.split("<style>\n", 1)[1].split("</style>", 1)[0].strip()
@@ -951,11 +949,7 @@ body:has(#tl-app) .md-grid,body:has(#tl-app) .md-main__inner{max-width:100%!impo
   </div>
 </div>
 
-<script src="../javascripts/site-link-data.js"></script>
-<script src="../javascripts/paper-link-pills.js"></script>
-<script src="../javascripts/timeline-data.js"></script>
-<script src="../javascripts/timeline.js"></script>
-"""
+""" + render_app_script_tags("timeline.md", "timeline") + "\n"
 
 
 TIMELINE_JS = r"""'use strict';
@@ -1111,7 +1105,7 @@ TIMELINE_JS = r"""'use strict';
   function categoriesForSuper(s,current){const siblings=categoryOrder().filter(c=>(categorySuper(c)||c)===s);if(!siblings.includes(current))siblings.push(current);return siblings;}
   function hslToHex(o){const h=o.h/360,s=o.s/100,l=o.l/100,fn=(p,q,t)=>{if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<1/2)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p;};let r,g,b;if(s===0){r=g=b=l;}else{const q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;r=fn(p,q,h+1/3);g=fn(p,q,h);b=fn(p,q,h-1/3);}const hex=v=>Math.round(v*255).toString(16).padStart(2,'0');return'#'+hex(r)+hex(g)+hex(b);}
   function compare(a,b){for(let i=0;i<Math.max(a.length,b.length);i++){const d=(a[i]||0)-(b[i]||0);if(d!==0)return d;}return 0;}function positive(i){return i>=0?i:9999;}function clamp(v,min,max){return Math.min(Math.max(v,min),max);}function normHue(h){return((h%360)+360)%360;}function plural(n,s,p){return n+' '+(n===1?s:(p||s+'s'));}function norm(v){return String(v||'').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'');}
-  function readPaperHash(){const hash=window.location.hash.slice(1);if(!hash)return null;const params=new URLSearchParams(hash);return params.get('paper')||params.get('tl');}
+  function readPaperHash(){const query=new URLSearchParams(window.location.search),queryId=query.get('paper')||query.get('tl');if(queryId)return queryId;const hash=window.location.hash.slice(1);if(!hash)return null;const params=new URLSearchParams(hash);return params.get('paper')||params.get('tl');}
   function setHash(id){const url=new URL(window.location.href);url.hash=id?'paper='+encodeURIComponent(id):'';window.history.pushState(null,'',url);}
   function append(parent,tag,attrs,text){const el=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.keys(attrs||{}).forEach(k=>el.setAttribute(k,attrs[k]));if(text!==undefined)el.textContent=text;parent.appendChild(el);return el;}
   function clear(node){while(node.firstChild)node.removeChild(node.firstChild);}

@@ -1365,15 +1365,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 </div>
 
-<!-- Sigma core and graph model -->
-<script src="javascripts/vendor/graphology.umd.min.js"></script>
-<script src="javascripts/vendor/sigma.min.js"></script>
-<!-- Generated map data (run generate_map_data.py to regenerate) -->
-<script src="javascripts/map-data.js"></script>
-<!-- Visualisation logic -->
-<script src="javascripts/site-link-data.js"></script>
-<script src="javascripts/paper-link-pills.js"></script>
-<script src="javascripts/map.js"></script>
+<!-- kb:app-scripts map -->
+<!-- /kb:app-scripts -->
 <script>
 (function () {
   function applyMmSizes() {

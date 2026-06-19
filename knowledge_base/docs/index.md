@@ -195,6 +195,5 @@ render_macros: true
   </details>
 </div>
 
-<script src="javascripts/analytics-data.js"></script>
-<script src="javascripts/home-bento.js"></script>
-<script src="javascripts/analytics.js"></script>
+<!-- kb:app-scripts home -->
+<!-- /kb:app-scripts -->

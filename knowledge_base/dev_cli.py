@@ -11,6 +11,8 @@ from pathlib import Path
 
 import yaml
 
+from knowledge_base.generated_assets import render_app_script_blocks
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 KB_DIR = Path(__file__).resolve().parent
 SOURCE_DOCS_DIR = KB_DIR / "docs"
@@ -69,6 +71,8 @@ def copy_docs_ignore(directory: str, names: list[str]) -> set[str]:
     ignored = {"__pycache__"} & set(names)
     if Path(directory) == SOURCE_DOCS_DIR and "papers" in names:
         ignored.add("papers")
+    if Path(directory) == SOURCE_DOCS_DIR and "templates" in names:
+        ignored.add("templates")
     return ignored
 
 
@@ -82,6 +86,14 @@ def write_zensical_config() -> None:
     ZENSICAL_CONFIG.write_text(yaml.safe_dump(config, sort_keys=False), encoding="utf-8")
 
 
+def render_staged_app_script_blocks() -> None:
+    for path in STAGED_DOCS_DIR.rglob("*.md"):
+        source = path.read_text(encoding="utf-8")
+        rendered = render_app_script_blocks(source, path.relative_to(STAGED_DOCS_DIR).as_posix())
+        if rendered != source:
+            path.write_text(rendered, encoding="utf-8")
+
+
 def materialize_generated_docs() -> None:
     log(f"preparing {rel(STAGED_DOCS_DIR)}")
     if STAGED_DOCS_DIR.exists():
@@ -90,6 +102,7 @@ def materialize_generated_docs() -> None:
         f"copy {rel(SOURCE_DOCS_DIR)} to {rel(STAGED_DOCS_DIR)}",
         lambda: shutil.copytree(SOURCE_DOCS_DIR, STAGED_DOCS_DIR, ignore=copy_docs_ignore),
     )
+    run_step("render app script blocks", render_staged_app_script_blocks)
     run_step(f"write {rel(ZENSICAL_CONFIG)}", write_zensical_config)
 
     env = os.environ.copy()

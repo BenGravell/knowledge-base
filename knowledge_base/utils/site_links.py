@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import posixpath
 from functools import lru_cache
 from importlib import resources
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
-from urllib.parse import quote
+from urllib.parse import quote, urlsplit, urlunsplit
 
 import yaml
 
@@ -147,6 +148,14 @@ def join_url(base_path: str, target: str) -> str:
     return f"{base}/{path}" if base else path
 
 
+def source_relative_url(from_source: str, target_source: str) -> str:
+    parsed = urlsplit(target_source)
+    from_parent = PurePosixPath(clean_text(from_source).replace("\\", "/")).parent.as_posix()
+    start = "." if from_parent == "." else from_parent
+    path = posixpath.relpath(parsed.path, start)
+    return urlunsplit(("", "", path, parsed.query, parsed.fragment))
+
+
 def paper_site_url(key: str, paper_id: str, base_path: str) -> str:
     quoted_paper_id = quote(paper_id, safe="")
     if key == "detail":
@@ -162,11 +171,27 @@ def paper_site_url(key: str, paper_id: str, base_path: str) -> str:
     return ""
 
 
+def paper_site_source_url(key: str, paper_id: str, from_source: str) -> str:
+    quoted_paper_id = quote(paper_id, safe="")
+    if key == "detail":
+        return source_relative_url(from_source, f"papers/{quoted_paper_id}.md")
+    if key == "map":
+        return source_relative_url(from_source, f"map.md?paper={quoted_paper_id}")
+    if key == "tree":
+        return source_relative_url(from_source, f"tree/index.md?paper={quoted_paper_id}")
+    if key == "timeline":
+        return source_relative_url(from_source, f"timeline.md?paper={quoted_paper_id}")
+    if key == "search":
+        return source_relative_url(from_source, f"search.md?paper={quoted_paper_id}")
+    return ""
+
+
 def make_paper_site_link(
     key: str,
     paper_id: str,
     *,
     base_path: str = "../..",
+    from_source: str = "",
     icon: str = "",
 ) -> dict[str, str | bool]:
     label = PAPER_SITE_LINK_LABELS[key]
@@ -174,7 +199,7 @@ def make_paper_site_link(
     return {
         "key": key,
         "label": label,
-        "url": paper_site_url(key, paper_id, base_path),
+        "url": paper_site_source_url(key, paper_id, from_source) if from_source else paper_site_url(key, paper_id, base_path),
         "detail": f"Open in {label}",
         "variant": "internal",
         "external": False,
@@ -187,18 +212,20 @@ def paper_site_links(
     paper_id: str,
     *,
     base_path: str = "../..",
+    from_source: str = "",
     include_detail: bool = False,
     config_path: str = "zensical.yml",
 ) -> list[dict[str, str | bool]]:
     links: list[dict[str, str | bool]] = []
     if include_detail:
-        links.append(make_paper_site_link("detail", paper_id, base_path=base_path))
+        links.append(make_paper_site_link("detail", paper_id, base_path=base_path, from_source=from_source))
 
     links.extend(
         make_paper_site_link(
             spec["key"],
             paper_id,
             base_path=base_path,
+            from_source=from_source,
             icon=spec["icon"],
         )
         for spec in paper_site_link_specs(config_path)

@@ -18,7 +18,7 @@ from knowledge_base.utils.arxiv_utils import (
     arxiv_pdf_url,
     normalize_arxiv_id,
 )
-from knowledge_base.utils.site_links import paper_site_links, site_link_data
+from knowledge_base.utils.site_links import paper_site_links, paper_site_source_url, site_link_data, source_relative_url
 
 try:
     import numpy as np
@@ -280,7 +280,7 @@ def make_link(
     }
 
 
-def build_tag_links(tags: list[str], paper_id: str) -> list[dict[str, str]]:
+def build_tag_links(tags: list[str], paper_id: str, source_path: str) -> list[dict[str, str]]:
     links = []
     quoted_paper_id = quote(paper_id, safe="")
     for tag in tags or []:
@@ -290,13 +290,16 @@ def build_tag_links(tags: list[str], paper_id: str) -> list[dict[str, str]]:
         links.append(
             {
                 "label": label,
-                "url": f"../../search/?paper={quoted_paper_id}&tag={quote(label, safe='')}",
+                "url": source_relative_url(
+                    source_path,
+                    f"search.md?paper={quoted_paper_id}&tag={quote(label, safe='')}",
+                ),
             }
         )
     return links
 
 
-def build_link_sections(data: dict[str, Any], paper_id: str) -> list[dict[str, Any]]:
+def build_link_sections(data: dict[str, Any], paper_id: str, source_path: str) -> list[dict[str, Any]]:
     primary = clean_scalar(data.get("link"))
     arxiv_id = clean_arxiv_id(data.get("arxiv_id"))
     doi = clean_doi(data.get("doi"))
@@ -307,7 +310,7 @@ def build_link_sections(data: dict[str, Any], paper_id: str) -> list[dict[str, A
         {
             "title": "Knowledge Base",
             "kind": "internal",
-            "links": paper_site_links(paper_id, base_path="../.."),
+            "links": paper_site_links(paper_id, from_source=source_path),
         }
     )
 
@@ -440,14 +443,14 @@ def build_top_similar_papers(
                     "score_percent": score_percent,
                     "score_gauge_degrees": round(score_percent * 1.8, 1),
                     "score_label": f"{score_percent}% similar",
-                    "url": f"../../papers/{quote(other_id, safe='')}/",
-                    "tree_url": f"../../tree/#paper={quote(other_id, safe='')}",
-                    "map_url": f"../../map/#paper={quote(other_id, safe='')}",
-                    "timeline_url": f"../../timeline/#paper={quote(other_id, safe='')}",
-                    "search_url": f"../../search/?paper={quote(other_id, safe='')}",
+                    "url": paper_site_source_url("detail", other_id, f"papers/{paper_id}.md"),
+                    "tree_url": paper_site_source_url("tree", other_id, f"papers/{paper_id}.md"),
+                    "map_url": paper_site_source_url("map", other_id, f"papers/{paper_id}.md"),
+                    "timeline_url": paper_site_source_url("timeline", other_id, f"papers/{paper_id}.md"),
+                    "search_url": paper_site_source_url("search", other_id, f"papers/{paper_id}.md"),
                     "site_links": paper_site_links(
                         other_id,
-                        base_path="../..",
+                        from_source=f"papers/{paper_id}.md",
                         include_detail=True,
                     ),
                 }
@@ -556,6 +559,7 @@ def build_paper_entries() -> list[PaperTemplateEntry]:
             generated_root=generated_root,
         )
         paper_id = entry.id
+        source_path = entry.generated_source
         data.update(
             {
                 "title": entry.title,
@@ -569,10 +573,11 @@ def build_paper_entries() -> list[PaperTemplateEntry]:
                 "tags": list(entry.tags),
                 "doi_clean": entry.doi,
                 "arxiv_clean": entry.arxiv_id,
+                "search_page_url": source_relative_url(source_path, "search.md"),
             }
         )
-        data["link_sections"] = build_link_sections(data, paper_id)
-        data["tag_links"] = build_tag_links(data["tags"], paper_id)
+        data["link_sections"] = build_link_sections(data, paper_id, source_path)
+        data["tag_links"] = build_tag_links(data["tags"], paper_id, source_path)
         paper_entries.append(
             {
                 "metadata_file": metadata_file,

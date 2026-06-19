@@ -10,8 +10,12 @@
     return;
   }
 
-  const workerUrl = '../javascripts/semantic-search-worker.js';
-  const semanticSettingsUrl = '../javascripts/semantic-search-settings.json';
+  const scriptUrl = new URL(
+    document.currentScript && document.currentScript.src ? document.currentScript.src : '../javascripts/search.js',
+    window.location.href
+  );
+  const workerUrl = new URL('semantic-search-worker.js', scriptUrl).href;
+  const semanticSettingsUrl = new URL('semantic-search-settings.json', scriptUrl).href;
   const semanticLimit = 80;
   const semanticDisplayLimit = 20;
   const semanticWarmupDelayMs = 800;

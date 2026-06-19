@@ -3,7 +3,7 @@ import { env, pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers
 env.allowLocalModels = false;
 env.useBrowserCache = true;
 
-const INDEX_URL = '../javascripts/semantic-search-index.json';
+const INDEX_URL = 'semantic-search-index.json';
 const DEFAULT_LIMIT = 24;
 const DEFAULT_SCORE_THRESHOLD = 0.25;
 
@@ -25,12 +25,13 @@ async function ensureReady() {
   if (initPromise) return initPromise;
   initPromise = (async () => {
     postStatus('Loading semantic index...');
-    manifest = await fetchJson(INDEX_URL);
+    const indexUrl = new URL(INDEX_URL, self.location.href);
+    manifest = await fetchJson(indexUrl.href);
     if (!manifest || !manifest.count || !manifest.dimension) {
       throw new Error('Semantic search index is empty. Run python semantic_search/generate_semantic_search_index.py from knowledge_base/.');
     }
 
-    const vectorUrl = new URL(manifest.vectors || 'semantic-search-vectors.i8', new URL(INDEX_URL, self.location.href));
+    const vectorUrl = new URL(manifest.vectors || 'semantic-search-vectors.i8', indexUrl);
     const vectorBuffer = await fetchArrayBuffer(vectorUrl.href);
     vectors = new Int8Array(vectorBuffer);
     const expectedLength = Number(manifest.count) * Number(manifest.dimension);
