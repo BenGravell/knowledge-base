@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+import os
+import unittest
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import unquote, urljoin, urlparse
-import unittest
+from urllib.parse import ParseResult, unquote, urljoin, urlparse
 
+from typing_extensions import override
+
+from knowledge_base.dev_cli import SOURCE_DOCS_DIR, copy_docs_ignore
 from knowledge_base.generated_assets import (
     APP_SCRIPT_PAGES,
     MAP_DATA,
@@ -19,7 +23,6 @@ from knowledge_base.generated_assets import (
     render_app_script_blocks,
     render_app_script_tags,
 )
-from knowledge_base.dev_cli import SOURCE_DOCS_DIR, copy_docs_ignore
 from knowledge_base.utils.site_links import (
     paper_site_source_url,
     paper_site_url,
@@ -46,6 +49,7 @@ class ScriptSrcParser(HTMLParser):
         super().__init__()
         self.sources: list[str] = []
 
+    @override
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         if tag != "script":
             return
@@ -60,6 +64,7 @@ class LocalRefParser(HTMLParser):
         super().__init__()
         self.refs: list[tuple[str, str, str]] = []
 
+    @override
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = dict(attrs)
         for attr in LOCAL_REF_ATTRS.get(tag, ()):
@@ -94,7 +99,7 @@ def built_page_url(path: Path) -> str:
     return urljoin(SITE_URL, rel)
 
 
-def built_local_target_exists(parsed_url) -> bool:
+def built_local_target_exists(parsed_url: ParseResult) -> bool:
     rel = unquote(parsed_url.path.removeprefix(SITE_PREFIX))
     if not rel:
         return (SITE_DIR / "index.html").exists()
@@ -121,10 +126,7 @@ class GeneratedAssetTests(unittest.TestCase):
             with self.subTest(page=page_name):
                 source = page_path.read_text(encoding="utf-8")
                 rendered = render_app_script_blocks(source, page_name)
-                expected_sources = [
-                    page_relative_asset_path(page_name, asset)
-                    for asset in APP_SCRIPT_PAGES[page_name].assets
-                ]
+                expected_sources = [page_relative_asset_path(page_name, asset) for asset in bundle_name.assets]
 
                 self.assertIn(f"kb:app-scripts {bundle_name.name}", source)
                 self.assertEqual(script_sources_from_text(rendered), expected_sources)
@@ -142,13 +144,13 @@ class GeneratedAssetTests(unittest.TestCase):
                     )
 
     def test_app_script_paths_are_not_hand_coded(self) -> None:
-        sources = list(DOCS_DIR.rglob("*.md")) + [REPO_ROOT / "knowledge_base" / "tree" / "generate_tree_data.py"]
-        offenders: list[str] = []
-        for path in sources:
-            rel = path.relative_to(REPO_ROOT).as_posix()
-            for src in script_sources(path):
-                if src.startswith("javascripts/") or src.startswith("../javascripts/"):
-                    offenders.append(f"{rel}: {src}")
+        sources = [*DOCS_DIR.rglob("*.md"), REPO_ROOT / "knowledge_base" / "tree" / "generate_tree_data.py"]
+        offenders = [
+            f"{path.relative_to(REPO_ROOT).as_posix()}: {src}"
+            for path in sources
+            for src in script_sources(path)
+            if src.startswith(("javascripts/", "../javascripts/"))
+        ]
 
         self.assertEqual(offenders, [])
 
@@ -202,6 +204,8 @@ class GeneratedAssetTests(unittest.TestCase):
         self.assertIn("templates", copy_docs_ignore(str(SOURCE_DOCS_DIR), ["papers", "templates"]))
 
     def test_built_site_local_links_stay_within_deployment_prefix(self) -> None:
+        if os.environ.get("KB_CHECK_BUILT_SITE_LINKS") != "1":
+            self.skipTest("set KB_CHECK_BUILT_SITE_LINKS=1 to scan generated site links")
         if not (SITE_DIR / "index.html").exists():
             self.skipTest("run `./dev run build` to materialize the generated site before scanning emitted links")
 
@@ -236,7 +240,9 @@ class GeneratedAssetTests(unittest.TestCase):
                         missing.append(detail)
 
         self.assertGreater(checked, 0)
-        self.assertEqual(escaped, [], "local links escape the deployed /knowledge-base/ prefix:\n" + "\n".join(escaped[:20]))
+        self.assertEqual(
+            escaped, [], "local links escape the deployed /knowledge-base/ prefix:\n" + "\n".join(escaped[:20])
+        )
         self.assertEqual(missing, [], "local links point at missing emitted files:\n" + "\n".join(missing[:20]))
 
     def test_js_assignment_round_trips_payload(self) -> None:

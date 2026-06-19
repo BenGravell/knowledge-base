@@ -421,7 +421,9 @@ class Entry:
         map_path = f"map/#paper={quoted_id}"
         timeline_path = f"timeline/#paper={quoted_id}"
         search_path = f"search/?paper={quoted_id}"
-        cached_embedding_chunks = () if refresh_embedding_input_sidecar else embedding_input_sidecar_chunks(metadata_path)
+        cached_embedding_chunks = (
+            () if refresh_embedding_input_sidecar else embedding_input_sidecar_chunks(metadata_path)
+        )
         embedding_chunks = cached_embedding_chunks or build_embedding_chunks(
             metadata_path=metadata_path,
             title=title,
@@ -431,7 +433,9 @@ class Entry:
         )
         embedding_text = render_embedding_input_chunks(embedding_chunks)
         if (write_embedding_input_sidecar or refresh_embedding_input_sidecar) and not cached_embedding_chunks:
-            write_text_if_changed(embedding_input_sidecar_path(metadata_path), embedding_chunks_sidecar_text(embedding_chunks))
+            write_text_if_changed(
+                embedding_input_sidecar_path(metadata_path), embedding_chunks_sidecar_text(embedding_chunks)
+            )
         return cls(
             metadata_path=metadata_path,
             id=paper_id,
@@ -674,10 +678,17 @@ def parse_embedding_input_sidecar(text: str) -> tuple[EmbeddingInputChunk, ...]:
         chunk_text = raw[start:end].strip()
         if not chunk_text:
             continue
+        metadata: dict[str, Any]
         try:
-            metadata = json.loads(match.group(1))
+            raw_metadata = json.loads(match.group(1))
         except json.JSONDecodeError:
-            metadata = {}
+            metadata = dict[str, Any]()
+        else:
+            metadata = (
+                {str(key): value for key, value in raw_metadata.items()}
+                if isinstance(raw_metadata, dict)
+                else dict[str, Any]()
+            )
         try:
             weight = float(metadata.get("weight") or 1.0)
         except (TypeError, ValueError):
@@ -982,9 +993,7 @@ def keep_embedding_block(block: EmbeddingContentBlock) -> bool:
     text = block.text.strip()
     if EMBEDDING_LOW_SIGNAL_RE.match(text):
         return False
-    if text.startswith(("TABLE ", "Figure ")):
-        return False
-    return True
+    return not text.startswith(("TABLE ", "Figure "))
 
 
 def compact_embedding_block_text(text: str, max_chars: int = EMBEDDING_CHUNK_MAX_CHARS) -> str:
@@ -1061,10 +1070,7 @@ def clean_excerpt_boundary(text: str) -> str:
 
 def split_embedding_sentences(text: str) -> list[str]:
     protected = text
-    replacements = {
-        source: source.replace(".", "<dot>")
-        for source in EMBEDDING_SENTENCE_ABBREVIATIONS
-    }
+    replacements = {source: source.replace(".", "<dot>") for source in EMBEDDING_SENTENCE_ABBREVIATIONS}
     for source, target in replacements.items():
         protected = protected.replace(source, target)
     protected = re.sub(r"\b([A-Z])\.", r"\1<dot>", protected)
@@ -1072,8 +1078,7 @@ def split_embedding_sentences(text: str) -> list[str]:
     sentences = re.split(r"(?<=[.!?])\s+", protected)
     for source, target in replacements.items():
         sentences = [sentence.replace(target, source) for sentence in sentences]
-    sentences = [sentence.replace("<dot>", ".") for sentence in sentences]
-    return sentences
+    return [sentence.replace("<dot>", ".") for sentence in sentences]
 
 
 def clean_embedding_sidecar_text(markdown: str) -> str:
@@ -1097,9 +1102,7 @@ def strip_sidecar_header(markdown: str) -> str:
     if match and match.group(1) == "#":
         lines.pop(0)
     while lines and (
-        not lines[0].strip()
-        or lines[0].startswith("- arXiv ID:")
-        or lines[0].startswith("- HTML source:")
+        not lines[0].strip() or lines[0].startswith("- arXiv ID:") or lines[0].startswith("- HTML source:")
     ):
         lines.pop(0)
     return "\n".join(lines)
@@ -1114,7 +1117,9 @@ def drop_leading_author_blocks(markdown: str) -> str:
 
 def authorish_paragraph(text: str) -> bool:
     lowered = text.lower()
-    return "@" in text or any(token in lowered for token in ("department of", "university", "institute", "equal contribution"))
+    return "@" in text or any(
+        token in lowered for token in ("department of", "university", "institute", "equal contribution")
+    )
 
 
 def content_start_index(lines: list[str]) -> int:
@@ -1229,8 +1234,7 @@ def clean_embedding_line(line: str) -> str:
     line = re.sub(r"\s+([.,;:])", r"\1", line)
     line = re.sub(r"\b(?:on|in|at|by|for|from|with)([.,;:])", r"\1", line)
     line = re.sub(r"\b(?:on|in|at|by|for|from|with)\s+([.,;:])", r"\1", line)
-    line = re.sub(r"\s+", " ", line).strip()
-    return line
+    return re.sub(r"\s+", " ", line).strip()
 
 
 def table_separator_line(line: str) -> bool:
@@ -1273,18 +1277,13 @@ def keep_embedding_paragraph(paragraph: str) -> bool:
         return False
     if digits / length > 0.25:
         return False
-    if math_symbols / length > 0.20:
-        return False
-    return True
+    return not math_symbols / length > 0.20
 
 
 def reference_like_paragraph(text: str) -> bool:
     if not re.match(r"^(?:\[\d+\]|\d+[.)])\s+", text):
         return False
-    return bool(
-        re.search(r"\b(?:19|20)\d{2}[a-z]?\b", text)
-        or re.search(r"\bdoi\b|https?://", text, re.I)
-    )
+    return bool(re.search(r"\b(?:19|20)\d{2}[a-z]?\b", text) or re.search(r"\bdoi\b|https?://", text, re.I))
 
 
 def identifier_terms(

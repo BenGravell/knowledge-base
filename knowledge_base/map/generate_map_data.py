@@ -198,10 +198,7 @@ def embedding_rows_for_entry(entry: Entry) -> list[EmbeddingRow]:
 
 
 def paper_embedding_rows(papers: list[dict[str, Any]]) -> list[EmbeddingRow]:
-    return [
-        EmbeddingRow(id=str(paper["id"]), text="", content_hash=str(paper["hash"]))
-        for paper in papers
-    ]
+    return [EmbeddingRow(id=str(paper["id"]), text="", content_hash=str(paper["hash"])) for paper in papers]
 
 
 def default_chunk_cache_for_model(model: str, map_cache: Path) -> Path:
@@ -1679,7 +1676,9 @@ def main() -> None:
 
     map_artifact_key = map_data_cache_key(papers, layout_coords, nav_order, model_name)
     map_artifact_entry_raw = cache.get("mapData")
-    map_artifact_entry = map_artifact_entry_raw if isinstance(map_artifact_entry_raw, dict) else {}
+    map_artifact_entry: dict[str, Any] = (
+        map_artifact_entry_raw if isinstance(map_artifact_entry_raw, dict) else dict[str, Any]()
+    )
     if (
         not args.force
         and map_artifact_entry.get("key") == map_artifact_key

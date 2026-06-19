@@ -8,7 +8,7 @@ from collections import Counter
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import numpy as np
 
@@ -52,6 +52,11 @@ class EmbeddingTable:
 
 EmbedTexts = Callable[[list[str]], Sequence[Sequence[float]] | np.ndarray]
 ProgressCallback = Callable[[int, int, str], None]
+MMapMode = Literal["c", "r", "r+", "w+"]
+
+
+def _empty_embedding_cache(model: str | None = None) -> dict[str, Any]:
+    return {"model": model, "papers": dict[str, dict[str, Any]]()}
 
 
 def available_onnx_providers() -> list[str]:
@@ -86,15 +91,15 @@ def fastembed_effective_device(device: str, providers: Sequence[str]) -> str:
 
 def load_embedding_cache(path: Path) -> dict[str, Any]:
     if not path.exists():
-        return {"model": None, "papers": {}}
+        return _empty_embedding_cache()
     try:
         cache = json.loads(path.read_text(encoding="utf-8"))
     except Exception:
-        return {"model": None, "papers": {}}
+        return _empty_embedding_cache()
     if not isinstance(cache, dict):
-        return {"model": None, "papers": {}}
+        return _empty_embedding_cache()
     if not isinstance(cache.get("papers"), dict):
-        cache["papers"] = {}
+        cache["papers"] = dict[str, dict[str, Any]]()
     return cache
 
 
@@ -104,7 +109,7 @@ def save_embedding_cache(path: Path, cache: dict[str, Any]) -> None:
     print(f"Cache saved: {path} ({path.stat().st_size // 1024} KB)")
 
 
-def load_embedding_table(path: Path, *, mmap_mode: str | None = None, aggregate: bool = True) -> EmbeddingTable:
+def load_embedding_table(path: Path, *, mmap_mode: MMapMode | None = None, aggregate: bool = True) -> EmbeddingTable:
     """Load cached embeddings from the v2 binary format or legacy JSON caches."""
     cache = load_embedding_cache(path)
     papers = _cached_papers(cache)
@@ -132,7 +137,7 @@ def load_embedding_table(path: Path, *, mmap_mode: str | None = None, aggregate:
                 )
         ordered.sort()
         indexes = [row for row, _, _, _, _ in ordered]
-        ids = tuple(row_id for _, row_id, _, _, _ in ordered)
+        row_ids = tuple(row_id for _, row_id, _, _, _ in ordered)
         hashes = {row_id: content_hash for _, row_id, content_hash, _, _ in ordered}
         if indexes and indexes != list(range(len(indexes))):
             matrix = matrix[indexes]
@@ -140,7 +145,7 @@ def load_embedding_table(path: Path, *, mmap_mode: str | None = None, aggregate:
             matrix = matrix.astype(np.float32)
         table = EmbeddingTable(
             model=model,
-            ids=ids,
+            ids=row_ids,
             matrix=matrix,
             hashes=hashes,
         )
@@ -185,7 +190,7 @@ def refresh_embedding_cache(
     previous_model = cache.get("model") if isinstance(cache.get("model"), str) else None
     model_changed = bool(previous_model and previous_model != model)
     if model_changed:
-        cache = {"model": model, "papers": {}}
+        cache = _empty_embedding_cache(model)
 
     cached_papers = _cached_papers(cache)
     table = (
@@ -272,7 +277,7 @@ def _cached_papers(cache: dict[str, Any]) -> dict[str, dict[str, Any]]:
     cached = (
         {str(paper_id): dict(entry) for paper_id, entry in cached_raw.items() if isinstance(entry, dict)}
         if isinstance(cached_raw, dict)
-        else {}
+        else dict[str, dict[str, Any]]()
     )
     cache["papers"] = cached
     return cached

@@ -6,7 +6,7 @@ import os
 from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path, PurePosixPath
-from typing import IO
+from typing import Any
 
 GENERATED_DOCS_DIR_ENV = "KB_GENERATED_DOCS_DIR"
 
@@ -28,20 +28,18 @@ def open_generated(
     mode: str,
     buffering: int = -1,
     encoding: str | None = None,
-    *args: object,
-    **kwargs: object,
-) -> Iterator[IO]:
+) -> Iterator[Any]:
     staged = _staged_path(name)
     if staged is None:
         raise RuntimeError("Generated files must be written through `kb build` or `kb serve`.")
 
     staged.parent.mkdir(parents=True, exist_ok=True)
-    open_kwargs = dict(kwargs)
+    open_kwargs: dict[str, str] = {}
     if "b" not in mode and encoding is None:
         encoding = "utf-8"
     if encoding is not None:
         open_kwargs["encoding"] = encoding
-    with staged.open(mode, buffering, *args, **open_kwargs) as out:
+    with staged.open(mode, buffering, **open_kwargs) as out:
         yield out
 
 
