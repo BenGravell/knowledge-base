@@ -787,6 +787,7 @@
 
   function sunburstSelectedLeafOffset(geometry) {
     if (!geometry) return null;
+    if (geometry.endAngle - geometry.startAngle >= Math.PI * 2 - 0.001) return null;
     const midAngle = (geometry.startAngle + geometry.endAngle) / 2;
     return polarPoint(midAngle, sunburstSelectedLeafPopout);
   }
