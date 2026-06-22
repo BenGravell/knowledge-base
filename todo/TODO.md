@@ -23,19 +23,19 @@ Tree and Timeline pages need major performance increase for handling large numbe
 ## Taxonomy
 
 ```sh
-poetry run python scripts/suggest_branch_subgroupings.py --max-results 1 --write-tree
+python knowledge_base/scripts/suggest_branch_subgroupings.py --max-results 1 --write-tree
 ```
 
 ```sh
-poetry run python scripts/suggest_branch_subgroupings.py --branch "First-Order Methods" --write-tree
+python knowledge_base/scripts/suggest_branch_subgroupings.py --branch "First-Order Methods" --write-tree
 ```
 
 ```sh
-python scripts/list_branching_factor_violations.py --max-depth 4 --max-results 3 --ignore-too-few
+python knowledge_base/scripts/list_branching_factor_violations.py --max-depth 4 --max-results 3 --ignore-too-few
 ```
 
 ```sh
-python scripts/list_branching_factor_violations.py --max-depth 3 --max-results 3
+python knowledge_base/scripts/list_branching_factor_violations.py --max-depth 3 --max-results 3
 ```
 
 ## Site
