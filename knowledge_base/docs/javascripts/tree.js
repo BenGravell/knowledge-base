@@ -57,6 +57,10 @@
   const sunburstCoarseMorphTargetLimit = 280;
   const sunburstCoarseMorphFrontierDepth = 3;
   const sunburstCoarseMorphMinArcLength = 7;
+  const sunburstFullDetailEntryLimit = 900;
+  const sunburstDenseDetailDepthLimit = 3;
+  const sunburstDenseLeafArcLength = 1.6;
+  const sunburstDenseBranchArcLength = 5.5;
   const sunburstTouchBranchingFactor = 8;
   const sunburstMorphDuration = 600;
   const sunburstCoarseDetailBuildProgress = 0;
@@ -337,14 +341,15 @@
     const centerRadius = context.centerRadius;
     const radius = context.radius;
     const ringWidth = context.ringWidth;
+    const renderedEntries = sunburstRenderedEntries(entries, snapshot, pathNodes);
 
-    const arcs = treePerf.measure('sunburst.html.arcs', { entryCount: entries.length }, function () {
-      return entries.map(function (entry, index) {
+    const arcs = treePerf.measure('sunburst.html.arcs', { entryCount: renderedEntries.length }, function () {
+      return renderedEntries.map(function (entry, index) {
         return renderSunburstArc(entry, snapshot, pathNodes, index);
       }).join('');
     });
-    const leafMarks = treePerf.measure('sunburst.html.leafMarks', { entryCount: entries.length }, function () {
-      return entries.map(function (entry) {
+    const leafMarks = treePerf.measure('sunburst.html.leafMarks', { entryCount: renderedEntries.length }, function () {
+      return renderedEntries.map(function (entry) {
         return renderSunburstLeafMark(entry, snapshot);
       }).join('');
     });
@@ -371,6 +376,22 @@
       selectionHighlight: selectionHighlight,
       labels: labels,
     };
+  }
+
+  function sunburstRenderedEntries(entries, snapshot, pathNodes) {
+    if (!entries || entries.length <= sunburstFullDetailEntryLimit) return entries || [];
+
+    return entries.filter(function (entry) {
+      const snapshotEntry = snapshot.entries.get(entry.node.id);
+      if (!snapshotEntry) return false;
+      if (entry.node.id === currentId || pathNodes.has(entry.node.id)) return true;
+      if (entry.depth <= sunburstDenseDetailDepthLimit) return true;
+
+      const minArcLength = snapshotEntry.isLeaf
+        ? sunburstDenseLeafArcLength
+        : sunburstDenseBranchArcLength;
+      return snapshotEntry.visualLength >= minArcLength;
+    });
   }
 
   function sunburstViewBox(labelCandidates, radius) {
@@ -542,7 +563,6 @@
       const geometry = sunburstArcGeometry(entry, centerRadius, ringWidth);
       const isLeaf = !entry.children.length;
       const visualLength = sunburstArcLength(geometry);
-      const path = sunburstShapePath(geometry);
       const opacity = isLeaf
         ? clamp(0.96 + (entry.depth * 0.006) + (visualLength < 2.5 ? 0.04 : 0), 0.96, 1)
         : 0.9;
@@ -550,7 +570,7 @@
       entryMap.set(entry.node.id, {
         node: entry.node,
         geometry: geometry,
-        path: path,
+        path: null,
         fill: fill,
         opacity: opacity,
         index: index,
@@ -625,7 +645,7 @@
   function renderSunburstArc(entry, snapshot, pathNodes, index) {
     const node = entry.node;
     const snapshotEntry = snapshot.entries.get(node.id);
-    const path = snapshotEntry.path;
+    const path = sunburstEntryPath(snapshotEntry);
     if (!path) return '';
 
     const visualLength = snapshotEntry.visualLength;
@@ -733,12 +753,13 @@
     const selectedEntry = (entries || []).map(function (entry) {
       return snapshot.entries.get(entry.node.id);
     }).find(isSelectedSunburstLeaf);
-    if (!selectedEntry || !selectedEntry.path) return '';
+    const path = sunburstEntryPath(selectedEntry);
+    if (!selectedEntry || !path) return '';
 
     const transform = sunburstSelectedLeafTransform(selectedEntry);
     return [
       '<path class="ct-sunburst-selected-sector"',
-      ' d="' + escAttr(selectedEntry.path) + '"',
+      ' d="' + escAttr(path) + '"',
       ' fill="' + escAttr(selectedEntry.fill) + '"',
       ' stroke="' + escAttr(selectedEntry.fill) + '"',
       ' style="--ct-sunburst-selected-sector-color: ' + escAttr(selectedEntry.fill) + ';"',
@@ -746,6 +767,12 @@
       '>',
       '</path>',
     ].join('');
+  }
+
+  function sunburstEntryPath(snapshotEntry) {
+    if (!snapshotEntry) return '';
+    if (!snapshotEntry.path) snapshotEntry.path = sunburstShapePath(snapshotEntry.geometry);
+    return snapshotEntry.path;
   }
 
   function isSelectedSunburstLeaf(snapshotEntry) {

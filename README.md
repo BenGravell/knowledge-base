@@ -53,6 +53,26 @@ From the repo root, run
 kb serve
 ```
 
+### Run pre-commit
+
+Install the Git hooks once:
+
+```bash
+./dev run pre-commit install
+```
+
+Run the hooks manually:
+
+```bash
+./dev run pre-commit run --all-files
+```
+
+To run only one hook while iterating, pass its id and the files to check:
+
+```bash
+./dev run pre-commit run ruff-check --files knowledge_base/scripts/refresh_offline_data.py
+```
+
 ### Add papers
 
 Put URLs in `todo/PAPERS_FUNNEL.md`, route them, prefill metadata, audit it, then place entries in `knowledge_base/tree.yml`.

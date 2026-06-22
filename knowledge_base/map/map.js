@@ -209,6 +209,8 @@
   let lastCameraRenderRatio = null;
   let graphPanGesture = null;
   let suppressGraphClickUntil = 0;
+  let visibleNodeList = [];
+  let interactionRefreshFrame = null;
 
   /* -------------------------------------------------------------------------
    * Utility
@@ -2077,6 +2079,12 @@
   function applySearchFocus() {
     const nodes = new Set();
 
+    if (!currentSearch) {
+      searchMatchCount = 0;
+      focus = { active: false, nodes, mode: null };
+      return;
+    }
+
     if (visibleNodes) {
       visibleNodes.forEach(node => {
         if (nodeMatchesSearch(graph.getNodeAttributes(node))) nodes.add(node);
@@ -2089,18 +2097,20 @@
 
     searchMatchCount = nodes.size;
     focus = {
-      active: currentSearch.length > 0,
+      active: true,
       nodes,
-      mode: currentSearch.length > 0 ? 'search' : null,
+      mode: 'search',
     };
   }
 
   function recomputeVisibleNodes() {
     const nodes = new Set();
+    const list = [];
     let matches = 0;
 
     if (!graph) {
       visibleNodes = nodes;
+      visibleNodeList = list;
       visibleNodeCount = 0;
       searchMatchCount = 0;
       return;
@@ -2109,10 +2119,12 @@
     graph.forEachNode((node, attrs) => {
       if (!nodeVisibleAt(node, currentDetailLevel)) return;
       nodes.add(node);
+      list.push(node);
       if (nodeMatchesSearch(attrs)) matches += 1;
     });
 
     visibleNodes = nodes;
+    visibleNodeList = list;
     visibleNodeCount = nodes.size;
     searchMatchCount = matches;
   }
@@ -2128,6 +2140,10 @@
   }
 
   function refreshView() {
+    if (interactionRefreshFrame !== null) {
+      window.cancelAnimationFrame(interactionRefreshFrame);
+      interactionRefreshFrame = null;
+    }
     recomputeVisibleNodes();
     cachedPaperNodeRadius = paperNodeRadiusForCurrentView();
     recomputeVisibilityColors();
@@ -2136,6 +2152,15 @@
     updateStats();
     updateRelevancePanel();
     updateZoomOutLimit();
+  }
+
+  function refreshInteractionFocus() {
+    recomputeFocus();
+    if (!renderer || interactionRefreshFrame !== null) return;
+    interactionRefreshFrame = window.requestAnimationFrame(() => {
+      interactionRefreshFrame = null;
+      if (renderer) renderer.scheduleRefresh();
+    });
   }
 
   function nextDetailLevel(level) {
@@ -2168,7 +2193,7 @@
   }
 
   function visibleNodeIds() {
-    if (visibleNodes) return [...visibleNodes].filter(node => graphHasNode(node));
+    if (visibleNodes) return visibleNodeList.filter(node => graphHasNode(node));
 
     const nodes = [];
     if (!graph) return nodes;
@@ -2546,7 +2571,7 @@
         if (!pinnedNode && hoveredNode) {
           hoveredNode = null;
           hideTooltip();
-          refreshView();
+          refreshInteractionFocus();
         }
         return;
       }
@@ -2564,7 +2589,7 @@
         hideHoverTooltip();
         showNodeTooltip(payload.node, nodeTooltipPosition(payload.node) || eventPosition(payload), false);
       }
-      refreshView();
+      refreshInteractionFocus();
     });
 
     renderer.on('leaveNode', () => {
@@ -2576,7 +2601,7 @@
       hoveredNode = null;
       hideHoverTooltip();
       hideTooltip();
-      refreshView();
+      refreshInteractionFocus();
     });
 
     renderer.on('clickNode', payload => {
@@ -2831,7 +2856,61 @@
       : rawSize;
   }
 
-  function nodePointerHit(node, pos) {
+  function pointerLabelContext() {
+    const labels = typeof renderer.getNodeDisplayedLabels === 'function'
+      ? renderer.getNodeDisplayedLabels()
+      : new Set();
+    return {
+      labels,
+      index: null,
+    };
+  }
+
+  function roughLabelHalfExtents(attrs) {
+    const label = showNodeLabels ? attrs.label : '';
+    if (!label) return { width: 0, height: 0 };
+
+    const lines = String(label).split('\n');
+    const maxChars = Math.max(0, ...lines.map(line => line.length));
+    return {
+      width: maxChars * 5.8 + 12,
+      height: Math.max(1, lines.length) * 8 + 8,
+    };
+  }
+
+  function pointerHitCandidateNodes(pos, labelContext) {
+    const nodes = visibleNodeIds();
+    if (nodes.length <= 320) return nodes;
+
+    const candidates = [];
+    nodes.forEach(node => {
+      if (!graphHasNode(node)) return;
+
+      const attrs = graph.getNodeAttributes(node);
+      const point = renderer.graphToViewport({ x: attrs.x, y: attrs.y });
+      const dx = pos.x - point.x;
+      const dy = pos.y - point.y;
+      const radius = Math.max(nodeScreenRadius(node), 6) + 18;
+      const labelExtents = (labelContext.labels.has(node) || node === pinnedNode || node === hoveredNode)
+        ? roughLabelHalfExtents(attrs)
+        : { width: 0, height: 0 };
+      const hitWidth = Math.max(radius, labelExtents.width);
+      const hitHeight = Math.max(radius, labelExtents.height);
+
+      if (Math.abs(dx) > hitWidth || Math.abs(dy) > hitHeight) return;
+      candidates.push({
+        node,
+        distance: dx * dx + dy * dy,
+      });
+    });
+
+    return candidates
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, 120)
+      .map(candidate => candidate.node);
+  }
+
+  function nodePointerHit(node, pos, labelContext = null) {
     if (!renderer || !graphHasNode(node) || !nodeVisible(node) || !pos) return null;
 
     const attrs = graph.getNodeAttributes(node);
@@ -2841,7 +2920,7 @@
     const radius = Math.max(nodeScreenRadius(node), 6) + 6;
     const distance = Math.sqrt(dx * dx + dy * dy);
     const diskHit = distance <= radius;
-    const labelExtents = nodeLabelVisible(node) ? labelTextHalfExtents(attrs) : { width: 0, height: 0 };
+    const labelExtents = nodeLabelVisible(node, labelContext) ? labelTextHalfExtents(attrs) : { width: 0, height: 0 };
     const labelPad = 6;
     const labelWidth = labelExtents.width + labelPad;
     const labelHeight = labelExtents.height + labelPad;
@@ -2861,7 +2940,7 @@
       radius,
       diskHit,
       labelHit,
-      labelPriority: labelHit ? nodeLabelDrawIndex(node) : -1,
+      labelPriority: labelHit ? nodeLabelDrawIndex(node, labelContext) : -1,
       distanceRatio: diskHit
         ? (radius ? distance / radius : Infinity)
         : Math.max(normalizedX, normalizedY) + 1,
@@ -2870,18 +2949,26 @@
     };
   }
 
-  function nodeLabelVisible(node) {
+  function nodeLabelVisible(node, labelContext = null) {
     if (!renderer || typeof renderer.getNodeDisplayData !== 'function') return false;
 
     const display = renderer.getNodeDisplayData(node);
     if (!display || !String(display.label || '').trim()) return false;
     if (display.forceLabel) return true;
 
+    if (labelContext) return labelContext.labels.has(node);
     if (typeof renderer.getNodeDisplayedLabels !== 'function') return false;
     return renderer.getNodeDisplayedLabels().has(node);
   }
 
-  function nodeLabelDrawIndex(node) {
+  function nodeLabelDrawIndex(node, labelContext = null) {
+    if (labelContext) {
+      if (!labelContext.index) {
+        labelContext.index = new Map([...labelContext.labels].map((id, index) => [id, index]));
+      }
+      return labelContext.index.has(node) ? labelContext.index.get(node) : -1;
+    }
+
     if (!renderer || typeof renderer.getNodeDisplayedLabels !== 'function') return -1;
     return [...renderer.getNodeDisplayedLabels()].indexOf(node);
   }
@@ -2889,8 +2976,9 @@
   function bestPointerHit(pos) {
     if (!renderer || !graph || !pos) return null;
 
-    const hits = visibleNodeIds()
-      .map(node => nodePointerHit(node, pos))
+    const labelContext = pointerLabelContext();
+    const hits = pointerHitCandidateNodes(pos, labelContext)
+      .map(node => nodePointerHit(node, pos, labelContext))
       .filter(Boolean);
     if (!hits.length) return null;
 
@@ -2916,7 +3004,8 @@
     const pos = eventPosition(payload);
 
     if (hovered && nodePointerHit(hovered, pos)) return hovered;
-    return bestPointerHit(pos) || clicked;
+    if (clicked) return clicked;
+    return bestPointerHit(pos);
   }
 
   /* -------------------------------------------------------------------------
