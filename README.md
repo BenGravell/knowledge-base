@@ -2,15 +2,14 @@
 
 Distilled knowledge on a variety of topics.
 
-The public site is published at
-<https://bengravell.github.io/knowledge-base/>.
+The public site is published at <https://bengravell.github.io/knowledge-base/>.
 
 ## Repo layout
 
 - `knowledge_base/` contains the published site source and supporting tools.
   - `docs/` contains the Zensical source pages and paper metadata.
     - `papers/**/metadata.yml` drives generated paper pages.
-    - `papers/**/embed_text.md` may contain cleaned arXiv/ar5iv HTML conversions for embeddings.
+    - `papers/**/embed_text.md` contains cleaned arXiv/ar5iv HTML conversions for embeddings.
   - `tree.yml` is the editable Tree navigation and classification source.
   - `apps/` contains Streamlit apps.
   - `scripts/` contains maintenance, audit, placement, and prefill entrypoints.
