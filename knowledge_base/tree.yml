@@ -1882,6 +1882,7 @@
             - A Generalist Agent: docs/papers/2022/2205.06175/metadata.yml
           - Datasets:
             - DROID: docs/papers/2024/2403.12945/metadata.yml
+            - AgiBot World Colosseo: docs/papers/2025/2503.06669/metadata.yml
         - Diffusion & Flow Matching:
           - Diffusion Policy: docs/papers/2023/2303.04137/metadata.yml
           - Ambient Diffusion Policy: docs/papers/2026/2606.12365/metadata.yml
@@ -2156,6 +2157,7 @@
           - ShapeNet: docs/papers/2015/1512.03012/metadata.yml
           - Embedded Deformation for Shape Manipulation: docs/papers/2007/2007.sumner.embedded_deformation_for_shape/metadata.yml
       - Recognition & Understanding:
+        - MultiNet: docs/papers/2016/1612.07695/metadata.yml
         - Object Detection:
           - A General Framework for Object Detection: docs/papers/1998/1998.papageorgiou.a_general_framework_for/metadata.yml
           - Viola-Jones Detector: docs/papers/2001/2001.viola.rapid_object_detection_using/metadata.yml
@@ -2459,6 +2461,7 @@
           - Transformers & Attention-based models:
             - Attention Is All You Need: docs/papers/2017/1706.03762/metadata.yml
             - FlashAttention: docs/papers/2022/2205.14135/metadata.yml
+            - Stabilizing Transformers for Reinforcement Learning: docs/papers/2019/1910.06764/metadata.yml
             - "Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation": docs/papers/2014/1406.1078/metadata.yml
             - Skip-Thought Vectors: docs/papers/2015/1506.06726/metadata.yml
             - BERT: docs/papers/2018/1810.04805/metadata.yml
@@ -2524,41 +2527,43 @@
           - Spatial VLMs:
             - SpatialVLM: docs/papers/2024/2401.12168/metadata.yml
             - LocateAnything: docs/papers/2026/2605.27365/metadata.yml
+            - CRS: docs/papers/2026/2605.20942/metadata.yml
         - Vision-language-action Models (VLA):
-          - Video-action Models:
+          - Video & World-Action Models:
             - UVA: docs/papers/2025/2503.00200/metadata.yml
             - Large Video Planner: docs/papers/2025/2512.15840/metadata.yml
+            - VERA: docs/papers/2026/2605.27817/metadata.yml
+            - DreamZero: docs/papers/2026/2602.15922/metadata.yml
           - Robotics:
             - Robotics Transformer:
               - RT-1: docs/papers/2022/2212.06817/metadata.yml
               - RT-2: docs/papers/2023/2307.15818/metadata.yml
-            - pi:
+            - Physical Intelligence:
               - pi0: docs/papers/2024/2410.24164/metadata.yml
               - pi0.5: docs/papers/2025/2504.16054/metadata.yml
             - Gemini Robotics:
               - Gemini Robotics: docs/papers/2025/2503.20020/metadata.yml
               - Gemini Robotics 1.5: docs/papers/2025/2510.03342/metadata.yml
-            - RoboCat: docs/papers/2023/2306.11706/metadata.yml
-            - Octo: docs/papers/2024/2405.12213/metadata.yml
-            - AgiBot World Colosseo: docs/papers/2025/2503.06669/metadata.yml
-            - UniVLA: docs/papers/2025/2505.06111/metadata.yml
-            - GR00T N1: docs/papers/2025/2503.14734/metadata.yml
-            - OpenVLA: docs/papers/2024/2406.09246/metadata.yml
-            - SAGA: docs/papers/2025/2512.12842/metadata.yml
-            - VERA: docs/papers/2026/2605.27817/metadata.yml
-            - DreamZero: docs/papers/2026/2602.15922/metadata.yml
-            - MolmoAct2: docs/papers/2026/2605.02881/metadata.yml
-            - MolmoB0T: docs/papers/2026/2603.16861/metadata.yml
-            - RLDX-1: docs/papers/2026/2605.03269/metadata.yml
-            - CRS: docs/papers/2026/2605.20942/metadata.yml
-            - MultiNet: docs/papers/2016/1612.07695/metadata.yml
-            - Stabilizing Transformers for Reinforcement Learning: docs/papers/2019/1910.06764/metadata.yml
+            - Open Generalist Robot Policies:
+              - RoboCat: docs/papers/2023/2306.11706/metadata.yml
+              - Octo: docs/papers/2024/2405.12213/metadata.yml
+              - OpenVLA: docs/papers/2024/2406.09246/metadata.yml
+              - MolmoAct2: docs/papers/2026/2605.02881/metadata.yml
+              - RLDX-1: docs/papers/2026/2605.03269/metadata.yml
+            - Embodiment, Manipulation & Grounding:
+              - UniVLA: docs/papers/2025/2505.06111/metadata.yml
+              - GR00T N1: docs/papers/2025/2503.14734/metadata.yml
+              - SAGA: docs/papers/2025/2512.12842/metadata.yml
+              - MolmoB0T: docs/papers/2026/2603.16861/metadata.yml
           - Autonomous driving:
-            - Alpamayo-R1: docs/papers/2025/2511.00088/metadata.yml
-            - LCDrive: docs/papers/2025/2512.10226/metadata.yml
-            - EMMA: docs/papers/2024/2410.23262/metadata.yml
-            - Fast-dDrive: docs/papers/2026/2605.23163/metadata.yml
-            - Orion-Lite: docs/papers/2026/2604.08266/metadata.yml
+            - Generalist Driving VLAs:
+              - EMMA: docs/papers/2024/2410.23262/metadata.yml
+            - Reasoning & Long-Tail Planning:
+              - Alpamayo-R1: docs/papers/2025/2511.00088/metadata.yml
+              - LCDrive: docs/papers/2025/2512.10226/metadata.yml
+            - Efficient / Distilled Driving VLAs:
+              - Fast-dDrive: docs/papers/2026/2605.23163/metadata.yml
+              - Orion-Lite: docs/papers/2026/2604.08266/metadata.yml
         - Large Behavioral Models (LBM):
           - DriveGPT: docs/papers/2024/2412.14415/metadata.yml
           - Efficient Equivariant Transformer for Self-Driving Agent Modeling: docs/papers/2026/2604.01466/metadata.yml
