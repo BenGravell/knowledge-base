@@ -1,4 +1,21 @@
 {
+    // Pixi docs: VS Code's Python extension can detect `.pixi`, and the manual fallback
+    // is selecting `.pixi/envs/default/bin/python`. Keep editor tooling on that interpreter.
     "python.defaultInterpreterPath": "${workspaceFolder}/.pixi/envs/default/bin/python",
-    "python.terminal.activateEnvironment": true
+
+    // VS Code's Python terminal activator is aimed at selected Python environments.
+    // Pixi documents shell activation separately via `pixi shell` / `pixi shell-hook`,
+    // so let the terminal PATH setting below provide the lightweight project shortcut.
+    "python.terminal.activateEnvironment": false,
+
+    // VS Code docs: this newer Python Environments setting supersedes
+    // `python.terminal.activateEnvironment`; set both so the extension stays quiet.
+    "python-envs.terminal.autoActivationType": "off",
+
+    // VS Code terminal env settings support `${workspaceFolder}` and `${env:PATH}`.
+    // Prepending Pixi's bin dir is the smallest activation surface needed for `kb`,
+    // `python`, `streamlit`, etc. in new integrated terminals.
+    "terminal.integrated.env.linux": {
+        "PATH": "${workspaceFolder}/.pixi/envs/default/bin:${env:PATH}"
+    }
 }

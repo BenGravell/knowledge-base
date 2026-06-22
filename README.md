@@ -35,11 +35,14 @@ The `./dev` wrapper installs Pixi locally on first use, then uses the checked-in
 git clone https://github.com/BenGravell/knowledge-base.git
 cd knowledge-base
 ./dev install
-eval "$(./dev shell-hook)"
-kb serve
+./dev run serve
 ```
 
-Run `eval "$(./dev shell-hook)"` once per terminal, or let VS Code use the configured Pixi interpreter.
+`kb` is a Python console script. It is available whenever the active Python environment has this repo installed.
+
+VS Code is configured to put Pixi's `.pixi/envs/default/bin` first on new terminal `PATH`, where `./dev install` exposes `kb`.
+
+In a plain terminal without the Pixi environment active, use `./dev run serve` or `./dev run kb serve`.
 
 Open the URL printed by Zensical, usually <http://127.0.0.1:8000/>.
 
