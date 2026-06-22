@@ -423,6 +423,7 @@
             - OSQP: docs/papers/2017/1711.08013/metadata.yml
             - Embedded Code Generation Using the OSQP Solver: docs/papers/2017/2017.banjac.embedded_code_generation_using/metadata.yml
             - PIQP: docs/papers/2023/2304.00290/metadata.yml
+            - Newton-PIPG: docs/papers/2025/2503.22131/metadata.yml
             - An Operator Splitting Method for Large-Scale CVaR-Constrained Quadratic Programs: docs/papers/2025/2504.10814/metadata.yml
             - A High-Performant Multi-Parametric Quadratic Programming Solver: docs/papers/2024/2404.05511/metadata.yml
             - Presolving for GPU-Accelerated First-Order LP Solvers: docs/papers/2026/2604.23951/metadata.yml
@@ -762,27 +763,21 @@
               - Derivative-free Trajectory Optimization with Unscented Dynamic Programming: docs/papers/2016/2016.manchester.derivative_free_trajectory_optimization/metadata.yml
               - Constrained Unscented Dynamic Programming: docs/papers/2017/2017.plancher.constrained_unscented_dynamic_programming/metadata.yml
               - Accelerating Second-Order Differential Dynamic Programming for Rigid-Body Systems: docs/papers/2021/2103.03293/metadata.yml
-              - "300 years of optimal control: from the brachystochrone to the maximum principle": docs/papers/1997/1997.sussmann.300_years_of_optimal/metadata.yml
-              - "Manipulator Inverse Kinematic Solutions Based on Vector Formulations and Damped Least-Squares Methods": docs/papers/1986/1986.wampler.manipulator_inverse_kinematic_solutions/metadata.yml
-              - "Optimal control of the double integrator with minimum total variation": docs/papers/2019/1901.00491/metadata.yml
-              - "Relaxing Dynamic Programming": docs/papers/2006/2006.lincoln.relaxing_dynamic_programming/metadata.yml
-              - "Temporal Parallelization of Dynamic Programming and Linear Quadratic Control": docs/papers/2021/2104.03186/metadata.yml
-              - "Time-optimal control of linear time invariant systems between two arbitrary states": docs/papers/2020/2020.romano.time_optimal_control_of/metadata.yml
-              - On Topological Equivalence in Linear Quadratic Optimal Control: docs/papers/2021/2021.jongeneel.on_topological_equivalence_in/metadata.yml
-              - Topological Linear System Identification via Moderate Deviations Theory: docs/papers/2021/2103.03805/metadata.yml
-              - "Differential dynamic programming and Newton's method for discrete optimal control problems": docs/papers/1984/1984.murray.differential_dynamic_programming_and/metadata.yml
-              - Newton-PIPG: docs/papers/2025/2503.22131/metadata.yml
-              - "Efficient Dynamic Programming Implementations of Newton's Method for Unconstrained Optimal Control Problems": docs/papers/1989/1989.dunn.efficient_dynamic_programming_implementations/metadata.yml
-              - "Discovery of the Maximum Principle": docs/papers/1999/1999.gamkrelidze.discovery_of_the_maximum/metadata.yml
+            - Parallelized DDP:
+              - A Performance Analysis of Parallel Differential Dynamic Programming on a GPU: docs/papers/2020/2020.plancher.a_performance_analysis_of/metadata.yml
+              - Temporal Parallelization of Dynamic Programming and Linear Quadratic Control: docs/papers/2021/2104.03186/metadata.yml
+              - "Parallel Optimization for Robotics: An Undergraduate Introduction to GPU Parallel Programming and Numerical Optimization Research": docs/papers/2024/2024.plancher.parallel_optimization_for_robotics/metadata.yml
             - Multiple Shooting DDP (MS-DDP):
               - iLQR-GNMS: docs/papers/2017/1711.11006/metadata.yml
               - MS-DDP: docs/papers/2020/2020.pellegrini.a_multiple_shooting_differential/metadata.yml
               - Unified Perspective on MS-DDP: docs/papers/2023/2309.07872/metadata.yml
               - Convergence Guaranteed MS-DDP: docs/papers/2024/2024.wang.a_convergence_guaranteed_multiple/metadata.yml
             - Tutorials & Convergence Theory:
+              - "Differential Dynamic Programming and Newton's Method for Discrete Optimal Control Problems": docs/papers/1984/1984.murray.differential_dynamic_programming_and/metadata.yml
+              - Dynamic Programming Newton Method: docs/papers/1989/1989.dunn.efficient_dynamic_programming_implementations/metadata.yml
+              - "Iterative Linearized Control: Stable Algorithms and Complexity Guarantees": docs/papers/2019/1908.07615/metadata.yml
               - iLQR Algorithmic Templates: docs/papers/2022/2207.06362/metadata.yml
               - "Global & Local Convergence of iLQR/DDP": docs/papers/2022/2204.02322/metadata.yml
-              - "Iterative Linearized Control: Stable Algorithms and Complexity Guarantees": docs/papers/2019/1908.07615/metadata.yml
               - Natural Gradient Descent for Control: docs/papers/2025/2503.06070/metadata.yml
               - On the Convergence of the Iterative Linear Exponential Quadratic Gaussian Algorithm to Stationary Points: docs/papers/2019/1910.08221/metadata.yml
               - MIMO PID Tuning via Iterated LMI Restriction: docs/papers/2015/2015.boyd.mimo_pid_tuning_via/metadata.yml
@@ -815,40 +810,44 @@
           - Elastic Smoothing:
             - CES: docs/papers/2015/1506.01085/metadata.yml
           - Nonlinear Optimization:
-            - A direct method for trajectory optimization of rigid bodies through contact: docs/papers/2013/2013.posa.a_direct_method_for/metadata.yml
-            - Trajectory Optimization for Domains with Contacts Using Inverse Dynamics: docs/papers/2012/2012.erez.trajectory_optimization_for_domains/metadata.yml
-            - Whole-body motion planning with centroidal dynamics and full kinematics: docs/papers/2014/2014.dai.whole_body_motion_planning/metadata.yml
-            - Optimization and stabilization of trajectories for constrained dynamical systems: docs/papers/2016/2016.posa.optimization_and_stabilization_of/metadata.yml
-            - OBCA: docs/papers/2017/1711.03449/metadata.yml
-            - "Differentiable Collision Avoidance Using Collision Primitives": docs/papers/2022/2204.09352/metadata.yml
-            - EGO-Planner: docs/papers/2020/2008.08835/metadata.yml
-            - TrajOpt: docs/papers/2013/2013.schulman.finding_locally_optimal_collision/metadata.yml
-            - Motion Planning with Sequential Convex Optimization and Convex Collision Checking: docs/papers/2014/2014.schulman.motion_planning_with_sequential/metadata.yml
-            - Speed-Optimized Motion Planning for Robotic Object Handling via Constrained Linear Convex Optimization: docs/papers/2026/2026.farid.speed_optimized_motion_planning/metadata.yml
-            - "Global Sampling-Based Trajectory Optimization for Contact-Rich Manipulation via KernelSOS": docs/papers/2026/2604.27175/metadata.yml
-            - "ADMM-based Continuous Trajectory Optimization in Graphs of Convex Sets": docs/papers/2026/2603.11335/metadata.yml
-            - "Dexterous contact-rich manipulation via the contact trust region": docs/papers/2026/2026.suh.dexterous_contact_rich_manipulation/metadata.yml
-            - Is Linear Feedback on Smoothed Dynamics Sufficient for Stabilizing Contact-Rich Plans?: docs/papers/2024/2411.06542/metadata.yml
-            - "Fast and Certifiable Trajectory Optimization": docs/papers/2024/2406.05846/metadata.yml
-            - Hippo: docs/papers/2026/2603.00871/metadata.yml
-            - "Parallel-in-Time Nonlinear Optimal Control via GPU-native Sequential Convex Programming": docs/papers/2026/2603.10711/metadata.yml
-            - A Performance Analysis of Parallel Differential Dynamic Programming on a GPU: docs/papers/2020/2020.plancher.a_performance_analysis_of/metadata.yml
-            - MPCGPU: docs/papers/2023/2309.08079/metadata.yml
-            - TinyMPC: docs/papers/2023/2310.16985/metadata.yml
-            - GATO: docs/papers/2025/2510.07625/metadata.yml
-            - Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC: docs/papers/2024/2403.18149/metadata.yml
-            - TinySDP: docs/papers/2026/2605.13748/metadata.yml
-            - "Parallel Optimization for Robotics: An Undergraduate Introduction to GPU Parallel Programming and Numerical Optimization Research": docs/papers/2024/2024.plancher.parallel_optimization_for_robotics/metadata.yml
-            - "Using Reachable Sets for Trajectory Planning of Automated Vehicles": docs/papers/2021/2021.manzinger.using_reachable_sets_for/metadata.yml
-            - KOMO: docs/papers/2014/1407.0414/metadata.yml
-            - "A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces": docs/papers/2025/2511.14752/metadata.yml
-            - "Risk-Averse Trajectory Optimization via Sample Average Approximation": docs/papers/2023/2307.03167/metadata.yml
-            - Towards Risk Minimizing Trajectory Planning in On-Road Scenarios: docs/papers/2018/2018.ward.towards_risk_minimizing_trajectory/metadata.yml
-            - Differentiable Model Predictive Control on the GPU: docs/papers/2025/2510.06179/metadata.yml
-            - Chance-Constrained Sequential Convex Programming for Robust Trajectory Optimization: docs/papers/2020/2020.lew.chance_constrained_sequential_convex/metadata.yml
-            - Statistical Linearization for Robust Motion Planning: docs/papers/2023/2303.01288/metadata.yml
-            - "Simultaneous Self-calibration and Navigation Using Trajectory Optimization": docs/papers/2018/2018.preiss.simultaneous_self_calibration_and/metadata.yml
-            - "Real-time Mixed-Integer Quadratic Programming for Vehicle Decision Making and Motion Planning": docs/papers/2023/2308.10069/metadata.yml
+            - Inverse-Dynamics Trajectory Optimization / Contact dynamics / Inverse dynamics:
+              - A direct method for trajectory optimization of rigid bodies through contact: docs/papers/2013/2013.posa.a_direct_method_for/metadata.yml
+              - Trajectory Optimization for Domains with Contacts Using Inverse Dynamics: docs/papers/2012/2012.erez.trajectory_optimization_for_domains/metadata.yml
+              - Whole-body motion planning with centroidal dynamics and full kinematics: docs/papers/2014/2014.dai.whole_body_motion_planning/metadata.yml
+              - Optimization and stabilization of trajectories for constrained dynamical systems: docs/papers/2016/2016.posa.optimization_and_stabilization_of/metadata.yml
+            - EGO-Planner / Collision avoidance / OBCA:
+              - OBCA: docs/papers/2017/1711.03449/metadata.yml
+              - "Differentiable Collision Avoidance Using Collision Primitives": docs/papers/2022/2204.09352/metadata.yml
+              - EGO-Planner: docs/papers/2020/2008.08835/metadata.yml
+              - TrajOpt: docs/papers/2013/2013.schulman.finding_locally_optimal_collision/metadata.yml
+              - Motion Planning with Sequential Convex Optimization and Convex Collision Checking: docs/papers/2014/2014.schulman.motion_planning_with_sequential/metadata.yml
+              - Speed-Optimized Motion Planning for Robotic Object Handling via Constrained Linear Convex Optimization: docs/papers/2026/2026.farid.speed_optimized_motion_planning/metadata.yml
+              - "Risk-Averse Trajectory Optimization via Sample Average Approximation": docs/papers/2023/2307.03167/metadata.yml
+              - Chance-Constrained Sequential Convex Programming for Robust Trajectory Optimization: docs/papers/2020/2020.lew.chance_constrained_sequential_convex/metadata.yml
+              - Statistical Linearization for Robust Motion Planning: docs/papers/2023/2303.01288/metadata.yml
+            - Robustness / Real-time systems / KernelSOS:
+              - "Global Sampling-Based Trajectory Optimization for Contact-Rich Manipulation via KernelSOS": docs/papers/2026/2604.27175/metadata.yml
+              - "ADMM-based Continuous Trajectory Optimization in Graphs of Convex Sets": docs/papers/2026/2603.11335/metadata.yml
+              - Is Linear Feedback on Smoothed Dynamics Sufficient for Stabilizing Contact-Rich Plans?: docs/papers/2024/2411.06542/metadata.yml
+              - "Fast and Certifiable Trajectory Optimization": docs/papers/2024/2406.05846/metadata.yml
+              - Hippo: docs/papers/2026/2603.00871/metadata.yml
+              - "Parallel-in-Time Nonlinear Optimal Control via GPU-native Sequential Convex Programming": docs/papers/2026/2603.10711/metadata.yml
+              - MPCGPU: docs/papers/2023/2309.08079/metadata.yml
+              - TinyMPC: docs/papers/2023/2310.16985/metadata.yml
+              - GATO: docs/papers/2025/2510.07625/metadata.yml
+              - Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC: docs/papers/2024/2403.18149/metadata.yml
+              - TinySDP: docs/papers/2026/2605.13748/metadata.yml
+              - KOMO: docs/papers/2014/1407.0414/metadata.yml
+              - "A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces": docs/papers/2025/2511.14752/metadata.yml
+              - Differentiable Model Predictive Control on the GPU: docs/papers/2025/2510.06179/metadata.yml
+              - "Real-time Mixed-Integer Quadratic Programming for Vehicle Decision Making and Motion Planning": docs/papers/2023/2308.10069/metadata.yml
+            - Dexterous contact-rich manipulation via the contact trust region:
+              - "Dexterous contact-rich manipulation via the contact trust region": docs/papers/2026/2026.suh.dexterous_contact_rich_manipulation/metadata.yml              
+            - Using Reachable Sets for Trajectory Planning of Automated Vehicles / Towards Risk Minimizing Trajectory Planning in On-Road Scenarios:
+              - "Using Reachable Sets for Trajectory Planning of Automated Vehicles": docs/papers/2021/2021.manzinger.using_reachable_sets_for/metadata.yml
+              - Towards Risk Minimizing Trajectory Planning in On-Road Scenarios: docs/papers/2018/2018.ward.towards_risk_minimizing_trajectory/metadata.yml
+            - Simultaneous Self-calibration and Navigation Using Trajectory Optimization:
+              - "Simultaneous Self-calibration and Navigation Using Trajectory Optimization": docs/papers/2018/2018.preiss.simultaneous_self_calibration_and/metadata.yml
           - Trajectory Optimization on Point Clouds:
             - "Grasping Trajectory Optimization with Point Clouds": docs/papers/2024/2403.05466/metadata.yml
           - Trajectory Optimization on Gaussian Splats:
@@ -1037,6 +1036,7 @@
           - "A combined optimization method for solving the inverse kinematics problems of mechanical manipulators": docs/papers/1991/1991.wang.a_combined_optimization_method/metadata.yml
           - From Inverse Kinematics to Optimal Control: docs/papers/2014/2014.geoffroy.from_inverse_kinematics_to/metadata.yml
           - "Resolved Motion Rate Control of Manipulators and Human Prostheses": docs/papers/1969/1969.whitney.resolved_motion_rate_control/metadata.yml
+          - Damped Least-Squares IK: docs/papers/1986/1986.wampler.manipulator_inverse_kinematic_solutions/metadata.yml
           - JAX-IK: docs/papers/2025/2507.00792/metadata.yml
           - HJCD-IK: docs/papers/2025/2510.07514/metadata.yml
         - Manipulation & Contact:
@@ -1147,6 +1147,9 @@
         - Parameterization of Stabilizing Controllers:
           - A Method to Teach the Parameterization of All Stabilizing Controllers: docs/papers/2011/2011.kucera.a_method_to_teach/metadata.yml
           - On Topological Properties of the Set of Stabilizing Feedback Gains: docs/papers/2019/1904.08451/metadata.yml
+        - Optimal Control Foundations & History:
+          - Optimal Control Historical Survey: docs/papers/1997/1997.sussmann.300_years_of_optimal/metadata.yml
+          - Maximum Principle Historical Account: docs/papers/1999/1999.gamkrelidze.discovery_of_the_maximum/metadata.yml
         - Internal Modeling:
           - Every Good Regulator Theorem: docs/papers/1970/1970.conant.every_good_regulator_of/metadata.yml
           - The Internal Model Principle for Linear Multivariable Regulators: docs/papers/1975/1975.francis.the_internal_model_principle/metadata.yml
@@ -1185,6 +1188,7 @@
             - Suboptimal Design of Linear Regulator Systems: docs/papers/1967/1967.kleinman.suboptimal_design_of_linear/metadata.yml
             - Stabilization of Linear Systems: docs/papers/1972/1972.ikeda.stabilization_of_linear_systems/metadata.yml
             - "On the linear quadratic minimum-time problem": docs/papers/1991/1991.verriest.on_the_linear_quadratic/metadata.yml
+            - On Topological Equivalence in Linear Quadratic Optimal Control: docs/papers/2021/2021.jongeneel.on_topological_equivalence_in/metadata.yml
           - Riccati Equations:
             - The Stabilizing Solution of the Algebraic Riccati Equation: docs/papers/1973/1973.molinari.the_stabilizing_solution_of/metadata.yml
             - "The Numerical Solution of A'Q+QA=-C": docs/papers/1968/1968.davison.the_numerical_solution_of/metadata.yml
@@ -1194,6 +1198,9 @@
             - "Inexact Kleinman-Newton Method for Riccati Equations": docs/papers/2009/2009.feitzinger.inexact_kleinman_newton_method/metadata.yml
             - "Solving the linear quadratic regulator problem in the policy space: The Policy Algebraic Riccati Equation": docs/papers/2026/2026.possieri.solving_the_linear_quadratic/metadata.yml
             - Systematic Control Design by Optimizing a Vector Performance Index: docs/papers/1979/1979.kreisselmeier.systematic_control_design_by/metadata.yml
+        - Minimum-Time and Double-Integrator Control:
+          - "Optimal Control of the Double Integrator with Minimum Total Variation": docs/papers/2019/1901.00491/metadata.yml
+          - "Time-optimal Control of Linear Time Invariant Systems between Two Arbitrary States": docs/papers/2020/2020.romano.time_optimal_control_of/metadata.yml          
         - Model Predictive Control (MPC):
           - Nonlinear MPC (NMPC):
             - Receding Horizon Control of Nonlinear Systems: docs/papers/1988/1988.mayne.receding_horizon_control_of/metadata.yml
@@ -1575,8 +1582,9 @@
               - Learning with Little Mixing: docs/papers/2022/2206.08269/metadata.yml
               - The Noise Level in Linear Regression with Dependent Data: docs/papers/2023/2305.11165/metadata.yml
               - "Sharp Rates in Dependent Learning Theory: Avoiding Sample Size Deflation for the Square Loss": docs/papers/2024/2402.05928/metadata.yml
+              - Topological Linear System Identification via Moderate Deviations Theory: docs/papers/2021/2103.03805/metadata.yml
               - Non-Asymptotic Identification of LTI Systems from a Single Trajectory: docs/papers/2018/1806.05722/metadata.yml
-              - "Revisiting Ho–Kalman-Based System Identification: Robustness and Finite-Sample Analysis": docs/papers/2022/2022.oymak.revisiting_ho_kalman_based/metadata.yml
+              - "Revisiting Ho-Kalman-Based System Identification: Robustness and Finite-Sample Analysis": docs/papers/2022/2022.oymak.revisiting_ho_kalman_based/metadata.yml
               - Finite Sample Analysis of Stochastic System Identification: docs/papers/2019/1903.09122/metadata.yml
               - Sample Complexity of Kalman Filtering for Unknown Systems: docs/papers/2019/1912.12309/metadata.yml
               - Linear Systems Can Be Hard to Learn: docs/papers/2021/2104.01120/metadata.yml
@@ -1727,8 +1735,9 @@
         - Dynamic Programming:
           - Exact Dynamic Programming:
             - On the Convergence of Policy Iteration in Stationary Dynamic Programming: docs/papers/1979/1979.puterman.on_the_convergence_of/metadata.yml
-            - A Cantor-Kantorovich Metric between Markov Decision Processes with Application to Transfer Learning: docs/papers/2024/2407.08324/metadata.yml
             - An Analysis of Stochastic Shortest Path Problems: docs/papers/1991/1991.bertsekas.an_analysis_of_stochastic/metadata.yml
+            - Relaxed Dynamic Programming: docs/papers/2006/2006.lincoln.relaxing_dynamic_programming/metadata.yml
+            - A Cantor-Kantorovich Metric between Markov Decision Processes with Application to Transfer Learning: docs/papers/2024/2407.08324/metadata.yml
             - Stochastic Reachability Analysis in Complex Biological Networks: docs/papers/2006/2006.el_samad.stochastic_reachability_analysis_in/metadata.yml
             - Risk-averse Shortest Path Problems: docs/papers/2012/2012.gavriel.risk_averse_shortest_path/metadata.yml
             - Risk-Averse Stochastic Shortest Path Planning: docs/papers/2021/2103.14727/metadata.yml
