@@ -11,11 +11,7 @@ https://bengravell.github.io/knowledge-base/
 Knowledge Base title word
 
 1. Make the gradient color animated, shift/scroll over the text.
-2. In dark mode the colors need to be adjusted to have higher lightness (keeping as much saturation as reasonable) to achieve greater contrast against dark background. 
-
-
-Dummy text in search bar on search page cuts off. Use a shorter phrase and ensure no cut off via unit test.
-
+2. In dark mode the colors need to be adjusted to have higher lightness (keeping as much saturation as reasonable) to achieve greater contrast against dark background.
 
 ## ingest
 

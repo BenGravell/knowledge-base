@@ -119,7 +119,7 @@
         '<span class="kb-app-header-title">Search</span>' +
         '<form id="unified-search-form" class="tag-search-form unified-search-form unified-search-header-form" role="search">' +
           '<div class="tag-search-input-row unified-search-input-row">' +
-            '<input id="unified-search-input" type="search" autocomplete="off" aria-label="Search papers, authors, tags, sources, or concepts" placeholder="Search papers, authors, tags, sources, or concepts">' +
+            '<input id="unified-search-input" type="search" autocomplete="off" aria-label="Search papers, authors, tags, sources, or concepts" placeholder="Search papers">' +
             `<button class="unified-search-submit" type="submit" aria-label="Search">${icons.search}</button>` +
           '</div>' +
         '</form>' +

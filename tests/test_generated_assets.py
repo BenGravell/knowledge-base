@@ -4,9 +4,8 @@ import os
 import unittest
 from html.parser import HTMLParser
 from pathlib import Path
+from typing import override
 from urllib.parse import ParseResult, unquote, urljoin, urlparse
-
-from typing_extensions import override
 
 from knowledge_base.dev_cli import SOURCE_DOCS_DIR, copy_docs_ignore
 from knowledge_base.generated_assets import (
@@ -73,6 +72,19 @@ class LocalRefParser(HTMLParser):
                 self.refs.append((tag, attr, value))
 
 
+class ElementByIdParser(HTMLParser):
+    def __init__(self, target_id: str) -> None:
+        super().__init__()
+        self.target_id = target_id
+        self.attrs: dict[str, str | None] | None = None
+
+    @override
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        values = dict(attrs)
+        if values.get("id") == self.target_id:
+            self.attrs = values
+
+
 def script_sources_from_text(text: str) -> list[str]:
     parser = ScriptSrcParser()
     parser.feed(text)
@@ -111,6 +123,20 @@ def expanded_refs(attr: str, value: str) -> list[str]:
     if attr != "srcset":
         return [value]
     return [part.strip().split()[0] for part in value.split(",") if part.strip()]
+
+
+def attrs_for_html_fragment_by_id(fragment: str, target_id: str) -> dict[str, str | None]:
+    parser = ElementByIdParser(target_id)
+    parser.feed(fragment)
+    if parser.attrs is None:
+        raise AssertionError(f"{target_id} not found in HTML fragment")
+    return parser.attrs
+
+
+def search_page_input_attrs() -> dict[str, str | None]:
+    source = (DOCS_DIR / "javascripts" / "search.js").read_text(encoding="utf-8")
+    start = source.index('<input id="unified-search-input"')
+    return attrs_for_html_fragment_by_id(source[start : source.index(">", start) + 1], "unified-search-input")
 
 
 class GeneratedAssetTests(unittest.TestCase):
@@ -258,6 +284,13 @@ class GeneratedAssetTests(unittest.TestCase):
             SEMANTIC_SEARCH_PLACEHOLDER_SETTINGS["browserModel"],
             SEMANTIC_SEARCH_PLACEHOLDER_MANIFEST["browserModel"],
         )
+
+    def test_search_page_placeholder_fits_compact_input(self) -> None:
+        attrs = search_page_input_attrs()
+
+        self.assertEqual(attrs["placeholder"], "Search papers")
+        self.assertLessEqual(len(str(attrs["placeholder"])), 18)
+        self.assertGreater(len(str(attrs["aria-label"])), len(str(attrs["placeholder"])))
 
     def test_plain_json_asset_rejects_js_assignment(self) -> None:
         with self.assertRaises(ValueError):
