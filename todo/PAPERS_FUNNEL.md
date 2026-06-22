@@ -28,3 +28,15 @@ https://arxiv.org/pdf/2605.26625
 https://arxiv.org/abs/2605.12735
 https://www.nature.com/articles/s41586-025-09833-y
 https://arxiv.org/pdf/2412.21180
+https://humanbaselines.com/?mode=geofence&county=travis
+https://archgate.dev/
+https://github.com/metadriverse/metadrive
+https://www.gamedeveloper.com/design/behavioral-game-design
+https://github.com/y-sunflower/pypalettes
+https://github.com/y-sunflower/drawarrow
+https://github.com/y-sunflower/pyfonts
+https://github.com/y-sunflower/dayplot
+https://github.com/y-sunflower/morethemes
+https://github.com/y-sunflower/bumplot
+https://github.com/y-sunflower/ninejs
+https://semgrep.dev/
