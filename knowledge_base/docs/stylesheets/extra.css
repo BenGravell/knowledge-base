@@ -1499,6 +1499,10 @@ body:has(.kb-home-bento) .md-content {
   background-color: var(--kb-home-expander-header-bg) !important;
 }
 
+.md-typeset .kb-home-expander:not([open]) > summary {
+  margin-bottom: 0;
+}
+
 .md-typeset .kb-home-expander[open] > summary:hover,
 .md-typeset .kb-home-expander > summary:focus-visible {
   background-color: var(--kb-home-expander-header-bg) !important;
