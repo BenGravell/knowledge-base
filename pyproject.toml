@@ -5,7 +5,7 @@ description = "Distilled knowledge on a variety of topics"
 authors = [{ name = "Benjamin Gravell", email = "bjgravell@gmail.com" }]
 license = "MIT"
 readme = "README.md"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.12,<3.13"
 dependencies = [
     "zensical>=0.0.45,<0.1.0",
     "streamlit[pdf]>=1.56.0,<2.0.0",
@@ -53,7 +53,7 @@ typecheck = "kb typecheck"
 
 [tool.ruff]
 line-length = 120
-target-version = "py311"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = [
@@ -97,7 +97,7 @@ ignore = [
 preset = "strict"
 project-includes = ["knowledge_base", "tests"]
 search-path = ["."]
-python-version = "3.11"
+python-version = "3.12"
 
 [build-system]
 requires = ["hatchling>=1.27.0,<2.0.0"]

@@ -61,7 +61,7 @@ streamlit run knowledge_base/apps/generator_app.py
 
 ## Conventions
 
-- Python is `>=3.11, <3.14`; use `./dev` so Pixi can bootstrap the local environment.
+- Python is `>=3.12, <3.13`; use `./dev` so Pixi can bootstrap the local environment.
 - New knowledge entries go under `knowledge_base/docs/` following the structure of existing files.
 - Paper URL lists live under `todo/papers/<SOURCE>.md`.
 - Source-specific prefill scripts live under `knowledge_base/scripts/prefill/<source>.py`.
