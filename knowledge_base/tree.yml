@@ -651,6 +651,7 @@
             - SPP-GCS: docs/papers/2021/2101.11565/metadata.yml
             - A Unified and Scalable Method for Optimization over Graphs of Convex Sets: docs/papers/2025/2510.20184/metadata.yml
             - GCS: docs/papers/2022/2205.04422/metadata.yml
+            - "ADMM-based Continuous Trajectory Optimization in Graphs of Convex Sets": docs/papers/2026/2603.11335/metadata.yml
             - "Planning Locally Optimal, Curvature-constrained Trajectories in 3D Using Sequential Convex Optimization": docs/papers/2014/2014.duan.planning_locally_optimal_curvature/metadata.yml
             - Motion Planning for Autonomous Vehicles Using Optimization over Graphs of Convex Sets: docs/papers/2026/2605.14199/metadata.yml
             - fastpathplanning: docs/papers/2023/2305.01072/metadata.yml
@@ -678,6 +679,7 @@
             - Polynomial Trajectory Planning for Aggressive Quadrotor Flight in Dense Indoor Environments: docs/papers/2016/2016.richter.polynomial_trajectory_planning_for/metadata.yml
             - "Robust and Efficient Quadrotor Trajectory Generation for Fast Autonomous Flight": docs/papers/2019/2019.zhou.robust_and_efficient_quadrotor/metadata.yml
             - An Efficient B-spline-Based Kinodynamic Replanning Framework for Quadrotors: docs/papers/2019/1906.09785/metadata.yml
+            - EGO-Planner: docs/papers/2020/2008.08835/metadata.yml
             - "Autonomous Flight in Unknown Indoor Environments": docs/papers/2009/2009.bachrach.autonomous_flight_in_unknown/metadata.yml
             - RANGE: docs/papers/2011/2011.bachrach.range_robust_autonomous_navigation/metadata.yml
             - Safety-assured High-speed Navigation for MAVs: docs/papers/2025/2025.ren.safety_assured_high_speed/metadata.yml
@@ -809,45 +811,29 @@
             - Learning-based Warm-Starting for Fast Sequential Convex Programming and Trajectory Optimization: docs/papers/2020/2020.banerjee.learning_based_warm_starting/metadata.yml
           - Elastic Smoothing:
             - CES: docs/papers/2015/1506.01085/metadata.yml
-          - Nonlinear Optimization:
-            - Inverse-Dynamics Trajectory Optimization / Contact dynamics / Inverse dynamics:
-              - A direct method for trajectory optimization of rigid bodies through contact: docs/papers/2013/2013.posa.a_direct_method_for/metadata.yml
-              - Trajectory Optimization for Domains with Contacts Using Inverse Dynamics: docs/papers/2012/2012.erez.trajectory_optimization_for_domains/metadata.yml
-              - Whole-body motion planning with centroidal dynamics and full kinematics: docs/papers/2014/2014.dai.whole_body_motion_planning/metadata.yml
-              - Optimization and stabilization of trajectories for constrained dynamical systems: docs/papers/2016/2016.posa.optimization_and_stabilization_of/metadata.yml
-            - EGO-Planner / Collision avoidance / OBCA:
-              - OBCA: docs/papers/2017/1711.03449/metadata.yml
-              - "Differentiable Collision Avoidance Using Collision Primitives": docs/papers/2022/2204.09352/metadata.yml
-              - EGO-Planner: docs/papers/2020/2008.08835/metadata.yml
-              - TrajOpt: docs/papers/2013/2013.schulman.finding_locally_optimal_collision/metadata.yml
-              - Motion Planning with Sequential Convex Optimization and Convex Collision Checking: docs/papers/2014/2014.schulman.motion_planning_with_sequential/metadata.yml
-              - Speed-Optimized Motion Planning for Robotic Object Handling via Constrained Linear Convex Optimization: docs/papers/2026/2026.farid.speed_optimized_motion_planning/metadata.yml
-              - "Risk-Averse Trajectory Optimization via Sample Average Approximation": docs/papers/2023/2307.03167/metadata.yml
-              - Chance-Constrained Sequential Convex Programming for Robust Trajectory Optimization: docs/papers/2020/2020.lew.chance_constrained_sequential_convex/metadata.yml
-              - Statistical Linearization for Robust Motion Planning: docs/papers/2023/2303.01288/metadata.yml
-            - Robustness / Real-time systems / KernelSOS:
-              - "Global Sampling-Based Trajectory Optimization for Contact-Rich Manipulation via KernelSOS": docs/papers/2026/2604.27175/metadata.yml
-              - "ADMM-based Continuous Trajectory Optimization in Graphs of Convex Sets": docs/papers/2026/2603.11335/metadata.yml
-              - Is Linear Feedback on Smoothed Dynamics Sufficient for Stabilizing Contact-Rich Plans?: docs/papers/2024/2411.06542/metadata.yml
-              - "Fast and Certifiable Trajectory Optimization": docs/papers/2024/2406.05846/metadata.yml
-              - Hippo: docs/papers/2026/2603.00871/metadata.yml
-              - "Parallel-in-Time Nonlinear Optimal Control via GPU-native Sequential Convex Programming": docs/papers/2026/2603.10711/metadata.yml
-              - MPCGPU: docs/papers/2023/2309.08079/metadata.yml
-              - TinyMPC: docs/papers/2023/2310.16985/metadata.yml
-              - GATO: docs/papers/2025/2510.07625/metadata.yml
-              - Code Generation and Conic Constraints for Model-Predictive Control on Microcontrollers with Conic-TinyMPC: docs/papers/2024/2403.18149/metadata.yml
-              - TinySDP: docs/papers/2026/2605.13748/metadata.yml
-              - KOMO: docs/papers/2014/1407.0414/metadata.yml
-              - "A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces": docs/papers/2025/2511.14752/metadata.yml
-              - Differentiable Model Predictive Control on the GPU: docs/papers/2025/2510.06179/metadata.yml
-              - "Real-time Mixed-Integer Quadratic Programming for Vehicle Decision Making and Motion Planning": docs/papers/2023/2308.10069/metadata.yml
-            - Dexterous contact-rich manipulation via the contact trust region:
-              - "Dexterous contact-rich manipulation via the contact trust region": docs/papers/2026/2026.suh.dexterous_contact_rich_manipulation/metadata.yml              
-            - Using Reachable Sets for Trajectory Planning of Automated Vehicles / Towards Risk Minimizing Trajectory Planning in On-Road Scenarios:
-              - "Using Reachable Sets for Trajectory Planning of Automated Vehicles": docs/papers/2021/2021.manzinger.using_reachable_sets_for/metadata.yml
-              - Towards Risk Minimizing Trajectory Planning in On-Road Scenarios: docs/papers/2018/2018.ward.towards_risk_minimizing_trajectory/metadata.yml
-            - Simultaneous Self-calibration and Navigation Using Trajectory Optimization:
-              - "Simultaneous Self-calibration and Navigation Using Trajectory Optimization": docs/papers/2018/2018.preiss.simultaneous_self_calibration_and/metadata.yml
+          - General Motion-Optimization Frameworks:
+            - KOMO: docs/papers/2014/1407.0414/metadata.yml
+            - Hippo: docs/papers/2026/2603.00871/metadata.yml
+            - OS-SCP: docs/papers/2025/2511.14752/metadata.yml
+          - Collision-Aware Trajectory Optimization:
+            - OBCA: docs/papers/2017/1711.03449/metadata.yml
+            - Collision Primitives: docs/papers/2022/2204.09352/metadata.yml
+            - TrajOpt: docs/papers/2013/2013.schulman.finding_locally_optimal_collision/metadata.yml
+            - Motion Planning with Sequential Convex Optimization and Convex Collision Checking: docs/papers/2014/2014.schulman.motion_planning_with_sequential/metadata.yml
+          - Contact-Rich & Whole-Body Trajectory Optimization:
+            - A direct method for trajectory optimization of rigid bodies through contact: docs/papers/2013/2013.posa.a_direct_method_for/metadata.yml
+            - Inverse-Dynamics Trajectory Optimization: docs/papers/2012/2012.erez.trajectory_optimization_for_domains/metadata.yml
+            - Whole-body motion planning with centroidal dynamics and full kinematics: docs/papers/2014/2014.dai.whole_body_motion_planning/metadata.yml
+            - Optimization and stabilization of trajectories for constrained dynamical systems: docs/papers/2016/2016.posa.optimization_and_stabilization_of/metadata.yml
+            - Is Linear Feedback on Smoothed Dynamics Sufficient for Stabilizing Contact-Rich Plans?: docs/papers/2024/2411.06542/metadata.yml            
+            - "Dexterous contact-rich manipulation via the contact trust region": docs/papers/2026/2026.suh.dexterous_contact_rich_manipulation/metadata.yml
+          - Robust & Risk-Aware Trajectory Optimization:
+            - "Risk-Averse Trajectory Optimization via Sample Average Approximation": docs/papers/2023/2307.03167/metadata.yml
+            - Chance-Constrained Sequential Convex Programming for Robust Trajectory Optimization: docs/papers/2020/2020.lew.chance_constrained_sequential_convex/metadata.yml
+            - Statistical Linearization for Robust Motion Planning: docs/papers/2023/2303.01288/metadata.yml
+          - Real-Time, Parallel & Certifiable Trajectory Optimization:
+            - STROM: docs/papers/2024/2406.05846/metadata.yml
+            - "Parallel-in-Time Nonlinear Optimal Control via GPU-native Sequential Convex Programming": docs/papers/2026/2603.10711/metadata.yml
           - Trajectory Optimization on Point Clouds:
             - "Grasping Trajectory Optimization with Point Clouds": docs/papers/2024/2403.05466/metadata.yml
           - Trajectory Optimization on Gaussian Splats:
@@ -865,6 +851,7 @@
             - "Grad+CEM": docs/papers/2020/2004.08763/metadata.yml
             - Constrained Cross-Entropy Method for Safe Reinforcement Learning: docs/papers/2021/2021.wen.constrained_cross_entropy_method/metadata.yml
             - MPPI-IPDDP: docs/papers/2022/2208.02439/metadata.yml
+            - Global-MPPI: docs/papers/2026/2604.27175/metadata.yml
           - Learning in Trajectory Optimization:
             - Sampling-based MPC:
               - DIAL-MPC: docs/papers/2024/2409.15610/metadata.yml
@@ -954,6 +941,7 @@
           - "Distributionally Robust CVaR-Based Safety Filtering for Motion Planning in Uncertain Environments": docs/papers/2023/2309.08821/metadata.yml
           - Provably Safe Motion Planning under Unknown Disturbances: docs/papers/2026/2605.26625/metadata.yml
           - Fail-Safe Motion Planning of Autonomous Vehicles: docs/papers/2016/2016.magdici.fail_safe_motion_planning/metadata.yml
+          - Towards Risk Minimizing Trajectory Planning in On-Road Scenarios: docs/papers/2018/2018.ward.towards_risk_minimizing_trajectory/metadata.yml
         - Velocity Obstacles:
           - Velocity Obstacles: docs/papers/1998/1998.fiorini.motion_planning_in_dynamic/metadata.yml
           - RVO: docs/papers/2008/2008.van_den_berg.reciprocal_velocity_obstacles_for/metadata.yml
@@ -977,6 +965,7 @@
           - PLUTO: docs/papers/2024/2404.14327/metadata.yml
           - Goal-Based Prediction and Planning: docs/papers/2020/2002.02277/metadata.yml
           - Autonomous Vehicle Decision-Making and Monitoring Based on Signal Temporal Logic and Mixed-Integer Programming: docs/papers/2020/2020.sahin.autonomous_vehicle_decision_making/metadata.yml
+          - MIP-DM: docs/papers/2023/2308.10069/metadata.yml
           - Interaction-Aware MPC: docs/papers/2023/2301.05393/metadata.yml
           - Interactive Joint Planning: docs/papers/2023/2310.18301/metadata.yml
           - Planning by Simulation: docs/papers/2024/2411.09887/metadata.yml
@@ -1043,6 +1032,7 @@
           - Robotic Grasping and Contact: docs/papers/2000/2000.bicchi.robotic_grasping_and_contact/metadata.yml
           - Dual Arm manipulation—A Survey: docs/papers/2012/2012.smith.dual_arm_manipulation_a/metadata.yml
           - Trajectory Planning: docs/papers/2014/2014.pham.trajectory_planning/metadata.yml
+          - Speed-Optimized Motion Planning for Robotic Object Handling via Constrained Linear Convex Optimization: docs/papers/2026/2026.farid.speed_optimized_motion_planning/metadata.yml
           - "Path Planning and Trajectory Planning Algorithms: A General Overview": docs/papers/2015/2015.gasparetto.path_planning_and_trajectory/metadata.yml
           - A Bisection Algorithm for Time-Optimal Trajectory Planning along Fully Specified Paths: docs/papers/2021/2021.barnett.a_bisection_algorithm_for/metadata.yml
           - "EGAD! an Evolved Grasping Analysis Dataset for Diversity and Reproducibility in Robotic Manipulation": docs/papers/2020/2003.01314/metadata.yml
@@ -1051,6 +1041,7 @@
           - "A Simple and Efficient Sampling-based Algorithm for General Reachability Analysis": docs/papers/2021/2112.05745/metadata.yml
           - Convex Hulls of Reachable Sets: docs/papers/2023/2303.17674/metadata.yml
           - "On Infusing Reachability-Based Safety Assurance within Planning Frameworks for Human-Robot Vehicle Interactions": docs/papers/2020/2012.03390/metadata.yml
+          - "Using Reachable Sets for Trajectory Planning of Automated Vehicles": docs/papers/2021/2021.manzinger.using_reachable_sets_for/metadata.yml
           - Planning for Autonomous Cars That Leverage Effects on Human Actions: docs/papers/2016/2016.sadigh.planning_for_autonomous_cars/metadata.yml
         - Multi-Robot Planning:
           - Generation of collision-free trajectories for a quadrocopter fleet: docs/papers/2012/2012.augugliaro.generation_of_collision_free/metadata.yml
@@ -1266,6 +1257,14 @@
             - Friction-Adaptive Stochastic Nonlinear Model Predictive Control for Autonomous Vehicles: docs/papers/2023/2305.03798/metadata.yml
             - A Nonlinear MPC Scheme for Output Tracking without Terminal Ingredients: docs/papers/2023/2023.soloperto.a_nonlinear_mpc_scheme/metadata.yml
             - Fast Model Predictive Control Using Online Optimization: docs/papers/2010/2010.wang.fast_model_predictive_control/metadata.yml
+            - Embedded MPC Solvers:
+              - TinyMPC: docs/papers/2023/2310.16985/metadata.yml
+              - Conic-TinyMPC: docs/papers/2024/2403.18149/metadata.yml
+              - TinySDP: docs/papers/2026/2605.13748/metadata.yml
+            - GPU-Accelerated MPC Solvers:
+              - MPCGPU: docs/papers/2023/2309.08079/metadata.yml
+              - GATO: docs/papers/2025/2510.07625/metadata.yml
+              - GPU Differentiable MPC: docs/papers/2025/2510.06179/metadata.yml
         - Nonlinear Control Design:
           - Nonlinear Control Synthesis by Convex Optimization: docs/papers/2004/2004.prajna.nonlinear_control_synthesis_by/metadata.yml
           - Partial Feedback Linearization: docs/papers/1994/1994.spong.partial_feedback_linearization_of/metadata.yml
@@ -2077,6 +2076,7 @@
           - Bundle Adjustment — A Modern Synthesis: docs/papers/2000/2000.triggs.bundle_adjustment_a_modern/metadata.yml
         - Sensor Calibration:
           - Automatic Online Calibration of Cameras and Lasers: docs/papers/2013/2013.levinson.automatic_online_calibration_of/metadata.yml
+          - "Simultaneous Self-calibration and Navigation Using Trajectory Optimization": docs/papers/2018/2018.preiss.simultaneous_self_calibration_and/metadata.yml
     - Motion Prediction:
       - Driver Models:
         - IDM: docs/papers/2000/cond-mat/0002177/metadata.yml
