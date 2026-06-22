@@ -977,20 +977,8 @@ body:has(#ct-app)
 
 /* Home page quick-start bento */
 
-body:has(.kb-home-bento) .md-main__inner {
-  justify-content: center;
-}
-
-body:has(.kb-home-bento) .md-content {
-  flex: 0 1 calc(76rem + 2.4rem);
-  width: min(100%, calc(76rem + 2.4rem));
-}
-
 .md-content__inner:has(.kb-home-bento) {
   container-type: inline-size;
-  width: min(100%, 76rem);
-  max-width: min(100%, 76rem);
-  margin-inline: auto;
   padding-top: 1.35rem;
 }
 
@@ -1017,13 +1005,6 @@ body:has(.kb-home-bento) .md-content {
   font-size: 1.05rem;
   line-height: 1.45;
   text-align: center;
-}
-
-.md-typeset .kb-home-bento,
-.md-typeset .kb-home-bento-secondary {
-  --kb-bento-side-inset: clamp(0.8rem, 2.4vw, 2rem);
-  box-sizing: border-box;
-  padding-inline: var(--kb-bento-side-inset);
 }
 
 .md-typeset .kb-home-bento {
@@ -1367,9 +1348,7 @@ body:has(.kb-home-bento) .md-content {
   --kb-home-expander-hover-shadow-strength: 11%;
   display: grid;
   gap: 0.75rem;
-  box-sizing: border-box;
   margin: -1rem 0 2.35rem;
-  padding-inline: var(--kb-bento-side-inset, clamp(0.8rem, 2.4vw, 2rem));
 }
 
 [data-md-color-scheme="slate"] .md-typeset .kb-home-expanders {
@@ -1478,14 +1457,13 @@ body:has(.kb-home-bento) .md-content {
   );
 }
 
-.md-typeset .kb-home-expander:hover,
+.md-typeset .kb-home-expander:has(> summary:hover),
 .md-typeset .kb-home-expander:has(> summary:focus-visible) {
   border-color: color-mix(
     in srgb,
     var(--kb-home-expander-accent) var(--kb-home-expander-hover-border-strength),
     var(--kb-home-expander-border)
   );
-  background-color: var(--kb-home-expander-header-bg);
   box-shadow:
     0 1px 0 color-mix(in srgb, #ffffff 36%, transparent) inset,
     0 14px 34px color-mix(
@@ -1495,7 +1473,7 @@ body:has(.kb-home-bento) .md-content {
     );
 }
 
-.md-typeset .kb-home-expander:not([open]):hover > summary {
+.md-typeset .kb-home-expander:not([open]) > summary:hover {
   background-color: var(--kb-home-expander-header-bg) !important;
 }
 
@@ -2069,7 +2047,6 @@ body:has(.kb-home-bento) .md-content {
   }
 
   .md-typeset .kb-home-bento {
-    --kb-bento-side-inset: 0.42rem;
     --kb-bento-visual-offset: 1.7rem;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-auto-rows: minmax(9.85rem, 1fr);
@@ -2086,7 +2063,6 @@ body:has(.kb-home-bento) .md-content {
     grid-template-columns: 1fr;
     gap: 0.52rem;
     margin: 0 0 0.85rem;
-    padding-inline: var(--kb-bento-side-inset, 0.42rem);
   }
 
   .md-typeset .kb-home-expander {
@@ -5576,13 +5552,6 @@ body:has(#ct-app) .md-content__inner {
 
   .ct-tree-button {
     padding-right: 0.36rem;
-  }
-
-  .md-typeset .kb-home-bento,
-  .md-typeset .kb-home-bento-secondary,
-  .md-typeset .kb-home-expanders {
-    --kb-bento-side-inset: 0;
-    padding-inline: 0;
   }
 
   .md-typeset a.kb-bento-card,
