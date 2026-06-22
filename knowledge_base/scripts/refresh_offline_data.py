@@ -254,7 +254,9 @@ def print_timing_report(results: list[StepResult], total_s: float, *, failed: bo
         group_results = [result for result in results if result.step.group == group]
         table.add_row(group, "Total", format_duration(sum(result.duration_s for result in group_results)), "")
         for result in group_results:
-            table.add_row("", result.step.label, format_duration(result.duration_s), format_status(bool(result.returncode)))
+            table.add_row(
+                "", result.step.label, format_duration(result.duration_s), format_status(bool(result.returncode))
+            )
     table.add_row("Total", "", format_duration(total_s), format_status(failed))
     console.print()
     console.print(table)

@@ -49,6 +49,7 @@ _YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
 def _yaml_safe_load(stream: Any) -> Any:
     return yaml.load(stream, Loader=_YAML_LOADER)
 
+
 # Minor words that stay lowercase unless first/last in title (Chicago style)
 _LOWERCASE_TITLE_WORDS = {
     # articles
@@ -4721,16 +4722,20 @@ def _is_ascii_multi_dash_issue(issue: Issue) -> bool:
 
 
 def _is_title_value_fix_issue(issue: Issue) -> bool:
-    return issue.field == "title" and issue.suggestion is not None and _issue_rule_or_legacy(
-        issue,
-        RULE_TITLE_VALUE,
-        issue.message.startswith(
-            (
-                "Not in title case:",
-                "Contains title markup/math garbage:",
-                _TITLE_CHARACTER_ESCAPE_ISSUE_PREFIX,
-            )
-        ),
+    return (
+        issue.field == "title"
+        and issue.suggestion is not None
+        and _issue_rule_or_legacy(
+            issue,
+            RULE_TITLE_VALUE,
+            issue.message.startswith(
+                (
+                    "Not in title case:",
+                    "Contains title markup/math garbage:",
+                    _TITLE_CHARACTER_ESCAPE_ISSUE_PREFIX,
+                )
+            ),
+        )
     )
 
 
@@ -4795,10 +4800,14 @@ def _is_text_mojibake_issue(issue: Issue) -> bool:
 
 
 def _is_type_fix_issue(issue: Issue) -> bool:
-    return issue.field == "type" and issue.suggestion in VALID_TYPES and _issue_rule_or_legacy(
-        issue,
-        RULE_TYPE_VALUE,
-        issue.message.startswith("Invalid value"),
+    return (
+        issue.field == "type"
+        and issue.suggestion in VALID_TYPES
+        and _issue_rule_or_legacy(
+            issue,
+            RULE_TYPE_VALUE,
+            issue.message.startswith("Invalid value"),
+        )
     )
 
 
@@ -5372,10 +5381,14 @@ def _fix_source_in_yaml(raw: str, new_source: str) -> str:
 
 
 def _is_source_year_issue(issue: Issue) -> bool:
-    return issue.field == "source" and issue.suggestion is not None and _issue_rule_or_legacy(
-        issue,
-        RULE_SOURCE_YEAR,
-        issue.message.startswith("Contains year"),
+    return (
+        issue.field == "source"
+        and issue.suggestion is not None
+        and _issue_rule_or_legacy(
+            issue,
+            RULE_SOURCE_YEAR,
+            issue.message.startswith("Contains year"),
+        )
     )
 
 

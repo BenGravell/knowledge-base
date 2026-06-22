@@ -79,9 +79,7 @@ def validate_current_papers(map_data: dict[str, object]) -> None:
     node_ids = [
         str(node["data"]["id"])
         for node in nodes
-        if isinstance(node, dict)
-        and isinstance(node.get("data"), dict)
-        and isinstance(node["data"].get("id"), str)
+        if isinstance(node, dict) and isinstance(node.get("data"), dict) and isinstance(node["data"].get("id"), str)
     ]
     current_ids = [entry.id for entry in Catalog.from_metadata_root(METADATA_ROOT).entries]
     if node_ids != current_ids:

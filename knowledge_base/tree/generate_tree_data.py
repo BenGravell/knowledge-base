@@ -617,7 +617,8 @@ def build_analytics_data(root_node: dict[str, Any], model: TreeModel) -> dict[st
     }
 
 
-ANALYTICS_PAGE = r"""---
+ANALYTICS_PAGE = (
+    r"""---
 hide:
   - toc
 ---
@@ -736,7 +737,10 @@ body:has(.md-content__inner > #an-app) .md-grid,body:has(.md-content__inner > #a
   </section>
 </div>
 
-""" + render_app_script_tags("analytics.md", "analytics") + "\n"
+"""
+    + render_app_script_tags("analytics.md", "analytics")
+    + "\n"
+)
 
 
 ANALYTICS_CSS = ANALYTICS_PAGE.split("<style>\n", 1)[1].split("</style>", 1)[0].strip()
@@ -815,7 +819,8 @@ ANALYTICS_JS = r"""'use strict';
 })();"""
 
 
-TIMELINE_PAGE = r"""---
+TIMELINE_PAGE = (
+    r"""---
 hide:
   - toc
 ---
@@ -949,7 +954,10 @@ body:has(#tl-app) .md-grid,body:has(#tl-app) .md-main__inner{max-width:100%!impo
   </div>
 </div>
 
-""" + render_app_script_tags("timeline.md", "timeline") + "\n"
+"""
+    + render_app_script_tags("timeline.md", "timeline")
+    + "\n"
+)
 
 
 TIMELINE_JS = r"""'use strict';

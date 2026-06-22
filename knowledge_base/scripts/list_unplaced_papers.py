@@ -446,11 +446,7 @@ def main() -> None:
         print_empty(args.format)
         return
 
-    missing = [
-        paper
-        for paper_id in missing_ids
-        if (paper := load_paper(paper_paths[paper_id], paper_id)) is not None
-    ]
+    missing = [paper for paper_id in missing_ids if (paper := load_paper(paper_paths[paper_id], paper_id)) is not None]
     display = missing[: args.max_results] if args.max_results is not None else missing
     needs_embeddings = args.neighbors > 0 or args.write_tree
     embeddings: dict[str, list[float]] = load_embeddings(EMBEDDING_CACHE) if needs_embeddings else {}

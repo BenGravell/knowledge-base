@@ -10,8 +10,8 @@ from knowledge_base.catalog import (
     build_embedding_chunks,
     build_embedding_text,
     chunk_embedding_text,
-    compact_embedding_content,
     clean_embedding_sidecar_text,
+    compact_embedding_content,
     embedding_input_sidecar_path,
     embedding_input_sidecar_text,
     embedding_token_count,
@@ -214,10 +214,7 @@ class CatalogHelperTests(unittest.TestCase):
 
         self.assertEqual(
             text,
-            "A Tiny Paper\n\n"
-            "Topics include planning, control.\n\n"
-            "A compact summary.\n\n"
-            "A compact abstract.",
+            "A Tiny Paper\n\nTopics include planning, control.\n\nA compact summary.\n\nA compact abstract.",
         )
         self.assertNotIn("Title:", text)
         self.assertNotIn("Summary:", text)
@@ -291,7 +288,10 @@ class CatalogHelperTests(unittest.TestCase):
 
         self.assertEqual(compacted, "First sentence stays whole.")
         self.assertFalse(compacted.endswith("..."))
-        self.assertEqual(truncate_embedding_text("A sentence that trails off... More text follows.", 30), "A sentence that trails off.")
+        self.assertEqual(
+            truncate_embedding_text("A sentence that trails off... More text follows.", 30),
+            "A sentence that trails off.",
+        )
         self.assertEqual(
             truncate_embedding_text("In cases where this is e.g. available, the method can proceed. Later text.", 70),
             "In cases where this is e.g. available, the method can proceed.",
@@ -340,7 +340,9 @@ class CatalogHelperTests(unittest.TestCase):
         self.assertEqual(cleaned, "## Introduction\n\nUseful paragraph with enough words.")
 
     def test_embedding_sidecar_strips_tabbed_h1_title(self) -> None:
-        cleaned = clean_embedding_sidecar_text("#\tPaper Title\n\n##\tIntroduction\n\nUseful paragraph with enough words.")
+        cleaned = clean_embedding_sidecar_text(
+            "#\tPaper Title\n\n##\tIntroduction\n\nUseful paragraph with enough words."
+        )
 
         self.assertEqual(cleaned, "## Introduction\n\nUseful paragraph with enough words.")
 

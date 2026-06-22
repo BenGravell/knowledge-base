@@ -185,8 +185,7 @@ def pandoc_convert(html: str, args: argparse.Namespace) -> str:
         result = subprocess.run(
             command,
             check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             text=True,
         )
     return remove_rich_content_from_markdown(result.stdout)
@@ -261,7 +260,9 @@ def self_test() -> None:
     assert "view the build logs" not in strip_source_footer("Body\n\nExperimental support, please view the build logs")
     assert remove_duplicate_title("# Same\n\nBody", "Same") == "Body"
     assert body_after_duplicate_title("UI\n\n# Same\n\nBody", "Same") == "Body"
-    assert not has_paper_body("## Abstract\n\nOnly abstract text.\n\n## Submission history\n\nNo paper body.", min_chars=20)
+    assert not has_paper_body(
+        "## Abstract\n\nOnly abstract text.\n\n## Submission history\n\nNo paper body.", min_chars=20
+    )
     assert has_paper_body(
         "## Abstract\n\nOnly abstract text.\n\n## Introduction\n\nThis section contains enough paper body words.",
         min_chars=20,
@@ -280,8 +281,12 @@ def self_test() -> None:
     assert "### Model Details" in cleaned
     assert "### A)" not in cleaned
     assert "The method solves the real problem" in cleaned
-    assert clean_embedding_sidecar_text("First useful paragraph.\n\nSecond useful paragraph.").startswith("## Paper Body")
-    assert "extra proof" not in clean_embedding_sidecar_text("## Introduction\n\nMain idea.\n\n## Appendix A\n\nextra proof")
+    assert clean_embedding_sidecar_text("First useful paragraph.\n\nSecond useful paragraph.").startswith(
+        "## Paper Body"
+    )
+    assert "extra proof" not in clean_embedding_sidecar_text(
+        "## Introduction\n\nMain idea.\n\n## Appendix A\n\nextra proof"
+    )
     assert readable_markdown_chars("# A\n\nSome real words.") > 10
 
 

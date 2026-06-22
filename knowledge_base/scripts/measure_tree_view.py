@@ -223,9 +223,7 @@ class QuietHandler(SimpleHTTPRequestHandler):
 
 def serve_site(site_dir: Path) -> tuple[ThreadingHTTPServer, str]:
     if not site_dir.exists():
-        raise FileNotFoundError(
-            f"{site_dir} does not exist. Run `kb build` first or pass --url."
-        )
+        raise FileNotFoundError(f"{site_dir} does not exist. Run `kb build` first or pass --url.")
     handler = functools.partial(QuietHandler, directory=str(site_dir))
     server = ThreadingHTTPServer(("127.0.0.1", 0), handler)
     thread = threading.Thread(target=server.serve_forever, daemon=True)

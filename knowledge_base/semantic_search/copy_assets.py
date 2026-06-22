@@ -54,23 +54,14 @@ def validate_semantic_assets() -> tuple[dict[str, str], dict[str, bytes]]:
 
     if not manifest_path.exists():
         if settings_path.exists() or any(path.stat().st_size for path in vector_candidates):
-            raise RuntimeError(
-                f"Semantic Search assets are partial; run {RUN_GENERATE_SEMANTIC_SEARCH}"
-            )
+            raise RuntimeError(f"Semantic Search assets are partial; run {RUN_GENERATE_SEMANTIC_SEARCH}")
         return TEXT_ASSETS, BINARY_ASSETS
 
     manifest = read_json(manifest_path)
     papers = manifest.get("papers")
     if not isinstance(papers, list):
-        raise RuntimeError(
-            "semantic-search-index.json has no paper list; "
-            f"run {RUN_GENERATE_SEMANTIC_SEARCH}"
-        )
-    indexed_ids = [
-        str(paper["id"])
-        for paper in papers
-        if isinstance(paper, dict) and isinstance(paper.get("id"), str)
-    ]
+        raise RuntimeError(f"semantic-search-index.json has no paper list; run {RUN_GENERATE_SEMANTIC_SEARCH}")
+    indexed_ids = [str(paper["id"]) for paper in papers if isinstance(paper, dict) and isinstance(paper.get("id"), str)]
     current_ids = [entry.id for entry in Catalog.from_metadata_root(METADATA_ROOT).entries]
     if indexed_ids != current_ids:
         missing = sorted(set(current_ids) - set(indexed_ids))
@@ -82,8 +73,7 @@ def validate_semantic_assets() -> tuple[dict[str, str], dict[str, bytes]]:
             detail.append(f"contains {len(extra)} stale paper(s)")
         reason = f" ({', '.join(detail)})" if detail else ""
         raise RuntimeError(
-            f"semantic-search-index.json is stale for current metadata{reason}; "
-            f"run {RUN_GENERATE_SEMANTIC_SEARCH}"
+            f"semantic-search-index.json is stale for current metadata{reason}; run {RUN_GENERATE_SEMANTIC_SEARCH}"
         )
 
     if not settings_path.exists():
@@ -92,24 +82,18 @@ def validate_semantic_assets() -> tuple[dict[str, str], dict[str, bytes]]:
 
     for key in ("model", "browserModel", "count", "scoreThreshold"):
         if settings.get(key) != manifest.get(key):
-            raise RuntimeError(
-                f"{settings_path} is stale for {key}; run {RUN_GENERATE_SEMANTIC_SEARCH}"
-            )
+            raise RuntimeError(f"{settings_path} is stale for {key}; run {RUN_GENERATE_SEMANTIC_SEARCH}")
 
     count = manifest.get("count")
     dimension = manifest.get("dimension")
     if not isinstance(count, int) or count < 0 or not isinstance(dimension, int) or dimension < 0:
         raise RuntimeError(
-            "semantic-search-index.json has invalid count/dimension; "
-            f"run {RUN_GENERATE_SEMANTIC_SEARCH}"
+            f"semantic-search-index.json has invalid count/dimension; run {RUN_GENERATE_SEMANTIC_SEARCH}"
         )
 
     quantization = manifest.get("quantization")
     if not isinstance(quantization, dict) or quantization.get("type") != "int8":
-        raise RuntimeError(
-            "semantic-search-index.json must point at int8 vectors; "
-            f"run {RUN_GENERATE_SEMANTIC_SEARCH}"
-        )
+        raise RuntimeError(f"semantic-search-index.json must point at int8 vectors; run {RUN_GENERATE_SEMANTIC_SEARCH}")
 
     vector_name = manifest.get("vectors")
     if not isinstance(vector_name, str) or not vector_name or Path(vector_name).name != vector_name:

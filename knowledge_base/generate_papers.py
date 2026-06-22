@@ -544,6 +544,7 @@ env.filters["metadata_text_html"] = metadata_text_html
 env.filters["url_quote"] = url_quote
 env.filters["url_path_quote"] = url_path_quote
 
+
 def build_paper_entries() -> list[PaperTemplateEntry]:
     paper_entries: list[PaperTemplateEntry] = []
     for metadata_file in metadata_root.rglob("*.yml"):

@@ -482,7 +482,6 @@ def run_source(source: str, argv: Sequence[str] | None = None) -> None:
         print(f"\nDone: {ok} written, {skipped} skipped, {failed} failed, {source_removed} source row(s) removed")
 
 
-
 def main(argv: Sequence[str] | None = None) -> None:
     from knowledge_base.scripts.prefill.registry import source_specs
 
