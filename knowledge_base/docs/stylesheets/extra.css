@@ -207,6 +207,10 @@ body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content__inne
   z-index: var(--kb-z-site-drawer) !important;
 }
 
+.md-sidebar--primary .md-nav--primary > .md-nav__title .md-logo {
+  display: none !important;
+}
+
 @media screen and (min-width: 60em) {
   .md-main__inner {
     margin-top: 0 !important;
