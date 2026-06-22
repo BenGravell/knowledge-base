@@ -1,5 +1,13 @@
 # TODO
 
+
+## ux
+
+Take a refinement pass over the color theming and ux elements throughout the site for both light mode and dark mode. Use best practices regarding contrast and human perception differences in light mode and dark mode. Colors in the decorations and elements should use variants.
+
+
+
+
 ## ingest
 
 Need to find a way to represent and ingest all the numerous items in
