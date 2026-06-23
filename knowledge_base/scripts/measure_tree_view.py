@@ -22,10 +22,8 @@ import sys
 import threading
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from typing import Any
+from typing import Any, override
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
-
-from typing_extensions import override
 
 from knowledge_base.scripts.verify_map_view import (
     CdpClient,

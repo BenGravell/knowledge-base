@@ -18,9 +18,7 @@ import tempfile
 import threading
 import webbrowser
 from pathlib import Path
-from typing import Any
-
-from typing_extensions import override
+from typing import Any, override
 
 from knowledge_base.generated_assets import MAP_DATA
 
