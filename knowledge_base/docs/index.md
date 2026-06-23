@@ -182,12 +182,32 @@ render_macros: true
 
       <h2>Credits</h2>
 
-      <p>This site was built with the following tools:</p>
+      <p>This site was built with the following tools and typefaces:</p>
+
+      <h3>Fonts</h3>
+
+      <h3>Site Framework</h3>
 
       <ul>
         <li><a href="https://zensical.org/">Zensical</a></li>
+      </ul>
+
+      <h3>Math Rendering</h3>
+
+      <ul>
         <li><a href="https://www.mathjax.org/">MathJax</a></li>
-        <li><a href="https://www.brailleinstitute.org/freefont/">Atkinson Hyperlegible</a></li>
+      </ul>
+
+      <ul>
+        <li><a href="https://www.brailleinstitute.org/freefont/">Atkinson Hyperlegible Next</a></li>
+        <li><a href="https://www.brailleinstitute.org/freefont/">Atkinson Hyperlegible Mono</a></li>
+        <li><a href="https://fonts.google.com/specimen/Space+Grotesk">Space Grotesk</a></li>
+        <li><a href="https://fonts.google.com/specimen/Space+Mono">Space Mono</a></li>
+      </ul>
+
+      <h3>Build Assistance</h3>
+
+      <ul>
         <li><a href="https://openai.com/codex/">Codex</a></li>
         <li><a href="https://claude.com/product/claude-code">Claude Code</a></li>
       </ul>
