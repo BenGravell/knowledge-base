@@ -343,29 +343,30 @@
           - A Necessary and Sufficient Condition for Consensus over Random Networks: docs/papers/2008/2008.tahbaz_salehi.a_necessary_and_sufficient/metadata.yml
           - Accelerated Consensus with Linear Rate of Convergence: docs/papers/2018/2018.bu.accelerated_consensus_with_linear/metadata.yml
           - The Fastest Linearly Converging Discrete-time Average Consensus Using Buffered Information: docs/papers/2022/2206.09916/metadata.yml
-        - Numerical Differentiation:
-          - Coherence-based Approximate Derivatives via Web of Affine Spaces Optimization: docs/papers/2025/2504.18790/metadata.yml
-        - Automatic Differentiation:
-          - On Automatic Differentiation: docs/papers/1989/1989.griewank.on_automatic_differentiation/metadata.yml
-          - "Automatic differentiation in machine learning: a survey": docs/papers/2015/1502.05767/metadata.yml
-          - The Elements of Differentiable Programming: docs/papers/2024/2403.14606/metadata.yml
-          - Fast Exact Multiplication by the Hessian: docs/papers/1994/1994.pearlmutter.fast_exact_multiplication_by/metadata.yml
-          - "SoftJAX & SoftTorch": docs/papers/2026/2603.08824/metadata.yml
-          - DiffTaichi: docs/papers/2019/1910.00935/metadata.yml
-          - Differentiable Optimization Layers:
-            - OptNet: docs/papers/2017/1703.00443/metadata.yml
-            - Differentiable Convex Optimization Layers: docs/papers/2019/1910.12430/metadata.yml
-            - Differentiating through Log-Log Convex Programs: docs/papers/2020/2004.12553/metadata.yml
-            - Differentiating through a Quadratic Cone Program: docs/papers/2025/2508.17522/metadata.yml
-        - Symbolic Differentiation:
-          - Early Analytical Differentiation:
-            - Analytical Differentiation on a Digital Computer: docs/papers/1953/1953.nolan.analytical_differentiation_on_a/metadata.yml
-            - Kahrimanian Differentiator: docs/papers/1953/1953.kahrimanian.analytical_differentiation_by_a/metadata.yml
-            - Analytic Differentiation by Computer: docs/papers/1962/1962.hanson.analytic_differentiation_by_computer/metadata.yml
-          - Complexity and AD Boundary:
-            - Wengert List: docs/papers/1964/1964.wengert.a_simple_automatic_derivative/metadata.yml
-            - Baur-Strassen Theorem: docs/papers/1983/1983.baur.the_complexity_of_partial/metadata.yml
-            - Automatic-Symbolic Differentiation Equivalence: docs/papers/2019/1904.02990/metadata.yml
+        - Differentiation:
+          - Numerical Differentiation:
+            - Coherence-based Approximate Derivatives via Web of Affine Spaces Optimization: docs/papers/2025/2504.18790/metadata.yml
+          - Automatic Differentiation:
+            - On Automatic Differentiation: docs/papers/1989/1989.griewank.on_automatic_differentiation/metadata.yml
+            - "Automatic differentiation in machine learning: a survey": docs/papers/2015/1502.05767/metadata.yml
+            - The Elements of Differentiable Programming: docs/papers/2024/2403.14606/metadata.yml
+            - Fast Exact Multiplication by the Hessian: docs/papers/1994/1994.pearlmutter.fast_exact_multiplication_by/metadata.yml
+            - "SoftJAX & SoftTorch": docs/papers/2026/2603.08824/metadata.yml
+            - DiffTaichi: docs/papers/2019/1910.00935/metadata.yml
+            - Differentiable Optimization Layers:
+              - OptNet: docs/papers/2017/1703.00443/metadata.yml
+              - Differentiable Convex Optimization Layers: docs/papers/2019/1910.12430/metadata.yml
+              - Differentiating through Log-Log Convex Programs: docs/papers/2020/2004.12553/metadata.yml
+              - Differentiating through a Quadratic Cone Program: docs/papers/2025/2508.17522/metadata.yml
+          - Symbolic Differentiation:
+            - Early Analytical Differentiation:
+              - Analytical Differentiation on a Digital Computer: docs/papers/1953/1953.nolan.analytical_differentiation_on_a/metadata.yml
+              - Kahrimanian Differentiator: docs/papers/1953/1953.kahrimanian.analytical_differentiation_by_a/metadata.yml
+              - Analytic Differentiation by Computer: docs/papers/1962/1962.hanson.analytic_differentiation_by_computer/metadata.yml
+            - Complexity and AD Boundary:
+              - Wengert List: docs/papers/1964/1964.wengert.a_simple_automatic_derivative/metadata.yml
+              - Baur-Strassen Theorem: docs/papers/1983/1983.baur.the_complexity_of_partial/metadata.yml
+              - Automatic-Symbolic Differentiation Equivalence: docs/papers/2019/1904.02990/metadata.yml
       - Combinatorial Optimization:
         - Complexity Theory:
           - "Reducibility among Combinatorial Problems": docs/papers/1972/1972.karp.reducibility_among_combinatorial_problems/metadata.yml
