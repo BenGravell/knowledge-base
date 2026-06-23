@@ -1,36 +1,8 @@
 # TODO
 
-## Map
-
-Streamline the settings menu
-1. Remove the item type selector. We almost never use it, adds little value.
-2. Remove the search bar inside the settings menu. We have a site wide search and we don't get much from having local Map search.
-3. Eliminate the mixed level mechanism/display. Only display one level of detail at a time. Change the ux interaction of clicking a node to just go one level of detail deeper, and link it with the lod selector widget in the settings bar.
-4. Revise the categories selector. Simplify by using a single branch selection at a time, similar to the tree page. We don't ever really use the ability to select arbitrary branch sets, we just want to see on branch at a time.
-
-
-Get node labels to start showing up when zoomed out, while maintaining overlap prevention.
-
-
-## Tree
-
-Make the connector line between dots of content list items terminate at the dot centers, not extend past.
-
-Ego /selected branch should use a more distinct visual identity. Color should be more bright, vibrant, watercolor plus paper grain effect, border outline thicker and use pulsing outer ring (medium rate concentric contraction/expansion breathing). Colors should be distinct from the children branch color series.
-
-
-## Tree.yml
-
-Automatic, Numerical, symbolic differentiation all group under new branch for Differentiation
-
-##  chips
-
-Use consistent naming for chips text. External document (orange) should say "Document" for short, not "External"
-
 ## search
 
 https://bengravell.github.io/knowledge-base/search/?paper=2004_03853&tag=Shape-constrained%20regression 
-
 
 Something is wrong because this is a valid tag on at least one paper but we get zero hits?
 
