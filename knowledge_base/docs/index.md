@@ -167,7 +167,7 @@ render_macros: true
 
       <p>Paper indexes, citation databases, search engines, and literature review tools are already good at retrieval. I wanted something a little different: a durable place for the special subset of references I have already triaged, cleaned up, summarized, and placed.</p>
 
-      <p>There are other cool related tools such as <a href="https://www.connectedpapers.com/">Connected Papers</a>, <a href="https://openknowledgemaps.org/">Open Knowledge Maps</a>, <a href="https://www.researchrabbit.ai/">ResearchRabbit</a>, and <a href="https://incitefulmed.com/academic/">Inciteful</a>. They are useful for discovering literature from the outside in: start with a seed paper, query, collection, or citation graph, then expand into a much larger external corpus. The blockers for my use case are different.</p>
+      <p>There are other cool related tools such as <a href="https://www.connectedpapers.com/">Connected Papers</a>, <a href="https://openknowledgemaps.org/">Open Knowledge Maps</a>, <a href="https://www.researchrabbit.ai/">ResearchRabbit</a>, and <a href="https://incitefulmed.com/academic/">Inciteful</a>. They are useful for discovering literature from the outside in: start with a seed paper, query, collection, or citation graph, then expand into a much larger external corpus. Unfortunately there are some blockers for my use case:</p>
 
       <ul>
         <li>They are optimized for discovery sessions, not for maintaining a stable, hand-curated library with my own labels, summaries, tags, and placement decisions.</li>
