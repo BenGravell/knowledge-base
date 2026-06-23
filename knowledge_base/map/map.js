@@ -101,7 +101,6 @@
   const MIN_CAMERA_RATIO = 0.04;
   const FALLBACK_MAX_CAMERA_RATIO = 6;
   const MAX_ZOOM_OUT_OVERSCAN_RATIO = 1.12;
-  const MAX_ZOOM_LABEL_RATIO = MIN_CAMERA_RATIO * 1.05;
   const MIN_NODE_SCREEN_DIAMETER = 2;
   const MIN_NODE_SCREEN_RADIUS = MIN_NODE_SCREEN_DIAMETER / 2;
   const MOBILE_MIN_NODE_SCREEN_DIAMETER = 4.4;
@@ -109,9 +108,9 @@
   const AGGREGATE_EXTRA_AREA_UNITS_BY_LEVEL = [18, 12, 8, 5, 3];
   const AGGREGATE_EXTRA_AREA_FALLBACK_UNITS = 2;
   const AGGREGATE_MIN_RADIUS_RATIO = 1.7;
-  const LABEL_RENDERED_SIZE_THRESHOLD = 13;
-  const LABEL_DENSITY = 0.14;
-  const LABEL_GRID_CELL_SIZE = 96;
+  const LABEL_RENDERED_SIZE_THRESHOLD = 3;
+  const LABEL_DENSITY = 0.08;
+  const LABEL_GRID_CELL_SIZE = 112;
   const NODE_LABEL_FONT_SIZE = 11;
   const NODE_LABEL_FONT_SIZE_MIN = 9;
   const NODE_LABEL_FONT_SIZE_MAX = 24;
@@ -132,7 +131,6 @@
   const RELEVANCE_SLIDER_EXPANDED_POSITION = 0.20;
   const RELEVANCE_SLIDER_EXPONENT = Math.log(1 - RELEVANCE_SLIDER_EXPANDED_THRESHOLD) /
     Math.log(1 - RELEVANCE_SLIDER_EXPANDED_POSITION);
-  const MAX_ANIMATED_TRANSITION_NODES = 90;
   const LEVEL_TRANSITION_MS = 260;
   const LEVEL_TRANSITION_MAX_SCREEN_TRAVEL = 160;
   const LEVEL_TRANSITION_DRILLDOWN_TRAVEL_RATIO = 0.58;
@@ -144,6 +142,7 @@
   const PAN_CLICK_DRAG_THRESHOLD = 6;
   const PAN_CLICK_SUPPRESS_MS = 350;
   const LEGACY_BRANCH_LEVEL_IDS = ['super_category', 'category', 'sub_category'];
+  const BRANCH_FILTER_ALL = '__all__';
   const categorySuperCategoryLookup = new Map();
   const categoryOrderCache = { value: null };
   const superCategoryOrderCache = { value: null };
@@ -169,10 +168,9 @@
   let graph = null;
   let renderer = null;
   let currentDetailLevel = HIERARCHY_LEVELS[0].id;
-  let expandedAggregateNodes = new Set();
   let activeCategories = new Set();
-  let activeItemTypes = new Set();
-  let typeFilterOptions = [];
+  let activeBranchFilterKey = BRANCH_FILTER_ALL;
+  let branchFilterGroups = new Map();
   let relevanceFilter = {
     enabled: false,
     semantic: true,
@@ -182,7 +180,6 @@
     treeProximity: null,
   };
   let showNodeLabels = true;
-  let currentSearch = '';
   let pinnedNode = null;
   let hoveredNode = null;
   let hoverClickNode = null;
@@ -200,9 +197,7 @@
   let lastLevelTransitionMetrics = null;
   let cachedPaperNodeRadius = PAPER_NODE_RADIUS_TARGET;
   let visibleNodes = null;
-  let childNodesByParent = new Map();
   let visibleNodeCount = 0;
-  let searchMatchCount = 0;
   let visibilityColorContext = null;
   let visibilityPaletteCache = null;
   let graphToViewportRatioCache = null;
@@ -519,29 +514,6 @@
       : MIN_NODE_SCREEN_RADIUS;
   }
 
-  function cameraAtMaximumZoomIn(ratio = currentCameraRatio()) {
-    return Number.isFinite(ratio) && ratio <= MAX_ZOOM_LABEL_RATIO;
-  }
-
-  function detailLevelIndex(level) {
-    return DETAIL_LEVELS.indexOf(level);
-  }
-
-  function isTopDetailLevel(level) {
-    return detailLevelIndex(level) === 0;
-  }
-
-  function isLowestDetailLevel(level) {
-    const index = detailLevelIndex(level);
-    return index >= 0 && index === DETAIL_LEVELS.length - 1;
-  }
-
-  function nodeHasPersistentLabel(attrs) {
-    if (!showNodeLabels || !attrs) return false;
-    if (isTopDetailLevel(attrs.detailLevel)) return true;
-    return isLowestDetailLevel(attrs.detailLevel) && cameraAtMaximumZoomIn();
-  }
-
   function currentNodeLabelZoomScale() {
     return nodeLabelZoomScaleForRatio(currentCameraRatio());
   }
@@ -777,10 +749,6 @@
     if (attrs._mmItemType) return attrs._mmItemType;
     attrs._mmItemType = attrs.item_type || attrs.type || 'Unspecified';
     return attrs._mmItemType;
-  }
-
-  function itemTypeLabel(type) {
-    return String(type || 'Unspecified');
   }
 
   function paperSuperCategory(attrs) {
@@ -1068,8 +1036,7 @@
 
   function paperAllowedByCurrentFilters(attrs) {
     if (!attrs || !paperAllowedByRelevance(attrs.id)) return false;
-    if (!activeCategories.has(nodeKey(attrs))) return false;
-    return activeItemTypes.has(itemTypeKey(attrs));
+    return activeCategories.has(nodeKey(attrs));
   }
 
   function nodeAllowedByRelevance(attrs) {
@@ -1657,14 +1624,7 @@
 
   function nodeAllowedByBaseFilters(attrs) {
     const filterKeys = attrs.filterKeys || [nodeKey(attrs)];
-    const categoryAllowed = filterKeys.some(key => activeCategories.has(key));
-    if (!categoryAllowed) return false;
-
-    if (attrs.kind === 'aggregate') {
-      return (attrs.itemTypes || []).some(type => activeItemTypes.has(type));
-    }
-
-    return activeItemTypes.has(itemTypeKey(attrs));
+    return filterKeys.some(key => activeCategories.has(key));
   }
 
   function nodeVisibleAt(node, level, options = {}) {
@@ -1676,17 +1636,7 @@
 
     const baseIndex = DETAIL_LEVELS.indexOf(level);
     const nodeIndex = DETAIL_LEVELS.indexOf(attrs.detailLevel);
-    if (baseIndex < 0 || nodeIndex < baseIndex) return false;
-
-    for (let i = baseIndex; i < nodeIndex; i += 1) {
-      const ancestorLevel = DETAIL_LEVELS[i];
-      const ancestorId = attrs.detailLevel === ancestorLevel
-        ? node
-        : attrs.ancestorIds && attrs.ancestorIds[ancestorLevel];
-      if (!ancestorId || !expandedAggregateNodes.has(ancestorId)) return false;
-    }
-
-    return !(attrs.kind === 'aggregate' && expandedAggregateNodes.has(node));
+    return baseIndex >= 0 && nodeIndex === baseIndex;
   }
 
   function nodeVisible(node) {
@@ -1697,14 +1647,6 @@
     return relevanceFilterActive() &&
       !nodeVisible(node) &&
       nodeVisibleAt(node, currentDetailLevel, { ignoreRelevance: true });
-  }
-
-  function nodeMatchesSearch(attrs) {
-    if (!currentSearch) return false;
-    if (attrs.searchText) return attrs.searchText.includes(currentSearch);
-    return attrs.title.toLowerCase().includes(currentSearch) ||
-      (attrs.tags || []).some(t => t.toLowerCase().includes(currentSearch)) ||
-      (attrs.summary || '').toLowerCase().includes(currentSearch);
   }
 
   function escHtml(s) {
@@ -1723,7 +1665,6 @@
       new window.graphology.UndirectedGraph() :
       new window.graphology.Graph({ type: 'undirected' });
     const hierarchy = buildHierarchyData();
-    const childIndex = new Map();
     const nodeSpecs = DATA.nodes.concat(hierarchy.nodes).map(n => {
       const attrs = n.data;
       const kind = attrs.kind || 'paper';
@@ -1781,14 +1722,8 @@
         labelOutlineColor: color,
         forceLabel: false,
       });
-
-      if (parentId) {
-        if (!childIndex.has(parentId)) childIndex.set(parentId, []);
-        childIndex.get(parentId).push(attrs.id);
-      }
     });
 
-    childNodesByParent = childIndex;
     return g;
   }
 
@@ -1822,12 +1757,11 @@
     const highlighted = focus.nodes.has(node);
     const primaryFocus = highlighted && (
       node === pinnedNode ||
-      node === hoveredNode ||
-      focus.mode === 'search'
+      node === hoveredNode
     );
     const muted = focus.active && focus.mode !== 'hover' && !primaryFocus;
     const focusLabel = node === pinnedNode || node === hoveredNode;
-    const forceLabel = focusLabel || nodeHasPersistentLabel(attrs);
+    const forceLabel = focusLabel;
     const label = (showNodeLabels || focusLabel) ? attrs.label : '';
 
     if (muted) {
@@ -2076,43 +2010,14 @@
     focus = { active: true, nodes, mode };
   }
 
-  function applySearchFocus() {
-    const nodes = new Set();
-
-    if (!currentSearch) {
-      searchMatchCount = 0;
-      focus = { active: false, nodes, mode: null };
-      return;
-    }
-
-    if (visibleNodes) {
-      visibleNodes.forEach(node => {
-        if (nodeMatchesSearch(graph.getNodeAttributes(node))) nodes.add(node);
-      });
-    } else {
-      graph.forEachNode((node, attrs) => {
-        if (nodeVisible(node) && nodeMatchesSearch(attrs)) nodes.add(node);
-      });
-    }
-
-    searchMatchCount = nodes.size;
-    focus = {
-      active: true,
-      nodes,
-      mode: 'search',
-    };
-  }
-
   function recomputeVisibleNodes() {
     const nodes = new Set();
     const list = [];
-    let matches = 0;
 
     if (!graph) {
       visibleNodes = nodes;
       visibleNodeList = list;
       visibleNodeCount = 0;
-      searchMatchCount = 0;
       return;
     }
 
@@ -2120,13 +2025,11 @@
       if (!nodeVisibleAt(node, currentDetailLevel)) return;
       nodes.add(node);
       list.push(node);
-      if (nodeMatchesSearch(attrs)) matches += 1;
     });
 
     visibleNodes = nodes;
     visibleNodeList = list;
     visibleNodeCount = nodes.size;
-    searchMatchCount = matches;
   }
 
   function recomputeFocus() {
@@ -2135,7 +2038,7 @@
     } else if (hoveredNode) {
       setNeighborhoodFocus(hoveredNode, 'hover');
     } else {
-      applySearchFocus();
+      focus = { active: false, nodes: new Set(), mode: null };
     }
   }
 
@@ -2390,103 +2293,6 @@
       nodes,
       raf: window.requestAnimationFrame(step),
     };
-  }
-
-  function eligibleExpansionChildren(parentNode, childLevel = null) {
-    const children = childNodesByParent.get(parentNode) || [];
-
-    return children.filter(node => {
-      if (!graphHasNode(node)) return false;
-      const attrs = graph.getNodeAttributes(node);
-      if (childLevel && attrs.detailLevel !== childLevel) return false;
-      if (attrs.parentId !== parentNode) return false;
-      return nodeAllowedByFilters(attrs);
-    });
-  }
-
-  function sameVisibleAggregateLabel(a, b) {
-    const labelA = String(a.fullLabel || a.title || a.label || '').trim();
-    const labelB = String(b.fullLabel || b.title || b.label || '').trim();
-    return labelA && labelA === labelB;
-  }
-
-  function aggregateExpansionChain(node) {
-    const chain = [node];
-    let cursor = node;
-
-    while (graphHasNode(cursor)) {
-      const attrs = graph.getNodeAttributes(cursor);
-      const childLevel = attrs.kind === 'aggregate'
-        ? nextDetailLevel(attrs.detailLevel)
-        : null;
-      if (!childLevel || childLevel === 'paper') break;
-
-      const children = eligibleExpansionChildren(cursor, childLevel);
-      if (children.length !== 1) break;
-
-      const child = children[0];
-      const childAttrs = graph.getNodeAttributes(child);
-      if (childAttrs.kind !== 'aggregate' || !sameVisibleAggregateLabel(attrs, childAttrs)) break;
-
-      chain.push(child);
-      cursor = child;
-    }
-
-    return chain;
-  }
-
-  function prepareBranchExpansionTransition(parentNode, childLevel, originNode = parentNode) {
-    const parentPoint = nodePoint(originNode);
-    const cameraState = transitionCameraState();
-    const nodes = [];
-    const children = eligibleExpansionChildren(parentNode, childLevel);
-
-    children.forEach(node => {
-      const attrs = graph.getNodeAttributes(node);
-      const to = homePoint(attrs);
-      nodes.push({
-        node,
-        from: limitTransitionOriginTravel(parentPoint, to, cameraState),
-        to,
-      });
-    });
-
-    return nodes;
-  }
-
-  function expandBranchNode(node) {
-    const attrs = graph.getNodeAttributes(node);
-    const chain = attrs.kind === 'aggregate'
-      ? aggregateExpansionChain(node)
-      : [];
-    const terminalNode = chain[chain.length - 1] || node;
-    const terminalAttrs = graphHasNode(terminalNode)
-      ? graph.getNodeAttributes(terminalNode)
-      : null;
-    const childLevel = terminalAttrs && terminalAttrs.kind === 'aggregate'
-      ? nextDetailLevel(terminalAttrs.detailLevel)
-      : null;
-
-    if (!childLevel) return false;
-
-    finishLevelTransition();
-    let transitionNodes = renderer
-      ? prepareBranchExpansionTransition(terminalNode, childLevel, node)
-      : [];
-    if (transitionNodes.length > MAX_ANIMATED_TRANSITION_NODES) transitionNodes = [];
-
-    chain.forEach(expandedNode => expandedAggregateNodes.add(expandedNode));
-    pinnedNode = null;
-    setSelectedNodeFilterEnabled(false);
-    hoveredNode = null;
-    clearHoverClickNode(node);
-    hideHoverTooltip();
-    hideTooltip();
-    hidePaperModal();
-    syncUrlToPinnedNode();
-    refreshView();
-    startLevelTransition(transitionNodes);
-    return true;
   }
 
   /* -------------------------------------------------------------------------
@@ -2793,7 +2599,12 @@
   function activateNode(node, payload) {
     const attrs = graph.getNodeAttributes(node);
 
-    if (attrs.kind === 'aggregate' && expandBranchNode(node)) {
+    if (attrs.kind === 'aggregate') {
+      const nextLevel = nextDetailLevel(attrs.detailLevel);
+      if (nextLevel) {
+        clearHoverClickNode(node);
+        applyDetailLevel(nextLevel);
+      }
       return;
     }
 
@@ -3100,7 +2911,7 @@
     tooltip.innerHTML =
       `<div class="tt-title">${escHtml(d.fullLabel || d.title)}</div>` +
       `<div class="tt-meta">${escHtml(level)} group&nbsp;&nbsp;${d.count || 0} items</div>` +
-      (nextLabel ? `<div class="tt-hint">Click to expand into ${escHtml(nextLabel)}</div>` : '') +
+      (nextLabel ? `<div class="tt-hint">Click to show ${escHtml(nextLabel)}</div>` : '') +
       (!nextLabel && !pinned ? `<div class="tt-hint">Click to pin</div>` : '') +
       (!nextLabel && pinned ? `<div class="tt-hint">Click node again to unpin</div>` : '');
     tooltip.classList.toggle('pinned', pinned);
@@ -3486,7 +3297,7 @@
    * Filters
    * -------------------------------------------------------------------------*/
   function applyCategoryFilter() {
-    if (pinnedNode && !nodeVisible(pinnedNode)) {
+    if (pinnedNode && !nodeVisibleAt(pinnedNode, currentDetailLevel)) {
       pinnedNode = null;
       setSelectedNodeFilterEnabled(false);
       hideHoverTooltip();
@@ -3494,23 +3305,6 @@
       hidePaperModal();
       syncUrlToPinnedNode();
     }
-    refreshView();
-  }
-
-  function applyItemTypeFilter() {
-    if (pinnedNode && !nodeVisible(pinnedNode)) {
-      pinnedNode = null;
-      setSelectedNodeFilterEnabled(false);
-      hideHoverTooltip();
-      hideTooltip();
-      hidePaperModal();
-      syncUrlToPinnedNode();
-    }
-    refreshView();
-  }
-
-  function applySearch(query) {
-    currentSearch = query.toLowerCase().trim();
     refreshView();
   }
 
@@ -3525,20 +3319,7 @@
 
   function applyDetailLevel(level) {
     if (!DETAIL_LEVELS.includes(level)) return;
-    if (currentDetailLevel === level) {
-      if (!expandedAggregateNodes.size) return;
-      finishLevelTransition();
-      expandedAggregateNodes.clear();
-      pinnedNode = null;
-      setSelectedNodeFilterEnabled(false);
-      hoveredNode = null;
-      hideHoverTooltip();
-      hideTooltip();
-      hidePaperModal();
-      syncUrlToPinnedNode();
-      refreshView();
-      return;
-    }
+    if (currentDetailLevel === level) return;
     const previousLevel = currentDetailLevel;
 
     finishLevelTransition();
@@ -3547,7 +3328,6 @@
       : [];
 
     currentDetailLevel = level;
-    expandedAggregateNodes.clear();
     pinnedNode = null;
     setSelectedNodeFilterEnabled(false);
     hoveredNode = null;
@@ -3582,7 +3362,6 @@
     const filteredCount = DATA.nodes.reduce((count, node) => {
       const attrs = node.data || {};
       if (!nodeAllowedByFilters(attrs)) return count;
-      if (currentSearch && !nodeMatchesSearch(attrs)) return count;
       return count + 1;
     }, 0);
     const nodeCount = document.getElementById('mm-node-count');
@@ -3590,13 +3369,6 @@
     if (nodeCount) nodeCount.textContent = filteredCount;
     if (totalNodeCount) totalNodeCount.textContent = totalCount;
 
-    const searchCount = document.getElementById('mm-search-count');
-    if (searchCount) {
-      searchCount.hidden = !currentSearch;
-      searchCount.textContent = currentSearch
-        ? ` · ${filteredCount} ${filteredCount === 1 ? 'match' : 'matches'}`
-        : '';
-    }
     const relevanceCount = document.getElementById('mm-relevance-count');
     if (relevanceCount) {
       const egoId = selectedRelevanceEgo();
@@ -4377,8 +4149,7 @@
     if (attrs.kind !== 'paper') return false;
 
     currentDetailLevel = 'paper';
-    expandedAggregateNodes.clear();
-    activeCategories.add(nodeKey(attrs));
+    selectBranchForPaper(attrs);
     pinnedNode = paperId;
     setSelectedNodeFilterEnabled(true);
     hoveredNode = null;
@@ -4407,298 +4178,154 @@
   /* -------------------------------------------------------------------------
    * Category filter panel
    * -------------------------------------------------------------------------*/
-  function makeCatItem(key, labelText, color, count, onChildChange) {
-    const label = document.createElement('label');
-    label.className = 'mm-cat-item';
-    label.innerHTML =
-      `<input type="checkbox" checked data-cat="${escHtml(key)}">` +
-      `<span class="mm-cat-dot" style="background:${color}"></span>` +
-      `<span class="mm-cat-name">${escHtml(labelText)}</span>` +
-      `<span class="mm-cat-count">${count}</span>`;
-    label.querySelector('input').addEventListener('change', e => {
-      if (e.target.checked) activeCategories.add(key);
-      else activeCategories.delete(key);
-      if (onChildChange) onChildChange();
-      applyCategoryFilter();
-    });
-    return label;
+  function collectBranchFilterGroups(group, groups) {
+    if (!group.isCategoryLeaf) groups.push(group);
+    group.children.forEach(child => collectBranchFilterGroups(child, groups));
   }
 
-  function makeFilterGroup(name, count, color, expanded, className) {
-    const groupEl = document.createElement('div');
-    groupEl.className = className;
-
-    const header = document.createElement('div');
-    header.className = 'mm-cat-group-header';
-
-    const groupCb = document.createElement('input');
-    groupCb.type = 'checkbox';
-    groupCb.className = 'mm-cat-group-cb';
-    groupCb.checked = true;
-
-    const toggleEl = document.createElement('span');
-    toggleEl.className = 'mm-cat-group-toggle';
-    toggleEl.innerHTML =
-      `<span class="mm-cat-group-arrow">${expanded ? '▾' : '▸'}</span>` +
-      `<span class="mm-cat-dot" style="background:${color}"></span>` +
-      `<span class="mm-cat-group-name">${escHtml(name)}</span>` +
-      `<span class="mm-cat-count">${count}</span>`;
-
-    const itemsEl = document.createElement('div');
-    itemsEl.className = 'mm-cat-group-items';
-    itemsEl.style.display = expanded ? '' : 'none';
-
-    toggleEl.addEventListener('click', () => {
-      const collapsed = itemsEl.style.display === 'none';
-      itemsEl.style.display = collapsed ? '' : 'none';
-      toggleEl.querySelector('.mm-cat-group-arrow').textContent = collapsed ? '▾' : '▸';
-    });
-
-    header.appendChild(groupCb);
-    header.appendChild(toggleEl);
-    groupEl.appendChild(header);
-    groupEl.appendChild(itemsEl);
-
-    return { groupEl, groupCb, itemsEl };
+  function branchFilterChildren(group) {
+    const children = group ? group.children : buildHierarchyData().roots;
+    return children.filter(child => !child.isCategoryLeaf);
   }
 
-  function syncGroupCheckbox(groupCb, itemsEl) {
-    const childCbs = itemsEl.querySelectorAll('input[data-cat]');
-    const checkedCount = [...childCbs].filter(cb => cb.checked).length;
-    groupCb.indeterminate = checkedCount > 0 && checkedCount < childCbs.length;
-    groupCb.checked = childCbs.length > 0 && checkedCount === childCbs.length;
+  function branchFilterName(group) {
+    return group ? group.label : 'All branches';
   }
 
-  function syncRenderedCategoryGroups() {
-    document.querySelectorAll('#mm-category-filters .mm-cat-group').forEach(groupEl => {
-      const header = groupEl.firstElementChild;
-      const itemsEl = header ? header.nextElementSibling : null;
-      const groupCb = header ? header.querySelector('.mm-cat-group-cb') : null;
-      if (groupCb && itemsEl) syncGroupCheckbox(groupCb, itemsEl);
-    });
+  function branchFilterPathLabel(group) {
+    if (!group) return 'Map root';
+    const path = Array.isArray(group.path) && group.path.length
+      ? group.path
+      : [group.label];
+    return path.join(' / ');
   }
 
-  function setLeafCheckbox(cb, checked) {
-    cb.checked = checked;
-    if (checked) activeCategories.add(cb.dataset.cat);
-    else activeCategories.delete(cb.dataset.cat);
+  function branchFilterItemCount(group) {
+    return group ? group.leafIds.length : DATA.nodes.length;
   }
 
-  function filterLeafKey(group) {
-    return [...group.filterKeys][0] || filterKey(group.category, group.subCategory);
+  function branchFilterChildCount(group) {
+    return branchFilterChildren(group).length;
   }
 
-  function renderFilterLeaf(group, onChildChange, labelOverride = null, colorOverride = null) {
-    const key = filterLeafKey(group);
-    activeCategories.add(key);
-    return makeCatItem(
-      key,
-      labelOverride || group.label,
-      colorOverride || group.color,
-      group.leafIds.length,
-      onChildChange
-    );
+  function branchCountLabel(count, singular, pluralLabel = `${singular}s`) {
+    return `${count} ${count === 1 ? singular : pluralLabel}`;
   }
 
-  function renderFilterGroup(group, expanded, className, onChildChange) {
-    const { groupEl, groupCb, itemsEl } = makeFilterGroup(
-      group.label,
-      group.leafIds.length,
-      group.color,
-      expanded,
-      className
-    );
-
-    function syncThisGroup() {
-      syncGroupCheckbox(groupCb, itemsEl);
-      if (onChildChange) onChildChange();
-    }
-
-    groupCb.addEventListener('change', () => {
-      groupCb.indeterminate = false;
-      itemsEl.querySelectorAll('input[data-cat]').forEach(cb => {
-        setLeafCheckbox(cb, groupCb.checked);
-      });
-      itemsEl.querySelectorAll('.mm-cat-group-cb').forEach(cb => {
-        cb.checked = groupCb.checked;
-        cb.indeterminate = false;
-      });
-      if (onChildChange) onChildChange();
-      applyCategoryFilter();
-    });
-
-    (group.filterChildren || group.children).forEach(child => {
-      itemsEl.appendChild(renderFilterNode(child, syncThisGroup));
-    });
-
-    syncGroupCheckbox(groupCb, itemsEl);
-    return groupEl;
+  function syncBranchFilterWidget() {
+    renderBranchFilterWidget();
   }
 
-  function renderFilterNode(group, onChildChange = null) {
-    const realChildren = group.children.filter(child => !child.isCategoryLeaf);
-
-    if (!realChildren.length) {
-      return renderFilterLeaf(group, onChildChange);
-    }
-
-    group.filterChildren = group.children;
-
-    if (group.level === 'category') {
-      return renderFilterGroup(group, false, 'mm-cat-group', onChildChange);
-    }
-
-    return renderFilterGroup(group, false, 'mm-cat-group mm-super-group', onChildChange);
-  }
-
-  function buildCategoryFilters(selectedKeys = null) {
-    const container = document.getElementById('mm-category-filters');
-    const model = buildHierarchyData();
-    const restoredSelection = selectedKeys instanceof Set ? selectedKeys : null;
-    container.innerHTML = '';
+  function setActiveBranchFilter(key) {
+    const nextKey = branchFilterGroups.has(key) ? key : BRANCH_FILTER_ALL;
+    activeBranchFilterKey = nextKey;
     activeCategories.clear();
 
-    model.roots.forEach(root => {
-      container.appendChild(renderFilterNode(root));
-    });
-
-    if (restoredSelection) {
-      activeCategories.clear();
-      container.querySelectorAll('input[data-cat]').forEach(cb => {
-        setLeafCheckbox(cb, restoredSelection.has(cb.dataset.cat));
-      });
-      syncRenderedCategoryGroups();
-    }
-  }
-
-  function makeTypeItem(type, count) {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'mm-cat-item mm-type-item';
-    button.dataset.type = type;
-    button.setAttribute('aria-pressed', 'true');
-    button.innerHTML =
-      `<span class="mm-type-chip">${escHtml(itemTypeAbbreviation(type))}</span>` +
-      `<span class="mm-cat-name">${escHtml(itemTypeLabel(type))}</span>` +
-      `<span class="mm-cat-count">${count}</span>`;
-    button.addEventListener('click', () => {
-      if (activeItemTypes.has(type)) activeItemTypes.delete(type);
-      else activeItemTypes.add(type);
-      syncTypeFilterControls();
-      applyItemTypeFilter();
-    });
-    return button;
-  }
-
-  function itemTypeAbbreviation(type) {
-    if (type === 'Unspecified') return 'None';
-    const parts = String(type || '')
-      .split(/[\s/&+-]+/)
-      .map(part => part.trim())
-      .filter(Boolean);
-    if (!parts.length) return 'NA';
-    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-    return parts.slice(0, 2).map(part => part[0]).join('').toUpperCase();
-  }
-
-  function selectedItemTypes() {
-    return [...activeItemTypes].sort((a, b) => itemTypeLabel(a).localeCompare(itemTypeLabel(b)));
-  }
-
-  function itemTypeSummaryText() {
-    const selected = selectedItemTypes();
-    if (selected.length === 0) return 'No item types';
-    if (selected.length === typeFilterOptions.length) return 'All item types';
-    if (selected.length === 1) return itemTypeLabel(selected[0]);
-    return `${selected.length} item types`;
-  }
-
-  function typeFilterButtons() {
-    return [...document.querySelectorAll('#mm-type-filters button[data-type]')];
-  }
-
-  function syncTypeFilterButton(button) {
-    const selected = activeItemTypes.has(button.dataset.type);
-    button.setAttribute('aria-pressed', selected ? 'true' : 'false');
-    button.classList.toggle('is-selected', selected);
-  }
-
-  function syncTypeFilterControls() {
-    typeFilterButtons().forEach(syncTypeFilterButton);
-
-    const summary = document.getElementById('mm-type-summary');
-    if (summary) summary.textContent = itemTypeSummaryText();
-  }
-
-  function setAllItemTypes(selected) {
-    const buttons = typeFilterButtons();
-    const types = buttons.length
-      ? buttons.map(button => button.dataset.type)
-      : typeFilterOptions;
-
-    activeItemTypes.clear();
-    if (selected) types.forEach(type => activeItemTypes.add(type));
-    syncTypeFilterControls();
-    applyItemTypeFilter();
-  }
-
-  function openTypeDialog() {
-    const dialog = document.getElementById('mm-type-dialog');
-    const trigger = document.getElementById('mm-type-trigger');
-    if (!dialog) return;
-    if (!dialog.open) {
-      if (typeof dialog.showModal === 'function') dialog.showModal();
-      else dialog.setAttribute('open', '');
-    }
-    if (trigger) trigger.setAttribute('aria-expanded', 'true');
-    window.requestAnimationFrame(() => {
-      const selected = document.querySelector('#mm-type-filters button[aria-pressed="true"]');
-      const first = document.querySelector('#mm-type-filters button[data-type]');
-      const close = document.getElementById('mm-type-close');
-      (selected || first || close || dialog).focus();
-    });
-  }
-
-  function closeTypeDialog() {
-    const dialog = document.getElementById('mm-type-dialog');
-    const trigger = document.getElementById('mm-type-trigger');
-    if (!dialog || !dialog.open) return;
-    if (typeof dialog.close === 'function') {
-      dialog.close();
+    if (nextKey === BRANCH_FILTER_ALL) {
+      DATA.nodes.forEach(node => activeCategories.add(nodeKey(node.data || {})));
     } else {
-      dialog.removeAttribute('open');
-      if (trigger) {
-        trigger.setAttribute('aria-expanded', 'false');
-        trigger.focus();
-      }
+      branchFilterGroups.get(nextKey).filterKeys.forEach(filterKeyValue => {
+        activeCategories.add(filterKeyValue);
+      });
     }
+
+    syncBranchFilterWidget();
   }
 
-  function buildTypeFilters() {
-    const container = document.getElementById('mm-type-filters');
+  function selectBranchForPaper(attrs) {
+    const key = nodeKey(attrs);
+    let best = null;
+    branchFilterGroups.forEach((group, groupKey) => {
+      if (!group.filterKeys.has(key)) return;
+      if (!best || (group.path || []).length > (best.group.path || []).length) {
+        best = { group, groupKey };
+      }
+    });
+    setActiveBranchFilter(best ? best.groupKey : BRANCH_FILTER_ALL);
+  }
+
+  function buildCategoryFilters(selectedKey = activeBranchFilterKey) {
+    const container = document.getElementById('mm-category-filters');
     if (!container) return;
 
-    const counts = new Map();
-    DATA.nodes.forEach(node => {
-      const type = itemTypeKey(node.data || {});
-      counts.set(type, (counts.get(type) || 0) + 1);
-    });
-
-    const configured = ((DATA.meta || {}).itemTypeOrder || []).filter(type => counts.has(type));
-    const ordered = configured.concat(
-      [...counts.keys()]
-        .filter(type => !configured.includes(type))
-        .sort((a, b) => itemTypeLabel(a).localeCompare(itemTypeLabel(b)))
-    );
+    const model = buildHierarchyData();
+    const groups = [];
+    model.roots.forEach(root => collectBranchFilterGroups(root, groups));
+    branchFilterGroups = new Map(groups.map(group => [group.key, group]));
 
     container.innerHTML = '';
-    activeItemTypes.clear();
-    typeFilterOptions = ordered.slice();
-    ordered.forEach(type => {
-      activeItemTypes.add(type);
-      container.appendChild(makeTypeItem(type, counts.get(type)));
+    setActiveBranchFilter(selectedKey);
+  }
+
+  function renderBranchFilterWidget() {
+    const container = document.getElementById('mm-category-filters');
+    if (!container) return;
+
+    const currentGroup = branchFilterGroups.get(activeBranchFilterKey) || null;
+    const ancestors = branchFilterAncestors(currentGroup);
+    const children = branchFilterChildren(currentGroup);
+    const sections = [];
+    if (ancestors.length) sections.push(branchFilterSection('Ancestors', ancestors, 'path', currentGroup));
+    sections.push(branchFilterSection('', [currentGroup], 'ego', currentGroup));
+    sections.push(branchFilterSection('Children', children, 'children', currentGroup));
+
+    container.innerHTML = window.kbTreeNavigator.renderStack({
+      className: 'ct-branch-navigator',
+      sections,
     });
-    syncTypeFilterControls();
+    container.onclick = event => {
+      const target = event.target.closest('[data-ct-select]');
+      if (!target || !container.contains(target)) return;
+      const key = target.getAttribute('data-ct-select') || BRANCH_FILTER_ALL;
+      if (activeBranchFilterKey === key) return;
+      setActiveBranchFilter(key);
+      applyCategoryFilter();
+    };
+  }
+
+  function branchFilterAncestors(group) {
+    if (!group) return [];
+    const ancestors = [null];
+    const lineage = [];
+    let node = group && group.parent;
+    while (node) {
+      lineage.unshift(node);
+      node = node.parent;
+    }
+    return ancestors.concat(lineage);
+  }
+
+  function branchFilterSection(title, groups, sectionKind, currentGroup) {
+    return {
+      title,
+      kind: sectionKind,
+      empty: 'No child branches.',
+      rows: groups.map(group => branchFilterRow(group, currentGroup, sectionKind)),
+    };
+  }
+
+  function branchFilterRow(group, currentGroup, sectionKind) {
+    const key = group ? group.key : BRANCH_FILTER_ALL;
+    const itemCount = branchFilterItemCount(group);
+    const childCount = branchFilterChildCount(group);
+    return {
+      id: key,
+      kind: 'branch',
+      label: branchFilterName(group),
+      current: key === activeBranchFilterKey,
+      ancestor: sectionKind === 'path',
+      parent: Boolean(currentGroup && (group
+        ? currentGroup.parent && currentGroup.parent.key === group.key
+        : !currentGroup.parent)),
+      successor: sectionKind === 'children',
+      hasChildren: childCount > 0,
+      color: group && group.color,
+      ariaLabel: `${branchFilterPathLabel(group)}, ${branchCountLabel(itemCount, 'item')}, ${branchCountLabel(childCount, 'child', 'children')}`,
+      counters: [
+        { kind: 'descendants', count: itemCount, singular: 'item' },
+        { kind: 'children', count: childCount, singular: 'child', plural: 'children' },
+      ],
+    };
   }
 
   function detailLevelIconMarkup(level) {
@@ -4861,93 +4488,6 @@
   }
 
   function setupControls() {
-    const search = document.getElementById('mm-search');
-    const clearSearch = document.getElementById('mm-search-clear');
-    let debounce;
-
-    function updateSearchClearButton() {
-      if (clearSearch) clearSearch.hidden = !search.value;
-    }
-    search.addEventListener('input', e => {
-      clearTimeout(debounce);
-      updateSearchClearButton();
-      debounce = setTimeout(() => applySearch(e.target.value), 180);
-    });
-    search.addEventListener('keydown', e => {
-      if (e.key !== 'Escape' || !search.value) return;
-      clearTimeout(debounce);
-      search.value = '';
-      updateSearchClearButton();
-      applySearch('');
-    });
-    if (clearSearch) {
-      clearSearch.addEventListener('click', () => {
-        clearTimeout(debounce);
-        search.value = '';
-        updateSearchClearButton();
-        applySearch('');
-        search.focus();
-      });
-    }
-    updateSearchClearButton();
-
-    document.getElementById('mm-all-cats').addEventListener('click', () => {
-      document.querySelectorAll('#mm-category-filters input[data-cat]').forEach(cb => {
-        cb.checked = true;
-        activeCategories.add(cb.dataset.cat);
-      });
-      document.querySelectorAll('#mm-category-filters .mm-cat-group-cb').forEach(cb => {
-        cb.checked = true;
-        cb.indeterminate = false;
-      });
-      applyCategoryFilter();
-    });
-
-    document.getElementById('mm-no-cats').addEventListener('click', () => {
-      document.querySelectorAll('#mm-category-filters input[data-cat]').forEach(cb => {
-        cb.checked = false;
-        activeCategories.delete(cb.dataset.cat);
-      });
-      document.querySelectorAll('#mm-category-filters .mm-cat-group-cb').forEach(cb => {
-        cb.checked = false;
-        cb.indeterminate = false;
-      });
-      applyCategoryFilter();
-    });
-
-    const typeTrigger = document.getElementById('mm-type-trigger');
-    const typeDialog = document.getElementById('mm-type-dialog');
-    const typeClose = document.getElementById('mm-type-close');
-
-    if (typeTrigger && typeDialog) {
-      typeTrigger.addEventListener('click', openTypeDialog);
-    }
-    if (typeClose) typeClose.addEventListener('click', closeTypeDialog);
-    if (typeDialog) {
-      typeDialog.addEventListener('click', event => {
-        if (event.target === typeDialog) closeTypeDialog();
-      });
-      typeDialog.addEventListener('close', () => {
-        if (typeTrigger) {
-          typeTrigger.setAttribute('aria-expanded', 'false');
-          typeTrigger.focus();
-        }
-      });
-    }
-
-    document.getElementById('mm-all-types').addEventListener('click', () => {
-      setAllItemTypes(true);
-    });
-
-    document.getElementById('mm-no-types').addEventListener('click', () => {
-      setAllItemTypes(false);
-    });
-
-    const surveyType = document.querySelector('#mm-type-filters button[data-type="Survey Paper"]');
-    if (surveyType) {
-      surveyType.title = 'Toggle to exclude surveys';
-    }
-
     document.getElementById('mm-fit-btn').addEventListener('click', () => fitVisible());
 
     buildDetailControls();
@@ -4983,16 +4523,15 @@
    * Bootstrap
    * -------------------------------------------------------------------------*/
   buildCategoryFilters();
-  buildTypeFilters();
   setupControls();
   initSigma();
 
   const themeObserver = new MutationObserver(() => {
     visibilityPaletteCache = null;
     theme = readTheme();
-    const selectedCategories = new Set(activeCategories);
+    const selectedBranch = activeBranchFilterKey;
     hierarchyData = null;
-    buildCategoryFilters(selectedCategories);
+    buildCategoryFilters(selectedBranch);
     if (graph) recomputeVisibilityColors();
     if (renderer) renderer.refresh();
   });

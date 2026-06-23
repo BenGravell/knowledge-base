@@ -839,31 +839,10 @@ body {
   > .md-nav__list
   > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="tree"])
   > .md-nav__container
-  > label.md-nav__link,
-body:has(#ct-app)
-  .md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--active.md-nav__item--nested
-  > .md-nav,
-body:has(#ct-app)
-  .md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--active.md-nav__item--nested
-  > .md-nav__toggle,
-body:has(#ct-app)
-  .md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--active.md-nav__item--nested
-  > .md-nav__container
   > label.md-nav__link {
   display: none !important;
 }
 
-body:has(#ct-app)
-  .md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--active.md-nav__item--nested
-  > .md-nav__container,
 .md-nav--primary
   > .md-nav__list
   > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="tree"])
@@ -871,12 +850,6 @@ body:has(#ct-app)
   display: flex;
 }
 
-body:has(#ct-app)
-  .md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--active.md-nav__item--nested
-  > .md-nav__container
-  > a.md-nav__link,
 .md-nav--primary
   > .md-nav__list
   > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="tree"])
@@ -888,13 +861,3 @@ body:has(#ct-app)
   margin: 0 !important;
   padding: 0 !important;
 }
-
-body:has(#ct-app)
-  .md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--active.md-nav__item--nested
-  > .md-nav__container
-  > a.md-nav__link {
-  color: var(--md-typeset-a-color);
-}
-

@@ -125,6 +125,7 @@ PAPER_LINK_PILLS_SCRIPT = GeneratedAsset("paper-link-pills.js")
 SEARCH_SCRIPT = GeneratedAsset("search.js")
 SIGMA_VENDOR_SCRIPT = GeneratedAsset("sigma.min.js", "javascripts/vendor")
 TIMELINE_SCRIPT = GeneratedAsset("timeline.js")
+TREE_NAVIGATOR_SCRIPT = GeneratedAsset("tree-navigator.js")
 TREE_SCRIPT = GeneratedAsset("tree.js")
 
 HOME_APP_SCRIPTS = AppScriptBundle(
@@ -139,6 +140,7 @@ MAP_APP_SCRIPTS = AppScriptBundle(
         MAP_DATA,
         SITE_LINK_DATA,
         PAPER_LINK_PILLS_SCRIPT,
+        TREE_NAVIGATOR_SCRIPT,
         MAP_SCRIPT,
     ),
 )
@@ -148,7 +150,7 @@ SEARCH_APP_SCRIPTS = AppScriptBundle(
 )
 TREE_APP_SCRIPTS = AppScriptBundle(
     "tree",
-    (SITE_LINK_DATA, PAPER_LINK_PILLS_SCRIPT, TREE_DATA, TREE_SCRIPT),
+    (SITE_LINK_DATA, PAPER_LINK_PILLS_SCRIPT, TREE_DATA, TREE_NAVIGATOR_SCRIPT, TREE_SCRIPT),
 )
 TIMELINE_APP_SCRIPTS = AppScriptBundle(
     "timeline",

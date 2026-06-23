@@ -2307,20 +2307,11 @@
       childCount: children.length,
       leafCount: filteredLeafCount(node),
     }, function () {
-      const ego = node.kind === 'paper'
-        ? ''
-        : [
-          '<div class="ct-focus-core">',
-          renderNodeSection('', [node], 'ego', node),
-          '</div>',
-        ].join('');
-      return [
-        '<div class="ct-focus-stack">',
-        ancestors.length ? renderNodeSection('Ancestors', ancestors, 'path', node) : '',
-        ego,
-        node.children.length ? renderNodeSection('Children', children, 'children', node) : '',
-        '</div>',
-      ].filter(Boolean).join('');
+      const sections = [];
+      if (ancestors.length) sections.push(treeNavigatorSection('Ancestors', ancestors, 'path', node));
+      if (node.kind !== 'paper') sections.push(treeNavigatorSection('', [node], 'ego', node));
+      if (node.children.length) sections.push(treeNavigatorSection('Children', children, 'children', node));
+      return window.kbTreeNavigator.renderStack({ sections });
     });
     treePerf.measure('focusedTree.dom', {
       htmlLength: html.length,
@@ -2330,23 +2321,21 @@
     });
   }
 
-  function renderNodeSection(title, rows, sectionKind, currentNode) {
+  function treeNavigatorSection(title, rows, sectionKind, currentNode) {
     const empty = sectionKind === 'children'
       ? 'No children.'
       : 'No descendents.';
-    const label = title ? ' aria-label="' + escAttr(title) + '"' : '';
-    return [
-      '<section class="ct-focus-section ct-focus-section--' + escAttr(sectionKind) + '"' + label + '>',
-      rows.length
-        ? '<ul class="ct-tree-list">' + rows.map(function (row, index) {
-          return renderTreeNode(row, currentNode, sectionKind, index, rows.length);
-        }).join('') + '</ul>'
-        : '<p class="ct-empty">' + esc(empty) + '</p>',
-      '</section>',
-    ].join('');
+    return {
+      title,
+      kind: sectionKind,
+      empty,
+      rows: rows.map(function (row) {
+        return treeNavigatorRow(row, currentNode, sectionKind);
+      }),
+    };
   }
 
-  function renderTreeNode(treeNode, currentNode, sectionKind, index, total) {
+  function treeNavigatorRow(treeNode, currentNode, sectionKind) {
     const isCurrent = treeNode.id === currentNode.id;
     const isAncestor = currentNode.pathNodes.some(function (pathNode) { return pathNode.id === treeNode.id; }) && !isCurrent;
     const isParent = Boolean(currentNode.parent && treeNode.id === currentNode.parent.id);
@@ -2355,82 +2344,31 @@
     const details = isCurrent && treeNode.kind !== 'paper' ? renderCurrentNodeDetails(treeNode) : '';
     const visibleLeafCount = filteredLeafCount(treeNode);
     const meta = treeNode.kind === 'branch' ? '' : treeNodeMeta(treeNode, visibleLeafCount);
-    const counters = renderTreeNodeCounters(treeNode, visibleLeafCount);
-    const buttonClasses = ['ct-tree-button', counters ? 'has-counters' : ''].filter(Boolean).join(' ');
-    const classes = [
-      'ct-tree-node',
-      'ct-tree-kind-' + treeNode.kind,
-      'ct-tree-section-' + sectionKind,
-      isCurrent ? 'is-current' : '',
-      isAncestor ? 'is-ancestor' : '',
-      isParent ? 'is-parent' : '',
-      isSuccessor ? 'is-successor' : '',
-      index === 0 ? 'is-first' : '',
-      index === total - 1 ? 'is-last' : '',
-    ].filter(Boolean).join(' ');
-    const colorStyle = treeNodeListColorStyle(treeNode);
-
-    return [
-      '<li class="' + escAttr(classes) + '"' + colorStyle + '>',
-      '<button type="button" class="' + escAttr(buttonClasses) + '" data-ct-select="' + escAttr(treeNode.id) + '" data-ct-preview-node="' + escAttr(treeNode.id) + '"' + branchHintAttr(hasChildren) + '>',
-      '<span class="ct-tree-rail" aria-hidden="true"><span class="ct-tree-dot"></span></span>',
-      '<span class="ct-tree-copy">',
-      '<span class="ct-tree-label">' + esc(treeNodeDisplayLabel(treeNode)) + '</span>',
-      meta ? '<span class="ct-tree-meta">' + esc(meta) + '</span>' : '',
-      '</span>',
-      counters,
-      '</button>',
-      details,
-      '</li>',
-    ].join('');
-  }
-
-  function renderTreeNodeCounters(treeNode, visibleLeafCount) {
-    if (treeNode.kind !== 'branch') return '';
-    return [
-      '<span class="ct-tree-counts">',
-      renderTreeCountChip('descendants', visibleLeafCount, 'descendant'),
-      renderTreeCountChip('children', visibleChildren(treeNode).length, 'child', 'children'),
-      '</span>',
-    ].join('');
-  }
-
-  function renderTreeCountChip(kind, count, singular, pluralLabel) {
-    const label = plural(count, singular, pluralLabel);
-    return [
-      '<span class="ct-tree-count ct-tree-count--' + escAttr(kind) + '" title="' + escAttr(label) + '" aria-label="' + escAttr(label) + '">',
-      treeCountIcon(kind),
-      '<span class="ct-tree-count-value">' + esc(count) + '</span>',
-      '</span>',
-    ].join('');
-  }
-
-  function treeCountIcon(kind) {
-    const paths = {
-      descendants: 'M11 3h2v4h5v5h-2V9h-3v6h5v6h-6v-6h-3v3H6v3H0v-6h6v1h1V9H4v3H2V7h9V3zm3 14v2h2v-2h-2zM2 17v2h2v-2H2z',
-      children: 'M5 4h14v4H5V4zm6 4h2v3h5v3h-2v-1H8v1H6v-3h5V8zM4 16h6v4H4v-4zm10 0h6v4h-6v-4z',
+    return {
+      id: treeNode.id,
+      kind: treeNode.kind,
+      label: treeNodeDisplayLabel(treeNode),
+      meta,
+      current: isCurrent,
+      ancestor: isAncestor,
+      parent: isParent,
+      successor: isSuccessor,
+      hasChildren,
+      color: currentSunburstColors.get(treeNode.id),
+      detailsHtml: details,
+      counters: treeNode.kind === 'branch'
+        ? [
+          { kind: 'descendants', count: visibleLeafCount, singular: 'descendant' },
+          { kind: 'children', count: visibleChildren(treeNode).length, singular: 'child', plural: 'children' },
+        ]
+        : [],
     };
-    const path = paths[kind] || paths.children;
-    return [
-      '<svg class="ct-tree-count-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">',
-      '<path d="' + escAttr(path) + '"></path>',
-      '</svg>',
-    ].join('');
-  }
-
-  function treeNodeListColorStyle(treeNode) {
-    const color = currentSunburstColors.get(treeNode.id);
-    return color ? ' style="--ct-tree-node-color: ' + escAttr(color) + ';"' : '';
   }
 
   function renderCurrentNodeDetails(node) {
     if (node.kind === 'paper') return renderPaperDetails(node);
     if (!node.url) return '';
     return '<a class="ct-tree-open-link" href="' + escAttr(node.url) + '">Open page</a>';
-  }
-
-  function branchHintAttr(hasChildren) {
-    return hasChildren ? ' data-ct-has-children="true"' : '';
   }
 
   function renderPaperDetails(node) {
