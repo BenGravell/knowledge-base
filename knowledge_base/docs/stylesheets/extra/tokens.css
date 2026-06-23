@@ -6,7 +6,7 @@
    intentionally framed. */
 :root {
   --kb-heading-font: "Space Grotesk", var(--md-text-font, system-ui), sans-serif;
-  --kb-mono-font: "Space Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --kb-mono-font: "Atkinson Hyperlegible Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --kb-page-gutter: clamp(0.8rem, 2vw, 1.8rem);
   --kb-narrow-page-gutter: clamp(1.25rem, 5vw, 2rem);
   --kb-app-page-gutter: var(--kb-page-gutter);
@@ -111,4 +111,3 @@
   --mm-node-border: #242b35;
   --mm-selected-ring: #ffd067;
 }
-

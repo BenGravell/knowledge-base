@@ -202,7 +202,6 @@ render_macros: true
         <li><a href="https://www.brailleinstitute.org/freefont/">Atkinson Hyperlegible Next</a></li>
         <li><a href="https://www.brailleinstitute.org/freefont/">Atkinson Hyperlegible Mono</a></li>
         <li><a href="https://fonts.google.com/specimen/Space+Grotesk">Space Grotesk</a></li>
-        <li><a href="https://fonts.google.com/specimen/Space+Mono">Space Mono</a></li>
       </ul>
 
       <h3>Build Assistance</h3>
