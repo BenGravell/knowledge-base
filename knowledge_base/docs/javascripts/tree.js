@@ -2446,7 +2446,7 @@
       externalUrl
         ? window.kbSiteLinks.renderPill({
             url: externalUrl,
-            label: 'External',
+            label: 'Document',
             variant: 'primary',
             external: true,
           })
