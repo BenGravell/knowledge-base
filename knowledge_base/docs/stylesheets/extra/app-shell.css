@@ -1,0 +1,110 @@
+/* Full-width applet pages.
+
+   Any direct Markdown content child with an "*-app" id joins the shared app
+   shell automatically. Use .kb-app-page for explicitness, and
+   .kb-app-page--bleed for full-canvas apps whose visible controls own their
+   own gutters, such as Map. */
+body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-grid,
+body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-main__inner {
+  max-width: 100% !important;
+}
+
+body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content {
+  max-width: none !important;
+  padding: 0 !important;
+}
+
+.md-content__inner:has(> :is(.kb-app-page, [id$="-app"])) {
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding-top: 0 !important;
+}
+
+.md-content__inner > :is(.kb-app-page, [id$="-app"]) {
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: var(--kb-app-page-gutter);
+}
+
+.md-content__inner > .kb-app-page--bleed {
+  padding-inline: 0;
+}
+
+.kb-app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--kb-app-header-height);
+  padding: 0.62rem 0.85rem;
+  border: 1px solid var(--kb-app-border);
+  border-radius: 8px;
+  background: var(--kb-app-header-bg);
+  color: var(--md-default-fg-color);
+  font: inherit;
+  text-align: left;
+}
+
+.kb-app-header--interactive {
+  cursor: pointer;
+}
+
+.kb-app-header--interactive:hover {
+  background: color-mix(in srgb, var(--md-default-fg-color) 6%, transparent);
+}
+
+.kb-app-header-title,
+.md-typeset .kb-app-header-title,
+.md-typeset .kb-app-header h1 {
+  justify-self: start;
+  min-width: 0;
+  margin: 0;
+  color: var(--md-default-fg-color);
+  font-size: 0.86rem;
+  font-weight: 850;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.kb-app-header-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: end;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  inline-size: clamp(7.4rem, 18vw, 8.75rem);
+  max-inline-size: 100%;
+  min-height: 2rem;
+  margin-left: auto;
+  padding: 0.28rem 0.62rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--md-default-fg-color--light);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.kb-app-header-action:hover,
+.kb-app-header-action:focus-visible {
+  background: color-mix(in srgb, var(--md-default-fg-color) 6%, transparent);
+  color: var(--md-default-fg-color);
+}
+
+.kb-app-header-action:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--md-primary-fg-color) 32%, transparent);
+  outline-offset: 2px;
+}
+
+.kb-app-header--static {
+  margin-bottom: 0;
+}
+
