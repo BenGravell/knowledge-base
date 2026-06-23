@@ -43,13 +43,13 @@ knowledge-base = { path = ".", editable = true }
 default = { features = ["dev"], solve-group = "default" }
 
 [tool.pixi.tasks]
-serve = "kb serve"
-build = "kb build"
-refresh = "kb refresh"
-test = "kb test"
-lint = "kb lint"
-format-check = "kb format-check"
-typecheck = "kb typecheck"
+serve = { cmd = "kb serve", description = "Serve the site locally" }
+build = { cmd = "kb build", description = "Build the static site" }
+refresh = { cmd = "kb refresh", description = "Refresh generated local data" }
+test = { cmd = "kb test", description = "Run unit tests" }
+lint = { cmd = "kb lint", description = "Run Ruff lint checks" }
+format-check = { cmd = "kb format-check", description = "Check Ruff formatting" }
+typecheck = { cmd = "kb typecheck", description = "Run Pyrefly type checks" }
 
 [tool.ruff]
 line-length = 120

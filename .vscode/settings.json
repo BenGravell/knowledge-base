@@ -13,9 +13,9 @@
     "python-envs.terminal.autoActivationType": "off",
 
     // VS Code terminal env settings support `${workspaceFolder}` and `${env:PATH}`.
-    // Prepending Pixi's bin dir is the smallest activation surface needed for `kb`,
-    // `python`, `streamlit`, etc. in new integrated terminals.
+    // Prepending Pixi's bootstrap bin and environment bin is the smallest terminal
+    // surface needed for `pixi`, `kb`, `python`, `streamlit`, etc.
     "terminal.integrated.env.linux": {
-        "PATH": "${workspaceFolder}/.pixi/envs/default/bin:${env:PATH}"
+        "PATH": "${workspaceFolder}/.tools/pixi/bin:${workspaceFolder}/.pixi/envs/default/bin:${env:PATH}"
     }
 }

@@ -39,7 +39,10 @@ cd knowledge-base
 
 `kb` is a Python console script. It is available whenever the active Python environment has this repo installed.
 
-VS Code is configured to put Pixi's `.pixi/envs/default/bin` first on new terminal `PATH`, where `./dev install` exposes `kb`.
+VS Code recommends Pixi Code plus the Python extensions.
+
+Pixi Code follows the upstream extension behavior: it auto-discovers `pixi` on `PATH`, then registers the `knowledge-base:default` environment after `./dev install` creates `.pixi/envs/default`.
+If VS Code does not select it automatically, choose that Pixi environment manually.
 
 In a plain terminal without the Pixi environment active, use `./dev run serve` or `./dev run kb serve`.
 
