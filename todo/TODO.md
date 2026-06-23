@@ -1,23 +1,5 @@
 # TODO
 
-## Credits section
-
-Add callouts for every font used in the site.
-
-Group credit lines by type (fonts, site framework, etc.)
-
-
-## Revise verbiage
-
-The blockers for my use case are different.
-
-
-To
-
-
-Unfortunately there are some blockers for my use case:
-
-
 ## Map
 
 Streamline the settings menu
