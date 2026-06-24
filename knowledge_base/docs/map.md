@@ -84,7 +84,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   --mm-ribbon-h: clamp(12rem, 28vh, 17rem);
   --mm-ribbon-max-h: var(--mm-ribbon-h);
   --mm-ribbon-header-h: 2.65rem;
-  --mm-branch-selector-h: clamp(7rem, 16vh, 9.5rem);
+  --mm-branch-panel-w: clamp(18rem, 32vw, 25rem);
+  --mm-overlay-gap: 0.55rem;
   --mm-control-height: 2.12rem;
   --mm-settings-tile-bg: color-mix(in srgb, var(--md-default-fg-color) 5%, var(--md-default-bg-color));
   --mm-settings-tile-border: color-mix(in srgb, var(--md-default-fg-color) 13%, transparent);
@@ -169,7 +170,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   position: absolute;
   top: calc(var(--mm-ribbon-header-h) + 0.35rem);
   left: var(--kb-app-page-gutter, 0.8rem);
-  right: var(--kb-app-page-gutter, 0.8rem);
+  right: calc(var(--kb-app-page-gutter, 0.8rem) + var(--mm-branch-panel-w) + var(--mm-overlay-gap));
   width: auto;
   height: var(--mm-ribbon-h);
   max-height: var(--mm-ribbon-max-h);
@@ -190,6 +191,37 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   opacity: 0;
   pointer-events: none;
   border-color: transparent;
+}
+
+#mm-branch-panel {
+  position: absolute;
+  top: calc(var(--mm-ribbon-header-h) + 0.35rem);
+  right: var(--kb-app-page-gutter, 0.8rem);
+  bottom: var(--kb-app-page-gutter, 0.8rem);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  width: var(--mm-branch-panel-w);
+  box-sizing: border-box;
+  min-height: 0;
+  padding: 0.62rem;
+  border: 1px solid var(--mm-border);
+  border-radius: 8px;
+  background: var(--mm-panel);
+  color: var(--md-default-fg-color);
+  overflow: hidden;
+  transform-origin: top;
+  transition: opacity 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+}
+#mm-branch-panel.body-collapsed {
+  opacity: 0;
+  pointer-events: none;
+  border-color: transparent;
+  transform: scaleY(0);
+}
+.mm-branch-panel-head {
+  flex: 0 0 auto;
+  margin-bottom: 0.45rem;
 }
 
 #mm-panel-body {
@@ -231,9 +263,6 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .mm-section--visibility {
   min-width: 8.4rem;
 }
-.mm-section--categories {
-  flex: 2 1 18rem;
-}
 
 /* Settings layout */
 .mm-settings-section {
@@ -247,21 +276,16 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   min-width: 0;
   min-height: 0;
   gap: 0.46rem;
-  grid-template-columns: minmax(11.75rem, 1fr) minmax(5.8rem, 0.4fr) minmax(8.4rem, 0.5fr) minmax(14rem, 1.25fr) minmax(9rem, 0.75fr);
+  grid-template-columns: minmax(11.75rem, 1fr) minmax(5.8rem, 0.4fr) minmax(8.4rem, 0.5fr);
   grid-template-areas:
-    "detail fit labels categories stats"
-    "relevance relevance relevance relevance stats";
+    "detail fit labels"
+    "relevance relevance relevance";
   align-items: end;
 }
 .mm-settings-grid > .mm-section--detail { grid-area: detail; }
 .mm-settings-grid > .mm-section--actions { grid-area: fit; }
 .mm-settings-grid > .mm-section--visibility { grid-area: labels; }
-.mm-settings-grid > .mm-section--categories {
-  grid-area: categories;
-  align-self: stretch;
-}
 .mm-settings-grid > .mm-relevance-panel { grid-area: relevance; }
-.mm-settings-grid > #mm-stats { grid-area: stats; }
 .mm-bento-tile {
   min-width: 0;
   min-height: 0;
@@ -271,27 +295,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   border-radius: 8px;
   overflow: hidden;
 }
-.mm-settings-section .mm-bento-tile,
-.mm-bento-count {
+.mm-settings-section .mm-bento-tile {
   background: var(--mm-settings-tile-bg);
   border-color: var(--mm-settings-tile-border);
 }
-.mm-bento-tile--categories {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  min-height: 0;
-}
-.mm-bento-tile-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.6rem;
-  min-width: 0;
-}
-.mm-bento-tile-head .mm-section-label {
-  margin: 0 0 5px;
-}
-
 /* Selected-node relevance filter */
 .mm-relevance-panel {
   flex: 1 1 100%;
@@ -430,21 +437,27 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 }
 .mm-label-toggle {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 0.46rem;
   text-align: left;
 }
-.mm-label-toggle-icon {
+.mm-label-toggle-track {
   position: relative;
-  width: 1.72rem;
-  height: 0.92rem;
+  display: inline-grid;
+  align-items: center;
+  width: 2.35rem;
+  height: 1.05rem;
+  padding-inline: 0.34rem;
   border-radius: 999px;
   background: color-mix(in srgb, currentColor 18%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 30%, transparent);
+  font-size: 0.58rem;
+  font-weight: 850;
+  line-height: 1;
+  text-transform: uppercase;
 }
-.mm-label-toggle-icon::after {
-  content: "";
+.mm-label-toggle-thumb {
   position: absolute;
   top: 0.16rem;
   left: 0.16rem;
@@ -454,8 +467,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   background: currentColor;
   transition: transform 0.16s ease;
 }
-.mm-label-toggle[aria-pressed="true"] .mm-label-toggle-icon::after {
-  transform: translateX(0.8rem);
+.mm-label-toggle[aria-checked="true"] .mm-label-toggle-thumb {
+  transform: translateX(1.28rem);
 }
 .mm-label-toggle-text {
   min-width: 0;
@@ -463,8 +476,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   text-overflow: ellipsis;
 }
 .mm-label-toggle-state {
-  font-size: 0.68rem;
-  font-weight: 850;
+  justify-self: end;
 }
 .mm-detail-controls button:hover,
 .mm-visibility-controls button:hover {
@@ -472,11 +484,15 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   border-color: var(--md-default-fg-color--light);
 }
 .mm-detail-controls button.active,
-.mm-visibility-controls button[aria-pressed="true"] {
+.mm-visibility-controls button[aria-checked="true"] {
   background: color-mix(in srgb, var(--md-accent-fg-color) 16%, var(--md-default-bg-color));
   border-color: var(--md-accent-fg-color);
   color: var(--md-default-fg-color);
   font-weight: 600;
+}
+.mm-detail-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
 }
 .mm-detail-icon {
   position: relative;
@@ -524,14 +540,12 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 /* Branch filter */
 #mm-category-filters {
   display: block;
+  flex: 1 1 auto;
   width: 100%;
   min-width: 0;
   min-height: 0;
+  padding: 0.12rem 0.75rem 0.55rem;
   box-sizing: border-box;
-}
-#mm-category-filters .ct-tree-navigator {
-  height: var(--mm-branch-selector-h);
-  max-height: var(--mm-branch-selector-h);
   overflow: auto;
   scrollbar-width: thin;
 }
@@ -557,27 +571,6 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   transition: background 0.15s;
 }
 .mm-actions button:hover { background: var(--md-default-fg-color--lighter); }
-
-/* Stats */
-#mm-stats {
-  justify-self: stretch;
-  width: 100%;
-  box-sizing: border-box;
-  margin-top: 0;
-  padding: 0.62rem 0.84rem;
-  border: 1px solid var(--mm-settings-tile-border);
-  border-radius: 8px;
-  color: var(--md-default-fg-color);
-  font-size: 0.78rem;
-  font-weight: 750;
-  text-align: center;
-  font-variant-numeric: tabular-nums;
-}
-.mm-count-frac {
-  color: var(--md-default-fg-color);
-  font-size: 1rem;
-  font-weight: 900;
-}
 
 /* ── Tooltip ──────────────────────────────────────────────────────────────── */
 #mm-tooltip,
@@ -739,10 +732,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 @media (max-width: 1260px) and (min-width: 761px) {
   .mm-settings-grid {
-    grid-template-columns: minmax(11.75rem, 1fr) minmax(5.8rem, 0.45fr) minmax(8.4rem, 0.55fr) minmax(14rem, 1fr);
+    grid-template-columns: minmax(11.75rem, 1fr) minmax(5.8rem, 0.45fr) minmax(8.4rem, 0.55fr);
     grid-template-areas:
-      "detail fit labels categories"
-      "relevance relevance stats stats";
+      "detail fit labels"
+      "relevance relevance relevance";
   }
 }
 
@@ -751,13 +744,26 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     --mm-ribbon-h: min(38vh, 18rem);
     --mm-ribbon-h: min(38dvh, 18rem);
     --mm-ribbon-max-h: var(--mm-ribbon-h);
-    --mm-branch-selector-h: 8.25rem;
+    --mm-branch-panel-w: auto;
   }
 
   #mm-panel-header,
-  #mm-panel {
+  #mm-panel,
+  #mm-branch-panel {
     left: 0;
     right: 0;
+  }
+
+  #mm-panel {
+    height: var(--mm-ribbon-h);
+  }
+
+  #mm-branch-panel {
+    top: calc(var(--mm-ribbon-header-h) + var(--mm-ribbon-h) + 0.7rem);
+    bottom: var(--mm-footer-h, 0px);
+    width: auto;
+    max-height: none;
+    padding-inline: 0.5rem;
   }
 
   #mm-panel-body {
@@ -781,15 +787,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     grid-template-areas:
       "detail detail"
       "fit labels"
-      "categories categories"
-      "relevance relevance"
-      "stats stats";
+      "relevance relevance";
     align-items: stretch;
-  }
-
-  #mm-stats {
-    justify-self: stretch;
-    width: 100%;
   }
 
   .mm-detail-controls,
@@ -847,7 +846,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   <!-- Settings ribbon header: always visible above the graph -->
   <div id="mm-panel-header" class="kb-app-header">
     <span id="mm-panel-title" class="kb-app-header-title">Map</span>
-    <button id="mm-panel-hide-btn" class="kb-app-header-action" type="button" title="Show Settings" aria-expanded="false" aria-controls="mm-panel">Show Settings</button>
+    <button id="mm-panel-hide-btn" class="kb-app-header-action" type="button" title="Show Settings" aria-expanded="false" aria-controls="mm-panel mm-branch-panel">Show Settings</button>
   </div>
 
   <!-- Settings ribbon body: collapses upward on hide -->
@@ -867,10 +866,12 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
           <div class="mm-section mm-section--visibility">
             <div class="mm-visibility-controls">
-              <button id="mm-labels-toggle" class="mm-label-toggle" type="button" aria-pressed="true" aria-label="Hide node labels" title="Hide node labels">
-                <span class="mm-label-toggle-icon" aria-hidden="true"></span>
+              <button id="mm-labels-toggle" class="mm-label-toggle" type="button" role="switch" aria-checked="true" aria-label="Node labels" title="Hide node labels">
                 <span class="mm-label-toggle-text">Node labels</span>
-                <span class="mm-label-toggle-state" aria-hidden="true">On</span>
+                <span class="mm-label-toggle-track" aria-hidden="true">
+                  <span class="mm-label-toggle-state">On</span>
+                  <span class="mm-label-toggle-thumb"></span>
+                </span>
               </button>
             </div>
           </div>
@@ -920,22 +921,18 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
             </div>
           </div>
 
-          <div class="mm-section mm-section--categories mm-bento-tile mm-bento-tile--categories">
-            <div class="mm-bento-tile-head">
-              <span class="mm-section-label">Branch</span>
-            </div>
-            <div id="mm-category-filters"></div>
-          </div>
-
-          <div id="mm-stats" class="mm-bento-count">
-            <span class="mm-count-frac"><span id="mm-node-count">…</span> / <span id="mm-total-count">…</span></span> items
-            <span id="mm-relevance-count" hidden></span>
-          </div>
         </div>
       </section>
 
     </div>
   </div>
+
+  <aside id="mm-branch-panel" class="body-collapsed" aria-label="Map branch navigator">
+    <div class="mm-branch-panel-head">
+      <span class="mm-section-label">Branch</span>
+    </div>
+    <div id="mm-category-filters"></div>
+  </aside>
 
   <!-- Tooltip (positioned by JS) -->
   <div id="mm-tooltip"></div>

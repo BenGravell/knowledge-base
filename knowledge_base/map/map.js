@@ -143,6 +143,7 @@
   const PAN_CLICK_SUPPRESS_MS = 350;
   const LEGACY_BRANCH_LEVEL_IDS = ['super_category', 'category', 'sub_category'];
   const BRANCH_FILTER_ALL = '__all__';
+  const BRANCH_FILTER_PAPER_PREFIX = 'paper:';
   const categorySuperCategoryLookup = new Map();
   const categoryOrderCache = { value: null };
   const superCategoryOrderCache = { value: null };
@@ -593,6 +594,24 @@
     return itemLevel
       ? fixedAggregateLevels.concat(itemLevel)
       : fixedAggregateLevels;
+  }
+
+  function activeBranchDetailFloorIndex() {
+    const group = branchFilterGroups.get(activeBranchFilterKey);
+    return group ? Math.max(Number(group.pathIndex) || 0, 0) : 0;
+  }
+
+  function detailLevelAllowedForActiveBranch(levelId) {
+    return (Number(hierarchyLevel(levelId).pathIndex) || 0) >= activeBranchDetailFloorIndex();
+  }
+
+  function detailLevelForActiveBranch(levelId) {
+    if (!DETAIL_LEVELS.includes(levelId)) return null;
+    if (detailLevelAllowedForActiveBranch(levelId)) return levelId;
+
+    const floorIndex = activeBranchDetailFloorIndex();
+    const fallback = DETAIL_CONTROL_LEVELS.find(level => (Number(level.pathIndex) || 0) >= floorIndex);
+    return fallback ? fallback.id : 'paper';
   }
 
   function detailLevelLabel(levelId, short = false) {
@@ -2052,7 +2071,6 @@
     recomputeVisibilityColors();
     recomputeFocus();
     if (renderer) renderer.scheduleRefresh();
-    updateStats();
     updateRelevancePanel();
     updateZoomOutLimit();
   }
@@ -3318,16 +3336,17 @@
   }
 
   function applyDetailLevel(level) {
-    if (!DETAIL_LEVELS.includes(level)) return;
-    if (currentDetailLevel === level) return;
+    const nextLevel = detailLevelForActiveBranch(level);
+    if (!nextLevel) return;
+    if (currentDetailLevel === nextLevel) return;
     const previousLevel = currentDetailLevel;
 
     finishLevelTransition();
     const transitionNodes = renderer
-      ? prepareLevelTransition(previousLevel, level)
+      ? prepareLevelTransition(previousLevel, nextLevel)
       : [];
 
-    currentDetailLevel = level;
+    currentDetailLevel = nextLevel;
     pinnedNode = null;
     setSelectedNodeFilterEnabled(false);
     hoveredNode = null;
@@ -3353,30 +3372,6 @@
       PAPER_NODE_RADIUS_TARGET,
       minDistance / (2 * (1 + PAPER_NODE_RADIUS_CLEARANCE_RATIO))
     );
-  }
-
-  function updateStats() {
-    if (!graph) return;
-
-    const totalCount = DATA.nodes.length;
-    const filteredCount = DATA.nodes.reduce((count, node) => {
-      const attrs = node.data || {};
-      if (!nodeAllowedByFilters(attrs)) return count;
-      return count + 1;
-    }, 0);
-    const nodeCount = document.getElementById('mm-node-count');
-    const totalNodeCount = document.getElementById('mm-total-count');
-    if (nodeCount) nodeCount.textContent = filteredCount;
-    if (totalNodeCount) totalNodeCount.textContent = totalCount;
-
-    const relevanceCount = document.getElementById('mm-relevance-count');
-    if (relevanceCount) {
-      const egoId = selectedRelevanceEgo();
-      relevanceCount.hidden = !relevanceFilter.enabled || !egoId;
-      relevanceCount.textContent = relevanceFilter.enabled && egoId
-        ? ` · ${relevantPaperCount()} relevant`
-        : '';
-    }
   }
 
   function relevantPaperCount() {
@@ -4074,11 +4069,17 @@
     const panel = document.getElementById('mm-panel');
     const panelOpen = panel && !panel.classList.contains('body-collapsed');
     const panelBounds = panelOpen ? overlayBounds(panel, graphRect, dims) : null;
+    const branchPanel = document.getElementById('mm-branch-panel');
+    const branchPanelOpen = branchPanel && !branchPanel.classList.contains('body-collapsed');
+    const branchBounds = branchPanelOpen ? overlayBounds(branchPanel, graphRect, dims) : null;
 
-    if (panelBounds && panelBounds.left <= pad && panelBounds.width < dims.width * PANEL_MAX_FOCUS_WIDTH_RATIO) {
-      rect.left = Math.max(rect.left, Math.min(panelBounds.right + pad, dims.width - pad));
-    }
     applyTopOverlayOcclusion(rect, panelBounds, dims, pad);
+
+    if (branchBounds && branchBounds.right >= dims.width - pad && branchBounds.width < dims.width * 0.45) {
+      rect.right = Math.min(rect.right, Math.max(branchBounds.left - pad, pad));
+    } else {
+      applyTopOverlayOcclusion(rect, branchBounds, dims, pad, 0.7);
+    }
 
     const headerBounds = overlayBounds(document.getElementById('mm-panel-header'), graphRect, dims);
     applyTopOverlayOcclusion(rect, headerBounds, dims, pad, 0.5);
@@ -4188,6 +4189,13 @@
     return children.filter(child => !child.isCategoryLeaf);
   }
 
+  function branchFilterPaperChildren(group) {
+    if (!group || branchFilterChildren(group).length) return [];
+    return (group.leafIds || [])
+      .map(paperData)
+      .filter(Boolean);
+  }
+
   function branchFilterName(group) {
     return group ? group.label : 'All branches';
   }
@@ -4230,6 +4238,16 @@
     }
 
     syncBranchFilterWidget();
+    enforceActiveBranchDetailFloor();
+  }
+
+  function enforceActiveBranchDetailFloor() {
+    const nextLevel = detailLevelForActiveBranch(currentDetailLevel);
+    if (nextLevel && nextLevel !== currentDetailLevel) {
+      applyDetailLevel(nextLevel);
+      return;
+    }
+    updateDetailButtons();
   }
 
   function selectBranchForPaper(attrs) {
@@ -4263,11 +4281,12 @@
 
     const currentGroup = branchFilterGroups.get(activeBranchFilterKey) || null;
     const ancestors = branchFilterAncestors(currentGroup);
-    const children = branchFilterChildren(currentGroup);
+    const branchChildren = branchFilterChildren(currentGroup);
+    const paperChildren = branchFilterPaperChildren(currentGroup);
     const sections = [];
     if (ancestors.length) sections.push(branchFilterSection('Ancestors', ancestors, 'path', currentGroup));
     sections.push(branchFilterSection('', [currentGroup], 'ego', currentGroup));
-    sections.push(branchFilterSection('Children', children, 'children', currentGroup));
+    sections.push(branchFilterChildrenSection(branchChildren, paperChildren, currentGroup));
 
     container.innerHTML = window.kbTreeNavigator.renderStack({
       density: 'compact',
@@ -4277,6 +4296,10 @@
       const target = event.target.closest('[data-ct-select]');
       if (!target || !container.contains(target)) return;
       const key = target.getAttribute('data-ct-select') || BRANCH_FILTER_ALL;
+      if (key.startsWith(BRANCH_FILTER_PAPER_PREFIX)) {
+        focusPaperFromBranchFilter(key.slice(BRANCH_FILTER_PAPER_PREFIX.length));
+        return;
+      }
       if (activeBranchFilterKey === key) return;
       setActiveBranchFilter(key);
       applyCategoryFilter();
@@ -4304,6 +4327,18 @@
     };
   }
 
+  function branchFilterChildrenSection(branchGroups, papers, currentGroup) {
+    const rows = branchGroups.length
+      ? branchGroups.map(group => branchFilterRow(group, currentGroup, 'children'))
+      : papers.map(branchFilterPaperRow);
+    return {
+      title: 'Children',
+      kind: 'children',
+      empty: 'No children.',
+      rows,
+    };
+  }
+
   function branchFilterRow(group, currentGroup, sectionKind) {
     const key = group ? group.key : BRANCH_FILTER_ALL;
     const itemCount = branchFilterItemCount(group);
@@ -4326,6 +4361,38 @@
         { kind: 'children', count: childCount, singular: 'child', plural: 'children' },
       ],
     };
+  }
+
+  function branchFilterPaperRow(attrs) {
+    const paperId = attrs.id;
+    const authors = Array.isArray(attrs.authors) ? attrs.authors.filter(Boolean) : [];
+    const author = authors.length ? authors[0] + (authors.length > 1 ? ' et al.' : '') : '';
+    const meta = [author, attrs.year, itemTypeKey(attrs)].filter(Boolean).join(' / ');
+    const label = attrs.label || attrs.title || paperId;
+    return {
+      id: BRANCH_FILTER_PAPER_PREFIX + paperId,
+      kind: 'paper',
+      label,
+      meta,
+      successor: true,
+      previewId: false,
+      ariaLabel: [attrs.title || label, meta].filter(Boolean).join(', '),
+      counters: [],
+    };
+  }
+
+  function focusPaperFromBranchFilter(paperId) {
+    if (!paperId || !graphHasNode(paperId)) return;
+
+    applyDetailLevel('paper');
+    pinnedNode = paperId;
+    setSelectedNodeFilterEnabled(true);
+    hoveredNode = null;
+    hideHoverTooltip();
+    refreshView();
+    focusCameraOnNode(paperId, 320);
+    window.setTimeout(() => showFocusedPaperTooltip(paperId), 340);
+    writeFocusPaperId(paperId);
   }
 
   function detailLevelIconMarkup(level) {
@@ -4369,8 +4436,11 @@
   function updateDetailButtons() {
     document.querySelectorAll('#mm-detail-controls button[data-level]').forEach(button => {
       const active = button.dataset.level === currentDetailLevel;
+      const disabled = !detailLevelAllowedForActiveBranch(button.dataset.level);
       button.classList.toggle('active', active);
       button.setAttribute('aria-pressed', active ? 'true' : 'false');
+      button.disabled = disabled;
+      button.setAttribute('aria-disabled', disabled ? 'true' : 'false');
     });
   }
 
@@ -4378,8 +4448,8 @@
     const labelsToggle = document.getElementById('mm-labels-toggle');
 
     if (labelsToggle) {
-      labelsToggle.setAttribute('aria-pressed', showNodeLabels ? 'true' : 'false');
-      labelsToggle.setAttribute('aria-label', showNodeLabels ? 'Hide node labels' : 'Show node labels');
+      labelsToggle.setAttribute('aria-checked', showNodeLabels ? 'true' : 'false');
+      labelsToggle.setAttribute('aria-label', 'Node labels');
       labelsToggle.title = showNodeLabels ? 'Hide node labels' : 'Show node labels';
       const state = labelsToggle.querySelector('.mm-label-toggle-state');
       if (state) state.textContent = showNodeLabels ? 'On' : 'Off';
@@ -4470,16 +4540,19 @@
    * -------------------------------------------------------------------------*/
   function setupSettingsPanelToggle() {
     const panel = document.getElementById('mm-panel');
+    const branchPanel = document.getElementById('mm-branch-panel');
     const hideBtn = document.getElementById('mm-panel-hide-btn');
     if (!panel || !hideBtn) return;
     if (window.matchMedia('(max-width: 700px)').matches) {
       panel.classList.add('body-collapsed');
+      if (branchPanel) branchPanel.classList.add('body-collapsed');
       hideBtn.textContent = 'Show Settings';
       hideBtn.title = 'Show Settings';
       hideBtn.setAttribute('aria-expanded', 'false');
     }
     hideBtn.addEventListener('click', () => {
       const collapsed = panel.classList.toggle('body-collapsed');
+      if (branchPanel) branchPanel.classList.toggle('body-collapsed', collapsed);
       hideBtn.textContent = collapsed ? 'Show Settings' : 'Hide Settings';
       hideBtn.title = collapsed ? 'Show Settings' : 'Hide Settings';
       hideBtn.setAttribute('aria-expanded', String(!collapsed));
