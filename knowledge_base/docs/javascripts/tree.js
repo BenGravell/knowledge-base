@@ -2311,7 +2311,7 @@
       if (ancestors.length) sections.push(treeNavigatorSection('Ancestors', ancestors, 'path', node));
       if (node.kind !== 'paper') sections.push(treeNavigatorSection('', [node], 'ego', node));
       if (node.children.length) sections.push(treeNavigatorSection('Children', children, 'children', node));
-      return window.kbTreeNavigator.renderStack({ sections });
+      return window.kbTreeNavigator.renderStack({ density: 'full', sections });
     });
     treePerf.measure('focusedTree.dom', {
       htmlLength: html.length,

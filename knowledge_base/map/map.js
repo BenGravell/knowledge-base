@@ -4270,7 +4270,7 @@
     sections.push(branchFilterSection('Children', children, 'children', currentGroup));
 
     container.innerHTML = window.kbTreeNavigator.renderStack({
-      className: 'ct-branch-navigator',
+      density: 'compact',
       sections,
     });
     container.onclick = event => {

@@ -24,7 +24,13 @@
   function renderStack(config) {
     const options = Array.isArray(config) ? {} : (config || {});
     const sections = Array.isArray(config) ? config : (options.sections || []);
-    const className = ['ct-focus-stack', options.className].filter(Boolean).join(' ');
+    const density = options.density === 'compact' ? 'compact' : 'full';
+    const className = [
+      'ct-focus-stack',
+      'ct-tree-navigator',
+      'ct-tree-navigator--' + density,
+      options.className,
+    ].filter(Boolean).join(' ');
     return '<div class="' + esc(className) + '">' + sections.map(renderSection).join('') + '</div>';
   }
 

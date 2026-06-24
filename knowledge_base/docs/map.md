@@ -81,8 +81,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 /* ── App shell ────────────────────────────────────────────────────────────── */
 #mm-app {
-  --mm-ribbon-max-h: min(46vh, 31rem);
+  --mm-ribbon-h: clamp(12rem, 28vh, 17rem);
+  --mm-ribbon-max-h: var(--mm-ribbon-h);
   --mm-ribbon-header-h: 2.65rem;
+  --mm-branch-selector-h: clamp(7rem, 16vh, 9.5rem);
   --mm-control-height: 2.12rem;
   --mm-settings-tile-bg: color-mix(in srgb, var(--md-default-fg-color) 5%, var(--md-default-bg-color));
   --mm-settings-tile-border: color-mix(in srgb, var(--md-default-fg-color) 13%, transparent);
@@ -169,6 +171,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   left: var(--kb-app-page-gutter, 0.8rem);
   right: var(--kb-app-page-gutter, 0.8rem);
   width: auto;
+  height: var(--mm-ribbon-h);
   max-height: var(--mm-ribbon-max-h);
   z-index: 4;
   background: var(--mm-panel);
@@ -179,9 +182,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: max-height 0.25s ease, opacity 0.18s ease, border-color 0.18s ease;
+  transition: opacity 0.18s ease, border-color 0.18s ease;
 }
 #mm-panel.body-collapsed {
+  height: 0;
   max-height: 0;
   opacity: 0;
   pointer-events: none;
@@ -194,7 +198,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   gap: 0.52rem;
   align-content: start;
   flex: 1;
-  max-height: var(--mm-ribbon-max-h);
+  min-height: 0;
+  max-height: none;
   overflow-y: auto;
   overflow-x: clip;
   min-width: 0;
@@ -234,11 +239,13 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .mm-settings-section {
   display: grid;
   min-width: 0;
+  min-height: 0;
   gap: 0.5rem;
 }
 .mm-settings-grid {
   display: grid;
   min-width: 0;
+  min-height: 0;
   gap: 0.46rem;
   grid-template-columns: minmax(11.75rem, 1fr) minmax(5.8rem, 0.4fr) minmax(8.4rem, 0.5fr) minmax(14rem, 1.25fr) minmax(9rem, 0.75fr);
   grid-template-areas:
@@ -249,7 +256,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .mm-settings-grid > .mm-section--detail { grid-area: detail; }
 .mm-settings-grid > .mm-section--actions { grid-area: fit; }
 .mm-settings-grid > .mm-section--visibility { grid-area: labels; }
-.mm-settings-grid > .mm-section--categories { grid-area: categories; }
+.mm-settings-grid > .mm-section--categories {
+  grid-area: categories;
+  align-self: stretch;
+}
 .mm-settings-grid > .mm-relevance-panel { grid-area: relevance; }
 .mm-settings-grid > #mm-stats { grid-area: stats; }
 .mm-bento-tile {
@@ -269,6 +279,7 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 .mm-bento-tile--categories {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
 }
 .mm-bento-tile-head {
   display: flex;
@@ -515,10 +526,12 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
   display: block;
   width: 100%;
   min-width: 0;
+  min-height: 0;
   box-sizing: border-box;
 }
-#mm-category-filters .ct-branch-navigator {
-  max-height: min(22rem, 36vh);
+#mm-category-filters .ct-tree-navigator {
+  height: var(--mm-branch-selector-h);
+  max-height: var(--mm-branch-selector-h);
   overflow: auto;
   scrollbar-width: thin;
 }
@@ -735,8 +748,10 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 
 @media (max-width: 760px) {
   #mm-app {
-    --mm-ribbon-max-h: calc(50vh - var(--mm-ribbon-header-h) - 0.85rem);
-    --mm-ribbon-max-h: calc(50dvh - var(--mm-ribbon-header-h) - 0.85rem);
+    --mm-ribbon-h: min(38vh, 18rem);
+    --mm-ribbon-h: min(38dvh, 18rem);
+    --mm-ribbon-max-h: var(--mm-ribbon-h);
+    --mm-branch-selector-h: 8.25rem;
   }
 
   #mm-panel-header,
