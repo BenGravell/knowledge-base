@@ -123,7 +123,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/2c/02/3623e6169bed617ed1e2d372f7c69f92ec28d54c4dfc997055c8578ec148/virtualenv-21.5.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b5/e8/dbf020b4d98251a9860752a094d09a65e1b436ad181faf929983f697048f/watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/18/29/71729b4671f21e1eaa5d6573031ab810ad2936c8175f03f97f3ff164c802/websockets-16.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl
-      - pypi: https://files.pythonhosted.org/packages/be/f9/5696114af4ede5f1bd01e641a4ff24ee8ca49810bfaa28e5be12d930c0ef/zensical-0.0.45-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+      - pypi: https://files.pythonhosted.org/packages/31/ee/b24fd0f94885519d851c35615b086d069a1077b0198021a56755395a4633/zensical-0.0.43-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
       - pypi: ./
 packages:
 - conda: https://conda.anaconda.org/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
@@ -698,9 +698,9 @@ packages:
 - pypi: ./
   name: knowledge-base
   version: 0.0.0
-  sha256: b71f281bdd6fea099f5d4d6e2653b3ec68ea586aeda907d7966056d1600b3a26
+  sha256: fc49b696ae7923d3031dfa0e30969ad512629d173d13a56154bb86cc20fe235f
   requires_dist:
-  - zensical>=0.0.45,<0.1.0
+  - zensical==0.0.43
   - streamlit[pdf]>=1.56.0,<2.0.0
   - plotly>=6.6.0,<7.0.0
   - numpy>=2.4.4,<3.0.0
@@ -1826,17 +1826,17 @@ packages:
   version: '16.0'
   sha256: 9b5aca38b67492ef518a8ab76851862488a478602229112c4b0d58d63a7a4d5c
   requires_python: '>=3.10'
-- pypi: https://files.pythonhosted.org/packages/be/f9/5696114af4ede5f1bd01e641a4ff24ee8ca49810bfaa28e5be12d930c0ef/zensical-0.0.45-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+- pypi: https://files.pythonhosted.org/packages/31/ee/b24fd0f94885519d851c35615b086d069a1077b0198021a56755395a4633/zensical-0.0.43-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
   name: zensical
-  version: 0.0.45
-  sha256: 58c3510f69e08b6ed8bb9596fc9393e4687f90394aa0ef2d6118b1375ad97be5
+  version: 0.0.43
+  sha256: 0e278eb948a0b7545d50609d713c7c27e366dade4523ff73a311a5d5f136518a
   requires_dist:
   - click>=8.1.8
   - deepmerge>=2.0
   - jinja2>=3.1
   - markdown>=3.7
   - pygments>=2.20
-  - pymdown-extensions>=10.21.3
+  - pymdown-extensions>=10.21.2
   - pyyaml>=6.0.2
   - tomli>=2.4.0
   requires_python: '>=3.10'

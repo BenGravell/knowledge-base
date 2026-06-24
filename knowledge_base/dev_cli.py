@@ -6,7 +6,11 @@ import shutil
 import subprocess
 import sys
 import time
+import webbrowser
+from argparse import ArgumentParser
 from collections.abc import Callable
+from functools import partial
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 import yaml
@@ -19,6 +23,7 @@ SOURCE_DOCS_DIR = KB_DIR / "docs"
 STAGED_DOCS_DIR = KB_DIR / ".generated" / "docs"
 ZENSICAL_CONFIG = KB_DIR / ".zensical.generated.yml"
 ZENSICAL_SOURCE_CONFIG = KB_DIR / "zensical.yml"
+SITE_DIR = KB_DIR / "site"
 GENERATED_DOCS_DIR_ENV = "KB_GENERATED_DOCS_DIR"
 
 GENERATED_FILE_SCRIPTS = (
@@ -127,8 +132,49 @@ def run_zensical(command: str, args: list[str]) -> int:
     return result
 
 
+def parse_dev_addr(dev_addr: str) -> tuple[str, int]:
+    host, separator, port_text = dev_addr.rpartition(":")
+    if not separator or not host or not port_text:
+        raise ValueError(f"expected host:port, got {dev_addr!r}")
+    return host, int(port_text)
+
+
+def serve_site(args: list[str]) -> int:
+    parser = ArgumentParser(prog="kb serve")
+    parser.add_argument("-a", "--dev-addr", default="localhost:8000", metavar="<IP:PORT>")
+    parser.add_argument("-o", "--open", action="store_true")
+    parser.add_argument("-s", "--strict", action="store_true")
+    options = parser.parse_args(args)
+
+    build_args = ["-c"]
+    if options.strict:
+        build_args.append("-s")
+
+    result = run_zensical("build", build_args)
+    if result != 0:
+        return result
+
+    try:
+        host, port = parse_dev_addr(options.dev_addr)
+    except ValueError as error:
+        print(error, file=sys.stderr)
+        return 2
+
+    handler = partial(SimpleHTTPRequestHandler, directory=SITE_DIR)
+    with ThreadingHTTPServer((host, port), handler) as server:
+        url = f"http://{host}:{port}/"
+        log(f"serving {rel(SITE_DIR)} on {url}")
+        if options.open:
+            webbrowser.open(url)
+        try:
+            server.serve_forever()
+        except KeyboardInterrupt:
+            log("serve stopped")
+    return 0
+
+
 CUSTOM_COMMANDS: dict[str, Callable[[list[str]], int]] = {
-    "serve": lambda args: run_zensical("serve", args),
+    "serve": serve_site,
     "build": lambda args: run_zensical("build", args),
 }
 

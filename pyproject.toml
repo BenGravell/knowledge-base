@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
-    "zensical>=0.0.45,<0.1.0",
+    "zensical==0.0.43",
     "streamlit[pdf]>=1.56.0,<2.0.0",
     "plotly>=6.6.0,<7.0.0",
     "numpy>=2.4.4,<3.0.0",
