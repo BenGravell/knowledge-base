@@ -374,6 +374,112 @@ class CatalogHelperTests(unittest.TestCase):
 
         self.assertEqual(cleaned, "## Introduction\n\nUseful paragraph with enough words.")
 
+    def test_embedding_sidecar_keeps_prose_appendix_mentions(self) -> None:
+        cleaned = clean_embedding_sidecar_text(
+            "## Introduction\n\n"
+            "The matrix Laplace transform method follows an earlier argument.\n\n"
+            "Appendix.\n\n"
+            "The insight is still part of the main technical development."
+        )
+
+        self.assertIn("The insight is still part", cleaned)
+
+    def test_embedding_sidecar_stops_before_plain_appendix_heading(self) -> None:
+        cleaned = clean_embedding_sidecar_text(
+            "## Introduction\n\nUseful paragraph with enough words.\n\nAppendix A\n\nExtra proof text should not stay."
+        )
+
+        self.assertEqual(cleaned, "## Introduction\n\nUseful paragraph with enough words.")
+
+    def test_embedding_sidecar_deduplicates_repeated_docling_headings(self) -> None:
+        cleaned = clean_embedding_sidecar_text(
+            "## Introduction. Introduction\n\n"
+            "Useful paragraph with enough words.\n\n"
+            "### Application: The matrix Bernstein inequality. Application: The matrix Bernstein inequality\n\n"
+            "Another useful paragraph with enough words."
+        )
+
+        self.assertIn("## Introduction\n\nUseful paragraph with enough words.", cleaned)
+        self.assertIn("### Application: The matrix Bernstein inequality", cleaned)
+        self.assertNotIn("Application: The matrix Bernstein inequality. Application", cleaned)
+
+    def test_embedding_sidecar_drops_pdf_artifact_lines(self) -> None:
+        cleaned = clean_embedding_sidecar_text(
+            "## Introduction\n\n"
+            "Image: img/concept.pdf\n\n"
+            "$^*$ Corresponding author: mailto:author@example.testauthor@example.testfootnote-1\n\n"
+            "Robots can adapt after damage with useful semantic context \\supercite."
+        )
+
+        self.assertNotIn("Image:", cleaned)
+        self.assertNotIn("mailto:", cleaned)
+        self.assertNotIn("footnote-", cleaned)
+        self.assertNotIn("supercite", cleaned)
+        self.assertIn("Robots can adapt after damage with useful semantic context.", cleaned)
+
+    def test_embedding_sidecar_preserves_raw_math_macros(self) -> None:
+        cleaned = clean_embedding_sidecar_text(
+            "## Introduction\n\nThe matrix order is expressed as $\\mtx{A} \\preccurlyeq\\mtx{B}$ in the proof."
+        )
+
+        self.assertIn("$\\mtx{A} \\preccurlyeq\\mtx{B}$", cleaned)
+
+    def test_embedding_sidecar_repairs_pdf_diacritic_loss(self) -> None:
+        cleaned = clean_embedding_sidecar_text(
+            "## Introduction\n\n"
+            "Traditionally, networks have been described using the random graph theory of Erd os and Renyi."
+        )
+
+        self.assertIn("Erd\u0151s and R\u00e9nyi", cleaned)
+        self.assertNotIn("Erd os", cleaned)
+
+    def test_embedding_sidecar_removes_tex_spacing_spans(self) -> None:
+        cleaned = clean_embedding_sidecar_text(
+            "## Introduction\n\n"
+            "The model has exponent $\\gamma\\_{model}=2.9$ (Fig.$\\,$2A). "
+            "Indeed, as Fig.$\\,$2A demonstrates, $P(k)$ depends on $m\\_0+t$."
+        )
+
+        self.assertIn("(Fig. 2A).", cleaned)
+        self.assertIn("as Fig. 2A demonstrates", cleaned)
+        self.assertIn("$\\gamma_{model}=2.9$", cleaned)
+        self.assertIn("$m_0+t$", cleaned)
+        self.assertNotIn("$\\,$", cleaned)
+
+    def test_embedding_sidecar_reflows_converter_line_breaks(self) -> None:
+        cleaned = clean_embedding_sidecar_text(
+            "## Introduction\n\n"
+            "The above examples (\n\n"
+            "12) demonstrate that many large random networks share common properties.\n\n"
+            "Most real world networks are open,\n"
+            "they form by the continuous addition of new vertices.\n\n"
+            "Both models assume that we start with a fixed number (\n\n"
+            "$N$) of vertices that are then randomly connected.\n\n"
+            "we show that, independent of the system, the probability\n\n"
+            "$P(k)$ that a vertex interacts with $k$ other vertices decays as a power-law.\n\n"
+            "These aspects are discussed in Sec.\n\n"
+            "II, while Sec.III is not model-specific at all."
+        )
+
+        self.assertIn("The above examples (12) demonstrate", cleaned)
+        self.assertIn("networks are open, they form", cleaned)
+        self.assertIn("fixed number ($N$) of vertices", cleaned)
+        self.assertIn("probability $P(k)$ that a vertex", cleaned)
+        self.assertIn("discussed in Sec. II, while", cleaned)
+        self.assertNotIn("(\n\n12)", cleaned)
+        self.assertNotIn("probability\n\n$P(k)$", cleaned)
+
+    def test_embedding_sidecar_repairs_split_docling_heading(self) -> None:
+        cleaned = clean_embedding_sidecar_text(
+            "## Polynomial moments and the spectral\n\n"
+            "norm of a random matrix. Polynomial moments and the spectral norm of a random matrix "
+            "We can also study the spectral norm of a random matrix."
+        )
+
+        self.assertIn("## Polynomial moments and the spectral norm of a random matrix", cleaned)
+        self.assertIn("We can also study the spectral norm", cleaned)
+        self.assertNotIn("## Polynomial moments and the spectral\n\nnorm", cleaned)
+
     def test_embedding_sidecar_rejects_front_matter_only_monograph(self) -> None:
         cleaned = clean_embedding_sidecar_text(
             "# Monograph Title\n\n"

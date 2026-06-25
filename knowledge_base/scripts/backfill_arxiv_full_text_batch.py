@@ -9,7 +9,7 @@ import time
 from pathlib import Path
 
 from knowledge_base.catalog import Catalog, Entry
-from knowledge_base.scripts.ingest_arxiv_full_text import (
+from knowledge_base.scripts.arxiv_full_text.ingest import (
     DEFAULT_SLEEP_SECONDS,
     METADATA_ROOT,
     MIN_MARKDOWN_CHARS,
@@ -18,12 +18,18 @@ from knowledge_base.scripts.ingest_arxiv_full_text import (
 )
 
 DEFAULT_SKIP_LOG = Path(".cache/arxiv_embed_text_backfill_skips.txt")
+CURRENT_SKIP_MARKERS = ("arxiv-latex:", "arxiv-pdf:")
 
 
 def skipped_ids(path: Path) -> set[str]:
     if not path.exists():
         return set()
-    return {line.split("\t", 1)[0].strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip()}
+    ids = set()
+    for line in path.read_text(encoding="utf-8").splitlines():
+        parts = line.split("\t", 2)
+        if len(parts) == 3 and any(marker in parts[2] for marker in CURRENT_SKIP_MARKERS):
+            ids.add(parts[0].strip())
+    return ids
 
 
 def record_skip(path: Path, entry: Entry, message: str) -> None:
@@ -51,6 +57,9 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--min-chars", type=int, default=MIN_MARKDOWN_CHARS, help="Minimum readable output size.")
     parser.add_argument("--pandoc", default="pandoc", help="Pandoc executable.")
     parser.add_argument("--pandoc-data-dir", default="", help="Optional Pandoc data directory.")
+    parser.add_argument("--docling", default="docling", help="Docling executable for LaTeX/PDF fallbacks.")
+    parser.add_argument("--docling-device", default="", help="Optional Docling device, such as cpu or cuda.")
+    parser.add_argument("--docling-timeout", type=int, default=300, help="Docling document timeout in seconds.")
     parser.add_argument("--skip-log", type=Path, default=DEFAULT_SKIP_LOG, help="Ignored local log for failed IDs.")
     parser.add_argument("--retry-skips", action="store_true", help="Ignore the skip log for this run.")
     return parser.parse_args(argv)
@@ -64,8 +73,8 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit("--batch-size must be at least 1")
     if args.offset < 0:
         raise SystemExit("--offset must be non-negative")
-    if not shutil.which(args.pandoc):
-        raise SystemExit(f"Pandoc executable not found: {args.pandoc}")
+    args.has_pandoc = bool(shutil.which(args.pandoc))
+    args.has_docling = bool(shutil.which(args.docling))
 
     skipped = set() if args.retry_skips else skipped_ids(args.skip_log)
     entries, total_missing = missing_entries(args.offset, args.batch_size, skipped)

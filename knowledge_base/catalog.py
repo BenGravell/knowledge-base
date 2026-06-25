@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import html
 import json
 import re
 from collections.abc import Iterable
@@ -44,6 +45,12 @@ TAIL_HEADING_RE = re.compile(
 START_HEADING_RE = re.compile(r"^(introduction|abstract)\b", re.IGNORECASE)
 FRONT_MATTER_HEADING_RE = re.compile(r"^(contents|preface|chapter\s+0\b)", re.IGNORECASE)
 BODY_START_HEADING_RE = re.compile(r"^(?:chapter\s+)?[1-9]\d*\b", re.IGNORECASE)
+PLAIN_INTRODUCTION_RE = re.compile(r"^(?:[0-9]+(?:\.[0-9]+)*[).]?\s*)?introduction\b", re.IGNORECASE)
+PLAIN_TAIL_MARKER_RE = re.compile(
+    r"^(?:references(?: and notes)?|bibliography|acknowledg(?:e)?ments?|funding)\.?$"
+    r"|^(?:appendix|appendices|supplementary(?: material)?)(?:\s+[a-z0-9]+)?$",
+    re.IGNORECASE,
+)
 NUMERIC_CITATION_RE = re.compile(r"\\?\[[\d,\s;:–—-]+\\?\]")
 PAREN_NUMERIC_CITATION_RE = re.compile(r"\(\s*\d+(?:\s*[,;]\s*\d+)*\s*\)")
 YEAR_CITATION_RE = re.compile(r"\([^()]{0,160}\b(?:19|20)\d{2}[a-z]?\b[^()]{0,160}\)")
@@ -52,10 +59,13 @@ LATEX_SPACE_RE = re.compile(r"\\hspace\{[^}]*\}")
 LATEX_BARE_URL_RE = re.compile(r"\\+urlhttps?://\S+")
 LATEX_URL_RE = re.compile(r"\\+url\{[^}]*\}")
 LATEX_URL_COMMAND_RE = re.compile(r"\\+url\b")
+LATEX_CITATION_COMMAND_RE = re.compile(r"\\(?:cite\w*|supercite)\*?(?:\[[^\]]*])*(?:\s*\{[^}]*\})?")
+LATEX_REF_COMMAND_RE = re.compile(r"\\(?:ref|eqref|autoref|cref|Cref)\*?\{([^}]*)\}")
 NESTED_URL_CITATION_RE = re.compile(r"\([^()]*\([^()]*https?://[^)]*\)[^()]*\)")
 PAREN_URL_RE = re.compile(r"\([^()]*https?://[^)]*\)")
 MARKDOWN_LINK_RE = re.compile(r"\[([^]]+)]\((?:https?://|#)[^)]+\)")
 URL_RE = re.compile(r"https?://\S+")
+INLINE_MATH_SPAN_RE = re.compile(r"(?<!\$)\$([^$\n]+)\$(?!\$)")
 URL_POINTER_BOILERPLATE_RE = re.compile(
     r"\s*(?:"
     r"(?:the\s+)?(?:published|final|journal|official|peer-reviewed)\s+version"
@@ -63,6 +73,11 @@ URL_POINTER_BOILERPLATE_RE = re.compile(
     r"|(?:this|the)\s+(?:draft|paper|article|work|preprint)"
     r")\s+(?:is\s+)?available\s+(?:at|from|online\s+at)\b.*$",
     re.IGNORECASE,
+)
+BROKEN_PDF_TEXT_REPLACEMENTS = (
+    (re.compile(r"\bErd\s+os\b"), "Erd\u0151s"),
+    (re.compile(r"\bErdos\b"), "Erd\u0151s"),
+    (re.compile(r"\bRenyi\b"), "R\u00e9nyi"),
 )
 EMBEDDING_SENTENCE_ABBREVIATIONS = (
     "e.g.",
@@ -1085,7 +1100,7 @@ def clean_embedding_sidecar_text(markdown: str) -> str:
     lines = drop_leading_author_blocks(strip_sidecar_header(markdown)).splitlines()
     start = content_start_index(lines)
     end = content_end_index(lines, start)
-    text = "\n".join(clean_embedding_lines(lines[start:end]))
+    text = "\n".join(reflow_embedding_lines(clean_embedding_lines(lines[start:end])))
     text = re.sub(r"\n{3,}", "\n\n", text).strip()
     if text and not any(line.startswith("#") for line in text.splitlines()):
         text = f"## Paper Body\n\n{text}"
@@ -1125,9 +1140,13 @@ def authorish_paragraph(text: str) -> bool:
 def content_start_index(lines: list[str]) -> int:
     abstract_index: int | None = None
     body_index: int | None = None
+    plain_intro_index: int | None = None
     saw_front_matter = False
     for index, line in enumerate(lines):
-        match = HEADING_RE.match(line.strip())
+        stripped = line.strip()
+        if plain_intro_index is None and plain_introduction_marker(stripped):
+            plain_intro_index = index
+        match = HEADING_RE.match(stripped)
         if not match:
             continue
         raw_heading = match.group(2).strip()
@@ -1142,6 +1161,8 @@ def content_start_index(lines: list[str]) -> int:
             saw_front_matter = True
     if abstract_index is not None:
         return abstract_index
+    if plain_intro_index is not None:
+        return plain_intro_index
     if body_index is not None:
         return body_index
     return len(lines) if saw_front_matter else 0
@@ -1158,20 +1179,40 @@ def content_end_index(lines: list[str], start: int) -> int:
 
 
 def plain_tail_marker(line: str) -> bool:
-    text = line.strip().strip("# ").casefold()
-    return bool(
-        re.match(
-            r"^(references(?: and notes)?|bibliography|acknowledg(?:e)?ments?|funding|appendix|supplementary)\b",
-            text,
-        )
-    )
+    return bool(PLAIN_TAIL_MARKER_RE.match(line.strip().strip("# ").strip()))
+
+
+def plain_introduction_marker(line: str) -> bool:
+    text = line.strip().strip("# ").strip()
+    if not text:
+        return False
+    return bool(PLAIN_INTRODUCTION_RE.match(text))
 
 
 def embedding_heading_key(heading: str) -> str:
     heading = heading.strip()
     heading = re.sub(r"^(?:[0-9]+(?:\.[0-9]+)*|[IVXLCDM]+)[).:]?\s+", "", heading, flags=re.IGNORECASE)
     heading = re.sub(r"^[A-Za-z](?:\.\d+)*(?:[).:]\s*|\s+)(?=[A-Z][A-Za-z-]{2,}\b)", "", heading)
+    heading = repeated_heading_prefix(heading)
     return heading.strip(" .:-")
+
+
+def repeated_heading_prefix(heading: str) -> str:
+    if not re.search(r"\s*[.:-]\s+", heading):
+        return heading
+    for separator in re.finditer(r"\s*[.:-]\s+", heading):
+        left = heading[: separator.start()].strip()
+        right = heading[separator.end() :].strip()
+        if left and heading_phrase_key(left) == heading_phrase_key(right):
+            return left
+    left, _separator, right = re.split(r"\s*([.:-])\s+", heading, maxsplit=1)
+    if left and heading_phrase_key(left) == heading_phrase_key(right):
+        return left
+    return heading
+
+
+def heading_phrase_key(heading: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", heading.casefold()).strip()
 
 
 def normalized_embedding_heading(line: str) -> str:
@@ -1212,11 +1253,123 @@ def clean_embedding_lines(lines: list[str]) -> list[str]:
     return cleaned
 
 
+def reflow_embedding_lines(lines: list[str]) -> list[str]:
+    reflowed: list[str] = []
+    paragraph = ""
+    pending_blank = False
+
+    def flush() -> None:
+        nonlocal paragraph
+        if paragraph:
+            reflowed.append(paragraph)
+            paragraph = ""
+
+    for line in lines:
+        if not line:
+            pending_blank = True
+            continue
+        if line.startswith("#"):
+            flush()
+            if reflowed and reflowed[-1]:
+                reflowed.append("")
+            reflowed.extend([line, ""])
+            pending_blank = False
+            continue
+        if (
+            pending_blank
+            and not paragraph
+            and len(reflowed) >= 2
+            and reflowed[-1] == ""
+            and reflowed[-2].startswith("#")
+        ):
+            fixed_heading = split_broken_embedding_heading(reflowed[-2], line)
+            if fixed_heading:
+                reflowed[-2], line = fixed_heading
+                if not line:
+                    pending_blank = False
+                    continue
+        if paragraph and pending_blank and not artificial_paragraph_break(paragraph, line):
+            flush()
+            reflowed.append("")
+        paragraph = join_embedding_text(paragraph, line)
+        pending_blank = False
+
+    flush()
+    while reflowed and not reflowed[-1]:
+        reflowed.pop()
+    return reflowed
+
+
+def split_broken_embedding_heading(heading_line: str, following: str) -> tuple[str, str] | None:
+    match = HEADING_RE.match(heading_line)
+    continuation = re.match(r"^(.+?\.)\s+(?=[A-Z])(.*)$", following.strip())
+    if not match or not continuation or not following[:1].islower():
+        return None
+
+    marker, heading = match.groups()
+    completed_heading = f"{heading} {continuation.group(1).rstrip('.')}"
+    rest = continuation.group(2).strip()
+    if not heading_phrase_key(rest).startswith(heading_phrase_key(completed_heading)):
+        return None
+
+    prefix = re.escape(completed_heading).replace(r"\ ", r"\s+")
+    rest = re.sub(rf"^{prefix}\.?\s*", "", rest, count=1, flags=re.IGNORECASE)
+    return f"{marker} {completed_heading.strip(' .:-')}", rest
+
+
+def artificial_paragraph_break(previous: str, following: str) -> bool:
+    previous = previous.rstrip()
+    following = following.lstrip()
+    if following.startswith(("- ", "* ", "+ ")):
+        return False
+    if previous.endswith(("(", "[", ",", "-", "/", "\\")):
+        return True
+    if re.search(r"\b(?:Sec|Fig|Eq|Ref|Refs|No|Nos)\.$", previous) and re.match(r"^[IVXLCDM\d]", following):
+        return True
+    if following.startswith("$") and not following.startswith("$$"):
+        return True
+    if following[:1].islower() or re.match(r"^(?:[,.;:)\]]|\d+[),.]|\[[^\]]+\])", following):
+        return True
+    if not re.search(r"[.!?][\"')\]]*$", previous):
+        return True
+    return bool(
+        re.search(
+            r"\b(?:a|an|and|are|as|at|be|been|being|between|by|can|could|did|do|does|during|for|from|"
+            r"in|including|into|is|may|might|not|of|on|only|or|should|that|the|to|using|was|were|"
+            r"which|while|will|with|without|would)$",
+            previous,
+            re.IGNORECASE,
+        )
+    )
+
+
+def join_embedding_text(previous: str, following: str) -> str:
+    following = following.strip()
+    if not previous:
+        return following
+    if previous.endswith("-") and following[:1].islower():
+        text = f"{previous[:-1]}{following}"
+    elif previous.endswith(("(", "[", "/", "\\")) or following[:1] in ")]},.;:%":
+        text = f"{previous}{following}"
+    else:
+        text = f"{previous} {following}"
+    text = re.sub(r"([([])\s+", r"\1", text)
+    text = re.sub(r"\s+([)\]])", r"\1", text)
+    text = re.sub(r"\s+([,.;:])", r"\1", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
 def clean_embedding_line(line: str) -> str:
+    line = html.unescape(line)
+    for pattern, replacement in BROKEN_PDF_TEXT_REPLACEMENTS:
+        line = pattern.sub(replacement, line)
+    line = clean_embedding_math_spans(line)
     line = LATEX_SPACE_RE.sub("", line)
     line = LATEX_BARE_URL_RE.sub("", line)
     line = LATEX_URL_RE.sub("", line)
     line = LATEX_URL_COMMAND_RE.sub("", line)
+    line = LATEX_CITATION_COMMAND_RE.sub("", line)
+    line = LATEX_REF_COMMAND_RE.sub(r"\1", line)
     line = MARKDOWN_LINK_RE.sub(r"\1", line)
     line = NESTED_URL_CITATION_RE.sub("", line)
     line = PAREN_URL_RE.sub("", line)
@@ -1237,6 +1390,16 @@ def clean_embedding_line(line: str) -> str:
     return re.sub(r"\s+", " ", line).strip()
 
 
+def clean_embedding_math_spans(line: str) -> str:
+    line = line.replace(r"$\,$", " ")
+
+    def replace(match: re.Match[str]) -> str:
+        inner = match.group(1).replace(r"\_", "_")
+        return f"${inner}$"
+
+    return INLINE_MATH_SPAN_RE.sub(replace, line)
+
+
 def table_separator_line(line: str) -> bool:
     return bool(line) and len(line) > 8 and set(line) <= {"-", " ", "|", ":"}
 
@@ -1244,6 +1407,9 @@ def table_separator_line(line: str) -> bool:
 def keep_embedding_line(line: str) -> bool:
     if not line:
         return True
+    lowered = line.casefold()
+    if lowered.startswith("image:") or "mailto:" in lowered or "footnote-" in lowered:
+        return False
     if line.startswith("#") and not line.lstrip("#").strip():
         return False
     if line.startswith("#"):

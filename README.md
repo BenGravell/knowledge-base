@@ -9,7 +9,7 @@ The public site is published at <https://bengravell.github.io/knowledge-base/>.
 - `knowledge_base/` contains the published site source and supporting tools.
   - `docs/` contains the Zensical source pages and paper metadata.
     - `papers/**/metadata.yml` drives generated paper pages.
-    - `papers/**/embed_text.md` contains cleaned arXiv/ar5iv HTML conversions for embeddings.
+    - `papers/**/embed_text.md` contains cleaned arXiv full-text conversions for embeddings.
   - `tree.yml` is the editable Tree navigation and classification source.
   - `apps/` contains Streamlit apps.
   - `scripts/` contains maintenance, audit, placement, and prefill entrypoints.
@@ -105,7 +105,7 @@ Use the source names printed by the prefill help, such as `ieee`, `mlr`, or `tay
 ### Ingest arXiv embed text
 
 Some paper entries can have an optional `embed_text.md` sidecar next to `metadata.yml`.
-These sidecars are cleaned Markdown conversions of arXiv/ar5iv HTML for embedding and agentic search only.
+These sidecars are cleaned Markdown conversions of arXiv HTML, LaTeX, or PDF sources for embedding and agentic search only.
 They are not the canonical e-print, PDF, or LaTeX source of truth, and this repo intentionally does not store PDFs, LaTeX source archives, images, or other rich paper assets.
 Reuse of paper text remains governed by each paper's original license and rights holder terms.
 
@@ -115,7 +115,7 @@ Run the ingest script from the repo root:
 python knowledge_base/scripts/ingest_arxiv_full_text.py --id 2402.08954
 ```
 
-The script requires `pandoc` on `PATH`, skips existing sidecars unless `--force` is passed, and probes only entries with `arxiv_id`. It strips author blocks, references, source chrome, images, and obvious table/math noise before writing `embed_text.md`.
+The script skips existing sidecars unless `--force` is passed. For arXiv entries it tries arXiv HTML, ar5iv HTML, arXiv LaTeX source, then the PDF inferred from the arXiv ID. HTML conversion uses `pandoc` when available; LaTeX/PDF fallback uses the project-managed `docling` CLI.
 
 ### Develop Python scripts or site helpers
 
