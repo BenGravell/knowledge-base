@@ -525,7 +525,9 @@ def build_tag_search_data(records: list[dict[str, Any]]) -> dict[str, Any]:
             key = f"{ego_id}::{tag_key}"
             if key in related:
                 continue
-            related[key] = [{"id": paper_id} for paper_id in ordered if paper_id != ego_id][:related_result_limit]
+            related[key] = [{"id": paper_id} for paper_id in ordered if paper_id != ego_id][:related_result_limit] or [
+                {"id": ego_id}
+            ]
 
     return {
         "papers": record_by_id,

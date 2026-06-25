@@ -1,18 +1,12 @@
 # TODO
 
-## search
-
-https://bengravell.github.io/knowledge-base/search/?paper=2004_03853&tag=Shape-constrained%20regression 
-
-Something is wrong because this is a valid tag on at least one paper but we get zero hits?
-
 ## ingest
 
 Need to find a way to represent and ingest all the numerous items in
 
 todo/papers_misc
 
-## embed
+## embed text
 
 1. use latex/pdf -> markdown as a fallback for arxiv papers without HTML/ar5iv
 2. use pdf -> markdown as a fallback for non-arxiv papers

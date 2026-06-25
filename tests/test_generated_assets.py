@@ -5,6 +5,7 @@ import unittest
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import override
+from unittest.mock import patch
 from urllib.parse import ParseResult, unquote, urljoin, urlparse
 
 from knowledge_base.dev_cli import SOURCE_DOCS_DIR, copy_docs_ignore
@@ -295,6 +296,23 @@ class GeneratedAssetTests(unittest.TestCase):
     def test_plain_json_asset_rejects_js_assignment(self) -> None:
         with self.assertRaises(ValueError):
             SEMANTIC_SEARCH_INDEX.js_assignment({})
+
+    def test_singleton_paper_tag_search_returns_the_selected_paper(self) -> None:
+        from knowledge_base.generate_papers import build_tag_search_data
+
+        records = [
+            {
+                "id": "2004_03853",
+                "label": "SOS Shape-Constrained Regression",
+                "year": 2020,
+                "tags": ["Shape-constrained regression"],
+            }
+        ]
+
+        with patch("knowledge_base.generate_papers.load_embedding_cache", return_value={}):
+            data = build_tag_search_data(records)
+
+        self.assertEqual(data["related"]["2004_03853::shape-constrained regression"], [{"id": "2004_03853"}])
 
 
 if __name__ == "__main__":
