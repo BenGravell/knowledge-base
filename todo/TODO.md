@@ -6,16 +6,6 @@ Need to find a way to represent and ingest all the numerous items in
 
 todo/papers_misc
 
-## embed text
-
-1. use latex/pdf -> markdown as a fallback for arxiv papers without HTML/ar5iv
-2. use pdf -> markdown as a fallback for non-arxiv papers
-  - prefer first-party openable pdfs when available from the links_alt metadata field
-  - fallback to open-source pdfs when available from the links_alt metadata field
-  - last-ditch fallback is using metadata alone for embed text
-
-use ideas from https://claude.ai/share/72b92f25-d1d2-4b8a-8bc7-da878d237c05
-
 ## perf
 
 Tree and Timeline pages need major performance increase for handling large number of items.
@@ -140,8 +130,6 @@ Add an export button to get a json or csv of all currently displayed items
 CSV should include one item per row. Tree ancestry in a column.
 JSON can use tree hierarchy natively.
 
-## Search
-
 ## Chain (New feature)
 
 User picks two items and we show the graph chain of hops linking them.
@@ -169,39 +157,6 @@ Turn the map into a generative game like a cave crawler or rogue-like
 Encourage exploration between rooms or lands represented by research items
 
 Collect points for clicking links, answering quiz questions.
-
-### Metrics
-
-Add scores/metrics:
-Subjective importance
-Novelty
-Impact
-Coolness
-
-### Relations
-
-- "generalizes": Ego paper provides some kind of result (algorithm, technique, proof, etc.) for which the result in the related paper is a special case, i.e. obtained by instantiating the general result with more specificity (e.g. parameters, mathematical space, problem regime, concepts, etc.)
-- "criticizes": Ego paper asserts a claim that the result in the related paper is deficient in some way. Often this is found in the introductory literature review section. Ego paper is not obligated to improve on or resolve the criticisms (although many do).
-- "improves on": Ego paper asserts a claim that its result is improved in some way (conceptually, empirically, numerically, theoretically, etc.) as compared with the result in the related paper.
-- "synthesizes": Ego paper creates its result by using a literal result of the related paper as a smaller piece of a larger whole.
-- "inspired by": Ego paper creates its result by using an idealogical result of the related paper. Directionally the same as the "synthesizes" relation, but weaker.
-- “same family as”: Ego paper provides a result that shares key attributes ("DNA") with the result of the related paper.
-
-“builds on X”
-“similar to Y”
-“competes with Z”
-
-“extends”
-“inspired by”
-“compares to”
-“same family as”
-“uses idea”
-“contradicts”
-
-#### Use-cases, features enabled
-
-“Show me all planning methods derived from DDP”
-“Find shortest conceptual path between RRT and MPPI”
 
 ### Quiz questions
 
