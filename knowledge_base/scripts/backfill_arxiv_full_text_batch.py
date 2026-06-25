@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import shutil
 import sys
 import time
 from pathlib import Path
@@ -16,6 +15,7 @@ from knowledge_base.scripts.arxiv_full_text.ingest import (
     embed_text_path,
     process_entry,
 )
+from knowledge_base.scripts.arxiv_full_text.settings import executable_available, python_env_executable
 
 DEFAULT_SKIP_LOG = Path(".cache/arxiv_embed_text_backfill_skips.txt")
 CURRENT_SKIP_MARKERS = ("arxiv-latex:", "arxiv-pdf:")
@@ -55,9 +55,15 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--sleep", type=float, default=DEFAULT_SLEEP_SECONDS, help="Delay between entries.")
     parser.add_argument("--timeout", type=int, default=60, help="HTTP timeout in seconds.")
     parser.add_argument("--min-chars", type=int, default=MIN_MARKDOWN_CHARS, help="Minimum readable output size.")
-    parser.add_argument("--pandoc", default="pandoc", help="Pandoc executable.")
+    parser.add_argument(
+        "--pandoc", default=python_env_executable("pandoc"), help="Pandoc executable from the Python environment."
+    )
     parser.add_argument("--pandoc-data-dir", default="", help="Optional Pandoc data directory.")
-    parser.add_argument("--docling", default="docling", help="Docling executable for LaTeX/PDF fallbacks.")
+    parser.add_argument(
+        "--docling",
+        default=python_env_executable("docling"),
+        help="Docling executable from the Python environment for LaTeX/PDF fallbacks.",
+    )
     parser.add_argument("--docling-device", default="", help="Optional Docling device, such as cpu or cuda.")
     parser.add_argument("--docling-timeout", type=int, default=300, help="Docling document timeout in seconds.")
     parser.add_argument("--skip-log", type=Path, default=DEFAULT_SKIP_LOG, help="Ignored local log for failed IDs.")
@@ -73,8 +79,8 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit("--batch-size must be at least 1")
     if args.offset < 0:
         raise SystemExit("--offset must be non-negative")
-    args.has_pandoc = bool(shutil.which(args.pandoc))
-    args.has_docling = bool(shutil.which(args.docling))
+    args.has_pandoc = executable_available(args.pandoc)
+    args.has_docling = executable_available(args.docling)
 
     skipped = set() if args.retry_skips else skipped_ids(args.skip_log)
     entries, total_missing = missing_entries(args.offset, args.batch_size, skipped)

@@ -112,10 +112,10 @@ Reuse of paper text remains governed by each paper's original license and rights
 Run the ingest script from the repo root:
 
 ```bash
-python knowledge_base/scripts/ingest_arxiv_full_text.py --id 2402.08954
+./dev run python knowledge_base/scripts/ingest_arxiv_full_text.py --id 2402.08954
 ```
 
-The script skips existing sidecars unless `--force` is passed. For arXiv entries it tries arXiv HTML, ar5iv HTML, arXiv LaTeX source, then the PDF inferred from the arXiv ID. HTML conversion uses the project-managed `pandoc` CLI; LaTeX/PDF fallback uses the project-managed `docling` CLI.
+The script skips existing sidecars unless `--force` is passed. For arXiv entries it tries arXiv HTML, ar5iv HTML, arXiv LaTeX source, then the PDF inferred from the arXiv ID. HTML conversion uses the Python environment's project-managed `pandoc` CLI; LaTeX/PDF fallback uses the Python environment's project-managed `docling` CLI.
 
 ### Develop Python scripts or site helpers
 
