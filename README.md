@@ -115,7 +115,7 @@ Run the ingest script from the repo root:
 python knowledge_base/scripts/ingest_arxiv_full_text.py --id 2402.08954
 ```
 
-The script skips existing sidecars unless `--force` is passed. For arXiv entries it tries arXiv HTML, ar5iv HTML, arXiv LaTeX source, then the PDF inferred from the arXiv ID. HTML conversion uses `pandoc` when available; LaTeX/PDF fallback uses the project-managed `docling` CLI.
+The script skips existing sidecars unless `--force` is passed. For arXiv entries it tries arXiv HTML, ar5iv HTML, arXiv LaTeX source, then the PDF inferred from the arXiv ID. HTML conversion uses the project-managed `pandoc` CLI; LaTeX/PDF fallback uses the project-managed `docling` CLI.
 
 ### Develop Python scripts or site helpers
 

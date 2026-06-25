@@ -21,6 +21,7 @@ LOCAL_MARKDOWN_LINK_RE = re.compile(r"\[([^]]*)]\((?:#[^)]+|/[^)]*)\)")
 EMPTY_MARKDOWN_LINK_RE = re.compile(r"\[]\([^)]+\)")
 HTML_TAG_RE = re.compile(r"</?[A-Za-z][A-Za-z0-9:-]*(?:\s[^>]*)?>")
 BLANK_LINES_RE = re.compile(r"\n{3,}")
+DISPLAY_MATH_RE = re.compile(r"(?<!\\)\$\$")
 NON_BODY_HEADING_RE = re.compile(
     r"^(?:"
     r"abstract|title:|authors?:|quick links|submission history|access paper|current browse context|"
@@ -48,6 +49,10 @@ def strip_source_footer(markdown: str) -> str:
         r"\n\s*◄",
         r"\nExperimental support, please\b",
         r"\n## Instructions for reporting errors\b",
+        r"\n#+\s*SECOND LEVEL HEADING\b",
+        r"\n#+\s*CITATIONS, FIGURES, REFERENCES\b",
+        r"\n#+\s*Citations in Text\b",
+        r"\nSample Figure Caption\b",
     )
     return re.split("|".join(markers), markdown, maxsplit=1)[0]
 
@@ -69,6 +74,14 @@ def readable_markdown_chars(markdown: str) -> int:
     text = re.sub(r"\[[^]]*]\([^)]*\)", "", text)
     text = re.sub(r"[#*_>{}\[\]()`~\\|:-]", "", text)
     return len(re.sub(r"\s+", "", text))
+
+
+def has_balanced_display_math(markdown: str) -> bool:
+    return len(DISPLAY_MATH_RE.findall(markdown)) % 2 == 0
+
+
+def rejects_unbalanced_display_math(source_label: str, markdown: str) -> bool:
+    return source_label == "arxiv-latex" and not has_balanced_display_math(markdown)
 
 
 def normalized_heading(text: str) -> str:
@@ -118,8 +131,10 @@ def has_paper_body(markdown: str, min_chars: int = MIN_BODY_CHARS) -> bool:
     return readable_markdown_chars(body) >= min_chars
 
 
-def usable_sidecar(entry: Entry, markdown: str, args: argparse.Namespace) -> tuple[str | None, str]:
+def usable_sidecar(entry: Entry, markdown: str, source_label: str, args: argparse.Namespace) -> tuple[str | None, str]:
     sidecar = sidecar_markdown(entry, markdown)
+    if rejects_unbalanced_display_math(source_label, sidecar):
+        return None, "unbalanced-math"
     if not has_paper_body(sidecar):
         return None, "no-body"
     if readable_markdown_chars(sidecar) < args.min_chars:
@@ -136,7 +151,7 @@ def write_sidecar(path: Path, text: str, dry_run: bool) -> None:
 def write_converted_sidecar(
     entry: Entry, path: Path, markdown: str, source_label: str, args: argparse.Namespace
 ) -> str:
-    sidecar, reason = usable_sidecar(entry, markdown, args)
+    sidecar, reason = usable_sidecar(entry, markdown, source_label, args)
     if sidecar is None:
         return f"skip {reason} {entry.id}: {source_label}"
 
@@ -162,10 +177,15 @@ def self_test() -> None:
     assert "{.ltx_ref}" not in remove_rich_content_from_markdown("[1](#bib){.ltx_ref}")
     assert remove_rich_content_from_markdown("[1](#bib) [home](/)") == "1 home"
     assert remove_rich_content_from_markdown("<figcaption>Caption</figcaption>") == "Caption"
+    assert has_balanced_display_math("before $$x$$ after")
+    assert not has_balanced_display_math("before $$x after")
+    assert rejects_unbalanced_display_math("arxiv-latex", "before $$x after")
+    assert not rejects_unbalanced_display_math("ar5iv", "before $$x after")
     assert "Feeling" not in remove_rich_content_from_markdown("Body\n\n◄ Feeling\\\nlucky?")
     assert "Toggle ar5iv" not in strip_source_footer('Body\n\n  ◄  Feeling\\\nlucky?\n\n "Toggle ar5iv color scheme")')
     assert "reporting errors" not in strip_source_footer("Body\n\n## Instructions for reporting errors\nNope")
     assert "view the build logs" not in strip_source_footer("Body\n\nExperimental support, please view the build logs")
+    assert "Sample Figure Caption" not in strip_source_footer("Body\n\n### SECOND LEVEL HEADING\nSample Figure Caption")
     assert remove_duplicate_title("# Same\n\nBody", "Same") == "Body"
     assert body_after_duplicate_title("UI\n\n# Same\n\nBody", "Same") == "Body"
     assert not has_paper_body(

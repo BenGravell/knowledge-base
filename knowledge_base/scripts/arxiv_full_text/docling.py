@@ -6,6 +6,7 @@ import argparse
 import gzip
 import io
 import os
+import re
 import subprocess
 import tarfile
 import tempfile
@@ -20,6 +21,12 @@ from knowledge_base.config import REPO_ROOT
 from knowledge_base.scripts.arxiv_full_text.settings import HTML_HEADERS
 from knowledge_base.scripts.arxiv_full_text.text import conversion_error, remove_rich_content_from_markdown
 from knowledge_base.utils.arxiv_utils import arxiv_pdf_url, normalize_arxiv_id
+
+LATEX_INCLUDE_RE = re.compile(r"\\(?:input|include)\s*\{([^}]+)\}")
+LATEX_BAD_ROOT_RE = re.compile(
+    r"cover letter|reply to referees|response to reviewers|detailed reply|comments to the authors|resubmission",
+    re.IGNORECASE,
+)
 
 
 def docling_env() -> dict[str, str]:
@@ -82,16 +89,65 @@ def arxiv_eprint_url(arxiv_id: str) -> str:
     return f"https://arxiv.org/e-print/{encoded}"
 
 
+def latex_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8", errors="ignore")
+
+
+def latex_title(text: str) -> str:
+    match = re.search(r"\\title(?:\[[^]]*])?\{([^{}]+)", text, re.DOTALL)
+    return re.sub(r"\s+", " ", match.group(1)).strip() if match else ""
+
+
+def latex_root_score(path: Path) -> tuple[bool, bool, bool, bool, int, int, int]:
+    text = latex_text(path)
+    bad_root = LATEX_BAD_ROOT_RE.search(path.name) or LATEX_BAD_ROOT_RE.search(latex_title(text))
+    return (
+        not bool(bad_root),
+        r"\documentclass" in text,
+        r"\begin{document}" in text,
+        r"\begin{abstract}" in text,
+        len(LATEX_INCLUDE_RE.findall(text)),
+        -len(path.relative_to(path.anchor).parts),
+        path.stat().st_size,
+    )
+
+
 def choose_latex_root(paths: list[Path]) -> Path | None:
     candidates = []
     for path in paths:
         try:
-            text = path.read_text(encoding="utf-8", errors="ignore")
+            score = latex_root_score(path)
         except OSError:
             continue
-        score = (r"\documentclass" in text, r"\begin{document}" in text, path.stat().st_size)
         candidates.append((score, path))
     return max(candidates)[1] if candidates else None
+
+
+def latex_include_path(source_path: Path, include_name: str) -> Path | None:
+    candidate = (source_path.parent / include_name).with_suffix(Path(include_name).suffix or ".tex")
+    return candidate if candidate.is_file() else None
+
+
+def inline_latex_inputs(source_path: Path, seen: set[Path] | None = None) -> str:
+    seen = seen or set()
+    resolved = source_path.resolve()
+    if resolved in seen:
+        return ""
+    seen.add(resolved)
+
+    def replace(match: re.Match[str]) -> str:
+        include_path = latex_include_path(source_path, match.group(1).strip())
+        if include_path is None:
+            return match.group(0)
+        return inline_latex_inputs(include_path, seen)
+
+    return LATEX_INCLUDE_RE.sub(replace, latex_text(source_path))
+
+
+def flattened_latex_source(source_path: Path, work_dir: Path) -> Path:
+    flattened_path = work_dir / f"{source_path.stem}-flattened.tex"
+    flattened_path.write_text(inline_latex_inputs(source_path), encoding="utf-8")
+    return flattened_path
 
 
 def arxiv_latex_root(arxiv_id: str, args: argparse.Namespace, work_dir: Path) -> tuple[Path | None, str]:
@@ -125,11 +181,31 @@ def arxiv_latex_root(arxiv_id: str, args: argparse.Namespace, work_dir: Path) ->
 
 def arxiv_latex_markdown(entry: Entry, args: argparse.Namespace) -> tuple[str | None, str]:
     with tempfile.TemporaryDirectory(prefix="kb-arxiv-latex-") as tmp:
-        source_path, message = arxiv_latex_root(entry.arxiv_id, args, Path(tmp))
+        work_dir = Path(tmp)
+        source_path, message = arxiv_latex_root(entry.arxiv_id, args, work_dir)
         if source_path is None:
             return None, message
-        return docling_markdown("arxiv-latex", source_path, "latex", args)
+        return docling_markdown("arxiv-latex", flattened_latex_source(source_path, work_dir), "latex", args)
 
 
 def arxiv_pdf_markdown(entry: Entry, args: argparse.Namespace) -> tuple[str | None, str]:
     return docling_markdown("arxiv-pdf", arxiv_pdf_url(entry.arxiv_id), "pdf", args)
+
+
+def self_test() -> None:
+    with tempfile.TemporaryDirectory(prefix="kb-arxiv-latex-test-") as tmp:
+        root = Path(tmp) / "main.tex"
+        child = Path(tmp) / "section.tex"
+        reply = Path(tmp) / "reply.tex"
+        root.write_text(
+            r"\documentclass{article}\title{Real Paper}\begin{document}\input{section}\end{document}",
+            encoding="utf-8",
+        )
+        child.write_text(r"\section{Body} Included text.", encoding="utf-8")
+        reply.write_text(
+            r"\documentclass{article}\title{Cover Letter for our Resubmission}\begin{document}Nope\end{document}"
+            + ("x" * 200),
+            encoding="utf-8",
+        )
+        assert choose_latex_root([reply, root]) == root
+        assert r"\section{Body} Included text." in inline_latex_inputs(root)

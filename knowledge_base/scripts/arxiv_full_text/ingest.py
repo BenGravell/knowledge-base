@@ -10,6 +10,7 @@ from pathlib import Path
 
 from knowledge_base.catalog import Catalog, Entry
 from knowledge_base.scripts.arxiv_full_text.docling import arxiv_latex_markdown, arxiv_pdf_markdown
+from knowledge_base.scripts.arxiv_full_text.docling import self_test as docling_self_test
 from knowledge_base.scripts.arxiv_full_text.html import arxiv_html_markdown
 from knowledge_base.scripts.arxiv_full_text.html import self_test as html_self_test
 from knowledge_base.scripts.arxiv_full_text.settings import (
@@ -94,6 +95,7 @@ def process_entry(entry: Entry, args: argparse.Namespace) -> str:
 def self_test() -> None:
     text_self_test()
     html_self_test()
+    docling_self_test()
     assert arxiv_pdf_url("2401.00001") == "https://arxiv.org/pdf/2401.00001"
 
 
