@@ -433,6 +433,16 @@ class CatalogHelperTests(unittest.TestCase):
         self.assertIn("Erd\u0151s and R\u00e9nyi", cleaned)
         self.assertNotIn("Erd os", cleaned)
 
+    def test_embedding_sidecar_repairs_diacritic_loss_after_reflow(self) -> None:
+        cleaned = clean_embedding_sidecar_text(
+            "## Introduction\n\n"
+            "Traditionally, networks have been described using the random graph theory of Erd\n\n"
+            "os and Renyi (ER), but the predictions of the theory were rarely tested in the real world."
+        )
+
+        self.assertIn("Erd\u0151s and R\u00e9nyi", cleaned)
+        self.assertNotIn("Erd os", cleaned)
+
     def test_embedding_sidecar_removes_tex_spacing_spans(self) -> None:
         cleaned = clean_embedding_sidecar_text(
             "## Introduction\n\n"

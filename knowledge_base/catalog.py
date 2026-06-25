@@ -1101,6 +1101,7 @@ def clean_embedding_sidecar_text(markdown: str) -> str:
     start = content_start_index(lines)
     end = content_end_index(lines, start)
     text = "\n".join(reflow_embedding_lines(clean_embedding_lines(lines[start:end])))
+    text = repair_broken_pdf_text(text)
     text = re.sub(r"\n{3,}", "\n\n", text).strip()
     if text and not any(line.startswith("#") for line in text.splitlines()):
         text = f"## Paper Body\n\n{text}"
@@ -1361,8 +1362,7 @@ def join_embedding_text(previous: str, following: str) -> str:
 
 def clean_embedding_line(line: str) -> str:
     line = html.unescape(line)
-    for pattern, replacement in BROKEN_PDF_TEXT_REPLACEMENTS:
-        line = pattern.sub(replacement, line)
+    line = repair_broken_pdf_text(line)
     line = clean_embedding_math_spans(line)
     line = LATEX_SPACE_RE.sub("", line)
     line = LATEX_BARE_URL_RE.sub("", line)
@@ -1388,6 +1388,12 @@ def clean_embedding_line(line: str) -> str:
     line = re.sub(r"\b(?:on|in|at|by|for|from|with)([.,;:])", r"\1", line)
     line = re.sub(r"\b(?:on|in|at|by|for|from|with)\s+([.,;:])", r"\1", line)
     return re.sub(r"\s+", " ", line).strip()
+
+
+def repair_broken_pdf_text(text: str) -> str:
+    for pattern, replacement in BROKEN_PDF_TEXT_REPLACEMENTS:
+        text = pattern.sub(replacement, text)
+    return text
 
 
 def clean_embedding_math_spans(line: str) -> str:
